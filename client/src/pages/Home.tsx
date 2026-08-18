@@ -1,13 +1,19 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import {
+  Activity,
   Building2,
+  CalendarCheck,
   ChevronDown,
   ChevronRight,
+  Coins,
   GraduationCap,
+  MapPin,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
   Search,
+  Tag,
+  TrendingUp,
   X,
 } from "lucide-react";
 import dataset from "../data/dashboard_projects.json";
@@ -75,6 +81,19 @@ organization.forEach((bureau) =>
   bureau.departments.forEach((department) => department.projects.sort((a, b) => a.serial - b.serial)),
 );
 
+// 부서별 시그니처 컬러 — my-dashboard(공기관 예산통합)의 dept-culture/library/tour/temp 팔레트를 이 프로젝트 부서 구성에 맞게 확장.
+const DEPARTMENT_COLOR: Record<string, { from: string; to: string }> = {
+  문화예술과: { from: "#5B84FF", to: "#8aa4ff" },
+  문화유산과: { from: "#d9a441", to: "#f0c168" },
+  독립기념관: { from: "#e0616f", to: "#f28a95" },
+  관광진흥과: { from: "#2fb8c4", to: "#5cd6e0" },
+  도서관정책과: { from: "#48BB78", to: "#6fd99a" },
+  체육진흥과: { from: "#F6AD55", to: "#ffc57a" },
+  전국체전추진단: { from: "#9B6BD6", to: "#b98cef" },
+};
+const DEFAULT_COLOR = { from: "#4c7cff", to: "#9a5cf5" };
+const colorFor = (department: string) => DEPARTMENT_COLOR[department] ?? DEFAULT_COLOR;
+
 const money = (value: number | null) => (value == null ? "-" : `${value.toLocaleString("ko-KR")}백만원`);
 const isBlank = (value: string | null | undefined) => !value || !value.trim();
 const progressPercent = (project: Project) => {
@@ -115,7 +134,13 @@ function Gauge({ percent }: { percent: number }) {
   return (
     <svg width={48} height={48} viewBox="0 0 44 44" className="pd-gauge">
       <circle className="track" cx={22} cy={22} r={r} />
-      <circle className="fill" cx={22} cy={22} r={r} style={{ strokeDasharray: circumference, strokeDashoffset: offset }} />
+      <circle
+        className="fill"
+        cx={22}
+        cy={22}
+        r={r}
+        style={{ strokeDasharray: circumference, ["--pd-gauge-offset" as string]: offset } as CSSProperties}
+      />
     </svg>
   );
 }
@@ -176,7 +201,11 @@ function BudgetPanel({ project }: { project: Project }) {
           <span>{execution}%</span>
         </div>
         <div className="h-3 rounded-full bg-[#334155]">
-          <div className="h-3 rounded-full bg-[var(--pd-success)]" style={{ width: `${execution}%` }} />
+          <div
+            key={project.id}
+            className="pd-bar-fill h-3 rounded-full bg-[var(--pd-success)]"
+            style={{ ["--pd-bar-width" as string]: `${execution}%` } as CSSProperties}
+          />
         </div>
       </div>
     </div>
@@ -318,14 +347,16 @@ function ProjectDetail({ project }: { project: Project }) {
 
   const percent = progressPercent(project);
   const overviewPairs = parseKvPairs(project.overview);
+  const color = colorFor(project.department);
+  const themeVars = { ["--pd-accent-a" as string]: color.from, ["--pd-accent-b" as string]: color.to } as CSSProperties;
 
   return (
-    <section className="relative p-6 lg:p-10">
+    <section className="relative p-6 lg:p-10" style={themeVars}>
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
         <defs>
           <linearGradient id="pdRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#4c7cff" />
-            <stop offset="100%" stopColor="#9a5cf5" />
+            <stop offset="0%" style={{ stopColor: "var(--pd-accent-a)" }} />
+            <stop offset="100%" style={{ stopColor: "var(--pd-accent-b)" }} />
           </linearGradient>
         </defs>
       </svg>
@@ -336,36 +367,36 @@ function ProjectDetail({ project }: { project: Project }) {
 
       <section className="pd-summary mt-8" aria-label="사업 요약">
         <div className="pd-summary-cell">
-          <span className="pd-summary-label">사업구분 · 진행상태</span>
+          <span className="pd-summary-label"><Tag /> 사업구분 · 진행상태</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             <span className="pd-pill pd-pill-new">{project.region || "-"}</span>
             <span className="pd-pill pd-pill-tag">{project.current_stage || "-"}</span>
           </div>
         </div>
         <div className="pd-summary-cell hero">
-          <span className="pd-summary-label">총사업비</span>
+          <span className="pd-summary-label"><Coins /> 총사업비</span>
           <span className="pd-summary-value grad">
             {project.total_cost_million_krw?.toLocaleString("ko-KR") ?? "-"}
             <small style={{ fontSize: 14, fontWeight: 700, background: "none", WebkitTextFillColor: "var(--pd-text-muted)", color: "var(--pd-text-muted)" }}> 백만원</small>
           </span>
         </div>
         <div className="pd-summary-cell hero">
-          <span className="pd-summary-label">사업 전체 공정률</span>
+          <span className="pd-summary-label"><Activity /> 사업 전체 공정률</span>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <Gauge percent={percent} />
+            <Gauge key={project.id} percent={percent} />
             <span className="pd-summary-value grad">{percent}%</span>
           </div>
         </div>
         <div className="pd-summary-cell">
-          <span className="pd-summary-label">예산 집행률</span>
+          <span className="pd-summary-label"><TrendingUp /> 예산 집행률</span>
           <span className="pd-summary-value">{project.execution_rate ?? 0}%</span>
         </div>
         <div className="pd-summary-cell">
-          <span className="pd-summary-label">준공예정일</span>
+          <span className="pd-summary-label"><CalendarCheck /> 준공예정일</span>
           <span className="pd-summary-value" style={{ fontSize: 18 }}>{project.inspection || "-"}</span>
         </div>
         <div className="pd-summary-cell">
-          <span className="pd-summary-label">위치</span>
+          <span className="pd-summary-label"><MapPin /> 위치</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {[project.contact, project.district, project.town].filter(Boolean).map((tag) => (
               <span key={tag} className="pd-pill pd-pill-tag">{tag}</span>
@@ -392,7 +423,7 @@ function ProjectDetail({ project }: { project: Project }) {
         ))}
       </div>
 
-      <div>
+      <div key={`${project.id}-${activeTab}`} className="pd-panel-fade">
         {activeTab === "사업개요" && <OverviewPanel project={project} />}
         {activeTab === "예산현황" && <BudgetPanel project={project} />}
         {activeTab === "추진현황" && <ProgressPanel project={project} />}
@@ -489,20 +520,27 @@ export default function Home() {
                           </button>
                           {departmentOpen && (
                             <div className="ml-3 border-l border-[#334155] pl-3 pb-1">
-                              {department.projects.map((project) => (
-                                <button
-                                  key={project.id}
-                                  onClick={() => {
-                                    setSelectedProject(project);
-                                    setIsSidebarOpen(false);
-                                  }}
-                                  className={`mb-0.5 flex w-full items-start rounded-lg px-2.5 py-1.5 text-left ${selectedProject?.id === project.id ? "bg-[var(--pd-accent-wash)] text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
-                                  style={selectedProject?.id === project.id ? { borderLeft: "2px solid var(--pd-accent-a)" } : undefined}
-                                >
-                                  <span className="mr-2 mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--pd-text-faint)]" />
-                                  <span className="font-body text-[14.5px] leading-[1.35]">{project.project_name}</span>
-                                </button>
-                              ))}
+                              {department.projects.map((project) => {
+                                const isSelected = selectedProject?.id === project.id;
+                                const color = colorFor(project.department);
+                                return (
+                                  <button
+                                    key={project.id}
+                                    onClick={() => {
+                                      setSelectedProject(project);
+                                      setIsSidebarOpen(false);
+                                    }}
+                                    className={`mb-0.5 flex w-full items-start rounded-lg px-2.5 py-1.5 text-left ${isSelected ? "text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
+                                    style={isSelected ? { background: `${color.from}26`, borderLeft: `2px solid ${color.from}` } : undefined}
+                                  >
+                                    <span
+                                      className="mr-2 mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full"
+                                      style={{ background: isSelected ? color.from : "var(--pd-text-faint)" }}
+                                    />
+                                    <span className="font-body text-[14.5px] leading-[1.35]">{project.project_name}</span>
+                                  </button>
+                                );
+                              })}
                             </div>
                           )}
                         </div>
@@ -529,10 +567,10 @@ export default function Home() {
         )}
       </aside>
 
-      <div className={`min-h-screen transition-all duration-200 ${isCollapsed ? "lg:pl-[76px]" : "lg:pl-[320px]"}`}>
-        <header className="flex h-[72px] items-center justify-between border-b border-white/[0.08] bg-[var(--pd-ground)]/80 px-5 backdrop-blur lg:px-9">
+      <div className={`flex min-h-screen flex-col transition-all duration-200 ${isCollapsed ? "lg:pl-[76px]" : "lg:pl-[320px]"}`}>
+        <header className="flex h-[72px] flex-none items-center border-b border-white/[0.08] bg-[var(--pd-ground)]/80 px-5 backdrop-blur lg:hidden">
           <button
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.14] bg-white/[0.06] text-white lg:hidden"
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.14] bg-white/[0.06] text-white"
             onClick={() => setIsSidebarOpen(true)}
             aria-label="사이드바 열기"
           >
@@ -540,7 +578,7 @@ export default function Home() {
           </button>
         </header>
 
-        <main className="relative min-h-[calc(100vh-72px)] overflow-hidden">
+        <main className="relative flex-1 overflow-hidden">
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
           {selectedProject ? (
