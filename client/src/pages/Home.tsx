@@ -187,6 +187,28 @@ function BudgetPanel({ project }: { project: Project }) {
   );
 }
 
+function ProgressPanel({ project }: { project: Project }) {
+  const percent = progressPercent(project);
+  const past = parseTimeline(project.future_plan);
+  const upcoming = parseTimeline(project.progress_status);
+  return (
+    <div className="pd-card">
+      <div className="mb-6 flex flex-wrap gap-8">
+        <div><p className="pd-summary-label !text-[13px]">사업 전체 공정률</p><p className="mt-1 text-[21px] font-bold text-[var(--pd-text)]">{percent}%</p></div>
+        <div><p className="pd-summary-label !text-[13px]">추진상황 점검</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-success)]">{project.delay_reason || "-"}</p></div>
+        <div><p className="pd-summary-label !text-[13px]">준공예정일</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-text)]">{project.inspection || "-"}</p></div>
+      </div>
+      {past.length > 0 && <><p className="mb-3 text-[13px] font-bold uppercase tracking-[0.06em] text-[var(--pd-text-faint)]">추진 경과</p><div className="pd-timeline mb-6"><div className="pd-timeline-line" />{past.map((item, index) => <div key={index} className="pd-t-item"><div className="pd-t-dot" /><div className="pd-t-date">{item.date || "-"}</div><div className="pd-t-desc">{item.desc}</div></div>)}</div></>}
+      {(past.length > 0 || upcoming.length > 0) && <div className="pd-t-now"><span className="pd-t-now-label">● 지금</span></div>}
+      {upcoming.length > 0 ? <><p className="mb-3 text-[13px] font-bold uppercase tracking-[0.06em] text-[var(--pd-text-faint)]">향후 추진계획</p><div className="pd-timeline"><div className="pd-timeline-line dashed" />{upcoming.map((item, index) => <div key={index} className="pd-t-item future"><div className="pd-t-dot future" /><div className="pd-t-date">{item.date || "-"}</div><div className="pd-t-desc">{item.desc}</div></div>)}</div></> : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
+    </div>
+  );
+}
+
+function AdminPanel({ project }: { project: Project }) {
+  return <div className="pd-card"><p className="pd-card-title">행정절차 이행여부</p>{isBlank(project.administrative_procedures) ? <div className="pd-note-box">등록된 사전행정절차 정보가 없습니다.</div> : <p className="pd-kv-value whitespace-pre-line">{project.administrative_procedures}</p>}</div>;
+}
+
 function LocationPanel({ project }: { project: Project }) {
   const overviewPairs = parseKvPairs(project.overview);
   const address = overviewPairs.find((pair) => pair.label === "사업위치")?.value;
