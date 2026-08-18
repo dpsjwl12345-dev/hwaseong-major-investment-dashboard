@@ -444,10 +444,17 @@ export default function Home() {
       >
         <div className={`flex min-h-[92px] items-center border-b border-white/[0.08] bg-black/20 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
           {!isCollapsed && (
-            <div>
+            <button
+              type="button"
+              className="text-left"
+              onClick={() => {
+                setSelectedProject(null);
+                setIsSidebarOpen(false);
+              }}
+            >
               <p className="font-display text-[24px] font-bold leading-[1.05] tracking-[-0.055em] text-white">화성시 주요투자사업</p>
               <p className="mt-1 font-body text-[11px] font-semibold tracking-[0.14em] text-[var(--pd-text-muted)]">INVESTMENT DASHBOARD</p>
-            </div>
+            </button>
           )}
           <button
             className="hidden h-9 w-9 items-center justify-center rounded-full text-[var(--pd-text-muted)] hover:bg-white/[0.08] hover:text-white lg:flex"
