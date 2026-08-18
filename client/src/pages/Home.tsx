@@ -372,8 +372,7 @@ export default function Home() {
           <div className="pointer-events-none absolute left-[38%] top-[34%] h-24 w-24 rounded-full border border-[#27344d]/45 blur-sm" />
           {selectedProject ? (
             <section className="relative p-6 lg:p-10">
-              <p className="font-body text-[12px] font-medium tracking-[0.12em] text-[#b8c4d6]">선택된 주요투자사업</p>
-              <h1 className="mt-3 max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">{selectedProject}</h1>
+              <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">{selectedProject}</h1>
               <div className="mt-8 flex flex-wrap gap-2 border-b border-white/[0.08] pb-3">
                 {["사업개요", "추진현황", "예산편성", "위치정보", "변경이력"].map((tab) => (
                   <button
