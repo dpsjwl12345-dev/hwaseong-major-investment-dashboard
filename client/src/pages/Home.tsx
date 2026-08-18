@@ -355,10 +355,7 @@ export default function Home() {
             >
               <Menu size={18} />
             </button>
-            <div>
-              <p className="font-body text-[11px] font-medium tracking-[0.12em] text-[#b8c4d6]">2026 예산심사</p>
-              <p className="font-display text-[18px] font-bold tracking-[-0.035em]">주요투자사업 현황관리</p>
-            </div>
+
           </div>
           <div className="hidden items-center gap-3 sm:flex">
             <span className="h-2 w-2 rounded-full bg-[#a6c7d3]" />
