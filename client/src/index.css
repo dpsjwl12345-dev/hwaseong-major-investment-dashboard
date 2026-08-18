@@ -1,5 +1,14 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
 @import "tailwindcss";
 @import "tw-animate-css";
+
+@font-face {
+  font-family: "Gmarket Sans";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2107@1.1/GmarketSansMedium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -114,11 +123,25 @@
 }
 
 @layer base {
+  :root {
+    --font-display: "Gmarket Sans", "GmarketSans", sans-serif;
+    --font-body: "Pretendard Variable", Pretendard, sans-serif;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
