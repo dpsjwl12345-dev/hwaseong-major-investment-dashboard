@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import {
+  Building2,
   ChevronDown,
   ChevronRight,
+  GraduationCap,
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
@@ -77,12 +79,12 @@ const organization: Bureau[] = [
       {
         name: "체육진흥과",
         projects: [
-          "비봉체육공원 실내야구연습장 개축공사",
-          "비봉체육공원 야구장 개선공사",
-          "서부권 파크골프장 조성사업",
-          "서해선 교량하부 체육시설 조성공사",
+          "비봉체육공원 실내야구연습장 개축",
+          "비봉체육공원 야구장 개선",
+          "서부권 파크골프장 조성",
+          "서해선 교량하부 체육시설 조성",
           "비봉 다목적체육관 건립",
-          "남양 체육복합센터 조성사업(국민체육센터·다목적체육관)",
+          "남양 체육복합센터 조성(국민체육센터·다목적체육관)",
           "봉담 생태체육공원 테니스장 설치",
           "화성 동부 반다비 체육센터 건립",
         ],
@@ -266,30 +268,17 @@ export default function Home() {
           </button>
         </div>
 
-        {!isCollapsed && (
-          <div className="px-5 pb-4 pt-5">
-            <label className="relative block">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9aa4ad]" size={16} />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="사업명 검색"
-                className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 text-white shadow-[0_8px_20px_rgba(0,0,0,0.18)] font-body text-[13px] outline-none transition placeholder:text-[#64748b] focus:border-[#60a5fa] focus:ring-2 focus:ring-[#1d4ed8]/30"
-              />
-            </label>
-          </div>
-        )}
-
         <nav className="min-h-0 flex-1 overflow-y-auto px-3 pb-5">
           {visibleOrganization.map((bureau) => {
             const bureauOpen = openBureaus.includes(bureau.name);
             return (
               <div key={bureau.name} className="mb-2">
                 <button
-                  className={`flex w-full items-center rounded-xl px-3 py-2.5 text-left transition hover:bg-[#334155] ${isCollapsed ? "justify-center" : "gap-2"}`}
+                  className={`flex w-full items-center rounded-xl border px-3 py-2.5 text-left transition hover:brightness-125 ${bureau.name === "문화관광국" ? "border-[#2a4f73]/60 bg-[#122033]/70 shadow-[0_8px_24px_rgba(22,93,160,0.12)]" : "border-[#4d3f6b]/60 bg-[#211834]/60 shadow-[0_8px_24px_rgba(124,58,237,0.12)]"} ${isCollapsed ? "justify-center" : "gap-2"}`}
                   onClick={() => toggleItem(openBureaus, setOpenBureaus, bureau.name)}
                   title={isCollapsed ? bureau.name : undefined}
                 >
+                  {bureau.name === "문화관광국" ? <Building2 size={17} className="text-[#8ab4d8]" /> : <GraduationCap size={18} className="text-[#b49add]" />}
                   {bureauOpen ? <ChevronDown size={15} className="text-[#9aabb6]" /> : <ChevronRight size={15} className="text-[#9aabb6]" />}
                   {!isCollapsed && <span className="font-body text-[17px] font-extrabold tracking-[-0.04em] text-white">{bureau.name}</span>}
                 </button>
@@ -338,9 +327,23 @@ export default function Home() {
         </nav>
 
         {!isCollapsed && (
-          <div className="border-t border-white/[0.08] px-5 py-4">
+          <div className="border-t border-white/[0.08] px-5 py-3">
             <p className="font-body text-[11px] text-[#b8c4d6]">예산심사 업무용 관리 화면</p>
             <p className="mt-1 font-body text-[11px] text-[#64748b]">2개 국 · 7개 부서 · 38개 사업</p>
+          </div>
+        )}
+
+        {!isCollapsed && (
+          <div className="border-t border-white/[0.08] px-5 pb-3 pt-3">
+            <label className="relative block">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9aa4ad]" size={16} />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="사업명 검색"
+                className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 text-white shadow-[0_8px_20px_rgba(0,0,0,0.18)] font-body text-[13px] outline-none transition placeholder:text-[#64748b] focus:border-[#60a5fa] focus:ring-2 focus:ring-[#1d4ed8]/30"
+              />
+            </label>
           </div>
         )}
       </aside>
