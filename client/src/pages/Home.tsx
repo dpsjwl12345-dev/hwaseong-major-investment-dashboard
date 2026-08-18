@@ -97,6 +97,113 @@ const organization: Bureau[] = [
   },
 ];
 
+type ProjectField = {
+  label: string;
+  value: string;
+};
+
+const emptyProjectFields: ProjectField[] = [
+  { label: "사업기간", value: "입력 대기" },
+  { label: "총사업비", value: "입력 대기" },
+  { label: "담당부서", value: "입력 대기" },
+  { label: "현재 상태", value: "입력 대기" },
+  { label: "사업목적", value: "사업 목적 입력 대기" },
+  { label: "주요내용", value: "주요내용 입력 대기" },
+];
+
+const progressSteps = ["기본계획", "실시설계", "공사착공", "사업완료"];
+
+function InfoCard({ label, body }: { label: string; body: string }) {
+  return (
+    <div className="rounded-2xl border border-[#dfe7eb] bg-white/65 p-6 shadow-[0_12px_30px_rgba(46,65,78,0.04)]">
+      <p className="font-body text-[11px] font-semibold tracking-[0.1em] text-[#8b9aa4]">{label}</p>
+      <p className="mt-4 font-body text-[14px] leading-6 text-[#71808a]">{body}</p>
+    </div>
+  );
+}
+
+function OverviewPanel() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      <div className="rounded-2xl border border-[#dfe7eb] bg-white/70 p-6 shadow-[0_12px_30px_rgba(46,65,78,0.04)] lg:col-span-2">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {emptyProjectFields.slice(0, 4).map((field) => (
+            <div key={field.label}>
+              <p className="font-body text-[11px] font-semibold tracking-[0.08em] text-[#8b9aa4]">{field.label}</p>
+              <p className="mt-2 font-body text-[15px] font-semibold text-[#45545f]">{field.value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      {emptyProjectFields.slice(4).map((field) => (
+        <InfoCard key={field.label} label={field.label} body={field.value} />
+      ))}
+    </div>
+  );
+}
+
+function ProgressPanel() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="rounded-2xl border border-[#dfe7eb] bg-white/70 p-6 shadow-[0_12px_30px_rgba(46,65,78,0.04)]">
+        <div className="flex items-center justify-between">
+          <p className="font-body text-[11px] font-semibold tracking-[0.08em] text-[#8b9aa4]">단계별 진행률</p>
+          <span className="font-body text-[12px] text-[#9ba7af]">데이터 입력 대기</span>
+        </div>
+        <div className="mt-6 space-y-5">
+          {progressSteps.map((step, index) => (
+            <div key={step}>
+              <div className="mb-2 flex items-center justify-between font-body text-[13px]">
+                <span className="font-medium text-[#51616b]">{index + 1}. {step}</span>
+                <span className="text-[#a1adb5]">—</span>
+              </div>
+              <div className="h-2 rounded-full bg-[#edf2f4]"><div className="h-2 w-0 rounded-full bg-[#9fc6d5]" /></div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <InfoCard label="주요 마일스톤" body="주요 일정과 현재 상태를 등록하면 타임라인으로 표시됩니다." />
+    </div>
+  );
+}
+
+function BudgetPanel() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+      <div className="rounded-2xl border border-[#dfe7eb] bg-white/70 p-6 shadow-[0_12px_30px_rgba(46,65,78,0.04)]">
+        <div className="flex items-center justify-between">
+          <p className="font-body text-[11px] font-semibold tracking-[0.08em] text-[#8b9aa4]">연도별 예산 집행 차트</p>
+          <span className="font-body text-[12px] text-[#9ba7af]">데이터 없음</span>
+        </div>
+        <div className="mt-6 flex h-44 items-center justify-center rounded-xl border border-dashed border-[#dce5e9] bg-[#f8fafb] font-body text-[13px] text-[#98a5ad]">
+          예산 데이터가 등록되면 편성액·집행액·잔액 차트가 표시됩니다.
+        </div>
+      </div>
+      <div className="rounded-2xl border border-[#dfe7eb] bg-white/70 p-6 shadow-[0_12px_30px_rgba(46,65,78,0.04)]">
+        <p className="font-body text-[11px] font-semibold tracking-[0.08em] text-[#8b9aa4]">예산편성 현황</p>
+        <div className="mt-5 overflow-hidden rounded-xl border border-[#e4eaed]">
+          <div className="grid grid-cols-4 bg-[#f5f8f9] px-3 py-2 font-body text-[11px] font-semibold text-[#82909a]"><span>연도</span><span>편성액</span><span>집행액</span><span>잔액</span></div>
+          <div className="px-3 py-8 text-center font-body text-[12px] text-[#9aa7af]">등록된 예산 내역이 없습니다.</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LocationPanel() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+      <InfoCard label="사업 주소" body="주소 입력 대기" />
+      <div className="rounded-2xl border border-[#dfe7eb] bg-white/70 p-6 shadow-[0_12px_30px_rgba(46,65,78,0.04)]">
+        <p className="font-body text-[11px] font-semibold tracking-[0.08em] text-[#8b9aa4]">Google Maps 위치</p>
+        <div className="mt-4 flex min-h-44 items-center justify-center rounded-xl border border-dashed border-[#dce5e9] bg-[#f8fafb] text-center font-body text-[13px] leading-6 text-[#98a5ad]">
+          주소가 등록되면 Google Maps 현장 위치를 연동합니다.
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -104,6 +211,7 @@ export default function Home() {
   const [openBureaus, setOpenBureaus] = useState<string[]>(organization.map((item) => item.name));
   const [openDepartments, setOpenDepartments] = useState<string[]>([]);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("사업개요");
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleOrganization = useMemo(() => {
@@ -206,6 +314,7 @@ export default function Home() {
                                   key={project}
                                   onClick={() => {
                                     setSelectedProject(project);
+                                    setActiveTab("사업개요");
                                     setIsSidebarOpen(false);
                                   }}
                                   className={`mb-0.5 flex w-full items-start rounded-md px-3 py-2 text-left transition ${selectedProject === project ? "bg-[#dcecf3] text-[#1d536b]" : "text-[#67737d] hover:bg-[#f0f5f7] hover:text-[#293944]"}`}
@@ -261,9 +370,24 @@ export default function Home() {
           {selectedProject ? (
             <section className="relative p-6 lg:p-10">
               <p className="font-body text-[12px] font-medium tracking-[0.12em] text-[#8c9aa3]">선택된 주요투자사업</p>
-              <h1 className="mt-3 max-w-3xl font-display text-3xl font-bold tracking-[-0.055em] text-[#17212a] lg:text-5xl">{selectedProject}</h1>
-              <div className="mt-8 rounded-2xl border border-dashed border-[#d5dfe4] bg-white/45 p-8 font-body text-sm text-[#7f8c95]">
-                사업을 선택했습니다. 세부 대시보드 콘텐츠가 이 영역에 표시됩니다.
+              <h1 className="mt-3 max-w-4xl font-display text-3xl font-bold tracking-[-0.055em] text-[#17212a] lg:text-5xl">{selectedProject}</h1>
+              <div className="mt-8 flex flex-wrap gap-2 border-b border-[#dce4e8] pb-3">
+                {["사업개요", "추진현황", "예산편성", "위치정보", "변경이력"].map((tab) => (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`rounded-full px-4 py-2 font-body text-[13px] transition ${activeTab === tab ? "bg-[#dcecf3] font-semibold text-[#1f5a72]" : "text-[#7d8992] hover:bg-white hover:text-[#33424d]"}`}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-7">
+                {activeTab === "사업개요" && <OverviewPanel />}
+                {activeTab === "추진현황" && <ProgressPanel />}
+                {activeTab === "예산편성" && <BudgetPanel />}
+                {activeTab === "위치정보" && <LocationPanel />}
+                {activeTab === "변경이력" && <InfoCard label="변경이력" body="사업 정보와 예산 수정 이력이 등록되면 이 영역에 표시됩니다." />}
               </div>
             </section>
           ) : null}
