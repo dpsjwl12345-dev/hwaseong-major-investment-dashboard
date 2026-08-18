@@ -286,12 +286,12 @@ export default function Home() {
             return (
               <div key={bureau.name} className="mb-2">
                 <button
-                  className={`flex w-full items-center rounded-xl px-3 py-3 text-left transition hover:bg-[#334155] ${isCollapsed ? "justify-center" : "gap-2"}`}
+                  className={`flex w-full items-center rounded-xl px-3 py-2.5 text-left transition hover:bg-[#334155] ${isCollapsed ? "justify-center" : "gap-2"}`}
                   onClick={() => toggleItem(openBureaus, setOpenBureaus, bureau.name)}
                   title={isCollapsed ? bureau.name : undefined}
                 >
                   {bureauOpen ? <ChevronDown size={15} className="text-[#9aabb6]" /> : <ChevronRight size={15} className="text-[#9aabb6]" />}
-                  {!isCollapsed && <span className="font-body text-[15px] font-extrabold tracking-[-0.035em] text-white">{bureau.name}</span>}
+                  {!isCollapsed && <span className="font-body text-[17px] font-extrabold tracking-[-0.04em] text-white">{bureau.name}</span>}
                 </button>
 
                 {bureauOpen && !isCollapsed && (
@@ -301,11 +301,11 @@ export default function Home() {
                       return (
                         <div key={department.name}>
                           <button
-                            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left transition hover:bg-[#334155]"
+                            className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left transition hover:bg-[#334155]"
                             onClick={() => toggleItem(openDepartments, setOpenDepartments, `${bureau.name}-${department.name}`)}
                           >
                             {departmentOpen ? <ChevronDown size={14} className="text-[#a5b3bd]" /> : <ChevronRight size={14} className="text-[#a5b3bd]" />}
-                            <span className="font-body text-[13px] font-bold text-[#cbd5e1]">{department.name}</span>
+                            <span className="font-body text-[15px] font-bold text-[#cbd5e1]">{department.name}</span>
                             <span className="ml-auto font-body text-[10px] tabular-nums text-[#64748b]">{department.projects.length}</span>
                           </button>
 
@@ -319,10 +319,10 @@ export default function Home() {
                                     setActiveTab("사업개요");
                                     setIsSidebarOpen(false);
                                   }}
-                                  className={`mb-1 flex w-full items-start rounded-lg px-3 py-2.5 text-left transition ${selectedProject === project ? "bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white shadow-[0_8px_18px_rgba(37,99,235,0.28)]" : "text-[#cbd5e1] hover:bg-[#334155] hover:text-white"}`}
+                                  className={`mb-0.5 flex w-full items-start rounded-lg px-2.5 py-1.5 text-left transition ${selectedProject === project ? "bg-gradient-to-r from-[#2563eb] to-[#7c3aed] text-white shadow-[0_8px_18px_rgba(37,99,235,0.28)]" : "text-[#cbd5e1] hover:bg-[#334155] hover:text-white"}`}
                                 >
                                   <span className={`mr-2 mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full ${selectedProject === project ? "bg-[#bfdbfe]" : "bg-[#64748b]"}`} />
-                                  <span className="font-body text-[12px] leading-[1.4]">{project}</span>
+                                  <span className="font-body text-[14px] leading-[1.3]">{project}</span>
                                 </button>
                               ))}
                             </div>
