@@ -113,7 +113,6 @@ const DEPARTMENT_COLOR: Record<string, { from: string; to: string }> = {
 const DEFAULT_COLOR = { from: "#4c7cff", to: "#9a5cf5" };
 const colorFor = (department: string) => DEPARTMENT_COLOR[department] ?? DEFAULT_COLOR;
 
-const money = (value: number | null) => (value == null ? "-" : `${value.toLocaleString("ko-KR")}백만원`);
 const isBlank = (value: string | null | undefined) => !value || !value.trim();
 const progressPercent = (project: Project) => {
   const parsed = Number.parseInt(project.expected_completion ?? "", 10);
@@ -430,7 +429,6 @@ export default function Home() {
     [normalizedQuery],
   );
 
-  const totalCost = projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
   const toggle = (items: string[], setter: (value: string[]) => void, item: string) =>
     setter(items.includes(item) ? items.filter((value) => value !== item) : [...items, item]);
 
@@ -556,30 +554,7 @@ export default function Home() {
         <main className="relative flex-1 overflow-hidden">
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
-          {selectedProject ? (
-            <ProjectDetail project={selectedProject} />
-          ) : (
-            <section className="relative p-6 lg:p-10">
-              <p className="font-body text-xs font-semibold tracking-[0.12em] text-[#93c5fd]">2027년도 주요 투자사업 추진현황</p>
-              <h1 className="mt-3 max-w-3xl font-display text-3xl font-bold tracking-[-0.05em] text-white lg:text-5xl">
-                부서와 사업을 선택해
-                <br />
-                상세 현황을 확인하세요.
-              </h1>
-              <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                {[
-                  ["전체 사업", dataset.project_count],
-                  ["담당 부서", dataset.department_count],
-                  ["총사업비", money(totalCost)],
-                ].map(([label, value]) => (
-                  <div key={label} className="pd-summary-cell" style={{ borderRadius: 16, border: "1px solid var(--pd-border-soft)" }}>
-                    <span className="pd-summary-label">{label}</span>
-                    <span className="pd-summary-value">{value}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-          )}
+          {selectedProject && <ProjectDetail project={selectedProject} />}
         </main>
       </div>
 
