@@ -71,6 +71,6 @@
 - [ ] 문화유산과 만년제 주변 복원사업 원자료 수집
 - [ ] 기존 ‘만년제 주변 정비사업’과 신규 명칭의 동일·변경 여부 확인
 - [ ] 만년제 사업의 사업개요·예산·추진현황·위치 정보를 대시보드 항목으로 정리
-- [ ] 새 private GitHub 저장소 hwaseong-major-investment-dashboard 생성
-- [ ] 현재 프로젝트 전체를 새 저장소에 업로드
-- [ ] GitHub 저장소 주소와 업로드 결과 확인
+- [x] 새 private GitHub 저장소 hwaseong-major-investment-dashboard 생성
+- [x] 현재 프로젝트 전체를 새 저장소에 업로드
+- [x] GitHub 저장소 주소와 업로드 결과 확인
