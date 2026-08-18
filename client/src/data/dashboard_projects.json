@@ -61,7 +61,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "문화유산_주요투자사업_총괄표.xlsx:총괄표:2",
@@ -106,7 +111,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:1",
@@ -151,7 +161,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "■ 「체육시설 설치 및 운영에 관한 법률」제4조 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:2",
@@ -196,7 +298,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 1150,
+          "invested": 1150,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 100,
+          "invested": 100,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 1350,
+          "invested": 1350,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "■ 「체육시설의 설치·이용에 관한 법률」 제4조 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:3",
@@ -241,7 +435,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 286,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 800,
+          "invested": 800,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": 600,
+          "invested": 600,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": 500,
+          "invested": 500,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 100,
+          "invested": 100,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 1800,
+          "invested": 1800,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:4",
@@ -286,7 +572,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 1990,
+          "invested": 1990,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 200,
+          "invested": 200,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 1790,
+          "invested": 1790,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "■ 「체육시설 설치 및 운영에 관한 법률」제4조 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:5",
@@ -331,7 +709,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 1954,
+          "invested": 1954,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 1954,
+          "invested": 1954,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "투·융자심사",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:6",
@@ -376,7 +846,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 222,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 4621,
+          "invested": 4621,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": 500,
+          "invested": 500,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": 300,
+          "invested": 300,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 715,
+          "invested": 715,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 280,
+          "invested": 280,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 6253,
+          "invested": 6253,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 583,
+          "invested": 583,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 20,
+          "invested": 20,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "■ 체육시설 설치 및 이용에 관한 법률 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:7",
@@ -421,7 +983,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": ""
+      "card_inspection": "",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 420,
+          "invested": 420,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 600,
+          "invested": 600,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 100,
+          "invested": 100,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 20,
+          "invested": 20,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "투·융자심사",
+      "card_admin_legal_basis": "■ 「체육시설의 설치ㆍ이용에 관한 법률」 제4조 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:8",
@@ -466,7 +1120,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 447,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 20,
+          "invested": 20,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 6044,
+          "invested": 6044,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": 400,
+          "invested": 400,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": 1000,
+          "invested": 1000,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 325,
+          "invested": 325,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 7745,
+          "invested": 7745,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 634,
+          "invested": 634,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 20,
+          "invested": 20,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "■ 체육시설 설치 및 이용에 관한 법률 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:9",
@@ -511,7 +1257,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "■ 「체육시설의 설치·이용에 관한 법률」 제4조 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:10",
@@ -556,7 +1394,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 20,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 565,
+          "invested": 565,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 965,
+          "invested": 965,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "■ 「체육시설의 설치ㆍ이용에 관한 법률」 제4조 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:1",
@@ -601,7 +1531,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:2",
@@ -646,7 +1581,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:3",
@@ -691,7 +1631,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:4",
@@ -736,7 +1681,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:5",
@@ -781,7 +1731,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:6",
@@ -826,7 +1781,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:7",
@@ -871,7 +1831,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:8",
@@ -916,7 +1881,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:9",
@@ -961,7 +1931,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:10",
@@ -1006,7 +1981,12 @@
       "card_execution_budget_million_krw": null,
       "card_execution_amount_million_krw": null,
       "card_execution_rate": null,
-      "card_inspection": null
+      "card_inspection": null,
+      "funding_breakdown": [],
+      "usage_breakdown": [],
+      "card_admin_procedures": "",
+      "card_admin_legal_basis": "",
+      "card_admin_status": {}
     },
     {
       "id": "총괄데이터_2.xlsx:Sheet1:1",
@@ -1051,7 +2031,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 946,
+          "invested": 946,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 455,
+          "invested": 455,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 100,
+          "invested": 100,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 1841,
+          "invested": 1841,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 29,
+          "invested": 29,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 10,
+          "invested": 10,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "■ 지방재정법, 화성시 공유재산관리조례 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_2.xlsx:Sheet1:2",
@@ -1096,7 +2168,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 1347,
+          "invested": 1347,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 628,
+          "invested": 628,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 100,
+          "invested": 100,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 2650,
+          "invested": 2650,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 40,
+          "invested": 40,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 10,
+          "invested": 10,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "■ 지방재정법, 화성시 공유재산관리조례 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_2.xlsx:Sheet1:3",
@@ -1141,7 +2305,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 7940,
+          "invested": 7940,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 4393,
+          "invested": 4393,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 17194,
+          "invested": 17194,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정",
+      "card_admin_legal_basis": "■ 지방재정법, 화성시 공유재산관리조례 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": false,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:1",
@@ -1186,7 +2442,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 585,
+          "invested": 585,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 530,
+          "invested": 530,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 55,
+          "invested": 55,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:2",
@@ -1231,7 +2579,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 30,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 4451,
+          "invested": 4451,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 371,
+          "invested": 371,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 3951,
+          "invested": 3951,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 47,
+          "invested": 47,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 82,
+          "invested": 82,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사",
+      "card_admin_legal_basis": "■ 문화예술진흥법 제5조 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:3",
@@ -1276,7 +2716,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 265,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 18499,
+          "invested": 18499,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 17600,
+          "invested": 17600,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 769,
+          "invested": 769,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 130,
+          "invested": 130,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:4",
@@ -1321,7 +2853,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 49,
+          "invested": 49,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 49,
+          "invested": 49,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "■ 문화예술진흥법 제3조 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:5",
@@ -1366,7 +2990,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 3479,
+          "invested": 3479,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 48,
+          "invested": 48,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:6",
@@ -1411,7 +3127,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 325,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 14874,
+          "invested": 14874,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": 800,
+          "invested": 800,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 1900,
+          "invested": 1900,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 120,
+          "invested": 120,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 1300,
+          "invested": 1300,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 112,
+          "invested": 112,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 2167,
+          "invested": 2167,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "■ 과학관의 설립ㆍ운영 및 육성에 관한 법률 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:7",
@@ -1456,7 +3264,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 8,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 11973,
+          "invested": 11973,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 1900,
+          "invested": 1900,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 3869,
+          "invested": 3869,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 900,
+          "invested": 900,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 120,
+          "invested": 120,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 5184,
+          "invested": 5184,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "■ 과학관의 설립ㆍ운영 및 육성에 관한 법률 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:8",
@@ -1501,7 +3401,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 500,
+          "invested": 500,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 505,
+          "invested": 505,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 111,
+          "invested": 111,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 870,
+          "invested": 870,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 13,
+          "invested": 13,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 6,
+          "invested": 6,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 5,
+          "invested": 5,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "■ 화성시 생활문화진흥 조례 제12조 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:9",
@@ -1546,7 +3538,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 20,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 79,
+          "invested": 79,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 79,
+          "invested": 79,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:10",
@@ -1591,7 +3675,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 40,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 50,
+          "invested": 50,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 50,
+          "invested": 50,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "총괄데이터_일반.xlsx:Sheet1:1",
@@ -1636,7 +3812,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 50,
+          "invested": 50,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 50,
+          "invested": 50,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "■ 「도서관법」 제29조 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "총괄데이터_일반.xlsx:Sheet1:2",
@@ -1681,7 +3949,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 2127,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 2500,
+          "invested": 2500,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 14700,
+          "invested": 14700,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": 500,
+          "invested": 500,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": 1300,
+          "invested": 1300,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 1000,
+          "invested": 1000,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 15956,
+          "invested": 15956,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 2000,
+          "invested": 2000,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 44,
+          "invested": 44,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "■ 도서관법 제29조 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_일반.xlsx:Sheet1:3",
@@ -1726,7 +4086,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 2909,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 2000,
+          "invested": 2000,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 15755,
+          "invested": 15755,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": 500,
+          "invested": 500,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": 3000,
+          "invested": 3000,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 950,
+          "invested": 950,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 18555,
+          "invested": 18555,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 1700,
+          "invested": 1700,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 50,
+          "invested": 50,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사",
+      "card_admin_legal_basis": "■ 도서관법 제29조 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "총괄데이터_일반.xlsx:Sheet1:4",
@@ -1771,7 +4223,99 @@
       "card_execution_budget_million_krw": 0,
       "card_execution_amount_million_krw": 0,
       "card_execution_rate": 0,
-      "card_inspection": "양호"
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 353,
+          "invested": 353,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 3065,
+          "invested": 3065,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 34,
+          "invested": 34,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "■ 도서관법 제29조 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     }
   ],
   "management_card_matched_count": 27,

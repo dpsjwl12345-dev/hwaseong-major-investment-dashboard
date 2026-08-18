@@ -53,6 +53,11 @@ type Project = {
   card_execution_amount_million_krw: number | null;
   card_execution_rate: number | null;
   card_inspection: string;
+  funding_breakdown: { name: string; total: number | null; invested: number | null; budget_2027: number | null; budget_2028: number | null; budget_2029_plus: number | null }[];
+  usage_breakdown: { name: string; total: number | null; invested: number | null; budget_2027: number | null; budget_2028: number | null; budget_2029_plus: number | null }[];
+  card_admin_procedures: string;
+  card_admin_legal_basis: string;
+  card_admin_status: { mid_term_fiscal?: boolean; investment_review?: boolean; public_property?: boolean; none?: boolean };
 };
 
 type Bureau = { name: string; departments: { name: string; projects: Project[] }[] };
@@ -163,6 +168,15 @@ function OverviewPanel({ project }: { project: Project }) {
   );
 }
 
+function BreakdownTable({ title, rows }: { title: string; rows: Project["funding_breakdown"] }) {
+  return (
+    <div className="mt-6 overflow-hidden rounded-xl border border-[var(--pd-border)]">
+      <div className="border-b border-[var(--pd-border)] bg-white/[0.035] px-4 py-3 text-[13px] font-bold text-[var(--pd-text)]">{title}</div>
+      {rows.length === 0 ? <div className="pd-note-box m-3">등록된 세부 예산표가 없습니다.</div> : <div className="overflow-x-auto"><table className="w-full min-w-[640px] text-left text-[12px]"><thead className="bg-black/20 text-[var(--pd-text-faint)]"><tr><th className="px-4 py-3">구분</th><th className="px-4 py-3 text-right">총사업비</th><th className="px-4 py-3 text-right">기투자<br/>(2026년까지)</th><th className="px-4 py-3 text-right">2027년</th><th className="px-4 py-3 text-right">2028년</th><th className="px-4 py-3 text-right">2029년 이후</th></tr></thead><tbody>{rows.map((row) => <tr key={row.name} className="border-t border-[var(--pd-border)]"><td className="px-4 py-3 font-semibold text-[var(--pd-text)]">{row.name}</td>{[row.total, row.invested, row.budget_2027, row.budget_2028, row.budget_2029_plus].map((value, index) => <td key={index} className="px-4 py-3 text-right tabular-nums text-[var(--pd-text-muted)]">{value == null ? "-" : value.toLocaleString("ko-KR")}</td>)}</tr>)}</tbody></table></div>}
+    </div>
+  );
+}
+
 function BudgetPanel({ project }: { project: Project }) {
   const total = project.card_total_budget_million_krw ?? project.total_cost_million_krw;
   const invested = project.card_invested_to_2026_million_krw ?? project.invested_to_2026_million_krw;
@@ -172,15 +186,10 @@ function BudgetPanel({ project }: { project: Project }) {
   return (
     <div className="pd-card">
       <p className="pd-card-title">예산 현황 <span className="text-[13px] font-normal text-[var(--pd-text-faint)]">(단위: 백만원 · {project.management_card_matched ? "사업별 관리카드" : "총괄표"})</span></p>
-      <div className="pd-exec-grid">
-        {[["총사업비", total], ["기투자액 (~2026)", invested], ["2027년 예산", budget], ["집행액", executionAmount]].map(([label, value]) => (
-          <div key={label} className="pd-exec-card"><span className="label">{label}</span><span className="num">{value == null ? "-" : value.toLocaleString("ko-KR")}</span></div>
-        ))}
-      </div>
-      <div className="mt-7">
-        <div className="mb-2 flex justify-between font-body text-[13px] text-[var(--pd-text-faint)]"><span>예산 집행률</span><span>{execution}%</span></div>
-        <div className="h-3 rounded-full bg-[#334155]"><div className="h-3 rounded-full bg-[var(--pd-success)]" style={{ width: `${execution}%` }} /></div>
-      </div>
+      <div className="pd-exec-grid">{[["총사업비", total], ["기투자액 (~2026)", invested], ["2027년 예산", budget], ["집행액", executionAmount]].map(([label, value]) => <div key={label} className="pd-exec-card"><span className="label">{label}</span><span className="num">{value == null ? "-" : value.toLocaleString("ko-KR")}</span></div>)}</div>
+      <div className="mt-7"><div className="mb-2 flex justify-between font-body text-[13px] text-[var(--pd-text-faint)]"><span>예산 집행률</span><span>{execution}%</span></div><div className="h-3 rounded-full bg-[#334155]"><div className="h-3 rounded-full bg-[var(--pd-success)]" style={{ width: `${execution}%` }} /></div></div>
+      <BreakdownTable title="재원별 예산" rows={project.funding_breakdown} />
+      <BreakdownTable title="용도별 예산" rows={project.usage_breakdown} />
       <div className="mt-5 flex flex-wrap gap-3 text-[13px] text-[var(--pd-text-faint)]"><span>재원구분: {project.funding_type || "-"}</span><span>관리카드 점검: {project.card_inspection || "자료 없음"}</span></div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
     </div>
@@ -206,7 +215,9 @@ function ProgressPanel({ project }: { project: Project }) {
 }
 
 function AdminPanel({ project }: { project: Project }) {
-  return <div className="pd-card"><p className="pd-card-title">행정절차 이행여부</p>{isBlank(project.administrative_procedures) ? <div className="pd-note-box">등록된 사전행정절차 정보가 없습니다.</div> : <p className="pd-kv-value whitespace-pre-line">{project.administrative_procedures}</p>}</div>;
+  const status = project.card_admin_status || {};
+  const checks = [["중기재정", status.mid_term_fiscal], ["투·융자심사", status.investment_review], ["공유재산", status.public_property], ["해당없음", status.none]] as const;
+  return <div className="pd-card"><p className="pd-card-title">사전행정절차 이행여부</p>{project.management_card_matched ? <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{checks.map(([label, checked]) => <div key={label} className={`rounded-xl border px-4 py-4 ${checked ? "border-[var(--pd-success)]/50 bg-[var(--pd-success)]/10" : "border-[var(--pd-border)] bg-white/[0.02]"}`}><span className="text-[13px] text-[var(--pd-text-muted)]">{checked ? "■" : "□"} {label}</span></div>)}</div><div className="mt-5 grid gap-4 sm:grid-cols-2"><div className="pd-kv"><span className="pd-kv-label">선택된 절차</span><span className="pd-kv-value">{project.card_admin_procedures || "-"}</span></div><div className="pd-kv"><span className="pd-kv-label">법적근거</span><span className="pd-kv-value">{project.card_admin_legal_basis || "-"}</span></div></div></> : <div className="pd-note-box">해당 사업의 사업별 관리카드가 검색되지 않았습니다.</div>}</div>;
 }
 
 function LocationPanel({ project }: { project: Project }) {
