@@ -26,14 +26,16 @@ const organization: Bureau[] = [
       {
         name: "문화예술과",
         projects: [
-          "동탄복합문화센터 공간개선",
+          "동탄복합문화센터 리모델링",
           "화성예술의전당 소공연장 조성",
           "시립미술관 건립",
-          "농수산대학 유휴부지를 활용한 중규모 공연장 건립",
-          "화성시 테마(어린이) 과학관 건립사업",
-          "공룡(자연) 과학센터 건립 사업",
-          "석우동 51번지 복합문화시설 건립",
-          "아트큐브&예술숲&건립",
+          "농수산대학 유휴부지 공연장 건립",
+          "화성남양 문화예술공간 조성",
+          "화성시 테마(어린이) 과학관 건립",
+          "수장·연구시설 건립",
+          "병점 복합문화센터 조성",
+          "석우동 복합문화시설 건립",
+          "아트큐브 예술숲 건립",
         ],
       },
       {
@@ -338,7 +340,7 @@ export default function Home() {
         {!isCollapsed && (
           <div className="border-t border-white/[0.08] px-5 py-4">
             <p className="font-body text-[11px] text-[#b8c4d6]">예산심사 업무용 관리 화면</p>
-            <p className="mt-1 font-body text-[11px] text-[#64748b]">2개 국 · 7개 부서 · 36개 사업</p>
+            <p className="mt-1 font-body text-[11px] text-[#64748b]">2개 국 · 7개 부서 · 38개 사업</p>
           </div>
         )}
       </aside>
