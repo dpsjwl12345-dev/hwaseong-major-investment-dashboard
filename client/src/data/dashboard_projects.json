@@ -48,25 +48,112 @@
       "town": "병구",
       "contact": "효행구",
       "last_saved": "",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 77498,
+      "card_invested_to_2026_million_krw": 177,
       "card_budget_2027_million_krw": null,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
       "card_budget_2028_million_krw": null,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 177,
+      "card_execution_amount_million_krw": 177,
+      "card_execution_rate": 177,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 77498,
+          "invested": 177,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 3251,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 50623,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 3073,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 116,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 20435,
+          "invested": 177,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "■ 박물관 및 미술관 진흥법 제12조(설립과운영) ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "문화유산_주요투자사업_총괄표.xlsx:총괄표:2",
@@ -98,25 +185,112 @@
       "town": "병구",
       "contact": "병점구",
       "last_saved": "",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 17089,
+      "card_invested_to_2026_million_krw": 1621,
+      "card_budget_2027_million_krw": 8200,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
-      "card_budget_2028_million_krw": null,
+      "card_budget_2028_million_krw": 8200,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 1621,
+      "card_execution_amount_million_krw": 1531,
+      "card_execution_rate": 1520,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 17089,
+          "invested": 1621,
+          "budget_2027": 8200,
+          "budget_2028": 8200,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 687,
+          "invested": 520,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 6969,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 92,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 40,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 200,
+          "invested": null,
+          "budget_2027": 200,
+          "budget_2028": 200,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사",
+      "card_admin_legal_basis": "■ 「국토의 계획 및 이용에 관한 법률 」, 「공익사업을 위한 토지 등의 취득 및 보상에 관한 법률」,「문화유산의 보존 및 활용에 관한 법률」 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:1",
@@ -1518,25 +1692,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "황혜연\n(6024)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 1200,
+      "card_invested_to_2026_million_krw": 1200,
       "card_budget_2027_million_krw": null,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
       "card_budget_2028_million_krw": null,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 1200,
+      "card_execution_amount_million_krw": 75,
+      "card_execution_rate": 34,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 600,
+          "invested": 600,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 600,
+          "invested": 600,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 60,
+          "invested": 60,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 1140,
+          "invested": 1140,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:2",
@@ -1568,25 +1829,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "이희원\n(6014)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
-      "card_budget_2027_base_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 1460,
+      "card_invested_to_2026_million_krw": 1436,
+      "card_budget_2027_million_krw": 24,
+      "card_budget_2027_base_million_krw": 24,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
       "card_budget_2028_million_krw": null,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 1460,
+      "card_execution_amount_million_krw": 0,
+      "card_execution_rate": 0,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 1460,
+          "invested": 1436,
+          "budget_2027": 24,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 400,
+          "invested": 400,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 963,
+          "invested": 963,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 17,
+          "invested": 17,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 80,
+          "invested": 56,
+          "budget_2027": 24,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:3",
@@ -1618,25 +1966,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "권의승\n(2665)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
-      "card_budget_2027_base_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 49000,
+      "card_invested_to_2026_million_krw": 42220,
+      "card_budget_2027_million_krw": 6780,
+      "card_budget_2027_base_million_krw": 6780,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
       "card_budget_2028_million_krw": null,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 49000,
+      "card_execution_amount_million_krw": 49000,
+      "card_execution_rate": 36482,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": 2060,
+          "invested": 2060,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 46140,
+          "invested": 39360,
+          "budget_2027": 6780,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": 800,
+          "invested": 800,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 1500,
+          "invested": 1500,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 46000,
+          "invested": 39220,
+          "budget_2027": 6780,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 1500,
+          "invested": 1500,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:4",
@@ -1668,25 +2103,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "권의승\n(2665)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 43300,
+      "card_invested_to_2026_million_krw": 32750,
+      "card_budget_2027_million_krw": 4500,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
-      "card_budget_2028_million_krw": null,
+      "card_budget_2028_million_krw": 4500,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 32750,
+      "card_execution_amount_million_krw": 37250,
+      "card_execution_rate": 32750,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 43300,
+          "invested": 32750,
+          "budget_2027": 4500,
+          "budget_2028": 4500,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 1000,
+          "invested": 1000,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 21600,
+          "invested": 14750,
+          "budget_2027": 2700,
+          "budget_2028": 2700,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 1800,
+          "invested": null,
+          "budget_2027": 1800,
+          "budget_2028": 1800,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:5",
@@ -1718,25 +2240,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "조철민\n(6049)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 6800,
+      "card_invested_to_2026_million_krw": 615,
+      "card_budget_2027_million_krw": 100,
       "card_budget_2027_base_million_krw": null,
-      "card_budget_2027_first_extra_million_krw": null,
+      "card_budget_2027_first_extra_million_krw": 100,
       "card_budget_2027_additional_million_krw": null,
       "card_budget_2028_million_krw": null,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 715,
+      "card_execution_amount_million_krw": 567,
+      "card_execution_rate": 567,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 6800,
+          "invested": 615,
+          "budget_2027": 100,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 168,
+          "invested": 68,
+          "budget_2027": 100,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 5702,
+          "invested": 547,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 930,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:6",
@@ -1768,25 +2377,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "조철민\n(6049)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 3810,
+      "card_invested_to_2026_million_krw": 200,
+      "card_budget_2027_million_krw": 50,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
-      "card_budget_2028_million_krw": null,
+      "card_budget_2028_million_krw": 50,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 200,
+      "card_execution_amount_million_krw": 33,
+      "card_execution_rate": 33,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 3810,
+          "invested": 200,
+          "budget_2027": 50,
+          "budget_2028": 50,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 250,
+          "invested": 200,
+          "budget_2027": 50,
+          "budget_2028": 50,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 670,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": false,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:7",
@@ -1818,25 +2514,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "조철민\n(6049)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
-      "card_budget_2027_base_million_krw": null,
-      "card_budget_2027_first_extra_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 21470,
+      "card_invested_to_2026_million_krw": 150,
+      "card_budget_2027_million_krw": 354,
+      "card_budget_2027_base_million_krw": 54,
+      "card_budget_2027_first_extra_million_krw": 50,
       "card_budget_2027_additional_million_krw": null,
-      "card_budget_2028_million_krw": null,
+      "card_budget_2028_million_krw": 250,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 254,
+      "card_execution_amount_million_krw": 130,
+      "card_execution_rate": 0,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 21470,
+          "invested": 150,
+          "budget_2027": 354,
+          "budget_2028": 250,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 450,
+          "invested": 150,
+          "budget_2027": 300,
+          "budget_2028": 250,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 13547,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": 1291,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": 54,
+          "invested": null,
+          "budget_2027": 54,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:8",
@@ -1868,25 +2651,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "김용만\n(7407)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
-      "card_budget_2027_base_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 79525,
+      "card_invested_to_2026_million_krw": 78898,
+      "card_budget_2027_million_krw": 442,
+      "card_budget_2027_base_million_krw": 442,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
       "card_budget_2028_million_krw": null,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 79340,
+      "card_execution_amount_million_krw": 79105,
+      "card_execution_rate": 78898,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 77725,
+          "invested": 77098,
+          "budget_2027": 442,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": 800,
+          "invested": 800,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": 1000,
+          "invested": 1000,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 371,
+          "invested": 371,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 13900,
+          "invested": 13273,
+          "budget_2027": 442,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 6529,
+          "invested": 6529,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": true,
+        "none": false
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:9",
@@ -1918,25 +2788,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "조철민\n(6049)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 2950,
+      "card_invested_to_2026_million_krw": 110,
+      "card_budget_2027_million_krw": 115,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
-      "card_budget_2028_million_krw": null,
+      "card_budget_2028_million_krw": 115,
       "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_execution_budget_million_krw": 110,
+      "card_execution_amount_million_krw": 70,
+      "card_execution_rate": 25,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 2950,
+          "invested": 110,
+          "budget_2027": 115,
+          "budget_2028": 115,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 225,
+          "invested": 110,
+          "budget_2027": 115,
+          "budget_2028": 115,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 547,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "중기재정",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": false,
+        "public_property": false,
+        "none": false
+      }
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:10",
@@ -1968,25 +2925,112 @@
       "town": "갑구",
       "contact": "만세구",
       "last_saved": "이상현\n(6021)",
-      "management_card_matched": false,
-      "management_card_source": "",
-      "card_total_budget_million_krw": null,
-      "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
-      "card_budget_2027_base_million_krw": null,
-      "card_budget_2027_first_extra_million_krw": null,
+      "management_card_matched": true,
+      "management_card_source": "주요투자사업_관리카드_1.hwpx",
+      "card_total_budget_million_krw": 17898,
+      "card_invested_to_2026_million_krw": 3253,
+      "card_budget_2027_million_krw": 14645,
+      "card_budget_2027_base_million_krw": 3000,
+      "card_budget_2027_first_extra_million_krw": 500,
       "card_budget_2027_additional_million_krw": null,
-      "card_budget_2028_million_krw": null,
-      "card_budget_2029_plus_million_krw": null,
-      "card_execution_budget_million_krw": null,
-      "card_execution_amount_million_krw": null,
-      "card_execution_rate": null,
-      "card_inspection": null,
-      "funding_breakdown": [],
-      "usage_breakdown": [],
-      "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
-      "card_admin_status": {}
+      "card_budget_2028_million_krw": 4898,
+      "card_budget_2029_plus_million_krw": 6247,
+      "card_execution_budget_million_krw": 6753,
+      "card_execution_amount_million_krw": 2054,
+      "card_execution_rate": 1586,
+      "card_inspection": "양호",
+      "funding_breakdown": [
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "시비",
+          "total": 17298,
+          "invested": 3053,
+          "budget_2027": 14245,
+          "budget_2028": 4898,
+          "budget_2029_plus": 6247
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "usage_breakdown": [
+        {
+          "name": "설계",
+          "total": 500,
+          "invested": 500,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "공사",
+          "total": 6500,
+          "invested": 250,
+          "budget_2027": 6250,
+          "budget_2028": null,
+          "budget_2029_plus": 5750
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        },
+        {
+          "name": "부대",
+          "total": 500,
+          "invested": 3,
+          "budget_2027": 497,
+          "budget_2028": null,
+          "budget_2029_plus": 497
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2027": null,
+          "budget_2028": null,
+          "budget_2029_plus": null
+        }
+      ],
+      "card_admin_procedures": "해당없음",
+      "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": true
+      }
     },
     {
       "id": "총괄데이터_2.xlsx:Sheet1:1",
@@ -4318,6 +5362,6 @@
       }
     }
   ],
-  "management_card_matched_count": 27,
-  "management_card_unmatched_count": 12
+  "management_card_matched_count": 39,
+  "management_card_unmatched_count": 0
 }
