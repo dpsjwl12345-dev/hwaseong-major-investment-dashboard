@@ -245,7 +245,7 @@ function ProgressPanel({ project }: { project: Project }) {
       </div>
             <div className="grid gap-5 lg:grid-cols-2">
         <section className="rounded-xl border border-[var(--pd-border)] bg-black/10 p-4 sm:p-5">
-          <p className="mb-4 text-[13px] font-bold tracking-[0.04em] text-[var(--pd-text)]">현재까지 추진현황</p>
+          <p className="mb-4 text-[13px] font-bold tracking-[0.04em] text-[var(--pd-text)]">추진경과</p>
           {past.length > 0 ? <div className="pd-timeline"><div className="pd-timeline-line" />{past.map((item, index) => <div key={index} className="pd-t-item"><div className="pd-t-dot" /><div className="pd-t-date">{item.date || "-"}</div><div className="pd-t-desc">{item.desc}</div></div>)}</div> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
         </section>
         <section className="rounded-xl border border-[var(--pd-border)] bg-black/10 p-4 sm:p-5">
