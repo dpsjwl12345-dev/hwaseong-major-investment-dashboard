@@ -440,7 +440,7 @@ export default function Home() {
       <aside
         className={`fixed inset-y-0 left-0 z-40 flex flex-col border-r border-white/[0.08] bg-gradient-to-b from-[#07090f] via-[#0e1220] to-[#030409] transition-all duration-200 lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} ${isCollapsed ? "w-[76px]" : "w-[320px]"}`}
       >
-        <div className={`flex min-h-[92px] items-center border-b border-white/[0.08] bg-black/20 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
+        <div className={`relative border-b border-white/[0.08] bg-black/20 ${isCollapsed ? "flex min-h-[92px] items-center justify-center px-3" : "px-6 py-5"}`}>
           {!isCollapsed && (
             <button
               type="button"
@@ -453,9 +453,18 @@ export default function Home() {
               <p className="font-display text-[24px] font-bold leading-[1.05] tracking-[-0.055em] text-white">화성시 주요투자사업</p>
               <p className="mt-1 font-body text-[11px] font-semibold tracking-[0.14em] text-[var(--pd-text-muted)]">INVESTMENT DASHBOARD</p>
             </button>
+            <label className="relative mt-4 block">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--pd-text-muted)]" size={16} />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="사업명·부서·분야 검색"
+                className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 font-body text-[14px] text-white outline-none placeholder:text-[var(--pd-text-faint)] focus:border-[#60a5fa]"
+              />
+            </label>
           )}
           <button
-            className="hidden h-9 w-9 items-center justify-center rounded-full text-[var(--pd-text-muted)] hover:bg-white/[0.08] hover:text-white lg:flex"
+            className={`hidden h-9 w-9 items-center justify-center rounded-full text-[var(--pd-text-muted)] hover:bg-white/[0.08] hover:text-white lg:flex ${isCollapsed ? "static" : "absolute right-4 top-4"}`}
             onClick={() => setIsCollapsed(!isCollapsed)}
             aria-label={isCollapsed ? "사이드바 펼치기" : "사이드바 접기"}
           >
@@ -525,19 +534,7 @@ export default function Home() {
             );
           })}
         </nav>
-        {!isCollapsed && (
-          <div className="border-t border-white/[0.08] px-5 pb-3 pt-3">
-            <label className="relative block">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--pd-text-muted)]" size={16} />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="사업명·부서·분야 검색"
-                className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 font-body text-[14px] text-white outline-none placeholder:text-[var(--pd-text-faint)] focus:border-[#60a5fa]"
-              />
-            </label>
-          </div>
-        )}
+
       </aside>
 
       <div className={`flex min-h-screen flex-col transition-all duration-200 ${isCollapsed ? "lg:pl-[76px]" : "lg:pl-[320px]"}`}>
