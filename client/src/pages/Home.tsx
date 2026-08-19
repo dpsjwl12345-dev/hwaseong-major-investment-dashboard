@@ -179,15 +179,15 @@ function KvCards({ pairs }: { pairs: KvPair[] }) {
 
 function OverviewPanel({ project }: { project: Project }) {
   const pairs = parseKvPairs(project.overview);
-  const extra: KvPair[] = [
+    const extra: KvPair[] = [
     { label: "사업분야", value: project.category || "-" },
-    { label: "재원구분", value: project.funding_type || "-" },
     { label: "현추진단계", value: project.current_stage || "-" },
   ];
+
   return (
-    <div className="pd-card">
-      <p className="pd-card-title">사업개요</p>
+        <div className="pd-card">
       <KvCards pairs={[...pairs, ...extra]} />
+
     </div>
   );
 }
