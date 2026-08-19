@@ -518,13 +518,13 @@ export default function Home() {
             return (
               <div key={bureau.name} className="mb-2">
                 <button
-                  className={`group relative flex w-full items-center rounded-none border-0 border-b border-white/[0.10] px-2.5 py-2.5 text-left transition-colors hover:bg-white/[0.035] ${isCollapsed ? "justify-center" : "gap-2"}`}
+                  className={`flex w-full items-center rounded-lg border border-white/[0.07] bg-white/[0.025] px-2.5 py-2 text-left shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] ${isCollapsed ? "justify-center" : "gap-2"}`}
                   onClick={() => toggle(openBureaus, setOpenBureaus, bureau.name)}
                   title={isCollapsed ? bureau.name : undefined}
                 >
-                  {bureau.name === "문화관광국" ? <Building2 size={16} className="text-[#8ab4d8]" /> : <GraduationCap size={16} className="text-[#b49add]" />}
+                  {bureau.name === "문화관광국" ? <Building2 size={16} className="text-[#8ab4d8]/90" /> : <GraduationCap size={16} className="text-[#b49add]/90" />}
                   {bureauOpen ? <ChevronDown size={15} className="text-[var(--pd-text-muted)]" /> : <ChevronRight size={15} className="text-[var(--pd-text-muted)]" />}
-                  {!isCollapsed && <span className="font-body text-[15px] font-semibold tracking-[-0.02em] text-white/90">{bureau.name}</span>}
+                  {!isCollapsed && <span className="font-body text-[15px] font-semibold tracking-[-0.02em] text-white/85">{bureau.name}</span>}
                 </button>
                 {bureauOpen && !isCollapsed && (
                                     <div className="ml-1 pl-0">
