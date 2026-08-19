@@ -234,8 +234,8 @@ function BudgetPanel({ project }: { project: Project }) {
 
 function ProgressPanel({ project }: { project: Project }) {
   const percent = progressPercent(project);
-  const past = parseTimeline(project.future_plan);
-  const upcoming = parseTimeline(project.progress_status);
+  const past = parseTimeline(project.progress_status);
+  const upcoming = parseTimeline(project.future_plan);
   return (
     <div className="pd-card">
       <div className="mb-6 flex flex-wrap gap-8">
