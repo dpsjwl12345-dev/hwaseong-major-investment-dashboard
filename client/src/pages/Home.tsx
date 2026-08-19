@@ -402,7 +402,27 @@ function ProjectDetail({ project }: { project: Project }) {
   );
 }
 
+function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
+  return (
+    <section className="relative min-h-[calc(100vh-72px)] overflow-hidden bg-[#060914] text-white">
+      <div className="landing-orb landing-orb-a" />
+      <div className="landing-orb landing-orb-b" />
+      <div className="landing-orb landing-orb-c" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.04),transparent_36%,rgba(0,0,0,0.42))]" />
+      <div className="relative flex min-h-[calc(100vh-72px)] flex-col px-6 pb-12 pt-6 sm:px-10 lg:px-16 lg:pt-8">
+        <div className="flex flex-1 -translate-y-[7vh] flex-col items-center justify-center py-14 text-center">
+          <button type="button" onClick={onOpenDashboard} className="landing-status-button relative z-10 mb-6 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[14px] font-semibold text-white backdrop-blur" aria-label="주요투자사업 현황 열기">주요투자사업 현황</button>
+          <p className="mb-4 font-body text-[clamp(0.72rem,1.2vw,0.95rem)] font-medium tracking-[0.42em] text-white/65">HWASEONG SPECIAL CITY</p>
+          <p className="mb-5 font-body text-[clamp(0.9rem,1.5vw,1.15rem)] font-semibold tracking-[0.18em] text-white/80">화성시 주요투자사업 대시보드</p>
+          <h1 className="max-w-5xl font-display text-[clamp(2.35rem,5.5vw,5rem)] font-black uppercase leading-[1.02] tracking-[-0.075em] text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.25)]">MAJOR<br />INVESTMENT</h1>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [query, setQuery] = useState("");
@@ -461,8 +481,22 @@ export default function Home() {
           >
             {isCollapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
           </button>
-        </div>
+                </div>
+        {!isCollapsed && (
+          <div className="border-b border-white/[0.08] px-5 py-3">
+            <label className="relative block">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--pd-text-muted)]" size={16} />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="사업명·부서·분야 검색"
+                className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 font-body text-[14px] text-white outline-none placeholder:text-[var(--pd-text-faint)] focus:border-[#60a5fa]"
+              />
+            </label>
+          </div>
+        )}
         <nav className="pd-sidebar-nav min-h-0 flex-1 overflow-y-auto px-3 pb-5">
+
           {visibleOrganization.map((bureau) => {
             const bureauOpen = openBureaus.includes(bureau.name);
             return (
@@ -525,19 +559,6 @@ export default function Home() {
             );
           })}
         </nav>
-        {!isCollapsed && (
-          <div className="border-t border-white/[0.08] px-5 pb-3 pt-3">
-            <label className="relative block">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--pd-text-muted)]" size={16} />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="사업명·부서·분야 검색"
-                className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 font-body text-[14px] text-white outline-none placeholder:text-[var(--pd-text-faint)] focus:border-[#60a5fa]"
-              />
-            </label>
-          </div>
-        )}
       </aside>
 
       <div className={`flex min-h-screen flex-col transition-all duration-200 ${isCollapsed ? "lg:pl-[76px]" : "lg:pl-[320px]"}`}>
@@ -554,7 +575,8 @@ export default function Home() {
         <main className="relative flex-1 overflow-hidden">
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
-          {selectedProject && <ProjectDetail project={selectedProject} />}
+                    {selectedProject ? <ProjectDetail project={selectedProject} /> : <LandingPage onOpenDashboard={() => setSelectedProject(projects[0] ?? null)} />}
+
         </main>
       </div>
 
