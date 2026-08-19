@@ -485,7 +485,7 @@
 }
 
 /* Detail pill-radio menu adapted to the existing dashboard palette */
-.pd-pill-tabs { --total-options: 5; display: inline-grid; grid-template-columns: repeat(5, max-content); position: relative; width: fit-content; max-width: 100%; margin: 0 0 24px; padding: 4px; gap: 0; border: 1px solid var(--pd-border-soft); border-radius: 3rem; background: var(--pd-surface); box-shadow: 0 0 12px rgba(0,0,0,.24) inset; overflow: hidden; }
+.pd-pill-tabs { --total-options: 5; display: inline-grid; grid-template-columns: repeat(5, max-content); position: relative; width: fit-content; max-width: 100%; margin: 0 0 24px; padding: 4px; gap: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; overflow: visible; }
 .pd-pill-tabs .pill-tab-option { display: contents; }
 .pd-pill-tabs input { display: none; }
 .pd-pill-tabs label { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 42px; padding: 0 14px; border-radius: 3rem; cursor: pointer; color: var(--pd-text-muted); font-size: 15px; font-weight: 700; line-height: 1.2; text-align: center; white-space: nowrap; transition: color .2s ease, background-color .2s ease; }
