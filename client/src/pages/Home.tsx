@@ -510,8 +510,9 @@ export default function Home() {
                   {!isCollapsed && <span className="font-body text-[17px] font-extrabold tracking-[-0.04em] text-white">{bureau.name}</span>}
                 </button>
                 {bureauOpen && !isCollapsed && (
-                  <div className="ml-3 pl-3">
+                                    <div className="ml-1 pl-0">
                     {bureau.departments.map((department) => {
+
                       const key = `${bureau.name}-${department.name}`;
                       const departmentOpen = openDepartments.includes(key);
                       return (
@@ -525,7 +526,8 @@ export default function Home() {
                             <span className="ml-auto font-body text-[11px] tabular-nums text-[var(--pd-text-faint)]">{department.projects.length}</span>
                           </button>
                           {departmentOpen && (
-                            <div className="ml-3 pl-3 pb-1">
+                                                        <div className="ml-0 pl-0 pb-1">
+
                               {department.projects.map((project) => {
                                 const isSelected = selectedProject?.id === project.id;
                                 const color = colorFor(project.department);
@@ -536,14 +538,17 @@ export default function Home() {
                                       setSelectedProject(project);
                                       setIsSidebarOpen(false);
                                     }}
-                                    className={`mb-0.5 flex w-full items-start rounded-lg px-2.5 py-1.5 text-left ${isSelected ? "text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
+                                                                        className={`mb-0.5 flex min-w-0 w-full items-start rounded-lg px-1 py-1.5 text-left ${isSelected ? "text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
+
                                     style={isSelected ? { background: `${color.from}26`, borderLeft: `2px solid ${color.from}` } : undefined}
                                   >
                                     <span
-                                      className="mr-2 mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full"
+                                                                            className="mr-1 mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full"
+
                                       style={{ background: isSelected ? color.from : "var(--pd-text-faint)" }}
                                     />
-                                    <span className="font-body text-[14.5px] leading-[1.35]">{project.project_name}</span>
+                                                                        <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-body text-[13.5px] leading-[1.35]">{project.project_name}</span>
+
                                   </button>
                                 );
                               })}
