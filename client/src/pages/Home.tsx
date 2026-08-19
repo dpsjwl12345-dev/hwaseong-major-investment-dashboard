@@ -410,10 +410,10 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
       <div className="landing-orb landing-orb-c" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.04),transparent_36%,rgba(0,0,0,0.42))]" />
       <div className="relative flex min-h-[calc(100vh-72px)] flex-col px-6 pb-12 pt-6 sm:px-10 lg:px-16 lg:pt-8">
-        <div className="flex flex-1 -translate-y-[14vh] flex-col items-center justify-center py-8 text-center">
-          <button type="button" onClick={onOpenDashboard} className="landing-status-button relative z-10 mb-5 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[14px] font-semibold text-white backdrop-blur" aria-label="주요투자사업 현황 열기">주요투자사업 현황</button>
+        <div className="flex flex-1 -translate-y-[20vh] flex-col items-center justify-center py-4 text-center">
           <p className="mb-3 font-body text-[clamp(0.72rem,1.2vw,0.95rem)] font-medium tracking-[0.42em] text-white/65">HWASEONG SPECIAL CITY</p>
           <h1 className="max-w-5xl font-display text-[clamp(2.35rem,5.5vw,5rem)] font-black uppercase leading-[1.02] tracking-[-0.075em] text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.25)]">MAJOR<br />INVESTMENT</h1>
+          <button type="button" onClick={onOpenDashboard} className="landing-status-button relative z-10 mt-5 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[14px] font-semibold text-white backdrop-blur" aria-label="주요투자사업 현황 열기">주요투자사업 현황</button>
         </div>
       </div>
     </section>
