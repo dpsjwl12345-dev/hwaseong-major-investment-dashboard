@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import {
   Activity,
   Building2,
@@ -301,11 +301,24 @@ const TABS = ["사업개요", "예산현황", "추진현황", "사전행정절�
 
 function ProjectDetail({ project }: { project: Project }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요");
-  
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const indicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setActiveTab("사업개요");
   }, [project.id]);
+
+  useEffect(() => {
+    const alignIndicator = () => {
+      const label = tabsRef.current?.querySelector<HTMLLabelElement>('label[aria-selected="true"]');
+      if (!label || !indicatorRef.current) return;
+      indicatorRef.current.style.width = `${label.offsetWidth}px`;
+      indicatorRef.current.style.transform = `translateX(${label.offsetLeft}px)`;
+    };
+    alignIndicator();
+    window.addEventListener("resize", alignIndicator);
+    return () => window.removeEventListener("resize", alignIndicator);
+  }, [activeTab]);
 
   
 
@@ -370,7 +383,7 @@ function ProjectDetail({ project }: { project: Project }) {
         </div>
       </section>
 
-      <div className="pill-radio-container pd-pill-tabs" role="tablist" aria-label="사업 상세 탭" style={{ ["--pill-index" as string]: TABS.indexOf(activeTab) } as CSSProperties}>
+      <div ref={tabsRef} className="pill-radio-container pd-pill-tabs" role="tablist" aria-label="사업 상세 탭">
         {TABS.map((tab, index) => {
           const inputId = `detail-tab-${project.id}-${index}`;
           return (
@@ -380,7 +393,7 @@ function ProjectDetail({ project }: { project: Project }) {
             </span>
           );
         })}
-        <div className="pill-indicator" aria-hidden="true" />
+        <div ref={indicatorRef} className="pill-indicator" aria-hidden="true" />
       </div>
 
       <div key={`${project.id}-${activeTab}`} className="pd-panel-fade">
