@@ -442,7 +442,8 @@ export default function Home() {
       >
         <div className={`relative border-b border-white/[0.08] bg-black/20 ${isCollapsed ? "flex min-h-[92px] items-center justify-center px-3" : "px-6 py-5"}`}>
           {!isCollapsed && (
-            <button
+            <div>
+              <button
               type="button"
               className="text-left"
               onClick={() => {
@@ -462,6 +463,7 @@ export default function Home() {
                 className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 font-body text-[14px] text-white outline-none placeholder:text-[var(--pd-text-faint)] focus:border-[#60a5fa]"
               />
             </label>
+            </div>
           )}
           <button
             className={`hidden h-9 w-9 items-center justify-center rounded-full text-[var(--pd-text-muted)] hover:bg-white/[0.08] hover:text-white lg:flex ${isCollapsed ? "static" : "absolute right-4 top-4"}`}
