@@ -419,7 +419,7 @@ function PodaSearch({ value, onChange }: { value: string; onChange: (value: stri
       <div className="poda-search-white" />
       <div className="poda-search-border" />
       <div className="poda-search-main">
-        <input value={value} onChange={(event) => onChange(event.target.value)} placeholder="사업명·부서·분야 검색" type="text" className="poda-search-input" aria-label="사업명·부서·분야 검색" />
+        <input value={value} onChange={(event) => onChange(event.target.value)} placeholder="검색" type="text" className="poda-search-input" aria-label="사업명·부서·분야 검색" />
         <div className="poda-search-mask" />
         <div className="poda-search-pink" />
         <div className="poda-search-filter-border" />
@@ -579,7 +579,7 @@ export default function Home() {
             );
           })}
         {!isCollapsed && (
-          <div className="mt-1 border-t border-white/[0.08] px-3 pt-2 pb-1">
+          <div className="mt-3 border-t border-white/[0.08] px-3 pt-2 pb-1">
             <PodaSearch value={query} onChange={setQuery} />
           </div>
         )}
