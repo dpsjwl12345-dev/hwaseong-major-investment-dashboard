@@ -558,9 +558,8 @@ export default function Home() {
               </div>
             );
           })}
-        </nav>
         {!isCollapsed && (
-          <div className="border-t border-white/[0.08] px-5 py-3">
+          <div className="mt-1 border-t border-white/[0.08] px-3 pt-2 pb-1">
             <label className="relative block">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--pd-text-muted)]" size={16} />
               <input
@@ -572,6 +571,7 @@ export default function Home() {
             </label>
           </div>
         )}
+      </nav>
       </aside>
 
       <div className={`flex min-h-screen flex-col transition-all duration-200 ${isCollapsed ? "lg:pl-[76px]" : "lg:pl-[320px]"}`}>
