@@ -505,26 +505,26 @@
 /* User-provided search field adaptation */
 .poda-search { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; isolation: isolate; }
 .poda-search-main { position: relative; width: 100%; height: 48px; }
-.poda-search-input { position: relative; z-index: 1; width: 100%; height: 38px; border: 1px solid rgba(125,110,168,.32); border-radius: 10px; background: #010201; color: #fff; padding: 0 46px 0 38px; font: 13px/1.2 var(--font-body, sans-serif); box-shadow: inset 0 0 16px rgba(0,0,0,.45); }
+.poda-search-input { position: relative; z-index: 1; width: 100%; height: 38px; border: 1px solid rgba(100,126,145,.32); border-radius: 10px; background: #010201; color: #fff; padding: 0 46px 0 38px; font: 13px/1.2 var(--font-body, sans-serif); box-shadow: inset 0 0 16px rgba(0,0,0,.45); }
 .poda-search-input::placeholder { color: #c0b9c0; }
-.poda-search-input:focus { outline: none; border-color: #a099d8; box-shadow: inset 0 0 12px rgba(0,0,0,.45); }
+.poda-search-input:focus { outline: none; border-color: #6f8fa5; box-shadow: inset 0 0 12px rgba(0,0,0,.45); }
 .poda-search::before, .poda-search::after, .poda-search-white, .poda-search-border, .poda-search-dark, .poda-search-glow { content: ""; position: absolute; pointer-events: none; border-radius: 12px; z-index: -1; }
-.poda-search::before { inset: 1px -1px; background: conic-gradient(from 70deg, #1c191c, #402fb5 9%, #1c191c 32%, #1c191c 55%, #cf30aa 70%, #1c191c 84%); filter: none; opacity: .35; }
+.poda-search::before { inset: 1px -1px; background: conic-gradient(from 70deg, #16232d, #29475d 9%, #16232d 32%, #16232d 55%, #4f758c 70%, #16232d 84%); filter: none; opacity: .35; }
 .poda-search::after { inset: -2px; background: transparent; filter: none; opacity: 0; }
-.poda-search-white { inset: -2px; background: conic-gradient(from 83deg, transparent, #a099d8 10%, transparent 18%, transparent 50%, #dfa2da 64%, transparent 72%); filter: none; opacity: .18; transition: none; }
-.poda-search-border { inset: 0; border: 1px solid rgba(160,153,216,.22); }
+.poda-search-white { inset: -2px; background: conic-gradient(from 83deg, transparent, #6f8fa5 10%, transparent 18%, transparent 50%, #7d9aaa 64%, transparent 72%); filter: none; opacity: .18; transition: none; }
+.poda-search-border { inset: 0; border: 1px solid rgba(119,148,164,.24); }
 .poda-search-dark, .poda-search-glow { display: none; }
 .poda-search:hover::after, .poda-search:focus-within::after { display: none; }
 .poda-search:hover .poda-search-white { transform: none; }
 .poda-search-filter, .poda-search-filter-border { position: absolute; top: 3px; right: 3px; width: 32px; height: 32px; z-index: 3; border-radius: 9px; }
-.poda-search-filter { display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, #161329, #050407, #1d1b4b); border: 1px solid rgba(130,116,170,.35); }
+.poda-search-filter { display: flex; align-items: center; justify-content: center; background: linear-gradient(180deg, #182630, #070c10, #1b303b); border: 1px solid rgba(105,137,151,.36); }
 .poda-search-filter svg { width: 17px; height: 17px; }
 .poda-search-filter-border { z-index: 2; overflow: hidden; border: 1px solid transparent; }
 .poda-search-filter-border::before { content: ""; position: absolute; inset: -280px; background: transparent; animation: none; }
 .poda-search-icon { position: absolute; z-index: 3; left: 11px; top: 8px; width: 18px; height: 18px; }
 .poda-search-icon svg { width: 18px; height: 18px; stroke-width: 2; }
 .poda-search-mask { pointer-events: none; position: absolute; z-index: 2; left: 40px; top: 10px; width: 60px; height: 14px; background: linear-gradient(90deg, transparent, #010201); }
-.poda-search-pink { pointer-events: none; position: absolute; z-index: 0; left: 4px; top: 6px; width: 22px; height: 14px; background: #cf30aa; filter: blur(12px); opacity: .12; transition: none; }
+.poda-search-pink { pointer-events: none; position: absolute; z-index: 0; left: 4px; top: 6px; width: 22px; height: 14px; background: #4f758c; filter: blur(12px); opacity: .12; transition: none; }
 .poda-search:focus-within .poda-search-pink, .poda-search:hover .poda-search-pink { opacity: .12; }
 @keyframes poda-search-rotate { to { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .poda-search-filter-border::before { animation: none; } }
