@@ -406,21 +406,17 @@ function ProjectDetail({ project }: { project: Project }) {
 function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   return (
     <section className="relative min-h-full overflow-hidden bg-[#060816] text-white">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(126,83,210,0.46),transparent_34%),radial-gradient(circle_at_76%_32%,rgba(25,99,211,0.5),transparent_38%),radial-gradient(circle_at_78%_78%,rgba(112,56,164,0.34),transparent_30%)]" />
+      <div className="landing-orb landing-orb-a" />
+      <div className="landing-orb landing-orb-b" />
+      <div className="landing-orb landing-orb-c" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.04),transparent_36%,rgba(0,0,0,0.42))]" />
       <div className="relative flex min-h-[calc(100vh-72px)] flex-col px-6 pb-12 pt-6 sm:px-10 lg:px-16 lg:pt-8">
-        <nav className="flex items-center justify-between border-b border-white/10 pb-5 text-[13px] text-white/75">
-          <span className="font-display text-lg font-bold tracking-[-0.04em]">화성시 주요투자사업</span>
-          <div className="hidden items-center gap-8 sm:flex"><span>사업현황</span><span>부서별 보기</span><span>예산·추진</span></div>
-          <button type="button" onClick={onOpenDashboard} className="rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[12px] font-semibold text-white backdrop-blur transition hover:bg-white/20">대시보드 열기</button>
-        </nav>
-        <div className="flex flex-1 flex-col items-center justify-center py-14 text-center">
-          <div className="mb-7 flex items-center gap-2 rounded-full border border-white/15 bg-white/[0.07] px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-white/80 backdrop-blur"><span className="h-2 w-2 rounded-full bg-[#55e6a5] shadow-[0_0_14px_#55e6a5]" /> 2027 주요 투자사업 추진현황</div>
-          <h1 className="max-w-5xl font-display text-[clamp(3.6rem,10vw,9rem)] font-black uppercase leading-[0.82] tracking-[-0.085em] text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.25)]">MAJOR<br />INVESTMENT</h1>
-          <p className="mt-9 max-w-xl text-base leading-7 text-white/72 sm:text-lg">화성시의 주요 투자사업을 한눈에 확인하고<br className="hidden sm:block" /> 부서별 예산과 추진현황을 빠르게 살펴보세요.</p>
+        <div className="flex flex-1 -translate-y-[7vh] flex-col items-center justify-center py-14 text-center">
+          <button type="button" onClick={onOpenDashboard} className="landing-status-button relative z-10 mb-6 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[14px] font-semibold text-white backdrop-blur" aria-label="주요투자사업 현황 열기">주요투자사업 현황</button>
+          <p className="mb-5 font-body text-[clamp(0.72rem,1.2vw,0.95rem)] font-medium tracking-[0.42em] text-white/65">HWASEONG SPECIAL CITY</p>
+          <h1 className="max-w-5xl font-display text-[clamp(3rem,7vw,6.5rem)] font-black uppercase leading-[1.02] tracking-[-0.075em] text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.25)]">MAJOR<br />INVESTMENT</h1>
           <button type="button" onClick={onOpenDashboard} className="group mt-9 inline-flex items-center gap-3 rounded-full bg-white px-5 py-3 text-sm font-bold text-[#0a1024] transition hover:-translate-y-0.5 hover:bg-[#dbeafe]"><span>사업 목록 확인하기</span><ArrowUpRight size={17} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button>
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-t border-white/10 pt-5 text-[12px] text-white/55"><span>{dataset.project_count}개 사업</span><span>{dataset.department_count}개 부서</span><span>총사업비 {projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0).toLocaleString("ko-KR")}백만원</span></div>
       </div>
     </section>
   );
