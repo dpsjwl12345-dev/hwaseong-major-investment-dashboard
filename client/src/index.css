@@ -299,11 +299,24 @@
     opacity: 1;
   }
 }
-.pd-kv-label {
-  font-size: 13px;
-  color: var(--pd-text-faint);
-  display: block;
-  margin-bottom: 5px;
+.pd-kv-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  margin-bottom: 8px;
+  padding: 4px 9px;
+  border: 1px solid rgba(138, 180, 216, 0.24);
+  border-radius: 999px;
+  background: rgba(138, 180, 216, 0.08);
+  color: var(--pd-text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.pd-kv-chip svg {
+  color: var(--pd-accent-a);
+  flex: 0 0 auto;
 }
 .pd-kv-value {
   font-size: 15.5px;
