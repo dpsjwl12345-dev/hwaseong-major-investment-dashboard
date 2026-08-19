@@ -387,6 +387,12 @@
 }
 .pd-t-item.future .pd-t-date {
   color: var(--pd-text-muted);
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  white-space: nowrap;
+  font-size: 12.5px;
+  letter-spacing: -0.02em;
 }
 .pd-t-desc {
   font-size: 15px;
@@ -394,6 +400,8 @@
   color: var(--pd-text);
 }
 .pd-t-item.future .pd-t-desc {
+  display: block;
+  margin-top: 4px;
   color: var(--pd-text-muted);
 }
 .pd-t-now {
