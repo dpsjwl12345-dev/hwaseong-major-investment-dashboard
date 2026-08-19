@@ -243,9 +243,17 @@ function ProgressPanel({ project }: { project: Project }) {
         <div><p className="pd-summary-label !text-[13px]">추진상황 점검</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-success)]">{project.delay_reason || "-"}</p></div>
         <div><p className="pd-summary-label !text-[13px]">준공예정일</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-text)]">{project.inspection || "-"}</p></div>
       </div>
-      {past.length > 0 && <><p className="mb-3 text-[13px] font-bold uppercase tracking-[0.06em] text-[var(--pd-text-faint)]">추진 경과</p><div className="pd-timeline mb-6"><div className="pd-timeline-line" />{past.map((item, index) => <div key={index} className="pd-t-item"><div className="pd-t-dot" /><div className="pd-t-date">{item.date || "-"}</div><div className="pd-t-desc">{item.desc}</div></div>)}</div></>}
-      {(past.length > 0 || upcoming.length > 0) && <div className="pd-t-now"><span className="pd-t-now-label">● 지금</span></div>}
-      {upcoming.length > 0 ? <><p className="mb-3 text-[13px] font-bold uppercase tracking-[0.06em] text-[var(--pd-text-faint)]">향후 추진계획</p><div className="pd-timeline"><div className="pd-timeline-line dashed" />{upcoming.map((item, index) => <div key={index} className="pd-t-item future"><div className="pd-t-dot future" /><div className="pd-t-date">{item.date || "-"}</div><div className="pd-t-desc">{item.desc}</div></div>)}</div></> : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
+            <div className="grid gap-5 lg:grid-cols-2">
+        <section className="rounded-xl border border-[var(--pd-border)] bg-black/10 p-4 sm:p-5">
+          <p className="mb-4 text-[13px] font-bold tracking-[0.04em] text-[var(--pd-text)]">현재까지 추진현황</p>
+          {past.length > 0 ? <div className="pd-timeline"><div className="pd-timeline-line" />{past.map((item, index) => <div key={index} className="pd-t-item"><div className="pd-t-dot" /><div className="pd-t-date">{item.date || "-"}</div><div className="pd-t-desc">{item.desc}</div></div>)}</div> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
+        </section>
+        <section className="rounded-xl border border-[var(--pd-border)] bg-black/10 p-4 sm:p-5">
+          <p className="mb-4 text-[13px] font-bold tracking-[0.04em] text-[var(--pd-text)]">향후 추진계획</p>
+          {upcoming.length > 0 ? <div className="pd-timeline"><div className="pd-timeline-line dashed" />{upcoming.map((item, index) => <div key={index} className="pd-t-item future"><div className="pd-t-dot future" /><div className="pd-t-date">{item.date || "-"}</div><div className="pd-t-desc">{item.desc}</div></div>)}</div> : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
+        </section>
+      </div>
+
     </div>
   );
 }
@@ -459,7 +467,8 @@ export default function Home() {
       <aside
         className={`fixed inset-y-0 left-0 z-40 flex flex-col border-r border-white/[0.08] bg-gradient-to-b from-[#07090f] via-[#0e1220] to-[#030409] transition-all duration-200 lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} ${isCollapsed ? "w-[76px]" : "w-[320px]"}`}
       >
-        <div className={`flex min-h-[92px] items-center border-b border-white/[0.08] bg-black/20 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
+                <div className={`flex min-h-[104px] items-end border-b border-white/[0.08] bg-black/20 pb-3 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
+
           {!isCollapsed && (
             <button
               type="button"
@@ -481,19 +490,6 @@ export default function Home() {
             {isCollapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
           </button>
                 </div>
-        {!isCollapsed && (
-          <div className="border-b border-white/[0.08] px-5 py-3">
-            <label className="relative block">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--pd-text-muted)]" size={16} />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="사업명·부서·분야 검색"
-                className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 font-body text-[14px] text-white outline-none placeholder:text-[var(--pd-text-faint)] focus:border-[#60a5fa]"
-              />
-            </label>
-          </div>
-        )}
         <nav className="pd-sidebar-nav min-h-0 flex-1 overflow-y-auto px-3 pb-5">
 
           {visibleOrganization.map((bureau) => {
@@ -563,6 +559,19 @@ export default function Home() {
             );
           })}
         </nav>
+        {!isCollapsed && (
+          <div className="border-t border-white/[0.08] px-5 py-3">
+            <label className="relative block">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--pd-text-muted)]" size={16} />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="사업명·부서·분야 검색"
+                className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 font-body text-[14px] text-white outline-none placeholder:text-[var(--pd-text-faint)] focus:border-[#60a5fa]"
+              />
+            </label>
+          </div>
+        )}
       </aside>
 
       <div className={`flex min-h-screen flex-col transition-all duration-200 ${isCollapsed ? "lg:pl-[76px]" : "lg:pl-[320px]"}`}>
