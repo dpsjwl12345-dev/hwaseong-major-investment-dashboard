@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import {
   Activity,
-  ArrowUpRight,
   Building2,
   CalendarCheck,
   ChevronDown,
@@ -413,9 +412,9 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
       <div className="relative flex min-h-[calc(100vh-72px)] flex-col px-6 pb-12 pt-6 sm:px-10 lg:px-16 lg:pt-8">
         <div className="flex flex-1 -translate-y-[7vh] flex-col items-center justify-center py-14 text-center">
           <button type="button" onClick={onOpenDashboard} className="landing-status-button relative z-10 mb-6 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[14px] font-semibold text-white backdrop-blur" aria-label="주요투자사업 현황 열기">주요투자사업 현황</button>
-          <p className="mb-5 font-body text-[clamp(0.72rem,1.2vw,0.95rem)] font-medium tracking-[0.42em] text-white/65">HWASEONG SPECIAL CITY</p>
-          <h1 className="max-w-5xl font-display text-[clamp(3rem,7vw,6.5rem)] font-black uppercase leading-[1.02] tracking-[-0.075em] text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.25)]">MAJOR<br />INVESTMENT</h1>
-          <button type="button" onClick={onOpenDashboard} className="group mt-9 inline-flex items-center gap-3 rounded-full bg-white px-5 py-3 text-sm font-bold text-[#0a1024] transition hover:-translate-y-0.5 hover:bg-[#dbeafe]"><span>사업 목록 확인하기</span><ArrowUpRight size={17} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" /></button>
+          <p className="mb-4 font-body text-[clamp(0.72rem,1.2vw,0.95rem)] font-medium tracking-[0.42em] text-white/65">HWASEONG SPECIAL CITY</p>
+          <p className="mb-5 font-body text-[clamp(0.9rem,1.5vw,1.15rem)] font-semibold tracking-[0.18em] text-white/80">화성시 주요투자사업 대시보드</p>
+          <h1 className="max-w-5xl font-display text-[clamp(2.35rem,5.5vw,5rem)] font-black uppercase leading-[1.02] tracking-[-0.075em] text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.25)]">MAJOR<br />INVESTMENT</h1>
         </div>
       </div>
     </section>
