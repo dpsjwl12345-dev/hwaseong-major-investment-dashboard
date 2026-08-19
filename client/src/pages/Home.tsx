@@ -11,7 +11,7 @@ import {
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
-  Search,
+  
   Tag,
   TrendingUp,
   X,
@@ -410,6 +410,26 @@ function ProjectDetail({ project }: { project: Project }) {
   );
 }
 
+function PodaSearch({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  return (
+    <div className="poda-search">
+      <div className="poda-search-glow" />
+      <div className="poda-search-dark" />
+      <div className="poda-search-dark" />
+      <div className="poda-search-white" />
+      <div className="poda-search-border" />
+      <div className="poda-search-main">
+        <input value={value} onChange={(event) => onChange(event.target.value)} placeholder="사업명·부서·분야 검색" type="text" className="poda-search-input" aria-label="사업명·부서·분야 검색" />
+        <div className="poda-search-mask" />
+        <div className="poda-search-pink" />
+        <div className="poda-search-filter-border" />
+        <div className="poda-search-filter" aria-hidden="true"><svg viewBox="4.8 4.56 14.832 15.408" fill="none"><path d="M8.16 6.65h7.67c.64 0 1.16.52 1.16 1.16v1.28c0 .47-.29 1.05-.58 1.34l-2.5 2.21c-.35.29-.58.87-.58 1.34v2.5c0 .35-.23.81-.52.99l-.81.51c-.76.47-1.8-.06-1.8-.99v-3.08c0-.41-.23-.93-.47-1.22L7.52 10.36C7.23 10.08 7 9.55 7 9.2V7.87c0-.7.52-1.22 1.16-1.22Z" stroke="#d6d6e6" strokeWidth="1" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" /></svg></div>
+        <div className="poda-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle stroke="url(#poda-search-gradient)" r="8" cy="11" cx="11" /><line stroke="url(#poda-search-gradient-line)" y2="16.65" y1="22" x2="16.65" x1="22" /><defs><linearGradient id="poda-search-gradient" gradientTransform="rotate(50)"><stop stopColor="#f8e7f8" offset="0%" /><stop stopColor="#b6a9b7" offset="50%" /></linearGradient><linearGradient id="poda-search-gradient-line"><stop stopColor="#b6a9b7" offset="0%" /><stop stopColor="#837484" offset="50%" /></linearGradient></defs></svg></div>
+      </div>
+    </div>
+  );
+}
+
 function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   return (
     <section className="relative min-h-[calc(100vh-72px)] overflow-hidden bg-[#060914] text-white">
@@ -560,15 +580,7 @@ export default function Home() {
           })}
         {!isCollapsed && (
           <div className="mt-1 border-t border-white/[0.08] px-3 pt-2 pb-1">
-            <label className="relative block">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--pd-text-muted)]" size={16} />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="사업명·부서·분야 검색"
-                className="h-10 w-full rounded-xl border border-[#475569] bg-[#0f172a] pl-10 pr-3 font-body text-[14px] text-white outline-none placeholder:text-[var(--pd-text-faint)] focus:border-[#60a5fa]"
-              />
-            </label>
+            <PodaSearch value={query} onChange={setQuery} />
           </div>
         )}
       </nav>
