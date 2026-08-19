@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import {
   Activity,
   Building2,
@@ -301,24 +301,13 @@ const TABS = ["사업개요", "예산현황", "추진현황", "사전행정절�
 
 function ProjectDetail({ project }: { project: Project }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요");
-  const tabsRef = useRef<HTMLDivElement>(null);
-  const indicatorRef = useRef<HTMLDivElement>(null);
+  
 
   useEffect(() => {
     setActiveTab("사업개요");
   }, [project.id]);
 
-  useEffect(() => {
-    const moveIndicator = () => {
-      const btn = tabsRef.current?.querySelector<HTMLButtonElement>(`[data-tab="${activeTab}"]`);
-      if (!btn || !indicatorRef.current) return;
-      indicatorRef.current.style.width = `${btn.offsetWidth}px`;
-      indicatorRef.current.style.transform = `translateX(${btn.offsetLeft - 5}px)`;
-    };
-    moveIndicator();
-    window.addEventListener("resize", moveIndicator);
-    return () => window.removeEventListener("resize", moveIndicator);
-  }, [activeTab]);
+  
 
   const percent = progressPercent(project);
   const overviewPairs = parseKvPairs(project.overview);
@@ -381,21 +370,17 @@ function ProjectDetail({ project }: { project: Project }) {
         </div>
       </section>
 
-      <div className="pd-tabs" ref={tabsRef} role="tablist" aria-label="사업 상세 탭">
-        <div className="pd-tab-indicator" ref={indicatorRef} />
-        {TABS.map((tab) => (
-          <button
-            key={tab}
-            type="button"
-            role="tab"
-            aria-selected={activeTab === tab}
-            data-tab={tab}
-            className={`pd-tab-btn ${activeTab === tab ? "is-active" : ""}`}
-            onClick={() => setActiveTab(tab)}
-          >
-            {tab}
-          </button>
-        ))}
+      <div className="pill-radio-container pd-pill-tabs" role="tablist" aria-label="사업 상세 탭" style={{ ["--pill-index" as string]: TABS.indexOf(activeTab) } as CSSProperties}>
+        {TABS.map((tab, index) => {
+          const inputId = `detail-tab-${project.id}-${index}`;
+          return (
+            <span key={tab} className="pill-tab-option">
+              <input id={inputId} name={`detail-tab-${project.id}`} type="radio" checked={activeTab === tab} onChange={() => setActiveTab(tab)} />
+              <label htmlFor={inputId} role="tab" aria-selected={activeTab === tab}>{tab}</label>
+            </span>
+          );
+        })}
+        <div className="pill-indicator" aria-hidden="true" />
       </div>
 
       <div key={`${project.id}-${activeTab}`} className="pd-panel-fade">
