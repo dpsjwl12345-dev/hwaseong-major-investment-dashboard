@@ -5,7 +5,6 @@ import {
   CalendarCheck,
   ChevronDown,
   ChevronRight,
-  CircleCheck,
   Coins,
   GraduationCap,
   MapPin,
@@ -173,8 +172,7 @@ function KvCards({ pairs }: { pairs: KvPair[] }) {
     <div className="pd-kv-row">
       {pairs.map((pair) => (
         <div key={pair.label} className="pd-kv">
-                    <span className="pd-kv-chip"><CircleCheck size={11} strokeWidth={2.4} /><span>{pair.label}</span></span>
-
+          <span className="pd-kv-label">{pair.label}</span>
           <span className="pd-kv-value">{pair.value}</span>
         </div>
       ))}
