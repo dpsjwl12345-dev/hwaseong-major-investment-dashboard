@@ -538,12 +538,12 @@ export default function Home() {
                                       setSelectedProject(project);
                                       setIsSidebarOpen(false);
                                     }}
-                                                                        className={`mb-0.5 flex min-w-0 w-full items-start rounded-lg px-1 py-1.5 text-left ${isSelected ? "text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
+                                                                        className={`relative mb-0.5 flex min-w-0 w-full items-start rounded-lg py-1.5 pl-8 pr-1 text-left ${isSelected ? "text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
 
                                     style={isSelected ? { background: `${color.from}26`, borderLeft: `2px solid ${color.from}` } : undefined}
                                   >
                                     <span
-                                                                            className="mr-1 mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full"
+                                                                            className="absolute left-2 top-[13px] h-1.5 w-1.5 rounded-full"
 
                                       style={{ background: isSelected ? color.from : "var(--pd-text-faint)" }}
                                     />
