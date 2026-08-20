@@ -489,7 +489,7 @@ export default function Home() {
       <aside
         className={`app-sidebar fixed inset-y-0 left-0 z-40 flex flex-col border-r border-white/[0.08] bg-gradient-to-b from-[#07090f] via-[#0e1220] to-[#030409] transition-all duration-200 lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} ${isCollapsed ? "w-[76px]" : "w-[320px]"}`}
       >
-                <div className={`sidebar-brand flex min-h-[104px] items-end border-b border-white/[0.08] bg-black/20 pb-3 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
+                <div className={`sidebar-brand flex min-h-[104px] items-end bg-black/20 pb-3 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
 
           {!isCollapsed && (
             <button
@@ -581,7 +581,7 @@ export default function Home() {
             );
           })}
         {!isCollapsed && (
-          <div className="mt-5 border-t border-white/[0.08] px-3 pt-2 pb-1">
+          <div className="mt-5 px-3 pt-2 pb-1">
             <PodaSearch value={query} onChange={setQuery} />
           </div>
         )}
