@@ -1521,3 +1521,35 @@ html, body, #root {
   .landing-brand-pill { min-height: 30px; padding-inline: 13px; }
   .landing-menu-pill { width: 30px; height: 30px; }
 }
+
+/* Landing-specific reference frame: visible white top edge and inset black panel */
+.app-main:has(.landing-page) {
+  background: #f3f2ee !important;
+  padding: 12px 12px 0 !important;
+}
+.app-main:has(.landing-page) .landing-page {
+  min-height: 100%;
+  height: 100%;
+  padding: 0 !important;
+  background: #f3f2ee !important;
+  overflow: hidden;
+}
+.app-main:has(.landing-page) .landing-inner {
+  min-height: calc(100vh - 104px) !important;
+  height: 100%;
+  margin: 0 !important;
+  padding: 26px clamp(24px, 5vw, 76px) 24px !important;
+  border: 1px solid rgba(243,242,238,.92);
+  border-radius: 27px 27px 20px 20px;
+  background: #070707;
+  overflow: hidden;
+}
+@media (max-width: 1023px) {
+  .app-main:has(.landing-page) {
+    padding: 8px 8px 0 !important;
+  }
+  .app-main:has(.landing-page) .landing-inner {
+    min-height: calc(100vh - 8px) !important;
+    border-radius: 22px 22px 0 0;
+  }
+}
