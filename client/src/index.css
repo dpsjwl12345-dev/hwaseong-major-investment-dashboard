@@ -772,7 +772,7 @@
   justify-content: center;
   padding: clamp(54px, 10vh, 120px) 0 clamp(48px, 8vh, 96px);
   overflow: visible;
-  transform: translateY(-clamp(24px, 5vh, 58px));
+  transform: translateY(-clamp(54px, 10vh, 108px));
   text-align: center;
 }
 .landing-eyebrow {
