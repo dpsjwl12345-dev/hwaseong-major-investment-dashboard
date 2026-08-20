@@ -980,3 +980,23 @@
 @media (prefers-reduced-motion: reduce) {
   .sidebar-bureau, .sidebar-project { transition: none; }
 }
+
+.sidebar-search-count {
+  margin: 5px 2px 0;
+  color: rgba(176, 190, 219, .58);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 10px;
+  letter-spacing: .04em;
+}
+.landing-title-line {
+  animation: landing-line-in .72s cubic-bezier(.23,1,.32,1) both;
+}
+.landing-title-line-a { animation-delay: .08s; }
+.landing-title-line-b { animation-delay: .18s; }
+@keyframes landing-line-in {
+  from { opacity: 0; transform: translateY(18px) skewX(-2deg); filter: blur(6px); }
+  to { opacity: 1; transform: translateY(0) skewX(0); filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-title-line { animation: none; }
+}

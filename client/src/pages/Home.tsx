@@ -441,7 +441,7 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
       <div className="landing-inner">
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
-          <h1 className="landing-title"><span>MAJOR</span><span>INVESTMENT</span></h1>
+          <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR</span><span className="landing-title-line landing-title-line-b">INVESTMENT</span></h1>
           <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><ChevronRight size={16} /></button>
         </div>
         <div className="landing-footer"><span>39 PROJECTS</span><span>PUBLIC INVESTMENT INDEX</span><span>HWASEONG · KR</span></div>
@@ -469,7 +469,7 @@ export default function Home() {
             .map((department) => ({
               ...department,
               projects: department.projects.filter((project) =>
-                `${project.project_name} ${project.department} ${project.category}`.toLowerCase().includes(normalizedQuery),
+                `${project.project_name} ${project.department} ${project.category} ${project.project_type} ${project.region} ${project.district} ${project.town}`.toLowerCase().includes(normalizedQuery),
               ),
             }))
             .filter((department) => department.projects.length > 0),
@@ -515,7 +515,7 @@ export default function Home() {
         <nav className="pd-sidebar-nav min-h-0 flex-1 overflow-y-auto px-3 pb-5">
 
           {visibleOrganization.map((bureau) => {
-            const bureauOpen = openBureaus.includes(bureau.name);
+            const bureauOpen = normalizedQuery.length > 0 || openBureaus.includes(bureau.name);
             return (
               <div key={bureau.name} className="mb-2">
                 <button
@@ -532,7 +532,7 @@ export default function Home() {
                     {bureau.departments.map((department) => {
 
                       const key = `${bureau.name}-${department.name}`;
-                      const departmentOpen = openDepartments.includes(key);
+                      const departmentOpen = normalizedQuery.length > 0 || openDepartments.includes(key);
                       return (
                         <div key={department.name}>
                           <button
@@ -583,6 +583,7 @@ export default function Home() {
         {!isCollapsed && (
           <div className="mt-5 px-3 pt-2 pb-1">
             <PodaSearch value={query} onChange={setQuery} />
+            {normalizedQuery && <p className="sidebar-search-count">{visibleOrganization.reduce((total, bureau) => total + bureau.departments.reduce((sum, department) => sum + department.projects.length, 0), 0)}개 사업 검색됨</p>}
           </div>
         )}
       </nav>
