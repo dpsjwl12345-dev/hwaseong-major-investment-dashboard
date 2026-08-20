@@ -1384,3 +1384,51 @@ html, body, #root {
     border-radius: 0 !important;
   }
 }
+
+/* Final hierarchy pass: white top edge, larger navigation type, softer project rows */
+.app-main {
+  margin-top: 30px !important;
+  border-radius: 28px 28px 24px 24px !important;
+}
+.app-sidebar .sidebar-bureau {
+  min-height: 42px !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.035em !important;
+  text-transform: none !important;
+}
+.app-sidebar .sidebar-bureau span {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+}
+.app-sidebar .sidebar-department {
+  min-height: 58px !important;
+  padding: 13px 14px !important;
+}
+.app-sidebar .sidebar-department span:first-of-type {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  letter-spacing: -.045em !important;
+}
+.app-sidebar .sidebar-department span:last-of-type {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+.app-sidebar .sidebar-project {
+  min-height: 42px !important;
+  padding: 10px 12px 10px 42px !important;
+  background: #eeece5 !important;
+  color: #706e67 !important;
+}
+.app-sidebar .sidebar-project span {
+  font-size: 14.5px !important;
+  font-weight: 600 !important;
+  letter-spacing: -.035em !important;
+  color: #706e67 !important;
+}
+.app-sidebar .sidebar-project.is-selected,
+.app-sidebar .sidebar-project.is-selected span {
+  background: #e5b83e !important;
+  color: #27251d !important;
+  font-weight: 800 !important;
+}
