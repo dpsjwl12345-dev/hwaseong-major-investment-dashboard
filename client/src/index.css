@@ -1790,3 +1790,37 @@ html, body, #root,
     font-size: 18px;
   }
 }
+
+/* User-provided input treatment for the sidebar search field */
+.poda-search .input {
+  box-sizing: border-box;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 42px;
+  border-radius: 10px;
+  outline: 2px solid #febf00;
+  outline-offset: 3px;
+  border: 0;
+  padding: 10px 1rem 10px 38px;
+  color: #555;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: 13px;
+  background-color: #e2e2e2;
+  box-shadow: none;
+  transition: 0.25s;
+}
+.poda-search .input::placeholder {
+  color: #777;
+}
+.poda-search .input:focus {
+  outline-offset: 5px;
+  background-color: #fff;
+  outline-color: #febf00;
+}
+.poda-search .poda-search-main {
+  height: 48px;
+}
+.poda-search .poda-search-icon {
+  z-index: 3;
+}
