@@ -1528,6 +1528,28 @@ html, body, #root {
   width: 100%;
   text-align: center;
 }
+.landing-top-link-wrap {
+  position: absolute;
+  top: 28px;
+  right: 34px;
+  z-index: 12;
+}
+.landing-top-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  color: rgba(236, 242, 255, .78);
+  background: transparent;
+  font-family: "Space Grotesk", "Pretendard", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .02em;
+  cursor: pointer;
+  transition: color .2s ease, transform .2s ease;
+}
+.landing-top-link:hover { color: #fff; transform: translateX(3px); }
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
   width: min(100%, 760px);
@@ -1603,7 +1625,18 @@ html, body, #root,
 }
 
 /* Landing content vertical centering (kept — independent of the panel shell) */
+.app-main:has(.landing-page) {
+  height: calc(100vh - 50px) !important;
+  min-height: 0 !important;
+}
+.app-main:has(.landing-page) .landing-page,
+.app-main:has(.landing-page) .hero-panel {
+  height: 100% !important;
+  min-height: 0 !important;
+}
 .app-main:has(.landing-page) .landing-content {
+  position: absolute;
+  inset: 0;
   box-sizing: border-box !important;
   width: 100% !important;
   height: 100% !important;
@@ -1618,9 +1651,13 @@ html, body, #root,
   transform: none;
 }
 @media (max-width: 1023px) {
+  .app-main:has(.landing-page) {
+    height: calc(100vh - 24px) !important;
+  }
   .app-main:has(.landing-page) .landing-content {
     transform: none;
   }
+  .landing-top-link-wrap { top: 20px; right: 22px; }
 }
 
 /* Neomorphic letter-button treatment for the sidebar title */
