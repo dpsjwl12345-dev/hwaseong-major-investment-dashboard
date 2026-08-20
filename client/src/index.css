@@ -971,16 +971,44 @@
   background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(0,0,0,.14));
 }
 .sidebar-bureau {
-  border-color: rgba(166, 188, 228, .13) !important;
-  background: rgba(255,255,255,.035) !important;
-  box-shadow: none !important;
-  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+  border-color: rgba(166, 188, 228, .20) !important;
+  background: rgba(255,255,255,.055) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.16), 0 6px 16px rgba(37,48,74,.08) !important;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease, box-shadow .18s ease;
 }
-.sidebar-bureau:hover {
-  border-color: rgba(166, 188, 228, .28) !important;
-  background: rgba(255,255,255,.07) !important;
+.sidebar-bureau:hover,
+.sidebar-bureau.is-open {
+  border-color: rgba(166, 188, 228, .42) !important;
+  background: rgba(255,255,255,.12) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.34), 0 9px 20px rgba(37,48,74,.12) !important;
   transform: translateX(2px);
 }
+.sidebar-bureau-icon {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255,255,255,.36);
+  border-radius: 9px;
+  color: #dceaff;
+  background: linear-gradient(145deg, rgba(255,255,255,.30), rgba(154,184,235,.10));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.72), 0 5px 14px rgba(0,0,0,.14);
+  backdrop-filter: blur(10px) saturate(135%);
+  -webkit-backdrop-filter: blur(10px) saturate(135%);
+}
+.sidebar-bureau-icon::after {
+  content: "";
+  position: absolute;
+  inset: 2px 18% 55%;
+  border-radius: inherit;
+  background: rgba(255,255,255,.58);
+  pointer-events: none;
+}
+.sidebar-bureau-icon.is-culture { color: #b9ddff; }
+.sidebar-bureau-icon.is-education { color: #dbc5ff; }
 .sidebar-department {
   min-height: 34px;
   color: rgba(188, 198, 226, .8);
@@ -1622,19 +1650,26 @@ html, body, #root,
 
 /* Neomorphic letter-button treatment for the sidebar title */
 .sidebar-title-neomorphic {
+  position: relative;
   cursor: pointer;
   display: inline-block;
   overflow: hidden;
   padding: 12px 18px;
-  border: none;
-  border-radius: 30px;
-  background: #ffffff;
-  box-shadow:
-    inset 6px 6px 12px rgba(0, 0, 0, 0.1),
-    inset -6px -6px 12px rgba(255, 255, 255, 0.7),
-    6px 6px 12px rgba(0, 0, 0, 0.1),
-    -6px -6px 12px rgba(255, 255, 255, 0.7);
-  transition: box-shadow 0.3s ease, transform 0.1s ease;
+  border: 1px solid rgba(255,255,255,.62);
+  border-radius: 22px;
+  background: linear-gradient(145deg, rgba(255,255,255,.76), rgba(198,211,237,.32));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.90), 0 14px 28px rgba(66,79,108,.15), 0 0 0 1px rgba(255,255,255,.16);
+  backdrop-filter: blur(16px) saturate(130%);
+  -webkit-backdrop-filter: blur(16px) saturate(130%);
+  transition: box-shadow .25s ease, transform .2s ease, border-color .25s ease;
+}
+.sidebar-title-neomorphic::before {
+  content: "";
+  position: absolute;
+  inset: 2px 12% 52%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.72), transparent);
+  pointer-events: none;
 }
 .sidebar-title-neomorphic-text {
   margin: 0;
@@ -1693,7 +1728,7 @@ html, body, #root,
   width: 100%;
   height: 42px;
   border-radius: 10px;
-  outline: 2px solid #febf00;
+  outline: 3px solid #febf00;
   outline-offset: 3px;
   border: 0;
   padding: 10px 1rem 10px 38px;
