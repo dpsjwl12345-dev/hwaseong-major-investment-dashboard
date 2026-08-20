@@ -1496,6 +1496,7 @@ html, body, #root {
 .landing-content {
   min-height: 0 !important;
   padding-top: clamp(92px, 16vh, 158px) !important;
+  transform: translateY(72px);
 }
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
