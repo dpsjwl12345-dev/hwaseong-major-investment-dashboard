@@ -769,10 +769,10 @@
   flex: 1;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: clamp(54px, 10vh, 120px) 0 clamp(48px, 8vh, 96px);
+  justify-content: flex-start;
+  padding: clamp(86px, 11vh, 132px) 0 0;
   overflow: visible;
-  transform: translateY(-clamp(86px, 15vh, 150px));
+  transform: none;
   text-align: center;
 }
 .landing-eyebrow {
@@ -915,6 +915,7 @@
 @keyframes landing-drift-c { to { transform: translate3d(12%, -12%, 0) scale(1.08); } }
 @media (max-width: 640px) {
   .landing-inner { padding-inline: 22px; }
+  .landing-content { padding-top: 18vh; }
   .landing-title { font-size: clamp(3rem, 16vw, 5.2rem); }
   .landing-footer { flex-wrap: wrap; font-size: 9px; }
   .landing-footer span:nth-child(2) { display: none; }
