@@ -602,7 +602,13 @@ export default function Home() {
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
           {selectedProject && <div className="app-panel-topbar" aria-hidden="true" />}
-          {selectedProject ? <ProjectDetail project={selectedProject} /> : <LandingPage onOpenDashboard={() => setSelectedProject(projects[0] ?? null)} />}
+          {selectedProject ? (
+            <div className="detail-panel-shell">
+              <ProjectDetail project={selectedProject} />
+            </div>
+          ) : (
+            <LandingPage onOpenDashboard={() => setSelectedProject(projects[0] ?? null)} />
+          )}
 
         </main>
       </div>

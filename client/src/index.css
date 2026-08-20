@@ -1627,3 +1627,47 @@ html, body, #root,
     border-radius: 24px !important;
   }
 }
+
+/* Shared Hanzo tablet shell for landing and project detail */
+.app-main {
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 34px 22px 22px 18px !important;
+  background: #f3f2ee !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+.app-main > .pointer-events-none,
+.app-main > .app-panel-topbar {
+  display: none !important;
+}
+.detail-panel-shell {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 34px;
+  background: #070707;
+  box-shadow: 0 22px 46px -30px rgba(0,0,0,.78), 0 0 0 1px rgba(20,20,20,.08);
+}
+.detail-panel-shell::-webkit-scrollbar { display: none; }
+.detail-panel-shell .pd-detail-page {
+  min-height: 100%;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+@media (max-width: 1023px) {
+  .app-main {
+    padding: 14px 10px 10px !important;
+  }
+  .detail-panel-shell {
+    border-radius: 24px;
+  }
+}
