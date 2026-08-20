@@ -1145,3 +1145,38 @@
 @media (max-width: 640px) {
   .pd-card { border-radius: 14px !important; }
 }
+
+/* Menu states: black type on white rail, yellow selected work card */
+.app-sidebar .sidebar-bureau span,
+.app-sidebar .sidebar-bureau svg,
+.app-sidebar .sidebar-department span,
+.app-sidebar .sidebar-department svg,
+.app-sidebar .sidebar-project span,
+.app-sidebar .sidebar-project svg {
+  color: inherit !important;
+}
+.app-sidebar .sidebar-bureau.is-open {
+  color: var(--hanzo-ink) !important;
+  border-color: rgba(23, 24, 18, .2) !important;
+  background: var(--hanzo-yellow) !important;
+}
+.app-sidebar .sidebar-department.is-open {
+  color: var(--hanzo-ink) !important;
+  background: rgba(232, 243, 74, .22) !important;
+}
+.app-sidebar .sidebar-project.is-selected,
+.app-sidebar .sidebar-project.is-selected span {
+  color: var(--hanzo-ink) !important;
+}
+.app-sidebar .sidebar-project.is-selected {
+  border-radius: 12px !important;
+  margin-inline: 4px;
+  padding-left: 40px !important;
+  box-shadow: 0 8px 20px -16px rgba(23, 24, 18, .55);
+}
+.app-sidebar .poda-search-main {
+  background: #11120f !important;
+  border-color: rgba(23, 24, 18, .2) !important;
+}
+.app-sidebar .poda-search-input { color: #f7f7f2 !important; }
+.app-sidebar .poda-search-input::placeholder { color: rgba(247, 247, 242, .58) !important; }

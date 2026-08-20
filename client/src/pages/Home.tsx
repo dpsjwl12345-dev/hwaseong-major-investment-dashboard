@@ -519,7 +519,7 @@ export default function Home() {
             return (
               <div key={bureau.name} className="mb-2">
                 <button
-                  className={`sidebar-bureau flex w-full items-center rounded-lg border border-white/[0.07] bg-white/[0.025] px-2.5 py-2 text-left shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] ${isCollapsed ? "justify-center" : "gap-2"}`}
+                  className={`sidebar-bureau flex w-full items-center rounded-lg border border-white/[0.07] bg-white/[0.025] px-2.5 py-2 text-left shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] ${bureauOpen ? "is-open" : ""} ${isCollapsed ? "justify-center" : "gap-2"}`}
                   onClick={() => toggle(openBureaus, setOpenBureaus, bureau.name)}
                   title={isCollapsed ? bureau.name : undefined}
                 >
@@ -536,7 +536,7 @@ export default function Home() {
                       return (
                         <div key={department.name}>
                           <button
-                            className="sidebar-department flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left hover:bg-[#334155]"
+                            className={`sidebar-department flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left hover:bg-[#334155] ${departmentOpen ? "is-open" : ""}`}
                             onClick={() => toggle(openDepartments, setOpenDepartments, key)}
                           >
                             {departmentOpen ? <ChevronDown size={14} className="text-[var(--pd-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--pd-text-muted)]" />}
@@ -556,14 +556,14 @@ export default function Home() {
                                       setSelectedProject(project);
                                       setIsSidebarOpen(false);
                                     }}
-                                                                        className={`sidebar-project relative mb-0.5 flex min-w-0 w-full items-start rounded-lg py-1.5 pl-11 pr-1 text-left ${isSelected ? "text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
+                                                                        className={`sidebar-project relative mb-0.5 flex min-w-0 w-full items-start rounded-lg py-1.5 pl-11 pr-1 text-left ${isSelected ? "is-selected text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
 
-                                    style={isSelected ? { background: `${color.from}26`, borderLeft: `2px solid ${color.from}` } : undefined}
+                                    style={isSelected ? { background: "var(--hanzo-yellow)", borderLeft: "0", color: "var(--hanzo-ink)" } : undefined}
                                   >
                                     <span
                                                                             className="absolute left-8 top-[13px] h-1.5 w-1.5 rounded-full"
 
-                                      style={{ background: isSelected ? color.from : "var(--pd-text-faint)" }}
+                                      style={{ background: isSelected ? "var(--hanzo-ink)" : "rgba(23, 24, 18, .34)" }}
                                     />
                                                                         <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-body text-[13.5px] leading-[1.35]">{project.project_name}</span>
 
