@@ -1004,22 +1004,23 @@
 }
 
 /* Shimmer title inspired by the provided Motion component */
-.landing-title .landing-title-line {
+.landing-title span.landing-title-line {
   color: transparent;
-  background-image: linear-gradient(110deg, #f8faff 12%, #f8faff 35%, #9fbaff 48%, #ffffff 55%, #f8faff 72%);
-  background-size: 240% 100%;
+  background-image: linear-gradient(110deg, #ffffff 0%, #dfe8ff 34%, #83a8ff 47%, #ffffff 55%, #dfe8ff 72%, #ffffff 100%);
+  background-size: 300% 100%;
   background-position: 200% center;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: landing-line-in .72s cubic-bezier(.23,1,.32,1) both, landing-shimmer 3.8s linear .7s infinite;
+  animation: landing-line-in .72s cubic-bezier(.23,1,.32,1) both, landing-shimmer 2.6s linear .7s infinite !important;
 }
-.landing-title .landing-title-line-b {
+.landing-title span.landing-title-line-b {
   filter: drop-shadow(0 16px 30px rgba(77, 116, 255, .2));
+  animation: landing-line-in .72s cubic-bezier(.23,1,.32,1) both, landing-shimmer 2.6s linear .7s infinite !important;
 }
 @keyframes landing-shimmer {
   from { background-position: 200% center; }
   to { background-position: -200% center; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .landing-title .landing-title-line { animation: none; background-position: 50% center; }
+  .landing-title span.landing-title-line { animation: none !important; background-position: 50% center; }
 }
