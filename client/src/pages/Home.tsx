@@ -432,11 +432,11 @@ function PodaSearch({ value, onChange }: { value: string; onChange: (value: stri
 function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   return (
     <section className="landing-page">
-      <div className="landing-orb landing-orb-a" />
-      <div className="landing-orb landing-orb-b" />
-      <div className="landing-orb landing-orb-c" />
-      <div className="landing-noise" />
-      <div className="landing-inner">
+      <div className="hero-panel">
+        <div className="landing-orb landing-orb-a" />
+        <div className="landing-orb landing-orb-b" />
+        <div className="landing-orb landing-orb-c" />
+        <div className="landing-noise" />
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR</span><span className="landing-title-line landing-title-line-b">INVESTMENT</span></h1>
@@ -484,7 +484,7 @@ export default function Home() {
         <button aria-label="사이드바 닫기" className="fixed inset-0 z-30 bg-black/60 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
       )}
       <aside
-        className={`app-sidebar fixed inset-y-0 left-0 z-40 flex flex-col border-r border-white/[0.08] bg-gradient-to-b from-[#07090f] via-[#0e1220] to-[#030409] transition-all duration-200 lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} ${isCollapsed ? "w-[76px]" : "w-[320px]"}`}
+        className={`app-sidebar fixed inset-y-0 left-0 z-40 flex flex-col border-r border-white/[0.08] bg-gradient-to-b from-[#07090f] via-[#0e1220] to-[#030409] transition-all duration-200 lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} ${isCollapsed ? "w-[76px]" : "w-[300px]"}`}
       >
                 <div className={`sidebar-brand flex min-h-[104px] items-end bg-black/20 pb-3 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
 
@@ -586,7 +586,7 @@ export default function Home() {
       </nav>
       </aside>
 
-      <div className={`flex min-h-screen flex-col transition-all duration-200 ${isCollapsed ? "lg:pl-[76px]" : "lg:pl-[320px]"}`}>
+      <div className={`flex min-h-screen flex-col transition-all duration-200 ${isCollapsed ? "lg:pl-[76px]" : "lg:pl-[300px]"}`}>
         <header className="flex h-[72px] flex-none items-center border-b border-white/[0.08] bg-[var(--pd-ground)]/80 px-5 backdrop-blur lg:hidden">
           <button
             className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.14] bg-white/[0.06] text-white"
