@@ -1270,3 +1270,70 @@
   border-color: rgba(242,201,76,.75) !important;
   background: rgba(242,201,76,.1) !important;
 }
+
+/* Hanzo replica layout: white outer canvas + inset black content panel */
+html, body, #root {
+  background: #f3f2ee !important;
+}
+.app-sidebar {
+  background: #f3f2ee !important;
+  border-right: 0 !important;
+  box-shadow: 10px 0 24px -26px rgba(0,0,0,.5) !important;
+}
+.app-sidebar .sidebar-brand {
+  background: #f3f2ee !important;
+  border-bottom: 1px solid rgba(21,21,21,.1) !important;
+}
+.app-sidebar .sidebar-bureau,
+.app-sidebar .sidebar-department,
+.app-sidebar .sidebar-project {
+  border-radius: 6px !important;
+}
+.app-sidebar .sidebar-bureau {
+  min-height: 34px !important;
+  margin-bottom: 8px;
+  border: 1px solid rgba(21,21,21,.12) !important;
+  background: #f3f2ee !important;
+}
+.app-sidebar .sidebar-bureau.is-open {
+  background: #e9e7e0 !important;
+  border-color: rgba(21,21,21,.2) !important;
+}
+.app-sidebar .sidebar-department {
+  min-height: 54px !important;
+  margin: 6px 0 !important;
+  border: 1px solid rgba(21,21,21,.1) !important;
+  background: #f8f7f3 !important;
+}
+.app-sidebar .sidebar-department.is-open {
+  background: #f2c94c !important;
+  border-color: #d8a82f !important;
+}
+.app-sidebar .sidebar-project {
+  min-height: 38px !important;
+  margin: 4px 0 !important;
+  border: 1px solid rgba(21,21,21,.08) !important;
+  background: #f8f7f3 !important;
+}
+.app-sidebar .sidebar-project.is-selected {
+  background: #e5b83e !important;
+  border-color: #c99524 !important;
+}
+.app-main {
+  margin: 18px 18px 18px 0;
+  border: 1px solid #1f1f1f;
+  border-radius: 28px;
+  background: #050505 !important;
+  overflow: auto !important;
+  box-shadow: 0 12px 40px -28px rgba(0,0,0,.72);
+}
+.app-main > .pointer-events-none { opacity: .22; }
+.pd-detail-page { min-height: calc(100vh - 36px); }
+@media (max-width: 1023px) {
+  .app-main {
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    min-height: 100vh;
+  }
+}
