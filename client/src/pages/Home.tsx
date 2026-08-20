@@ -443,7 +443,7 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR</span><span className="landing-title-line landing-title-line-b">INVESTMENT</span></h1>
-          <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><ChevronRight size={16} /></button>
+          <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><span className="landing-status-dot" aria-hidden="true" /></button>
         </div>
       </div>
     </section>
@@ -514,16 +514,18 @@ export default function Home() {
             const bureauOpen = normalizedQuery.length > 0 || openBureaus.includes(bureau.name);
             return (
               <div key={bureau.name} className="mb-2">
-                <button
-                  className={`sidebar-bureau flex w-full items-center rounded-lg border border-white/[0.07] bg-white/[0.025] px-2.5 py-2 text-left shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] ${bureauOpen ? "is-open" : ""} ${isCollapsed ? "justify-center" : "gap-2"}`}
-                  onClick={() => toggle(openBureaus, setOpenBureaus, bureau.name)}
-                  title={isCollapsed ? bureau.name : undefined}
-                >
-                  {!isCollapsed && <span className="font-body text-[15px] font-semibold tracking-[-0.02em] text-white/85">{bureau.name}</span>}
-                  <span className={`sidebar-bureau-icon ${isCollapsed ? "" : "ml-auto"} ${bureau.name === "문화관광국" ? "is-culture" : "is-education"}`} aria-hidden="true">
+                <div className={`sidebar-bureau-row ${isCollapsed ? "is-collapsed" : ""}`}>
+                  <span className={`sidebar-bureau-icon ${bureau.name === "문화관광국" ? "is-culture" : "is-education"}`} aria-hidden="true">
                     {bureau.name === "문화관광국" ? <Building2 size={20} strokeWidth={2.2} /> : <GraduationCap size={20} strokeWidth={2.2} />}
                   </span>
-                </button>
+                  <button
+                    className={`sidebar-bureau flex flex-1 items-center rounded-lg border border-white/[0.07] bg-white/[0.025] px-2.5 py-2 text-left shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] ${bureauOpen ? "is-open" : ""}`}
+                    onClick={() => toggle(openBureaus, setOpenBureaus, bureau.name)}
+                    title={isCollapsed ? bureau.name : undefined}
+                  >
+                    {!isCollapsed && <span className="font-body text-[15px] font-semibold tracking-[-0.02em] text-white/85">{bureau.name}</span>}
+                  </button>
+                </div>
                 {bureauOpen && !isCollapsed && (
                                     <div className="ml-1 pl-0">
                     {bureau.departments.map((department) => {
