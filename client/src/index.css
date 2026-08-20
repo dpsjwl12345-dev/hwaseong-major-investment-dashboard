@@ -1529,10 +1529,9 @@ html, body, #root {
   text-align: center;
 }
 .landing-top-link-wrap {
-  position: absolute;
-  top: 28px;
-  right: 34px;
+  position: static;
   z-index: 12;
+  margin-top: 28px;
 }
 .landing-top-link {
   position: relative;
@@ -1590,6 +1589,9 @@ html, body, #root {
 }
 .landing-title span.landing-title-line:last-child {
   margin-left: 0 !important;
+}
+.landing-title span:last-child::after {
+  display: none !important;
 }
 .landing-status-button {
   border-color: rgba(255,255,255,.28) !important;
@@ -1660,14 +1662,15 @@ html, body, #root,
 /* Landing content vertical centering (kept — independent of the panel shell) */
 .app-main:has(.landing-page) {
   display: block !important;
-  min-height: calc(100vh - 72px) !important;
+  height: calc(100vh - 50px) !important;
+  min-height: calc(100vh - 50px) !important;
 }
 .app-main:has(.landing-page) .landing-page,
 .app-main:has(.landing-page) .hero-panel {
   display: flex !important;
   width: 100% !important;
-  height: calc(100vh - 120px) !important;
-  min-height: 560px !important;
+  height: 100% !important;
+  min-height: 0 !important;
 }
 .app-main:has(.landing-page) .landing-content {
   position: absolute;
@@ -1681,9 +1684,10 @@ html, body, #root,
   flex-direction: column;
   align-items: center !important;
   justify-content: center !important;
+  transform: translateY(-7vh);
 }
 .app-main:has(.landing-page) .landing-content {
-  transform: none;
+  transform: translateY(-7vh);
 }
 @media (max-width: 1023px) {
   .app-main:has(.landing-page) {
@@ -1697,7 +1701,7 @@ html, body, #root,
   .app-main:has(.landing-page) .landing-content {
     transform: none;
   }
-  .landing-top-link-wrap { top: 20px; right: 22px; }
+  .landing-top-link-wrap { margin-top: 22px; }
 }
 
 /* Neomorphic letter-button treatment for the sidebar title */
