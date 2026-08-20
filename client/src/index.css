@@ -1365,3 +1365,22 @@ html, body, #root {
 .app-sidebar .pd-sidebar-nav {
   padding-top: 20px !important;
 }
+
+/* Inset panel finish: white top breathing room and hidden content scrollbar */
+.app-main {
+  margin: 28px 22px 22px 0 !important;
+  border-radius: 30px !important;
+  overflow: hidden !important;
+}
+.app-main > .pd-detail-page {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.app-main > .pd-detail-page::-webkit-scrollbar { display: none; }
+@media (max-width: 1023px) {
+  .app-main {
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+}
