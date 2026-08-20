@@ -798,8 +798,6 @@
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 72px 72px,
-    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px) 0 0 / 72px 72px,
     radial-gradient(ellipse 70% 80% at 58% 48%, rgba(35, 84, 173, .15), transparent 67%),
     linear-gradient(135deg, #0b1020 0%, #111a33 48%, #081426 100%);
   mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.78) 72%, transparent 100%);
@@ -841,7 +839,7 @@
   margin: 0;
   color: #f8faff;
   font-family: "Space Grotesk", "Pretendard", sans-serif;
-  font-size: clamp(2.8rem, 6.4vw, 6.2rem);
+  font-size: clamp(2rem, 4vw, 4rem);
   font-weight: 700;
   letter-spacing: -.07em;
   line-height: .92;
@@ -958,7 +956,7 @@
 @media (max-width: 640px) {
   .hero-panel { padding-inline: 22px; }
   .landing-content { padding-top: 18vh; }
-  .landing-title { font-size: clamp(3rem, 16vw, 5.2rem); }
+  .landing-title {   font-size: clamp(2rem, 10vw, 3.2rem); }
 }
 @media (prefers-reduced-motion: reduce) {
   .landing-orb, .landing-title, .landing-title span:last-child { animation: none; }
@@ -1532,10 +1530,10 @@ html, body, #root {
 }
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
-  width: 100%;
+  width: min(100%, 760px);
   text-align: center;
   font-family: "Space Grotesk", "Pretendard", sans-serif !important;
-  font-size: clamp(2.8rem, 6.4vw, 6.2rem) !important;
+  font-size: clamp(2rem, 4vw, 4rem) !important;
   line-height: .88 !important;
 }
 .landing-status-button {
@@ -1606,12 +1604,15 @@ html, body, #root,
 
 /* Landing content vertical centering (kept — independent of the panel shell) */
 .app-main:has(.landing-page) .landing-content {
-  min-height: 100% !important;
-  padding-top: clamp(112px, 18vh, 190px) !important;
-  padding-bottom: 48px !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding: 0 !important;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center !important;
+  justify-content: center !important;
 }
 .app-main:has(.landing-page) .landing-content {
   transform: none;
