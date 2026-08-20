@@ -1011,16 +1011,24 @@
   background-position: 200% center;
   -webkit-background-clip: text;
   background-clip: text;
-  animation: landing-line-in .72s cubic-bezier(.23,1,.32,1) both, landing-shimmer 2.6s linear .7s infinite !important;
+  animation: landing-fade-in 1.25s ease both, landing-shimmer 8.5s linear 1.8s infinite !important;
 }
 .landing-title span.landing-title-line-b {
   filter: drop-shadow(0 16px 30px rgba(77, 116, 255, .2));
-  animation: landing-line-in .72s cubic-bezier(.23,1,.32,1) both, landing-shimmer 2.6s linear .7s infinite !important;
+  animation: landing-fade-in 1.25s ease both, landing-shimmer 8.5s linear 1.8s infinite !important;
+}
+@keyframes landing-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 @keyframes landing-shimmer {
   from { background-position: 200% center; }
   to { background-position: -200% center; }
 }
+.landing-title {
+  animation: landing-fade-in 1.35s ease both, landing-title-float 8s ease-in-out 2s infinite;
+}
 @media (prefers-reduced-motion: reduce) {
   .landing-title span.landing-title-line { animation: none !important; background-position: 50% center; }
+  .landing-title { animation: none; }
 }
