@@ -1432,3 +1432,16 @@ html, body, #root {
   color: #27251d !important;
   font-weight: 800 !important;
 }
+
+/* Actual white header inside the inset detail panel */
+.app-panel-topbar {
+  position: relative;
+  z-index: 3;
+  height: 54px;
+  flex: none;
+  background: #f3f2ee;
+  border-bottom: 1px solid rgba(21, 21, 21, .12);
+}
+@media (max-width: 1023px) {
+  .app-panel-topbar { height: 42px; }
+}
