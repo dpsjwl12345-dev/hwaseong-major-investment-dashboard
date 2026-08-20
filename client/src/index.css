@@ -760,7 +760,7 @@
   height: 100%;
   box-sizing: border-box;
   background: #0b1020;
-  border-right: 1px solid rgba(255,255,255,.12);
+  border-right: 0;
   transform: scaleY(1);
   transform-origin: bottom;
   animation: landing-preloader-lift 1.15s cubic-bezier(1,0,.56,1) forwards;
