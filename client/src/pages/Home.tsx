@@ -519,11 +519,10 @@ export default function Home() {
                   onClick={() => toggle(openBureaus, setOpenBureaus, bureau.name)}
                   title={isCollapsed ? bureau.name : undefined}
                 >
-                  <span className={`sidebar-bureau-icon ${bureau.name === "문화관광국" ? "is-culture" : "is-education"}`} aria-hidden="true">
-                    {bureau.name === "문화관광국" ? <Building2 size={16} /> : <GraduationCap size={16} />}
-                  </span>
-                  {bureauOpen ? <ChevronDown size={15} className="text-[var(--pd-text-muted)]" /> : <ChevronRight size={15} className="text-[var(--pd-text-muted)]" />}
                   {!isCollapsed && <span className="font-body text-[15px] font-semibold tracking-[-0.02em] text-white/85">{bureau.name}</span>}
+                  <span className={`sidebar-bureau-icon ${isCollapsed ? "" : "ml-auto"} ${bureau.name === "문화관광국" ? "is-culture" : "is-education"}`} aria-hidden="true">
+                    {bureau.name === "문화관광국" ? <Building2 size={20} strokeWidth={2.2} /> : <GraduationCap size={20} strokeWidth={2.2} />}
+                  </span>
                 </button>
                 {bureauOpen && !isCollapsed && (
                                     <div className="ml-1 pl-0">
