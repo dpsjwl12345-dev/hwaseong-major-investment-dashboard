@@ -1,4 +1,5 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -756,7 +757,7 @@
   border: 1px solid rgba(255,255,255,.9);
   border-radius: 34px;
   color: #f7f9ff;
-  background: #070b16;
+  background: #0b1020;
   box-shadow: 0 22px 46px -30px rgba(0,0,0,.78), 0 0 0 1px rgba(20,20,20,.08);
 }
 @media (max-width: 1023px) {
@@ -771,7 +772,7 @@
     linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 72px 72px,
     linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px) 0 0 / 72px 72px,
     radial-gradient(ellipse 70% 80% at 58% 48%, rgba(35, 84, 173, .15), transparent 67%),
-    linear-gradient(135deg, #090d1b 0%, #0b1020 48%, #07101d 100%);
+    linear-gradient(135deg, #0b1020 0%, #111a33 48%, #081426 100%);
   mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.78) 72%, transparent 100%);
 }
 .landing-content {
@@ -810,8 +811,8 @@
   flex-direction: column;
   margin: 0;
   color: #f8faff;
-  font-family: "Gmarket Sans", sans-serif;
-  font-size: clamp(3.2rem, 8.2vw, 7.8rem);
+  font-family: "Space Grotesk", "Pretendard", sans-serif;
+  font-size: clamp(3.5rem, 8vw, 8rem);
   font-weight: 700;
   letter-spacing: -.07em;
   line-height: .92;
@@ -1500,7 +1501,8 @@ html, body, #root {
 }
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
-  font-size: clamp(3rem, 7.2vw, 7rem) !important;
+  font-family: "Space Grotesk", "Pretendard", sans-serif !important;
+  font-size: clamp(3.5rem, 8vw, 8rem) !important;
   line-height: .88 !important;
 }
 .landing-status-button {
