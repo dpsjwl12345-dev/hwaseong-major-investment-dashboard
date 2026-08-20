@@ -1509,11 +1509,27 @@ html, body, #root {
 .app-sidebar .sidebar-project.is-selected {
   background: rgba(23, 24, 18, 0.06) !important;
   border-color: rgba(21, 21, 21, 0.1) !important;
-  border-left: 3px solid #f2c94c !important;
+  border-left: 0 !important;
 }
 .app-sidebar .sidebar-project.is-selected span {
   color: #171812 !important;
   font-weight: 800 !important;
+}
+.app-sidebar .sidebar-project.is-selected::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  bottom: 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff4b0;
+  box-shadow: 0 0 0 0 rgba(255,244,176,.52), 0 0 10px rgba(255,244,176,.78);
+  animation: selected-project-dot-pulse 1.8s ease-in-out infinite;
+}
+@keyframes selected-project-dot-pulse {
+  0%, 100% { opacity: .48; transform: scale(.78); }
+  50% { opacity: 1; transform: scale(1.12); box-shadow: 0 0 0 5px rgba(255,244,176,.12), 0 0 14px rgba(255,244,176,.92); }
 }
 
 /* Actual white header inside the inset detail panel */
