@@ -905,7 +905,7 @@
   background: rgba(255,255,255,.065);
   box-shadow: 0 14px 38px -22px rgba(100, 148, 255, .9), inset 0 1px 0 rgba(255,255,255,.12);
   backdrop-filter: blur(18px);
-  font-family: "Gmarket Sans", sans-serif;
+  font-family: "Pretendard", sans-serif;
   font-size: 13px;
   font-weight: 700;
   transition: transform .18s cubic-bezier(.23,1,.32,1), background .18s ease, border-color .18s ease;
