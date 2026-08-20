@@ -1535,21 +1535,50 @@ html, body, #root {
   z-index: 12;
 }
 .landing-top-link {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 0;
-  border: 0;
-  color: rgba(236, 242, 255, .78);
-  background: transparent;
+  gap: 7px;
+  min-height: 40px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, .42);
+  border-radius: 999px;
+  color: rgba(246, 249, 255, .92);
+  background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(170,185,220,.10));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.72),
+    inset 0 -1px 0 rgba(0,0,0,.18),
+    0 10px 24px rgba(0,0,0,.16),
+    0 0 0 1px rgba(255,255,255,.08);
+  backdrop-filter: blur(14px) saturate(135%);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
   font-family: "Space Grotesk", "Pretendard", sans-serif;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: .02em;
   cursor: pointer;
-  transition: color .2s ease, transform .2s ease;
+  overflow: hidden;
+  transition: color .2s ease, transform .2s cubic-bezier(.23,1,.32,1), box-shadow .2s ease, background .2s ease;
 }
-.landing-top-link:hover { color: #fff; transform: translateX(3px); }
+.landing-top-link::before {
+  content: "";
+  position: absolute;
+  inset: 2px 16% 52%;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.6), transparent);
+  opacity: .55;
+  pointer-events: none;
+}
+.landing-top-link:hover {
+  color: #fff;
+  transform: translateY(-2px) scale(1.02);
+  background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(180,195,230,.16));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.86),
+    0 14px 28px rgba(0,0,0,.22),
+    0 0 22px rgba(158,185,255,.2);
+}
+.landing-top-link:active { transform: translateY(0) scale(.97); }
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
   width: min(100%, 760px);
@@ -1626,13 +1655,15 @@ html, body, #root,
 
 /* Landing content vertical centering (kept — independent of the panel shell) */
 .app-main:has(.landing-page) {
-  height: calc(100vh - 50px) !important;
-  min-height: 0 !important;
+  display: block !important;
+  min-height: calc(100vh - 72px) !important;
 }
 .app-main:has(.landing-page) .landing-page,
 .app-main:has(.landing-page) .hero-panel {
-  height: 100% !important;
-  min-height: 0 !important;
+  display: flex !important;
+  width: 100% !important;
+  height: calc(100vh - 120px) !important;
+  min-height: 560px !important;
 }
 .app-main:has(.landing-page) .landing-content {
   position: absolute;
@@ -1652,7 +1683,12 @@ html, body, #root,
 }
 @media (max-width: 1023px) {
   .app-main:has(.landing-page) {
-    height: calc(100vh - 24px) !important;
+    min-height: calc(100vh - 24px) !important;
+  }
+  .app-main:has(.landing-page) .landing-page,
+  .app-main:has(.landing-page) .hero-panel {
+    height: calc(100vh - 48px) !important;
+    min-height: 520px !important;
   }
   .app-main:has(.landing-page) .landing-content {
     transform: none;
