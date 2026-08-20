@@ -493,13 +493,19 @@ export default function Home() {
           {!isCollapsed && (
             <button
               type="button"
-              className="text-left"
+                            className="sidebar-title-neomorphic text-left"
+
               onClick={() => {
                 setSelectedProject(null);
                 setIsSidebarOpen(false);
               }}
             >
-              <p className="font-display text-[24px] font-bold leading-[1.05] tracking-[-0.055em] text-white">화성시 주요투자사업</p>
+                            <p className="sidebar-title-neomorphic-text" aria-label="화성시 주요투자사업">
+                {Array.from("화성시 주요투자사업").map((character, index) => (
+                  <span key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</span>
+                ))}
+              </p>
+
               <p className="mt-1 font-body text-[11px] font-semibold tracking-[0.14em] text-[var(--pd-text-muted)]">INVESTMENT DASHBOARD</p>
             </button>
           )}

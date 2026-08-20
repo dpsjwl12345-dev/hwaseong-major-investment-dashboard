@@ -1725,3 +1725,68 @@ html, body, #root,
     transform: translateY(clamp(-86px, -11vh, -44px));
   }
 }
+
+/* Neomorphic letter-button treatment for the sidebar title */
+.sidebar-title-neomorphic {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 30px;
+  background: #ffffff;
+  box-shadow:
+    inset 6px 6px 12px rgba(0, 0, 0, 0.1),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.7),
+    6px 6px 12px rgba(0, 0, 0, 0.1),
+    -6px -6px 12px rgba(255, 255, 255, 0.7);
+  transition: box-shadow 0.3s ease, transform 0.1s ease;
+}
+.sidebar-title-neomorphic-text {
+  margin: 0;
+  white-space: nowrap;
+  font-family: Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.08em;
+}
+.sidebar-title-neomorphic-text span {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 0 2px;
+  color: #777;
+  text-shadow:
+    2px 2px 3px rgba(0, 0, 0, 0.2),
+    -2px -2px 3px rgba(255, 255, 255, 0.8);
+  transition: transform 0.3s ease-out, color 0.3s ease-out, text-shadow 0.3s ease-out;
+}
+.sidebar-title-neomorphic-text span:hover {
+  color: #444;
+  transform: translateY(-7px);
+  text-shadow:
+    2px 2px 5px rgba(0, 0, 0, 0.3),
+    -2px -2px 5px rgba(255, 255, 255, 0.9);
+}
+.sidebar-title-neomorphic:hover {
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.1),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.9),
+    4px 4px 10px rgba(0, 0, 0, 0.1),
+    -4px -4px 10px rgba(255, 255, 255, 0.9);
+}
+.sidebar-title-neomorphic:active {
+  transform: scale(0.98);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+}
+@media (max-width: 480px) {
+  .sidebar-title-neomorphic {
+    padding: 10px 14px;
+  }
+  .sidebar-title-neomorphic-text {
+    font-size: 18px;
+  }
+}
