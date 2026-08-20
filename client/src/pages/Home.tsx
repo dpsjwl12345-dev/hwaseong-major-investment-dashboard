@@ -433,6 +433,9 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   return (
     <section className="landing-page">
       <div className="hero-panel">
+        <div className="landing-preloader" aria-hidden="true">
+          <span /><span /><span /><span /><span />
+        </div>
         <div className="landing-orb landing-orb-a" />
         <div className="landing-orb landing-orb-b" />
         <div className="landing-orb landing-orb-c" />
