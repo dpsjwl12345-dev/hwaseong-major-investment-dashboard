@@ -1612,11 +1612,11 @@ html, body, #root,
   justify-content: center;
 }
 .app-main:has(.landing-page) .landing-content {
-  transform: translateY(24px);
+  transform: translateY(-24px);
 }
 @media (max-width: 1023px) {
   .app-main:has(.landing-page) .landing-content {
-    transform: translateY(18px);
+    transform: translateY(-18px);
   }
 }
 
