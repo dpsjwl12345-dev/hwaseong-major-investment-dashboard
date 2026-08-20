@@ -1903,3 +1903,8 @@ html, body, #root,
     font-size: 17px;
   }
 }
+@media (min-width: 1024px) {
+  .app-sidebar {
+    translate: 0 !important;
+  }
+}
