@@ -1709,3 +1709,19 @@ html, body, #root,
     border-radius: 24px !important;
   }
 }
+
+/* Final landing-only adjustment: rounded panel corners and a higher title position */
+.app-main:has(.landing-page) .landing-inner {
+  border-radius: 34px !important;
+}
+.app-main:has(.landing-page) .landing-content {
+  transform: translateY(clamp(-96px, -8vh, -48px));
+}
+@media (max-width: 1023px) {
+  .app-main:has(.landing-page) .landing-inner {
+    border-radius: 24px !important;
+  }
+  .app-main:has(.landing-page) .landing-content {
+    transform: translateY(clamp(-56px, -7vh, -28px));
+  }
+}
