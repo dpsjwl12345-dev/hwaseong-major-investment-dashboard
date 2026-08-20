@@ -581,7 +581,7 @@ export default function Home() {
             );
           })}
         {!isCollapsed && (
-          <div className="mt-3 border-t border-white/[0.08] px-3 pt-2 pb-1">
+          <div className="mt-5 border-t border-white/[0.08] px-3 pt-2 pb-1">
             <PodaSearch value={query} onChange={setQuery} />
           </div>
         )}
