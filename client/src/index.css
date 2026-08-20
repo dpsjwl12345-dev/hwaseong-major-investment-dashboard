@@ -1903,3 +1903,10 @@ html, body, #root,
     font-size: 17px;
   }
 }
+
+/* 데스크톱에서 사이드바가 화면 밖으로 밀려나 보이지 않는 문제 방지 */
+@media (min-width: 1024px) {
+  .app-sidebar {
+    translate: 0 !important;
+  }
+}
