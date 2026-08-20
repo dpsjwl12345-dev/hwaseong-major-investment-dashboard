@@ -1582,10 +1582,14 @@ html, body, #root {
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
   width: min(100%, 760px);
+  margin-inline: auto !important;
   text-align: center;
   font-family: "Space Grotesk", "Pretendard", sans-serif !important;
   font-size: clamp(2rem, 4vw, 4rem) !important;
   line-height: .88 !important;
+}
+.landing-title span.landing-title-line:last-child {
+  margin-left: 0 !important;
 }
 .landing-status-button {
   border-color: rgba(255,255,255,.28) !important;
