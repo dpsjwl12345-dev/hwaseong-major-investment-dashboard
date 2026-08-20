@@ -1592,3 +1592,38 @@ html, body, #root {
     min-height: calc(100vh - 8px) !important;
   }
 }
+
+/* Final connected-shell correction: same warm-white outside, real top breathing room */
+html, body, #root,
+.app-shell,
+.app-sidebar {
+  background: #f3f2ee !important;
+}
+.app-main:has(.landing-page) {
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 34px 22px 22px 18px !important;
+  background: #f3f2ee !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.app-main:has(.landing-page) .landing-page {
+  height: 100% !important;
+  min-height: 0 !important;
+  background: transparent !important;
+}
+.app-main:has(.landing-page) .landing-inner {
+  height: 100% !important;
+  min-height: 0 !important;
+  background: #070707 !important;
+  border-radius: 34px !important;
+  box-shadow: 0 22px 46px -30px rgba(0,0,0,.75) !important;
+}
+@media (max-width: 1023px) {
+  .app-main:has(.landing-page) {
+    padding: 14px 10px 10px !important;
+  }
+  .app-main:has(.landing-page) .landing-inner {
+    border-radius: 24px !important;
+  }
+}
