@@ -744,6 +744,33 @@
   height: 100%;
   display: flex;
 }
+.landing-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  pointer-events: none;
+}
+.landing-preloader span {
+  height: 100%;
+  background: #0b1020;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  transform: scaleY(1);
+  transform-origin: bottom;
+  animation: landing-preloader-lift 1.15s cubic-bezier(1, 0, 0.56, 1) forwards;
+}
+.landing-preloader span:nth-child(1) { animation-delay: 0s; }
+.landing-preloader span:nth-child(2) { animation-delay: .16s; }
+.landing-preloader span:nth-child(3) { animation-delay: .32s; }
+.landing-preloader span:nth-child(4) { animation-delay: .48s; }
+.landing-preloader span:nth-child(5) { animation-delay: .64s; border-right: 0; }
+@keyframes landing-preloader-lift {
+  to { transform: scaleY(0.01); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-preloader { display: none; }
+}
 .hero-panel {
   position: relative;
   isolation: isolate;
@@ -812,7 +839,7 @@
   margin: 0;
   color: #f8faff;
   font-family: "Space Grotesk", "Pretendard", sans-serif;
-  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-size: clamp(2.8rem, 6.4vw, 6.2rem);
   font-weight: 700;
   letter-spacing: -.07em;
   line-height: .92;
@@ -1502,7 +1529,7 @@ html, body, #root {
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
   font-family: "Space Grotesk", "Pretendard", sans-serif !important;
-  font-size: clamp(3.5rem, 8vw, 8rem) !important;
+  font-size: clamp(2.8rem, 6.4vw, 6.2rem) !important;
   line-height: .88 !important;
 }
 .landing-status-button {
