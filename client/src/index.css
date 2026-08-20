@@ -1445,3 +1445,79 @@ html, body, #root {
 @media (max-width: 1023px) {
   .app-panel-topbar { height: 42px; }
 }
+
+/* Hanzo-inspired landing frame */
+.landing-page {
+  position: relative;
+  min-height: 100%;
+  border-radius: inherit;
+  background: #070707 !important;
+  overflow: hidden;
+}
+.landing-inner {
+  position: relative;
+  z-index: 3;
+  min-height: calc(100vh - 92px);
+  padding: 26px clamp(24px, 5vw, 76px) 24px !important;
+}
+.landing-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.landing-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 16px;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 999px;
+  color: #151515;
+  background: #f3f2ee;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+.landing-menu-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #f3f2ee;
+}
+.landing-menu-pill span {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #151515;
+}
+.landing-content {
+  min-height: 0 !important;
+  padding-top: clamp(92px, 16vh, 158px) !important;
+}
+.landing-eyebrow { margin-bottom: 22px !important; }
+.landing-title {
+  font-size: clamp(3rem, 7.2vw, 7rem) !important;
+  line-height: .88 !important;
+}
+.landing-status-button {
+  border-color: rgba(255,255,255,.28) !important;
+  background: rgba(255,255,255,.04) !important;
+  box-shadow: 0 0 0 5px rgba(255,255,255,.05), inset 0 1px 0 rgba(255,255,255,.14) !important;
+}
+.landing-footer {
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.16);
+  color: rgba(255,255,255,.52) !important;
+}
+@media (max-width: 640px) {
+  .landing-inner { padding: 18px 20px 20px !important; }
+  .landing-content { padding-top: 20vh !important; }
+  .landing-brand-pill { min-height: 30px; padding-inline: 13px; }
+  .landing-menu-pill { width: 30px; height: 30px; }
+}
