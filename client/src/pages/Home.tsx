@@ -331,7 +331,7 @@ function ProjectDetail({ project }: { project: Project }) {
   const themeVars = { ["--pd-accent-a" as string]: color.from, ["--pd-accent-b" as string]: color.to } as CSSProperties;
 
   return (
-    <section className="relative p-6 lg:p-10" style={themeVars}>
+    <section className="pd-detail-page relative p-6 lg:p-10" style={themeVars}>
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
         <defs>
           <linearGradient id="pdRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -433,17 +433,20 @@ function PodaSearch({ value, onChange }: { value: string; onChange: (value: stri
 
 function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   return (
-    <section className="relative min-h-[calc(100vh-72px)] overflow-hidden bg-[#060914] text-white">
+    <section className="landing-page">
       <div className="landing-orb landing-orb-a" />
       <div className="landing-orb landing-orb-b" />
       <div className="landing-orb landing-orb-c" />
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.04),transparent_36%,rgba(0,0,0,0.42))]" />
-      <div className="relative flex min-h-[calc(100vh-72px)] flex-col px-6 pb-12 pt-6 sm:px-10 lg:px-16 lg:pt-8">
-        <div className="flex flex-1 -translate-y-[20vh] flex-col items-center justify-center py-4 text-center">
-          <p className="mb-3 whitespace-nowrap font-body text-[clamp(1rem,2vw,1.45rem)] font-semibold tracking-[0.34em] text-white/70">HWASEONG SPECIAL CITY</p>
-          <h1 className="max-w-5xl font-display text-[clamp(1.55rem,3.2vw,3rem)] font-black uppercase leading-[1.02] tracking-[-0.06em] text-white drop-shadow-[0_10px_35px_rgba(0,0,0,0.25)]">MAJOR<br />INVESTMENT</h1>
-          <button type="button" onClick={onOpenDashboard} className="landing-status-button relative z-10 mt-5 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-[14px] font-semibold text-white backdrop-blur" aria-label="주요투자사업 현황 열기">주요투자사업 현황</button>
+      <div className="landing-noise" />
+      <div className="landing-inner">
+        <div className="landing-content">
+          <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
+          <p className="landing-kicker">CITY PROJECTS / 2026</p>
+          <h1 className="landing-title"><span>MAJOR</span><span>INVESTMENT</span></h1>
+          <p className="landing-description">화성시 주요투자사업 대시보드</p>
+          <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><ChevronRight size={16} /></button>
         </div>
+        <div className="landing-footer"><span>39 PROJECTS</span><span>PUBLIC INVESTMENT INDEX</span><span>HWASEONG · KR</span></div>
       </div>
     </section>
   );
@@ -486,9 +489,9 @@ export default function Home() {
         <button aria-label="사이드바 닫기" className="fixed inset-0 z-30 bg-black/60 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
       )}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex flex-col border-r border-white/[0.08] bg-gradient-to-b from-[#07090f] via-[#0e1220] to-[#030409] transition-all duration-200 lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} ${isCollapsed ? "w-[76px]" : "w-[320px]"}`}
+        className={`app-sidebar fixed inset-y-0 left-0 z-40 flex flex-col border-r border-white/[0.08] bg-gradient-to-b from-[#07090f] via-[#0e1220] to-[#030409] transition-all duration-200 lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} ${isCollapsed ? "w-[76px]" : "w-[320px]"}`}
       >
-                <div className={`flex min-h-[104px] items-end border-b border-white/[0.08] bg-black/20 pb-3 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
+                <div className={`sidebar-brand flex min-h-[104px] items-end border-b border-white/[0.08] bg-black/20 pb-3 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
 
           {!isCollapsed && (
             <button
@@ -518,7 +521,7 @@ export default function Home() {
             return (
               <div key={bureau.name} className="mb-2">
                 <button
-                  className={`flex w-full items-center rounded-lg border border-white/[0.07] bg-white/[0.025] px-2.5 py-2 text-left shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] ${isCollapsed ? "justify-center" : "gap-2"}`}
+                  className={`sidebar-bureau flex w-full items-center rounded-lg border border-white/[0.07] bg-white/[0.025] px-2.5 py-2 text-left shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] ${isCollapsed ? "justify-center" : "gap-2"}`}
                   onClick={() => toggle(openBureaus, setOpenBureaus, bureau.name)}
                   title={isCollapsed ? bureau.name : undefined}
                 >
@@ -535,7 +538,7 @@ export default function Home() {
                       return (
                         <div key={department.name}>
                           <button
-                            className="flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left hover:bg-[#334155]"
+                            className="sidebar-department flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left hover:bg-[#334155]"
                             onClick={() => toggle(openDepartments, setOpenDepartments, key)}
                           >
                             {departmentOpen ? <ChevronDown size={14} className="text-[var(--pd-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--pd-text-muted)]" />}
@@ -555,7 +558,7 @@ export default function Home() {
                                       setSelectedProject(project);
                                       setIsSidebarOpen(false);
                                     }}
-                                                                        className={`relative mb-0.5 flex min-w-0 w-full items-start rounded-lg py-1.5 pl-11 pr-1 text-left ${isSelected ? "text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
+                                                                        className={`sidebar-project relative mb-0.5 flex min-w-0 w-full items-start rounded-lg py-1.5 pl-11 pr-1 text-left ${isSelected ? "text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
 
                                     style={isSelected ? { background: `${color.from}26`, borderLeft: `2px solid ${color.from}` } : undefined}
                                   >
@@ -598,7 +601,7 @@ export default function Home() {
           </button>
         </header>
 
-        <main className="relative flex-1 overflow-hidden">
+        <main className="app-main relative flex-1 overflow-hidden">
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
                     {selectedProject ? <ProjectDetail project={selectedProject} /> : <LandingPage onOpenDashboard={() => setSelectedProject(projects[0] ?? null)} />}
