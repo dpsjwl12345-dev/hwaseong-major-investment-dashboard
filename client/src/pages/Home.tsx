@@ -441,9 +441,7 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
       <div className="landing-inner">
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
-          <p className="landing-kicker">CITY PROJECTS / 2026</p>
           <h1 className="landing-title"><span>MAJOR</span><span>INVESTMENT</span></h1>
-          <p className="landing-description">화성시 주요투자사업 대시보드</p>
           <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><ChevronRight size={16} /></button>
         </div>
         <div className="landing-footer"><span>39 PROJECTS</span><span>PUBLIC INVESTMENT INDEX</span><span>HWASEONG · KR</span></div>
