@@ -1337,3 +1337,31 @@ html, body, #root {
     min-height: 100vh;
   }
 }
+
+/* Compact project title in the inset detail panel */
+.pd-detail-page > h1 {
+  font-size: clamp(1.45rem, 2.55vw, 2.8rem) !important;
+  line-height: 1.04 !important;
+  letter-spacing: -.055em !important;
+  max-width: 780px;
+}
+@media (max-width: 640px) {
+  .pd-detail-page > h1 { font-size: 1.65rem !important; }
+}
+
+/* Boxed sidebar masthead with breathing room above */
+.app-sidebar .sidebar-brand {
+  margin: 18px 12px 0 !important;
+  min-height: 108px !important;
+  padding: 22px 16px 16px !important;
+  align-items: flex-start !important;
+  border: 1px solid rgba(21,21,21,.15) !important;
+  border-radius: 8px !important;
+  background: #f8f7f3 !important;
+}
+.app-sidebar .sidebar-brand button:first-child {
+  margin-top: 2px;
+}
+.app-sidebar .pd-sidebar-nav {
+  padding-top: 20px !important;
+}
