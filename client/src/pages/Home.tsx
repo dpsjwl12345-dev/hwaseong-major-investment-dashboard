@@ -530,7 +530,11 @@ export default function Home() {
                         <div key={department.name}>
                           <button
                             className={`sidebar-department flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left hover:bg-[#334155] ${departmentOpen ? "is-open" : ""}`}
-                            onClick={() => toggle(openDepartments, setOpenDepartments, key)}
+                            onClick={() =>
+                              setOpenDepartments((current) =>
+                                current.includes(key) ? [] : [key],
+                              )
+                            }
                           >
                             {departmentOpen ? <ChevronDown size={14} className="text-[var(--pd-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--pd-text-muted)]" />}
                             <span className="font-body text-[15px] font-bold text-[var(--pd-text-muted)]">{department.name}</span>
