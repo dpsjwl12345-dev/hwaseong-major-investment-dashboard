@@ -15,6 +15,7 @@ import {
   Tag,
   TrendingUp,
   X,
+  Search,
 } from "lucide-react";
 import dataset from "../data/dashboard_projects.json";
 
@@ -413,18 +414,17 @@ function ProjectDetail({ project }: { project: Project }) {
 
 function PodaSearch({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   return (
-    <div className="poda-search">
-      <div className="poda-search-glow" />
-      <div className="poda-search-dark" />
-      <div className="poda-search-dark" />
-      <div className="poda-search-white" />
-      <div className="poda-search-border" />
-      <div className="poda-search-main">
-        <input value={value} onChange={(event) => onChange(event.target.value)} placeholder="검색" type="text" name="text" className="input" aria-label="사업명·부서·분야 검색" />
-        <div className="poda-search-filter-border" />
-        <div className="poda-search-filter" aria-hidden="true"><svg viewBox="4.8 4.56 14.832 15.408" fill="none"><path d="M8.16 6.65h7.67c.64 0 1.16.52 1.16 1.16v1.28c0 .47-.29 1.05-.58 1.34l-2.5 2.21c-.35.29-.58.87-.58 1.34v2.5c0 .35-.23.81-.52.99l-.81.51c-.76.47-1.8-.06-1.8-.99v-3.08c0-.41-.23-.93-.47-1.22L7.52 10.36C7.23 10.08 7 9.55 7 9.2V7.87c0-.7.52-1.22 1.16-1.22Z" stroke="#d6d6e6" strokeWidth="1" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" /></svg></div>
-        <div className="poda-search-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><circle stroke="url(#poda-search-gradient)" r="8" cy="11" cx="11" /><line stroke="url(#poda-search-gradient-line)" y2="16.65" y1="22" x2="16.65" x1="22" /><defs><linearGradient id="poda-search-gradient" gradientTransform="rotate(50)"><stop stopColor="#d8e5ea" offset="0%" /><stop stopColor="#8ca9b7" offset="50%" /></linearGradient><linearGradient id="poda-search-gradient-line"><stop stopColor="#8ca9b7" offset="0%" /><stop stopColor="#5c7480" offset="50%" /></linearGradient></defs></svg></div>
-      </div>
+    <div className="sidebar-search-simple">
+      <input
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder="검색"
+        type="text"
+        name="text"
+        className="input"
+        aria-label="사업명·부서·분야 검색"
+      />
+      <Search className="sidebar-search-simple-icon" size={18} strokeWidth={2} aria-hidden="true" />
     </div>
   );
 }
@@ -491,18 +491,14 @@ export default function Home() {
           {!isCollapsed && (
             <button
               type="button"
-                            className="sidebar-title-neomorphic text-left"
+                            className="sidebar-title-button text-left"
 
               onClick={() => {
                 setSelectedProject(null);
                 setIsSidebarOpen(false);
               }}
             >
-                            <p className="sidebar-title-neomorphic-text" aria-label="화성시 주요투자사업">
-                {Array.from("화성시 주요투자사업").map((character, index) => (
-                  <span key={`${character}-${index}`}>{character === " " ? "\u00a0" : character}</span>
-                ))}
-              </p>
+                            <p className="sidebar-title-text" aria-label="화성시 주요투자사업">화성시 주요투자사업</p>
 
               <p className="mt-1 font-body text-[11px] font-semibold tracking-[0.14em] text-[var(--pd-text-muted)]">INVESTMENT DASHBOARD</p>
             </button>
