@@ -455,8 +455,10 @@ export default function Home() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [query, setQuery] = useState("");
-  const [openBureaus, setOpenBureaus] = useState<string[]>(organization.map((item) => item.name));
-  const [openDepartments, setOpenDepartments] = useState<string[]>([]);
+  const allBureauNames = organization.map((item) => item.name);
+  const allDepartmentKeys = organization.flatMap((bureau) => bureau.departments.map((department) => `${bureau.name}-${department.name}`));
+  const [openBureaus, setOpenBureaus] = useState<string[]>(allBureauNames);
+  const [openDepartments, setOpenDepartments] = useState<string[]>(allDepartmentKeys);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const normalizedQuery = query.trim().toLowerCase();
@@ -480,6 +482,11 @@ export default function Home() {
 
   const toggle = (items: string[], setter: (value: string[]) => void, item: string) =>
     setter(items.includes(item) ? items.filter((value) => value !== item) : [...items, item]);
+  const resetSidebar = () => {
+    setQuery("");
+    setOpenBureaus(allBureauNames);
+    setOpenDepartments(allDepartmentKeys);
+  };
 
   return (
     <div className="min-h-screen bg-[var(--pd-ground)]/85 text-white">
@@ -498,6 +505,7 @@ export default function Home() {
 
               onClick={() => {
                 setSelectedProject(null);
+                resetSidebar();
                 setIsSidebarOpen(false);
               }}
             >
@@ -555,6 +563,8 @@ export default function Home() {
                                     key={project.id}
                                     onClick={() => {
                                       setSelectedProject(project);
+                                      setOpenBureaus(allBureauNames);
+                                      setOpenDepartments(allDepartmentKeys);
                                       setIsSidebarOpen(false);
                                     }}
                                                                         className={`sidebar-project relative mb-0.5 flex min-w-0 w-full items-start rounded-lg py-1.5 pl-11 pr-1 text-left ${isSelected ? "is-selected text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
