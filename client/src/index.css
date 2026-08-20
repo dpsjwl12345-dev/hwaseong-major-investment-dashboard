@@ -1715,13 +1715,13 @@ html, body, #root,
   border-radius: 34px !important;
 }
 .app-main:has(.landing-page) .landing-content {
-  transform: translateY(clamp(-96px, -8vh, -48px));
+  transform: translateY(clamp(-150px, -13vh, -78px));
 }
 @media (max-width: 1023px) {
   .app-main:has(.landing-page) .landing-inner {
     border-radius: 24px !important;
   }
   .app-main:has(.landing-page) .landing-content {
-    transform: translateY(clamp(-56px, -7vh, -28px));
+    transform: translateY(clamp(-86px, -11vh, -44px));
   }
 }
