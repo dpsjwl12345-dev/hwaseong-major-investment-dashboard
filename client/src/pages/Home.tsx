@@ -512,7 +512,7 @@ export default function Home() {
             {isCollapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
           </button>
                 </div>
-        <nav className="pd-sidebar-nav min-h-0 flex-1 overflow-y-auto px-3 pb-5">
+        <nav className="pd-sidebar-nav min-h-0 flex-1 overflow-y-auto px-3 pb-5 pt-5">
 
           {visibleOrganization.map((bureau) => {
             const bureauOpen = normalizedQuery.length > 0 || openBureaus.includes(bureau.name);
