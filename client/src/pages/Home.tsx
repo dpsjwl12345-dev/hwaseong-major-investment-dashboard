@@ -432,10 +432,10 @@ function PodaSearch({ value, onChange }: { value: string; onChange: (value: stri
 function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   return (
     <section className="landing-page">
-      <div className="landing-preloader" aria-hidden="true">
-        <span /><span /><span /><span /><span />
-      </div>
       <div className="hero-panel">
+        <div className="landing-preloader" aria-hidden="true">
+          <span /><span /><span /><span /><span />
+        </div>
         <div className="landing-orb landing-orb-a" />
         <div className="landing-orb landing-orb-b" />
         <div className="landing-orb landing-orb-c" />

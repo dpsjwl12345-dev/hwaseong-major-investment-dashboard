@@ -745,12 +745,14 @@
   display: flex;
 }
 .landing-preloader {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 20;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
 }
 .landing-preloader span {
   height: 100%;
@@ -1525,9 +1527,13 @@ html, body, #root {
 .landing-content {
   min-height: 0 !important;
   padding-top: clamp(92px, 16vh, 158px) !important;
+  width: 100%;
+  text-align: center;
 }
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
+  width: 100%;
+  text-align: center;
   font-family: "Space Grotesk", "Pretendard", sans-serif !important;
   font-size: clamp(2.8rem, 6.4vw, 6.2rem) !important;
   line-height: .88 !important;
@@ -1608,11 +1614,11 @@ html, body, #root,
   justify-content: center;
 }
 .app-main:has(.landing-page) .landing-content {
-  transform: translateY(clamp(-150px, -13vh, -78px));
+  transform: none;
 }
 @media (max-width: 1023px) {
   .app-main:has(.landing-page) .landing-content {
-    transform: translateY(clamp(-86px, -11vh, -44px));
+    transform: none;
   }
 }
 
