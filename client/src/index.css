@@ -803,8 +803,9 @@
   font-family: "Gmarket Sans", sans-serif;
   font-size: clamp(3.2rem, 8.2vw, 7.8rem);
   font-weight: 700;
-  letter-spacing: -.085em;
-  line-height: .84;
+  letter-spacing: -.07em;
+  line-height: .92;
+  padding-block: .08em .14em;
   text-transform: uppercase;
   overflow: visible;
   text-shadow: 0 18px 60px rgba(0, 0, 0, .3);
@@ -813,6 +814,7 @@
 .landing-title span {
   position: relative;
   display: block;
+  overflow: visible;
 }
 .landing-title span:first-child {
   color: #f8faff;
