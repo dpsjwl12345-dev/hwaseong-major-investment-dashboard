@@ -749,13 +749,16 @@
   inset: 0;
   z-index: 20;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   pointer-events: none;
   overflow: hidden;
   border-radius: inherit;
 }
 .landing-preloader span {
+  width: 100%;
+  min-width: 0;
   height: 100%;
+  box-sizing: border-box;
   background: #0b1020;
   border-right: 1px solid rgba(255,255,255,.12);
   transform: scaleY(1);
@@ -1521,7 +1524,6 @@ html, body, #root {
 .landing-content {
   min-height: 0 !important;
   padding-top: clamp(92px, 16vh, 158px) !important;
-  transform: translateY(72px);
 }
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
@@ -1610,11 +1612,11 @@ html, body, #root,
   justify-content: center;
 }
 .app-main:has(.landing-page) .landing-content {
-  transform: translateY(clamp(-150px, -13vh, -78px));
+  transform: translateY(clamp(48px, 8vh, 96px));
 }
 @media (max-width: 1023px) {
   .app-main:has(.landing-page) .landing-content {
-    transform: translateY(clamp(-86px, -11vh, -44px));
+    transform: translateY(clamp(36px, 7vh, 72px));
   }
 }
 
