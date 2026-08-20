@@ -1553,3 +1553,42 @@ html, body, #root {
     border-radius: 22px 22px 0 0;
   }
 }
+
+/* Connected white shell + floating tablet landing panel */
+.app-sidebar {
+  background: #f3f2ee !important;
+  border-right: 0 !important;
+}
+.app-main:has(.landing-page) {
+  margin: 0 22px 22px 18px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+.app-main:has(.landing-page) .landing-page {
+  min-height: calc(100vh - 22px) !important;
+  height: calc(100vh - 22px) !important;
+  background: transparent !important;
+  overflow: visible !important;
+}
+.app-main:has(.landing-page) .landing-inner {
+  height: 100% !important;
+  min-height: 0 !important;
+  border: 1px solid rgba(255,255,255,.9) !important;
+  border-radius: 34px !important;
+  background: #070707 !important;
+  box-shadow: 0 24px 48px -34px rgba(0,0,0,.78), 0 0 0 1px rgba(20,20,20,.08);
+}
+@media (max-width: 1023px) {
+  .app-main:has(.landing-page) {
+    margin: 8px !important;
+  }
+  .app-main:has(.landing-page) .landing-page,
+  .app-main:has(.landing-page) .landing-inner {
+    height: calc(100vh - 8px) !important;
+    min-height: calc(100vh - 8px) !important;
+  }
+}
