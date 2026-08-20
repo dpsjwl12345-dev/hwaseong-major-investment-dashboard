@@ -1034,3 +1034,114 @@
   .landing-title span.landing-title-line { animation: none !important; background-position: 50% center; }
   .landing-title { animation: none; }
 }
+
+/* Hanzo-inspired dual-tone application chrome: light sidebar, dark rounded body */
+:root {
+  --hanzo-yellow: #e8f34a;
+  --hanzo-yellow-soft: rgba(232, 243, 74, .16);
+  --hanzo-white: #f6f6f1;
+  --hanzo-ink: #171812;
+}
+.app-sidebar {
+  color: var(--hanzo-ink) !important;
+  background: var(--hanzo-white) !important;
+  border-right-color: rgba(23, 24, 18, .14) !important;
+  box-shadow: 18px 0 42px -30px rgba(0, 0, 0, .7);
+}
+.sidebar-brand {
+  color: var(--hanzo-ink) !important;
+  background: var(--hanzo-white) !important;
+  border-bottom-color: rgba(23, 24, 18, .1) !important;
+}
+.sidebar-brand button,
+.sidebar-brand svg { color: var(--hanzo-ink) !important; }
+.sidebar-bureau {
+  color: var(--hanzo-ink) !important;
+  border-color: rgba(23, 24, 18, .13) !important;
+  background: rgba(255, 255, 255, .72) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 2px 0 rgba(23, 24, 18, .05) !important;
+}
+.sidebar-bureau:hover,
+.sidebar-bureau[aria-expanded="true"] {
+  color: var(--hanzo-ink) !important;
+  border-color: var(--hanzo-ink) !important;
+  background: var(--hanzo-yellow) !important;
+}
+.sidebar-department {
+  color: rgba(23, 24, 18, .7) !important;
+  border-radius: 9px;
+}
+.sidebar-department:hover,
+.sidebar-department[aria-current="true"] {
+  color: var(--hanzo-ink) !important;
+  background: var(--hanzo-yellow-soft) !important;
+}
+.sidebar-project {
+  color: rgba(23, 24, 18, .62) !important;
+  border-radius: 8px;
+}
+.sidebar-project:hover,
+.sidebar-project[aria-current="true"] {
+  color: var(--hanzo-ink) !important;
+  background: rgba(23, 24, 18, .06) !important;
+}
+.poda-search {
+  filter: none !important;
+  border-radius: 14px !important;
+}
+.poda-search-main,
+.poda-search-dark,
+.poda-search-white,
+.poda-search-border,
+.poda-search-glow {
+  border-radius: 14px !important;
+}
+.poda-search-main { background: #ffffff !important; }
+.poda-search-input { color: var(--hanzo-ink) !important; }
+.poda-search-input::placeholder { color: rgba(23, 24, 18, .48) !important; }
+.poda-search-border { border-color: rgba(23, 24, 18, .22) !important; }
+.poda-search-filter { color: var(--hanzo-ink) !important; }
+.app-main {
+  background: #0b0d0d !important;
+}
+.pd-detail-page {
+  padding-top: clamp(24px, 4vw, 56px);
+}
+.pd-card,
+.pd-map-placeholder,
+.pd-kv,
+.pd-note-box,
+.pd-exec-card,
+.pd-panel-fade {
+  border-radius: 18px !important;
+}
+.pd-card {
+  border: 1px solid rgba(246, 246, 241, .12) !important;
+  background: rgba(18, 20, 19, .86) !important;
+  box-shadow: 0 16px 50px -34px rgba(0, 0, 0, .9), inset 0 1px 0 rgba(255, 255, 255, .035) !important;
+}
+.pd-card-title {
+  letter-spacing: -.03em;
+}
+.pd-kv,
+.pd-exec-card {
+  border-color: rgba(246, 246, 241, .1) !important;
+  background: rgba(255, 255, 255, .035) !important;
+}
+.pd-exec-card:hover,
+.pd-kv:hover {
+  border-color: rgba(232, 243, 74, .4) !important;
+  background: rgba(232, 243, 74, .06) !important;
+}
+.pd-map-placeholder {
+  border-color: rgba(246, 246, 241, .1) !important;
+  background: rgba(255, 255, 255, .025) !important;
+}
+.pd-note-box {
+  border-color: rgba(232, 243, 74, .3) !important;
+  background: rgba(232, 243, 74, .06) !important;
+}
+@media (max-width: 640px) {
+  .pd-card { border-radius: 14px !important; }
+}
