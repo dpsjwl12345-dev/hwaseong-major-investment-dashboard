@@ -744,35 +744,6 @@
   height: 100%;
   display: flex;
 }
-.landing-preloader {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  pointer-events: none;
-  overflow: hidden;
-  border-radius: inherit;
-}
-.landing-preloader span {
-  height: 100%;
-  background: #0b1020;
-  border-right: 1px solid rgba(255, 255, 255, 0.12);
-  transform: scaleY(1);
-  transform-origin: bottom;
-  animation: landing-preloader-lift 1.15s cubic-bezier(1, 0, 0.56, 1) forwards;
-}
-.landing-preloader span:nth-child(1) { animation-delay: 0s; }
-.landing-preloader span:nth-child(2) { animation-delay: .16s; }
-.landing-preloader span:nth-child(3) { animation-delay: .32s; }
-.landing-preloader span:nth-child(4) { animation-delay: .48s; }
-.landing-preloader span:nth-child(5) { animation-delay: .64s; border-right: 0; }
-@keyframes landing-preloader-lift {
-  to { transform: scaleY(0.01); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .landing-preloader { display: none; }
-}
 .hero-panel {
   position: relative;
   isolation: isolate;
@@ -798,6 +769,8 @@
   inset: 0;
   z-index: -1;
   background:
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 72px 72px,
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px) 0 0 / 72px 72px,
     radial-gradient(ellipse 70% 80% at 58% 48%, rgba(35, 84, 173, .15), transparent 67%),
     linear-gradient(135deg, #0b1020 0%, #111a33 48%, #081426 100%);
   mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.78) 72%, transparent 100%);
@@ -839,7 +812,7 @@
   margin: 0;
   color: #f8faff;
   font-family: "Space Grotesk", "Pretendard", sans-serif;
-  font-size: clamp(2rem, 4vw, 4rem);
+  font-size: clamp(3.5rem, 8vw, 8rem);
   font-weight: 700;
   letter-spacing: -.07em;
   line-height: .92;
@@ -956,7 +929,7 @@
 @media (max-width: 640px) {
   .hero-panel { padding-inline: 22px; }
   .landing-content { padding-top: 18vh; }
-  .landing-title {   font-size: clamp(2rem, 10vw, 3.2rem); }
+  .landing-title { font-size: clamp(3rem, 16vw, 5.2rem); }
 }
 @media (prefers-reduced-motion: reduce) {
   .landing-orb, .landing-title, .landing-title span:last-child { animation: none; }
@@ -1525,71 +1498,12 @@ html, body, #root {
 .landing-content {
   min-height: 0 !important;
   padding-top: clamp(92px, 16vh, 158px) !important;
-  width: 100%;
-  text-align: center;
 }
-.landing-top-link-wrap {
-  position: absolute;
-  top: 28px;
-  right: 34px;
-  z-index: 12;
-}
-.landing-top-link {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 40px;
-  padding: 0 15px;
-  border: 1px solid rgba(255, 255, 255, .42);
-  border-radius: 999px;
-  color: rgba(246, 249, 255, .92);
-  background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(170,185,220,.10));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.72),
-    inset 0 -1px 0 rgba(0,0,0,.18),
-    0 10px 24px rgba(0,0,0,.16),
-    0 0 0 1px rgba(255,255,255,.08);
-  backdrop-filter: blur(14px) saturate(135%);
-  -webkit-backdrop-filter: blur(14px) saturate(135%);
-  font-family: "Space Grotesk", "Pretendard", sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .02em;
-  cursor: pointer;
-  overflow: hidden;
-  transition: color .2s ease, transform .2s cubic-bezier(.23,1,.32,1), box-shadow .2s ease, background .2s ease;
-}
-.landing-top-link::before {
-  content: "";
-  position: absolute;
-  inset: 2px 16% 52%;
-  border-radius: inherit;
-  background: linear-gradient(180deg, rgba(255,255,255,.6), transparent);
-  opacity: .55;
-  pointer-events: none;
-}
-.landing-top-link:hover {
-  color: #fff;
-  transform: translateY(-2px) scale(1.02);
-  background: linear-gradient(180deg, rgba(255,255,255,.38), rgba(180,195,230,.16));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.86),
-    0 14px 28px rgba(0,0,0,.22),
-    0 0 22px rgba(158,185,255,.2);
-}
-.landing-top-link:active { transform: translateY(0) scale(.97); }
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
-  width: min(100%, 760px);
-  margin-inline: auto !important;
-  text-align: center;
   font-family: "Space Grotesk", "Pretendard", sans-serif !important;
-  font-size: clamp(2rem, 4vw, 4rem) !important;
+  font-size: clamp(3.5rem, 8vw, 8rem) !important;
   line-height: .88 !important;
-}
-.landing-title span.landing-title-line:last-child {
-  margin-left: 0 !important;
 }
 .landing-status-button {
   border-color: rgba(255,255,255,.28) !important;
@@ -1658,46 +1572,21 @@ html, body, #root,
 }
 
 /* Landing content vertical centering (kept — independent of the panel shell) */
-.app-main:has(.landing-page) {
-  display: block !important;
-  min-height: calc(100vh - 72px) !important;
-}
-.app-main:has(.landing-page) .landing-page,
-.app-main:has(.landing-page) .hero-panel {
-  display: flex !important;
-  width: 100% !important;
-  height: calc(100vh - 120px) !important;
-  min-height: 560px !important;
-}
 .app-main:has(.landing-page) .landing-content {
-  position: absolute;
-  inset: 0;
-  box-sizing: border-box !important;
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  padding: 0 !important;
+  min-height: 100% !important;
+  padding-top: clamp(112px, 18vh, 190px) !important;
+  padding-bottom: 48px !important;
   display: flex;
   flex-direction: column;
-  align-items: center !important;
-  justify-content: center !important;
+  justify-content: center;
 }
 .app-main:has(.landing-page) .landing-content {
-  transform: none;
+  transform: translateY(clamp(-150px, -13vh, -78px));
 }
 @media (max-width: 1023px) {
-  .app-main:has(.landing-page) {
-    min-height: calc(100vh - 24px) !important;
-  }
-  .app-main:has(.landing-page) .landing-page,
-  .app-main:has(.landing-page) .hero-panel {
-    height: calc(100vh - 48px) !important;
-    min-height: 520px !important;
-  }
   .app-main:has(.landing-page) .landing-content {
-    transform: none;
+    transform: translateY(clamp(-86px, -11vh, -44px));
   }
-  .landing-top-link-wrap { top: 20px; right: 22px; }
 }
 
 /* Neomorphic letter-button treatment for the sidebar title */

@@ -433,21 +433,14 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   return (
     <section className="landing-page">
       <div className="hero-panel">
-        <div className="landing-preloader" aria-hidden="true">
-          <span /><span /><span /><span /><span />
-        </div>
         <div className="landing-orb landing-orb-a" />
         <div className="landing-orb landing-orb-b" />
         <div className="landing-orb landing-orb-c" />
         <div className="landing-noise" />
-        <div className="landing-top-link-wrap">
-          <button type="button" onClick={onOpenDashboard} className="landing-top-link" aria-label="주요투자사업 현황 열기">
-            <span>주요투자사업 현황</span><ChevronRight size={15} />
-          </button>
-        </div>
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR</span><span className="landing-title-line landing-title-line-b">INVESTMENT</span></h1>
+          <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><ChevronRight size={16} /></button>
         </div>
       </div>
     </section>
