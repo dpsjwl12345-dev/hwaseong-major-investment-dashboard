@@ -769,8 +769,6 @@
   inset: 0;
   z-index: -1;
   background:
-    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) 0 0 / 72px 72px,
-    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px) 0 0 / 72px 72px,
     radial-gradient(ellipse 70% 80% at 58% 48%, rgba(35, 84, 173, .15), transparent 67%),
     linear-gradient(135deg, #0b1020 0%, #111a33 48%, #081426 100%);
   mask-image: linear-gradient(to bottom, #000 0%, rgba(0,0,0,.78) 72%, transparent 100%);
@@ -832,7 +830,7 @@
   text-shadow: 0 0 1px rgba(255,255,255,.8), 0 18px 60px rgba(0, 0, 0, .3);
 }
 .landing-title span:last-child {
-  margin-left: clamp(22px, 5vw, 76px);
+  margin-left: 0;
   color: transparent;
   background: linear-gradient(100deg, #ffffff 8%, #c7d7ff 45%, #7e9cff 100%);
   background-size: 180% 100%;
@@ -1501,9 +1499,14 @@ html, body, #root {
 }
 .landing-eyebrow { margin-bottom: 22px !important; }
 .landing-title {
+  width: 100%;
+  text-align: center;
   font-family: "Space Grotesk", "Pretendard", sans-serif !important;
-  font-size: clamp(3.5rem, 8vw, 8rem) !important;
+  font-size: clamp(2.2rem, 4.8vw, 4.8rem) !important;
   line-height: .88 !important;
+}
+.landing-title span:last-child::after {
+  display: none !important;
 }
 .landing-status-button {
   border-color: rgba(255,255,255,.28) !important;
