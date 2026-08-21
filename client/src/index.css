@@ -1,6 +1,6 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
-@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -2683,4 +2683,40 @@ h1, h2, h3, h4, h5, h6,
 }
 @media (prefers-reduced-motion: reduce) {
   .landing-enter-button, .landing-enter-button span:last-child { transition: none; }
+}
+
+/* Attached Civic Horizon treatment: moving photographic hero and display title */
+.landing-photo {
+  position: absolute;
+  inset: -6%;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCPlULkQF-neDwvwCRxM1V4ztIqQ59X-JLHTjbO0ioMHqc0Hhz0EJ6aq_7iNDuTBEBYslk5Oel8ICmsE8RKC4fC1eBatSeDUVI9Qn36GoW7CaoozQhsm_61rMeSZIrfVQLSmOhfXA1Uynr1adMHap1pycsgNNxAeutuJLP2yp4EYiZ2rRFQjtMD1namritqzLs6Eco8GbSiWOaeXb1jCZHkSiMWmtOsx0O4ZZwJKnf6KkoNb_awAuKW");
+  background-size: cover;
+  background-position: center;
+  filter: saturate(.78) contrast(1.05);
+  opacity: .82;
+  transform: scale(1.03);
+  animation: landing-photo-ken-burns 30s ease-out infinite alternate;
+}
+.hero-panel::before {
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(6,17,35,.72) 0%, rgba(6,17,35,.48) 42%, rgba(4,13,29,.94) 100%),
+    radial-gradient(ellipse 70% 80% at 58% 45%, rgba(35,84,173,.18), transparent 67%);
+  mask-image: none;
+}
+.landing-orb { z-index: 2; }
+.landing-noise { z-index: 3; }
+.landing-content { z-index: 4; }
+.landing-status-button { z-index: 5; }
+.landing-title { font-family: "Hanken Grotesk", "Space Grotesk", sans-serif; font-weight: 800; }
+.landing-title span:first-child { letter-spacing: -.055em; }
+.landing-title span:last-child { letter-spacing: -.065em; }
+@keyframes landing-photo-ken-burns {
+  0% { transform: scale(1.03) translate3d(0, 0, 0); }
+  100% { transform: scale(1.14) translate3d(-1.6%, -1%, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-photo { animation: none; transform: scale(1.04); }
 }

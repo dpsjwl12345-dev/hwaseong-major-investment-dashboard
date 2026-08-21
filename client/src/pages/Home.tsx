@@ -678,6 +678,7 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   return (
     <section className="landing-page">
       <div className="hero-panel">
+        <div className="landing-photo" aria-hidden="true" />
         <div className="landing-preloader" aria-hidden="true">
           <span /><span /><span /><span /><span />
         </div>
@@ -688,7 +689,7 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
         <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><span className="landing-status-dot" aria-hidden="true" /></button>
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
-          <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR</span><span className="landing-title-line landing-title-line-b">INVESTMENT</span></h1>
+          <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">DASHBOARD</span></h1>
           <p className="landing-subtitle">화성시 주요 투자사업의 예산과 추진현황을 한눈에 확인합니다.</p>
           <button type="button" onClick={onOpenDashboard} className="landing-enter-button">
             <span>Enter Dashboard</span><span aria-hidden="true">→</span>
