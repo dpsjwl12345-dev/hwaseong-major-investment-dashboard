@@ -2890,3 +2890,11 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-canvas .investment-map-outline.accurate { display:block; z-index:1; position:absolute; inset:7% 18%; width:64%; height:86%; fill:rgba(30,73,118,.36); stroke:rgba(109,226,235,.9); stroke-width:1.2; filter:drop-shadow(0 0 10px rgba(80,220,235,.3)); }
 .investment-map-canvas .investment-map-label { display:block; z-index:3; }
 .investment-map-canvas .investment-map-legend { color:rgba(220,232,255,.62); background:rgba(6,15,29,.62); border-color:rgba(159,188,255,.16); }
+
+/* Map view header contrast correction */
+.investment-map-page { color:#f7fbff !important; background:#07101f !important; }
+.investment-map-header h1 { color:#ffffff !important; text-shadow:0 4px 24px rgba(0,0,0,.42); }
+.investment-map-header p:not(.investment-map-eyebrow) { color:#d2e1f5 !important; }
+.investment-map-eyebrow { color:#8af4f1 !important; text-shadow:0 0 12px rgba(124,231,239,.22); }
+.investment-map-back { color:#f0ffff !important; background:rgba(37,195,206,.2) !important; border-color:rgba(138,244,241,.62) !important; box-shadow:0 8px 24px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.16); }
+.investment-map-back:hover { color:#07101f !important; background:#8af4f1 !important; }
