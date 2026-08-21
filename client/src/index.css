@@ -2613,3 +2613,7 @@ h1, h2, h3, h4, h5, h6,
 .dept-project-table td:nth-child(5),
 .dept-project-table th:nth-child(6),
 .dept-project-table td:nth-child(6) { width: 14%; }
+
+/* Match execution-rate styling to the CSV action button */
+.dept-progress > span em { background: linear-gradient(90deg, #ffbe3d, #ffe08a); }
+.dept-progress b { color: #ffe08a; text-shadow: 0 0 8px rgba(255,190,61,.28); }
