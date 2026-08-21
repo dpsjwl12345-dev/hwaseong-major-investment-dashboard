@@ -384,7 +384,7 @@ function ProjectDetail({ project }: { project: Project }) {
           <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(project.inspection || "-")}</span>
         </div>
         <div className="pd-summary-cell">
-          <span className="pd-summary-label"><MapPin /> 위치</span>
+          <span className="pd-summary-label"><MapPin /> 선거구</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {[project.contact, project.district, project.town].filter(Boolean).map((tag) => (
               <span key={tag} className="pd-pill pd-pill-tag">{tag}</span>
