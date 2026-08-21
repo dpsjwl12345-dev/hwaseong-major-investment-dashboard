@@ -589,14 +589,16 @@
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 10px;
   min-height: 250px;
-  padding: 6px 0 0;
-  overflow: hidden;
+  /* Keep the first item in wrapped rows clear of the section edge. */
+  box-sizing: border-box;
+  padding: 6px 8px 0;
+  overflow: visible;
 }
 .pd-progress-horizontal-line {
   position: absolute;
   top: 26px;
-  left: 21px;
-  right: 21px;
+  left: 29px;
+  right: 29px;
   height: 1px;
   background: linear-gradient(90deg, #e5542d, #81412f 45%, #4a4a4a);
 }
@@ -606,10 +608,12 @@
   grid-template-rows: 42px auto;
   gap: 17px;
   min-width: 0;
-  padding-right: 0;
+  padding: 0 2px 0 0;
 }
 .pd-progress-horizontal-item .pd-progress-copy {
-  padding: 0 2px 0 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  padding: 0;
 }
 .pd-progress-horizontal-item .pd-progress-desc {
   max-width: 190px;
