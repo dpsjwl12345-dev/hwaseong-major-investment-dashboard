@@ -619,7 +619,6 @@ function DepartmentDashboard({
         <div>
           <p className="dept-dashboard-eyebrow">DEPARTMENT INVESTMENT CONTROL</p>
           <h1>{initialDepartment} 추진현황</h1>
-          <p>현재 추진 중인 {initialDepartment} 주요사업과 향후 편성해야 할 예산을 확인합니다.</p>
         </div>
         <button type="button" className="dept-dashboard-back" onClick={onBack}>주요사업 현황으로 돌아가기</button>
       </div>
@@ -632,7 +631,6 @@ function DepartmentDashboard({
       </div>
 
       <div className="dept-panel dept-panel-projects dept-panel-selected">
-        <div className="dept-panel-heading"><div><span className="dept-panel-kicker">01</span><h2>{initialDepartment} 주요사업</h2></div><span>{departmentProjects.length}개 사업 · 총사업비 {formatDepartmentAmount(totalCost)}</span></div>
         <div className="dept-filter-row dept-budget-filter-row">
           <label>추진단계<select value={stageFilter} onChange={(event) => setStageFilter(event.target.value)}><option value="전체">전체</option>{stageOptions.map((stage) => <option key={stage} value={stage}>{stage}</option>)}</select></label>
           <label>예산 기준<select value={budgetFilter} onChange={(event) => setBudgetFilter(event.target.value)}><option>향후 필요예산</option><option>총사업비</option><option>기투자액</option><option>2027년 편성예정액</option><option>향후 계획예산액</option></select></label>
@@ -651,7 +649,6 @@ function DepartmentDashboard({
           </tbody></table>
         </div>
       </div>
-      <p className="dept-dashboard-note">향후 계획예산액은 각 사업의 2028년 이후 계획예산 합계이며, 사업별 상세 표에서는 2027년 편성예정액과 향후 계획예산액을 합산한 금액을 향후 필요예산으로 표시합니다.</p>
     </section>
   );
 }
