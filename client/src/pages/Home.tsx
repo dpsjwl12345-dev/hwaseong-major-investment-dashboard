@@ -191,7 +191,8 @@ function KvCards({ pairs }: { pairs: KvPair[] }) {
 }
 
 function OverviewPanel({ project }: { project: Project }) {
-  const pairs = parseKvPairs(project.overview);
+  const removeContentCard = project.project_name.includes("농수산대학") && project.project_name.includes("공연장 건립");
+  const pairs = parseKvPairs(project.overview).filter((pair) => !(removeContentCard && pair.label === "사업내용"));
     const extra: KvPair[] = [
     { label: "사업분야", value: project.category || "-" },
     { label: "현추진단계", value: project.current_stage || "-" },
