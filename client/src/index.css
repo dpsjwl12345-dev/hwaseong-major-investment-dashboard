@@ -2474,3 +2474,14 @@ html, body, #root,
 .dept-progress > span { background: #27354c; }
 .dept-progress > span em { background: linear-gradient(90deg, #6f9ff5, #acc7ff); }
 .dept-progress b { color: #d6e3ff; }
+
+.dept-budget-filter-row { flex-wrap: wrap; justify-content: flex-start; gap: 8px 10px; }
+.dept-budget-filter-row > label { min-height: 30px; }
+.dept-budget-filter-row input { width: 82px; border: 1px solid rgba(255,255,255,.14); border-radius: 7px; padding: 6px 8px; color: #d6e3ff; background: #112036; font-size: 12px; }
+.dept-budget-filter-row input::placeholder { color: #8e909a; }
+.dept-budget-filter-row > span { margin-left: auto; }
+.dept-table-action, .dept-table-export { display: inline-flex; align-items: center; gap: 5px; border: 1px solid rgba(172,199,255,.22); border-radius: 7px; padding: 6px 9px; color: #acc7ff; background: rgba(26,58,109,.42); font-size: 12px; cursor: pointer; }
+.dept-table-action:hover, .dept-table-export:hover { background: rgba(26,58,109,.78); }
+.dept-table-export { border-color: rgba(255,190,61,.32); color: #ffe08a; background: rgba(233,196,0,.1); }
+.dept-project-table { min-width: 1120px; }
+@media (max-width: 900px) { .dept-budget-filter-row > span { width: 100%; margin-left: 0; } }
