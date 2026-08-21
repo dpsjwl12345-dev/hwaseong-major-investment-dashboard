@@ -210,31 +210,46 @@ function OverviewPanel({ project }: { project: Project }) {
 }
 
 type BreakdownRow = Project["funding_breakdown"][number];
+type BudgetYearKey = "budget_2026" | "budget_2027" | "budget_2028_plus";
+
+function sumBreakdown(rows: BreakdownRow[], key: keyof BreakdownRow) {
+  return rows.reduce((sum, row) => sum + ((row[key] as number | null | undefined) ?? 0), 0);
+}
 
 function FundingBreakdownCard({ rows }: { rows: BreakdownRow[] }) {
-  const columns = [
-    ["구분", "총사업비", "총사업비"],
-    ["기투자", "기투자 (2025년까지)", "기투자"],
-    ["2026년", "2026년 편성", "2026년"],
-    ["2027년", "2027년 편성", "2027년"],
-    ["이후", "2028년 이후", "이후"],
-  ] as const;
-  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><div><span className="pd-budget-panel-kicker">01</span><h3>재원별 예산</h3></div><span className="pd-budget-panel-caption">재원 기준</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-list">{rows.map((row) => <div key={row.name} className="pd-funding-row"><span className="pd-funding-name">{row.name}</span><div className="pd-funding-values">{columns.slice(1).map(([shortLabel, fullLabel, _]) => { const key = shortLabel === "기투자" ? "invested" : shortLabel === "2026년" ? "budget_2026" : shortLabel === "2027년" ? "budget_2027" : "budget_2028_plus"; const value = row[key as keyof BreakdownRow] as number | null | undefined; return <span key={shortLabel} title={`${fullLabel}: ${formatMillion(value)}`}><small>{shortLabel}</small><b>{formatMillion(value)}</b></span>; })}</div></div>)}</div>}</div>;
+  const totalBudget = sumBreakdown(rows, "total");
+  const columns: { key: keyof BreakdownRow; label: string }[] = [
+    { key: "total", label: "재원별 총예산" },
+    { key: "invested", label: "기투자" },
+    { key: "budget_2026", label: "2026년" },
+    { key: "budget_2027", label: "2027년" },
+    { key: "budget_2028_plus", label: "이후" },
+  ];
+  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><div><span className="pd-budget-panel-kicker">01</span><h3>재원별 예산</h3></div><span className="pd-budget-panel-caption">총사업비 {formatMillion(totalBudget || null)}</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{row.name}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}</div>;
 }
 
 const usageColors = ["#e5542d", "#58c7b1", "#6f8cff", "#9a7bdb", "#6b7280"];
+const usageColorNames = ["공사", "감리", "설계", "부대", "기타"];
 
 function UsageBreakdownChart({ rows }: { rows: BreakdownRow[] }) {
-  const years = [
+  const years: { key: BudgetYearKey; label: string }[] = [
     { key: "budget_2026", label: "2026년" },
     { key: "budget_2027", label: "2027년" },
     { key: "budget_2028_plus", label: "2028년 이후" },
-  ] as const;
-  const totals = years.map((year) => rows.reduce((sum, row) => sum + ((row[year.key] as number | null | undefined) ?? 0), 0));
-  const maxTotal = Math.max(...totals, 0);
-  const usageTotal = rows.reduce((sum, row) => sum + (row.total ?? 0), 0);
-  const formatShort = (value: number) => value.toLocaleString("ko-KR", { maximumFractionDigits: 2 });
-  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><div><span className="pd-budget-panel-kicker">02</span><h3>용도별 예산</h3></div><span className="pd-budget-panel-caption">합계 {formatMillion(usageTotal || null)}</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <><div className="pd-usage-chart" aria-label="연도별 용도 예산 누적 막대그래프">{years.map((year, yearIndex) => { const yearTotal = totals[yearIndex]; return <div key={year.key} className="pd-usage-year"><div className="pd-usage-bar-wrap"><div className="pd-usage-bar" style={{ height: maxTotal > 0 ? `${Math.max(8, (yearTotal / maxTotal) * 100)}%` : "8%" }}>{rows.map((row, rowIndex) => { const value = (row[year.key] as number | null | undefined) ?? 0; const share = yearTotal > 0 ? (value / yearTotal) * 100 : 0; return value > 0 ? <span key={row.name} className="pd-usage-segment" style={{ height: `${share}%`, background: usageColors[rowIndex % usageColors.length] }} title={`${year.label} · ${row.name}: ${formatMillion(value)} (${share.toFixed(1)}%)`}><i>{share >= 13 ? `${row.name} ${formatShort(value)}` : ""}</i></span> : null; })}</div></div><strong>{year.label}</strong><span className="pd-usage-total">{formatMillion(yearTotal || null)}</span></div>; })}</div><div className="pd-usage-legend">{rows.map((row, index) => <span key={row.name}><i style={{ background: usageColors[index % usageColors.length] }} />{row.name}</span>)}</div></>}</div>;
+  ];
+  const [selectedYear, setSelectedYear] = useState<BudgetYearKey>("budget_2026");
+  const selectedLabel = years.find((year) => year.key === selectedYear)?.label ?? "2026년";
+  const selectedTotal = sumBreakdown(rows, selectedYear);
+  const usageTotal = sumBreakdown(rows, "total");
+  const selectedShare = usageTotal > 0 ? (selectedTotal / usageTotal) * 100 : 0;
+  const yearTotals = years.map((year) => sumBreakdown(rows, year.key));
+  const flowValues = [sumBreakdown(rows, "invested"), ...yearTotals];
+  const maxFlowValue = Math.max(...flowValues, 1);
+  const flowX = (index: number) => 15 + index * (290 / (flowValues.length - 1));
+  const points = flowValues.map((value, index) => `${flowX(index)},${84 - (value / maxFlowValue) * 66}`).join(" ");
+  const usageRows = rows.map((row) => ({ row, value: (row[selectedYear] as number | null | undefined) ?? 0 })).sort((a, b) => b.value - a.value);
+  const usageColorFor = (name: string) => usageColors[Math.max(0, usageColorNames.indexOf(name)) % usageColors.length];
+  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><div><span className="pd-budget-panel-kicker">02</span><h3>용도별 예산</h3></div><span className="pd-budget-panel-caption">연도별 배분</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-pulse-content"><div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">{years.map((year) => <button key={year.key} type="button" className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>)}</div><div className="pd-pulse-summary"><div><span className="pd-pulse-eyebrow">{selectedLabel} 편성 예산</span><strong>{formatMillion(selectedTotal || null)}</strong><span className="pd-pulse-positive">전체 사업비의 {selectedShare.toFixed(1)}%</span></div><div className="pd-pulse-donut" style={{ background: `conic-gradient(#e5542d ${selectedShare}%, rgba(255,255,255,.1) 0)` }}><span>{selectedShare.toFixed(0)}%</span><small>전체</small></div></div><div className="pd-pulse-trend"><div className="pd-pulse-section-label"><span>연도별 예산 흐름</span><small>기투자 → 이후</small></div><svg viewBox="0 0 320 100" role="img" aria-label="연도별 예산 흐름"><defs><linearGradient id="budgetArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="#e5542d" stopOpacity=".28" /><stop offset="100%" stopColor="#e5542d" stopOpacity="0" /></linearGradient></defs><polygon points={`15,84 ${points} 305,84`} fill="url(#budgetArea)" /><polyline points={points} fill="none" stroke="#e5542d" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />{flowValues.map((value, index) => <circle key={`flow-${index}`} cx={flowX(index)} cy={84 - (value / maxFlowValue) * 66} r="4.5" fill="#fff" stroke="#e5542d" strokeWidth="3" />)}</svg><div className="pd-pulse-axis"><span>기투자</span><span>2026년</span><span>2027년</span><span>이후</span></div></div><div className="pd-usage-progress-list">{usageRows.map(({ row, value }) => { const share = selectedTotal > 0 ? (value / selectedTotal) * 100 : 0; return <div className="pd-usage-progress-row" key={row.name}><div className="pd-usage-progress-label"><span>{row.name}</span><b>{formatMillion(value || null)}</b><strong>{share.toFixed(0)}%</strong></div><div className="pd-usage-progress-track"><span style={{ width: `${share}%`, background: usageColorFor(row.name) }} /></div></div>; })}</div><div className="pd-usage-legend">{usageColorNames.map((name, index) => <span key={name}><i style={{ background: usageColors[index] }} />{name}</span>)}</div></div>}</div>;
 }
 
 function formatMillion(value: number | null | undefined) {
