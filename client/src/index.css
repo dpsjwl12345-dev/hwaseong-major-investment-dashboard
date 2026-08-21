@@ -2793,3 +2793,6 @@ h1, h2, h3, h4, h5, h6,
     padding-bottom: 24px !important;
   }
 }
+
+/* Slightly smaller main title while preserving the attached typography */
+.landing-title { font-size: clamp(30px, 6.7vw, 68px); }
