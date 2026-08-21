@@ -686,17 +686,14 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
         <div className="landing-orb landing-orb-b" />
         <div className="landing-orb landing-orb-c" />
         <div className="landing-noise" />
-        <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><span className="landing-status-dot" aria-hidden="true" /></button>
+        <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>Enter Dashboard</span><span className="landing-status-dot" aria-hidden="true" /></button>
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">DASHBOARD</span></h1>
-          <button type="button" onClick={onOpenDashboard} className="landing-enter-button">
-            <span>Enter Dashboard</span><span aria-hidden="true">→</span>
-          </button>
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
           <div className="landing-metric"><span>전체 사업</span><strong>{projects.length}</strong><small>PROJECTS</small></div>
-          <div className="landing-metric"><span>총사업비</span><strong>{formatBudgetNumber(totalBudget)}</strong><small>백만원</small></div>
+          <div className="landing-metric"><span>총사업비</span><strong>{formatBudgetNumber(totalBudget)}<em>백만원</em></strong></div>
           <div className="landing-metric"><span>평균 집행률</span><strong>{averageExecution}%</strong><div className="landing-metric-track"><i style={{ width: `${averageExecution}%` }} /></div></div>
         </div>
       </div>
