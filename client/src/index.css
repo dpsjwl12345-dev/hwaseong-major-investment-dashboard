@@ -2571,3 +2571,15 @@ h1, h2, h3, h4, h5, h6,
 .dept-project-table td:nth-child(6) { width: 14%; }
 .dept-project-table th:nth-child(7),
 .dept-project-table td:nth-child(7) { width: 12%; }
+
+/* Keep the department table fully inside the panel without horizontal scrolling */
+.dept-project-table-wrap { overflow-x: hidden; width: 100%; }
+.dept-project-table { width: 100%; min-width: 0; table-layout: fixed; }
+.dept-project-table th, .dept-project-table td { padding-left: 6px; padding-right: 6px; }
+.dept-project-table td:first-child { white-space: normal; overflow-wrap: anywhere; }
+.dept-project-table td:first-child strong { display: block; line-height: 1.35; }
+.dept-project-table td:first-child small { display: block; margin-top: 3px; white-space: normal; }
+.dept-project-table td:nth-child(2) { white-space: normal; }
+.dept-stage-chip { white-space: normal; line-height: 1.25; }
+.dept-project-table th:nth-child(n+3):nth-child(-n+6),
+.dept-project-table td:nth-child(n+3):nth-child(-n+6) { padding-left: 4px; padding-right: 4px; }
