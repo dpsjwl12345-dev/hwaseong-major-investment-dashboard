@@ -31,6 +31,8 @@ type Project = {
   funding_type: string;
   total_cost_million_krw: number | null;
   invested_to_2026_million_krw: number | null;
+  carryover_million_krw?: number | null;
+  carryover_type?: string;
   budget_2027_million_krw: number | null;
   execution_rate: number | null;
   progress_status: string;
@@ -229,7 +231,7 @@ function BudgetPanel({ project }: { project: Project }) {
     { label: "총사업비", value: total, icon: Coins, tone: "violet" },
     { label: "기투자액 (~2025)", value: invested, icon: TrendingUp, tone: "teal" },
     { label: "2026년 예산", value: budget, icon: CalendarCheck, tone: "amber" },
-    { label: "이월액", value: null, icon: RefreshCw, tone: "rose" },
+    { label: project.carryover_type ? `이월액 · ${project.carryover_type}` : "이월액", value: project.carryover_million_krw, icon: RefreshCw, tone: "rose" },
     { label: "집행액", value: executionAmount, icon: Activity, tone: "blue" },
   ] as const;
   return (
