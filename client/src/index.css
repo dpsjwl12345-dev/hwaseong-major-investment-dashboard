@@ -143,6 +143,16 @@
   color: var(--pd-text-muted);
   border: 1px solid var(--pd-border);
 }
+.pd-pill-status {
+  background: rgba(229, 84, 45, .18);
+  color: #ff9a78;
+  border: 1px solid rgba(229, 84, 45, .5);
+}
+.pd-pill-district {
+  background: rgba(96, 165, 250, .16);
+  color: #93c5fd;
+  border: 1px solid rgba(96, 165, 250, .45);
+}
 .pd-gauge .track {
   fill: none;
   stroke: var(--pd-border);

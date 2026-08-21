@@ -157,7 +157,7 @@ function parseTimeline(text: string): TimelineEntry[] {
     .map((line) => {
       const stripped = line.replace(/^○\s*/, "");
       const match = stripped.match(/^([\d][\d.\s~\-–]*\d\.?)\s+(\S.*)$/);
-      return match ? { date: formatDateText(match[1].trim()), desc: formatDateText(match[2].trim()) } : { date: "", desc: formatDateText(stripped) };
+      return match ? { date: formatDateText(match[1].trim()), desc: match[2].trim() } : { date: "", desc: stripped };
     });
 }
 
@@ -412,7 +412,7 @@ function ProjectDetail({ project }: { project: Project }) {
           <span className="pd-summary-label"><Tag /> 사업구분 · 진행상태</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             <span className="pd-pill pd-pill-new">{project.region || "-"}</span>
-            <span className="pd-pill pd-pill-tag">{project.current_stage || "-"}</span>
+            <span className="pd-pill pd-pill-status">{project.current_stage || "-"}</span>
           </div>
         </div>
         <div className="pd-summary-cell hero">
@@ -440,8 +440,8 @@ function ProjectDetail({ project }: { project: Project }) {
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><MapPin /> 위치 · 선거구</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {[project.contact, project.district, project.town].filter(Boolean).map((tag) => (
-              <span key={tag} className="pd-pill pd-pill-tag">{tag}</span>
+            {[project.contact, project.district, project.town].filter(Boolean).map((tag, index) => (
+              <span key={`${tag}-${index}`} className={`pd-pill ${index === 2 ? "pd-pill-district" : "pd-pill-tag"}`}>{tag}</span>
             ))}
             {!project.contact && !project.district && !project.town && <span className="pd-empty text-[14px]">-</span>}
           </div>
