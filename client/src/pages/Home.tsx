@@ -20,7 +20,6 @@ import {
   RefreshCw,
 } from "lucide-react";
 import dataset from "../data/dashboard_projects.json";
-import hwaseongAdminMap from "../assets/hwaseong-admin-map.webp";
 
 type Project = {
   id: string;
@@ -568,19 +567,17 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     return { x: Math.max(8, Math.min(92, base[0] + spread)), y: Math.max(12, Math.min(88, base[1] + (((index * 11) % 9) - 4))) };
   };
   const points = projects.map((project, index) => ({ project, ...positionFor(project, index) }));
-  const total = projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
-  const located = projects.filter((project) => Boolean(project.district || project.town)).length;
   return (
     <section className="investment-map-page">
       <header className="investment-map-header">
         <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT ATLAS</p><h1>주요 투자사업 분포도</h1><p>화성시 전역의 주요 투자사업 위치와 규모를 한 화면에서 확인합니다.</p></div>
         <button type="button" className="investment-map-back" onClick={onBack}>대시보드로 돌아가기</button>
       </header>
-      <div className="investment-map-stats"><div><span>표시 사업</span><strong>{projects.length}<small>건</small></strong></div><div><span>총사업비</span><strong>{formatBudgetNumber(total)}<small>백만원</small></strong></div><div><span>위치 등록</span><strong>{located}<small>건</small></strong></div></div>
       <div className="investment-map-layout">
         <div className="investment-map-canvas" role="img" aria-label="화성시 주요 투자사업 위치 분포도">
           <div className="investment-map-grid" /><div className="investment-map-glow" />
-          <img className="investment-map-official" src={hwaseongAdminMap} alt="화성시 행정구역도" />
+          <svg className="investment-map-outline accurate" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M13 18 L24 10 L41 7 L56 11 L68 9 L79 17 L88 29 L84 40 L91 51 L88 62 L79 67 L76 79 L68 86 L56 83 L47 94 L37 88 L29 92 L22 81 L13 75 L16 64 L9 54 L14 44 L8 33 Z" /><path className="investment-map-region" d="M24 10 L31 28 L16 44 M31 28 L48 24 L56 11 M48 24 L58 42 L41 58 L16 64 M58 42 L75 32 L84 40 M75 32 L79 17 M58 42 L69 57 L88 62 M41 58 L47 74 L37 88 M47 74 L68 86 M69 57 L76 79" /></svg>
+          <div className="investment-map-label label-north">송산 · 비봉 · 남양</div><div className="investment-map-label label-east">동탄권</div><div className="investment-map-label label-south">향남 · 팔탄 · 정남</div><div className="investment-map-label label-west">서해안 · 제부도</div>
           {points.map(({ project, x, y }) => <button key={project.id} type="button" className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`} style={{ left: `${x}%`, top: `${y}%` }} onClick={() => { setSelected(project); onSelectProject(project); }} title={project.project_name} aria-label={`${project.project_name} 위치 보기`}><i /><span>{project.serial}</span></button>)}
           <div className="investment-map-legend"><span><i className="legend-dot" /> 사업 위치</span><span><i className="legend-ring" /> 선택 사업</span></div>
         </div>

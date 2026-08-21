@@ -2883,3 +2883,10 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-canvas .investment-map-label { display:none; }
 .investment-map-canvas .investment-map-point { z-index:4; }
 .investment-map-canvas .investment-map-legend { z-index:5; color:#253b52; background:rgba(255,255,255,.86); border-color:rgba(37,59,82,.16); }
+
+/* Final custom atlas: traced Hwaseong silhouette, not the source image */
+.investment-map-official { display:none !important; }
+.investment-map-canvas { background:linear-gradient(145deg,#0a1830,#0b1325 65%,#101a2f); }
+.investment-map-canvas .investment-map-outline.accurate { display:block; z-index:1; position:absolute; inset:7% 18%; width:64%; height:86%; fill:rgba(30,73,118,.36); stroke:rgba(109,226,235,.9); stroke-width:1.2; filter:drop-shadow(0 0 10px rgba(80,220,235,.3)); }
+.investment-map-canvas .investment-map-label { display:block; z-index:3; }
+.investment-map-canvas .investment-map-legend { color:rgba(220,232,255,.62); background:rgba(6,15,29,.62); border-color:rgba(159,188,255,.16); }
