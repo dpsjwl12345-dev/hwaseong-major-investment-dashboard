@@ -807,7 +807,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding: clamp(86px, 11vh, 132px) 0 0;
+  padding: clamp(68px, 8.5vh, 104px) 0 0;
   overflow: visible;
   transform: none;
   text-align: center;
@@ -895,8 +895,8 @@
 }
 .landing-status-button {
   position: absolute;
-  top: 24px;
-  right: 28px;
+  top: 34px;
+  right: 42px;
   z-index: 4;
   display: inline-flex;
   align-items: center;
@@ -934,7 +934,7 @@
   50% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 5px rgba(156,190,255,.14), 0 0 15px rgba(156,190,255,.9); }
 }
 @media (max-width: 560px) {
-  .landing-status-button { top: 16px; right: 16px; padding: 9px 13px 9px 15px; font-size: 12px; }
+  .landing-status-button { top: 22px; right: 22px; padding: 9px 13px 9px 15px; font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .landing-status-dot { animation: none; opacity: .78; transform: none; }
