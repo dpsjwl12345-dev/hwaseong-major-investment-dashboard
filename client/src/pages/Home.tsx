@@ -329,39 +329,98 @@ function AdminPanel({ project }: { project: Project }) {
   return <div className="pd-card"><p className="pd-card-title">사전행정절차 이행여부</p>{project.management_card_matched ? <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{checks.map(([label, checked]) => <div key={label} className={`rounded-xl border px-4 py-4 ${checked ? "border-[var(--pd-success)]/50 bg-[var(--pd-success)]/10" : "border-[var(--pd-border)] bg-white/[0.02]"}`}><span className="text-[13px] text-[var(--pd-text-muted)]">{checked ? "■" : "□"} {label}</span></div>)}</div><div className="mt-5 grid gap-4 sm:grid-cols-2"><div className="pd-kv"><span className="pd-kv-label">선택된 절차</span><span className="pd-kv-value">{project.card_admin_procedures || "-"}</span></div><div className="pd-kv"><span className="pd-kv-label">법적근거</span><span className="pd-kv-value">{project.card_admin_legal_basis || "-"}</span></div></div></> : <div className="pd-note-box">해당 사업의 사업별 관리카드가 검색되지 않았습니다.</div>}</div>;
 }
 
+type KakaoLatLng = { getLat: () => number; getLng: () => number };
+type KakaoMapInstance = { setCenter: (latLng: KakaoLatLng) => void };
+type KakaoGeocoder = { addressSearch: (address: string, callback: (result: Array<{ x: string; y: string }>, status: string) => void) => void };
+type KakaoMaps = {
+  Map: new (container: HTMLElement, options: { center: KakaoLatLng; level: number }) => KakaoMapInstance;
+  LatLng: new (lat: number, lng: number) => KakaoLatLng;
+  Marker: new (options: { map: KakaoMapInstance; position: KakaoLatLng }) => unknown;
+  InfoWindow: new (options: { content: string }) => { open: (map: KakaoMapInstance, marker: unknown) => void };
+  services: { Geocoder: new () => KakaoGeocoder; Status: { OK: string } };
+  load: (callback: () => void) => void;
+};
+type KakaoWindow = Window & { kakao?: { maps: KakaoMaps } };
+
 function LocationPanel({ project }: { project: Project }) {
   const overviewPairs = parseKvPairs(project.overview);
   const address = overviewPairs.find((pair) => pair.label === "사업위치")?.value;
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [mapStatus, setMapStatus] = useState<"idle" | "loading" | "ready" | "missing-key" | "error">("idle");
+  const isFirstProject = project.serial === 1;
+
+  useEffect(() => {
+    if (!isFirstProject || !address || !mapRef.current) return;
+    const appKey = import.meta.env.VITE_KAKAO_MAP_APP_KEY as string | undefined;
+    if (!appKey) {
+      setMapStatus("missing-key");
+      return;
+    }
+
+    setMapStatus("loading");
+    const scriptId = "kakao-map-sdk";
+    const existing = document.getElementById(scriptId) as HTMLScriptElement | null;
+    const setupMap = () => {
+      const kakao = (window as KakaoWindow).kakao;
+      if (!kakao?.maps || !mapRef.current) {
+        setMapStatus("error");
+        return;
+      }
+      kakao.maps.load(() => {
+        if (!mapRef.current) return;
+        const geocoder = new kakao.maps.services.Geocoder();
+        geocoder.addressSearch(address, (result, status) => {
+          if (status !== kakao.maps.services.Status.OK || result.length === 0 || !mapRef.current) {
+            setMapStatus("error");
+            return;
+          }
+          const position = new kakao.maps.LatLng(Number(result[0].y), Number(result[0].x));
+          const map = new kakao.maps.Map(mapRef.current, { center: position, level: 5 });
+          const marker = new kakao.maps.Marker({ map, position });
+          const infoWindow = new kakao.maps.InfoWindow({ content: `<div style="padding:8px 12px;font-size:13px;white-space:nowrap">${project.project_name}</div>` });
+          infoWindow.open(map, marker);
+          setMapStatus("ready");
+        });
+      });
+    };
+
+    if (existing) {
+      if ((window as KakaoWindow).kakao?.maps) setupMap();
+      else existing.addEventListener("load", setupMap, { once: true });
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.id = scriptId;
+    script.async = true;
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(appKey)}&autoload=false&libraries=services`;
+    script.addEventListener("load", setupMap, { once: true });
+    script.addEventListener("error", () => setMapStatus("error"), { once: true });
+    document.head.appendChild(script);
+    return () => script.removeEventListener("load", setupMap);
+  }, [address, isFirstProject, project.project_name]);
+
   return (
     <div className="pd-card">
       <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr]">
-        <div className="pd-map-placeholder">
-          <div className="pd-map-pin" />
-          <span className="pd-map-caption">지도 연동 예정 · 좌표 데이터 필요</span>
-        </div>
+        {isFirstProject ? (
+          <div className="pd-map-placeholder relative overflow-hidden">
+            <div ref={mapRef} className={`h-full min-h-[320px] w-full ${mapStatus === "ready" ? "opacity-100" : "opacity-0"}`} />
+            {mapStatus !== "ready" && <div className="absolute inset-0 flex items-center justify-center p-6 text-center"><div><div className="pd-map-pin" /><span className="pd-map-caption">{mapStatus === "missing-key" ? "카카오맵 API 키를 등록하면 지도가 표시됩니다" : mapStatus === "error" ? "주소를 지도 좌표로 변환하지 못했습니다" : "지도 불러오는 중"}</span></div></div>}
+          </div>
+        ) : (
+          <div className="pd-map-placeholder"><div className="pd-map-pin" /><span className="pd-map-caption">첫 번째 사업 시범 연동 완료 · 다음 단계에서 전체 적용</span></div>
+        )}
         <div className="pd-kv-row" style={{ gridTemplateColumns: "1fr" }}>
-          <div className="pd-kv">
-            <span className="pd-kv-label">사업위치</span>
-            <span className="pd-kv-value">{address ?? "등록된 정보가 없습니다."}</span>
-          </div>
-          <div className="pd-kv">
-            <span className="pd-kv-label">구청</span>
-            <span className="pd-kv-value">{project.contact || "-"}</span>
-          </div>
-          <div className="pd-kv">
-            <span className="pd-kv-label">읍면동</span>
-            <span className="pd-kv-value">{project.district || "-"}</span>
-          </div>
-          <div className="pd-kv">
-            <span className="pd-kv-label">선거구</span>
-            <span className="pd-kv-value">{project.town || "-"}</span>
-          </div>
+          <div className="pd-kv"><span className="pd-kv-label">사업위치</span><span className="pd-kv-value">{address ?? "등록된 정보가 없습니다."}</span></div>
+          <div className="pd-kv"><span className="pd-kv-label">구청</span><span className="pd-kv-value">{project.contact || "-"}</span></div>
+          <div className="pd-kv"><span className="pd-kv-label">읍면동</span><span className="pd-kv-value">{project.district || "-"}</span></div>
+          <div className="pd-kv"><span className="pd-kv-label">선거구</span><span className="pd-kv-value">{project.town || "-"}</span></div>
         </div>
       </div>
     </div>
   );
 }
-
 const TABS = ["사업개요", "예산현황", "추진현황", "사전행정절차", "위치정보"] as const;
 
 function ProjectDetail({ project }: { project: Project }) {
