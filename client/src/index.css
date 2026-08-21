@@ -894,10 +894,13 @@
   to { background-position: 100% 50%; }
 }
 .landing-status-button {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  z-index: 4;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-top: 28px;
   padding: 11px 17px 11px 19px;
   border: 1px solid rgba(187, 207, 255, .34);
   border-radius: 999px;
@@ -929,6 +932,9 @@
 @keyframes landing-status-pulse {
   0%, 100% { opacity: .42; transform: scale(.78); box-shadow: 0 0 0 0 rgba(156,190,255,.0), 0 0 8px rgba(156,190,255,.42); }
   50% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 5px rgba(156,190,255,.14), 0 0 15px rgba(156,190,255,.9); }
+}
+@media (max-width: 560px) {
+  .landing-status-button { top: 16px; right: 16px; padding: 9px 13px 9px 15px; font-size: 12px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .landing-status-dot { animation: none; opacity: .78; transform: none; }

@@ -448,10 +448,10 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
         <div className="landing-orb landing-orb-b" />
         <div className="landing-orb landing-orb-c" />
         <div className="landing-noise" />
+        <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><span className="landing-status-dot" aria-hidden="true" /></button>
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR</span><span className="landing-title-line landing-title-line-b">INVESTMENT</span></h1>
-          <button type="button" onClick={onOpenDashboard} className="landing-status-button" aria-label="주요투자사업 현황 열기"><span>주요투자사업 현황</span><span className="landing-status-dot" aria-hidden="true" /></button>
         </div>
       </div>
     </section>
