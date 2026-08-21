@@ -127,11 +127,11 @@ const progressPercent = (project: Project) => {
 type KvPair = { label: string; value: string };
 function formatDateText(text: string): string {
   return text
-    .replace(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/g, (_, year, month, day) => `${year}.${String(month).padStart(2, "0")}.${String(day).padStart(2, "0")}`)
+    .replace(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/g, (_, year, month, day) => `${year}.${String(month).padStart(2, "0")}.${String(day).padStart(2, "0")}.`)
+    .replace(/(\d{4})[.\-/]\s*(\d{1,2})[.\-/]\s*(\d{1,2})\.?/g, (_, year, month, day) => `${year}.${String(month).padStart(2, "0")}.${String(day).padStart(2, "0")}.`)
     .replace(/(\d{4})년\s*(\d{1,2})월/g, (_, year, month) => `${year}.${String(month).padStart(2, "0")}.`)
-    .replace(/(\d{4})년/g, "$1.")
-    .replace(/(\d{4})\.\s*(\d{1,2})\.\s*(\d{1,2})\./g, (_, year, month, day) => `${year}.${String(month).padStart(2, "0")}.${String(day).padStart(2, "0")}`)
-    .replace(/(\d{4})\.\s*(\d{1,2})\./g, (_, year, month) => `${year}.${String(month).padStart(2, "0")}.`);
+    .replace(/(\d{4})[.\-/]\s*(\d{1,2})\.?/g, (_, year, month) => `${year}.${String(month).padStart(2, "0")}.`)
+    .replace(/(\d{4})년/g, "$1.");
 }
 function parseKvPairs(text: string): KvPair[] {
   return text
