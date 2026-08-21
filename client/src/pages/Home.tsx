@@ -555,6 +555,16 @@ function formatDepartmentAmount(value: number) {
 
 function InvestmentDistribution({ projects, onBack, onSelectProject }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void }) {
   const [selected, setSelected] = useState<Project | null>(null);
+  const [hovered, setHovered] = useState<Project | null>(null);
+  const zoneFor = (project: Project) => {
+    const text = `${project.district} ${project.town} ${project.overview}`;
+    if (/동탄|반월|병점|진안/.test(text)) return "동탄권";
+    if (/봉담|기배|화산/.test(text)) return "중부권";
+    if (/남양|마도|송산|비봉|매송/.test(text)) return "서부권";
+    if (/향남|양감|팔탄|정남/.test(text)) return "남부권";
+    if (/서신|궁평|제부|국화도|우정|장안/.test(text)) return "서해안권";
+    return "기타 권역";
+  };
   const positionFor = (project: Project, index: number) => {
     const text = `${project.district} ${project.town} ${project.overview}`;
     const areas: [RegExp, number, number][] = [
@@ -566,7 +576,8 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     const spread = ((index * 17) % 7) - 3;
     return { x: Math.max(8, Math.min(92, base[0] + spread)), y: Math.max(12, Math.min(88, base[1] + (((index * 11) % 9) - 4))) };
   };
-  const points = projects.map((project, index) => ({ project, ...positionFor(project, index) }));
+  const points = projects.map((project, index) => ({ project, zone: zoneFor(project), ...positionFor(project, index) }));
+  const zoneSummary = ["서해안권", "서부권", "중부권", "남부권", "동탄권", "기타 권역"].map((zone) => ({ zone, count: points.filter((point) => point.zone === zone).length })).filter((item) => item.count > 0);
   return (
     <section className="investment-map-page">
       <header className="investment-map-header">
@@ -578,10 +589,12 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
           <div className="investment-map-grid" /><div className="investment-map-glow" />
           <svg className="investment-map-outline accurate" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M13 18 L24 10 L41 7 L56 11 L68 9 L79 17 L88 29 L84 40 L91 51 L88 62 L79 67 L76 79 L68 86 L56 83 L47 94 L37 88 L29 92 L22 81 L13 75 L16 64 L9 54 L14 44 L8 33 Z" /><path className="investment-map-region" d="M24 10 L31 28 L16 44 M31 28 L48 24 L56 11 M48 24 L58 42 L41 58 L16 64 M58 42 L75 32 L84 40 M75 32 L79 17 M58 42 L69 57 L88 62 M41 58 L47 74 L37 88 M47 74 L68 86 M69 57 L76 79" /></svg>
           <div className="investment-map-label label-north">송산 · 비봉 · 남양</div><div className="investment-map-label label-east">동탄권</div><div className="investment-map-label label-south">향남 · 팔탄 · 정남</div><div className="investment-map-label label-west">서해안 · 제부도</div>
-          {points.map(({ project, x, y }) => <button key={project.id} type="button" className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`} style={{ left: `${x}%`, top: `${y}%` }} onClick={() => { setSelected(project); onSelectProject(project); }} title={project.project_name} aria-label={`${project.project_name} 위치 보기`}><i /><span>{project.serial}</span></button>)}
+          <div className="investment-map-focus-panel"><p>REGION DISTRIBUTION</p><h2>사업 집중 권역</h2>{zoneSummary.map((item) => <div className="investment-map-zone-row" key={item.zone}><span>{item.zone}</span><b>{item.count}<small>건</small></b><i><em style={{ width: `${Math.max(14, (item.count / Math.max(1, projects.length)) * 100)}%` }} /></i></div>)}</div>
+          {points.map(({ project, x, y }) => <button key={project.id} type="button" className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`} style={{ left: `${x}%`, top: `${y}%` }} onClick={() => setSelected(project)} onMouseEnter={() => setHovered(project)} onMouseLeave={() => setHovered(null)} title={project.project_name} aria-label={`${project.project_name} 위치 보기`}><i /><span>{project.serial}</span></button>)}
+          {hovered && <div className="investment-map-hover-card"><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small></div>}
           <div className="investment-map-legend"><span><i className="legend-dot" /> 사업 위치</span><span><i className="legend-ring" /> 선택 사업</span></div>
         </div>
-        <aside className="investment-map-side"><p className="investment-map-side-kicker">SELECTED PROJECT</p>{selected ? <><h2>{selected.project_name}</h2><p className="investment-map-location"><MapPin size={15} /> {selected.district || selected.town || "위치정보 미등록"}</p><dl><div><dt>총사업비</dt><dd>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)} 백만원</dd></div><div><dt>추진단계</dt><dd>{selected.current_stage || "미등록"}</dd></div><div><dt>집행률</dt><dd>{selected.execution_rate ?? selected.progress_rate ?? 0}%</dd></div></dl></> : <div className="investment-map-empty"><MapPin size={28} /><strong>지도에서 사업을 선택하세요</strong><span>위치 점을 클릭하면 사업 요약을 확인할 수 있습니다.</span></div>}</aside>
+        <aside className="investment-map-side"><p className="investment-map-side-kicker">SELECTED PROJECT</p>{selected ? <><h2>{selected.project_name}</h2><p className="investment-map-location"><MapPin size={15} /> {selected.district || selected.town || "위치정보 미등록"}</p><dl><div><dt>총사업비</dt><dd>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)} 백만원</dd></div><div><dt>추진단계</dt><dd>{selected.current_stage || "미등록"}</dd></div><div><dt>집행률</dt><dd>{selected.execution_rate ?? selected.progress_rate ?? 0}%</dd></div></dl><button type="button" className="investment-map-open-project" onClick={() => onSelectProject(selected)}>사업 상세 보기 <span>↗</span></button></> : <div className="investment-map-empty"><MapPin size={28} /><strong>지도에서 사업을 선택하세요</strong><span>위치 점을 클릭하면 요약 정보가 나타납니다.</span></div>}</aside>
       </div>
     </section>
   );
