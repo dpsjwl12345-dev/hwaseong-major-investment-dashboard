@@ -625,9 +625,9 @@ function DepartmentDashboard({
       </div>
 
       <div className="dept-kpi-grid dept-kpi-grid-selected">
-        <div className="dept-kpi"><span>총사업비</span><strong>{formatDepartmentAmount(totalCost)}</strong><small>{initialDepartment} 사업 합계</small></div>
+        <div className="dept-kpi"><span>총사업비</span><strong>{formatDepartmentAmount(totalCost)}</strong></div>
         <div className="dept-kpi"><span>기투자액</span><strong>{formatDepartmentAmount(investedAmount)}</strong><small>2026년까지 누적 투자</small></div>
-        <div className="dept-kpi dept-kpi-accent"><span>2027년 편성예정액</span><strong>{formatDepartmentAmount(budget2027)}</strong><small>사업별 입력 예정액 합계</small></div>
+        <div className="dept-kpi dept-kpi-accent"><span>2027년 편성예정액</span><strong>{formatDepartmentAmount(budget2027)}</strong></div>
         <div className="dept-kpi"><span>향후 계획예산액</span><strong>{formatDepartmentAmount(futurePlanBudget)}</strong><small>2028년 이후 계획액</small></div>
       </div>
 
@@ -642,7 +642,7 @@ function DepartmentDashboard({
           <span>{filteredProjects.length}개 사업 표시</span>
         </div>
         <div className="dept-project-table-wrap">
-          <table className="dept-project-table"><thead><tr><th>사업명</th><th>현 추진단계</th><th>총사업비</th><th>기투자액</th><th>2027년 편성예정액</th><th>향후 계획예산액</th><th>진행률</th></tr></thead><tbody>
+          <table className="dept-project-table"><thead><tr><th>사업명</th><th>현 추진단계</th><th>총사업비</th><th>기투자액</th><th>2027년 예산액</th><th>향후 계획예산액</th><th>진행률</th></tr></thead><tbody>
             {filteredProjects.map((project) => <tr key={project.id} onClick={() => onSelectProject(project)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") onSelectProject(project); }}>
               <td><strong><span className={`dept-project-type ${project.region === "신규" ? "is-new" : "is-continuing"}`}>{project.region === "신규" || project.region === "계속" ? project.region : ""}</span>{project.project_name}</strong><small>{project.district || project.town || "위치정보 미등록"}</small></td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatBudgetNumber(project.total_cost_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.invested_to_2026_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.budget_2027_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(futurePlanBudgetFor(project))}</td><td><div className="dept-progress"><span><em style={{ width: `${parseProgress(project)}%` }} /></span><b>{parseProgress(project)}%</b></div></td>
             </tr>)}
