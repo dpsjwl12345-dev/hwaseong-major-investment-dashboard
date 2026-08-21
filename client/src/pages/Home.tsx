@@ -880,7 +880,7 @@ export default function Home() {
               <ProjectDetail project={selectedProject} />
             </div>
           ) : (
-            <LandingPage onOpenDashboard={() => { setSelectedProject(projects[0] ?? null); setActiveView("project"); }} />
+            <LandingPage onOpenDashboard={() => { setSelectedDepartmentDashboard("문화예술과"); setSelectedProject(null); setActiveView("department"); }} />
           )}
 
         </main>

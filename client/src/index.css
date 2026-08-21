@@ -2781,3 +2781,15 @@ h1, h2, h3, h4, h5, h6,
 @media (prefers-reduced-motion: reduce) {
   .landing-metric-track i::after { animation: none; display: none; }
 }
+
+/* Shorter landing panel on the main screen */
+.app-main:has(.landing-page) {
+  padding-top: 50px !important;
+  padding-bottom: 38px !important;
+}
+@media (max-width: 1023px) {
+  .app-main:has(.landing-page) {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+  }
+}
