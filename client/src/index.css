@@ -2524,3 +2524,34 @@ h1, h2, h3, h4, h5, h6,
 .dept-project-type.is-continuing { color: #b8fff6; border: 1px solid rgba(126,244,231,.24); background: rgba(42,170,164,.1); }
 @media (max-width: 1100px) { .dept-filter-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .dept-filter-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Department table: compact stage column and readable budget cells */
+.dept-project-table th:nth-child(1),
+.dept-project-table td:nth-child(1) { width: 24%; }
+.dept-project-table th:nth-child(2),
+.dept-project-table td:nth-child(2) { width: 13%; }
+.dept-project-table th:nth-child(3),
+.dept-project-table td:nth-child(3),
+.dept-project-table th:nth-child(4),
+.dept-project-table td:nth-child(4),
+.dept-project-table th:nth-child(5),
+.dept-project-table td:nth-child(5),
+.dept-project-table th:nth-child(6),
+.dept-project-table td:nth-child(6) { width: 12.5%; }
+.dept-project-table th:nth-child(7),
+.dept-project-table td:nth-child(7) { width: 13%; }
+.dept-project-table th:nth-child(n+3):nth-child(-n+6),
+.dept-project-table td:nth-child(n+3):nth-child(-n+6) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.dept-project-table td:nth-child(3) { background: rgba(111,159,245,.075); }
+.dept-project-table td:nth-child(4) { background: rgba(255,255,255,.035); }
+.dept-project-table td:nth-child(5) { background: rgba(255,224,138,.07); }
+.dept-project-table td:nth-child(6) { background: rgba(172,199,255,.07); }
+.dept-project-table tbody tr:hover td:nth-child(n+3):nth-child(-n+6),
+.dept-project-table tbody tr:focus td:nth-child(n+3):nth-child(-n+6) { background: rgba(85,132,220,.18); }
+.dept-project-table th:nth-child(n+3):nth-child(-n+6) { text-align: right; }
+.dept-project-table td:nth-child(7) { text-align: center; }
+.dept-amount-cell { font-weight: 750; letter-spacing: -.02em; }
