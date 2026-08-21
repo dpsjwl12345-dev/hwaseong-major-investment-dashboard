@@ -563,9 +563,10 @@ function DepartmentDashboard({
     .sort((a, b) => futureBudgetFor(b) - futureBudgetFor(a));
   const filteredProjects = departmentProjects.filter((project) => stageFilter === "전체" || project.current_stage === stageFilter);
   const stageOptions = Array.from(new Set(departmentProjects.map((project) => project.current_stage).filter(Boolean)));
-  const futureBudget = departmentProjects.reduce((sum, project) => sum + futureBudgetFor(project), 0);
+  const totalCost = departmentProjects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
+  const investedAmount = departmentProjects.reduce((sum, project) => sum + (project.invested_to_2026_million_krw ?? 0), 0);
   const budget2027 = departmentProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
-  const activeCount = departmentProjects.filter((project) => parseProgress(project) < 100).length;
+  const futurePlanBudget = departmentProjects.reduce((sum, project) => sum + (project.card_budget_2028_plus_million_krw ?? 0), 0);
 
   return (
     <section className="dept-dashboard">
@@ -579,14 +580,14 @@ function DepartmentDashboard({
       </div>
 
       <div className="dept-kpi-grid dept-kpi-grid-selected">
-        <div className="dept-kpi"><span>주요사업</span><strong>{departmentProjects.length}개</strong><small>{initialDepartment} 등록 사업</small></div>
-        <div className="dept-kpi"><span>현재 추진 중</span><strong>{activeCount}개</strong><small>진행률 100% 미만</small></div>
-        <div className="dept-kpi dept-kpi-accent"><span>향후 필요예산</span><strong>{formatDepartmentAmount(futureBudget)}</strong><small>2027년 이후 계획 포함</small></div>
-        <div className="dept-kpi"><span>2027년 편성액</span><strong>{formatDepartmentAmount(budget2027)}</strong><small>사업별 입력 예산 합계</small></div>
+        <div className="dept-kpi"><span>총사업비</span><strong>{formatDepartmentAmount(totalCost)}</strong><small>{initialDepartment} 사업 합계</small></div>
+        <div className="dept-kpi"><span>기투자액</span><strong>{formatDepartmentAmount(investedAmount)}</strong><small>2026년까지 누적 투자</small></div>
+        <div className="dept-kpi dept-kpi-accent"><span>2027년 편성예정액</span><strong>{formatDepartmentAmount(budget2027)}</strong><small>사업별 입력 예정액 합계</small></div>
+        <div className="dept-kpi"><span>향후 계획예산액</span><strong>{formatDepartmentAmount(futurePlanBudget)}</strong><small>2028년 이후 계획액</small></div>
       </div>
 
       <div className="dept-panel dept-panel-projects dept-panel-selected">
-        <div className="dept-panel-heading"><div><span className="dept-panel-kicker">01</span><h2>{initialDepartment} 주요사업</h2></div><span>{departmentProjects.length}개 사업 · {formatDepartmentAmount(futureBudget)}</span></div>
+        <div className="dept-panel-heading"><div><span className="dept-panel-kicker">01</span><h2>{initialDepartment} 주요사업</h2></div><span>{departmentProjects.length}개 사업 · 총사업비 {formatDepartmentAmount(totalCost)}</span></div>
         <div className="dept-filter-row">
           <label>추진단계<select value={stageFilter} onChange={(event) => setStageFilter(event.target.value)}><option value="전체">전체</option>{stageOptions.map((stage) => <option key={stage} value={stage}>{stage}</option>)}</select></label>
           <span>{filteredProjects.length}개 사업 표시</span>
@@ -600,7 +601,7 @@ function DepartmentDashboard({
           </tbody></table>
         </div>
       </div>
-      <p className="dept-dashboard-note">향후 필요예산은 2027년 예산과 이후 편성액을 우선 합산하고, 세부 편성액이 없는 사업은 총사업비에서 2026년까지의 투자를 차감한 잔여액으로 표시합니다.</p>
+      <p className="dept-dashboard-note">향후 계획예산액은 각 사업의 2028년 이후 계획예산 합계이며, 사업별 상세 표에서는 2027년 편성예정액과 향후 계획예산액을 합산한 금액을 향후 필요예산으로 표시합니다.</p>
     </section>
   );
 }
