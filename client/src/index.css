@@ -1,4 +1,5 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -2485,3 +2486,31 @@ html, body, #root,
 .dept-table-export { border-color: rgba(255,190,61,.32); color: #ffe08a; background: rgba(233,196,0,.1); }
 .dept-project-table { min-width: 1120px; }
 @media (max-width: 900px) { .dept-budget-filter-row > span { width: 100%; margin-left: 0; } }
+
+/* Readability refinements for the department status table */
+.dept-dashboard, .dept-dashboard * { font-family: "Pretendard", "Noto Sans KR", sans-serif; }
+.dept-project-table { table-layout: fixed; }
+.dept-project-table th, .dept-project-table td { padding: 13px 8px; }
+.dept-project-table th:nth-child(1), .dept-project-table td:nth-child(1) { width: 26%; }
+.dept-project-table th:nth-child(2), .dept-project-table td:nth-child(2) { width: 13%; }
+.dept-project-table th:nth-child(3), .dept-project-table td:nth-child(3),
+.dept-project-table th:nth-child(4), .dept-project-table td:nth-child(4),
+.dept-project-table th:nth-child(5), .dept-project-table td:nth-child(5),
+.dept-project-table th:nth-child(6), .dept-project-table td:nth-child(6),
+.dept-project-table th:nth-child(7), .dept-project-table td:nth-child(7) { width: 10.5%; }
+.dept-project-table th:nth-child(8), .dept-project-table td:nth-child(8) { width: 11.5%; }
+.dept-project-table td:first-child { width: 26%; }
+.dept-project-table td strong { font-size: 14px; font-weight: 750; letter-spacing: -.025em; }
+.dept-project-table td small { font-size: 11px; }
+.dept-project-table td:nth-child(2) { padding-left: 4px; padding-right: 4px; }
+.dept-stage-chip { border-color: rgba(126, 244, 231, .46); color: #b8fff6; background: rgba(42, 170, 164, .16); text-shadow: 0 0 8px rgba(126, 244, 231, .62); box-shadow: 0 0 12px rgba(42, 170, 164, .14); font-weight: 750; }
+.dept-project-table th { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-weight: 700; }
+@media (max-width: 900px) { .dept-project-table { table-layout: auto; } .dept-project-table th, .dept-project-table td { padding-left: 8px; padding-right: 8px; } }
+
+/* Global typography: Pretendard for body, Gmarket Sans for headings */
+html, body, #root { font-family: "Pretendard", "Noto Sans KR", sans-serif; }
+body, button, input, select, textarea { font-family: inherit; }
+h1, h2, h3, h4, h5, h6,
+.sidebar-title-text, .landing-title, .landing-status-button,
+.pd-project-title, .pd-section-title, .dept-dashboard h1, .dept-panel-heading h2,
+.dept-kpi strong { font-family: "Gmarket Sans", "Pretendard", sans-serif !important; }
