@@ -557,78 +557,47 @@ function DepartmentDashboard({
   onSelectProject: (project: Project) => void;
   initialDepartment: string;
 }) {
-  const [selectedDepartment, setSelectedDepartment] = useState(initialDepartment || "전체");
   const [stageFilter, setStageFilter] = useState("전체");
-  const departments = DEPARTMENT_ORDER.filter((department) => projects.some((project) => project.department === department));
-  const departmentRows = departments.map((department) => {
-    const departmentProjects = projects.filter((project) => project.department === department);
-    return {
-      department,
-      projects: departmentProjects,
-      futureBudget: departmentProjects.reduce((sum, project) => sum + futureBudgetFor(project), 0),
-      budget2027: departmentProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0),
-      activeCount: departmentProjects.filter((project) => parseProgress(project) < 100).length,
-    };
-  });
-  const filteredProjects = projects
-    .filter((project) => selectedDepartment === "전체" || project.department === selectedDepartment)
-    .filter((project) => stageFilter === "전체" || project.current_stage === stageFilter)
+  const departmentProjects = projects
+    .filter((project) => project.department === initialDepartment)
     .sort((a, b) => futureBudgetFor(b) - futureBudgetFor(a));
-  const stageOptions = Array.from(new Set(projects.map((project) => project.current_stage).filter(Boolean)));
-  const totalFutureBudget = projects.reduce((sum, project) => sum + futureBudgetFor(project), 0);
-  const total2027Budget = projects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
-  const selectedDepartmentTotal = selectedDepartment === "전체"
-    ? totalFutureBudget
-    : departmentRows.find((row) => row.department === selectedDepartment)?.futureBudget ?? 0;
+  const filteredProjects = departmentProjects.filter((project) => stageFilter === "전체" || project.current_stage === stageFilter);
+  const stageOptions = Array.from(new Set(departmentProjects.map((project) => project.current_stage).filter(Boolean)));
+  const futureBudget = departmentProjects.reduce((sum, project) => sum + futureBudgetFor(project), 0);
+  const budget2027 = departmentProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
+  const activeCount = departmentProjects.filter((project) => parseProgress(project) < 100).length;
 
   return (
     <section className="dept-dashboard">
       <div className="dept-dashboard-header">
         <div>
           <p className="dept-dashboard-eyebrow">DEPARTMENT INVESTMENT CONTROL</p>
-          <h1>부서 추진현황</h1>
-          <p>현재 추진 중인 주요사업을 기준으로 향후 편성해야 할 예산을 확인합니다.</p>
+          <h1>{initialDepartment} 추진현황</h1>
+          <p>현재 추진 중인 {initialDepartment} 주요사업과 향후 편성해야 할 예산을 확인합니다.</p>
         </div>
         <button type="button" className="dept-dashboard-back" onClick={onBack}>주요사업 현황으로 돌아가기</button>
       </div>
 
-      <div className="dept-kpi-grid">
-        <div className="dept-kpi"><span>관리 부서</span><strong>{departments.length}</strong><small>부서별 주요사업 집계</small></div>
-        <div className="dept-kpi"><span>추진 주요사업</span><strong>{projects.length}</strong><small>현재 데이터 기준</small></div>
-        <div className="dept-kpi dept-kpi-accent"><span>향후 필요예산</span><strong>{formatDepartmentAmount(totalFutureBudget)}</strong><small>2027년 이후 계획 포함</small></div>
-        <div className="dept-kpi"><span>2027년 편성액</span><strong>{formatDepartmentAmount(total2027Budget)}</strong><small>사업별 입력 예산 합계</small></div>
+      <div className="dept-kpi-grid dept-kpi-grid-selected">
+        <div className="dept-kpi"><span>주요사업</span><strong>{departmentProjects.length}개</strong><small>{initialDepartment} 등록 사업</small></div>
+        <div className="dept-kpi"><span>현재 추진 중</span><strong>{activeCount}개</strong><small>진행률 100% 미만</small></div>
+        <div className="dept-kpi dept-kpi-accent"><span>향후 필요예산</span><strong>{formatDepartmentAmount(futureBudget)}</strong><small>2027년 이후 계획 포함</small></div>
+        <div className="dept-kpi"><span>2027년 편성액</span><strong>{formatDepartmentAmount(budget2027)}</strong><small>사업별 입력 예산 합계</small></div>
       </div>
 
-      <div className="dept-dashboard-grid">
-        <div className="dept-panel dept-panel-departments">
-          <div className="dept-panel-heading"><div><span className="dept-panel-kicker">01</span><h2>부서별 예산 수요</h2></div><span>향후 필요예산 순</span></div>
-          <div className="dept-department-list">
-            <button type="button" className={`dept-department-row ${selectedDepartment === "전체" ? "is-selected" : ""}`} onClick={() => setSelectedDepartment("전체")}>
-              <span className="dept-department-name">전체 부서</span><b>{formatDepartmentAmount(totalFutureBudget)}</b><i>{projects.length}개 사업</i>
-            </button>
-            {departmentRows.sort((a, b) => b.futureBudget - a.futureBudget).map((row) => (
-              <button type="button" key={row.department} className={`dept-department-row ${selectedDepartment === row.department ? "is-selected" : ""}`} onClick={() => setSelectedDepartment(row.department)}>
-                <span className="dept-department-name">{row.department}</span><b>{formatDepartmentAmount(row.futureBudget)}</b><i>{row.projects.length}개 사업</i>
-                <span className="dept-budget-bar"><em style={{ width: `${totalFutureBudget > 0 ? Math.min(100, row.futureBudget / totalFutureBudget * 100) : 0}%` }} /></span>
-              </button>
-            ))}
-          </div>
+      <div className="dept-panel dept-panel-projects dept-panel-selected">
+        <div className="dept-panel-heading"><div><span className="dept-panel-kicker">01</span><h2>{initialDepartment} 주요사업</h2></div><span>{departmentProjects.length}개 사업 · {formatDepartmentAmount(futureBudget)}</span></div>
+        <div className="dept-filter-row">
+          <label>추진단계<select value={stageFilter} onChange={(event) => setStageFilter(event.target.value)}><option value="전체">전체</option>{stageOptions.map((stage) => <option key={stage} value={stage}>{stage}</option>)}</select></label>
+          <span>{filteredProjects.length}개 사업 표시</span>
         </div>
-
-        <div className="dept-panel dept-panel-projects">
-          <div className="dept-panel-heading"><div><span className="dept-panel-kicker">02</span><h2>{selectedDepartment === "전체" ? "전체 주요사업" : `${selectedDepartment} 주요사업`}</h2></div><span>{selectedDepartmentTotal > 0 ? formatDepartmentAmount(selectedDepartmentTotal) : "-"}</span></div>
-          <div className="dept-filter-row">
-            <label>추진단계<select value={stageFilter} onChange={(event) => setStageFilter(event.target.value)}><option value="전체">전체</option>{stageOptions.map((stage) => <option key={stage} value={stage}>{stage}</option>)}</select></label>
-            <span>{filteredProjects.length}개 사업</span>
-          </div>
-          <div className="dept-project-table-wrap">
-            <table className="dept-project-table"><thead><tr><th>사업명</th><th>부서</th><th>현 추진단계</th><th>향후 필요예산</th><th>진행률</th></tr></thead><tbody>
-              {filteredProjects.map((project) => <tr key={project.id} onClick={() => onSelectProject(project)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") onSelectProject(project); }}>
-                <td><strong>{project.project_name}</strong><small>{project.region || project.district || "위치정보 미등록"}</small></td><td>{project.department}</td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatDepartmentAmount(futureBudgetFor(project))}</td><td><div className="dept-progress"><span><em style={{ width: `${parseProgress(project)}%` }} /></span><b>{parseProgress(project)}%</b></div></td>
-              </tr>)}
-              {filteredProjects.length === 0 && <tr><td colSpan={5} className="dept-empty">조건에 맞는 사업이 없습니다.</td></tr>}
-            </tbody></table>
-          </div>
+        <div className="dept-project-table-wrap">
+          <table className="dept-project-table"><thead><tr><th>사업명</th><th>현 추진단계</th><th>향후 필요예산</th><th>진행률</th></tr></thead><tbody>
+            {filteredProjects.map((project) => <tr key={project.id} onClick={() => onSelectProject(project)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") onSelectProject(project); }}>
+              <td><strong>{project.project_name}</strong><small>{project.region || project.district || "위치정보 미등록"}</small></td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatDepartmentAmount(futureBudgetFor(project))}</td><td><div className="dept-progress"><span><em style={{ width: `${parseProgress(project)}%` }} /></span><b>{parseProgress(project)}%</b></div></td>
+            </tr>)}
+            {filteredProjects.length === 0 && <tr><td colSpan={4} className="dept-empty">조건에 맞는 사업이 없습니다.</td></tr>}
+          </tbody></table>
         </div>
       </div>
       <p className="dept-dashboard-note">향후 필요예산은 2027년 예산과 이후 편성액을 우선 합산하고, 세부 편성액이 없는 사업은 총사업비에서 2026년까지의 투자를 차감한 잔여액으로 표시합니다.</p>
