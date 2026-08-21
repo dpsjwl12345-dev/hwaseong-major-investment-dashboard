@@ -2842,3 +2842,6 @@ h1, h2, h3, h4, h5, h6,
 @media (max-width: 1023px) {
   .app-main:has(.landing-page) .landing-content { padding-top: 48px !important; padding-bottom: 12px !important; }
 }
+
+/* Make the space between MAJOR and INVESTMENT visibly clear */
+.landing-title span.landing-title-line-a { word-spacing: .16em; }
