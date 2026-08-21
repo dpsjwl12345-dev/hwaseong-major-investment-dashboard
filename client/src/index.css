@@ -2439,3 +2439,38 @@ html, body, #root,
 .dept-dashboard-note { margin: 14px 2px 0; color: var(--pd-text-faint); font-size: 12px; line-height: 1.6; }
 @media (max-width: 1100px) { .dept-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .dept-dashboard-grid { grid-template-columns: 1fr; } }
 @media (max-width: 680px) { .dept-dashboard { padding: 28px 16px 40px; } .dept-dashboard-header { align-items: flex-start; flex-direction: column; } .dept-kpi-grid { grid-template-columns: 1fr 1fr; } .dept-kpi { padding: 14px; } .dept-kpi strong { font-size: 19px; } }
+
+/* Department status view: navy glass surface distinct from black project-detail view */
+.dept-dashboard {
+  background: radial-gradient(circle at 8% 0%, rgba(26, 58, 109, .42), transparent 34%), radial-gradient(circle at 94% 100%, rgba(142, 44, 1, .14), transparent 28%), #041329;
+}
+.dept-dashboard-eyebrow { color: #acc7ff; }
+.dept-dashboard h1 { color: #d6e3ff; }
+.dept-dashboard-header p:not(.dept-dashboard-eyebrow) { color: #b0b3b8; }
+.dept-dashboard-back { border-color: rgba(172,199,255,.22); color: #d6e3ff; background: rgba(255,255,255,.03); }
+.dept-dashboard-back:hover { background: rgba(26,58,109,.7); }
+.dept-kpi, .dept-panel {
+  border-color: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.035);
+  backdrop-filter: blur(24px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 16px 42px -30px rgba(0,0,0,.9);
+}
+.dept-kpi span, .dept-kpi small, .dept-panel-heading > span, .dept-dashboard-note { color: #b0b3b8; }
+.dept-kpi strong { color: #fff; }
+.dept-kpi-accent { border-color: rgba(172,199,255,.3); background: linear-gradient(145deg, rgba(26,58,109,.58), rgba(255,255,255,.035)); }
+.dept-kpi-accent strong { color: #acc7ff; }
+.dept-panel-heading { border-bottom-color: rgba(255,255,255,.12); }
+.dept-panel-heading h2 { color: #d6e3ff; }
+.dept-panel-kicker { border-color: rgba(172,199,255,.55); color: #acc7ff; }
+.dept-filter-row { border-bottom-color: rgba(255,255,255,.1); color: #b0b3b8; }
+.dept-filter-row select { border-color: rgba(255,255,255,.16); color: #d6e3ff; background: #112036; }
+.dept-project-table th { color: #b0b3b8; background: #1c2a41; }
+.dept-project-table th, .dept-project-table td { border-bottom-color: rgba(255,255,255,.09); }
+.dept-project-table tbody tr:hover, .dept-project-table tbody tr:focus { background: rgba(26,58,109,.42); }
+.dept-project-table td { color: #b0b3b8; }
+.dept-project-table td strong { color: #fff; }
+.dept-stage-chip { border-color: rgba(172,199,255,.32); color: #acc7ff; background: rgba(26,58,109,.52); }
+.dept-amount-cell { color: #acc7ff !important; }
+.dept-progress > span { background: #27354c; }
+.dept-progress > span em { background: linear-gradient(90deg, #6f9ff5, #acc7ff); }
+.dept-progress b { color: #d6e3ff; }
