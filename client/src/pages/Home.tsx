@@ -124,6 +124,13 @@ const progressPercent = (project: Project) => {
 };
 
 type KvPair = { label: string; value: string };
+function formatDateText(text: string): string {
+  return text
+    .replace(/(\d{4})년\s*(\d{1,2})월\s*(\d{1,2})일/g, "$1.$2.$3")
+    .replace(/(\d{4})년\s*(\d{1,2})월/g, "$1.$2")
+    .replace(/(\d{4})년/g, "$1.")
+    .replace(/\.(\d)\b/g, ".0$1");
+}
 function parseKvPairs(text: string): KvPair[] {
   return text
     .split("\n")
@@ -131,7 +138,7 @@ function parseKvPairs(text: string): KvPair[] {
     .filter(Boolean)
     .map((line) => {
       const match = line.match(/^○\s*([^:：]+?)\s*[:：]\s*(.+)$/);
-      return match ? { label: match[1].replace(/\s+/g, ""), value: match[2].trim() } : null;
+      return match ? { label: match[1].replace(/\s+/g, ""), value: formatDateText(match[2].trim()) } : null;
     })
     .filter((pair): pair is KvPair => pair !== null);
 }
@@ -145,7 +152,7 @@ function parseTimeline(text: string): TimelineEntry[] {
     .map((line) => {
       const stripped = line.replace(/^○\s*/, "");
       const match = stripped.match(/^([\d][\d.\s~\-–]*\d\.?)\s+(\S.*)$/);
-      return match ? { date: match[1].trim(), desc: match[2].trim() } : { date: "", desc: stripped };
+      return match ? { date: formatDateText(match[1].trim()), desc: formatDateText(match[2].trim()) } : { date: "", desc: formatDateText(stripped) };
     });
 }
 
@@ -245,7 +252,7 @@ function ProgressPanel({ project }: { project: Project }) {
       <div className="mb-6 flex flex-wrap gap-8">
         <div><p className="pd-summary-label !text-[13px]">사업 전체 공정률</p><p className="mt-1 text-[21px] font-bold text-[var(--pd-text)]">{percent}%</p></div>
         <div><p className="pd-summary-label !text-[13px]">추진상황 점검</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-success)]">{project.delay_reason || "-"}</p></div>
-        <div><p className="pd-summary-label !text-[13px]">준공예정일</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-text)]">{project.inspection || "-"}</p></div>
+        <div><p className="pd-summary-label !text-[13px]">준공예정일</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-text)]">{formatDateText(project.inspection || "-")}</p></div>
       </div>
             <div className="grid gap-5 lg:grid-cols-2">
         <section className="rounded-xl border border-[var(--pd-border)] bg-black/10 p-4 sm:p-5">
@@ -374,7 +381,7 @@ function ProjectDetail({ project }: { project: Project }) {
         </div>
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><CalendarCheck /> 준공예정일</span>
-          <span className="pd-summary-value" style={{ fontSize: 18 }}>{project.inspection || "-"}</span>
+          <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(project.inspection || "-")}</span>
         </div>
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><MapPin /> 위치</span>
