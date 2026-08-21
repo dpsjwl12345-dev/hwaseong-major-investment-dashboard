@@ -269,7 +269,7 @@ function ProgressPanel({ project }: { project: Project }) {
       </div>
       <div className="pd-progress-layout">
         <section className="pd-progress-section pd-progress-vertical">
-          <div className="pd-progress-heading"><span className="pd-progress-kicker">01</span><div><p className="pd-progress-title">추진경과</p><p className="pd-progress-subtitle">지금까지 진행된 주요 단계</p></div></div>
+          <div className="pd-progress-heading"><span className="pd-progress-kicker is-muted">01</span><div><p className="pd-progress-title">추진경과</p><p className="pd-progress-subtitle">지금까지 진행된 주요 단계</p></div></div>
           {past.length > 0 ? <div className="pd-progress-vertical-list">{past.map((item, index) => <div key={index} className={`pd-progress-vertical-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{item.desc}</div></div></div>)}</div> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
         </section>
         <section className="pd-progress-section pd-progress-horizontal">
