@@ -28,6 +28,7 @@ def normalize_address(overview: str, contact: str, district: str) -> str:
             line = line.replace("사업위치:", f"사업위치: {prefix} ", 1)
             line = line.replace("사업위치：", f"사업위치：{prefix} ", 1)
         line = re.sub(r"(사업위치[:：])\s+", r"\1 ", line)
+        line = re.sub(r"\s{2,}", " ", line)
         lines.append(line)
     return "\n".join(lines)
 
