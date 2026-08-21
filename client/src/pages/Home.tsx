@@ -16,6 +16,7 @@ import {
   TrendingUp,
   X,
   Search,
+  RefreshCw,
 } from "lucide-react";
 import dataset from "../data/dashboard_projects.json";
 
@@ -223,11 +224,16 @@ function BudgetPanel({ project }: { project: Project }) {
   const budget = project.card_budget_2026_million_krw ?? project.budget_2027_million_krw;
   const execution = Math.min(100, Math.max(0, project.card_execution_rate ?? project.execution_rate ?? 0));
   const executionAmount = project.card_execution_amount_million_krw;
-  const budgetCards: Array<[string, number | null]> = [["총사업비", total], ["기투자액 (~2025)", invested], ["2026년 예산", budget], ["이월액", null], ["집행액", executionAmount]];
+  const budgetCards = [
+    { label: "총사업비", value: total, icon: Coins, tone: "violet" },
+    { label: "기투자액 (~2025)", value: invested, icon: TrendingUp, tone: "teal" },
+    { label: "2026년 예산", value: budget, icon: CalendarCheck, tone: "amber" },
+    { label: "이월액", value: null, icon: RefreshCw, tone: "rose" },
+    { label: "집행액", value: executionAmount, icon: Activity, tone: "blue" },
+  ] as const;
   return (
     <div className="pd-card">
-      
-      <div className="pd-exec-grid">{budgetCards.map(([label, value]) => <div key={label} className="pd-exec-card"><span className="label">{label}</span><span className="num">{formatMillion(value)}</span></div>)}</div>
+      <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}</span><span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="mt-7">
         <div className="mb-2 flex justify-between font-body text-[13px] text-[var(--pd-text-faint)]">
           <span>예산 집행률</span>
