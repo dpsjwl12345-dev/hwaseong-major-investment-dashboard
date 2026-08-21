@@ -1040,7 +1040,18 @@
       "serial": 3,
       "department": "체육진흥과",
       "project_name": "오음공원 테니스장 조성",
-      "carryover_items": [{"label": "오음공원 테니스장 조성공사", "type": "명시이월", "amount_million_krw": 535.15406}, {"label": "오음공원 테니스장 조성공사", "type": "계속비이월", "amount_million_krw": 1049.04637}],
+      "carryover_items": [
+        {
+          "label": "오음공원 테니스장 조성공사",
+          "type": "명시이월",
+          "amount_million_krw": 535.15406
+        },
+        {
+          "label": "오음공원 테니스장 조성공사",
+          "type": "계속비이월",
+          "amount_million_krw": 1049.04637
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 향남읍 하길리 1524번지\n○ 사 업 량: 테니스장 8면(A = 6,000㎡) 조성\n○ 사업기간: 2025.01. ~ 2026.08.\n○ 총사업비: 1,900백만원(용역비 100백만원, 공사비 1,800백만원)",
       "category": "체육시설",
       "current_stage": "공사착공",
@@ -1626,7 +1637,13 @@
       "serial": 6,
       "department": "체육진흥과",
       "project_name": "장안 다목적복합센터 건립",
-      "carryover_items": [{"label": "장안 다목적복합센터 건립", "type": "계속비이월", "amount_million_krw": 2750.1883}],
+      "carryover_items": [
+        {
+          "label": "장안 다목적복합센터 건립",
+          "type": "계속비이월",
+          "amount_million_krw": 2750.1883
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 장안면 사랑리 138-14번지\n○ 사 업 량: 지상2층, 연면적 950.88㎡\n○ 사업기간: 2021.08. ~ 2026.12.\n○ 소요예산: 7,136백만원",
       "category": "체육시설",
       "current_stage": "공사착공",
@@ -2017,7 +2034,13 @@
       "serial": 8,
       "department": "체육진흥과",
       "project_name": "남양 체육복합센터 조성",
-      "carryover_items": [{"label": "남양 체육복합센터 조성", "type": "계속비이월", "amount_million_krw": 3043.0125}],
+      "carryover_items": [
+        {
+          "label": "남양 체육복합센터 조성",
+          "type": "계속비이월",
+          "amount_million_krw": 3043.0125
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 남양읍 남양리 2236번지\n○ 사 업 량: 지상2층, 연면적 1,358.22㎡\n○ 사업기간: 2020.09. ~ 2026.10.\n○ 소요예산: 8,724백만원",
       "category": "체육시설",
       "current_stage": "공사착공",
@@ -2408,7 +2431,13 @@
       "serial": 10,
       "department": "체육진흥과",
       "project_name": "화성 동부 반다비체육센터 건립",
-      "carryover_items": [{"label": "화성 동부 반다비체육센터 건립", "type": "계속비이월", "amount_million_krw": 200}],
+      "carryover_items": [
+        {
+          "label": "화성 동부 반다비체육센터 건립",
+          "type": "계속비이월",
+          "amount_million_krw": 200
+        }
+      ],
       "overview": "○ 사업위치: 화성시 동탄구 능동 1133번지\n○ 사 업 량: 연면적 3,840㎡\n○ 사업기간: 2024.10. ~ 2029.07.\n○ 총사업비: 19,000백만원",
       "category": "체육시설",
       "current_stage": "사전 행정절차",
@@ -2604,7 +2633,18 @@
       "serial": 1,
       "department": "관광진흥과",
       "project_name": "도서지역 레저선박 계류시설 설치",
-      "carryover_items": [{"label": "도서지역 레저선박 계류시설 설치", "type": "사고이월", "amount_million_krw": 41.47372}, {"label": "도서지역 레저선박 계류시설 설치", "type": "명시이월", "amount_million_krw": 1124.182}],
+      "carryover_items": [
+        {
+          "label": "도서지역 레저선박 계류시설 설치",
+          "type": "사고이월",
+          "amount_million_krw": 41.47372
+        },
+        {
+          "label": "도서지역 레저선박 계류시설 설치",
+          "type": "명시이월",
+          "amount_million_krw": 1124.182
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 우정읍 국화도 및 입파도 일원\n○ 사 업 량: PE계류시설 2개소\n○ 사업기간: 2025.01. ~ 2026.12.\n○ 총사업비: 1,200백만원(도비 600 시비 600)",
       "category": "기타",
       "current_stage": "설계",
@@ -2985,7 +3025,18 @@
       "serial": 3,
       "department": "관광진흥과",
       "project_name": "서해안 황금해안길 조성",
-      "carryover_items": [{"label": "서해안 황금해안길 조성사업(자체)", "type": "계속비이월", "amount_million_krw": 17028.761}, {"label": "서해안 황금해안길 조성사업(전환사업)", "type": "계속비이월", "amount_million_krw": 2010.91365}],
+      "carryover_items": [
+        {
+          "label": "서해안 황금해안길 조성사업(자체)",
+          "type": "계속비이월",
+          "amount_million_krw": 17028.761
+        },
+        {
+          "label": "서해안 황금해안길 조성사업(전환사업)",
+          "type": "계속비이월",
+          "amount_million_krw": 2010.91365
+        }
+      ],
       "overview": "○ 사 업 명 : 서해안 황금해안길 조성\n○ 사업위치: 화성시 만세구 서신면 일원(전곡항 ~ 궁평항)\n○ 사업기간 : 2023. ~ 2026.\n○ 사업예산 : 49,000백만원\n○ 사 업 량 : 해안 데크 설치(L=17.0㎞, B=2.25m)",
       "category": "문화관광시설",
       "current_stage": "공사착공",
@@ -3176,7 +3227,13 @@
       "serial": 4,
       "department": "관광진흥과",
       "project_name": "고렴산 해상공원 조성",
-      "carryover_items": [{"label": "고렴산 해상공원 조성", "type": "계속비이월", "amount_million_krw": 6500}],
+      "carryover_items": [
+        {
+          "label": "고렴산 해상공원 조성",
+          "type": "계속비이월",
+          "amount_million_krw": 6500
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 서신면 송교리 377-46번지 일원\n○ 사 업 량: 해상공원 조성 A=93,002㎡(출렁다리, 주차장 등)\n○ 사업기간: 2019.08. ~ 2026.12.\n○ 총사업비: 43,300백만원",
       "category": "문화관광시설",
       "current_stage": "공사착공",
@@ -3367,7 +3424,13 @@
       "serial": 5,
       "department": "관광진흥과",
       "project_name": "국화도 해안데크 정비",
-      "carryover_items": [{"label": "국화도 해안데크 정비", "type": "사고이월", "amount_million_krw": 48.4}],
+      "carryover_items": [
+        {
+          "label": "국화도 해안데크 정비",
+          "type": "사고이월",
+          "amount_million_krw": 48.4
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 국화도 일원\n○ 사 업 량: 해안데크 철거 및 재설치(L=680m)\n○ 사업기간: 2025. ~ 2027.\n○ 총사업비: 6,800백만원",
       "category": "문화관광시설",
       "current_stage": "설계",
@@ -3555,10 +3618,16 @@
       "source_file": "관광진흥과_총괄데이터.xlsx",
       "source_sheet": "Sheet1",
       "source_link": "https://docs.google.com/spreadsheets/d/1k11HJ27w6hdFYmXmNp2VRKlQWiVl9bHE/edit",
-      "serial": 6,
+      "serial": 7,
       "department": "관광진흥과",
       "project_name": "서해안 관광지 주차장 조성",
-      "carryover_items": [{"label": "서해안 관광지 주차장 조성사업", "type": "계속비이월", "amount_million_krw": 166.4}],
+      "carryover_items": [
+        {
+          "label": "서해안 관광지 주차장 조성사업",
+          "type": "계속비이월",
+          "amount_million_krw": 166.4
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 서신면 송교리 407번지 일원\n○ 사 업 량: 주차장 8,217㎡(주차면수: 214면)\n○ 사업기간: 2024. ~ 2027.\n○ 총사업비: 3,810백만원",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
@@ -3746,10 +3815,16 @@
       "source_file": "관광진흥과_총괄데이터.xlsx",
       "source_sheet": "Sheet1",
       "source_link": "https://docs.google.com/spreadsheets/d/1k11HJ27w6hdFYmXmNp2VRKlQWiVl9bHE/edit",
-      "serial": 7,
+      "serial": 8,
       "department": "관광진흥과",
       "project_name": "송교리 주차장 및 도시계획도로 조성",
-      "carryover_items": [{"label": "송교리 주차장 조성", "type": "계속비이월", "amount_million_krw": 150}],
+      "carryover_items": [
+        {
+          "label": "송교리 주차장 조성",
+          "type": "계속비이월",
+          "amount_million_krw": 150
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 서신면 송교리 798-4, 42-39번지 일원\n○ 사 업 량\n○ 사업기간: 2025.12. ~ 2027.12.\n○ 예상사업비: 21,470백만원",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
@@ -3937,10 +4012,16 @@
       "source_file": "관광진흥과_총괄데이터.xlsx",
       "source_sheet": "Sheet1",
       "source_link": "https://docs.google.com/spreadsheets/d/1k11HJ27w6hdFYmXmNp2VRKlQWiVl9bHE/edit",
-      "serial": 8,
+      "serial": 6,
       "department": "관광진흥과",
       "project_name": "궁평 종합관광지 조성",
-      "carryover_items": [{"label": "궁평 종합관광지 조성", "type": "계속비이월", "amount_million_krw": 1707.783248}],
+      "carryover_items": [
+        {
+          "label": "궁평 종합관광지 조성",
+          "type": "계속비이월",
+          "amount_million_krw": 1707.783248
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 서신면 만세구 궁평리 511번지 일원\n○ 사 업 량: 궁평관광지 조성(A=149,867㎡)\n○ 사업기간: 2015. ~ 2027.\n○ 총사업비: 79,525백만원",
       "category": "문화관광시설",
       "current_stage": "공사착공",
@@ -4131,7 +4212,13 @@
       "serial": 9,
       "department": "관광진흥과",
       "project_name": "궁평 주차장 조성",
-      "carryover_items": [{"label": "궁평주차장 조성", "type": "계속비이월", "amount_million_krw": 84.71855}],
+      "carryover_items": [
+        {
+          "label": "궁평주차장 조성",
+          "type": "계속비이월",
+          "amount_million_krw": 84.71855
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 서신면 백미리 689-2번지 일원\n○ 사 업 량: 주차장 A=6,410㎡, 158면\n○ 사업기간: 2024.08. ~ 2027.12.\n○ 총사업비: 2,950백만원",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
@@ -4322,7 +4409,18 @@
       "serial": 10,
       "department": "관광진흥과",
       "project_name": "제부도 도시계획도로 중로2 3호선 외 3개소 개설",
-      "carryover_items": [{"label": "제부도 도시계획도로 소로2-10호선 개설공사", "type": "계속비이월", "amount_million_krw": 38.8054}, {"label": "제부도 도시계획도로 중로2-3호선 외 3개소 개설", "type": "계속비이월", "amount_million_krw": 1667.85884}],
+      "carryover_items": [
+        {
+          "label": "제부도 도시계획도로 소로2-10호선 개설공사",
+          "type": "계속비이월",
+          "amount_million_krw": 38.8054
+        },
+        {
+          "label": "제부도 도시계획도로 중로2-3호선 외 3개소 개설",
+          "type": "계속비이월",
+          "amount_million_krw": 1667.85884
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 서신면 제부리 6-16번지 일원\n○ 사 업 량: L=2,030m, B=8~15m 면적 A=22,722㎡, 총필지 수 130필지\n○ 사업기간: 2023.01. ~ 2027.12.\n○ 총사업비: 17,898백만원(보상비: 10,398, 공사비: 7,000, 용역비: 500)",
       "category": "도로1(시도·농어촌)",
       "current_stage": "부지확보 및 보상",
@@ -4513,7 +4611,13 @@
       "serial": 1,
       "department": "전국체전추진단",
       "project_name": "롤러스포츠 경기장 건립",
-      "carryover_items": [{"label": "롤러스포츠 경기장 건립", "type": "명시이월", "amount_million_krw": 1914.02}],
+      "carryover_items": [
+        {
+          "label": "롤러스포츠 경기장 건립",
+          "type": "명시이월",
+          "amount_million_krw": 1914.02
+        }
+      ],
       "overview": "○ 사업위치: 화성시 동탄구 반송동 59번지(동탄센트럴파크 내)\n○ 사 업 량: 롤러경기장 조성 4,000㎡(200m트랙)\n○ 사업기간: 2024.06. ~ 2027.03.\n○ 총사업비: 1,980백만원 [국비579백만원,도비946백만원,시비455백만원]",
       "category": "체육시설",
       "current_stage": "사전 행정절차",
@@ -4709,7 +4813,13 @@
       "serial": 2,
       "department": "전국체전추진단",
       "project_name": "석우동 축구장 건립",
-      "carryover_items": [{"label": "석우동 축구장 건립", "type": "명시이월", "amount_million_krw": 2670.888}],
+      "carryover_items": [
+        {
+          "label": "석우동 축구장 건립",
+          "type": "명시이월",
+          "amount_million_krw": 2670.888
+        }
+      ],
       "overview": "○ 사업위치: 화성시 동탄구 석우동 648번지\n○ 사 업 량: 12,522㎡(축구장 105m×68m 1면, 관중석 등 부속시설)\n○ 사업기간: 2024.05. ~ 2027.03.\n○ 총사업비: 2,800백만원 [국비825백만원,도비1,347백만원,시비628백만원]",
       "category": "체육시설",
       "current_stage": "설계",
@@ -4905,7 +5015,13 @@
       "serial": 3,
       "department": "전국체전추진단",
       "project_name": "2027년 전국체육대회 경기장 개보수",
-      "carryover_items": [{"label": "2027년 전국체육대회 경기장 개보수", "type": "명시이월", "amount_million_krw": 5252.808}],
+      "carryover_items": [
+        {
+          "label": "2027년 전국체육대회 경기장 개보수",
+          "type": "명시이월",
+          "amount_million_krw": 5252.808
+        }
+      ],
       "overview": "○ 사업위치: 화성시 만세구 향남읍 도이리 668번지 등\n○ 사 업 량: 2027. 전국체육대회 경기장 개보수\n○ 사업기간: 2024.05. ~ 2027.05.\n○ 총사업비: 16,204백만원 [국비4,861백만원,도비7,940백만원,시비4,393백만원]",
       "category": "체육시설",
       "current_stage": "사전 행정절차",
@@ -7254,7 +7370,13 @@
       "serial": 2,
       "department": "도서관정책과",
       "project_name": "반월도서관 건립",
-      "carryover_items": [{"label": "(가칭)반월도서관 건립", "type": "계속비이월", "amount_million_krw": 13801.40586}],
+      "carryover_items": [
+        {
+          "label": "(가칭)반월도서관 건립",
+          "type": "계속비이월",
+          "amount_million_krw": 13801.40586
+        }
+      ],
       "overview": "○ 사업위치: 화성시 병점구 반월동 972번지 일원\n○ 사 업 량: 부지면적 24,052㎡, 연면적 4,315㎡(지하1층/지상3층)\n○ 사업기간: 2019. ~ 2027.08.\n○ 총사업비: 19,500백만원(도비 2,500, 시비 15,200, 기타 1,800)",
       "category": "교육 및 도서관",
       "current_stage": "공사착공",
@@ -7450,7 +7572,13 @@
       "serial": 3,
       "department": "도서관정책과",
       "project_name": "화성시 독서문화공간 조성",
-      "carryover_items": [{"label": "(가칭)화성시 독서문화공간 조성", "type": "계속비이월", "amount_million_krw": 8543.99705}],
+      "carryover_items": [
+        {
+          "label": "(가칭)화성시 독서문화공간 조성",
+          "type": "계속비이월",
+          "amount_million_krw": 8543.99705
+        }
+      ],
       "overview": "○ 사업위치: 효행구 봉담읍 동화리 11-1번지 일원(화성시민대학 내)\n○ 사 업 량: 3개동 6,384.39㎡, 지하1층/지상2층\n○ 사업기간: 2021.01. ~ 2027.04.\n○ 소요예산: 23,700백만원(도비 2,000 시비 18,200 기타 3,500)",
       "category": "교육 및 도서관",
       "current_stage": "공사착공",
