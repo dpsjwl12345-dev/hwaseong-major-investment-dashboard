@@ -5885,7 +5885,7 @@
       "serial": 5,
       "department": "문화예술과",
       "project_name": "화성남양 문화예술공간 조성",
-      "overview": "○ 사업위치: 화성시 남양읍 홍난파길 32일원\n○ 사 업 량: 부지 48,364㎡/ 건축연면적 1,657.8㎡(지상2층,지하1층)\n○ 사업기간: 2023.~2030.\n○ 총사업비: 17,657백만원",
+      "overview": "○ 사업위치: 화성시 남양읍 홍난파길 32일원\n○ 사 업 량: 부지 48,364㎡/ 건축연면적 1,657.8㎡(지상2층,지하1층)\n○ 사업기간: 2023. ~ 2030.06.\n○ 총사업비: 17,657백만원",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
       "funding_type": "소계",
@@ -5893,12 +5893,12 @@
       "invested_to_2026_million_krw": 3431,
       "budget_2027_million_krw": 1910,
       "execution_rate": 0.0,
-      "progress_status": "지방재정투자심사 진행중",
+      "progress_status": "○ 2003.03. 주민여론 수렴 및 사업추진 개시\n○ 2006.04. 공유재산관리계획 승인 / 2006~2010 중기지방재정계획 수립\n○ 2008.05. 경기도 투융자심사 (조건부 승인 / 도비 미지원 시 자체재원 추진)\n○ 2025.03. 공공갈등조정협의체 합의 (업적과 친일 함께 전시)\n○ 2025.12. 기본구상 및 타당성 조사 용역 완료\n○ 2026.06. 공유재산변경심의 완료\n○ 2026.07. 경기도 지방재정투자심사 통과",
       "progress_rate": 10,
       "expected_completion": "10%",
       "progress_notes": "0",
-      "future_plan": "",
-      "inspection": "2028.12.",
+      "future_plan": "○ 2026.09. 중기지방재정계획 변경 수립\n○ 2026.11. 토지매입 및 건축기획용역 발주\n○ 2027.05. 건축 기본설계 및 실시설계\n○ 2028.05. 공사착공\n○ 2029. 하반기 준공\n○ 2030. 상반기 개관",
+      "inspection": "2030.06.",
       "delay_reason": "양호",
       "administrative_procedures": "",
       "project_type": "",
@@ -6055,13 +6055,13 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "해당없음",
+      "card_admin_procedures": "중기재정",
       "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
       "card_admin_status": {
-        "mid_term_fiscal": false,
+        "mid_term_fiscal": true,
         "investment_review": false,
         "public_property": false,
-        "none": true
+        "none": false
       },
       "card_invested_to_2025_million_krw": 3431,
       "card_budget_2026_million_krw": 48,
