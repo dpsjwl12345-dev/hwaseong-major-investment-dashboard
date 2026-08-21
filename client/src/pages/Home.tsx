@@ -553,6 +553,43 @@ function formatDepartmentAmount(value: number) {
   return `${formatBudgetNumber(value)} 백만원`;
 }
 
+function InvestmentDistribution({ projects, onBack, onSelectProject }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void }) {
+  const [selected, setSelected] = useState<Project | null>(null);
+  const positionFor = (project: Project, index: number) => {
+    const text = `${project.district} ${project.town} ${project.overview}`;
+    const areas: [RegExp, number, number][] = [
+      [/동탄|반월|병점|진안/, 75, 47], [/봉담|기배|화산/, 49, 57], [/남양|마도|송산|비봉|매송/, 34, 38],
+      [/향남|양감|팔탄|정남/, 43, 72], [/서신|궁평|제부|국화도/, 16, 68], [/우정|장안/, 23, 83],
+    ];
+    const hit = areas.find(([pattern]) => pattern.test(text));
+    const base = hit ? [hit[1], hit[2]] : [52, 52];
+    const spread = ((index * 17) % 7) - 3;
+    return { x: Math.max(8, Math.min(92, base[0] + spread)), y: Math.max(12, Math.min(88, base[1] + (((index * 11) % 9) - 4))) };
+  };
+  const points = projects.map((project, index) => ({ project, ...positionFor(project, index) }));
+  const total = projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
+  const located = projects.filter((project) => Boolean(project.district || project.town)).length;
+  return (
+    <section className="investment-map-page">
+      <header className="investment-map-header">
+        <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT ATLAS</p><h1>주요 투자사업 분포도</h1><p>화성시 전역의 주요 투자사업 위치와 규모를 한 화면에서 확인합니다.</p></div>
+        <button type="button" className="investment-map-back" onClick={onBack}>대시보드로 돌아가기</button>
+      </header>
+      <div className="investment-map-stats"><div><span>표시 사업</span><strong>{projects.length}<small>건</small></strong></div><div><span>총사업비</span><strong>{formatBudgetNumber(total)}<small>백만원</small></strong></div><div><span>위치 등록</span><strong>{located}<small>건</small></strong></div></div>
+      <div className="investment-map-layout">
+        <div className="investment-map-canvas" role="img" aria-label="화성시 주요 투자사업 위치 분포도">
+          <div className="investment-map-grid" /><div className="investment-map-glow" />
+          <svg className="investment-map-outline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M16 9 L39 6 L59 13 L76 12 L89 25 L86 46 L94 61 L82 77 L70 94 L49 89 L34 96 L20 82 L11 63 L15 48 L7 31 Z" /><path className="investment-map-region" d="M39 6 L49 30 L34 48 L15 48 M49 30 L76 12 L67 42 L86 46 M34 48 L43 72 L34 96 M43 72 L70 94 M67 42 L82 77" /></svg>
+          <div className="investment-map-label label-north">비봉 · 남양 · 마도</div><div className="investment-map-label label-east">동탄권</div><div className="investment-map-label label-south">향남 · 팔탄</div><div className="investment-map-label label-west">서해안권</div>
+          {points.map(({ project, x, y }) => <button key={project.id} type="button" className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`} style={{ left: `${x}%`, top: `${y}%` }} onClick={() => { setSelected(project); onSelectProject(project); }} title={project.project_name} aria-label={`${project.project_name} 위치 보기`}><i /><span>{project.serial}</span></button>)}
+          <div className="investment-map-legend"><span><i className="legend-dot" /> 사업 위치</span><span><i className="legend-ring" /> 선택 사업</span></div>
+        </div>
+        <aside className="investment-map-side"><p className="investment-map-side-kicker">SELECTED PROJECT</p>{selected ? <><h2>{selected.project_name}</h2><p className="investment-map-location"><MapPin size={15} /> {selected.district || selected.town || "위치정보 미등록"}</p><dl><div><dt>총사업비</dt><dd>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)} 백만원</dd></div><div><dt>추진단계</dt><dd>{selected.current_stage || "미등록"}</dd></div><div><dt>집행률</dt><dd>{selected.execution_rate ?? selected.progress_rate ?? 0}%</dd></div></dl></> : <div className="investment-map-empty"><MapPin size={28} /><strong>지도에서 사업을 선택하세요</strong><span>위치 점을 클릭하면 사업 요약을 확인할 수 있습니다.</span></div>}</aside>
+      </div>
+    </section>
+  );
+}
+
 function DepartmentDashboard({
   onBack,
   onSelectProject,
@@ -712,7 +749,7 @@ export default function Home() {
   const [openDepartments, setOpenDepartments] = useState<string[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedDepartmentDashboard, setSelectedDepartmentDashboard] = useState("전체");
-  const [activeView, setActiveView] = useState<"landing" | "project" | "department">("landing");
+  const [activeView, setActiveView] = useState<"landing" | "project" | "department" | "map">("landing");
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleOrganization = useMemo(
@@ -771,6 +808,7 @@ export default function Home() {
           
                 </div>
         <nav className="pd-sidebar-nav min-h-0 flex-1 overflow-y-auto px-3 pb-5 pt-5">
+          {!isCollapsed && <button type="button" className="sidebar-map-link" onClick={() => { setSelectedProject(null); setActiveView("map"); setIsSidebarOpen(false); }}><MapPin size={17} /><span>주요사업 분포도</span><span className="sidebar-map-arrow">↗</span></button>}
 
           {visibleOrganization.map((bureau) => {
             const bureauOpen = normalizedQuery.length > 0 || openBureaus.includes(bureau.name);
@@ -873,7 +911,9 @@ export default function Home() {
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
           {selectedProject && <div className="app-panel-topbar" aria-hidden="true" />}
-          {activeView === "department" ? (
+          {activeView === "map" ? (
+            <InvestmentDistribution projects={projects} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+          ) : activeView === "department" ? (
             <DepartmentDashboard key={selectedDepartmentDashboard} initialDepartment={selectedDepartmentDashboard} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
