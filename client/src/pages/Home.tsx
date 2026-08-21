@@ -532,6 +532,110 @@ function ProjectDetail({ project }: { project: Project }) {
   );
 }
 
+
+function futureBudgetFor(project: Project) {
+  const planned = (project.budget_2027_million_krw ?? 0) + (project.card_budget_2028_plus_million_krw ?? 0);
+  if (planned > 0) return planned;
+  return Math.max((project.total_cost_million_krw ?? 0) - (project.invested_to_2026_million_krw ?? 0), 0);
+}
+
+function parseProgress(project: Project) {
+  const value = Number.parseInt(project.expected_completion ?? "", 10);
+  return Number.isFinite(value) ? Math.min(100, Math.max(0, value)) : 0;
+}
+
+function formatDepartmentAmount(value: number) {
+  return `${value.toLocaleString("ko-KR", { maximumFractionDigits: 0 })} 백만원`;
+}
+
+function DepartmentDashboard({
+  onBack,
+  onSelectProject,
+  initialDepartment,
+}: {
+  onBack: () => void;
+  onSelectProject: (project: Project) => void;
+  initialDepartment: string;
+}) {
+  const [selectedDepartment, setSelectedDepartment] = useState(initialDepartment || "전체");
+  const [stageFilter, setStageFilter] = useState("전체");
+  const departments = DEPARTMENT_ORDER.filter((department) => projects.some((project) => project.department === department));
+  const departmentRows = departments.map((department) => {
+    const departmentProjects = projects.filter((project) => project.department === department);
+    return {
+      department,
+      projects: departmentProjects,
+      futureBudget: departmentProjects.reduce((sum, project) => sum + futureBudgetFor(project), 0),
+      budget2027: departmentProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0),
+      activeCount: departmentProjects.filter((project) => parseProgress(project) < 100).length,
+    };
+  });
+  const filteredProjects = projects
+    .filter((project) => selectedDepartment === "전체" || project.department === selectedDepartment)
+    .filter((project) => stageFilter === "전체" || project.current_stage === stageFilter)
+    .sort((a, b) => futureBudgetFor(b) - futureBudgetFor(a));
+  const stageOptions = Array.from(new Set(projects.map((project) => project.current_stage).filter(Boolean)));
+  const totalFutureBudget = projects.reduce((sum, project) => sum + futureBudgetFor(project), 0);
+  const total2027Budget = projects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
+  const selectedDepartmentTotal = selectedDepartment === "전체"
+    ? totalFutureBudget
+    : departmentRows.find((row) => row.department === selectedDepartment)?.futureBudget ?? 0;
+
+  return (
+    <section className="dept-dashboard">
+      <div className="dept-dashboard-header">
+        <div>
+          <p className="dept-dashboard-eyebrow">DEPARTMENT INVESTMENT CONTROL</p>
+          <h1>부서 추진현황</h1>
+          <p>현재 추진 중인 주요사업을 기준으로 향후 편성해야 할 예산을 확인합니다.</p>
+        </div>
+        <button type="button" className="dept-dashboard-back" onClick={onBack}>주요사업 현황으로 돌아가기</button>
+      </div>
+
+      <div className="dept-kpi-grid">
+        <div className="dept-kpi"><span>관리 부서</span><strong>{departments.length}</strong><small>부서별 주요사업 집계</small></div>
+        <div className="dept-kpi"><span>추진 주요사업</span><strong>{projects.length}</strong><small>현재 데이터 기준</small></div>
+        <div className="dept-kpi dept-kpi-accent"><span>향후 필요예산</span><strong>{formatDepartmentAmount(totalFutureBudget)}</strong><small>2027년 이후 계획 포함</small></div>
+        <div className="dept-kpi"><span>2027년 편성액</span><strong>{formatDepartmentAmount(total2027Budget)}</strong><small>사업별 입력 예산 합계</small></div>
+      </div>
+
+      <div className="dept-dashboard-grid">
+        <div className="dept-panel dept-panel-departments">
+          <div className="dept-panel-heading"><div><span className="dept-panel-kicker">01</span><h2>부서별 예산 수요</h2></div><span>향후 필요예산 순</span></div>
+          <div className="dept-department-list">
+            <button type="button" className={`dept-department-row ${selectedDepartment === "전체" ? "is-selected" : ""}`} onClick={() => setSelectedDepartment("전체")}>
+              <span className="dept-department-name">전체 부서</span><b>{formatDepartmentAmount(totalFutureBudget)}</b><i>{projects.length}개 사업</i>
+            </button>
+            {departmentRows.sort((a, b) => b.futureBudget - a.futureBudget).map((row) => (
+              <button type="button" key={row.department} className={`dept-department-row ${selectedDepartment === row.department ? "is-selected" : ""}`} onClick={() => setSelectedDepartment(row.department)}>
+                <span className="dept-department-name">{row.department}</span><b>{formatDepartmentAmount(row.futureBudget)}</b><i>{row.projects.length}개 사업</i>
+                <span className="dept-budget-bar"><em style={{ width: `${totalFutureBudget > 0 ? Math.min(100, row.futureBudget / totalFutureBudget * 100) : 0}%` }} /></span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="dept-panel dept-panel-projects">
+          <div className="dept-panel-heading"><div><span className="dept-panel-kicker">02</span><h2>{selectedDepartment === "전체" ? "전체 주요사업" : `${selectedDepartment} 주요사업`}</h2></div><span>{selectedDepartmentTotal > 0 ? formatDepartmentAmount(selectedDepartmentTotal) : "-"}</span></div>
+          <div className="dept-filter-row">
+            <label>추진단계<select value={stageFilter} onChange={(event) => setStageFilter(event.target.value)}><option value="전체">전체</option>{stageOptions.map((stage) => <option key={stage} value={stage}>{stage}</option>)}</select></label>
+            <span>{filteredProjects.length}개 사업</span>
+          </div>
+          <div className="dept-project-table-wrap">
+            <table className="dept-project-table"><thead><tr><th>사업명</th><th>부서</th><th>현 추진단계</th><th>향후 필요예산</th><th>진행률</th></tr></thead><tbody>
+              {filteredProjects.map((project) => <tr key={project.id} onClick={() => onSelectProject(project)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") onSelectProject(project); }}>
+                <td><strong>{project.project_name}</strong><small>{project.region || project.district || "위치정보 미등록"}</small></td><td>{project.department}</td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatDepartmentAmount(futureBudgetFor(project))}</td><td><div className="dept-progress"><span><em style={{ width: `${parseProgress(project)}%` }} /></span><b>{parseProgress(project)}%</b></div></td>
+              </tr>)}
+              {filteredProjects.length === 0 && <tr><td colSpan={5} className="dept-empty">조건에 맞는 사업이 없습니다.</td></tr>}
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+      <p className="dept-dashboard-note">향후 필요예산은 2027년 예산과 이후 편성액을 우선 합산하고, 세부 편성액이 없는 사업은 총사업비에서 2026년까지의 투자를 차감한 잔여액으로 표시합니다.</p>
+    </section>
+  );
+}
+
 function PodaSearch({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   return (
     <div className="sidebar-search-simple">
@@ -579,6 +683,8 @@ export default function Home() {
   const [openBureaus, setOpenBureaus] = useState<string[]>(allBureauNames);
   const [openDepartments, setOpenDepartments] = useState<string[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedDepartmentDashboard, setSelectedDepartmentDashboard] = useState("전체");
+  const [activeView, setActiveView] = useState<"landing" | "project" | "department">("landing");
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleOrganization = useMemo(
@@ -624,6 +730,7 @@ export default function Home() {
 
               onClick={() => {
                 setSelectedProject(null);
+                setActiveView("landing");
                 resetSidebar();
                 setIsSidebarOpen(false);
               }}
@@ -661,11 +768,14 @@ export default function Home() {
                         <div key={department.name}>
                           <button
                             className={`sidebar-department flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left hover:bg-[#334155] ${departmentOpen ? "is-open" : ""}`}
-                            onClick={() =>
-                              setOpenDepartments((current) =>
-                                current.includes(key) ? [] : [key],
-                              )
-                            }
+                            onClick={() => {
+                              setSelectedDepartmentDashboard(department.name);
+                              setSelectedProject(null);
+                              setActiveView("department");
+                              setOpenBureaus(allBureauNames);
+                              setOpenDepartments([key]);
+                              setIsSidebarOpen(false);
+                            }}
                           >
                             {departmentOpen ? <ChevronDown size={14} className="text-[var(--pd-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--pd-text-muted)]" />}
                             <span className="font-body text-[15px] font-bold text-[var(--pd-text-muted)]">{department.name}</span>
@@ -682,6 +792,7 @@ export default function Home() {
                                     key={project.id}
                                     onClick={() => {
                                       setSelectedProject(project);
+                                      setActiveView("project");
                                       setOpenBureaus(allBureauNames);
                                       setOpenDepartments([key]);
                                       setIsSidebarOpen(false);
@@ -734,12 +845,14 @@ export default function Home() {
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
           {selectedProject && <div className="app-panel-topbar" aria-hidden="true" />}
-          {selectedProject ? (
+          {activeView === "department" ? (
+            <DepartmentDashboard key={selectedDepartmentDashboard} initialDepartment={selectedDepartmentDashboard} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+          ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
               <ProjectDetail project={selectedProject} />
             </div>
           ) : (
-            <LandingPage onOpenDashboard={() => setSelectedProject(projects[0] ?? null)} />
+            <LandingPage onOpenDashboard={() => { setSelectedProject(projects[0] ?? null); setActiveView("project"); }} />
           )}
 
         </main>
