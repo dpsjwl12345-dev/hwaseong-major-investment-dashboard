@@ -33,6 +33,7 @@ type Project = {
   invested_to_2026_million_krw: number | null;
   carryover_million_krw?: number | null;
   carryover_type?: string;
+  carryover_items?: { label: string; type: string; amount_million_krw: number }[];
   budget_2027_million_krw: number | null;
   execution_rate: number | null;
   progress_status: string;
@@ -218,7 +219,7 @@ function BreakdownTable({ title, rows }: { title: string; rows: Project["funding
 }
 
 function formatMillion(value: number | null | undefined) {
-  return value == null ? "-" : `${value.toLocaleString("ko-KR")} 백만원`;
+  return value == null ? "-" : `${value.toLocaleString("ko-KR", { maximumFractionDigits: 2 })} 백만원`;
 }
 
 function BudgetPanel({ project }: { project: Project }) {
@@ -227,16 +228,23 @@ function BudgetPanel({ project }: { project: Project }) {
   const budget = project.card_budget_2026_million_krw ?? project.budget_2027_million_krw;
   const execution = Math.min(100, Math.max(0, project.card_execution_rate ?? project.execution_rate ?? 0));
   const executionAmount = project.card_execution_amount_million_krw;
+  const carryoverItems = project.carryover_items?.length
+    ? project.carryover_items
+    : project.carryover_million_krw != null
+      ? [{ label: project.project_name, type: project.carryover_type ?? "이월", amount_million_krw: project.carryover_million_krw }]
+      : [];
+  const carryoverTotal = carryoverItems.length ? carryoverItems.reduce((sum, item) => sum + item.amount_million_krw, 0) : null;
+  const carryoverLabel = carryoverItems.length === 1 ? `이월액 · ${carryoverItems[0].type}` : "이월액";
   const budgetCards = [
-    { label: "총사업비", value: total, icon: Coins, tone: "violet" },
-    { label: "기투자액 (~2025)", value: invested, icon: TrendingUp, tone: "teal" },
-    { label: "2026년 예산", value: budget, icon: CalendarCheck, tone: "amber" },
-    { label: project.carryover_type ? `이월액 · ${project.carryover_type}` : "이월액", value: project.carryover_million_krw, icon: RefreshCw, tone: "rose" },
-    { label: "집행액", value: executionAmount, icon: Activity, tone: "blue" },
+    { label: "총사업비", value: total, icon: Coins, tone: "violet", carryoverItems: undefined },
+    { label: "기투자액 (~2025)", value: invested, icon: TrendingUp, tone: "teal", carryoverItems: undefined },
+    { label: "2026년 예산", value: budget, icon: CalendarCheck, tone: "amber", carryoverItems: undefined },
+    { label: carryoverLabel, value: carryoverTotal, icon: RefreshCw, tone: "rose", carryoverItems },
+    { label: "집행액", value: executionAmount, icon: Activity, tone: "blue", carryoverItems: undefined },
   ] as const;
   return (
     <div className="pd-card">
-      <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}</span><span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
+      <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}</span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="mt-7">
         <div className="mb-2 flex justify-between font-body text-[13px] text-[var(--pd-text-faint)]">
           <span>예산 집행률</span>
