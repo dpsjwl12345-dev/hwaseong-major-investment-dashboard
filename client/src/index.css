@@ -2601,3 +2601,15 @@ h1, h2, h3, h4, h5, h6,
 .dept-project-table td:nth-child(7) { width: 12%; }
 .dept-project-table th:nth-child(7),
 .dept-project-table td:nth-child(7) { text-align: center; }
+
+/* Give the current-stage column a little more breathing room before total cost */
+.dept-project-table th:nth-child(2),
+.dept-project-table td:nth-child(2) { width: 10%; }
+.dept-project-table th:nth-child(3),
+.dept-project-table td:nth-child(3),
+.dept-project-table th:nth-child(4),
+.dept-project-table td:nth-child(4),
+.dept-project-table th:nth-child(5),
+.dept-project-table td:nth-child(5),
+.dept-project-table th:nth-child(6),
+.dept-project-table td:nth-child(6) { width: 14%; }
