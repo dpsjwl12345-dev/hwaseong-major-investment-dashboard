@@ -222,7 +222,7 @@ function BudgetPanel({ project }: { project: Project }) {
   return (
     <div className="pd-card">
       
-      <div className="pd-exec-grid">{[["총사업비", total], ["기투자액 (~2025)", invested], ["2026년 예산", budget], ["집행액", executionAmount]].map(([label, value]) => <div key={label} className="pd-exec-card"><span className="label">{label}</span><span className="num">{value == null ? "-" : value.toLocaleString("ko-KR")}</span></div>)}</div>
+      <div className="pd-exec-grid">{[["총사업비", total], ["기투자액 (~2025)", invested], ["2026년 예산", budget], ["이월액", null], ["집행액", executionAmount]].map(([label, value]) => <div key={label} className="pd-exec-card"><span className="label">{label}</span><span className="num">{value == null ? "-" : value.toLocaleString("ko-KR")}</span></div>)}</div>
       <div className="mt-7">
         <div className="mb-2 flex justify-between font-body text-[13px] text-[var(--pd-text-faint)]">
           <span>예산 집행률</span>
