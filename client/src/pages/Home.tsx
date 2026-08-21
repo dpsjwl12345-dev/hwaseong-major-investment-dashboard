@@ -213,7 +213,7 @@ function BudgetPanel({ project }: { project: Project }) {
   const executionAmount = project.card_execution_amount_million_krw;
   return (
     <div className="pd-card">
-      <p className="pd-card-title">예산 현황 <span className="text-[13px] font-normal text-[var(--pd-text-faint)]">(단위: 백만원 · {project.management_card_matched ? "사업별 관리카드" : "총괄표"})</span></p>
+      
       <div className="pd-exec-grid">{[["총사업비", total], ["기투자액 (~2025)", invested], ["2026년 예산", budget], ["집행액", executionAmount]].map(([label, value]) => <div key={label} className="pd-exec-card"><span className="label">{label}</span><span className="num">{value == null ? "-" : value.toLocaleString("ko-KR")}</span></div>)}</div>
       <div className="mt-7">
         <div className="mb-2 flex justify-between font-body text-[13px] text-[var(--pd-text-faint)]">
