@@ -20,6 +20,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import dataset from "../data/dashboard_projects.json";
+import hwaseongAdminMap from "../assets/hwaseong-admin-map.webp";
 
 type Project = {
   id: string;
@@ -579,8 +580,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
       <div className="investment-map-layout">
         <div className="investment-map-canvas" role="img" aria-label="화성시 주요 투자사업 위치 분포도">
           <div className="investment-map-grid" /><div className="investment-map-glow" />
-          <svg className="investment-map-outline" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M16 9 L39 6 L59 13 L76 12 L89 25 L86 46 L94 61 L82 77 L70 94 L49 89 L34 96 L20 82 L11 63 L15 48 L7 31 Z" /><path className="investment-map-region" d="M39 6 L49 30 L34 48 L15 48 M49 30 L76 12 L67 42 L86 46 M34 48 L43 72 L34 96 M43 72 L70 94 M67 42 L82 77" /></svg>
-          <div className="investment-map-label label-north">비봉 · 남양 · 마도</div><div className="investment-map-label label-east">동탄권</div><div className="investment-map-label label-south">향남 · 팔탄</div><div className="investment-map-label label-west">서해안권</div>
+          <img className="investment-map-official" src={hwaseongAdminMap} alt="화성시 행정구역도" />
           {points.map(({ project, x, y }) => <button key={project.id} type="button" className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`} style={{ left: `${x}%`, top: `${y}%` }} onClick={() => { setSelected(project); onSelectProject(project); }} title={project.project_name} aria-label={`${project.project_name} 위치 보기`}><i /><span>{project.serial}</span></button>)}
           <div className="investment-map-legend"><span><i className="legend-dot" /> 사업 위치</span><span><i className="legend-ring" /> 선택 사업</span></div>
         </div>
