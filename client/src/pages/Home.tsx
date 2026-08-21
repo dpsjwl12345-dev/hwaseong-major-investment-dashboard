@@ -384,13 +384,12 @@ function ProjectDetail({ project }: { project: Project }) {
           <span className="pd-summary-label"><CalendarCheck /> 준공예정일</span>
           <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(project.inspection || "-")}</span>
         </div>
-        <div className="pd-summary-cell" style={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        <div className="pd-summary-cell">
           <span className="pd-summary-label"><MapPin /> 위치 · 선거구</span>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-            {[project.contact, project.district].filter(Boolean).map((tag) => (
+          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+            {[project.contact, project.district, project.town].filter(Boolean).map((tag) => (
               <span key={tag} className="pd-pill pd-pill-tag">{tag}</span>
             ))}
-            {project.town && <span className="pd-pill pd-pill-tag">선거구 {project.town}</span>}
             {!project.contact && !project.district && !project.town && <span className="pd-empty text-[14px]">-</span>}
           </div>
         </div>
