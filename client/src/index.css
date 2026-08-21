@@ -2514,3 +2514,13 @@ h1, h2, h3, h4, h5, h6,
 .sidebar-title-text, .landing-title, .landing-status-button,
 .pd-project-title, .pd-section-title, .dept-dashboard h1, .dept-panel-heading h2,
 .dept-kpi strong { font-family: "Gmarket Sans", "Pretendard", sans-serif !important; }
+
+.dept-filter-summary { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; padding: 12px; border-bottom: 1px solid rgba(172,199,255,.12); background: rgba(8,22,45,.48); }
+.dept-filter-summary > div { min-width: 0; padding: 8px 10px; border: 1px solid rgba(172,199,255,.12); border-radius: 8px; background: rgba(255,255,255,.025); }
+.dept-filter-summary span { display: block; overflow: hidden; color: #9fb0c9; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.dept-filter-summary strong { display: block; margin-top: 4px; color: #d6e3ff; font-family: "Pretendard", sans-serif !important; font-size: 15px; font-weight: 800; letter-spacing: -.03em; }
+.dept-project-type { display: inline-flex; margin-right: 6px; padding: 2px 5px; border-radius: 4px; color: #b9c8de; background: rgba(148,163,184,.14); font-size: 10px; font-weight: 700; vertical-align: 2px; }
+.dept-project-type.is-new { color: #ffe08a; border: 1px solid rgba(233,196,0,.28); background: rgba(233,196,0,.1); }
+.dept-project-type.is-continuing { color: #b8fff6; border: 1px solid rgba(126,244,231,.24); background: rgba(42,170,164,.1); }
+@media (max-width: 1100px) { .dept-filter-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .dept-filter-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

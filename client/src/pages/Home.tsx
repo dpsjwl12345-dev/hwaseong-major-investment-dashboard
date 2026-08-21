@@ -591,6 +591,13 @@ function DepartmentDashboard({
       return value >= min && value <= max;
     })
     .sort((a, b) => budgetSort === "desc" ? budgetValueFor(b) - budgetValueFor(a) : budgetValueFor(a) - budgetValueFor(b));
+  const filteredTotals = filteredProjects.reduce((totals, project) => ({
+    total: totals.total + (project.total_cost_million_krw ?? 0),
+    invested: totals.invested + (project.invested_to_2026_million_krw ?? 0),
+    budget2027: totals.budget2027 + (project.budget_2027_million_krw ?? 0),
+    futurePlan: totals.futurePlan + (project.card_budget_2028_plus_million_krw ?? 0),
+    futureNeed: totals.futureNeed + futureBudgetFor(project),
+  }), { total: 0, invested: 0, budget2027: 0, futurePlan: 0, futureNeed: 0 });
 
   const exportBudgetCsv = () => {
     const headers = ["사업명", "추진단계", "총사업비", "기투자액", "2027년 편성예정액", "향후 계획예산액", "향후 필요예산", "진행률"];
@@ -631,19 +638,27 @@ function DepartmentDashboard({
       </div>
 
       <div className="dept-panel dept-panel-projects dept-panel-selected">
+        <div className="dept-filter-summary">
+          <div><span>표시 사업</span><strong>{filteredProjects.length}개</strong></div>
+          <div><span>총사업비 합계</span><strong>{formatBudgetNumber(filteredTotals.total)}</strong></div>
+          <div><span>기투자액 합계</span><strong>{formatBudgetNumber(filteredTotals.invested)}</strong></div>
+          <div><span>2027년 편성예정액 합계</span><strong>{formatBudgetNumber(filteredTotals.budget2027)}</strong></div>
+          <div><span>향후 계획예산액 합계</span><strong>{formatBudgetNumber(filteredTotals.futurePlan)}</strong></div>
+          <div><span>향후 필요예산 합계</span><strong>{formatBudgetNumber(filteredTotals.futureNeed)}</strong></div>
+        </div>
         <div className="dept-filter-row dept-budget-filter-row">
           <label>추진단계<select value={stageFilter} onChange={(event) => setStageFilter(event.target.value)}><option value="전체">전체</option>{stageOptions.map((stage) => <option key={stage} value={stage}>{stage}</option>)}</select></label>
           <label>예산 기준<select value={budgetFilter} onChange={(event) => setBudgetFilter(event.target.value)}><option>향후 필요예산</option><option>총사업비</option><option>기투자액</option><option>2027년 편성예정액</option><option>향후 계획예산액</option></select></label>
           <label>최소 <input inputMode="numeric" value={minBudget} onChange={(event) => setMinBudget(event.target.value.replace(/[^0-9]/g, ""))} placeholder="0" /></label>
           <label>최대 <input inputMode="numeric" value={maxBudget} onChange={(event) => setMaxBudget(event.target.value.replace(/[^0-9]/g, ""))} placeholder="제한 없음" /></label>
-          <button type="button" className="dept-table-action" onClick={() => setBudgetSort((current) => current === "desc" ? "asc" : "desc")}>{budgetSort === "desc" ? "큰 금액순" : "작은 금액순"}</button>
+          <label>정렬<select value={budgetSort} onChange={(event) => setBudgetSort(event.target.value as "desc" | "asc")}><option value="desc">금액 높은 순</option><option value="asc">금액 낮은 순</option></select></label>
           <button type="button" className="dept-table-export" onClick={exportBudgetCsv}><Download size={14} /> CSV 출력</button>
           <span>{filteredProjects.length}개 사업 표시</span>
         </div>
         <div className="dept-project-table-wrap">
           <table className="dept-project-table"><thead><tr><th>사업명</th><th>현 추진단계</th><th>총사업비</th><th>기투자액</th><th>2027년 편성예정액</th><th>향후 계획예산액</th><th>향후 필요예산</th><th>진행률</th></tr></thead><tbody>
             {filteredProjects.map((project) => <tr key={project.id} onClick={() => onSelectProject(project)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") onSelectProject(project); }}>
-              <td><strong>{project.project_name}</strong><small>{project.region || project.district || "위치정보 미등록"}</small></td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatBudgetNumber(project.total_cost_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.invested_to_2026_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.budget_2027_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.card_budget_2028_plus_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(futureBudgetFor(project))}</td><td><div className="dept-progress"><span><em style={{ width: `${parseProgress(project)}%` }} /></span><b>{parseProgress(project)}%</b></div></td>
+              <td><strong><span className={`dept-project-type ${project.region === "신규" ? "is-new" : "is-continuing"}`}>{project.region === "신규" || project.region === "계속" ? project.region : ""}</span>{project.project_name}</strong><small>{project.district || project.town || "위치정보 미등록"}</small></td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatBudgetNumber(project.total_cost_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.invested_to_2026_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.budget_2027_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.card_budget_2028_plus_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(futureBudgetFor(project))}</td><td><div className="dept-progress"><span><em style={{ width: `${parseProgress(project)}%` }} /></span><b>{parseProgress(project)}%</b></div></td>
             </tr>)}
             {filteredProjects.length === 0 && <tr><td colSpan={8} className="dept-empty">조건에 맞는 사업이 없습니다.</td></tr>}
           </tbody></table>
