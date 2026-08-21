@@ -671,6 +671,10 @@ function PodaSearch({ value, onChange }: { value: string; onChange: (value: stri
   );
 }
 function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
+  const totalBudget = projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
+  const averageExecution = projects.length > 0
+    ? Math.round(projects.reduce((sum, project) => sum + parseProgress(project), 0) / projects.length)
+    : 0;
   return (
     <section className="landing-page">
       <div className="hero-panel">
@@ -685,6 +689,15 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR</span><span className="landing-title-line landing-title-line-b">INVESTMENT</span></h1>
+          <p className="landing-subtitle">화성시 주요 투자사업의 예산과 추진현황을 한눈에 확인합니다.</p>
+          <button type="button" onClick={onOpenDashboard} className="landing-enter-button">
+            <span>Enter Dashboard</span><span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <div className="landing-metrics" aria-label="주요 투자사업 요약">
+          <div className="landing-metric"><span>전체 사업</span><strong>{projects.length}</strong><small>PROJECTS</small></div>
+          <div className="landing-metric"><span>총사업비</span><strong>{formatBudgetNumber(totalBudget)}</strong><small>백만원</small></div>
+          <div className="landing-metric"><span>평균 집행률</span><strong>{averageExecution}%</strong><div className="landing-metric-track"><i style={{ width: `${averageExecution}%` }} /></div></div>
         </div>
       </div>
     </section>
