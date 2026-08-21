@@ -539,6 +539,11 @@
   background: #e5542d;
   color: #171717;
   box-shadow: 0 0 0 6px rgba(229,84,45,.08);
+  animation: pd-active-pulse 2.2s ease-in-out infinite;
+}
+@keyframes pd-active-pulse {
+  0%, 100% { box-shadow: 0 0 0 5px rgba(229,84,45,.10), 0 0 0 0 rgba(229,84,45,.28); }
+  50% { box-shadow: 0 0 0 8px rgba(229,84,45,.16), 0 0 0 12px rgba(229,84,45,0); }
 }
 .pd-progress-copy {
   min-width: 0;
@@ -605,6 +610,8 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .pd-progress-section::after { filter: none; }
+  .pd-progress-vertical-item.is-active .pd-progress-node,
+  .pd-progress-horizontal-item.is-active .pd-progress-node { animation: none; }
 }
 
 .pd-timeline {
