@@ -466,7 +466,7 @@ function ProjectDetail({ project }: { project: Project }) {
 
       {isTourismProject && (
         <div className="tourism-detail-icon" aria-hidden="true">
-          <img src="/assets/tourism-icon.png" alt="" />
+          <img src="/tourism-icon.png" alt="" />
         </div>
       )}
       <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
