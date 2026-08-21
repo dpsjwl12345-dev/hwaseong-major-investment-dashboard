@@ -2555,3 +2555,19 @@ h1, h2, h3, h4, h5, h6,
 .dept-project-table th:nth-child(n+3):nth-child(-n+6) { text-align: right; }
 .dept-project-table td:nth-child(7) { text-align: center; }
 .dept-amount-cell { font-weight: 750; letter-spacing: -.02em; }
+
+/* Move the budget area closer to the project name */
+.dept-project-table th:nth-child(1),
+.dept-project-table td:nth-child(1) { width: 21%; }
+.dept-project-table th:nth-child(2),
+.dept-project-table td:nth-child(2) { width: 11%; }
+.dept-project-table th:nth-child(3),
+.dept-project-table td:nth-child(3),
+.dept-project-table th:nth-child(4),
+.dept-project-table td:nth-child(4),
+.dept-project-table th:nth-child(5),
+.dept-project-table td:nth-child(5),
+.dept-project-table th:nth-child(6),
+.dept-project-table td:nth-child(6) { width: 14%; }
+.dept-project-table th:nth-child(7),
+.dept-project-table td:nth-child(7) { width: 12%; }
