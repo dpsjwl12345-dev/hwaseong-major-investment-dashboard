@@ -580,7 +580,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     return { x: Math.max(8, Math.min(92, base[0] + spread)), y: Math.max(12, Math.min(88, base[1] + (((index * 11) % 9) - 4))) };
   };
   const points = projects.map((project, index) => ({ project, zone: zoneFor(project), ...positionFor(project, index) }));
-  const zoneSummary = ["서해안권", "서부권", "중부권", "남부권", "동탄권", "기타 권역"].map((zone) => ({ zone, count: points.filter((point) => point.zone === zone).length })).filter((item) => item.count > 0);
   return (
     <section className="investment-map-page">
       <header className="investment-map-header">
@@ -591,7 +590,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
           <div className="investment-map-grid" /><div className="investment-map-glow" />
           <svg className="investment-map-outline accurate" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M13 18 L24 10 L41 7 L56 11 L68 9 L79 17 L88 29 L84 40 L91 51 L88 62 L79 67 L76 79 L68 86 L56 83 L47 94 L37 88 L29 92 L22 81 L13 75 L16 64 L9 54 L14 44 L8 33 Z" /><path className="investment-map-region" d="M24 10 L31 28 L16 44 M31 28 L48 24 L56 11 M48 24 L58 42 L41 58 L16 64 M58 42 L75 32 L84 40 M75 32 L79 17 M58 42 L69 57 L88 62 M41 58 L47 74 L37 88 M47 74 L68 86 M69 57 L76 79" /></svg>
           <div className="investment-map-label label-north">송산 · 비봉 · 남양</div><div className="investment-map-label label-east">동탄권</div><div className="investment-map-label label-south">향남 · 팔탄 · 정남</div><div className="investment-map-label label-west">서해안 · 제부도</div>
-          <div className="investment-map-focus-panel"><p>REGION DISTRIBUTION</p><h2>사업 집중 권역</h2>{zoneSummary.map((item) => <div className="investment-map-zone-row" key={item.zone}><span>{item.zone}</span><b>{item.count}<small>건</small></b><i><em style={{ width: `${Math.max(14, (item.count / Math.max(1, projects.length)) * 100)}%` }} /></i></div>)}</div>
           {points.map(({ project, x, y }) => <button key={project.id} type="button" className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`} style={{ left: `${x}%`, top: `${y}%` }} onClick={() => { setSelected(project); setGalleryIndex(0); }} onMouseEnter={() => setHovered(project)} onMouseLeave={() => setHovered(null)} title={project.project_name} aria-label={`${project.project_name} 위치 보기`}><i /><span>{project.serial}</span></button>)}
           {hovered && <div className="investment-map-hover-card"><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small></div>}
           <div className="investment-map-legend"><span><i className="legend-dot" /> 사업 위치</span><span><i className="legend-ring" /> 선택 사업</span></div>
