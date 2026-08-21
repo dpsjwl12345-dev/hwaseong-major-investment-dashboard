@@ -204,6 +204,8 @@
       "funding_type": "소계",
       "total_cost_million_krw": 17089,
       "invested_to_2026_million_krw": 1621,
+      "carryover_million_krw": 101,
+      "carryover_type": "명시이월",
       "budget_2027_million_krw": 3407,
       "execution_rate": 0.0,
       "progress_status": "용역 타절 후 협상에 의한 계약 진행 예정",
