@@ -584,8 +584,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   return (
     <section className="investment-map-page">
       <header className="investment-map-header">
-        <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT ATLAS</p><h1>주요 투자사업 분포도</h1><p>화성시 전역의 주요 투자사업 위치와 규모를 한 화면에서 확인합니다.</p></div>
-        <button type="button" className="investment-map-back" onClick={onBack}>대시보드로 돌아가기</button>
+        <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT ATLAS</p><h1>주요 투자사업 분포도</h1></div>
       </header>
       <div className="investment-map-layout">
         <div className="investment-map-canvas" role="img" aria-label="화성시 주요 투자사업 위치 분포도">
