@@ -267,17 +267,16 @@ function ProgressPanel({ project }: { project: Project }) {
         <div><p className="pd-summary-label !text-[13px]">추진상황 점검</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-success)]">{project.delay_reason || "-"}</p></div>
         <div><p className="pd-summary-label !text-[13px]">준공예정일</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-text)]">{formatDateText(project.inspection || "-")}</p></div>
       </div>
-            <div className="grid gap-5 lg:grid-cols-2">
-        <section className="rounded-xl border border-[var(--pd-border)] bg-black/10 p-4 sm:p-5">
-          <p className="mb-4 text-[13px] font-bold tracking-[0.04em] text-[var(--pd-text)]">추진경과</p>
-          {past.length > 0 ? <div className="pd-timeline"><div className="pd-timeline-line" />{past.map((item, index) => <div key={index} className="pd-t-item"><div className="pd-t-dot" /><div className="pd-t-date">{item.date || "-"}</div><div className="pd-t-desc">{item.desc}</div></div>)}</div> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
+      <div className="pd-progress-layout">
+        <section className="pd-progress-section pd-progress-vertical">
+          <div className="pd-progress-heading"><span className="pd-progress-kicker">01</span><div><p className="pd-progress-title">추진경과</p><p className="pd-progress-subtitle">지금까지 진행된 주요 단계</p></div></div>
+          {past.length > 0 ? <div className="pd-progress-vertical-list">{past.map((item, index) => <div key={index} className={`pd-progress-vertical-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{item.desc}</div></div></div>)}</div> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
         </section>
-        <section className="rounded-xl border border-[var(--pd-border)] bg-black/10 p-4 sm:p-5">
-          <p className="mb-4 text-[13px] font-bold tracking-[0.04em] text-[var(--pd-text)]">향후 추진계획</p>
-          {upcoming.length > 0 ? <div className="pd-timeline"><div className="pd-timeline-line dashed" />{upcoming.map((item, index) => <div key={index} className="pd-t-item future"><div className="pd-t-dot future" /><div className="pd-t-date">{item.date || "-"}</div><div className="pd-t-desc">{item.desc}</div></div>)}</div> : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
+        <section className="pd-progress-section pd-progress-horizontal">
+          <div className="pd-progress-heading"><span className="pd-progress-kicker is-muted">02</span><div><p className="pd-progress-title">향후 계획</p><p className="pd-progress-subtitle">다음 단계와 예정 일정</p></div></div>
+          {upcoming.length > 0 ? <div className="pd-progress-horizontal-track"><div className="pd-progress-horizontal-line" />{upcoming.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{item.desc}</div></div></div>)}</div> : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
         </section>
       </div>
-
     </div>
   );
 }
