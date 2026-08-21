@@ -434,7 +434,7 @@
 
 .pd-progress-layout {
   display: grid;
-  grid-template-columns: minmax(260px, .82fr) minmax(0, 1.65fr);
+  grid-template-columns: minmax(220px, .68fr) minmax(0, 1.82fr);
   gap: 18px;
   align-items: stretch;
 }
