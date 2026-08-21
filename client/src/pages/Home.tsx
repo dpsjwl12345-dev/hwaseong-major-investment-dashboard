@@ -208,9 +208,13 @@ function BreakdownTable({ title, rows }: { title: string; rows: Project["funding
   return (
     <div className="mt-6 overflow-hidden rounded-xl border border-[var(--pd-border)]">
       <div className="border-b border-[var(--pd-border)] bg-white/[0.035] px-4 py-3 text-[13px] font-bold text-[var(--pd-text)]">{title}</div>
-      {rows.length === 0 ? <div className="pd-note-box m-3">등록된 세부 예산표가 없습니다.</div> : <div className="overflow-x-auto"><table className="w-full min-w-[640px] text-left text-[12px]"><thead className="bg-black/20 text-[var(--pd-text-faint)]"><tr><th className="px-4 py-3">구분</th><th className="px-4 py-3 text-right">총사업비</th><th className="px-4 py-3 text-right">기투자<br/>(2025년까지)</th><th className="px-4 py-3 text-right">2026년</th><th className="px-4 py-3 text-right">2027년</th><th className="px-4 py-3 text-right">2028년 이후</th></tr></thead><tbody>{rows.map((row) => <tr key={row.name} className="border-t border-[var(--pd-border)]"><td className="px-4 py-3 font-semibold text-[var(--pd-text)]">{row.name}</td>{[row.total, row.invested, row.budget_2026, row.budget_2027, row.budget_2028_plus].map((value, index) => <td key={index} className="px-4 py-3 text-right tabular-nums text-[var(--pd-text-muted)]">{value == null ? "-" : value.toLocaleString("ko-KR")}</td>)}</tr>)}</tbody></table></div>}
+      {rows.length === 0 ? <div className="pd-note-box m-3">등록된 세부 예산표가 없습니다.</div> : <div className="overflow-x-auto"><table className="w-full min-w-[640px] text-left text-[12px]"><thead className="bg-black/20 text-[var(--pd-text-faint)]"><tr><th className="px-4 py-3">구분</th><th className="px-4 py-3 text-right">총사업비</th><th className="px-4 py-3 text-right">기투자<br/>(2025년까지)</th><th className="px-4 py-3 text-right">2026년</th><th className="px-4 py-3 text-right">2027년</th><th className="px-4 py-3 text-right">2028년 이후</th></tr></thead><tbody>{rows.map((row) => <tr key={row.name} className="border-t border-[var(--pd-border)]"><td className="px-4 py-3 font-semibold text-[var(--pd-text)]">{row.name}</td>{[row.total, row.invested, row.budget_2026, row.budget_2027, row.budget_2028_plus].map((value, index) => <td key={index} className="px-4 py-3 text-right tabular-nums text-[var(--pd-text-muted)]">{formatMillion(value)}</td>)}</tr>)}</tbody></table></div>}
     </div>
   );
+}
+
+function formatMillion(value: number | null | undefined) {
+  return value == null ? "-" : `${value.toLocaleString("ko-KR")} 백만원`;
 }
 
 function BudgetPanel({ project }: { project: Project }) {
@@ -219,10 +223,11 @@ function BudgetPanel({ project }: { project: Project }) {
   const budget = project.card_budget_2026_million_krw ?? project.budget_2027_million_krw;
   const execution = Math.min(100, Math.max(0, project.card_execution_rate ?? project.execution_rate ?? 0));
   const executionAmount = project.card_execution_amount_million_krw;
+  const budgetCards: Array<[string, number | null]> = [["총사업비", total], ["기투자액 (~2025)", invested], ["2026년 예산", budget], ["이월액", null], ["집행액", executionAmount]];
   return (
     <div className="pd-card">
       
-      <div className="pd-exec-grid">{[["총사업비", total], ["기투자액 (~2025)", invested], ["2026년 예산", budget], ["이월액", null], ["집행액", executionAmount]].map(([label, value]) => <div key={label} className="pd-exec-card"><span className="label">{label}</span><span className="num">{value == null ? "-" : value.toLocaleString("ko-KR")}</span></div>)}</div>
+      <div className="pd-exec-grid">{budgetCards.map(([label, value]) => <div key={label} className="pd-exec-card"><span className="label">{label}</span><span className="num">{formatMillion(value)}</span></div>)}</div>
       <div className="mt-7">
         <div className="mb-2 flex justify-between font-body text-[13px] text-[var(--pd-text-faint)]">
           <span>예산 집행률</span>
