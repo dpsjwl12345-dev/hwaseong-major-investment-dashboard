@@ -450,6 +450,7 @@ function ProjectDetail({ project }: { project: Project }) {
   const percent = progressPercent(project);
   const overviewPairs = parseKvPairs(project.overview);
   const color = colorFor(project.department);
+  const isTourismProject = project.department === "관광진흥과";
   const themeVars = { ["--pd-accent-a" as string]: color.from, ["--pd-accent-b" as string]: color.to } as CSSProperties;
 
   return (
@@ -463,6 +464,11 @@ function ProjectDetail({ project }: { project: Project }) {
         </defs>
       </svg>
 
+      {isTourismProject && (
+        <div className="tourism-detail-icon" aria-hidden="true">
+          <img src="/assets/tourism-icon.png" alt="" />
+        </div>
+      )}
       <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
         {project.project_name}
       </h1>
