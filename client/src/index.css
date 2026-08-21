@@ -2825,3 +2825,20 @@ h1, h2, h3, h4, h5, h6,
   }
   .app-main:has(.landing-page) .hero-panel { height: 100% !important; min-height: 0 !important; }
 }
+
+/* Keep the bottom metric bar visible inside the shorter hero panel */
+.app-main:has(.landing-page) .landing-content {
+  min-height: 0 !important;
+  flex: 1 1 auto !important;
+  padding-top: clamp(60px, 10vh, 110px) !important;
+  padding-bottom: 20px !important;
+  transform: none !important;
+  justify-content: center;
+}
+.app-main:has(.landing-page) .landing-metrics {
+  flex: 0 0 auto;
+  margin-top: auto;
+}
+@media (max-width: 1023px) {
+  .app-main:has(.landing-page) .landing-content { padding-top: 48px !important; padding-bottom: 12px !important; }
+}
