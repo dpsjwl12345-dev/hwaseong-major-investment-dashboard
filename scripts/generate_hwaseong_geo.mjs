@@ -11,7 +11,16 @@
 //   node scripts/generate_hwaseong_geo.mjs <path-to-HangJeongDong-geojson>
 import { readFileSync, writeFileSync } from "node:fs";
 import { geoMercator, geoPath, geoCentroid } from "d3-geo";
-import { union, rewind } from "@turf/turf";
+import { union, rewind, bbox } from "@turf/turf";
+
+// vuski/admdongkor's polygon for 새솔동 (송산그린시티, split off from 송산면/
+// 마도면 in 2022 — one of the newest dongs in the dataset) sits far north of
+// where 새솔동 actually is, pulling its geoCentroid up near the top of the
+// whole city instead of the western coastal area. Manually pin it near its
+// parent dongs (송산면/마도면) until an updated source fixes the geometry.
+const CENTROID_OVERRIDES = {
+  새솔동: [126.79, 37.185],
+};
 
 const sourcePath = process.argv[2];
 if (!sourcePath) {
@@ -70,7 +79,7 @@ const dongOutlines = {};
 for (const feature of dongFeatures) {
   // adm_nm looks like "경기도 화성시효행구 봉담읍" — keep just the 읍/면/동 name.
   const dongName = feature.properties.adm_nm.split(" ").pop();
-  const [lon, lat] = geoCentroid(feature);
+  const [lon, lat] = CENTROID_OVERRIDES[dongName] ?? geoCentroid(feature);
   const projected = projection([lon, lat]);
   if (projected) {
     centroids[dongName] = {
@@ -107,7 +116,12 @@ for (const [guName, features] of guGroups) {
     features.length > 1
       ? rewind(union({ type: "FeatureCollection", features }), { reverse: true })
       : features[0];
-  const [lon, lat] = geoCentroid(guUnion);
+  // Anchor the label near the TOP of the district's bounding box (centered
+  // horizontally) rather than its area centroid — the centroid tends to sit
+  // right where project markers cluster, so the label ends up covering them.
+  const [minLon, minLat, maxLon, maxLat] = bbox(guUnion);
+  const lon = (minLon + maxLon) / 2;
+  const lat = maxLat - (maxLat - minLat) * 0.08;
   const projected = projection([lon, lat]);
   guOutlines[guName] = {
     d: path(guUnion.geometry),
