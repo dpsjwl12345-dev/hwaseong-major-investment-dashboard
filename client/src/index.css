@@ -2942,3 +2942,6 @@ h1, h2, h3, h4, h5, h6,
 /* Expenditure summary: keep hierarchy, align the first label column left */
 .pd-funding-table th:first-child { text-align: left; }
 .pd-funding-table tbody tr th:first-child { text-align: left; }
+
+/* Usage detail labels: all first-column items align left */
+.pd-usage-progress-label > span { text-align: left; justify-self: start; }
