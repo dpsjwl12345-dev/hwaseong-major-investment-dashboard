@@ -2938,3 +2938,19 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-gallery-main { height:142px; }
 @media (max-width:1100px){.investment-map-layout{grid-template-columns:minmax(0,1fr) 310px}.investment-map-page{padding-left:24px;padding-right:24px}.investment-map-side{padding:22px 20px}}
 @media (max-width:700px){.investment-map-page{padding:22px 16px 30px}.investment-map-layout{height:auto;min-height:0}.investment-map-canvas{height:480px}.investment-map-side{height:auto;min-height:520px}.investment-map-header h1{font-size:34px}}
+
+/* Expenditure summary: keep hierarchy, align the first label column left */
+.pd-funding-table th:first-child { text-align: left; }
+.pd-funding-table tbody tr th:first-child { text-align: left; }
+
+/* Usage detail labels: all first-column items align left */
+.pd-usage-progress-label > span { text-align: left; justify-self: start; }
+
+/* Final text-column alignment pass */
+.pd-funding-table thead th:first-child,
+.pd-funding-table tbody th:first-child,
+.pd-funding-table tbody td:first-child,
+.dept-project-table thead th:first-child,
+.dept-project-table tbody td:first-child,
+.dept-project-table tbody th:first-child,
+.pd-usage-progress-label > span { text-align: left !important; justify-self: start; }
