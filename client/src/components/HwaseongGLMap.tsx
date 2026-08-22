@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Map as MapLibreMap, Marker, Popup, NavigationControl } from "maplibre-gl";
+import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
 // CartoDB's free public basemap style — no API key, no account, no domain
@@ -28,17 +28,17 @@ export function HwaseongGLMap({
     let cancelled = false;
     setStatus("loading");
 
-    const map = new MapLibreMap({
+    const map = new maplibregl.Map({
       container: containerRef.current,
       style: DARK_STYLE,
       center: [longitude, latitude],
       zoom,
       attributionControl: { compact: true },
     });
-    map.addControl(new NavigationControl({ showCompass: false }), "top-right");
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
 
-    const marker = new Marker({ color: "#79eef0" }).setLngLat([longitude, latitude]);
-    if (label) marker.setPopup(new Popup({ offset: 18, closeButton: false }).setText(label));
+    const marker = new maplibregl.Marker({ color: "#79eef0" }).setLngLat([longitude, latitude]);
+    if (label) marker.setPopup(new maplibregl.Popup({ offset: 18, closeButton: false }).setText(label));
     marker.addTo(map);
 
     map.on("load", () => {
@@ -47,9 +47,16 @@ export function HwaseongGLMap({
     map.on("error", () => {
       if (!cancelled) setStatus("error");
     });
+    // The basemap is fetched from an external CDN — if it never responds
+    // (network restriction, ad-blocker, offline), don't leave the panel
+    // stuck on "loading" forever.
+    const timeout = setTimeout(() => {
+      if (!cancelled) setStatus((current) => (current === "loading" ? "error" : current));
+    }, 8000);
 
     return () => {
       cancelled = true;
+      clearTimeout(timeout);
       map.remove();
     };
   }, [longitude, latitude, zoom, label]);
