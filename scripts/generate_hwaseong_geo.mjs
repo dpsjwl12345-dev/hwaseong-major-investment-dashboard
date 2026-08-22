@@ -22,6 +22,20 @@ const CENTROID_OVERRIDES = {
   새솔동: [126.79, 37.185],
 };
 
+// Named coastal/island landmarks that show up in several 서해안 project
+// addresses (궁평항, 국화도, 제부도 등) are 리-level place names — finer than
+// the 읍면동 centroids above, so those projects were landing mid-inland at
+// their whole township's center instead of on the coast. 제부도's coordinate
+// is independently sourced (Wikipedia); the others don't have a coordinate
+// we could verify, so instead of guessing we place them at the westmost
+// point of their real township polygon — still derived only from the public
+// boundary data, and at least correctly on the coastline.
+const COASTAL_POINTS = {
+  제부도: { lonlat: [126.583, 37.267] },
+  궁평항: { westmostOf: "서신면" },
+  국화도: { westmostOf: "우정읍" },
+};
+
 const sourcePath = process.argv[2];
 if (!sourcePath) {
   console.error("Usage: node scripts/generate_hwaseong_geo.mjs <HangJeongDong-geojson-path>");
@@ -97,6 +111,31 @@ writeFileSync(
 writeFileSync(
   new URL("../client/src/data/hwaseong-dong-outlines.json", import.meta.url),
   JSON.stringify(dongOutlines, null, 2) + "\n",
+);
+
+const westmostOf = (dongName) => {
+  const feature = dongFeatures.find((f) => f.properties.adm_nm.split(" ").pop() === dongName);
+  if (!feature) return null;
+  const polys = feature.geometry.type === "MultiPolygon" ? feature.geometry.coordinates : [feature.geometry.coordinates];
+  let best = null;
+  for (const poly of polys) for (const [lon, lat] of poly[0]) if (!best || lon < best[0]) best = [lon, lat];
+  return best;
+};
+
+const coastalPoints = {};
+for (const [name, spec] of Object.entries(COASTAL_POINTS)) {
+  const lonlat = spec.lonlat ?? westmostOf(spec.westmostOf);
+  if (!lonlat) continue;
+  const projected = projection(lonlat);
+  if (!projected) continue;
+  coastalPoints[name] = {
+    x: Number(((projected[0] / WIDTH) * 100).toFixed(2)),
+    y: Number(((projected[1] / HEIGHT) * 100).toFixed(2)),
+  };
+}
+writeFileSync(
+  new URL("../client/src/data/hwaseong-coastal-points.json", import.meta.url),
+  JSON.stringify(coastalPoints, null, 2) + "\n",
 );
 
 // 화성특례시's 4 general districts (효행구/봉담·매송·비봉·정남/우정 등을 아우름

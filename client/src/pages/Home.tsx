@@ -30,6 +30,7 @@ import hwaseongBoundary from "../data/hwaseong-boundary.json";
 import dongCentroids from "../data/hwaseong-dong-centroids.json";
 import dongOutlines from "../data/hwaseong-dong-outlines.json";
 import guOutlines from "../data/hwaseong-gu-outlines.json";
+import coastalPoints from "../data/hwaseong-coastal-points.json";
 
 type Project = {
   id: string;
@@ -731,10 +732,24 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     return { x: Math.max(2, Math.min(98, avgX + jitterX)), y: Math.max(2, Math.min(98, avgY + jitterY)) };
   };
 
+  // Named coastal/island landmarks (궁평항, 국화도, 제부도) are finer than the
+  // 읍면동 centroids above — a project addressed to one of these was landing
+  // at its whole township's inland center instead of on the coast. Check the
+  // project text for these place names before falling back to the dong.
+  const coastalPositionFor = (project: Project) => {
+    const text = `${project.project_name} ${project.district} ${project.overview}`;
+    // Match on the short place-name root, not the full landmark name — the
+    // source address text says "궁평리"/"제부리", not "궁평항"/"제부도".
+    const keywordToPoint: Record<string, string> = { 궁평: "궁평항", 제부: "제부도", 국화도: "국화도", 입파도: "국화도" };
+    const hit = Object.keys(keywordToPoint).find((keyword) => text.includes(keyword));
+    if (!hit) return null;
+    return (coastalPoints as Record<string, { x: number; y: number }>)[keywordToPoint[hit]] ?? null;
+  };
+
   const points = projects.map((project, index) => ({
     project,
     zone: zoneFor(project),
-    ...(dongPositionFor(project, index) ?? approxPositionFor(project, index)),
+    ...(coastalPositionFor(project) ?? dongPositionFor(project, index) ?? approxPositionFor(project, index)),
   }));
 
   const showHoverCardFor = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
