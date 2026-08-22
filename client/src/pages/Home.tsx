@@ -717,6 +717,23 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
               );
             })}
           </svg>
+          <div className="investment-map-marker-cluster" aria-label="사업 선택">
+            <span className="investment-map-marker-cluster-label">PROJECTS</span>
+            <div className="investment-map-marker-grid">
+              {points.map(({ project }) => (
+                <button
+                  type="button"
+                  key={`cluster-${project.id}`}
+                  className={`investment-map-cluster-dot ${selected?.id === project.id ? "is-selected" : ""}`}
+                  aria-label={`${project.project_name} 선택`}
+                  title={project.project_name}
+                  onClick={() => { setSelected(project); setGalleryIndex(0); }}
+                >
+                  {project.serial}
+                </button>
+              ))}
+            </div>
+          </div>
           {hovered &&<div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small></div>}
           <div className="investment-map-legend"><span><i className="legend-dot" /> 사업 위치</span><span><i className="legend-ring" /> 선택 사업</span></div>
         </div>
