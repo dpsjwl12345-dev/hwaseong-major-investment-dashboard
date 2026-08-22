@@ -469,6 +469,8 @@
 .pd-budget-panel-heading > div { display:flex; align-items:center; gap:10px; min-width:0; }
 .pd-section-heading { display:flex; align-items:center; gap:9px; min-width:0; }
 .pd-section-icon { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; flex:none; border:1px solid color-mix(in srgb, var(--pd-accent-b) 48%, transparent); border-radius:10px; color:var(--pd-accent-b); background:color-mix(in srgb, var(--pd-accent-b) 16%, transparent); box-shadow:0 0 0 3px color-mix(in srgb, var(--pd-accent-b) 4%, transparent); }
+.pd-progress-section .pd-section-icon { border-color:rgba(229,84,45,.58); color:#ff8e6f; background:rgba(229,84,45,.14); box-shadow:0 0 0 3px rgba(229,84,45,.08); }
+.pd-admin-card .pd-section-icon { border-color:color-mix(in srgb, var(--pd-success) 58%, transparent); color:#6ee7b7; background:var(--pd-success-wash); box-shadow:0 0 0 3px color-mix(in srgb, var(--pd-success) 8%, transparent); }
 .pd-section-heading-title { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; line-height:1.2; }
 .pd-section-heading-subtitle { margin:3px 0 0; color:var(--pd-text-faint); font-size:11px; line-height:1.25; }
 .pd-progress-heading .pd-section-heading { width:100%; }
