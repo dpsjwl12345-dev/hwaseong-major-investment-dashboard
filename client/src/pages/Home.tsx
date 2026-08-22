@@ -961,7 +961,7 @@ export default function Home() {
               }}
             >
               <span className="sidebar-map-label">MAP VIEW</span>
-              <span className="sidebar-map-dot" aria-hidden="true" />
+              {activeView === "map" && <span className="sidebar-map-dot" aria-hidden="true" />}
             </button>
           )}
 
