@@ -537,17 +537,17 @@ const GU_COLORS: Record<string, { fill: string; accent: string }> = {
   병점구: { fill: "rgba(224,80,140,.42)", accent: "#e07fa8" },
 };
 
-// One color family per 사업분야 (project.category) so markers are
-// distinguishable by business field at a glance, not just by district.
+// 사업 수가 가장 많은 문화관광시설은 기존 민트 톤을 유지하고,
+// 나머지 분야는 서로 다른 색상군으로 분리해 작은 마커에서도 구분되도록 한다.
 const CATEGORY_STYLES: Record<string, { id: string; hi: string; mid: string; lo: string }> = {
-  문화관광시설: { id: "culture", hi: "#99f6e4", mid: "#0f766e", lo: "#022c22" },
-  체육시설: { id: "sports", hi: "#a7f3d0", mid: "#047857", lo: "#064e3b" },
-  공공시설: { id: "public", hi: "#6ee7b7", mid: "#059669", lo: "#065f46" },
-  "교육 및 도서관": { id: "edu", hi: "#5eead4", mid: "#0d9488", lo: "#134e4a" },
-  "도로1(시도·농어촌)": { id: "road", hi: "#67e8f9", mid: "#0891b2", lo: "#155e75" },
-  기타: { id: "etc", hi: "#ccfbf1", mid: "#14b8a6", lo: "#0f766e" },
+  문화관광시설: { id: "culture", hi: "#d1fae5", mid: "#34d399", lo: "#047857" },
+  체육시설: { id: "sports", hi: "#cffafe", mid: "#22d3ee", lo: "#0e7490" },
+  공공시설: { id: "public", hi: "#fef3c7", mid: "#f59e0b", lo: "#b45309" },
+  "교육 및 도서관": { id: "edu", hi: "#ede9fe", mid: "#c084fc", lo: "#7e22ce" },
+  "도로1(시도·농어촌)": { id: "road", hi: "#ffedd5", mid: "#fb923c", lo: "#c2410c" },
+  기타: { id: "etc", hi: "#f1f5f9", mid: "#94a3b8", lo: "#475569" },
 };
-const DEFAULT_CATEGORY_STYLE = { id: "default", hi: "#99f6e4", mid: "#2dd4bf", lo: "#0f766e" };
+const DEFAULT_CATEGORY_STYLE = { id: "default", hi: "#d1fae5", mid: "#34d399", lo: "#047857" };
 const categoryStyleFor = (category: string | undefined) => (category && CATEGORY_STYLES[category]) || DEFAULT_CATEGORY_STYLE;
 
 function InvestmentDistribution({ projects, onBack, onSelectProject }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void }) {
