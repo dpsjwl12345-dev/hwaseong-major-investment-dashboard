@@ -1,0 +1,125 @@
+// Single source of truth for every piece of geo data the "주요 투자사업 분포도"
+// screen needs, all derived from ONE dataset (vuski/admdongkor's 행정동
+// boundaries, WGS84) so the outer city shape, the internal 읍면동 divider
+// lines, and the dong centroids all share exactly the same projection —
+// nothing can drift out of alignment between them.
+//
+// Source data: https://github.com/vuski/admdongkor (공개 행정동 경계, WGS84)
+// No project/address data is read or sent anywhere by this script.
+//
+// Usage:
+//   node scripts/generate_hwaseong_geo.mjs <path-to-HangJeongDong-geojson>
+import { readFileSync, writeFileSync } from "node:fs";
+import { geoMercator, geoPath, geoCentroid } from "d3-geo";
+import { union, rewind } from "@turf/turf";
+
+const sourcePath = process.argv[2];
+if (!sourcePath) {
+  console.error("Usage: node scripts/generate_hwaseong_geo.mjs <HangJeongDong-geojson-path>");
+  process.exit(1);
+}
+
+const source = JSON.parse(readFileSync(sourcePath, "utf-8"));
+const dongFeatures = source.features.filter((f) => f.properties?.adm_nm?.includes("화성시"));
+if (dongFeatures.length === 0) {
+  console.error("No 화성시 features found in source file");
+  process.exit(1);
+}
+
+// Union every dong polygon into the outer city outline. Doing this from the
+// current 행정동 dataset (rather than an older 시군구-level file) means any
+// land reclamation already assigned to a dong is included automatically.
+// turf.union() normalizes ring winding to the GeoJSON RFC7946 convention
+// (exterior rings CCW), but d3-geo expects the opposite (exterior CW, the
+// convention the raw source data already uses) — without un-reversing it
+// here, d3-geo can't tell inside from outside and fills the whole viewport.
+const cityOutline = rewind(union({ type: "FeatureCollection", features: dongFeatures }), { reverse: true });
+
+// Fit once to find the shape's natural aspect ratio, then refit to a box with
+// that exact aspect so the polygon touches all four edges with no letterboxing.
+const probe = geoMercator().fitSize([1000, 1000], cityOutline);
+const [[x0, y0], [x1, y1]] = geoPath(probe).bounds(cityOutline);
+const aspect = (x1 - x0) / (y1 - y0);
+const WIDTH = 1000;
+const HEIGHT = Math.round(WIDTH / aspect);
+
+const projection = geoMercator().fitSize([WIDTH, HEIGHT], cityOutline);
+const path = geoPath(projection);
+
+writeFileSync(
+  new URL("../client/src/data/hwaseong-boundary.json", import.meta.url),
+  JSON.stringify(
+    {
+      width: WIDTH,
+      height: HEIGHT,
+      d: path(cityOutline.geometry),
+      scale: projection.scale(),
+      translate: projection.translate(),
+      center: projection.center(),
+    },
+    null,
+    2,
+  ) + "\n",
+);
+
+// Per-dong outline (for internal 읍면동 divider lines) and centroid (for
+// plotting projects by district), both in the exact same coordinate space
+// as the city outline above.
+const centroids = {};
+const dongOutlines = {};
+for (const feature of dongFeatures) {
+  // adm_nm looks like "경기도 화성시효행구 봉담읍" — keep just the 읍/면/동 name.
+  const dongName = feature.properties.adm_nm.split(" ").pop();
+  const [lon, lat] = geoCentroid(feature);
+  const projected = projection([lon, lat]);
+  if (projected) {
+    centroids[dongName] = {
+      x: Number(((projected[0] / WIDTH) * 100).toFixed(2)),
+      y: Number(((projected[1] / HEIGHT) * 100).toFixed(2)),
+    };
+  }
+  dongOutlines[dongName] = path(feature.geometry);
+}
+
+writeFileSync(
+  new URL("../client/src/data/hwaseong-dong-centroids.json", import.meta.url),
+  JSON.stringify(centroids, null, 2) + "\n",
+);
+writeFileSync(
+  new URL("../client/src/data/hwaseong-dong-outlines.json", import.meta.url),
+  JSON.stringify(dongOutlines, null, 2) + "\n",
+);
+
+// 화성특례시's 4 general districts (효행구/봉담·매송·비봉·정남/우정 등을 아우름
+// — sggnm already groups dongs into these). Union each group's dongs into one
+// outline plus a label anchor point, same coordinate space as everything else.
+const guGroups = new Map();
+for (const feature of dongFeatures) {
+  // sggnm looks like "화성시효행구" — strip the city name to get "효행구".
+  const guName = feature.properties.sggnm.replace("화성시", "");
+  if (!guGroups.has(guName)) guGroups.set(guName, []);
+  guGroups.get(guName).push(feature);
+}
+
+const guOutlines = {};
+for (const [guName, features] of guGroups) {
+  const guUnion =
+    features.length > 1
+      ? rewind(union({ type: "FeatureCollection", features }), { reverse: true })
+      : features[0];
+  const [lon, lat] = geoCentroid(guUnion);
+  const projected = projection([lon, lat]);
+  guOutlines[guName] = {
+    d: path(guUnion.geometry),
+    labelX: projected ? Number(((projected[0] / WIDTH) * 100).toFixed(2)) : 50,
+    labelY: projected ? Number(((projected[1] / HEIGHT) * 100).toFixed(2)) : 50,
+  };
+}
+
+writeFileSync(
+  new URL("../client/src/data/hwaseong-gu-outlines.json", import.meta.url),
+  JSON.stringify(guOutlines, null, 2) + "\n",
+);
+
+console.log(`City outline: viewBox 0 0 ${WIDTH} ${HEIGHT} (aspect ${aspect.toFixed(3)})`);
+console.log(`Wrote ${Object.keys(centroids).length} dong centroids, ${Object.keys(dongOutlines).length} dong outlines, ${Object.keys(guOutlines).length} gu outlines (${[...guGroups.keys()].join(", ")})`);

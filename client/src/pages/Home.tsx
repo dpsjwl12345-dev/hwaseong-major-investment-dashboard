@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent } from "react";
 import {
   Activity,
   Building2,
@@ -21,6 +21,10 @@ import {
   RefreshCw,
 } from "lucide-react";
 import dataset from "../data/dashboard_projects.json";
+import hwaseongBoundary from "../data/hwaseong-boundary.json";
+import dongCentroids from "../data/hwaseong-dong-centroids.json";
+import dongOutlines from "../data/hwaseong-dong-outlines.json";
+import guOutlines from "../data/hwaseong-gu-outlines.json";
 
 type Project = {
   id: string;
@@ -345,75 +349,119 @@ type KakaoMaps = {
 };
 type KakaoWindow = Window & { kakao?: { maps: KakaoMaps } };
 
+// Shared loader so every consumer (single-project map, distribution atlas, ...)
+// reuses the same <script> tag and the same resolved `kakao.maps` instance
+// instead of re-running the SDK bootstrap on every mount.
+let kakaoMapsPromise: Promise<KakaoMaps> | null = null;
+function loadKakaoMaps(appKey: string): Promise<KakaoMaps> {
+  if (!kakaoMapsPromise) {
+    kakaoMapsPromise = new Promise<KakaoMaps>((resolve, reject) => {
+      const ready = () => {
+        const kakao = (window as KakaoWindow).kakao;
+        if (!kakao?.maps) {
+          reject(new Error("Kakao maps failed to initialize"));
+          return;
+        }
+        kakao.maps.load(() => resolve(kakao.maps));
+      };
+      const scriptId = "kakao-map-sdk";
+      const existing = document.getElementById(scriptId) as HTMLScriptElement | null;
+      if (existing) {
+        if ((window as KakaoWindow).kakao?.maps) ready();
+        else existing.addEventListener("load", ready, { once: true });
+        return;
+      }
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.async = true;
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(appKey)}&autoload=false&libraries=services`;
+      script.addEventListener("load", ready, { once: true });
+      script.addEventListener("error", () => reject(new Error("Failed to load Kakao maps script")), { once: true });
+      document.head.appendChild(script);
+    }).catch((error) => {
+      kakaoMapsPromise = null; // allow a retry on the next call instead of caching a permanent failure
+      throw error;
+    });
+  }
+  return kakaoMapsPromise!;
+}
+
+// Geocodes a single 화성시 address via the Kakao Geocoder, caching successful
+// lookups in localStorage so repeat visits (and the ~40-address distribution
+// map) don't re-hit the API for addresses that never change.
+function geocodeAddress(kakao: KakaoMaps, address: string): Promise<[number, number] | null> {
+  const cacheKey = `hwaseong-geocode:${address}`;
+  const cached = localStorage.getItem(cacheKey);
+  if (cached) {
+    try {
+      const parsed = JSON.parse(cached);
+      if (Array.isArray(parsed) && parsed.length === 2) return Promise.resolve(parsed as [number, number]);
+    } catch {
+      // fall through and re-geocode
+    }
+  }
+  return new Promise((resolve) => {
+    const geocoder = new kakao.services.Geocoder();
+    geocoder.addressSearch(address, (result, status) => {
+      if (status !== kakao.services.Status.OK || result.length === 0) {
+        resolve(null);
+        return;
+      }
+      const coord: [number, number] = [Number(result[0].x), Number(result[0].y)];
+      localStorage.setItem(cacheKey, JSON.stringify(coord));
+      resolve(coord);
+    });
+  });
+}
+
 function LocationPanel({ project }: { project: Project }) {
   const overviewPairs = parseKvPairs(project.overview);
   const address = overviewPairs.find((pair) => pair.label === "사업위치")?.value;
   const mapRef = useRef<HTMLDivElement>(null);
   const [mapStatus, setMapStatus] = useState<"idle" | "loading" | "ready" | "missing-key" | "error">("idle");
-  const isFirstProject = project.serial === 1;
 
   useEffect(() => {
-    if (!isFirstProject || !address || !mapRef.current) return;
+    if (!address || !mapRef.current) return;
     const appKey = import.meta.env.VITE_KAKAO_MAP_APP_KEY as string | undefined;
     if (!appKey) {
       setMapStatus("missing-key");
       return;
     }
 
+    let cancelled = false;
     setMapStatus("loading");
-    const scriptId = "kakao-map-sdk";
-    const existing = document.getElementById(scriptId) as HTMLScriptElement | null;
-    const setupMap = () => {
-      const kakao = (window as KakaoWindow).kakao;
-      if (!kakao?.maps || !mapRef.current) {
-        setMapStatus("error");
-        return;
-      }
-      kakao.maps.load(() => {
-        if (!mapRef.current) return;
-        const geocoder = new kakao.maps.services.Geocoder();
-        geocoder.addressSearch(address, (result, status) => {
-          if (status !== kakao.maps.services.Status.OK || result.length === 0 || !mapRef.current) {
-            setMapStatus("error");
-            return;
-          }
-          const position = new kakao.maps.LatLng(Number(result[0].y), Number(result[0].x));
-          const map = new kakao.maps.Map(mapRef.current, { center: position, level: 5 });
-          const marker = new kakao.maps.Marker({ map, position });
-          const infoWindow = new kakao.maps.InfoWindow({ content: `<div style="padding:8px 12px;font-size:13px;white-space:nowrap">${project.project_name}</div>` });
-          infoWindow.open(map, marker);
-          setMapStatus("ready");
-        });
+    loadKakaoMaps(appKey)
+      .then(async (kakao) => {
+        if (cancelled || !mapRef.current) return;
+        const coord = await geocodeAddress(kakao, address);
+        if (cancelled || !mapRef.current) return;
+        if (!coord) {
+          setMapStatus("error");
+          return;
+        }
+        const position = new kakao.LatLng(coord[1], coord[0]);
+        const map = new kakao.Map(mapRef.current, { center: position, level: 5 });
+        const marker = new kakao.Marker({ map, position });
+        const infoWindow = new kakao.InfoWindow({ content: `<div style="padding:8px 12px;font-size:13px;white-space:nowrap">${project.project_name}</div>` });
+        infoWindow.open(map, marker);
+        setMapStatus("ready");
+      })
+      .catch(() => {
+        if (!cancelled) setMapStatus("error");
       });
+
+    return () => {
+      cancelled = true;
     };
-
-    if (existing) {
-      if ((window as KakaoWindow).kakao?.maps) setupMap();
-      else existing.addEventListener("load", setupMap, { once: true });
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.id = scriptId;
-    script.async = true;
-    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(appKey)}&autoload=false&libraries=services`;
-    script.addEventListener("load", setupMap, { once: true });
-    script.addEventListener("error", () => setMapStatus("error"), { once: true });
-    document.head.appendChild(script);
-    return () => script.removeEventListener("load", setupMap);
-  }, [address, isFirstProject, project.project_name]);
+  }, [address, project.project_name]);
 
   return (
     <div className="pd-card">
       <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr]">
-        {isFirstProject ? (
-          <div className="pd-map-placeholder relative overflow-hidden">
-            <div ref={mapRef} className={`h-full min-h-[320px] w-full ${mapStatus === "ready" ? "opacity-100" : "opacity-0"}`} />
-            {mapStatus !== "ready" && <div className="absolute inset-0 flex items-center justify-center p-6 text-center"><div><div className="pd-map-pin" /><span className="pd-map-caption">{mapStatus === "missing-key" ? "카카오맵 API 키를 등록하면 지도가 표시됩니다" : mapStatus === "error" ? "주소를 지도 좌표로 변환하지 못했습니다" : "지도 불러오는 중"}</span></div></div>}
-          </div>
-        ) : (
-          <div className="pd-map-placeholder"><div className="pd-map-pin" /><span className="pd-map-caption">첫 번째 사업 시범 연동 완료 · 다음 단계에서 전체 적용</span></div>
-        )}
+        <div className="pd-map-placeholder relative overflow-hidden">
+          <div ref={mapRef} className={`h-full min-h-[320px] w-full ${mapStatus === "ready" ? "opacity-100" : "opacity-0"}`} />
+          {mapStatus !== "ready" && <div className="absolute inset-0 flex items-center justify-center p-6 text-center"><div><div className="pd-map-pin" /><span className="pd-map-caption">{mapStatus === "missing-key" ? "카카오맵 API 키를 등록하면 지도가 표시됩니다" : mapStatus === "error" ? "주소를 지도 좌표로 변환하지 못했습니다" : !address ? "등록된 사업위치가 없습니다" : "지도 불러오는 중"}</span></div></div>}
+        </div>
         <div className="pd-kv-row" style={{ gridTemplateColumns: "1fr" }}>
           <div className="pd-kv"><span className="pd-kv-label">사업위치</span><span className="pd-kv-value">{address ?? "등록된 정보가 없습니다."}</span></div>
           <div className="pd-kv"><span className="pd-kv-label">구청</span><span className="pd-kv-value">{project.contact || "-"}</span></div>
@@ -560,16 +608,21 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   const [hovered, setHovered] = useState<Project | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [galleryIndex, setGalleryIndex] = useState(0);
+  // project.contact already holds the real 구 name (효행구/만세구/병점구/동탄구)
+  // — prefer that over guessing from free text. The regex fallback only
+  // covers the rare project missing that field.
   const zoneFor = (project: Project) => {
+    if (project.contact) return project.contact;
     const text = `${project.district} ${project.town} ${project.overview}`;
-    if (/동탄|반월|병점|진안/.test(text)) return "동탄권";
-    if (/봉담|기배|화산/.test(text)) return "중부권";
-    if (/남양|마도|송산|비봉|매송/.test(text)) return "서부권";
-    if (/향남|양감|팔탄|정남/.test(text)) return "남부권";
-    if (/서신|궁평|제부|국화도|우정|장안/.test(text)) return "서해안권";
-    return "기타 권역";
+    if (/동탄/.test(text)) return "동탄구";
+    if (/반월|병점|진안|화산동/.test(text)) return "병점구";
+    if (/봉담|기배|매송|비봉|정남/.test(text)) return "효행구";
+    if (/남양|마도|송산|서신|궁평|제부|국화도|우정|장안|향남|양감|팔탄|새솔/.test(text)) return "만세구";
+    return "화성시";
   };
-  const positionFor = (project: Project, index: number) => {
+  // Fallback for the rare project whose district isn't one of the 29 dong
+  // names in hwaseong-dong-centroids.json (e.g. free-text or missing data).
+  const approxPositionFor = (project: Project, index: number) => {
     const text = `${project.district} ${project.town} ${project.overview}`;
     const areas: [RegExp, number, number][] = [
       [/동탄|반월|병점|진안/, 75, 47], [/봉담|기배|화산/, 49, 57], [/남양|마도|송산|비봉|매송/, 34, 38],
@@ -580,19 +633,87 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     const spread = ((index * 17) % 7) - 3;
     return { x: Math.max(8, Math.min(92, base[0] + spread)), y: Math.max(12, Math.min(88, base[1] + (((index * 11) % 9) - 4))) };
   };
-  const points = projects.map((project, index) => ({ project, zone: zoneFor(project), ...positionFor(project, index) }));
+  // Places a project at its 읍면동 centroid — computed offline from public
+  // administrative-boundary data (see scripts/generate_hwaseong_dong_centroids.mjs).
+  // No address or project data is ever sent to an outside service for this.
+  // Multi-site projects (district holds several dong names, comma-separated)
+  // are placed at the average of their centroids. A small per-project jitter
+  // keeps projects sharing a dong from stacking exactly on top of each other.
+  const dongPositionFor = (project: Project, index: number) => {
+    const dongNames = (project.district ?? "").split(",").map((name) => name.trim()).filter(Boolean);
+    const matches = dongNames.map((name) => (dongCentroids as Record<string, { x: number; y: number }>)[name]).filter(Boolean);
+    if (matches.length === 0) return null;
+    const avgX = matches.reduce((sum, m) => sum + m.x, 0) / matches.length;
+    const avgY = matches.reduce((sum, m) => sum + m.y, 0) / matches.length;
+    const jitterX = ((index * 13) % 5) - 2;
+    const jitterY = ((index * 7) % 5) - 2;
+    return { x: Math.max(2, Math.min(98, avgX + jitterX)), y: Math.max(2, Math.min(98, avgY + jitterY)) };
+  };
+
+  const points = projects.map((project, index) => ({
+    project,
+    zone: zoneFor(project),
+    ...(dongPositionFor(project, index) ?? approxPositionFor(project, index)),
+  }));
+
+  const showHoverCardFor = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
+    setHovered(project);
+    const rect = event.currentTarget.closest(".investment-map-canvas")?.getBoundingClientRect();
+    if (rect) setHoverPosition({ x: event.clientX - rect.left + 16, y: event.clientY - rect.top + 16 });
+  };
+
   return (
     <section className="investment-map-page">
       <header className="investment-map-header">
         <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT ATLAS</p><h1>주요 투자사업 분포도</h1></div>
       </header>
       <div className="investment-map-layout">
-        <div className="investment-map-canvas" role="img" aria-label="화성시 주요 투자사업 위치 분포도">
+        <div className="investment-map-canvas" role="group" aria-label="화성시 주요 투자사업 위치 분포도">
           <div className="investment-map-grid" /><div className="investment-map-glow" />
-          <svg className="investment-map-outline accurate" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M13 18 L24 10 L41 7 L56 11 L68 9 L79 17 L88 29 L84 40 L91 51 L88 62 L79 67 L76 79 L68 86 L56 83 L47 94 L37 88 L29 92 L22 81 L13 75 L16 64 L9 54 L14 44 L8 33 Z" /><path className="investment-map-region" d="M24 10 L31 28 L16 44 M31 28 L48 24 L56 11 M48 24 L58 42 L41 58 L16 64 M58 42 L75 32 L84 40 M75 32 L79 17 M58 42 L69 57 L88 62 M41 58 L47 74 L37 88 M47 74 L68 86 M69 57 L76 79" /></svg>
-          <div className="investment-map-label label-north">송산 · 비봉 · 남양</div><div className="investment-map-label label-east">동탄권</div><div className="investment-map-label label-south">향남 · 팔탄 · 정남</div><div className="investment-map-label label-west">서해안 · 제부도</div>
-          {points.map(({ project, x, y }) => <button key={project.id} type="button" className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`} style={{ left: `${x}%`, top: `${y}%` }} onClick={() => { setSelected(project); setGalleryIndex(0); }} onMouseEnter={(event) => { setHovered(project); const rect = event.currentTarget.parentElement?.getBoundingClientRect(); if (rect) setHoverPosition({ x: event.clientX - rect.left + 16, y: event.clientY - rect.top + 16 }); }} onMouseMove={(event) => { const rect = event.currentTarget.parentElement?.getBoundingClientRect(); if (rect) setHoverPosition({ x: event.clientX - rect.left + 16, y: event.clientY - rect.top + 16 }); }} onMouseLeave={() => setHovered(null)} title={project.project_name} aria-label={`${project.project_name} 위치 보기`}><i /><span>{project.serial}</span></button>)}
-          {hovered && <div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small></div>}
+          <svg className="investment-map-outline accurate" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet">
+            <path d={hwaseongBoundary.d} />
+            <g className="investment-map-dong-lines">
+              {Object.values(dongOutlines as Record<string, string>).map((d, index) => (
+                <path key={index} d={d} />
+              ))}
+            </g>
+            <g className="investment-map-gu-lines">
+              {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
+                <path key={name} d={gu.d} />
+              ))}
+            </g>
+            <g className="investment-map-gu-labels">
+              {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
+                <text key={name} x={(gu.labelX / 100) * hwaseongBoundary.width} y={(gu.labelY / 100) * hwaseongBoundary.height} textAnchor="middle">
+                  {name}
+                </text>
+              ))}
+            </g>
+            {points.map(({ project, x, y }) => {
+              const cx = (x / 100) * hwaseongBoundary.width;
+              const cy = (y / 100) * hwaseongBoundary.height;
+              return (
+                <g
+                  key={project.id}
+                  className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`}
+                  transform={`translate(${cx} ${cy})`}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${project.project_name} 위치 보기`}
+                  onClick={() => { setSelected(project); setGalleryIndex(0); }}
+                  onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelected(project); setGalleryIndex(0); } }}
+                  onMouseEnter={(event) => showHoverCardFor(project, event)}
+                  onMouseMove={(event) => showHoverCardFor(project, event)}
+                  onMouseLeave={() => setHovered(null)}
+                >
+                  <title>{project.project_name}</title>
+                  <circle className="investment-map-point-dot" r={9} />
+                  <text className="investment-map-point-label" y={20} textAnchor="middle">{project.serial}</text>
+                </g>
+              );
+            })}
+          </svg>
+          {hovered &&<div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small></div>}
           <div className="investment-map-legend"><span><i className="legend-dot" /> 사업 위치</span><span><i className="legend-ring" /> 선택 사업</span></div>
         </div>
         <aside className="investment-map-side"><div className="investment-map-side-top"><p className="investment-map-side-kicker">SELECTED PROJECT</p>{selected && <span className="investment-map-live"><i /> LIVE</span>}</div>{selected ? <><div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div><h2>{selected.project_name}</h2><p className="investment-map-location"><MapPin size={15} /> {selected.district || selected.town || "위치정보 미등록"}</p>{(() => { const gallery = selected.gallery_images ?? []; const active = gallery[galleryIndex] ?? gallery[0]; return <div className="investment-map-gallery"><div className="investment-map-gallery-head"><span>PROJECT GALLERY</span>{gallery.length > 0 && <b>{galleryIndex + 1} / {gallery.length}</b>}</div>{active ? <><div className="investment-map-gallery-main"><img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} /><span>{active.caption || "주요 현장 이미지"}</span></div>{gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}</> : <div className="investment-map-gallery-empty"><ImageIcon size={22} /><strong>현장 사진 준비 중</strong><span>사업별 주요 이미지가 등록되면 이 영역에 표시됩니다.</span></div>}</div>; })()}<div className="investment-map-key-metrics"><div><span>총사업비</span><strong>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)}<small>백만원</small></strong></div><div><span>집행률</span><strong>{selected.execution_rate ?? selected.progress_rate ?? 0}<small>%</small></strong></div></div><div className="investment-map-progress"><div><span>사업 전체 공정률</span><b>{selected.progress_rate ?? selected.execution_rate ?? 0}%</b></div><i><em style={{ width: `${Math.min(100, Math.max(0, selected.progress_rate ?? selected.execution_rate ?? 0))}%` }} /></i></div><dl className="investment-map-detail-list"><div><dt>사업 유형</dt><dd>{selected.project_type || "미등록"}</dd></div><div><dt>준공 예정</dt><dd>{selected.expected_completion || "미등록"}</dd></div></dl><button type="button" className="investment-map-open-project" onClick={() => onSelectProject(selected)}>사업 상세 보기 <span>↗</span></button></> : <div className="investment-map-empty"><MapPin size={28} /><strong>지도에서 사업을 선택하세요</strong><span>위치 점을 클릭하면 요약 정보가 나타납니다.</span></div>}</aside>

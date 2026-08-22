@@ -2861,13 +2861,12 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-canvas { position:relative; min-height:540px; overflow:hidden; border:1px solid rgba(117,182,255,.2); border-radius:22px; background:linear-gradient(145deg,#0a1830,#0b1325 65%,#101a2f); box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 22px 60px rgba(0,0,0,.22); }
 .investment-map-grid { position:absolute; inset:0; opacity:.25; background-image:linear-gradient(rgba(120,180,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(120,180,255,.12) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 90%); }
 .investment-map-glow { position:absolute; width:55%; height:55%; left:22%; top:24%; border-radius:50%; background:radial-gradient(circle,rgba(40,208,224,.12),transparent 68%); filter:blur(20px); }
-.investment-map-outline { position:absolute; inset:7% 18%; width:64%; height:86%; fill:rgba(30,73,118,.34); stroke:rgba(109,226,235,.8); stroke-width:1.2; filter:drop-shadow(0 0 10px rgba(80,220,235,.3)); }
-.investment-map-region { fill:none; stroke:rgba(144,191,255,.28); stroke-width:.55; stroke-dasharray:1.4 1.2; }
-.investment-map-label { position:absolute; color:rgba(184,214,255,.48); font-size:11px; letter-spacing:.04em; pointer-events:none; } .label-north{left:28%;top:20%}.label-east{right:22%;top:43%}.label-south{left:36%;bottom:17%}.label-west{left:10%;top:57%}
-.investment-map-point { position:absolute; z-index:2; width:25px; height:25px; padding:0; border:0; border-radius:50%; background:transparent; transform:translate(-50%,-50%); cursor:pointer; }
-.investment-map-point i { position:absolute; inset:6px; border-radius:50%; background:#79eef0; box-shadow:0 0 0 4px rgba(121,238,240,.12),0 0 18px rgba(121,238,240,.9); animation:atlas-pulse 2.8s ease-in-out infinite; }
-.investment-map-point span { position:absolute; top:27px; left:50%; transform:translateX(-50%); color:rgba(220,240,255,.56); font:700 9px "Pretendard",sans-serif; }
-.investment-map-point.is-selected i { background:#ffcf68; box-shadow:0 0 0 6px rgba(255,207,104,.2),0 0 26px rgba(255,207,104,.95); }
+.investment-map-outline { position:absolute; inset:8%; width:84%; height:84%; fill:rgba(22,48,86,.55); stroke:rgba(138,155,235,.7); stroke-width:1.6; filter:drop-shadow(0 0 10px rgba(90,110,220,.25)); }
+.investment-map-point { cursor:pointer; outline:none; }
+.investment-map-point-dot { fill:#79eef0; filter:drop-shadow(0 0 6px rgba(121,238,240,.9)); transform-box:fill-box; transform-origin:center; animation:atlas-pulse 2.8s ease-in-out infinite; }
+.investment-map-point-label { fill:rgba(220,240,255,.72); font:700 15px "Pretendard",sans-serif; }
+.investment-map-point.is-selected .investment-map-point-dot { r:12px; fill:#ffcf68; filter:drop-shadow(0 0 9px rgba(255,207,104,.95)); animation:none; }
+.investment-map-point:focus-visible .investment-map-point-dot { stroke:#fff; stroke-width:2px; }
 @keyframes atlas-pulse { 0%,100%{transform:scale(.82);opacity:.72} 50%{transform:scale(1.15);opacity:1} }
 .investment-map-legend { position:absolute; left:20px; bottom:18px; display:flex; gap:16px; padding:9px 12px; border:1px solid rgba(159,188,255,.16); border-radius:10px; color:rgba(220,232,255,.62); background:rgba(6,15,29,.62); font-size:11px; backdrop-filter:blur(12px); } .investment-map-legend span{display:flex;align-items:center;gap:6px}.legend-dot,.legend-ring{display:inline-block;width:8px;height:8px;border-radius:50%;background:#79eef0;box-shadow:0 0 8px #79eef0}.legend-ring{background:#ffcf68;box-shadow:0 0 8px #ffcf68}
 .investment-map-side { padding:22px; border:1px solid rgba(159,188,255,.16); border-radius:18px; background:rgba(19,34,61,.78); box-shadow:inset 0 1px 0 rgba(255,255,255,.06); } .investment-map-side h2{margin:0;color:#fff;font:800 22px/1.25 "Gmarket Sans","Pretendard",sans-serif;letter-spacing:-.05em}.investment-map-location{display:flex;gap:6px;align-items:center;margin:12px 0 20px;color:#8de9ee;font-size:12px}.investment-map-side dl{margin:0}.investment-map-side dl div{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid rgba(159,188,255,.12)}.investment-map-side dt{color:rgba(218,230,255,.5);font-size:11px}.investment-map-side dd{margin:0;color:#e8f2ff;font-size:12px;font-weight:700;text-align:right}.investment-map-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:380px;gap:10px;color:#7ce7ef;text-align:center}.investment-map-empty strong{color:#e8f2ff;font-size:14px}.investment-map-empty span{color:rgba(218,230,255,.5);font-size:12px;line-height:1.6}
@@ -2879,16 +2878,17 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-official { position:absolute; z-index:1; inset:0; width:100%; height:100%; object-fit:contain; opacity:.94; }
 .investment-map-canvas .investment-map-grid { z-index:2; pointer-events:none; opacity:.08; }
 .investment-map-canvas .investment-map-glow { z-index:2; pointer-events:none; opacity:.22; }
-.investment-map-canvas .investment-map-outline,
-.investment-map-canvas .investment-map-label { display:none; }
+.investment-map-canvas .investment-map-outline { display:none; }
 .investment-map-canvas .investment-map-point { z-index:4; }
 .investment-map-canvas .investment-map-legend { z-index:5; color:#253b52; background:rgba(255,255,255,.86); border-color:rgba(37,59,82,.16); }
 
 /* Final custom atlas: traced Hwaseong silhouette, not the source image */
 .investment-map-official { display:none !important; }
 .investment-map-canvas { background:linear-gradient(145deg,#0a1830,#0b1325 65%,#101a2f); }
-.investment-map-canvas .investment-map-outline.accurate { display:block; z-index:1; position:absolute; inset:7% 18%; width:64%; height:86%; fill:rgba(30,73,118,.36); stroke:rgba(109,226,235,.9); stroke-width:1.2; filter:drop-shadow(0 0 10px rgba(80,220,235,.3)); }
-.investment-map-canvas .investment-map-label { display:block; z-index:3; }
+.investment-map-canvas .investment-map-outline.accurate { display:block; z-index:1; position:absolute; inset:8%; width:84%; height:84%; fill:rgba(22,48,86,.55); stroke:rgba(138,155,235,.7); stroke-width:1.6; filter:drop-shadow(0 0 10px rgba(90,110,220,.25)); }
+.investment-map-dong-lines path { fill:none; stroke:rgba(150,170,230,.24); stroke-width:2.2; }
+.investment-map-gu-lines path { fill:none; stroke:rgba(235,242,255,.5); stroke-width:2.6; stroke-dasharray:9 7; }
+.investment-map-gu-labels text { fill:rgba(235,242,255,.8); font:800 20px "Pretendard",sans-serif; letter-spacing:.04em; pointer-events:none; }
 .investment-map-canvas .investment-map-legend { color:rgba(220,232,255,.62); background:rgba(6,15,29,.62); border-color:rgba(159,188,255,.16); }
 
 /* Map view header contrast correction */
@@ -2907,7 +2907,7 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-zone-row span { color:rgba(226,237,255,.7); }.investment-map-zone-row b { color:#fff; font-size:12px; }.investment-map-zone-row small { margin-left:2px; color:#8af4f1; font-size:9px; font-weight:600; }.investment-map-zone-row i { grid-column:1 / -1; display:block; height:3px; overflow:hidden; border-radius:99px; background:rgba(255,255,255,.1); }.investment-map-zone-row i em { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#6ad8e2,#a7c8ff); }
 .investment-map-hover-card { position:absolute; z-index:8; right:20px; top:20px; display:flex; flex-direction:column; gap:4px; max-width:220px; padding:12px 14px; border:1px solid rgba(138,244,241,.34); border-radius:12px; color:#e8faff; background:rgba(7,16,31,.88); box-shadow:0 16px 32px rgba(0,0,0,.22); backdrop-filter:blur(14px); pointer-events:none; }.investment-map-hover-card span{color:#8af4f1;font:700 9px "Pretendard",sans-serif;letter-spacing:.1em}.investment-map-hover-card strong{font-size:12px;line-height:1.35}.investment-map-hover-card small{color:rgba(226,237,255,.58);font-size:10px}
 .investment-map-open-project { display:flex; align-items:center; justify-content:space-between; width:100%; margin-top:22px; padding:12px 13px; border:1px solid rgba(138,244,241,.32); border-radius:10px; color:#07101f; background:#8af4f1; font-size:12px; font-weight:800; cursor:pointer; transition:.18s ease; }.investment-map-open-project:hover{transform:translateY(-2px);background:#b7ffff}.investment-map-open-project span{font-size:17px;line-height:1}
-@media (max-width:700px){.investment-map-focus-panel{top:12px;left:12px;width:160px;padding:10px}.investment-map-focus-panel h2{font-size:13px}.investment-map-hover-card{top:auto;right:12px;bottom:60px}.investment-map-point span{display:none}}
+@media (max-width:700px){.investment-map-focus-panel{top:12px;left:12px;width:160px;padding:10px}.investment-map-focus-panel h2{font-size:13px}.investment-map-hover-card{top:auto;right:12px;bottom:60px}.investment-map-point-label{display:none}}
 
 /* Refined selected-project detail panel */
 .investment-map-side-top { display:flex; align-items:center; justify-content:space-between; gap:10px; }
