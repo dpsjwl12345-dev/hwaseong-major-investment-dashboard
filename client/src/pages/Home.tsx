@@ -922,7 +922,50 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
             <button type="button" className="is-reset" onClick={resetZoom} disabled={zoom === 1 && pan.x === 0 && pan.y === 0} aria-label="지도 초기화">초기화</button>
           </div>
         </div>
-        <aside className="investment-map-side"><div className="investment-map-side-top"><p className="investment-map-side-kicker">SELECTED PROJECT</p>{selected && <span className="investment-map-live"><i /> LIVE</span>}</div>{selected ? <><div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div><h2>{selected.project_name}</h2><p className="investment-map-location"><MapPin size={15} /> {selected.district || selected.town || "위치정보 미등록"}</p>{(() => { const gallery = selected.gallery_images ?? []; const active = gallery[galleryIndex] ?? gallery[0]; return <div className="investment-map-gallery"><div className="investment-map-gallery-head"><span>PROJECT GALLERY</span>{gallery.length > 0 && <b>{galleryIndex + 1} / {gallery.length}</b>}</div>{active ? <><div className="investment-map-gallery-main"><img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} /><span>{active.caption || "주요 현장 이미지"}</span></div>{gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}</> : <div className="investment-map-gallery-empty"><ImageIcon size={22} /><strong>현장 사진 준비 중</strong><span>사업별 주요 이미지가 등록되면 이 영역에 표시됩니다.</span></div>}</div>; })()}<div className="investment-map-key-metrics"><div><span>총사업비</span><strong>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)}<small>백만원</small></strong></div><div><span>집행률</span><strong>{selected.execution_rate ?? selected.progress_rate ?? 0}<small>%</small></strong></div></div><div className="investment-map-progress"><div><span>사업 전체 공정률</span><b>{selected.progress_rate ?? selected.execution_rate ?? 0}%</b></div><i><em style={{ width: `${Math.min(100, Math.max(0, selected.progress_rate ?? selected.execution_rate ?? 0))}%` }} /></i></div><dl className="investment-map-detail-list"><div><dt>사업 유형</dt><dd>{selected.project_type || "미등록"}</dd></div><div><dt>준공 예정</dt><dd>{selected.expected_completion || "미등록"}</dd></div></dl><button type="button" className="investment-map-open-project" onClick={() => onSelectProject(selected)}>사업 상세 보기 <span>↗</span></button></> : <div className="investment-map-empty"><MapPin size={28} /><strong>지도에서 사업을 선택하세요</strong><span>위치 점을 클릭하면 요약 정보가 나타납니다.</span></div>}</aside>
+        <aside className="investment-map-side">
+          <div className="investment-map-side-top">
+            <p className="investment-map-side-kicker">SELECTED PROJECT</p>
+            {selected && <span className="investment-map-side-location"><MapPin size={12} /> {selected.district || selected.town || "위치정보 미등록"}</span>}
+          </div>
+          {selected ? (
+            <>
+              <div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div>
+              <h2>{selected.project_name}</h2>
+              {(() => {
+                const gallery = selected.gallery_images ?? [];
+                const active = gallery[galleryIndex] ?? gallery[0];
+                return (
+                  <div className="investment-map-gallery">
+                    {gallery.length > 0 && <div className="investment-map-gallery-head"><b>{galleryIndex + 1} / {gallery.length}</b></div>}
+                    {active ? (
+                      <>
+                        <div className="investment-map-gallery-main"><img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} /><span>{active.caption || "주요 현장 이미지"}</span></div>
+                        {gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}
+                      </>
+                    ) : (
+                      <div className="investment-map-gallery-empty"><ImageIcon size={22} /><strong>현장 사진 준비 중</strong><span>사업별 주요 이미지가 등록되면 이 영역에 표시됩니다.</span></div>
+                    )}
+                  </div>
+                );
+              })()}
+              <div className="investment-map-key-metrics">
+                <div><span>총사업비</span><strong>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)}<small>백만원</small></strong></div>
+                <div><span>집행률</span><strong>{selected.execution_rate ?? selected.progress_rate ?? 0}<small>%</small></strong></div>
+              </div>
+              <div className="investment-map-progress">
+                <div><span>사업 전체 공정률</span><b>{selected.progress_rate ?? selected.execution_rate ?? 0}%</b></div>
+                <i><em style={{ width: `${Math.min(100, Math.max(0, selected.progress_rate ?? selected.execution_rate ?? 0))}%` }} /></i>
+              </div>
+              <dl className="investment-map-detail-list">
+                <div><dt>사업 유형</dt><dd>{selected.category || "미등록"}</dd></div>
+                <div><dt>준공 예정</dt><dd>{selected.inspection || "미등록"}</dd></div>
+              </dl>
+              <button type="button" className="investment-map-open-project" onClick={() => onSelectProject(selected)}>사업 상세 보기 <span>↗</span></button>
+            </>
+          ) : (
+            <div className="investment-map-empty"><MapPin size={28} /><strong>지도에서 사업을 선택하세요</strong><span>위치 점을 클릭하면 요약 정보가 나타납니다.</span></div>
+          )}
+        </aside>
       </div>
     </section>
   );
