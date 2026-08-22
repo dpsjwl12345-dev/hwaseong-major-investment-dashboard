@@ -616,6 +616,20 @@ function formatDepartmentAmount(value: number) {
   return `${formatBudgetNumber(value)} 백만원`;
 }
 
+// Distinct, muted tint per 구 so the four districts read apart from each
+// other on the map even without relying on the boundary-line/label alone.
+const GU_COLORS: Record<string, { fill: string; accent: string }> = {
+  효행구: { fill: "rgba(72,196,205,.17)", accent: "#5cd0d8" },
+  만세구: { fill: "rgba(110,132,235,.17)", accent: "#7c92f0" },
+  동탄구: { fill: "rgba(232,178,86,.16)", accent: "#e8b256" },
+  병점구: { fill: "rgba(214,110,150,.16)", accent: "#e07fa8" },
+};
+
+// Classic teardrop location-pin glyph (Material "place" icon), re-based so
+// the pin's TIP sits at local (0,0) — the parent <g> already translates to
+// the project's map coordinate, so the tip lands exactly on that point.
+const PIN_PATH = "M0 -20 C-3.87 -20 -7 -16.87 -7 -13 c0 5.25 7 13 7 13 s7 -7.75 7 -13 c0 -3.87 -3.13 -7 -7 -7 Z";
+
 function InvestmentDistribution({ projects, onBack, onSelectProject }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void }) {
   const [selected, setSelected] = useState<Project | null>(null);
   const [hovered, setHovered] = useState<Project | null>(null);
@@ -756,6 +770,11 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                 </radialGradient>
               </defs>
               <path d={hwaseongBoundary.d} />
+              <g className="investment-map-gu-fills">
+                {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
+                  <path key={name} d={gu.d} fill={GU_COLORS[name]?.fill ?? "rgba(255,255,255,.05)"} />
+                ))}
+              </g>
               <g className="investment-map-dong-lines">
                 {Object.values(dongOutlines as Record<string, string>).map((d, index) => (
                   <path key={index} d={d} />
@@ -763,15 +782,20 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
               </g>
               <g className="investment-map-gu-lines">
                 {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
-                  <path key={name} d={gu.d} />
+                  <path key={name} d={gu.d} stroke={GU_COLORS[name]?.accent ?? "rgba(235,242,255,.5)"} />
                 ))}
               </g>
               <g className="investment-map-gu-labels">
-                {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
-                  <text key={name} x={(gu.labelX / 100) * hwaseongBoundary.width} y={(gu.labelY / 100) * hwaseongBoundary.height} textAnchor="middle">
-                    {name}
-                  </text>
-                ))}
+                {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => {
+                  const lx = (gu.labelX / 100) * hwaseongBoundary.width;
+                  const ly = (gu.labelY / 100) * hwaseongBoundary.height;
+                  return (
+                    <g key={name} className="investment-map-gu-label" transform={`translate(${lx} ${ly})`}>
+                      <rect x={-30} y={-13} width={60} height={26} rx={13} stroke={GU_COLORS[name]?.accent ?? "rgba(159,188,255,.28)"} />
+                      <text textAnchor="middle" dy={5}>{name}</text>
+                    </g>
+                  );
+                })}
               </g>
               {points.map(({ project, x, y }) => {
                 const cx = (x / 100) * hwaseongBoundary.width;
@@ -791,13 +815,13 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                     onMouseLeave={() => setHovered(null)}
                   >
                     <title>{project.project_name}</title>
-                    <ellipse className="investment-map-point-shadow" cy={9} rx={7} ry={2.4} />
-                    <g className="investment-map-point-float">
-                      <circle className="investment-map-point-halo" r={13} />
-                      <circle className="investment-map-point-dot" r={7} />
-                      <circle className="investment-map-point-highlight" cx={-2.4} cy={-2.6} r={2} />
+                    <ellipse className="investment-map-point-shadow" cy={3} rx={6.5} ry={2.1} />
+                    <g className="investment-map-point-lift">
+                      <g className="investment-map-point-glyph" transform={`scale(${selected?.id === project.id ? 1.55 : 1.28})`}>
+                        <path className="investment-map-point-pin" d={PIN_PATH} />
+                        <circle className="investment-map-point-pin-hole" cx={0} cy={-13} r={2.6} />
+                      </g>
                     </g>
-                    <text className="investment-map-point-label" y={22} textAnchor="middle">{project.serial}</text>
                   </g>
                 );
               })}

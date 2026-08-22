@@ -2874,20 +2874,15 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-glow { position:absolute; width:55%; height:55%; left:22%; top:24%; border-radius:50%; background:radial-gradient(circle,rgba(40,208,224,.12),transparent 68%); filter:blur(20px); }
 .investment-map-outline { position:absolute; inset:8%; width:84%; height:84%; fill:rgba(22,48,86,.55); stroke:rgba(138,155,235,.7); stroke-width:1.6; filter:drop-shadow(0 0 10px rgba(90,110,220,.25)); }
 .investment-map-point { cursor:pointer; outline:none; }
-.investment-map-point-shadow { fill:rgba(4,10,20,.5); filter:blur(2.5px); transform-box:fill-box; transform-origin:center; animation:atlas-shadow-pulse 3.4s ease-in-out infinite; }
-.investment-map-point-float { transform-box:fill-box; transform-origin:center; animation:atlas-float 3.4s ease-in-out infinite; }
-.investment-map-point-halo { fill:rgba(121,238,240,.2); filter:blur(4px); }
-.investment-map-point-dot { fill:url(#atlasPointGradient); stroke:rgba(6,20,35,.55); stroke-width:1; filter:drop-shadow(0 2px 3px rgba(0,0,0,.4)); }
-.investment-map-point-highlight { fill:rgba(255,255,255,.85); pointer-events:none; }
-.investment-map-point-label { fill:rgba(220,240,255,.72); font:700 15px "Pretendard",sans-serif; }
-.investment-map-point.is-selected .investment-map-point-dot { r:9px; fill:url(#atlasPointGradientSelected); filter:drop-shadow(0 2px 4px rgba(0,0,0,.45)); }
-.investment-map-point.is-selected .investment-map-point-halo { fill:rgba(255,207,104,.26); }
-.investment-map-point.is-selected .investment-map-point-float { animation:none; transform:translateY(-4px); }
-.investment-map-point.is-selected .investment-map-point-shadow { animation:none; opacity:.5; transform:scale(.85); }
-.investment-map-point:focus-visible .investment-map-point-dot { stroke:#fff; stroke-width:2px; }
+.investment-map-point-shadow { fill:rgba(4,10,20,.45); filter:blur(1.6px); transform-box:fill-box; transform-origin:center; transition:.15s ease; }
+.investment-map-point-lift { transition:transform .15s ease; }
+.investment-map-point-pin { fill:url(#atlasPointGradient); stroke:rgba(6,20,35,.55); stroke-width:.8; filter:drop-shadow(0 3px 3px rgba(0,0,0,.4)); transition:filter .15s ease; }
+.investment-map-point-pin-hole { fill:rgba(7,16,31,.7); }
+.investment-map-point.is-selected .investment-map-point-pin { fill:url(#atlasPointGradientSelected); filter:drop-shadow(0 4px 6px rgba(0,0,0,.48)); }
+.investment-map-point:hover .investment-map-point-lift, .investment-map-point:focus-visible .investment-map-point-lift { transform:translateY(-3px); }
+.investment-map-point:hover .investment-map-point-shadow, .investment-map-point:focus-visible .investment-map-point-shadow { opacity:.55; transform:scale(.8); }
+.investment-map-point:focus-visible .investment-map-point-pin { stroke:#fff; stroke-width:1.6; }
 @keyframes atlas-pulse { 0%,100%{transform:scale(.82);opacity:.72} 50%{transform:scale(1.15);opacity:1} }
-@keyframes atlas-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
-@keyframes atlas-shadow-pulse { 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(.7);opacity:.26} }
 .investment-map-legend { position:absolute; left:20px; bottom:18px; display:flex; gap:16px; padding:9px 12px; border:1px solid rgba(159,188,255,.16); border-radius:10px; color:rgba(220,232,255,.62); background:rgba(6,15,29,.62); font-size:11px; backdrop-filter:blur(12px); } .investment-map-legend span{display:flex;align-items:center;gap:6px}.legend-dot,.legend-ring{display:inline-block;width:8px;height:8px;border-radius:50%;background:#79eef0;box-shadow:0 0 8px #79eef0}.legend-ring{background:#ffcf68;box-shadow:0 0 8px #ffcf68}
 .investment-map-side { padding:22px; border:1px solid rgba(159,188,255,.16); border-radius:18px; background:rgba(19,34,61,.78); box-shadow:inset 0 1px 0 rgba(255,255,255,.06); } .investment-map-side h2{margin:0;color:#fff;font:800 22px/1.25 "Gmarket Sans","Pretendard",sans-serif;letter-spacing:-.05em}.investment-map-location{display:flex;gap:6px;align-items:center;margin:12px 0 20px;color:#8de9ee;font-size:12px}.investment-map-side dl{margin:0}.investment-map-side dl div{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid rgba(159,188,255,.12)}.investment-map-side dt{color:rgba(218,230,255,.5);font-size:11px}.investment-map-side dd{margin:0;color:#e8f2ff;font-size:12px;font-weight:700;text-align:right}.investment-map-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:380px;gap:10px;color:#7ce7ef;text-align:center}.investment-map-empty strong{color:#e8f2ff;font-size:14px}.investment-map-empty span{color:rgba(218,230,255,.5);font-size:12px;line-height:1.6}
 .btn {
@@ -2942,9 +2937,12 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-official { display:none !important; }
 .investment-map-canvas { background:linear-gradient(145deg,#0a1830,#0b1325 65%,#101a2f); }
 .investment-map-canvas .investment-map-outline.accurate { display:block; z-index:1; position:absolute; inset:8%; width:84%; height:84%; fill:rgba(22,48,86,.55); stroke:rgba(138,155,235,.7); stroke-width:1.6; filter:drop-shadow(0 0 10px rgba(90,110,220,.25)); }
+.investment-map-gu-fills path { pointer-events:none; }
 .investment-map-dong-lines path { fill:none; stroke:rgba(150,170,230,.24); stroke-width:2.2; }
-.investment-map-gu-lines path { fill:none; stroke:rgba(235,242,255,.5); stroke-width:2.6; stroke-dasharray:9 7; }
-.investment-map-gu-labels text { fill:rgba(235,242,255,.5); font:700 15px "Pretendard",sans-serif; letter-spacing:.05em; paint-order:stroke; stroke:rgba(6,15,29,.65); stroke-width:4px; stroke-linejoin:round; pointer-events:none; }
+.investment-map-gu-lines path { fill:none; stroke-width:2.6; stroke-dasharray:9 7; pointer-events:none; }
+.investment-map-gu-labels { pointer-events:none; }
+.investment-map-gu-label rect { fill:rgba(9,20,38,.6); stroke-width:1.1; }
+.investment-map-gu-label text { fill:rgba(235,242,255,.85); font:600 12px "Pretendard",sans-serif; letter-spacing:.01em; }
 .investment-map-zoom-controls { position:absolute; z-index:6; right:16px; top:16px; display:flex; flex-direction:column; gap:6px; }
 .investment-map-zoom-controls button { width:32px; height:32px; border:1px solid rgba(159,188,255,.22); border-radius:9px; color:#e7f1ff; background:rgba(7,16,31,.72); font:800 16px/1 "Pretendard",sans-serif; cursor:pointer; backdrop-filter:blur(10px); transition:.15s ease; }
 .investment-map-zoom-controls button:hover:not(:disabled) { background:rgba(138,244,241,.22); border-color:rgba(138,244,241,.4); }
@@ -2968,7 +2966,7 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-zone-row span { color:rgba(226,237,255,.7); }.investment-map-zone-row b { color:#fff; font-size:12px; }.investment-map-zone-row small { margin-left:2px; color:#8af4f1; font-size:9px; font-weight:600; }.investment-map-zone-row i { grid-column:1 / -1; display:block; height:3px; overflow:hidden; border-radius:99px; background:rgba(255,255,255,.1); }.investment-map-zone-row i em { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#6ad8e2,#a7c8ff); }
 .investment-map-hover-card { position:absolute; z-index:8; right:20px; top:20px; display:flex; flex-direction:column; gap:4px; max-width:220px; padding:12px 14px; border:1px solid rgba(138,244,241,.34); border-radius:12px; color:#e8faff; background:rgba(7,16,31,.88); box-shadow:0 16px 32px rgba(0,0,0,.22); backdrop-filter:blur(14px); pointer-events:none; }.investment-map-hover-card span{color:#8af4f1;font:700 9px "Pretendard",sans-serif;letter-spacing:.1em}.investment-map-hover-card strong{font-size:12px;line-height:1.35}.investment-map-hover-card small{color:rgba(226,237,255,.58);font-size:10px}
 .investment-map-open-project { display:flex; align-items:center; justify-content:space-between; width:100%; margin-top:22px; padding:12px 13px; border:1px solid rgba(138,244,241,.32); border-radius:10px; color:#07101f; background:#8af4f1; font-size:12px; font-weight:800; cursor:pointer; transition:.18s ease; }.investment-map-open-project:hover{transform:translateY(-2px);background:#b7ffff}.investment-map-open-project span{font-size:17px;line-height:1}
-@media (max-width:700px){.investment-map-focus-panel{top:12px;left:12px;width:160px;padding:10px}.investment-map-focus-panel h2{font-size:13px}.investment-map-hover-card{top:auto;right:12px;bottom:60px}.investment-map-point-label{display:none}}
+@media (max-width:700px){.investment-map-focus-panel{top:12px;left:12px;width:160px;padding:10px}.investment-map-focus-panel h2{font-size:13px}.investment-map-hover-card{top:auto;right:12px;bottom:60px}}
 
 /* Refined selected-project detail panel */
 .investment-map-side-top { display:flex; align-items:center; justify-content:space-between; gap:10px; }
