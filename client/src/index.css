@@ -467,8 +467,15 @@
   border-bottom: 1px solid rgba(255,255,255,.08);
 }
 .pd-budget-panel-heading > div { display:flex; align-items:center; gap:10px; min-width:0; }
+.pd-section-heading { display:flex; align-items:center; gap:9px; min-width:0; }
+.pd-section-icon { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; flex:none; border:1px solid color-mix(in srgb, var(--pd-accent-b) 48%, transparent); border-radius:10px; color:var(--pd-accent-b); background:color-mix(in srgb, var(--pd-accent-b) 16%, transparent); box-shadow:0 0 0 3px color-mix(in srgb, var(--pd-accent-b) 4%, transparent); }
+.pd-section-heading-title { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; line-height:1.2; }
+.pd-section-heading-subtitle { margin:3px 0 0; color:var(--pd-text-faint); font-size:11px; line-height:1.25; }
+.pd-progress-heading .pd-section-heading { width:100%; }
+.pd-card-title .pd-section-heading-title { font-size:16px; }
+
 .pd-budget-panel-heading h3 { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; }
-.pd-budget-panel-kicker { display:inline-flex; align-items:center; justify-content:center; width:27px; height:27px; flex:none; border:1px solid rgba(229,84,45,.55); border-radius:50%; color:#ff8c6f; font-size:10px; font-weight:800; }
+.pd-budget-panel-kicker { display:none; }
 .pd-budget-panel-caption { flex:none; color:var(--pd-text-faint); font-size:12px; }
 .pd-funding-table-wrap { overflow-x:auto; }
 .pd-funding-table { width:100%; min-width:620px; border-collapse:collapse; font-size:12px; }
