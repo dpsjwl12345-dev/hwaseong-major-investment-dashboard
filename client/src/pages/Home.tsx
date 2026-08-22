@@ -747,10 +747,20 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     if (!hit) return null;
     return (coastalPoints as Record<string, { x: number; y: number }>)[keywordToPoint[hit]] ?? null;
   };
+  // 국화도/입파도 and 제부도 are real islands (제부도 reachable only by a
+  // tidal causeway), but our map only traces the mainland administrative
+  // boundary — there's no drawn island shape to place the marker on. Flag
+  // these so the UI can say so, rather than silently showing an island
+  // project sitting on what looks like solid mainland coast.
+  const isIslandProject = (project: Project) => {
+    const text = `${project.project_name} ${project.district} ${project.overview}`;
+    return ["국화도", "입파도", "제부"].some((keyword) => text.includes(keyword));
+  };
 
   const points = projects.map((project, index) => ({
     project,
     zone: zoneFor(project),
+    isIsland: isIslandProject(project),
     ...(coastalPositionFor(project) ?? dongPositionFor(project, index) ?? approxPositionFor(project, index)),
   }));
 
@@ -824,7 +834,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                   </foreignObject>
                 );
               })}
-              {points.map(({ project, x, y }) => {
+              {points.map(({ project, x, y, isIsland }) => {
                 const cx = (x / 100) * hwaseongBoundary.width;
                 const cy = (y / 100) * hwaseongBoundary.height;
                 const isSelected = selected?.id === project.id;
@@ -836,14 +846,14 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                     transform={`translate(${cx} ${cy})`}
                     role="button"
                     tabIndex={0}
-                    aria-label={`${project.project_name} 위치 보기`}
+                    aria-label={`${project.project_name} 위치 보기${isIsland ? " (도서지역, 근사 위치)" : ""}`}
                     onClick={() => { setSelected(project); setGalleryIndex(0); }}
                     onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelected(project); setGalleryIndex(0); } }}
                     onMouseEnter={(event) => showHoverCardFor(project, event)}
                     onMouseMove={(event) => showHoverCardFor(project, event)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <title>{project.project_name} ({project.category || "미분류"})</title>
+                    <title>{project.project_name} ({project.category || "미분류"}){isIsland ? " — 도서지역, 육지 인접 좌표로 근사 표시" : ""}</title>
                     {(() => {
                       const baseR = isSelected ? 9 : 7;
                       const fill = isSelected ? "url(#atlasPointGradientSelected)" : `url(#atlasPointGradient-${categoryStyle.id})`;
@@ -854,6 +864,12 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                             <animate attributeName="r" from={baseR} to={baseR * 3.4} dur="2.2s" begin="0s" repeatCount="indefinite" />
                             <animate attributeName="opacity" from="0.55" to="0" dur="2.2s" begin="0s" repeatCount="indefinite" />
                           </circle>
+                          {isIsland && <text className="investment-map-point-island-badge" y={-baseR - 5} textAnchor="middle">🏝</text>}
+                          {isSelected && (
+                            <foreignObject x={-110} y={-baseR - 46} width={220} height={30} className="investment-map-selected-label-box">
+                              <div className="investment-map-selected-label-pill"><span>{project.project_name}</span></div>
+                            </foreignObject>
+                          )}
                         </>
                       );
                     })()}
@@ -862,7 +878,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
               })}
             </svg>
           </div>
-          {hovered &&<div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small></div>}
+          {hovered &&<div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small>{isIslandProject(hovered) && <em className="investment-map-hover-island-note">🏝 도서지역 — 육지 인접 좌표로 근사 표시</em>}</div>}
           <div className="investment-map-legend">
             {Object.entries(CATEGORY_STYLES).map(([name, style]) => (
               <span key={name}><i style={{ background: style.mid, boxShadow: `0 0 6px ${style.mid}` }} /> {name}</span>
