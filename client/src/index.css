@@ -2948,6 +2948,7 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-canvas .investment-map-outline.accurate { display:block; z-index:1; position:absolute; inset:8%; width:84%; height:84%; fill:rgba(22,48,86,.55); stroke:rgba(138,155,235,.7); stroke-width:1.6; filter:drop-shadow(0 0 10px rgba(90,110,220,.25)); }
 .investment-map-gu-fills path { pointer-events:none; }
 .investment-map-dong-lines path { fill:none; stroke:rgba(150,170,230,.24); stroke-width:2.2; }
+.investment-map-islands path { fill:rgba(22,48,86,.55); stroke:rgba(138,155,235,.7); stroke-width:1.6; filter:drop-shadow(0 0 6px rgba(90,110,220,.25)); }
 .investment-map-zoom-controls { position:absolute; z-index:6; right:16px; top:16px; display:flex; flex-direction:column; gap:6px; }
 .investment-map-zoom-controls button { width:32px; height:32px; border:1px solid rgba(159,188,255,.22); border-radius:9px; color:#e7f1ff; background:rgba(7,16,31,.72); font:800 16px/1 "Pretendard",sans-serif; cursor:pointer; backdrop-filter:blur(10px); transition:.15s ease; }
 .investment-map-zoom-controls button:hover:not(:disabled) { background:rgba(138,244,241,.22); border-color:rgba(138,244,241,.4); }

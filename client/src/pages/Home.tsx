@@ -31,6 +31,7 @@ import dongCentroids from "../data/hwaseong-dong-centroids.json";
 import dongOutlines from "../data/hwaseong-dong-outlines.json";
 import guOutlines from "../data/hwaseong-gu-outlines.json";
 import coastalPoints from "../data/hwaseong-coastal-points.json";
+import islands from "../data/hwaseong-islands.json";
 
 type Project = {
   id: string;
@@ -743,16 +744,16 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     const text = `${project.project_name} ${project.district} ${project.overview}`;
     // Match on the short place-name root, not the full landmark name — the
     // source address text says "궁평리"/"제부리", not "궁평항"/"제부도".
-    const keywordToPoint: Record<string, string> = { 궁평: "궁평항", 제부: "제부도", 국화도: "국화도", 입파도: "국화도" };
+    const keywordToPoint: Record<string, string> = { 궁평: "궁평항", 제부: "제부도", 국화도: "국화도", 입파도: "입파도" };
     const hit = Object.keys(keywordToPoint).find((keyword) => text.includes(keyword));
     if (!hit) return null;
     return (coastalPoints as Record<string, { x: number; y: number }>)[keywordToPoint[hit]] ?? null;
   };
   // 국화도/입파도 and 제부도 are real islands (제부도 reachable only by a
-  // tidal causeway), but our map only traces the mainland administrative
-  // boundary — there's no drawn island shape to place the marker on. Flag
-  // these so the UI can say so, rather than silently showing an island
-  // project sitting on what looks like solid mainland coast.
+  // tidal causeway) now drawn on the map as their own small shapes — but the
+  // source data doesn't label its extra polygon rings individually, so which
+  // ring is 국화도 vs 입파도 is inferred (by size/position), not certain.
+  // Flag these so the UI can say so.
   const isIslandProject = (project: Project) => {
     const text = `${project.project_name} ${project.district} ${project.overview}`;
     return ["국화도", "입파도", "제부"].some((keyword) => text.includes(keyword));
@@ -829,6 +830,11 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                 </filter>
               </defs>
               <path d={hwaseongBoundary.d} />
+              <g className="investment-map-islands">
+                {Object.entries(islands as Record<string, { d: string }>).map(([name, island]) => (
+                  <path key={name} d={island.d}><title>{name}</title></path>
+                ))}
+              </g>
               <g className="investment-map-gu-fills">
                 {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
                   <path key={name} d={gu.d} fill={GU_COLORS[name]?.fill ?? "rgba(255,255,255,.05)"} />
@@ -867,7 +873,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                     onMouseMove={(event) => showHoverCardFor(project, event)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <title>{project.project_name} ({project.category || "미분류"}){isIsland ? " — 도서지역, 육지 인접 좌표로 근사 표시" : ""}</title>
+                    <title>{project.project_name} ({project.category || "미분류"}){isIsland ? " — 도서지역 (섬 위치는 추정)" : ""}</title>
                     {(() => {
                       const baseR = isSelected ? 9 : 7;
                       const fill = isSelected ? "url(#atlasPointGradientSelected)" : `url(#atlasPointGradient-${categoryStyle.id})`;
@@ -900,7 +906,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                 <span>{zoneFor(cardProject)}</span>
                 <strong>{cardProject.project_name}</strong>
                 <small>{cardProject.district || cardProject.town || "위치정보 미등록"}</small>
-                {isIslandProject(cardProject) && <em className="investment-map-hover-island-note">🏝 도서지역 — 육지 인접 좌표로 근사 표시</em>}
+                {isIslandProject(cardProject) && <em className="investment-map-hover-island-note">🏝 도서지역 — 어느 섬인지는 추정치</em>}
               </div>
             );
           })()}

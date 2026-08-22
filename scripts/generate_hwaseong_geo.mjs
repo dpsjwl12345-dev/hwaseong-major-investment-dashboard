@@ -22,24 +22,39 @@ const CENTROID_OVERRIDES = {
   새솔동: [126.79, 37.185],
 };
 
-// Named coastal/island landmarks that show up in several 서해안 project
-// addresses (궁평항, 국화도, 제부도 등) are 리-level place names — finer than
-// the 읍면동 centroids above, so those projects were landing mid-inland at
-// their whole township's center instead of on the coast.
-//
-// Two things that didn't work: (1) 제부도's real-world coordinate (Wikipedia)
-// projects onto a gap in our simplified outline — the causeway/island isn't
-// traced, so the marker floats in blank "sea"; (2) the raw westmost polygon
-// vertex sits exactly on the map's edge and gets clipped by the glow filter.
-// So instead: take the westmost vertex of the real township polygon — 제부도
-// and 궁평항 use opposite halves (north/south) of 서신면's coastline so they
-// don't stack on the same point — then blend it partway back toward the
-// township's centroid, which keeps it safely inside the drawn landmass while
-// still reading as "toward the coast" rather than dead-center.
+// 궁평항 is a mainland harbor (in 서신면) — no island polygon needed, just
+// nudge it off the township's dead-center toward its own coastline (the
+// southern half of 서신면's mainland ring) so it doesn't cover the same spot
+// project markers cluster around.
 const COASTAL_POINTS = {
-  제부도: { westmostOf: "서신면", half: "north", inset: 0.3 },
   궁평항: { westmostOf: "서신면", half: "south", inset: 0.3 },
-  국화도: { westmostOf: "우정읍", half: null, inset: 0.45 },
+};
+
+// 서신면 and 우정읍's MultiPolygons include several rings beyond the mainland
+// body — real, separate islands, not projection noise. Matched to named
+// islands by elimination (size + distance from the mainland ring), since the
+// source data doesn't label individual rings:
+//   - 서신면 rank 1 (2nd-largest ring, ~1.7km off the mainland) → 제부도,
+//     the only well-known island off 서신면's coast and roughly the right
+//     distance for its tidal causeway.
+//   - 우정읍 rank 2 & 3 (the two rings ~17-19km offshore, well past the
+//     ~0km-gap ring 1) → 국화도 and 입파도, the two islands 우정읍 project
+//     addresses actually name; which ring is which of the two is a guess
+//     (slightly larger/more-northern ring called 국화도), since nothing in
+//     the source data names them individually.
+// "rank" = index after sorting each township's rings by area, descending
+// (rank 0 is always the mainland body itself).
+const NAMED_ISLANDS = {
+  제부도: { township: "서신면", rank: 1 },
+  국화도: { township: "우정읍", rank: 2 },
+  입파도: { township: "우정읍", rank: 3 },
+};
+
+// Shoelace formula — good enough at this scale just to rank ring sizes.
+const ringArea = (ring) => {
+  let sum = 0;
+  for (let i = 0; i < ring.length - 1; i++) sum += ring[i][0] * ring[i + 1][1] - ring[i + 1][0] * ring[i][1];
+  return Math.abs(sum / 2);
 };
 
 const sourcePath = process.argv[2];
@@ -72,7 +87,12 @@ const aspect = (x1 - x0) / (y1 - y0);
 const WIDTH = 1000;
 const HEIGHT = Math.round(WIDTH / aspect);
 
-const projection = geoMercator().fitSize([WIDTH, HEIGHT], cityOutline);
+// A few real features (offshore islands like 국화도/입파도) sit right at the
+// extreme edge of the city's true bounds — fitSize alone would place them
+// flush against the viewBox border, clipping their glow filter. Fit with a
+// margin instead so nothing genuine ends up cut off.
+const MARGIN = 30;
+const projection = geoMercator().fitExtent([[MARGIN, MARGIN], [WIDTH - MARGIN, HEIGHT - MARGIN]], cityOutline);
 const path = geoPath(projection);
 
 writeFileSync(
@@ -119,31 +139,44 @@ writeFileSync(
   JSON.stringify(dongOutlines, null, 2) + "\n",
 );
 
-// Shoelace formula — good enough at this scale just to rank ring sizes.
-const ringArea = (ring) => {
-  let sum = 0;
-  for (let i = 0; i < ring.length - 1; i++) sum += ring[i][0] * ring[i + 1][1] - ring[i + 1][0] * ring[i][1];
-  return Math.abs(sum / 2);
+const ringsOf = (dongName) => {
+  const feature = dongFeatures.find((f) => f.properties.adm_nm.split(" ").pop() === dongName);
+  if (!feature) return [];
+  const polys = feature.geometry.type === "MultiPolygon" ? feature.geometry.coordinates : [feature.geometry.coordinates];
+  return polys.map((poly) => poly[0]).sort((a, b) => ringArea(b) - ringArea(a));
 };
 
 const coastalPoints = {};
+
+// Actual small islands, drawn as their own shapes so project markers can sit
+// on real land at sea instead of an approximated mainland coastal point.
+const islands = {};
+for (const [name, { township, rank }] of Object.entries(NAMED_ISLANDS)) {
+  const ring = ringsOf(township)[rank];
+  if (!ring) continue;
+  const islandFeature = { type: "Feature", geometry: { type: "Polygon", coordinates: [ring] } };
+  const [lon, lat] = geoCentroid(islandFeature);
+  const projected = projection([lon, lat]);
+  if (!projected) continue;
+  islands[name] = { d: path(islandFeature.geometry) };
+  coastalPoints[name] = {
+    x: Number(((projected[0] / WIDTH) * 100).toFixed(2)),
+    y: Number(((projected[1] / HEIGHT) * 100).toFixed(2)),
+  };
+}
+writeFileSync(new URL("../client/src/data/hwaseong-islands.json", import.meta.url), JSON.stringify(islands, null, 2) + "\n");
+
+// Mainland-only points (harbors etc. that aren't islands).
 for (const [name, { westmostOf: dongName, half, inset }] of Object.entries(COASTAL_POINTS)) {
-  const feature = dongFeatures.find((f) => f.properties.adm_nm.split(" ").pop() === dongName);
-  if (!feature) continue;
-  const polys = feature.geometry.type === "MultiPolygon" ? feature.geometry.coordinates : [feature.geometry.coordinates];
-  // These townships include several tiny offshore islet rings alongside the
-  // real mainland body (e.g. 서신면 has 4 separate rings, 3 of them under
-  // 60 points) — searching "westmost point" across every ring can land on a
-  // speck of an islet too small to render visibly, which is exactly what
-  // made the marker look like it was floating in open water. Stick to the
-  // largest (mainland) ring only.
-  const mainRing = polys.map((poly) => poly[0]).sort((a, b) => ringArea(b) - ringArea(a))[0];
+  const mainRing = ringsOf(dongName)[0];
+  if (!mainRing) continue;
   const lats = mainRing.map((p) => p[1]);
   const midLat = (Math.min(...lats) + Math.max(...lats)) / 2;
   const candidates = half === "north" ? mainRing.filter((p) => p[1] >= midLat) : half === "south" ? mainRing.filter((p) => p[1] < midLat) : mainRing;
   let westmost = null;
   for (const p of candidates) if (!westmost || p[0] < westmost[0]) westmost = p;
   if (!westmost) continue;
+  const feature = dongFeatures.find((f) => f.properties.adm_nm.split(" ").pop() === dongName);
   const centroid = geoCentroid(feature);
   const lonlat = [westmost[0] + (centroid[0] - westmost[0]) * inset, westmost[1] + (centroid[1] - westmost[1]) * inset];
   const projected = projection(lonlat);
