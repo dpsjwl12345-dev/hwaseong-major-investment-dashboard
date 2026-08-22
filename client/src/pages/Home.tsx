@@ -960,7 +960,8 @@ export default function Home() {
                 setIsSidebarOpen(false);
               }}
             >
-              MAP VIEW
+              <span className="sidebar-map-label">MAP VIEW</span>
+              <span className="sidebar-map-dot" aria-hidden="true" />
             </button>
           )}
 
