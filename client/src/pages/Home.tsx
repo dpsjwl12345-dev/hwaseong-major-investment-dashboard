@@ -847,10 +847,16 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                 const active = gallery[galleryIndex] ?? gallery[0];
                 return (
                   <div className="investment-map-gallery">
-                    {gallery.length > 0 && <div className="investment-map-gallery-head"><b>{galleryIndex + 1} / {gallery.length}</b></div>}
                     {active ? (
                       <>
-                        <div className="investment-map-gallery-main"><img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} /><span>{active.caption || "주요 현장 이미지"}</span></div>
+                        <div className="investment-map-gallery-main">
+                          <img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} />
+                          <div className="investment-map-gallery-live"><i /> LIVE</div>
+                          {gallery.length > 1 && <div className="investment-map-gallery-counter">{galleryIndex + 1} / {gallery.length}</div>}
+                          <div className="investment-map-gallery-glass">
+                            <span>{active.caption || "주요 현장 이미지"}</span>
+                          </div>
+                        </div>
                         {gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}
                       </>
                     ) : (
