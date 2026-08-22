@@ -619,10 +619,10 @@ function formatDepartmentAmount(value: number) {
 // Distinct, muted tint per 구 so the four districts read apart from each
 // other on the map even without relying on the boundary-line/label alone.
 const GU_COLORS: Record<string, { fill: string; accent: string }> = {
-  효행구: { fill: "rgba(72,196,205,.17)", accent: "#5cd0d8" },
-  만세구: { fill: "rgba(110,132,235,.17)", accent: "#7c92f0" },
-  동탄구: { fill: "rgba(232,178,86,.16)", accent: "#e8b256" },
-  병점구: { fill: "rgba(214,110,150,.16)", accent: "#e07fa8" },
+  효행구: { fill: "rgba(45,200,214,.46)", accent: "#5cd0d8" },
+  만세구: { fill: "rgba(96,120,240,.46)", accent: "#7c92f0" },
+  동탄구: { fill: "rgba(240,175,60,.42)", accent: "#e8b256" },
+  병점구: { fill: "rgba(224,80,140,.42)", accent: "#e07fa8" },
 };
 
 // Classic teardrop location-pin glyph (Material "place" icon), re-based so
@@ -795,18 +795,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                   <path key={index} d={d} />
                 ))}
               </g>
-              <g className="investment-map-gu-labels">
-                {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => {
-                  const lx = (gu.labelX / 100) * hwaseongBoundary.width;
-                  const ly = (gu.labelY / 100) * hwaseongBoundary.height;
-                  return (
-                    <g key={name} className="investment-map-gu-label" transform={`translate(${lx} ${ly})`}>
-                      <rect x={-30} y={-13} width={60} height={26} rx={13} stroke={GU_COLORS[name]?.accent ?? "rgba(159,188,255,.28)"} />
-                      <text textAnchor="middle" dy={5}>{name}</text>
-                    </g>
-                  );
-                })}
-              </g>
               {points.map(({ project, x, y }) => {
                 const cx = (x / 100) * hwaseongBoundary.width;
                 const cy = (y / 100) * hwaseongBoundary.height;
@@ -836,6 +824,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                           fill={isSelected ? "url(#atlasPointGradientSelected)" : `url(#atlasPointGradient-${categoryStyle.id})`}
                         />
                         <circle className="investment-map-point-pin-hole" cx={0} cy={-13} r={2.6} />
+                        <ellipse className="investment-map-point-pin-highlight" cx={-2.8} cy={-19} rx={1.6} ry={2.3} />
                       </g>
                     </g>
                   </g>
