@@ -727,11 +727,9 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
 }
 
 function DepartmentDashboard({
-  onBack,
   onSelectProject,
   initialDepartment,
 }: {
-  onBack: () => void;
   onSelectProject: (project: Project) => void;
   initialDepartment: string;
 }) {
@@ -794,7 +792,6 @@ function DepartmentDashboard({
           <p className="dept-dashboard-eyebrow">DEPARTMENT INVESTMENT CONTROL</p>
           <h1>{initialDepartment} 추진현황</h1>
         </div>
-        <button type="button" className="dept-dashboard-back" onClick={onBack}>주요사업 현황으로 돌아가기</button>
       </div>
 
       <div className="dept-kpi-grid dept-kpi-grid-selected">
@@ -944,7 +941,19 @@ export default function Home() {
           
                 </div>
         <nav className="pd-sidebar-nav min-h-0 flex-1 overflow-y-auto px-3 pb-5 pt-5">
-          {!isCollapsed && <button type="button" className="sidebar-map-link" onClick={() => { setSelectedProject(null); setActiveView("map"); setIsSidebarOpen(false); }}><MapPin size={17} /><span>주요사업 분포도</span><span className="sidebar-map-arrow">↗</span></button>}
+          {!isCollapsed && (
+            <button
+              type="button"
+              className="btn sidebar-map-link"
+              onClick={() => {
+                setSelectedProject(null);
+                setActiveView("map");
+                setIsSidebarOpen(false);
+              }}
+            >
+              MAP VIEW
+            </button>
+          )}
 
           {visibleOrganization.map((bureau) => {
             const bureauOpen = normalizedQuery.length > 0 || openBureaus.includes(bureau.name);
@@ -1050,7 +1059,7 @@ export default function Home() {
           {activeView === "map" ? (
             <InvestmentDistribution projects={projects} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "department" ? (
-            <DepartmentDashboard key={selectedDepartmentDashboard} initialDepartment={selectedDepartmentDashboard} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+            <DepartmentDashboard key={selectedDepartmentDashboard} initialDepartment={selectedDepartmentDashboard} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
               <ProjectDetail project={selectedProject} />
