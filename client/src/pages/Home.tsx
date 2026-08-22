@@ -625,11 +625,6 @@ const GU_COLORS: Record<string, { fill: string; accent: string }> = {
   병점구: { fill: "rgba(224,80,140,.42)", accent: "#e07fa8" },
 };
 
-// Classic teardrop location-pin glyph (Material "place" icon), re-based so
-// the pin's TIP sits at local (0,0) — the parent <g> already translates to
-// the project's map coordinate, so the tip lands exactly on that point.
-const PIN_PATH = "M0 -20 C-3.87 -20 -7 -16.87 -7 -13 c0 5.25 7 13 7 13 s7 -7.75 7 -13 c0 -3.87 -3.13 -7 -7 -7 Z";
-
 // One color family per 사업분야 (project.category) so markers are
 // distinguishable by business field at a glance, not just by district.
 const CATEGORY_STYLES: Record<string, { id: string; hi: string; mid: string; lo: string }> = {
@@ -783,6 +778,14 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                   <stop offset="45%" stopColor="#ffcf68" />
                   <stop offset="100%" stopColor="#b9791a" />
                 </radialGradient>
+                <filter id="atlasPointGlow" x="-200%" y="-200%" width="500%" height="500%">
+                  <feMorphology operator="dilate" radius="0.6" />
+                  <feGaussianBlur stdDeviation="1.4" result="coloredBlur" />
+                  <feMerge>
+                    <feMergeNode in="coloredBlur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
               </defs>
               <path d={hwaseongBoundary.d} />
               <g className="investment-map-gu-fills">
@@ -795,6 +798,15 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                   <path key={index} d={d} />
                 ))}
               </g>
+              {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => {
+                const lx = (gu.labelX / 100) * hwaseongBoundary.width;
+                const ly = (gu.labelY / 100) * hwaseongBoundary.height;
+                return (
+                  <foreignObject key={name} x={lx - 52} y={ly - 20} width={104} height={40} className="investment-map-gu-label-box">
+                    <div className="investment-map-gu-label-pill"><span>{name}</span></div>
+                  </foreignObject>
+                );
+              })}
               {points.map(({ project, x, y }) => {
                 const cx = (x / 100) * hwaseongBoundary.width;
                 const cy = (y / 100) * hwaseongBoundary.height;
@@ -815,18 +827,19 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                     onMouseLeave={() => setHovered(null)}
                   >
                     <title>{project.project_name} ({project.category || "미분류"})</title>
-                    <ellipse className="investment-map-point-shadow" cy={4} rx={8} ry={2.6} />
-                    <g className="investment-map-point-lift">
-                      <g className="investment-map-point-glyph" transform={`scale(${isSelected ? 2 : 1.6})`}>
-                        <path
-                          className="investment-map-point-pin"
-                          d={PIN_PATH}
-                          fill={isSelected ? "url(#atlasPointGradientSelected)" : `url(#atlasPointGradient-${categoryStyle.id})`}
-                        />
-                        <circle className="investment-map-point-pin-hole" cx={0} cy={-13} r={2.6} />
-                        <ellipse className="investment-map-point-pin-highlight" cx={-2.8} cy={-19} rx={1.6} ry={2.3} />
-                      </g>
-                    </g>
+                    {(() => {
+                      const baseR = isSelected ? 9 : 7;
+                      const fill = isSelected ? "url(#atlasPointGradientSelected)" : `url(#atlasPointGradient-${categoryStyle.id})`;
+                      return (
+                        <>
+                          <circle r={baseR} fill={fill} filter="url(#atlasPointGlow)" className="investment-map-point-core" />
+                          <circle r={baseR} fill={fill} opacity="0.55" className="investment-map-point-ping">
+                            <animate attributeName="r" from={baseR} to={baseR * 3.4} dur="2.2s" begin="0s" repeatCount="indefinite" />
+                            <animate attributeName="opacity" from="0.55" to="0" dur="2.2s" begin="0s" repeatCount="indefinite" />
+                          </circle>
+                        </>
+                      );
+                    })()}
                   </g>
                 );
               })}
