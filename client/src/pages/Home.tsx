@@ -133,6 +133,18 @@ const DEPARTMENT_COLOR: Record<string, { from: string; to: string }> = {
 const DEFAULT_COLOR = { from: "#4c7cff", to: "#9a5cf5" };
 const colorFor = (department: string) => DEPARTMENT_COLOR[department] ?? DEFAULT_COLOR;
 
+// 지도 마커는 전체 화면의 민트·청록 톤을 유지하면서 부서별 명도 차이로 구분한다.
+const MAP_MARKER_COLOR: Record<string, string> = {
+  문화예술과: "#0f766e",
+  문화유산과: "#0d9488",
+  독립기념관: "#11998e",
+  관광진흥과: "#14b8a6",
+  도서관정책과: "#2dd4bf",
+  체육진흥과: "#5eead4",
+  전국체전추진단: "#99f6e4",
+};
+const markerColorFor = (department: string) => MAP_MARKER_COLOR[department] ?? "#2dd4bf";
+
 const isBlank = (value: string | null | undefined) => !value || !value.trim();
 const progressPercent = (project: Project) => {
   const parsed = Number.parseInt(project.expected_completion ?? "", 10);
@@ -720,7 +732,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                   onMouseLeave={() => setHovered(null)}
                 >
                   <title>{project.project_name}</title>
-                  <circle className="investment-map-point-dot" r={9} />
+                  <circle className="investment-map-point-dot" style={{ fill: markerColorFor(project.department) }} r={9} />
                   <text className="investment-map-point-label" y={20} textAnchor="middle">{project.serial}</text>
                 </g>
               );
