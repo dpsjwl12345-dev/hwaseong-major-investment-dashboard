@@ -2886,6 +2886,9 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-point.is-selected .investment-map-point-core { stroke:#fff; stroke-width:1; }
 .investment-map-point:focus-visible .investment-map-point-core { stroke:#fff; stroke-width:1.6; }
 .investment-map-point-ping { pointer-events:none; }
+.investment-map-selection-pin { pointer-events:none; }
+.investment-map-selection-pin path { fill:#a7f3d0; stroke:#ecfeff; stroke-width:1.6; stroke-linejoin:round; filter:drop-shadow(0 0 5px rgba(167,243,208,.78)); }
+.investment-map-selection-pin circle { fill:#064e3b; stroke:#fff; stroke-width:1; }
 .investment-map-gu-label-box { overflow:visible; pointer-events:none; }
 .investment-map-gu-label-pill { display:flex; align-items:center; justify-content:center; height:100%; }
 .investment-map-gu-label-pill > span {

@@ -751,11 +751,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                     <stop offset="100%" stopColor={style.lo} />
                   </radialGradient>
                 ))}
-                <radialGradient id="atlasPointGradientSelected" cx="35%" cy="30%" r="70%">
-                  <stop offset="0%" stopColor="#fff8e6" />
-                  <stop offset="45%" stopColor="#ffcf68" />
-                  <stop offset="100%" stopColor="#b9791a" />
-                </radialGradient>
                 <filter id="atlasPointGlow" x="-200%" y="-200%" width="500%" height="500%">
                   <feMorphology operator="dilate" radius="0.6" />
                   <feGaussianBlur stdDeviation="1.4" result="coloredBlur" />
@@ -812,7 +807,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                     <title>{project.project_name} ({project.category || "미분류"}){isIsland ? " — 도서지역 (섬 위치는 추정)" : ""}</title>
                     {(() => {
                       const baseR = isSelected ? 9 : 7;
-                      const fill = isSelected ? "url(#atlasPointGradientSelected)" : `url(#atlasPointGradient-${categoryStyle.id})`;
+                      const fill = `url(#atlasPointGradient-${categoryStyle.id})`;
                       return (
                         <>
                           <circle r={baseR} fill={fill} filter="url(#atlasPointGlow)" className="investment-map-point-core" />
@@ -820,6 +815,12 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                             <animate attributeName="r" from={baseR} to={baseR * 3.4} dur="2.2s" begin="0s" repeatCount="indefinite" />
                             <animate attributeName="opacity" from="0.55" to="0" dur="2.2s" begin="0s" repeatCount="indefinite" />
                           </circle>
+                          {isSelected && (
+                            <g className="investment-map-selection-pin" transform={`translate(0 ${-(baseR + 16)})`} aria-hidden="true">
+                              <path d="M0 10C-5 5-8 1-8-4a8 8 0 1 1 16 0c0 5-3 9-8 14Z" />
+                              <circle cx="0" cy="-4" r="3" />
+                            </g>
+                          )}
                           {isIsland && <text className="investment-map-point-island-badge" y={-baseR - 5} textAnchor="middle">🏝</text>}
                         </>
                       );
