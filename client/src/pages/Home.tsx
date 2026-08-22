@@ -840,10 +840,8 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
             if (!cardProject) return null;
             return (
               <div className="investment-map-hover-card" style={{ left: `${cardPosition.x}px`, top: `${cardPosition.y}px` }}>
-                <span>{zoneFor(cardProject)}</span>
+                <span>{cardProject.category || "미등록"}</span>
                 <strong>{cardProject.project_name}</strong>
-                <small>{cardProject.district || cardProject.town || "위치정보 미등록"}</small>
-                {isIslandProject(cardProject) && <em className="investment-map-hover-island-note">🏝 도서지역 — 어느 섬인지는 추정치</em>}
               </div>
             );
           })()}
