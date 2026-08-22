@@ -643,6 +643,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   const [selected, setSelected] = useState<Project | null>(null);
   const [hovered, setHovered] = useState<Project | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
+  const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: 0 });
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -764,10 +765,23 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     ...(coastalPositionFor(project) ?? dongPositionFor(project, index) ?? approxPositionFor(project, index)),
   }));
 
+  const cardPositionFor = (event: ReactMouseEvent<SVGGElement>) => {
+    const rect = event.currentTarget.closest(".investment-map-canvas")?.getBoundingClientRect();
+    return rect ? { x: event.clientX - rect.left + 16, y: event.clientY - rect.top + 16 } : null;
+  };
   const showHoverCardFor = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
     setHovered(project);
-    const rect = event.currentTarget.closest(".investment-map-canvas")?.getBoundingClientRect();
-    if (rect) setHoverPosition({ x: event.clientX - rect.left + 16, y: event.clientY - rect.top + 16 });
+    const position = cardPositionFor(event);
+    if (position) setHoverPosition(position);
+  };
+  // Clicking a marker pins its info card in place (at the click point) so it
+  // stays visible after the cursor moves away, instead of just disappearing
+  // like a plain hover tooltip once you're no longer pointing at it.
+  const selectProjectAt = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
+    setSelected(project);
+    setGalleryIndex(0);
+    const position = cardPositionFor(event);
+    if (position) setSelectedPosition(position);
   };
 
   return (
@@ -847,7 +861,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                     role="button"
                     tabIndex={0}
                     aria-label={`${project.project_name} 위치 보기${isIsland ? " (도서지역, 근사 위치)" : ""}`}
-                    onClick={() => { setSelected(project); setGalleryIndex(0); }}
+                    onClick={(event) => selectProjectAt(project, event)}
                     onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelected(project); setGalleryIndex(0); } }}
                     onMouseEnter={(event) => showHoverCardFor(project, event)}
                     onMouseMove={(event) => showHoverCardFor(project, event)}
@@ -865,11 +879,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                             <animate attributeName="opacity" from="0.55" to="0" dur="2.2s" begin="0s" repeatCount="indefinite" />
                           </circle>
                           {isIsland && <text className="investment-map-point-island-badge" y={-baseR - 5} textAnchor="middle">🏝</text>}
-                          {isSelected && (
-                            <foreignObject x={-110} y={-baseR - 46} width={220} height={30} className="investment-map-selected-label-box">
-                              <div className="investment-map-selected-label-pill"><span>{project.project_name}</span></div>
-                            </foreignObject>
-                          )}
                         </>
                       );
                     })()}
@@ -878,7 +887,23 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
               })}
             </svg>
           </div>
-          {hovered &&<div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small>{isIslandProject(hovered) && <em className="investment-map-hover-island-note">🏝 도서지역 — 육지 인접 좌표로 근사 표시</em>}</div>}
+          {(() => {
+            // While hovering, that marker's card takes priority; once the
+            // cursor leaves, the card doesn't disappear — it just falls back
+            // to showing whichever project is currently selected, pinned at
+            // the spot it was clicked.
+            const cardProject = hovered ?? selected;
+            const cardPosition = hovered ? hoverPosition : selectedPosition;
+            if (!cardProject) return null;
+            return (
+              <div className="investment-map-hover-card" style={{ left: `${cardPosition.x}px`, top: `${cardPosition.y}px` }}>
+                <span>{zoneFor(cardProject)}</span>
+                <strong>{cardProject.project_name}</strong>
+                <small>{cardProject.district || cardProject.town || "위치정보 미등록"}</small>
+                {isIslandProject(cardProject) && <em className="investment-map-hover-island-note">🏝 도서지역 — 육지 인접 좌표로 근사 표시</em>}
+              </div>
+            );
+          })()}
           <div className="investment-map-legend">
             {Object.entries(CATEGORY_STYLES).map(([name, style]) => (
               <span key={name}><i style={{ background: style.mid, boxShadow: `0 0 6px ${style.mid}` }} /> {name}</span>
