@@ -2945,3 +2945,12 @@ h1, h2, h3, h4, h5, h6,
 
 /* Usage detail labels: all first-column items align left */
 .pd-usage-progress-label > span { text-align: left; justify-self: start; }
+
+/* Final text-column alignment pass */
+.pd-funding-table thead th:first-child,
+.pd-funding-table tbody th:first-child,
+.pd-funding-table tbody td:first-child,
+.dept-project-table thead th:first-child,
+.dept-project-table tbody td:first-child,
+.dept-project-table tbody th:first-child,
+.pd-usage-progress-label > span { text-align: left !important; justify-self: start; }
