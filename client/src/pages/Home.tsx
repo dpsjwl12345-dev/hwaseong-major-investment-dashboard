@@ -630,6 +630,19 @@ const GU_COLORS: Record<string, { fill: string; accent: string }> = {
 // the project's map coordinate, so the tip lands exactly on that point.
 const PIN_PATH = "M0 -20 C-3.87 -20 -7 -16.87 -7 -13 c0 5.25 7 13 7 13 s7 -7.75 7 -13 c0 -3.87 -3.13 -7 -7 -7 Z";
 
+// One color family per 사업분야 (project.category) so markers are
+// distinguishable by business field at a glance, not just by district.
+const CATEGORY_STYLES: Record<string, { id: string; hi: string; mid: string; lo: string }> = {
+  문화관광시설: { id: "culture", hi: "#eafffe", mid: "#4fe0e3", lo: "#0d8b91" },
+  체육시설: { id: "sports", hi: "#eafff0", mid: "#55d98a", lo: "#128a52" },
+  공공시설: { id: "public", hi: "#f3ecff", mid: "#a78bfa", lo: "#5b3fa0" },
+  "교육 및 도서관": { id: "edu", hi: "#e8f1ff", mid: "#6ea8fa", lo: "#2c5aa8" },
+  "도로1(시도·농어촌)": { id: "road", hi: "#fff3d9", mid: "#f0a94e", lo: "#a8631a" },
+  기타: { id: "etc", hi: "#f2f4f8", mid: "#98a6bd", lo: "#4a5568" },
+};
+const DEFAULT_CATEGORY_STYLE = { id: "default", hi: "#eafffe", mid: "#4fe0e3", lo: "#0d8b91" };
+const categoryStyleFor = (category: string | undefined) => (category && CATEGORY_STYLES[category]) || DEFAULT_CATEGORY_STYLE;
+
 function InvestmentDistribution({ projects, onBack, onSelectProject }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void }) {
   const [selected, setSelected] = useState<Project | null>(null);
   const [hovered, setHovered] = useState<Project | null>(null);
@@ -758,11 +771,13 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
             <div className="investment-map-grid" /><div className="investment-map-glow" />
             <svg className="investment-map-outline accurate" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet">
               <defs>
-                <radialGradient id="atlasPointGradient" cx="35%" cy="30%" r="70%">
-                  <stop offset="0%" stopColor="#eafffe" />
-                  <stop offset="45%" stopColor="#4fe0e3" />
-                  <stop offset="100%" stopColor="#0d8b91" />
-                </radialGradient>
+                {[...Object.values(CATEGORY_STYLES), DEFAULT_CATEGORY_STYLE].map((style) => (
+                  <radialGradient key={style.id} id={`atlasPointGradient-${style.id}`} cx="35%" cy="30%" r="70%">
+                    <stop offset="0%" stopColor={style.hi} />
+                    <stop offset="45%" stopColor={style.mid} />
+                    <stop offset="100%" stopColor={style.lo} />
+                  </radialGradient>
+                ))}
                 <radialGradient id="atlasPointGradientSelected" cx="35%" cy="30%" r="70%">
                   <stop offset="0%" stopColor="#fff8e6" />
                   <stop offset="45%" stopColor="#ffcf68" />
@@ -780,11 +795,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                   <path key={index} d={d} />
                 ))}
               </g>
-              <g className="investment-map-gu-lines">
-                {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
-                  <path key={name} d={gu.d} stroke={GU_COLORS[name]?.accent ?? "rgba(235,242,255,.5)"} />
-                ))}
-              </g>
               <g className="investment-map-gu-labels">
                 {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => {
                   const lx = (gu.labelX / 100) * hwaseongBoundary.width;
@@ -800,10 +810,12 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
               {points.map(({ project, x, y }) => {
                 const cx = (x / 100) * hwaseongBoundary.width;
                 const cy = (y / 100) * hwaseongBoundary.height;
+                const isSelected = selected?.id === project.id;
+                const categoryStyle = categoryStyleFor(project.category);
                 return (
                   <g
                     key={project.id}
-                    className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`}
+                    className={`investment-map-point ${isSelected ? "is-selected" : ""}`}
                     transform={`translate(${cx} ${cy})`}
                     role="button"
                     tabIndex={0}
@@ -814,11 +826,15 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                     onMouseMove={(event) => showHoverCardFor(project, event)}
                     onMouseLeave={() => setHovered(null)}
                   >
-                    <title>{project.project_name}</title>
-                    <ellipse className="investment-map-point-shadow" cy={3} rx={6.5} ry={2.1} />
+                    <title>{project.project_name} ({project.category || "미분류"})</title>
+                    <ellipse className="investment-map-point-shadow" cy={4} rx={8} ry={2.6} />
                     <g className="investment-map-point-lift">
-                      <g className="investment-map-point-glyph" transform={`scale(${selected?.id === project.id ? 1.55 : 1.28})`}>
-                        <path className="investment-map-point-pin" d={PIN_PATH} />
+                      <g className="investment-map-point-glyph" transform={`scale(${isSelected ? 2 : 1.6})`}>
+                        <path
+                          className="investment-map-point-pin"
+                          d={PIN_PATH}
+                          fill={isSelected ? "url(#atlasPointGradientSelected)" : `url(#atlasPointGradient-${categoryStyle.id})`}
+                        />
                         <circle className="investment-map-point-pin-hole" cx={0} cy={-13} r={2.6} />
                       </g>
                     </g>
@@ -828,7 +844,12 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
             </svg>
           </div>
           {hovered &&<div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small></div>}
-          <div className="investment-map-legend"><span><i className="legend-dot" /> 사업 위치</span><span><i className="legend-ring" /> 선택 사업</span></div>
+          <div className="investment-map-legend">
+            {Object.entries(CATEGORY_STYLES).map(([name, style]) => (
+              <span key={name}><i style={{ background: style.mid, boxShadow: `0 0 6px ${style.mid}` }} /> {name}</span>
+            ))}
+            <span><i className="legend-ring" /> 선택 사업</span>
+          </div>
           <div className="investment-map-zoom-controls">
             <button type="button" onClick={zoomIn} disabled={zoom >= MAX_ZOOM} aria-label="지도 확대">+</button>
             <button type="button" onClick={zoomOut} disabled={zoom <= MIN_ZOOM} aria-label="지도 축소">−</button>
