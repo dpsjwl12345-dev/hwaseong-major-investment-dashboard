@@ -908,6 +908,14 @@
   border-radius: 999px;
   white-space: nowrap;
 }
+.hwaseong-gl-map { position: absolute; inset: 0; }
+.hwaseong-gl-map-canvas { position: absolute; inset: 0; opacity: 0; transition: opacity .25s ease; }
+.hwaseong-gl-map-canvas.is-ready { opacity: 1; }
+.hwaseong-gl-map-status { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.hwaseong-gl-map-status span { font-size: 12.5px; color: var(--pd-text-faint); background: rgba(10, 14, 26, 0.75); padding: 6px 12px; border-radius: 999px; }
+.hwaseong-gl-map .maplibregl-ctrl-attrib { font-size: 9px; }
+.hwaseong-gl-map .maplibregl-popup-content { background: rgba(7, 16, 31, 0.92); color: #e8faff; font: 600 12px "Pretendard", sans-serif; padding: 8px 12px; border-radius: 8px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35); }
+.hwaseong-gl-map .maplibregl-popup-tip { border-top-color: rgba(7, 16, 31, 0.92) !important; }
 
 /* Detail pill-radio menu adapted to the existing dashboard palette */
 .pd-pill-tabs { --total-options: 5; display: inline-grid; grid-template-columns: repeat(5, max-content); position: relative; width: fit-content; max-width: 100%; margin: 0 0 24px; padding: 4px; gap: 0; border: 1px solid var(--pd-border-soft); border-radius: 3rem; background: var(--pd-surface); box-shadow: 0 0 12px rgba(0,0,0,.24) inset; overflow: hidden; }

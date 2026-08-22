@@ -116,10 +116,16 @@ writeFileSync(
 // as the city outline above.
 const centroids = {};
 const dongOutlines = {};
+// Real lon/lat per dong (not our flat percentage projection) — for anything
+// that needs to center on an actual real-world map (e.g. a real tile
+// basemap), derived the same offline way as everything else here, no
+// external geocoding involved.
+const dongLonLat = {};
 for (const feature of dongFeatures) {
   // adm_nm looks like "경기도 화성시효행구 봉담읍" — keep just the 읍/면/동 name.
   const dongName = feature.properties.adm_nm.split(" ").pop();
   const [lon, lat] = CENTROID_OVERRIDES[dongName] ?? geoCentroid(feature);
+  dongLonLat[dongName] = [Number(lon.toFixed(5)), Number(lat.toFixed(5))];
   const projected = projection([lon, lat]);
   if (projected) {
     centroids[dongName] = {
@@ -138,6 +144,10 @@ writeFileSync(
   new URL("../client/src/data/hwaseong-dong-outlines.json", import.meta.url),
   JSON.stringify(dongOutlines, null, 2) + "\n",
 );
+writeFileSync(
+  new URL("../client/src/data/hwaseong-dong-lonlat.json", import.meta.url),
+  JSON.stringify(dongLonLat, null, 2) + "\n",
+);
 
 const ringsOf = (dongName) => {
   const feature = dongFeatures.find((f) => f.properties.adm_nm.split(" ").pop() === dongName);
@@ -147,6 +157,7 @@ const ringsOf = (dongName) => {
 };
 
 const coastalPoints = {};
+const coastalLonLat = {};
 
 // Actual small islands, drawn as their own shapes so project markers can sit
 // on real land at sea instead of an approximated mainland coastal point.
@@ -163,6 +174,7 @@ for (const [name, { township, rank }] of Object.entries(NAMED_ISLANDS)) {
     x: Number(((projected[0] / WIDTH) * 100).toFixed(2)),
     y: Number(((projected[1] / HEIGHT) * 100).toFixed(2)),
   };
+  coastalLonLat[name] = [Number(lon.toFixed(5)), Number(lat.toFixed(5))];
 }
 writeFileSync(new URL("../client/src/data/hwaseong-islands.json", import.meta.url), JSON.stringify(islands, null, 2) + "\n");
 
@@ -185,7 +197,12 @@ for (const [name, { westmostOf: dongName, half, inset }] of Object.entries(COAST
     x: Number(((projected[0] / WIDTH) * 100).toFixed(2)),
     y: Number(((projected[1] / HEIGHT) * 100).toFixed(2)),
   };
+  coastalLonLat[name] = [Number(lonlat[0].toFixed(5)), Number(lonlat[1].toFixed(5))];
 }
+writeFileSync(
+  new URL("../client/src/data/hwaseong-coastal-lonlat.json", import.meta.url),
+  JSON.stringify(coastalLonLat, null, 2) + "\n",
+);
 writeFileSync(
   new URL("../client/src/data/hwaseong-coastal-points.json", import.meta.url),
   JSON.stringify(coastalPoints, null, 2) + "\n",

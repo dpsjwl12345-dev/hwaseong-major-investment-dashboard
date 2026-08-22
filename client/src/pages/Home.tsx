@@ -32,6 +32,9 @@ import dongOutlines from "../data/hwaseong-dong-outlines.json";
 import guOutlines from "../data/hwaseong-gu-outlines.json";
 import coastalPoints from "../data/hwaseong-coastal-points.json";
 import islands from "../data/hwaseong-islands.json";
+import dongLonLat from "../data/hwaseong-dong-lonlat.json";
+import coastalLonLat from "../data/hwaseong-coastal-lonlat.json";
+import { HwaseongGLMap } from "../components/HwaseongGLMap";
 
 type Project = {
   id: string;
@@ -351,131 +354,39 @@ function AdminPanel({ project }: { project: Project }) {
   return <div className="pd-card"><div className="pd-card-title"><DetailSectionHeading icon={ClipboardCheck} title="이행여부" /></div>{project.management_card_matched ? <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{checks.map(([label, checked]) => <div key={label} className={`rounded-xl border px-4 py-4 ${checked ? "border-[var(--pd-success)]/50 bg-[var(--pd-success)]/10" : "border-[var(--pd-border)] bg-white/[0.02]"}`}><span className="text-[13px] text-[var(--pd-text-muted)]">{checked ? "■" : "□"} {label}</span></div>)}</div><div className="mt-5 grid gap-4 sm:grid-cols-2"><div className="pd-kv"><span className="pd-kv-label">선택된 절차</span><span className="pd-kv-value">{project.card_admin_procedures || "-"}</span></div><div className="pd-kv"><span className="pd-kv-label">법적근거</span><span className="pd-kv-value">{project.card_admin_legal_basis || "-"}</span></div></div></> : <div className="pd-note-box">해당 사업의 사업별 관리카드가 검색되지 않았습니다.</div>}</div>;
 }
 
-type KakaoLatLng = { getLat: () => number; getLng: () => number };
-type KakaoMapInstance = { setCenter: (latLng: KakaoLatLng) => void };
-type KakaoGeocoder = { addressSearch: (address: string, callback: (result: Array<{ x: string; y: string }>, status: string) => void) => void };
-type KakaoMaps = {
-  Map: new (container: HTMLElement, options: { center: KakaoLatLng; level: number }) => KakaoMapInstance;
-  LatLng: new (lat: number, lng: number) => KakaoLatLng;
-  Marker: new (options: { map: KakaoMapInstance; position: KakaoLatLng }) => unknown;
-  InfoWindow: new (options: { content: string }) => { open: (map: KakaoMapInstance, marker: unknown) => void };
-  services: { Geocoder: new () => KakaoGeocoder; Status: { OK: string } };
-  load: (callback: () => void) => void;
-};
-type KakaoWindow = Window & { kakao?: { maps: KakaoMaps } };
-
-// Shared loader so every consumer (single-project map, distribution atlas, ...)
-// reuses the same <script> tag and the same resolved `kakao.maps` instance
-// instead of re-running the SDK bootstrap on every mount.
-let kakaoMapsPromise: Promise<KakaoMaps> | null = null;
-function loadKakaoMaps(appKey: string): Promise<KakaoMaps> {
-  if (!kakaoMapsPromise) {
-    kakaoMapsPromise = new Promise<KakaoMaps>((resolve, reject) => {
-      const ready = () => {
-        const kakao = (window as KakaoWindow).kakao;
-        if (!kakao?.maps) {
-          reject(new Error("Kakao maps failed to initialize"));
-          return;
-        }
-        kakao.maps.load(() => resolve(kakao.maps));
-      };
-      const scriptId = "kakao-map-sdk";
-      const existing = document.getElementById(scriptId) as HTMLScriptElement | null;
-      if (existing) {
-        if ((window as KakaoWindow).kakao?.maps) ready();
-        else existing.addEventListener("load", ready, { once: true });
-        return;
-      }
-      const script = document.createElement("script");
-      script.id = scriptId;
-      script.async = true;
-      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${encodeURIComponent(appKey)}&autoload=false&libraries=services`;
-      script.addEventListener("load", ready, { once: true });
-      script.addEventListener("error", () => reject(new Error("Failed to load Kakao maps script")), { once: true });
-      document.head.appendChild(script);
-    }).catch((error) => {
-      kakaoMapsPromise = null; // allow a retry on the next call instead of caching a permanent failure
-      throw error;
-    });
+// Real lon/lat for a project, derived only from our own offline boundary
+// data (dong centroid, or a named coastal/island point) — never from
+// geocoding the project's actual address text through an outside service.
+function realCoordsFor(project: Project): [number, number] | null {
+  const text = `${project.project_name} ${project.district} ${project.overview}`;
+  const keywordToPoint: Record<string, string> = { 궁평: "궁평항", 제부: "제부도", 국화도: "국화도", 입파도: "입파도" };
+  const coastalKeyword = Object.keys(keywordToPoint).find((keyword) => text.includes(keyword));
+  if (coastalKeyword) {
+    const point = (coastalLonLat as unknown as Record<string, [number, number]>)[keywordToPoint[coastalKeyword]];
+    if (point) return point;
   }
-  return kakaoMapsPromise!;
-}
-
-// Geocodes a single 화성시 address via the Kakao Geocoder, caching successful
-// lookups in localStorage so repeat visits (and the ~40-address distribution
-// map) don't re-hit the API for addresses that never change.
-function geocodeAddress(kakao: KakaoMaps, address: string): Promise<[number, number] | null> {
-  const cacheKey = `hwaseong-geocode:${address}`;
-  const cached = localStorage.getItem(cacheKey);
-  if (cached) {
-    try {
-      const parsed = JSON.parse(cached);
-      if (Array.isArray(parsed) && parsed.length === 2) return Promise.resolve(parsed as [number, number]);
-    } catch {
-      // fall through and re-geocode
-    }
-  }
-  return new Promise((resolve) => {
-    const geocoder = new kakao.services.Geocoder();
-    geocoder.addressSearch(address, (result, status) => {
-      if (status !== kakao.services.Status.OK || result.length === 0) {
-        resolve(null);
-        return;
-      }
-      const coord: [number, number] = [Number(result[0].x), Number(result[0].y)];
-      localStorage.setItem(cacheKey, JSON.stringify(coord));
-      resolve(coord);
-    });
-  });
+  const dongNames = (project.district ?? "").split(",").map((name) => name.trim()).filter(Boolean);
+  const matches = dongNames.map((name) => (dongLonLat as unknown as Record<string, [number, number]>)[name]).filter((m): m is [number, number] => Boolean(m));
+  if (matches.length === 0) return null;
+  const avgLon = matches.reduce((sum, m) => sum + m[0], 0) / matches.length;
+  const avgLat = matches.reduce((sum, m) => sum + m[1], 0) / matches.length;
+  return [avgLon, avgLat];
 }
 
 function LocationPanel({ project }: { project: Project }) {
   const overviewPairs = parseKvPairs(project.overview);
   const address = overviewPairs.find((pair) => pair.label === "사업위치")?.value;
-  const mapRef = useRef<HTMLDivElement>(null);
-  const [mapStatus, setMapStatus] = useState<"idle" | "loading" | "ready" | "missing-key" | "error">("idle");
-
-  useEffect(() => {
-    if (!address || !mapRef.current) return;
-    const appKey = import.meta.env.VITE_KAKAO_MAP_APP_KEY as string | undefined;
-    if (!appKey) {
-      setMapStatus("missing-key");
-      return;
-    }
-
-    let cancelled = false;
-    setMapStatus("loading");
-    loadKakaoMaps(appKey)
-      .then(async (kakao) => {
-        if (cancelled || !mapRef.current) return;
-        const coord = await geocodeAddress(kakao, address);
-        if (cancelled || !mapRef.current) return;
-        if (!coord) {
-          setMapStatus("error");
-          return;
-        }
-        const position = new kakao.LatLng(coord[1], coord[0]);
-        const map = new kakao.Map(mapRef.current, { center: position, level: 5 });
-        const marker = new kakao.Marker({ map, position });
-        const infoWindow = new kakao.InfoWindow({ content: `<div style="padding:8px 12px;font-size:13px;white-space:nowrap">${project.project_name}</div>` });
-        infoWindow.open(map, marker);
-        setMapStatus("ready");
-      })
-      .catch(() => {
-        if (!cancelled) setMapStatus("error");
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [address, project.project_name]);
+  const coords = realCoordsFor(project);
 
   return (
     <div className="pd-card">
       <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr]">
         <div className="pd-map-placeholder relative overflow-hidden">
-          <div ref={mapRef} className={`h-full min-h-[320px] w-full ${mapStatus === "ready" ? "opacity-100" : "opacity-0"}`} />
-          {mapStatus !== "ready" && <div className="absolute inset-0 flex items-center justify-center p-6 text-center"><div><div className="pd-map-pin" /><span className="pd-map-caption">{mapStatus === "missing-key" ? "카카오맵 API 키를 등록하면 지도가 표시됩니다" : mapStatus === "error" ? "주소를 지도 좌표로 변환하지 못했습니다" : !address ? "등록된 사업위치가 없습니다" : "지도 불러오는 중"}</span></div></div>}
+          {coords ? (
+            <HwaseongGLMap longitude={coords[0]} latitude={coords[1]} label={project.project_name} />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center p-6 text-center"><div><div className="pd-map-pin" /><span className="pd-map-caption">등록된 사업위치가 없습니다</span></div></div>
+          )}
         </div>
         <div className="pd-kv-row" style={{ gridTemplateColumns: "1fr" }}>
           <div className="pd-kv"><span className="pd-kv-label">사업위치</span><span className="pd-kv-value">{address ?? "등록된 정보가 없습니다."}</span></div>
