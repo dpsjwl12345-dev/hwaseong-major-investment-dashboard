@@ -25,15 +25,21 @@ const CENTROID_OVERRIDES = {
 // Named coastal/island landmarks that show up in several 서해안 project
 // addresses (궁평항, 국화도, 제부도 등) are 리-level place names — finer than
 // the 읍면동 centroids above, so those projects were landing mid-inland at
-// their whole township's center instead of on the coast. 제부도's coordinate
-// is independently sourced (Wikipedia); the others don't have a coordinate
-// we could verify, so instead of guessing we place them at the westmost
-// point of their real township polygon — still derived only from the public
-// boundary data, and at least correctly on the coastline.
+// their whole township's center instead of on the coast.
+//
+// Two things that didn't work: (1) 제부도's real-world coordinate (Wikipedia)
+// projects onto a gap in our simplified outline — the causeway/island isn't
+// traced, so the marker floats in blank "sea"; (2) the raw westmost polygon
+// vertex sits exactly on the map's edge and gets clipped by the glow filter.
+// So instead: take the westmost vertex of the real township polygon — 제부도
+// and 궁평항 use opposite halves (north/south) of 서신면's coastline so they
+// don't stack on the same point — then blend it partway back toward the
+// township's centroid, which keeps it safely inside the drawn landmass while
+// still reading as "toward the coast" rather than dead-center.
 const COASTAL_POINTS = {
-  제부도: { lonlat: [126.583, 37.267] },
-  궁평항: { westmostOf: "서신면" },
-  국화도: { westmostOf: "우정읍" },
+  제부도: { westmostOf: "서신면", half: "north", inset: 0.3 },
+  궁평항: { westmostOf: "서신면", half: "south", inset: 0.3 },
+  국화도: { westmostOf: "우정읍", half: null, inset: 0.45 },
 };
 
 const sourcePath = process.argv[2];
@@ -113,19 +119,33 @@ writeFileSync(
   JSON.stringify(dongOutlines, null, 2) + "\n",
 );
 
-const westmostOf = (dongName) => {
-  const feature = dongFeatures.find((f) => f.properties.adm_nm.split(" ").pop() === dongName);
-  if (!feature) return null;
-  const polys = feature.geometry.type === "MultiPolygon" ? feature.geometry.coordinates : [feature.geometry.coordinates];
-  let best = null;
-  for (const poly of polys) for (const [lon, lat] of poly[0]) if (!best || lon < best[0]) best = [lon, lat];
-  return best;
+// Shoelace formula — good enough at this scale just to rank ring sizes.
+const ringArea = (ring) => {
+  let sum = 0;
+  for (let i = 0; i < ring.length - 1; i++) sum += ring[i][0] * ring[i + 1][1] - ring[i + 1][0] * ring[i][1];
+  return Math.abs(sum / 2);
 };
 
 const coastalPoints = {};
-for (const [name, spec] of Object.entries(COASTAL_POINTS)) {
-  const lonlat = spec.lonlat ?? westmostOf(spec.westmostOf);
-  if (!lonlat) continue;
+for (const [name, { westmostOf: dongName, half, inset }] of Object.entries(COASTAL_POINTS)) {
+  const feature = dongFeatures.find((f) => f.properties.adm_nm.split(" ").pop() === dongName);
+  if (!feature) continue;
+  const polys = feature.geometry.type === "MultiPolygon" ? feature.geometry.coordinates : [feature.geometry.coordinates];
+  // These townships include several tiny offshore islet rings alongside the
+  // real mainland body (e.g. 서신면 has 4 separate rings, 3 of them under
+  // 60 points) — searching "westmost point" across every ring can land on a
+  // speck of an islet too small to render visibly, which is exactly what
+  // made the marker look like it was floating in open water. Stick to the
+  // largest (mainland) ring only.
+  const mainRing = polys.map((poly) => poly[0]).sort((a, b) => ringArea(b) - ringArea(a))[0];
+  const lats = mainRing.map((p) => p[1]);
+  const midLat = (Math.min(...lats) + Math.max(...lats)) / 2;
+  const candidates = half === "north" ? mainRing.filter((p) => p[1] >= midLat) : half === "south" ? mainRing.filter((p) => p[1] < midLat) : mainRing;
+  let westmost = null;
+  for (const p of candidates) if (!westmost || p[0] < westmost[0]) westmost = p;
+  if (!westmost) continue;
+  const centroid = geoCentroid(feature);
+  const lonlat = [westmost[0] + (centroid[0] - westmost[0]) * inset, westmost[1] + (centroid[1] - westmost[1]) * inset];
   const projected = projection(lonlat);
   if (!projected) continue;
   coastalPoints[name] = {

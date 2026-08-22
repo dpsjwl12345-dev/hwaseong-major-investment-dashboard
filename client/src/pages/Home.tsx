@@ -727,8 +727,10 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     if (matches.length === 0) return null;
     const avgX = matches.reduce((sum, m) => sum + m.x, 0) / matches.length;
     const avgY = matches.reduce((sum, m) => sum + m.y, 0) / matches.length;
-    const jitterX = ((index * 13) % 5) - 2;
-    const jitterY = ((index * 7) % 5) - 2;
+    // Kept small — a narrow coastal/peninsula dong's centroid can sit close
+    // enough to the shoreline that a wider jitter pushes it into the sea.
+    const jitterX = (((index * 13) % 5) - 2) * 0.5;
+    const jitterY = (((index * 7) % 5) - 2) * 0.5;
     return { x: Math.max(2, Math.min(98, avgX + jitterX)), y: Math.max(2, Math.min(98, avgY + jitterY)) };
   };
 
