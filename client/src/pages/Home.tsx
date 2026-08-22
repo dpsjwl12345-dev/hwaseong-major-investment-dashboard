@@ -621,6 +621,52 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   const [hovered, setHovered] = useState<Project | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [galleryIndex, setGalleryIndex] = useState(0);
+  const [zoom, setZoom] = useState(1);
+  const [pan, setPan] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const dragState = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 4;
+  const clampPan = (nextPan: { x: number; y: number }, z: number) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect || z <= 1) return { x: 0, y: 0 };
+    const maxX = (rect.width * (z - 1)) / 2;
+    const maxY = (rect.height * (z - 1)) / 2;
+    return { x: Math.max(-maxX, Math.min(maxX, nextPan.x)), y: Math.max(-maxY, Math.min(maxY, nextPan.y)) };
+  };
+  const applyZoom = (next: number) => {
+    const clamped = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Number(next.toFixed(2))));
+    setZoom(clamped);
+    setPan((prev) => clampPan(prev, clamped));
+  };
+  const zoomIn = () => applyZoom(zoom + 0.5);
+  const zoomOut = () => applyZoom(zoom - 0.5);
+  const resetZoom = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
+  useEffect(() => {
+    const el = canvasRef.current;
+    if (!el) return;
+    const onWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      const delta = event.deltaY > 0 ? -0.35 : 0.35;
+      applyZoom(zoom + delta);
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoom]);
+  const handlePanStart = (event: ReactMouseEvent<HTMLDivElement>) => {
+    if (zoom <= 1) return;
+    setIsPanning(true);
+    dragState.current = { x: event.clientX, y: event.clientY, panX: pan.x, panY: pan.y };
+  };
+  const handlePanMove = (event: ReactMouseEvent<HTMLDivElement>) => {
+    if (!isPanning) return;
+    const dx = event.clientX - dragState.current.x;
+    const dy = event.clientY - dragState.current.y;
+    setPan(clampPan({ x: dragState.current.panX + dx, y: dragState.current.panY + dy }, zoom));
+  };
+  const handlePanEnd = () => setIsPanning(false);
   // project.contact already holds the real 구 name (효행구/만세구/병점구/동탄구)
   // — prefer that over guessing from free text. The regex fallback only
   // covers the rare project missing that field.
@@ -681,53 +727,89 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
         <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT ATLAS</p><h1>주요 투자사업 분포도</h1></div>
       </header>
       <div className="investment-map-layout">
-        <div className="investment-map-canvas" role="group" aria-label="화성시 주요 투자사업 위치 분포도">
-          <div className="investment-map-grid" /><div className="investment-map-glow" />
-          <svg className="investment-map-outline accurate" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet">
-            <path d={hwaseongBoundary.d} />
-            <g className="investment-map-dong-lines">
-              {Object.values(dongOutlines as Record<string, string>).map((d, index) => (
-                <path key={index} d={d} />
-              ))}
-            </g>
-            <g className="investment-map-gu-lines">
-              {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
-                <path key={name} d={gu.d} />
-              ))}
-            </g>
-            <g className="investment-map-gu-labels">
-              {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
-                <text key={name} x={(gu.labelX / 100) * hwaseongBoundary.width} y={(gu.labelY / 100) * hwaseongBoundary.height} textAnchor="middle">
-                  {name}
-                </text>
-              ))}
-            </g>
-            {points.map(({ project, x, y }) => {
-              const cx = (x / 100) * hwaseongBoundary.width;
-              const cy = (y / 100) * hwaseongBoundary.height;
-              return (
-                <g
-                  key={project.id}
-                  className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`}
-                  transform={`translate(${cx} ${cy})`}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`${project.project_name} 위치 보기`}
-                  onClick={() => { setSelected(project); setGalleryIndex(0); }}
-                  onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelected(project); setGalleryIndex(0); } }}
-                  onMouseEnter={(event) => showHoverCardFor(project, event)}
-                  onMouseMove={(event) => showHoverCardFor(project, event)}
-                  onMouseLeave={() => setHovered(null)}
-                >
-                  <title>{project.project_name}</title>
-                  <circle className="investment-map-point-dot" r={9} />
-                  <text className="investment-map-point-label" y={20} textAnchor="middle">{project.serial}</text>
-                </g>
-              );
-            })}
-          </svg>
+        <div
+          className={`investment-map-canvas ${isPanning ? "is-panning" : ""} ${zoom > 1 ? "is-zoomed" : ""}`}
+          role="group"
+          aria-label="화성시 주요 투자사업 위치 분포도"
+          ref={canvasRef}
+          onMouseDown={handlePanStart}
+          onMouseMove={handlePanMove}
+          onMouseUp={handlePanEnd}
+          onMouseLeave={handlePanEnd}
+        >
+          <div
+            className="investment-map-zoom-layer"
+            style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`, transition: isPanning ? "none" : "transform .18s ease-out" }}
+          >
+            <div className="investment-map-grid" /><div className="investment-map-glow" />
+            <svg className="investment-map-outline accurate" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <radialGradient id="atlasPointGradient" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stopColor="#eafffe" />
+                  <stop offset="45%" stopColor="#4fe0e3" />
+                  <stop offset="100%" stopColor="#0d8b91" />
+                </radialGradient>
+                <radialGradient id="atlasPointGradientSelected" cx="35%" cy="30%" r="70%">
+                  <stop offset="0%" stopColor="#fff8e6" />
+                  <stop offset="45%" stopColor="#ffcf68" />
+                  <stop offset="100%" stopColor="#b9791a" />
+                </radialGradient>
+              </defs>
+              <path d={hwaseongBoundary.d} />
+              <g className="investment-map-dong-lines">
+                {Object.values(dongOutlines as Record<string, string>).map((d, index) => (
+                  <path key={index} d={d} />
+                ))}
+              </g>
+              <g className="investment-map-gu-lines">
+                {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
+                  <path key={name} d={gu.d} />
+                ))}
+              </g>
+              <g className="investment-map-gu-labels">
+                {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
+                  <text key={name} x={(gu.labelX / 100) * hwaseongBoundary.width} y={(gu.labelY / 100) * hwaseongBoundary.height} textAnchor="middle">
+                    {name}
+                  </text>
+                ))}
+              </g>
+              {points.map(({ project, x, y }) => {
+                const cx = (x / 100) * hwaseongBoundary.width;
+                const cy = (y / 100) * hwaseongBoundary.height;
+                return (
+                  <g
+                    key={project.id}
+                    className={`investment-map-point ${selected?.id === project.id ? "is-selected" : ""}`}
+                    transform={`translate(${cx} ${cy})`}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`${project.project_name} 위치 보기`}
+                    onClick={() => { setSelected(project); setGalleryIndex(0); }}
+                    onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelected(project); setGalleryIndex(0); } }}
+                    onMouseEnter={(event) => showHoverCardFor(project, event)}
+                    onMouseMove={(event) => showHoverCardFor(project, event)}
+                    onMouseLeave={() => setHovered(null)}
+                  >
+                    <title>{project.project_name}</title>
+                    <ellipse className="investment-map-point-shadow" cy={9} rx={7} ry={2.4} />
+                    <g className="investment-map-point-float">
+                      <circle className="investment-map-point-halo" r={13} />
+                      <circle className="investment-map-point-dot" r={7} />
+                      <circle className="investment-map-point-highlight" cx={-2.4} cy={-2.6} r={2} />
+                    </g>
+                    <text className="investment-map-point-label" y={22} textAnchor="middle">{project.serial}</text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
           {hovered &&<div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}><span>{zoneFor(hovered)}</span><strong>{hovered.project_name}</strong><small>{hovered.district || hovered.town || "위치정보 미등록"}</small></div>}
           <div className="investment-map-legend"><span><i className="legend-dot" /> 사업 위치</span><span><i className="legend-ring" /> 선택 사업</span></div>
+          <div className="investment-map-zoom-controls">
+            <button type="button" onClick={zoomIn} disabled={zoom >= MAX_ZOOM} aria-label="지도 확대">+</button>
+            <button type="button" onClick={zoomOut} disabled={zoom <= MIN_ZOOM} aria-label="지도 축소">−</button>
+            <button type="button" className="is-reset" onClick={resetZoom} disabled={zoom === 1 && pan.x === 0 && pan.y === 0} aria-label="지도 초기화">초기화</button>
+          </div>
         </div>
         <aside className="investment-map-side"><div className="investment-map-side-top"><p className="investment-map-side-kicker">SELECTED PROJECT</p>{selected && <span className="investment-map-live"><i /> LIVE</span>}</div>{selected ? <><div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div><h2>{selected.project_name}</h2><p className="investment-map-location"><MapPin size={15} /> {selected.district || selected.town || "위치정보 미등록"}</p>{(() => { const gallery = selected.gallery_images ?? []; const active = gallery[galleryIndex] ?? gallery[0]; return <div className="investment-map-gallery"><div className="investment-map-gallery-head"><span>PROJECT GALLERY</span>{gallery.length > 0 && <b>{galleryIndex + 1} / {gallery.length}</b>}</div>{active ? <><div className="investment-map-gallery-main"><img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} /><span>{active.caption || "주요 현장 이미지"}</span></div>{gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}</> : <div className="investment-map-gallery-empty"><ImageIcon size={22} /><strong>현장 사진 준비 중</strong><span>사업별 주요 이미지가 등록되면 이 영역에 표시됩니다.</span></div>}</div>; })()}<div className="investment-map-key-metrics"><div><span>총사업비</span><strong>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)}<small>백만원</small></strong></div><div><span>집행률</span><strong>{selected.execution_rate ?? selected.progress_rate ?? 0}<small>%</small></strong></div></div><div className="investment-map-progress"><div><span>사업 전체 공정률</span><b>{selected.progress_rate ?? selected.execution_rate ?? 0}%</b></div><i><em style={{ width: `${Math.min(100, Math.max(0, selected.progress_rate ?? selected.execution_rate ?? 0))}%` }} /></i></div><dl className="investment-map-detail-list"><div><dt>사업 유형</dt><dd>{selected.project_type || "미등록"}</dd></div><div><dt>준공 예정</dt><dd>{selected.expected_completion || "미등록"}</dd></div></dl><button type="button" className="investment-map-open-project" onClick={() => onSelectProject(selected)}>사업 상세 보기 <span>↗</span></button></> : <div className="investment-map-empty"><MapPin size={28} /><strong>지도에서 사업을 선택하세요</strong><span>위치 점을 클릭하면 요약 정보가 나타납니다.</span></div>}</aside>
       </div>

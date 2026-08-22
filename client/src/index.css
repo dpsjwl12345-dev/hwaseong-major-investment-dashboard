@@ -2867,15 +2867,27 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-stats span { display:block; color:rgba(218,230,255,.55); font-size:11px; font-weight:700; } .investment-map-stats strong { display:block; margin-top:4px; color:#fff; font:800 23px "Gmarket Sans","Pretendard",sans-serif; } .investment-map-stats small { margin-left:4px; color:#7ce7ef; font:700 11px "Pretendard",sans-serif; }
 .investment-map-layout { display:grid; grid-template-columns:minmax(0,1fr) 280px; gap:18px; max-width:1500px; min-height:500px; margin:0 auto; }
 .investment-map-canvas { position:relative; min-height:540px; overflow:hidden; border:1px solid rgba(117,182,255,.2); border-radius:22px; background:linear-gradient(145deg,#0a1830,#0b1325 65%,#101a2f); box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 22px 60px rgba(0,0,0,.22); }
+.investment-map-canvas.is-zoomed { cursor:grab; }
+.investment-map-canvas.is-zoomed.is-panning { cursor:grabbing; }
+.investment-map-zoom-layer { position:absolute; inset:0; transform-origin:center center; will-change:transform; }
 .investment-map-grid { position:absolute; inset:0; opacity:.25; background-image:linear-gradient(rgba(120,180,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(120,180,255,.12) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 90%); }
 .investment-map-glow { position:absolute; width:55%; height:55%; left:22%; top:24%; border-radius:50%; background:radial-gradient(circle,rgba(40,208,224,.12),transparent 68%); filter:blur(20px); }
 .investment-map-outline { position:absolute; inset:8%; width:84%; height:84%; fill:rgba(22,48,86,.55); stroke:rgba(138,155,235,.7); stroke-width:1.6; filter:drop-shadow(0 0 10px rgba(90,110,220,.25)); }
 .investment-map-point { cursor:pointer; outline:none; }
-.investment-map-point-dot { fill:#79eef0; filter:drop-shadow(0 0 6px rgba(121,238,240,.9)); transform-box:fill-box; transform-origin:center; animation:atlas-pulse 2.8s ease-in-out infinite; }
+.investment-map-point-shadow { fill:rgba(4,10,20,.5); filter:blur(2.5px); transform-box:fill-box; transform-origin:center; animation:atlas-shadow-pulse 3.4s ease-in-out infinite; }
+.investment-map-point-float { transform-box:fill-box; transform-origin:center; animation:atlas-float 3.4s ease-in-out infinite; }
+.investment-map-point-halo { fill:rgba(121,238,240,.2); filter:blur(4px); }
+.investment-map-point-dot { fill:url(#atlasPointGradient); stroke:rgba(6,20,35,.55); stroke-width:1; filter:drop-shadow(0 2px 3px rgba(0,0,0,.4)); }
+.investment-map-point-highlight { fill:rgba(255,255,255,.85); pointer-events:none; }
 .investment-map-point-label { fill:rgba(220,240,255,.72); font:700 15px "Pretendard",sans-serif; }
-.investment-map-point.is-selected .investment-map-point-dot { r:12px; fill:#ffcf68; filter:drop-shadow(0 0 9px rgba(255,207,104,.95)); animation:none; }
+.investment-map-point.is-selected .investment-map-point-dot { r:9px; fill:url(#atlasPointGradientSelected); filter:drop-shadow(0 2px 4px rgba(0,0,0,.45)); }
+.investment-map-point.is-selected .investment-map-point-halo { fill:rgba(255,207,104,.26); }
+.investment-map-point.is-selected .investment-map-point-float { animation:none; transform:translateY(-4px); }
+.investment-map-point.is-selected .investment-map-point-shadow { animation:none; opacity:.5; transform:scale(.85); }
 .investment-map-point:focus-visible .investment-map-point-dot { stroke:#fff; stroke-width:2px; }
 @keyframes atlas-pulse { 0%,100%{transform:scale(.82);opacity:.72} 50%{transform:scale(1.15);opacity:1} }
+@keyframes atlas-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+@keyframes atlas-shadow-pulse { 0%,100%{transform:scale(1);opacity:.5} 50%{transform:scale(.7);opacity:.26} }
 .investment-map-legend { position:absolute; left:20px; bottom:18px; display:flex; gap:16px; padding:9px 12px; border:1px solid rgba(159,188,255,.16); border-radius:10px; color:rgba(220,232,255,.62); background:rgba(6,15,29,.62); font-size:11px; backdrop-filter:blur(12px); } .investment-map-legend span{display:flex;align-items:center;gap:6px}.legend-dot,.legend-ring{display:inline-block;width:8px;height:8px;border-radius:50%;background:#79eef0;box-shadow:0 0 8px #79eef0}.legend-ring{background:#ffcf68;box-shadow:0 0 8px #ffcf68}
 .investment-map-side { padding:22px; border:1px solid rgba(159,188,255,.16); border-radius:18px; background:rgba(19,34,61,.78); box-shadow:inset 0 1px 0 rgba(255,255,255,.06); } .investment-map-side h2{margin:0;color:#fff;font:800 22px/1.25 "Gmarket Sans","Pretendard",sans-serif;letter-spacing:-.05em}.investment-map-location{display:flex;gap:6px;align-items:center;margin:12px 0 20px;color:#8de9ee;font-size:12px}.investment-map-side dl{margin:0}.investment-map-side dl div{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-top:1px solid rgba(159,188,255,.12)}.investment-map-side dt{color:rgba(218,230,255,.5);font-size:11px}.investment-map-side dd{margin:0;color:#e8f2ff;font-size:12px;font-weight:700;text-align:right}.investment-map-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:380px;gap:10px;color:#7ce7ef;text-align:center}.investment-map-empty strong{color:#e8f2ff;font-size:14px}.investment-map-empty span{color:rgba(218,230,255,.5);font-size:12px;line-height:1.6}
 .btn {
@@ -2932,7 +2944,12 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-canvas .investment-map-outline.accurate { display:block; z-index:1; position:absolute; inset:8%; width:84%; height:84%; fill:rgba(22,48,86,.55); stroke:rgba(138,155,235,.7); stroke-width:1.6; filter:drop-shadow(0 0 10px rgba(90,110,220,.25)); }
 .investment-map-dong-lines path { fill:none; stroke:rgba(150,170,230,.24); stroke-width:2.2; }
 .investment-map-gu-lines path { fill:none; stroke:rgba(235,242,255,.5); stroke-width:2.6; stroke-dasharray:9 7; }
-.investment-map-gu-labels text { fill:rgba(235,242,255,.8); font:800 20px "Pretendard",sans-serif; letter-spacing:.04em; pointer-events:none; }
+.investment-map-gu-labels text { fill:rgba(235,242,255,.5); font:700 15px "Pretendard",sans-serif; letter-spacing:.05em; paint-order:stroke; stroke:rgba(6,15,29,.65); stroke-width:4px; stroke-linejoin:round; pointer-events:none; }
+.investment-map-zoom-controls { position:absolute; z-index:6; right:16px; top:16px; display:flex; flex-direction:column; gap:6px; }
+.investment-map-zoom-controls button { width:32px; height:32px; border:1px solid rgba(159,188,255,.22); border-radius:9px; color:#e7f1ff; background:rgba(7,16,31,.72); font:800 16px/1 "Pretendard",sans-serif; cursor:pointer; backdrop-filter:blur(10px); transition:.15s ease; }
+.investment-map-zoom-controls button:hover:not(:disabled) { background:rgba(138,244,241,.22); border-color:rgba(138,244,241,.4); }
+.investment-map-zoom-controls button:disabled { opacity:.35; cursor:default; }
+.investment-map-zoom-controls button.is-reset { width:auto; padding:0 10px; font:700 10px "Pretendard",sans-serif; letter-spacing:.02em; }
 .investment-map-canvas .investment-map-legend { color:rgba(220,232,255,.62); background:rgba(6,15,29,.62); border-color:rgba(159,188,255,.16); }
 
 /* Map view header contrast correction */
