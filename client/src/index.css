@@ -2507,10 +2507,10 @@ html, body, #root,
 .dept-project-table th:nth-child(7), .dept-project-table td:nth-child(7) { width: 10.5%; }
 .dept-project-table th:nth-child(8), .dept-project-table td:nth-child(8) { width: 11.5%; }
 .dept-project-table td:first-child { width: 26%; }
-.dept-project-table td strong { font-size: 14px; font-weight: 750; letter-spacing: -.025em; }
+.dept-project-table td strong { font-size: 14px; font-weight: 750; letter-spacing: -.025em; text-shadow: none; }
 .dept-project-table td small { font-size: 11px; }
 .dept-project-table td:nth-child(2) { padding-left: 4px; padding-right: 4px; }
-.dept-stage-chip { border-color: rgba(126, 244, 231, .46); color: #b8fff6; background: rgba(42, 170, 164, .16); text-shadow: 0 0 8px rgba(126, 244, 231, .62); box-shadow: 0 0 12px rgba(42, 170, 164, .14); font-weight: 750; }
+.dept-stage-chip { border-color: rgba(126, 244, 231, .46); color: #b8fff6; background: rgba(42, 170, 164, .16); text-shadow: none; box-shadow: none; font-weight: 750; }
 .dept-project-table th { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-weight: 700; }
 @media (max-width: 900px) { .dept-project-table { table-layout: auto; } .dept-project-table th, .dept-project-table td { padding-left: 8px; padding-right: 8px; } }
 
