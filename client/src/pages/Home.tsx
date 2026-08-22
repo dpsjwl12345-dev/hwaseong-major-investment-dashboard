@@ -18,7 +18,6 @@ import {
   Menu,
   PanelLeftClose,
   PanelLeftOpen,
-  
   Tag,
   TrendingUp,
   X,
@@ -632,19 +631,16 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   // administrative-boundary data (see scripts/generate_hwaseong_dong_centroids.mjs).
   // No address or project data is ever sent to an outside service for this.
   // Multi-site projects (district holds several dong names, comma-separated)
-  // are placed at the average of their centroids. A small per-project jitter
-  // keeps projects sharing a dong from stacking exactly on top of each other.
-  const dongPositionFor = (project: Project, index: number) => {
+  // are placed at the average of their centroids. Projects that share a dong
+  // (or otherwise land on the exact same spot) are spread apart afterward by
+  // the de-clustering pass below — this function just returns the true point.
+  const dongPositionFor = (project: Project) => {
     const dongNames = (project.district ?? "").split(",").map((name) => name.trim()).filter(Boolean);
     const matches = dongNames.map((name) => (dongCentroids as Record<string, { x: number; y: number }>)[name]).filter(Boolean);
     if (matches.length === 0) return null;
     const avgX = matches.reduce((sum, m) => sum + m.x, 0) / matches.length;
     const avgY = matches.reduce((sum, m) => sum + m.y, 0) / matches.length;
-    // Kept small — a narrow coastal/peninsula dong's centroid can sit close
-    // enough to the shoreline that a wider jitter pushes it into the sea.
-    const jitterX = (((index * 13) % 5) - 2) * 0.5;
-    const jitterY = (((index * 7) % 5) - 2) * 0.5;
-    return { x: Math.max(2, Math.min(98, avgX + jitterX)), y: Math.max(2, Math.min(98, avgY + jitterY)) };
+    return { x: Math.max(2, Math.min(98, avgX)), y: Math.max(2, Math.min(98, avgY)) };
   };
 
   // Named coastal/island landmarks (궁평항, 국화도, 제부도) are finer than the
@@ -670,12 +666,41 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     return ["국화도", "입파도", "제부"].some((keyword) => text.includes(keyword));
   };
 
-  const points = projects.map((project, index) => ({
+  const rawPoints = projects.map((project, index) => ({
     project,
     zone: zoneFor(project),
     isIsland: isIslandProject(project),
-    ...(coastalPositionFor(project) ?? dongPositionFor(project, index) ?? approxPositionFor(project, index)),
+    ...(coastalPositionFor(project) ?? dongPositionFor(project) ?? approxPositionFor(project, index)),
   }));
+  // Multiple projects sharing a dong (or otherwise landing on the exact same
+  // spot) used to stack perfectly on top of each other — invisible and
+  // unclickable underneath whichever marker happened to render last. Group
+  // by (rounded) position and fan any group of 2+ out into a small ring so
+  // every marker stays visible and separately clickable. Rounding to 1
+  // decimal only catches true stacking, not projects that are merely close
+  // together at different real locations.
+  const positionGroups = new Map<string, typeof rawPoints>();
+  for (const point of rawPoints) {
+    const key = `${point.x.toFixed(1)},${point.y.toFixed(1)}`;
+    const group = positionGroups.get(key);
+    if (group) group.push(point);
+    else positionGroups.set(key, [point]);
+  }
+  const CLUSTER_RADIUS_UNITS = 14; // in the 1000-wide SVG viewBox
+  const points = rawPoints.map((point) => {
+    const key = `${point.x.toFixed(1)},${point.y.toFixed(1)}`;
+    const group = positionGroups.get(key)!;
+    if (group.length < 2) return point;
+    const slot = group.indexOf(point);
+    const angle = (slot / group.length) * Math.PI * 2 - Math.PI / 2;
+    const offsetXPercent = (Math.cos(angle) * CLUSTER_RADIUS_UNITS) / hwaseongBoundary.width * 100;
+    const offsetYPercent = (Math.sin(angle) * CLUSTER_RADIUS_UNITS) / hwaseongBoundary.height * 100;
+    return {
+      ...point,
+      x: Math.max(2, Math.min(98, point.x + offsetXPercent)),
+      y: Math.max(2, Math.min(98, point.y + offsetYPercent)),
+    };
+  });
 
   const cardPositionFor = (event: ReactMouseEvent<SVGGElement>) => {
     const rect = event.currentTarget.closest(".investment-map-canvas")?.getBoundingClientRect();
@@ -845,24 +870,17 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
               {(() => {
                 const gallery = selected.gallery_images ?? [];
                 const active = gallery[galleryIndex] ?? gallery[0];
+                if (!active) {
+                  return <div className="investment-map-gallery-empty"><ImageIcon size={22} /><strong>현장 사진 준비 중</strong><span>사업별 주요 이미지가 등록되면 이 영역에 표시됩니다.</span></div>;
+                }
                 return (
-                  <div className="investment-map-gallery">
-                    {active ? (
-                      <>
-                        <div className="investment-map-gallery-main">
-                          <img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} />
-                          <div className="investment-map-gallery-live"><i /> LIVE</div>
-                          {gallery.length > 1 && <div className="investment-map-gallery-counter">{galleryIndex + 1} / {gallery.length}</div>}
-                          <div className="investment-map-gallery-glass">
-                            <span>{active.caption || "주요 현장 이미지"}</span>
-                          </div>
-                        </div>
-                        {gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}
-                      </>
-                    ) : (
-                      <div className="investment-map-gallery-empty"><ImageIcon size={22} /><strong>현장 사진 준비 중</strong><span>사업별 주요 이미지가 등록되면 이 영역에 표시됩니다.</span></div>
-                    )}
-                  </div>
+                  <>
+                    <div className="investment-map-hero">
+                      <img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} />
+                      {gallery.length > 1 && <div className="investment-map-gallery-counter investment-map-hero-counter">{galleryIndex + 1} / {gallery.length}</div>}
+                    </div>
+                    {gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}
+                  </>
                 );
               })()}
               <div className="investment-map-key-metrics">
