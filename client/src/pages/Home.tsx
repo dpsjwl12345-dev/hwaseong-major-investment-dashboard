@@ -556,6 +556,13 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: 0 });
   const [galleryIndex, setGalleryIndex] = useState(0);
+  const [categoryFilter, setCategoryFilter] = useState("전체");
+  const [zoneFilter, setZoneFilter] = useState("전체");
+  const [deptFilter, setDeptFilter] = useState("전체");
+  const [isMapFilterOpen, setIsMapFilterOpen] = useState(false);
+  const mapCategoryOptions = Object.keys(CATEGORY_STYLES);
+  const mapZoneOptions = Object.keys(GU_COLORS);
+  const mapDeptOptions = DEPARTMENT_ORDER.filter((name) => projects.some((project) => project.department === name));
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isPanning, setIsPanning] = useState(false);
@@ -701,17 +708,43 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
       y: Math.max(2, Math.min(98, point.y + offsetYPercent)),
     };
   });
+  // Filtering only trims which points render — it never recomputes position/
+  // clustering, so the remaining markers don't shift around when a filter
+  // changes. A project's zone can be a comma-separated list ("효행구,병점구")
+  // for cross-district projects, so match with includes rather than ===.
+  const visiblePoints = points.filter(
+    (point) =>
+      (categoryFilter === "전체" || point.project.category === categoryFilter) &&
+      (zoneFilter === "전체" || point.zone.split(",").includes(zoneFilter)) &&
+      (deptFilter === "전체" || point.project.department === deptFilter),
+  );
 
+  // Anchors the speech-bubble card to the marker's true geometric center via
+  // getScreenCTM (not getBoundingClientRect on the core circle, which is
+  // inflated by its glow filter's bleed region and would push the card too
+  // far up) so the tail sits tight against the exact spot regardless of the
+  // cursor position or how the map is zoomed/panned.
   const cardPositionFor = (event: ReactMouseEvent<SVGGElement>) => {
-    const rect = event.currentTarget.closest(".investment-map-canvas")?.getBoundingClientRect();
-    return rect ? { x: event.clientX - rect.left + 16, y: event.clientY - rect.top + 16 } : null;
+    const group = event.currentTarget;
+    const svg = group.ownerSVGElement;
+    const canvasRect = group.closest(".investment-map-canvas")?.getBoundingClientRect();
+    const ctm = group.getScreenCTM();
+    if (!svg || !canvasRect || !ctm) return null;
+    const point = svg.createSVGPoint();
+    point.x = 0;
+    point.y = 0;
+    const screenCenter = point.matrixTransform(ctm);
+    const scale = Math.hypot(ctm.a, ctm.b);
+    const core = group.querySelector(".investment-map-point-core");
+    const baseR = core ? Number(core.getAttribute("r")) || 7 : 7;
+    return { x: screenCenter.x - canvasRect.left, y: screenCenter.y - canvasRect.top - baseR * scale };
   };
   const showHoverCardFor = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
     setHovered(project);
     const position = cardPositionFor(event);
     if (position) setHoverPosition(position);
   };
-  // Clicking a marker pins its info card in place (at the click point) so it
+  // Clicking a marker pins its info card in place above that marker so it
   // stays visible after the cursor moves away, instead of just disappearing
   // like a plain hover tooltip once you're no longer pointing at it.
   const selectProjectAt = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
@@ -721,10 +754,29 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     if (position) setSelectedPosition(position);
   };
 
+  const activeMapFilterCount = [categoryFilter, zoneFilter, deptFilter].filter((value) => value !== "전체").length;
+  const renderMapFilterSection = (label: string, options: string[], value: string, setValue: (next: string) => void) => (
+    <div className="investment-map-filter-section">
+      <span className="investment-map-filter-section-label">{label}</span>
+      <div className="investment-map-filter-chip-row">
+        {["전체", ...options].map((option) => (
+          <button
+            key={option}
+            type="button"
+            className={value === option ? "is-active" : ""}
+            onClick={() => setValue(option)}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <section className="investment-map-page">
       <header className="investment-map-header">
-        <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT ATLAS</p><h1>주요 투자사업 분포도</h1></div>
+        <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT DISTRIBUTION MAP</p><h1>주요 투자사업 분포도</h1></div>
       </header>
       <div className="investment-map-layout">
         <div
@@ -785,7 +837,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                   </foreignObject>
                 );
               })}
-              {points.map(({ project, x, y, isIsland }) => {
+              {visiblePoints.map(({ project, x, y, isIsland }) => {
                 const cx = (x / 100) * hwaseongBoundary.width;
                 const cy = (y / 100) * hwaseongBoundary.height;
                 const isSelected = selected?.id === project.id;
@@ -801,13 +853,12 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                     onClick={(event) => selectProjectAt(project, event)}
                     onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelected(project); setGalleryIndex(0); } }}
                     onMouseEnter={(event) => showHoverCardFor(project, event)}
-                    onMouseMove={(event) => showHoverCardFor(project, event)}
                     onMouseLeave={() => setHovered(null)}
                   >
                     <title>{project.project_name} ({project.category || "미분류"}){isIsland ? " — 도서지역 (섬 위치는 추정)" : ""}</title>
                     {(() => {
                       const baseR = isSelected ? 9 : 7;
-                      const fill = `url(#atlasPointGradient-${categoryStyle.id})`;
+                      const fill = isSelected ? "#ffd83d" : `url(#atlasPointGradient-${categoryStyle.id})`;
                       return (
                         <>
                           <circle r={baseR} fill={fill} filter="url(#atlasPointGlow)" className="investment-map-point-core" />
@@ -815,12 +866,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                             <animate attributeName="r" from={baseR} to={baseR * 3.4} dur="2.2s" begin="0s" repeatCount="indefinite" />
                             <animate attributeName="opacity" from="0.55" to="0" dur="2.2s" begin="0s" repeatCount="indefinite" />
                           </circle>
-                          {isSelected && (
-                            <g className="investment-map-selection-pin" transform={`translate(0 ${-(baseR + 16)})`} aria-hidden="true">
-                              <path d="M0 10C-5 5-8 1-8-4a8 8 0 1 1 16 0c0 5-3 9-8 14Z" />
-                              <circle cx="0" cy="-4" r="3" />
-                            </g>
-                          )}
                           {isIsland && <text className="investment-map-point-island-badge" y={-baseR - 5} textAnchor="middle">🏝</text>}
                         </>
                       );
@@ -845,11 +890,30 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
               </div>
             );
           })()}
-          <div className="investment-map-legend">
-            {Object.entries(CATEGORY_STYLES).map(([name, style]) => (
-              <span key={name}><i style={{ background: style.mid, boxShadow: `0 0 6px ${style.mid}` }} /> {name}</span>
-            ))}
-            <span><i className="legend-ring" /> 선택 사업</span>
+          <div className="investment-map-filter-panel">
+            <button
+              type="button"
+              className={`investment-map-filter-toggle ${isMapFilterOpen ? "is-open" : ""}`}
+              onClick={() => setIsMapFilterOpen((open) => !open)}
+            >
+              조건별 분포보기{activeMapFilterCount > 0 ? ` (${activeMapFilterCount})` : ""} <ChevronDown size={12} />
+            </button>
+            {isMapFilterOpen && (
+              <div className="investment-map-filter-options-combined">
+                {renderMapFilterSection("사업분야", mapCategoryOptions, categoryFilter, setCategoryFilter)}
+                {renderMapFilterSection("구청", mapZoneOptions, zoneFilter, setZoneFilter)}
+                {renderMapFilterSection("소관부서", mapDeptOptions, deptFilter, setDeptFilter)}
+                {activeMapFilterCount > 0 && (
+                  <button
+                    type="button"
+                    className="investment-map-filter-reset"
+                    onClick={() => { setCategoryFilter("전체"); setZoneFilter("전체"); setDeptFilter("전체"); }}
+                  >
+                    필터 초기화
+                  </button>
+                )}
+              </div>
+            )}
           </div>
           <div className="investment-map-zoom-controls">
             <button type="button" onClick={zoomIn} disabled={zoom >= MAX_ZOOM} aria-label="지도 확대">+</button>
@@ -912,29 +976,26 @@ function DepartmentDashboard({
   onSelectProject: (project: Project) => void;
   initialDepartment: string;
 }) {
+  const minBudget = "";
+  const maxBudget = "";
+  const budgetSort: "desc" | "asc" = "desc";
   const [stageFilter, setStageFilter] = useState("전체");
-  const [budgetFilter, setBudgetFilter] = useState("향후 필요예산");
-  const [minBudget, setMinBudget] = useState("");
-  const [maxBudget, setMaxBudget] = useState("");
-  const [budgetSort, setBudgetSort] = useState<"desc" | "asc">("desc");
+  const [divisionFilter, setDivisionFilter] = useState("전체");
+  const [isDivisionOpen, setIsDivisionOpen] = useState(false);
+  const [isStageOpen, setIsStageOpen] = useState(false);
   const futurePlanBudgetFor = (project: Project) => project.card_budget_2028_plus_million_krw ?? 0;
   const departmentProjects = projects
     .filter((project) => project.department === initialDepartment)
     .sort((a, b) => futurePlanBudgetFor(b) - futurePlanBudgetFor(a));
-  const stageOptions = Array.from(new Set(departmentProjects.map((project) => project.current_stage).filter(Boolean)));
+  const stageOptions = Array.from(new Set(departmentProjects.map((project) => project.current_stage).filter(Boolean))) as string[];
   const totalCost = departmentProjects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
   const investedAmount = departmentProjects.reduce((sum, project) => sum + (project.invested_to_2026_million_krw ?? 0), 0);
   const budget2027 = departmentProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
   const futurePlanBudget = departmentProjects.reduce((sum, project) => sum + futurePlanBudgetFor(project), 0);
-  const budgetValueFor = (project: Project) => {
-    if (budgetFilter === "총사업비") return project.total_cost_million_krw ?? 0;
-    if (budgetFilter === "기투자액") return project.invested_to_2026_million_krw ?? 0;
-    if (budgetFilter === "2027년 편성예정액") return project.budget_2027_million_krw ?? 0;
-    if (budgetFilter === "향후 계획예산액") return futurePlanBudgetFor(project);
-    return futureBudgetFor(project);
-  };
+  const budgetValueFor = (project: Project) => futureBudgetFor(project);
   const filteredProjects = departmentProjects
     .filter((project) => stageFilter === "전체" || project.current_stage === stageFilter)
+    .filter((project) => divisionFilter === "전체" || project.region === divisionFilter)
     .filter((project) => {
       const value = budgetValueFor(project);
       const min = minBudget === "" ? 0 : Number(minBudget);
@@ -942,6 +1003,10 @@ function DepartmentDashboard({
       return value >= min && value <= max;
     })
     .sort((a, b) => budgetSort === "desc" ? budgetValueFor(b) - budgetValueFor(a) : budgetValueFor(a) - budgetValueFor(b));
+  const filteredTotalCost = filteredProjects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
+  const filteredInvested = filteredProjects.reduce((sum, project) => sum + (project.invested_to_2026_million_krw ?? 0), 0);
+  const filteredBudget2027 = filteredProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
+  const filteredFuturePlan = filteredProjects.reduce((sum, project) => sum + futurePlanBudgetFor(project), 0);
 
   const exportBudgetCsv = () => {
     const headers = ["사업명", "추진단계", "총사업비", "기투자액", "2027년 편성예정액", "향후 계획예산액", "향후 필요예산", "진행률"];
@@ -982,20 +1047,39 @@ function DepartmentDashboard({
 
       <div className="dept-panel dept-panel-projects dept-panel-selected">
         <div className="dept-filter-row dept-budget-filter-row">
-          <label>추진단계<select value={stageFilter} onChange={(event) => setStageFilter(event.target.value)}><option value="전체">전체</option>{stageOptions.map((stage) => <option key={stage} value={stage}>{stage}</option>)}</select></label>
-          <label>예산 기준<select value={budgetFilter} onChange={(event) => setBudgetFilter(event.target.value)}><option>향후 필요예산</option><option>총사업비</option><option>기투자액</option><option>2027년 편성예정액</option><option>향후 계획예산액</option></select></label>
-          <label>최소 <input inputMode="numeric" value={minBudget} onChange={(event) => setMinBudget(event.target.value.replace(/[^0-9]/g, ""))} placeholder="0" /></label>
-          <label>최대 <input inputMode="numeric" value={maxBudget} onChange={(event) => setMaxBudget(event.target.value.replace(/[^0-9]/g, ""))} placeholder="제한 없음" /></label>
-          <label>정렬<select value={budgetSort} onChange={(event) => setBudgetSort(event.target.value as "desc" | "asc")}><option value="desc">금액 높은 순</option><option value="asc">금액 낮은 순</option></select></label>
+          <div className="dept-filter-accordion">
+            <button type="button" className={`dept-filter-accordion-toggle ${isDivisionOpen ? "is-open" : ""}`} onClick={() => setIsDivisionOpen((open) => !open)}>구분{divisionFilter !== "전체" ? `: ${divisionFilter}` : ""} <ChevronDown size={13} /></button>
+            {isDivisionOpen && (
+              <div className="dept-filter-accordion-panel">
+                {["전체", "신규", "계속"].map((option) => (
+                  <button key={option} type="button" className={divisionFilter === option ? "is-active" : ""} onClick={() => { setDivisionFilter(option); setIsDivisionOpen(false); }}>{option}</button>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="dept-filter-accordion">
+            <button type="button" className={`dept-filter-accordion-toggle ${isStageOpen ? "is-open" : ""}`} onClick={() => setIsStageOpen((open) => !open)}>현추진단계{stageFilter !== "전체" ? `: ${stageFilter}` : ""} <ChevronDown size={13} /></button>
+            {isStageOpen && (
+              <div className="dept-filter-accordion-panel">
+                <button type="button" className={stageFilter === "전체" ? "is-active" : ""} onClick={() => { setStageFilter("전체"); setIsStageOpen(false); }}>전체</button>
+                {stageOptions.map((stage) => (
+                  <button key={stage} type="button" className={stageFilter === stage ? "is-active" : ""} onClick={() => { setStageFilter(stage); setIsStageOpen(false); }}>{stage}</button>
+                ))}
+              </div>
+            )}
+          </div>
           <button type="button" className="dept-table-export" onClick={exportBudgetCsv}><Download size={14} /> CSV 출력</button>
-          <span>{filteredProjects.length}개 사업 표시</span>
+          <span>(단위:백만원)</span>
         </div>
         <div className="dept-project-table-wrap">
-          <table className="dept-project-table"><thead><tr><th>사업명</th><th>현 추진단계</th><th>총사업비</th><th>기투자액</th><th>2027년 예산액</th><th>향후 계획예산액</th><th>집행률</th></tr></thead><tbody>
+          <table className="dept-project-table"><thead><tr><th>구분</th><th>사업명</th><th>현 추진단계</th><th>총사업비</th><th>기투자액</th><th>2027년 예산액</th><th>향후 계획예산액</th><th>집행률</th></tr></thead><tbody>
+            {filteredProjects.length > 0 && <tr className="dept-total-row">
+              <td></td><td><strong>합계</strong></td><td></td><td className="dept-amount-cell">{formatBudgetNumber(filteredTotalCost)}</td><td className="dept-amount-cell">{formatBudgetNumber(filteredInvested)}</td><td className="dept-amount-cell">{formatBudgetNumber(filteredBudget2027)}</td><td className="dept-amount-cell">{formatBudgetNumber(filteredFuturePlan)}</td><td></td>
+            </tr>}
             {filteredProjects.map((project) => <tr key={project.id} onClick={() => onSelectProject(project)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") onSelectProject(project); }}>
-              <td><strong><span className={`dept-project-type ${project.region === "신규" ? "is-new" : "is-continuing"}`}>{project.region === "신규" || project.region === "계속" ? project.region : ""}</span>{project.project_name}</strong><small>{project.district || project.town || "위치정보 미등록"}</small></td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatBudgetNumber(project.total_cost_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.invested_to_2026_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.budget_2027_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(futurePlanBudgetFor(project))}</td><td><div className="dept-progress"><span><em style={{ width: `${parseProgress(project)}%` }} /></span><b>{parseProgress(project)}%</b></div></td>
+              <td><span className={`dept-project-type ${project.region === "신규" ? "is-new" : "is-continuing"}`}>{project.region === "신규" || project.region === "계속" ? project.region : "-"}</span></td><td><strong>{project.project_name}</strong><small>{project.district || project.town || "위치정보 미등록"}</small></td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatBudgetNumber(project.total_cost_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.invested_to_2026_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.budget_2027_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(futurePlanBudgetFor(project))}</td><td><div className="dept-progress"><span><em style={{ width: `${parseProgress(project)}%` }} /></span><b>{parseProgress(project)}%</b></div></td>
             </tr>)}
-            {filteredProjects.length === 0 && <tr><td colSpan={7} className="dept-empty">조건에 맞는 사업이 없습니다.</td></tr>}
+            {filteredProjects.length === 0 && <tr><td colSpan={8} className="dept-empty">조건에 맞는 사업이 없습니다.</td></tr>}
           </tbody></table>
         </div>
       </div>
