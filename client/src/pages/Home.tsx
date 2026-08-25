@@ -8,6 +8,7 @@ import {
   ClipboardCheck,
   Download,
   ChevronDown,
+  ChevronLeft,
   ChevronRight,
   Coins,
   GraduationCap,
@@ -43,6 +44,7 @@ type Project = {
   overview: string;
   category: string;
   current_stage: string;
+  current_stage_note?: string;
   funding_type: string;
   total_cost_million_krw: number | null;
   invested_to_2026_million_krw: number | null;
@@ -50,6 +52,7 @@ type Project = {
   carryover_type?: string;
   carryover_items?: { label: string; type: string; amount_million_krw: number }[];
   budget_2027_million_krw: number | null;
+  budget_2026_hide?: boolean;
   execution_rate: number | null;
   progress_status: string;
   progress_rate: number | null;
@@ -68,6 +71,7 @@ type Project = {
   management_card_matched: boolean;
   management_card_source: string;
   gallery_images?: { src: string; alt?: string; caption?: string }[];
+  rendering_images?: string[];
   card_total_budget_million_krw: number | null;
   card_invested_to_2025_million_krw: number | null;
   card_invested_to_2026_million_krw: number | null;
@@ -214,7 +218,7 @@ function OverviewPanel({ project }: { project: Project }) {
   const pairs = parseKvPairs(project.overview).filter((pair) => !removeContentCard || pair.label.trim() !== "사업내용");
     const extra: KvPair[] = [
     { label: "사업분야", value: project.category || "-" },
-    { label: "현추진단계", value: project.current_stage || "-" },
+    { label: "현추진단계", value: project.current_stage ? `${project.current_stage}${project.current_stage_note ? ` (${project.current_stage_note})` : ""}` : "-" },
   ];
 
   return (
@@ -249,7 +253,7 @@ function FundingBreakdownCard({ rows }: { rows: BreakdownRow[] }) {
     { key: "budget_2027", label: "2027년" },
     { key: "budget_2028_plus", label: "이후" },
   ];
-  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={Banknote} title="재원별 예산" /><span className="pd-budget-panel-caption">총사업비 {formatMillion(totalBudget || null)}</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayBreakdownName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}</div>;
+  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={Banknote} title="재원별 예산" /><span className="pd-budget-panel-caption">총사업비 {formatMillion(totalBudget || null)}<br />(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayBreakdownName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}</div>;
 }
 
 const usageColors = ["#e5542d", "#58c7b1", "#6f8cff", "#9a7bdb", "#6b7280"];
@@ -277,13 +281,13 @@ function UsageBreakdownChart({ rows }: { rows: BreakdownRow[] }) {
 }
 
 function formatMillion(value: number | null | undefined) {
-  return value == null ? "-" : `${value.toLocaleString("ko-KR", { maximumFractionDigits: 2 })} 백만원`;
+  return value == null ? "-" : value.toLocaleString("ko-KR", { maximumFractionDigits: 2 });
 }
 
 function BudgetPanel({ project }: { project: Project }) {
   const total = project.card_total_budget_million_krw ?? project.total_cost_million_krw;
   const invested = project.card_invested_to_2025_million_krw ?? project.card_invested_to_2026_million_krw ?? project.invested_to_2026_million_krw;
-  const budget = project.card_budget_2026_million_krw ?? project.budget_2027_million_krw;
+  const budget = project.budget_2026_hide ? null : project.card_budget_2026_million_krw ?? project.budget_2027_million_krw;
   const execution = Math.min(100, Math.max(0, project.card_execution_rate ?? project.execution_rate ?? 0));
   const executionAmount = project.card_execution_amount_million_krw;
   const carryoverItems = project.carryover_items?.length
@@ -376,23 +380,94 @@ function LocationPanel({ project }: { project: Project }) {
   const overviewPairs = parseKvPairs(project.overview);
   const address = overviewPairs.find((pair) => pair.label === "사업위치")?.value;
   const coords = realCoordsFor(project);
+  const renderings = project.rendering_images ?? [];
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (
     <div className="pd-card">
-      <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr]">
-        <div className="pd-map-placeholder relative overflow-hidden">
-          {coords ? (
-            <HwaseongGLMap longitude={coords[0]} latitude={coords[1]} label={project.project_name} />
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center p-6 text-center"><div><div className="pd-map-pin" /><span className="pd-map-caption">등록된 사업위치가 없습니다</span></div></div>
-          )}
+      <div className={`grid gap-4 ${renderings.length > 0 ? "lg:grid-cols-2" : ""}`}>
+        <div>
+          <div className="pd-card-title"><DetailSectionHeading icon={MapPin} title="위치도" /></div>
+          <div className="pd-map-placeholder relative overflow-hidden">
+            {coords ? (
+              <HwaseongGLMap longitude={coords[0]} latitude={coords[1]} label={project.project_name} />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center p-6 text-center"><div><div className="pd-map-pin" /><span className="pd-map-caption">등록된 사업위치가 없습니다</span></div></div>
+            )}
+          </div>
         </div>
-        <div className="pd-kv-row" style={{ gridTemplateColumns: "1fr" }}>
-          <div className="pd-kv"><span className="pd-kv-label">사업위치</span><span className="pd-kv-value">{address ?? "등록된 정보가 없습니다."}</span></div>
-          <div className="pd-kv"><span className="pd-kv-label">구청</span><span className="pd-kv-value">{project.contact || "-"}</span></div>
-          <div className="pd-kv"><span className="pd-kv-label">읍면동</span><span className="pd-kv-value">{project.district || "-"}</span></div>
-          <div className="pd-kv"><span className="pd-kv-label">선거구</span><span className="pd-kv-value">{project.town || "-"}</span></div>
-        </div>
+        {renderings.length > 0 && (
+          <div>
+            <div className="pd-card-title"><DetailSectionHeading icon={ImageIcon} title="조감도" /></div>
+            <div className="pd-rendering-grid" data-count={Math.min(renderings.length, 4)}>
+              {renderings.map((src, index) => (
+                <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} 조감도 ${index + 1} 확대 보기`}>
+                  <img src={src} alt={`${project.project_name} 조감도 ${index + 1}`} />
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="pd-kv-row mt-4">
+        <div className="pd-kv"><span className="pd-kv-label">사업위치</span><span className="pd-kv-value">{address ?? "등록된 정보가 없습니다."}</span></div>
+        <div className="pd-kv"><span className="pd-kv-label">구청</span><span className="pd-kv-value">{project.contact || "-"}</span></div>
+        <div className="pd-kv"><span className="pd-kv-label">읍면동</span><span className="pd-kv-value">{project.district || "-"}</span></div>
+        <div className="pd-kv"><span className="pd-kv-label">선거구</span><span className="pd-kv-value">{project.town || "-"}</span></div>
+      </div>
+      {lightboxIndex !== null && (
+        <RenderingLightbox
+          images={renderings}
+          index={lightboxIndex}
+          projectName={project.project_name}
+          onClose={() => setLightboxIndex(null)}
+          onNavigate={setLightboxIndex}
+        />
+      )}
+    </div>
+  );
+}
+
+function RenderingLightbox({
+  images,
+  index,
+  projectName,
+  onClose,
+  onNavigate,
+}: {
+  images: string[];
+  index: number;
+  projectName: string;
+  onClose: () => void;
+  onNavigate: (index: number) => void;
+}) {
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowRight") onNavigate((index + 1) % images.length);
+      if (event.key === "ArrowLeft") onNavigate((index - 1 + images.length) % images.length);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [index, images.length, onClose, onNavigate]);
+
+  return (
+    <div className="pd-lightbox-backdrop" onClick={onClose}>
+      <button type="button" className="pd-lightbox-close" onClick={onClose} aria-label="닫기"><X size={20} /></button>
+      {images.length > 1 && (
+        <>
+          <button type="button" className="pd-lightbox-nav is-prev" onClick={(event) => { event.stopPropagation(); onNavigate((index - 1 + images.length) % images.length); }} aria-label="이전 이미지"><ChevronLeft size={22} /></button>
+          <button type="button" className="pd-lightbox-nav is-next" onClick={(event) => { event.stopPropagation(); onNavigate((index + 1) % images.length); }} aria-label="다음 이미지"><ChevronRight size={22} /></button>
+        </>
+      )}
+      <div className="pd-lightbox-content" onClick={(event) => event.stopPropagation()}>
+        <img src={images[index]} alt={`${projectName} 조감도 ${index + 1}`} />
+        {images.length > 1 && <div className="pd-lightbox-counter">{index + 1} / {images.length}</div>}
       </div>
     </div>
   );
@@ -930,6 +1005,10 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
             <>
               <div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div>
               <h2>{selected.project_name}</h2>
+              {(() => {
+                const address = parseKvPairs(selected.overview).find((pair) => pair.label === "사업위치")?.value;
+                return address ? <p className="investment-map-side-address">{address}</p> : null;
+              })()}
               {(() => {
                 const gallery = selected.gallery_images ?? [];
                 const active = gallery[galleryIndex] ?? gallery[0];
