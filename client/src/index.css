@@ -1025,6 +1025,22 @@
 .pd-pill-tabs .pill-indicator { position: absolute; z-index: 1; left: 0; bottom: 4px; width: 0; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--pd-accent-a), var(--pd-accent-b)); box-shadow: none; transform: translateX(0); transition: transform .25s ease, width .25s ease; pointer-events: none; }
 @media (max-width: 720px) { .pd-pill-tabs { display: grid; width: 100%; overflow-x: auto; grid-template-columns: repeat(5, max-content); } .pd-pill-tabs label { padding-inline: 11px; font-size: 14px; } }
 
+/* Sliding sub-project selector, adapted to the existing dashboard palette */
+@keyframes radio-group-slide-in { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes radio-option-fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes radio-slider-pulse { 0% { box-shadow: 0 3px 12px rgba(0,0,0,.35); } 50% { box-shadow: 0 3px 16px rgba(0,0,0,.35), 0 0 0 4px rgba(255,255,255,.08); } 100% { box-shadow: 0 3px 12px rgba(0,0,0,.35); } }
+.radio-group { display: inline-flex; gap: 0; position: relative; height: 40px; padding: 4px; border: 1px solid var(--pd-border-soft); border-radius: 999px; background: var(--pd-surface); box-shadow: 0 0 12px rgba(0,0,0,.24) inset; animation: radio-group-slide-in .5s ease-out; flex-shrink: 0; }
+.radio-group .slider { position: absolute; top: 4px; bottom: 4px; left: 4px; z-index: 0; border-radius: 999px; background: linear-gradient(90deg, var(--pd-accent-a), var(--pd-accent-b)); transition: transform .4s cubic-bezier(.68,-.55,.265,1.55), width .4s cubic-bezier(.68,-.55,.265,1.55); animation: radio-slider-pulse .5s ease-out; }
+.radio-group .radio-option { position: relative; z-index: 1; flex: 1; animation: radio-option-fade-in .4s ease-out backwards; }
+.radio-group .radio-option:nth-child(2) { animation-delay: .06s; }
+.radio-group .radio-option:nth-child(3) { animation-delay: .12s; }
+.radio-group .radio-option:nth-child(4) { animation-delay: .18s; }
+.radio-group .radio-option input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+.radio-group .radio-label { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 18px; border-radius: 999px; color: var(--pd-text-muted); font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; user-select: none; transition: color .3s ease; }
+.radio-group .radio-label:hover { color: var(--pd-text); }
+.radio-group .radio-label.is-active { color: #fff; }
+@media (max-width: 720px) { .radio-group { width: 100%; } }
+
 /* User-provided search field adaptation */
 .poda-search { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; isolation: isolate; }
 .poda-search-main { position: relative; width: 100%; height: 48px; }

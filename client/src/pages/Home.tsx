@@ -519,32 +519,35 @@ function ProjectDetail({ project }: { project: Project }) {
         </defs>
       </svg>
 
-      <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
-        {(() => {
-          const match = project.project_name.match(/^(.*?)(\s*\([^)]+\))\s*$/);
-          if (!match) return project.project_name;
-          return (
-            <>
-              {match[1]}
-              <span className="text-base font-medium tracking-normal opacity-80 lg:text-xl"> {match[2].trim()}</span>
-            </>
-          );
-        })()}
-      </h1>
-
-      {hasSubProjects && (
-        <div className="pill-radio-container pd-pill-tabs mt-5" role="tablist" aria-label="세부 사업 선택">
-          {project.sub_projects!.map((sub, index) => {
-            const inputId = `detail-subproject-${project.id}-${index}`;
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
+          {(() => {
+            const match = project.project_name.match(/^(.*?)(\s*\([^)]+\))\s*$/);
+            if (!match) return project.project_name;
             return (
-              <span key={sub.name} className="pill-tab-option">
-                <input id={inputId} name={`detail-subproject-${project.id}`} type="radio" checked={selectedSubIndex === index} onChange={() => setSelectedSubIndex(index)} />
-                <label htmlFor={inputId} role="tab" aria-selected={selectedSubIndex === index}>{sub.name}</label>
-              </span>
+              <>
+                {match[1]}
+                <span className="text-base font-medium tracking-normal opacity-80 lg:text-xl"> {match[2].trim()}</span>
+              </>
             );
-          })}
-        </div>
-      )}
+          })()}
+        </h1>
+
+        {hasSubProjects && (
+          <div className="radio-group" role="tablist" aria-label="세부 사업 선택">
+            <div key={selectedSubIndex} className="slider" style={{ width: `calc((100% - 8px) / ${project.sub_projects!.length})`, transform: `translateX(${selectedSubIndex * 100}%)` }} />
+            {project.sub_projects!.map((sub, index) => {
+              const inputId = `detail-subproject-${project.id}-${index}`;
+              return (
+                <div key={sub.name} className="radio-option">
+                  <input id={inputId} name={`detail-subproject-${project.id}`} type="radio" checked={selectedSubIndex === index} onChange={() => setSelectedSubIndex(index)} />
+                  <label htmlFor={inputId} className={`radio-label${selectedSubIndex === index ? " is-active" : ""}`} role="tab" aria-selected={selectedSubIndex === index}>{sub.name}</label>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
 
       <section className="pd-summary mt-8" aria-label="사업 요약">
         <div className="pd-summary-cell">
