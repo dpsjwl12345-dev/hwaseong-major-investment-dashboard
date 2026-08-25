@@ -519,7 +519,7 @@ function ProjectDetail({ project }: { project: Project }) {
         </defs>
       </svg>
 
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
           {(() => {
             const match = project.project_name.match(/^(.*?)(\s*\([^)]+\))\s*$/);

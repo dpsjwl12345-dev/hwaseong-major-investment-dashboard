@@ -1028,9 +1028,9 @@
 /* Sliding sub-project selector, adapted to the existing dashboard palette */
 @keyframes radio-group-slide-in { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
 @keyframes radio-option-fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes radio-slider-pulse { 0% { box-shadow: 0 3px 12px rgba(0,0,0,.35); } 50% { box-shadow: 0 3px 16px rgba(0,0,0,.35), 0 0 0 4px rgba(255,255,255,.08); } 100% { box-shadow: 0 3px 12px rgba(0,0,0,.35); } }
-.radio-group { display: inline-flex; gap: 0; position: relative; height: 40px; padding: 4px; border: 1px solid var(--pd-border-soft); border-radius: 999px; background: var(--pd-surface); box-shadow: 0 0 12px rgba(0,0,0,.24) inset; animation: radio-group-slide-in .5s ease-out; flex-shrink: 0; }
-.radio-group .slider { position: absolute; top: 4px; bottom: 4px; left: 4px; z-index: 0; border-radius: 999px; background: linear-gradient(90deg, var(--pd-accent-a), var(--pd-accent-b)); transition: transform .4s cubic-bezier(.68,-.55,.265,1.55), width .4s cubic-bezier(.68,-.55,.265,1.55); animation: radio-slider-pulse .5s ease-out; }
+@keyframes radio-slider-pulse { 0% { box-shadow: 0 4px 10px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.4), inset 0 -3px 4px rgba(0,0,0,.2); } 50% { box-shadow: 0 4px 14px rgba(0,0,0,.4), 0 0 0 4px rgba(255,255,255,.08), inset 0 1px 0 rgba(255,255,255,.4), inset 0 -3px 4px rgba(0,0,0,.2); } 100% { box-shadow: 0 4px 10px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.4), inset 0 -3px 4px rgba(0,0,0,.2); } }
+.radio-group { display: inline-flex; gap: 0; position: relative; height: 40px; padding: 4px; border: 1px solid var(--pd-border-soft); border-radius: 999px; background: var(--pd-surface); box-shadow: inset 0 2px 5px rgba(0,0,0,.5), inset 0 -1px 0 rgba(255,255,255,.04), 0 1px 2px rgba(0,0,0,.3); animation: radio-group-slide-in .5s ease-out; flex-shrink: 0; }
+.radio-group .slider { position: absolute; top: 4px; bottom: 4px; left: 4px; z-index: 0; border-radius: 999px; background-image: linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,0) 55%), linear-gradient(90deg, var(--pd-accent-a), var(--pd-accent-b)); box-shadow: 0 4px 10px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.4), inset 0 -3px 4px rgba(0,0,0,.2); transition: transform .4s cubic-bezier(.68,-.55,.265,1.55), width .4s cubic-bezier(.68,-.55,.265,1.55); animation: radio-slider-pulse .5s ease-out; }
 .radio-group .radio-option { position: relative; z-index: 1; flex: 1; animation: radio-option-fade-in .4s ease-out backwards; }
 .radio-group .radio-option:nth-child(2) { animation-delay: .06s; }
 .radio-group .radio-option:nth-child(3) { animation-delay: .12s; }
@@ -1038,7 +1038,7 @@
 .radio-group .radio-option input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
 .radio-group .radio-label { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 18px; border-radius: 999px; color: var(--pd-text-muted); font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; user-select: none; transition: color .3s ease; }
 .radio-group .radio-label:hover { color: var(--pd-text); }
-.radio-group .radio-label.is-active { color: #fff; }
+.radio-group .radio-label.is-active { color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.35); }
 @media (max-width: 720px) { .radio-group { width: 100% !important; } }
 
 /* User-provided search field adaptation */
