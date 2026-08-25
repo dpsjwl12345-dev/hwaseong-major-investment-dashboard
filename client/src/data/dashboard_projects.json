@@ -1638,6 +1638,7 @@
       "serial": 6,
       "department": "체육진흥과",
       "project_name": "장안 다목적복합센터 건립",
+      "rendering_images": ["/renderings/sports-6/1.png"],
       "carryover_items": [
         {
           "label": "장안 다목적복합센터 건립",
@@ -2035,6 +2036,7 @@
       "serial": 8,
       "department": "체육진흥과",
       "project_name": "남양 체육복합센터 조성",
+      "rendering_images": ["/renderings/sports-8/1.png"],
       "carryover_items": [
         {
           "label": "남양 체육복합센터 조성",
