@@ -514,7 +514,16 @@ function ProjectDetail({ project }: { project: Project }) {
       </svg>
 
       <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
-        {project.project_name}
+        {(() => {
+          const match = project.project_name.match(/^(.*?)(\s*\([^)]+\))\s*$/);
+          if (!match) return project.project_name;
+          return (
+            <>
+              {match[1]}
+              <span className="text-base font-medium tracking-normal opacity-80 lg:text-xl"> {match[2].trim()}</span>
+            </>
+          );
+        })()}
       </h1>
 
       <section className="pd-summary mt-8" aria-label="사업 요약">
