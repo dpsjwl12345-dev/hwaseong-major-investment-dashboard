@@ -1355,11 +1355,12 @@ export default function Home() {
                           <button
                             className={`sidebar-department flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left hover:bg-[#334155] ${departmentOpen ? "is-open" : ""}`}
                             onClick={() => {
+                              const isOpen = openDepartments.includes(key);
                               setSelectedDepartmentDashboard(department.name);
                               setSelectedProject(null);
                               setActiveView("department");
                               setOpenBureaus(allBureauNames);
-                              setOpenDepartments([key]);
+                              setOpenDepartments(isOpen ? openDepartments.filter((value) => value !== key) : [key]);
                               setIsSidebarOpen(false);
                             }}
                           >
