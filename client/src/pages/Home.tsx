@@ -534,7 +534,7 @@ function ProjectDetail({ project }: { project: Project }) {
         </h1>
 
         {hasSubProjects && (
-          <div className="radio-group" role="tablist" aria-label="세부 사업 선택">
+          <div className="radio-group" role="tablist" aria-label="세부 사업 선택" style={{ width: `${project.sub_projects!.length * 100}px` }}>
             <div key={selectedSubIndex} className="slider" style={{ width: `calc((100% - 8px) / ${project.sub_projects!.length})`, transform: `translateX(${selectedSubIndex * 100}%)` }} />
             {project.sub_projects!.map((sub, index) => {
               const inputId = `detail-subproject-${project.id}-${index}`;

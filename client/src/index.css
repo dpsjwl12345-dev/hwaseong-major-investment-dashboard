@@ -1039,7 +1039,7 @@
 .radio-group .radio-label { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 18px; border-radius: 999px; color: var(--pd-text-muted); font-size: 13px; font-weight: 700; white-space: nowrap; cursor: pointer; user-select: none; transition: color .3s ease; }
 .radio-group .radio-label:hover { color: var(--pd-text); }
 .radio-group .radio-label.is-active { color: #fff; }
-@media (max-width: 720px) { .radio-group { width: 100%; } }
+@media (max-width: 720px) { .radio-group { width: 100% !important; } }
 
 /* User-provided search field adaptation */
 .poda-search { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 46px; isolation: isolate; }
