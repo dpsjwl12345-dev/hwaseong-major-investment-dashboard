@@ -533,9 +533,13 @@ function ProjectDetail({ project }: { project: Project }) {
           })()}
         </h1>
 
-        {hasSubProjects && (
-          <div className="radio-group" role="tablist" aria-label="세부 사업 선택" style={{ width: `${project.sub_projects!.length * 100}px` }}>
-            <div key={selectedSubIndex} className="slider" style={{ width: `calc((100% - 8px) / ${project.sub_projects!.length})`, transform: `translateX(${selectedSubIndex * 100}%)` }} />
+        {hasSubProjects && (() => {
+          const subCount = project.sub_projects!.length;
+          const maxLabelLen = Math.max(...project.sub_projects!.map((sub) => sub.name.length));
+          const subButtonWidth = Math.max(100, maxLabelLen * 15 + 52);
+          return (
+          <div className="radio-group" role="tablist" aria-label="세부 사업 선택" style={{ width: `${subButtonWidth * subCount}px` }}>
+            <div key={selectedSubIndex} className="slider" style={{ width: `calc((100% - 8px) / ${subCount})`, transform: `translateX(${selectedSubIndex * 100}%)` }} />
             {project.sub_projects!.map((sub, index) => {
               const inputId = `detail-subproject-${project.id}-${index}`;
               return (
@@ -546,7 +550,8 @@ function ProjectDetail({ project }: { project: Project }) {
               );
             })}
           </div>
-        )}
+          );
+        })()}
       </div>
 
       <section className="pd-summary mt-8" aria-label="사업 요약">
