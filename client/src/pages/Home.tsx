@@ -582,10 +582,10 @@ function ProjectDetail({ project }: { project: Project }) {
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><MapPin /> 위치 · 선거구</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {[project.contact, project.district, project.town].filter(Boolean).map((tag, index) => (
+            {[activeProject.contact, activeProject.district, activeProject.town].filter(Boolean).map((tag, index) => (
               <span key={`${tag}-${index}`} className={`pd-pill ${index === 2 ? "pd-pill-district" : "pd-pill-tag"}`}>{tag}</span>
             ))}
-            {!project.contact && !project.district && !project.town && <span className="pd-empty text-[14px]">-</span>}
+            {!activeProject.contact && !activeProject.district && !activeProject.town && <span className="pd-empty text-[14px]">-</span>}
           </div>
         </div>
       </section>

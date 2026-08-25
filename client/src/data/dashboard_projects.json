@@ -1015,9 +1015,9 @@
       "administrative_procedures": "",
       "project_type": "",
       "region": "신규",
-      "district": "우정읍",
-      "town": "갑구",
-      "contact": "만세구",
+      "district": "",
+      "town": "",
+      "contact": "",
       "last_saved": "육동현\n(6188)",
       "management_card_matched": false,
       "management_card_source": "",
@@ -1362,26 +1362,29 @@
           "card_budget_2026_second_extra_million_krw": null,
           "card_budget_2026_third_extra_million_krw": 1790,
           "card_budget_2026_additional_million_krw": null,
-          "card_budget_2028_plus_million_krw": null
+          "card_budget_2028_plus_million_krw": null,
+          "district": "우정읍",
+          "town": "갑구",
+          "contact": "만세구"
         },
         {
           "name": "오산천",
-          "overview": "",
-          "current_stage": "",
-          "total_cost_million_krw": null,
+          "overview": "○ 사업위치: 화성시 동탄구 방교동 872-221번지 일원\n○ 사 업 량: 파크골프장(18홀), 조성면적 약 30,000㎡(대한파크골프협회 규정 9홀당 8,250㎡)\n○ 사업기간: 2026.07. ~ 2028.04.\n○ 총사업비: 1,900백만원",
+          "current_stage": "사전 행정절차",
+          "total_cost_million_krw": 1900,
           "invested_to_2026_million_krw": null,
           "budget_2027_million_krw": null,
           "execution_rate": null,
-          "progress_status": "",
-          "progress_rate": null,
-          "expected_completion": "",
-          "progress_notes": "",
-          "future_plan": "",
-          "inspection": "",
-          "delay_reason": "",
+          "progress_status": "○ 2026.07.  한강유역환경청 사전협의 (사업추진 가능 시 예산 편성)\n○ 2026.09.  실시설계용역 착수 및 중기지방재정계획 반영\n○ 2027.03.  실시설계용역, 소규모 환경·재해영향평가 완료\n○ 2027.04.  하천점용허가 및 실시계획인가 신청(평균 2개월 소요)\n○ 2027.10.  공사 착공\n○ 2028.04.  공사 준공",
+          "progress_rate": 0,
+          "expected_completion": "0%",
+          "progress_notes": "0",
+          "future_plan": "○ 2026.07.  한강유역환경청 사전협의 (사업추진 가능 시 예산 편성)\n○ 2026.09.  실시설계용역 착수 및 중기지방재정계획 반영\n○ 2027.03.  실시설계용역, 소규모 환경·재해영향평가 완료\n○ 2027.04.  하천점용허가 및 실시계획인가 신청(평균 2개월 소요)\n○ 2027.10.  공사 착공\n○ 2028.04.  공사 준공",
+          "inspection": "2028.04.",
+          "delay_reason": "양호",
           "management_card_matched": false,
           "management_card_source": "",
-          "card_total_budget_million_krw": null,
+          "card_total_budget_million_krw": 1900,
           "card_invested_to_2026_million_krw": null,
           "card_budget_2027_million_krw": null,
           "card_budget_2027_base_million_krw": null,
@@ -1536,13 +1539,16 @@
             "none": true
           },
           "card_invested_to_2025_million_krw": null,
-          "card_budget_2026_million_krw": null,
+          "card_budget_2026_million_krw": 50,
           "card_budget_2026_base_million_krw": null,
           "card_budget_2026_first_extra_million_krw": null,
           "card_budget_2026_second_extra_million_krw": null,
           "card_budget_2026_third_extra_million_krw": null,
           "card_budget_2026_additional_million_krw": null,
-          "card_budget_2028_plus_million_krw": null
+          "card_budget_2028_plus_million_krw": null,
+          "district": "방교동",
+          "town": "정구",
+          "contact": "동탄구"
         },
         {
           "name": "매향리",
@@ -1722,7 +1728,10 @@
           "card_budget_2026_second_extra_million_krw": null,
           "card_budget_2026_third_extra_million_krw": null,
           "card_budget_2026_additional_million_krw": null,
-          "card_budget_2028_plus_million_krw": null
+          "card_budget_2028_plus_million_krw": null,
+          "district": "",
+          "town": "",
+          "contact": ""
         },
         {
           "name": "개발제한구역",
@@ -1902,7 +1911,10 @@
           "card_budget_2026_second_extra_million_krw": null,
           "card_budget_2026_third_extra_million_krw": null,
           "card_budget_2026_additional_million_krw": null,
-          "card_budget_2028_plus_million_krw": null
+          "card_budget_2028_plus_million_krw": null,
+          "district": "",
+          "town": "",
+          "contact": ""
         }
       ]
     },
