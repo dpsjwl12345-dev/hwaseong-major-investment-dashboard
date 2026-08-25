@@ -92,6 +92,7 @@ type Project = {
   card_admin_procedures: string;
   card_admin_legal_basis: string;
   card_admin_status: { mid_term_fiscal?: boolean; investment_review?: boolean; public_property?: boolean; none?: boolean };
+  sub_projects?: (Partial<Project> & { name: string })[];
 };
 
 type Bureau = { name: string; departments: { name: string; projects: Project[] }[] };
@@ -476,12 +477,17 @@ const TABS = ["사업개요", "예산현황", "추진현황", "사전행정절�
 
 function ProjectDetail({ project }: { project: Project }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요");
+  const [selectedSubIndex, setSelectedSubIndex] = useState(0);
   const tabsRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setActiveTab("사업개요");
+    setSelectedSubIndex(0);
   }, [project.id]);
+
+  const hasSubProjects = (project.sub_projects?.length ?? 0) > 1;
+  const activeProject: Project = hasSubProjects ? { ...project, ...project.sub_projects![selectedSubIndex] } : project;
 
   useEffect(() => {
     const alignIndicator = () => {
@@ -497,8 +503,8 @@ function ProjectDetail({ project }: { project: Project }) {
 
   
 
-  const percent = progressPercent(project);
-  const overviewPairs = parseKvPairs(project.overview);
+  const percent = progressPercent(activeProject);
+  const overviewPairs = parseKvPairs(activeProject.overview);
   const color = colorFor(project.department);
   const themeVars = { ["--pd-accent-a" as string]: color.from, ["--pd-accent-b" as string]: color.to } as CSSProperties;
 
@@ -526,35 +532,49 @@ function ProjectDetail({ project }: { project: Project }) {
         })()}
       </h1>
 
+      {hasSubProjects && (
+        <div className="pill-radio-container pd-pill-tabs mt-5" role="tablist" aria-label="세부 사업 선택">
+          {project.sub_projects!.map((sub, index) => {
+            const inputId = `detail-subproject-${project.id}-${index}`;
+            return (
+              <span key={sub.name} className="pill-tab-option">
+                <input id={inputId} name={`detail-subproject-${project.id}`} type="radio" checked={selectedSubIndex === index} onChange={() => setSelectedSubIndex(index)} />
+                <label htmlFor={inputId} role="tab" aria-selected={selectedSubIndex === index}>{sub.name}</label>
+              </span>
+            );
+          })}
+        </div>
+      )}
+
       <section className="pd-summary mt-8" aria-label="사업 요약">
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><Tag /> 사업구분 · 진행상태</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            <span className="pd-pill pd-pill-new">{project.region || "-"}</span>
-            <span className="pd-pill pd-pill-status">{project.current_stage || "-"}</span>
+            <span className="pd-pill pd-pill-new">{activeProject.region || "-"}</span>
+            <span className="pd-pill pd-pill-status">{activeProject.current_stage || "-"}</span>
           </div>
         </div>
         <div className="pd-summary-cell hero">
           <span className="pd-summary-label"><Coins /> 총사업비</span>
           <span className="pd-summary-value grad">
-            {project.total_cost_million_krw?.toLocaleString("ko-KR") ?? "-"}
+            {activeProject.total_cost_million_krw?.toLocaleString("ko-KR") ?? "-"}
             <small style={{ fontSize: 14, fontWeight: 700, background: "none", WebkitTextFillColor: "var(--pd-text-muted)", color: "var(--pd-text-muted)" }}> 백만원</small>
           </span>
         </div>
         <div className="pd-summary-cell hero">
           <span className="pd-summary-label"><Activity /> 사업 전체 공정률</span>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <Gauge key={project.id} percent={percent} />
+            <Gauge key={`${project.id}-${selectedSubIndex}`} percent={percent} />
             <span className="pd-summary-value grad">{percent}%</span>
           </div>
         </div>
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><TrendingUp /> 예산 집행률</span>
-          <span className="pd-summary-value">{project.execution_rate ?? 0}%</span>
+          <span className="pd-summary-value">{activeProject.execution_rate ?? 0}%</span>
         </div>
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><CalendarCheck /> 준공예정일</span>
-          <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(project.inspection || "-")}</span>
+          <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(activeProject.inspection || "-")}</span>
         </div>
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><MapPin /> 위치 · 선거구</span>
@@ -580,12 +600,12 @@ function ProjectDetail({ project }: { project: Project }) {
         <div ref={indicatorRef} className="pill-indicator" aria-hidden="true" />
       </div>
 
-      <div key={`${project.id}-${activeTab}`} className="pd-panel-fade">
-        {activeTab === "사업개요" && <OverviewPanel project={project} />}
-        {activeTab === "예산현황" && <BudgetPanel project={project} />}
-        {activeTab === "추진현황" && <ProgressPanel project={project} />}
-        {activeTab === "사전행정절차" && <AdminPanel project={project} />}
-        {activeTab === "위치정보" && <LocationPanel project={project} />}
+      <div key={`${project.id}-${selectedSubIndex}-${activeTab}`} className="pd-panel-fade">
+        {activeTab === "사업개요" && <OverviewPanel project={activeProject} />}
+        {activeTab === "예산현황" && <BudgetPanel project={activeProject} />}
+        {activeTab === "추진현황" && <ProgressPanel project={activeProject} />}
+        {activeTab === "사전행정절차" && <AdminPanel project={activeProject} />}
+        {activeTab === "위치정보" && <LocationPanel project={activeProject} />}
       </div>
       {overviewPairs.length === 0 && activeTab === "사업개요" && null}
     </section>
