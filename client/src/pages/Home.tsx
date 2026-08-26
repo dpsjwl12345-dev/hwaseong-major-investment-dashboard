@@ -741,6 +741,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   const [hovered, setHovered] = useState<Project | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: 0 });
+  const [selectedOpensDown, setSelectedOpensDown] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [categoryFilter, setCategoryFilter] = useState("전체");
   const [zoneFilter, setZoneFilter] = useState("전체");
@@ -923,7 +924,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     const scale = Math.hypot(ctm.a, ctm.b);
     const core = group.querySelector(".investment-map-point-core");
     const baseR = core ? Number(core.getAttribute("r")) || 7 : 7;
-    return { x: screenCenter.x - canvasRect.left, y: screenCenter.y - canvasRect.top - baseR * scale };
+    return { x: screenCenter.x - canvasRect.left, y: screenCenter.y - canvasRect.top - baseR * scale, screenY: screenCenter.y };
   };
   const showHoverCardFor = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
     setHovered(project);
@@ -932,12 +933,17 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   };
   // Clicking a marker pins its info card in place above that marker so it
   // stays visible after the cursor moves away, instead of just disappearing
-  // like a plain hover tooltip once you're no longer pointing at it.
+  // like a plain hover tooltip once you're no longer pointing at it. If the
+  // marker sits too close to the top of the screen for the card to fit
+  // above it, flip it to open downward instead so it never gets clipped.
   const selectProjectAt = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
     setSelected(project);
     setGalleryIndex(0);
     const position = cardPositionFor(event);
-    if (position) setSelectedPosition(position);
+    if (position) {
+      setSelectedPosition(position);
+      setSelectedOpensDown(position.screenY < 400);
+    }
   };
 
   const activeMapFilterCount = [categoryFilter, zoneFilter, deptFilter].filter((value) => value !== "전체").length;
@@ -1106,7 +1112,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
           const active = gallery[galleryIndex] ?? gallery[0];
           const address = parseKvPairs(selected.overview).find((pair) => pair.label === "사업위치")?.value;
           return (
-            <div className="investment-map-select-card" style={{ left: `${selectedPosition.x}px`, top: `${selectedPosition.y}px` }}>
+            <div className={`investment-map-select-card${selectedOpensDown ? " is-open-down" : ""}`} style={{ left: `${selectedPosition.x}px`, top: `${selectedPosition.y}px` }}>
               <button type="button" className="investment-map-select-card-close" onClick={() => setSelected(null)} aria-label="닫기"><X size={15} /></button>
               <div className="investment-map-select-card-media">
                 {active ? (
