@@ -3378,9 +3378,9 @@ h1, h2, h3, h4, h5, h6,
 .sidebar-unlock {
   position: fixed;
   top: 96px;
-  right: 32px;
-  width: 64px;
-  height: 64px;
+  right: 88px;
+  width: 52px;
+  height: 52px;
   z-index: 260;
 }
 
@@ -3393,10 +3393,10 @@ h1, h2, h3, h4, h5, h6,
   inset: 0;
   display: inline-block;
   background: #ff5b5b;
-  width: 64px;
-  height: 64px;
+  width: 52px;
+  height: 52px;
   box-sizing: border-box;
-  padding: 12px 0 0 18px;
+  padding: 10px 0 0 15px;
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 8px 22px -8px rgba(0, 0, 0, 0.45);
