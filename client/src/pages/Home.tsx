@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type MouseEvent as ReactMouseEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent as ReactFormEvent, type MouseEvent as ReactMouseEvent } from "react";
 import {
   Activity,
   Banknote,
@@ -13,6 +13,8 @@ import {
   Coins,
   GraduationCap,
   Layers3,
+  Lock,
+  Unlock,
   MapPin,
   Route,
   Image as ImageIcon,
@@ -1316,9 +1318,56 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   );
 }
 
+const UNLOCK_STORAGE_KEY = "hs_dashboard_unlocked";
+const UNLOCK_HASH = "b8d94954bc3380bf4cd79badec5c26c248320b7deb5f0855727a7fc1a6d4aed3";
+
+async function sha256Hex(text: string): Promise<string> {
+  const data = new TextEncoder().encode(text);
+  const digest = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
 export default function Home() {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isUnlocked, setIsUnlocked] = useState(() => {
+    try {
+      return localStorage.getItem(UNLOCK_STORAGE_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
+  const [showUnlockForm, setShowUnlockForm] = useState(false);
+  const [unlockPassword, setUnlockPassword] = useState("");
+  const [unlockError, setUnlockError] = useState(false);
+
+  const handleUnlockSubmit = async (event: ReactFormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const hash = await sha256Hex(unlockPassword);
+    if (hash === UNLOCK_HASH) {
+      setIsUnlocked(true);
+      setShowUnlockForm(false);
+      setUnlockPassword("");
+      setUnlockError(false);
+      try {
+        localStorage.setItem(UNLOCK_STORAGE_KEY, "1");
+      } catch {
+        // ignore storage failures (e.g. private browsing)
+      }
+    } else {
+      setUnlockError(true);
+      setUnlockPassword("");
+    }
+  };
+
+  const handleLock = () => {
+    setIsUnlocked(false);
+    try {
+      localStorage.removeItem(UNLOCK_STORAGE_KEY);
+    } catch {
+      // ignore storage failures
+    }
+  };
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [query, setQuery] = useState("");
   const allBureauNames = organization.map((item) => item.name);
@@ -1522,6 +1571,52 @@ export default function Home() {
         <button className="fixed right-4 top-4 z-50 flex h-9 w-9 items-center justify-center rounded-full bg-[#1e293b] text-white shadow-md lg:hidden" onClick={() => setIsSidebarOpen(false)} aria-label="사이드바 닫기">
           <X size={18} />
         </button>
+      )}
+
+      <div className="sidebar-unlock">
+        {isUnlocked ? (
+          <button type="button" className="sidebar-unlock-btn is-unlocked" onClick={handleLock}>
+            <Unlock size={14} /> 잠금
+          </button>
+        ) : (
+          <button type="button" className="sidebar-unlock-btn" onClick={() => setShowUnlockForm(true)}>
+            <Lock size={14} /> 비밀번호
+          </button>
+        )}
+      </div>
+
+      {!isUnlocked && (
+        <div
+          className="app-lock-overlay"
+          role="presentation"
+          onClick={() => setShowUnlockForm(true)}
+        />
+      )}
+
+      {!isUnlocked && showUnlockForm && (
+        <div className="unlock-modal-backdrop" onClick={() => setShowUnlockForm(false)}>
+          <div className="unlock-container" onClick={(event) => event.stopPropagation()}>
+            <div className="unlock-login-box">
+              <form className="unlock-form" onSubmit={handleUnlockSubmit}>
+                <div className="unlock-logo" aria-hidden="true" />
+                <span className="unlock-header">비밀번호를 입력하세요</span>
+                <input
+                  type="password"
+                  className="unlock-input"
+                  placeholder="Password"
+                  value={unlockPassword}
+                  onChange={(event) => {
+                    setUnlockPassword(event.target.value);
+                    setUnlockError(false);
+                  }}
+                  autoFocus
+                />
+                <button type="submit" className="unlock-button">확인</button>
+                {unlockError && <p className="unlock-error-text">비밀번호가 올바르지 않습니다.</p>}
+              </form>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );

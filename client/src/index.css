@@ -3365,3 +3365,217 @@ h1, h2, h3, h4, h5, h6,
   .investment-map-filter-toggle { min-width: 0; padding: 8px 12px; font-size: 12px; }
   .investment-map-filter-options-combined { width: calc(100vw - 44px); max-width: 300px; }
 }
+
+/* Sidebar password lock feature */
+.app-lock-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 250;
+  background: transparent;
+  cursor: default;
+}
+
+.sidebar-unlock {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  width: 200px;
+  z-index: 260;
+}
+
+.sidebar-unlock-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(159, 188, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: #9fb2cc;
+  font: 700 12.5px "Pretendard", sans-serif;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+.sidebar-unlock-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #dceaff;
+}
+.sidebar-unlock-btn.is-unlocked {
+  border-color: rgba(138, 244, 241, 0.35);
+  color: #8af4f1;
+  background: rgba(138, 244, 241, 0.08);
+}
+
+.unlock-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 6, 12, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.unlock-container {
+  --form-width: 315px;
+  --aspect-ratio: 1.2;
+  --login-box-color: #272727;
+  --input-color: #3a3a3a;
+  --button-color: #373737;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--login-box-color);
+  border-radius: 24px;
+  width: calc(var(--form-width) + 1px);
+  height: calc(var(--form-width) * var(--aspect-ratio) + 1px);
+  z-index: 8;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.2),
+    0 0 8px rgba(255, 255, 255, 0.1),
+    0 0 16px rgba(255, 255, 255, 0.08);
+}
+
+.unlock-container::before {
+  content: "";
+  position: absolute;
+  inset: -50px;
+  z-index: -2;
+  background: conic-gradient(from 45deg, transparent 75%, #fff, transparent 100%);
+  animation: unlock-spin 4s ease-in-out infinite;
+}
+
+@keyframes unlock-spin {
+  100% { transform: rotate(360deg); }
+}
+
+.unlock-login-box {
+  background: var(--login-box-color);
+  border-radius: 24px;
+  padding: 28px;
+  width: var(--form-width);
+  height: calc(var(--form-width) * var(--aspect-ratio));
+  position: absolute;
+  z-index: 10;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow:
+    inset 0 40px 60px -8px rgba(255, 255, 255, 0.12),
+    inset 4px 0 12px -6px rgba(255, 255, 255, 0.12),
+    inset 0 0 12px -4px rgba(255, 255, 255, 0.12);
+}
+
+.unlock-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.unlock-logo {
+  width: 65px;
+  height: 65px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2));
+  box-shadow:
+    8px 8px 16px rgba(0, 0, 0, 0.2),
+    -8px -8px 16px rgba(255, 255, 255, 0.06);
+  border-radius: 20px;
+  border: 2px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 4px;
+  flex: none;
+}
+.unlock-logo::before {
+  content: "";
+  position: absolute;
+  bottom: 10px;
+  width: 50%;
+  height: 20%;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border: 2.5px solid #fff;
+}
+.unlock-logo::after {
+  content: "";
+  position: absolute;
+  top: 10px;
+  width: 30%;
+  height: 30%;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+}
+
+.unlock-header {
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 6px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Pretendard", "Noto Sans KR", sans-serif;
+}
+
+.unlock-input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  background: var(--input-color);
+  color: white;
+  outline: none;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+.unlock-input:focus {
+  border: 1px solid #fff;
+}
+
+.unlock-button {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: grid;
+  place-content: center;
+  background: var(--button-color);
+  color: white;
+  transition: 0.3s;
+  box-shadow:
+    inset 0px 3px 6px -4px rgba(255, 255, 255, 0.6),
+    inset 0px -3px 6px -2px rgba(0, 0, 0, 0.8);
+  margin-top: 5px;
+}
+.unlock-button:hover {
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    inset 0px 3px 6px rgba(255, 255, 255, 0.6),
+    inset 0px -3px 6px rgba(0, 0, 0, 0.8),
+    0px 0px 8px rgba(255, 255, 255, 0.05);
+}
+
+.unlock-error-text {
+  color: #ff9d9d;
+  font-size: 12px;
+  text-align: center;
+  margin: 0;
+}
