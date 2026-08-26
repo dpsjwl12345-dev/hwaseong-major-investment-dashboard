@@ -3377,9 +3377,9 @@ h1, h2, h3, h4, h5, h6,
 
 .sidebar-unlock {
   position: fixed;
-  left: 16px;
-  bottom: 16px;
-  width: 200px;
+  top: 20px;
+  right: 24px;
+  width: 130px;
   z-index: 260;
 }
 
