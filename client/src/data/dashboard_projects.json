@@ -999,6 +999,17 @@
       "department": "체육진흥과",
       "project_name": "파크골프장 조성",
       "overview": "",
+      "overview_map": {
+        "image": "/renderings/sports-4/base.png",
+        "spots": [
+          { "label": "남양 하수처리장 파크골프장(18홀)", "x": 36.2, "y": 34.2, "zoomImage": "/renderings/sports-4/zoom-namyang.png" },
+          { "label": "봉담 개발제한구역 파크골프장(18홀)", "x": 56.5, "y": 29.2, "zoomImage": "/renderings/sports-4/zoom-bongdam.png" },
+          { "label": "동탄 수질복원센터 파크골프장(18홀)", "x": 85.6, "y": 44.0, "zoomImage": "/renderings/sports-4/zoom-dongtan.png" },
+          { "label": "오산천 파크골프장(18홀)", "x": 85.6, "y": 47.5, "zoomImage": "/renderings/sports-4/zoom-osancheon.png" },
+          { "label": "향남오음공원 파크골프장(9홀)", "x": 53.1, "y": 61.8, "zoomImage": "/renderings/sports-4/zoom-hyangnam.png" },
+          { "label": "우정읍 매향리 파크골프장(36홀)", "x": 35.0, "y": 79.9, "zoomImage": "/renderings/sports-4/zoom-maehyangri.png" }
+        ]
+      },
       "category": "체육시설",
       "current_stage": "",
       "funding_type": "소계",

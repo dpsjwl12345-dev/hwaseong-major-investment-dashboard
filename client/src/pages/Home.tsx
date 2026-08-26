@@ -73,6 +73,8 @@ type Project = {
   gallery_images?: { src: string; alt?: string; caption?: string }[];
   rendering_images?: string[];
   overview_images?: string[];
+  overview_images_title?: string;
+  overview_map?: { image: string; spots: { label: string; x: number; y: number; zoomImage: string }[] };
   card_total_budget_million_krw: number | null;
   card_invested_to_2025_million_krw: number | null;
   card_invested_to_2026_million_krw: number | null;
@@ -232,7 +234,7 @@ function OverviewPanel({ project }: { project: Project }) {
       {renderings.length > 0 && (
         <div className="pd-kv-row mt-4">
           <div className="pd-kv" style={{ gridColumn: "1 / -1" }}>
-            <span className="pd-kv-label">서해안 거점 주차장</span>
+            <span className="pd-kv-label">{project.overview_images_title || "관련 이미지"}</span>
             <div className="pd-rendering-grid mt-1" data-count={Math.min(renderings.length, 4)}>
               {renderings.map((src, index) => (
                 <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} 이미지 ${index + 1} 확대 보기`}>
@@ -250,6 +252,43 @@ function OverviewPanel({ project }: { project: Project }) {
           projectName={project.project_name}
           onClose={() => setLightboxIndex(null)}
           onNavigate={setLightboxIndex}
+        />
+      )}
+      {project.overview_map && <SpotMapCard map={project.overview_map} projectName={project.project_name} />}
+    </div>
+  );
+}
+
+function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_map"]>; projectName: string }) {
+  const [activeSpot, setActiveSpot] = useState<number | null>(null);
+  return (
+    <div className="pd-kv-row mt-4">
+      <div className="pd-kv" style={{ gridColumn: "1 / -1" }}>
+        <span className="pd-kv-label">거점 위치도</span>
+        <div className="pd-spotmap mt-1">
+          <img src={map.image} alt={`${projectName} 위치도`} />
+          {map.spots.map((spot, index) => (
+            <button
+              type="button"
+              key={spot.label}
+              className="pd-spotmap-pin"
+              style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
+              onClick={() => setActiveSpot(index)}
+              aria-label={`${spot.label} 확대 보기`}
+            >
+              <span className="pd-spotmap-pin-dot">{index + 1}</span>
+              <span className="pd-spotmap-pin-label">{spot.label}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      {activeSpot !== null && (
+        <RenderingLightbox
+          images={map.spots.map((s) => s.zoomImage)}
+          index={activeSpot}
+          projectName={map.spots[activeSpot].label}
+          onClose={() => setActiveSpot(null)}
+          onNavigate={setActiveSpot}
         />
       )}
     </div>
