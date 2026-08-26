@@ -963,7 +963,7 @@
   border: 1px solid var(--pd-border-soft);
 }
 .pd-spotmap img { display: block; width: 100%; height: auto; }
-.pd-spotmap.is-illustration { max-width: 480px; margin: 0 auto; }
+.pd-spotmap.is-illustration { max-width: 600px; margin: 0; }
 .pd-spotmap-illustration {
   display: block;
   width: 100%;
