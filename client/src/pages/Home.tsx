@@ -603,7 +603,8 @@ function ProjectDetail({ project }: { project: Project }) {
             return (
               <>
                 {match[1]}
-                <span className="text-base font-medium tracking-normal opacity-80 lg:text-xl"> {match[2].trim()}</span>
+                <br />
+                <span className="text-base font-medium tracking-normal opacity-80 lg:text-xl">{match[2].trim()}</span>
               </>
             );
           })()}
