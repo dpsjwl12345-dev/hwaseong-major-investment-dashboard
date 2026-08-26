@@ -5465,6 +5465,7 @@
       "serial": 2,
       "department": "관광진흥과",
       "project_name": "제부도 도시계획도로 중로2 3호선 외 3개소 개설",
+      "rendering_images": ["/renderings/tourism-10/1.png"],
       "carryover_items": [
         {
           "label": "제부도 도시계획도로 소로2-10호선 개설공사",
@@ -5477,7 +5478,7 @@
           "amount_million_krw": 1667.85884
         }
       ],
-      "overview": "○ 사업위치: 화성시 만세구 서신면 제부리 6-16번지 일원\n○ 사업규모: L=2,030m, B=8~15m 면적 A=22,722㎡, 총필지 수 130필지\n○ 사업기간: 2023.01. ~ 2027.12.\n○ 사업내용: ",
+      "overview": "○ 사업위치: 화성시 만세구 서신면 제부리 6-16번지 일원\n○ 사업규모: L=2,030m, B=8~15m 면적 A=22,722㎡, 총필지 수 130필지\n○ 사업기간: 2023.01. ~ 2027.12.\n○ 사업내용: 제부도 미개설 북측도로 개설",
       "category": "도로1(시도·농어촌)",
       "current_stage": "부지확보 및 보상",
       "funding_type": "소계",
@@ -5485,7 +5486,7 @@
       "invested_to_2026_million_krw": 3253,
       "budget_2027_million_krw": null,
       "execution_rate": 0.0,
-      "progress_status": "보상 및 실시설계 중",
+      "progress_status": "○ 2024. 8. 30.: 실시계획인가 최초고시(중로1-1호선 외 2개소)\n○ 2024. 9. 30.: 실시계획인가 최초고시(소로1-8호선 외 1개소)\n○ 2025. 7. 23.: 실시계획인가 변경신청(소로1-8호선 외 1개소)(분할측량에 따른 면적정정 등)\n○ 2025. 8.: 지구단위계획 변경 고시(중로2-3호선 외 2개소 도시계획시설 결정선 산입)\n○ 2025. 12. 29.: 실시계획인가 변경고시(소로1-8호선 외 1개소)\n○ 2026. 2. 25.: 실시계획인가 변경신청(중로1-1호선 외 2개소)\n○ 2026. 5. 28.: 수용재결 신청(구x자, 최x순 중로)(중로 1차)\n○ 2026. 5. 28.: 실시계획인가 변경고시(중로2-3호선 외 2개소)",
       "progress_rate": 30,
       "expected_completion": "30%",
       "progress_notes": "0",
@@ -5529,15 +5530,15 @@
         },
         {
           "name": "시비",
-          "total": 17298,
+          "total": 9400,
           "invested": 3053,
-          "budget_2026": 14245,
+          "budget_2026": 6347,
           "budget_2027": null,
           "budget_2028_plus": null,
-          "budget_2026_base": 3000,
+          "budget_2026_base": null,
           "budget_2026_first_extra": 100,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": 4898,
+          "budget_2026_third_extra": null,
           "budget_2026_additional": 6247
         },
         {
@@ -5568,18 +5569,19 @@
         },
         {
           "name": "기타",
-          "total": null,
+          "total": 7898,
           "invested": null,
-          "budget_2026": null,
+          "budget_2026": 7898,
           "budget_2027": null,
           "budget_2028_plus": null,
-          "budget_2026_base": null,
+          "budget_2026_base": 3000,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": null,
+          "budget_2026_third_extra": 4898,
           "budget_2026_additional": null
         }
       ],
+      "funding_breakdown_note": "기타: 지방채",
       "usage_breakdown": [
         {
           "name": "설계",
