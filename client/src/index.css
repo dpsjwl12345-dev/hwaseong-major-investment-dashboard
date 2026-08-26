@@ -966,7 +966,7 @@
   cursor: zoom-in;
 }
 .pd-spotmap img { display: block; width: 100%; height: auto; }
-.pd-spotmap.is-illustration { max-width: 800px; margin: 0; }
+.pd-spotmap.is-illustration { max-width: 100%; margin: 0; }
 .pd-spotmap.is-zoomed { max-width: min(90vw, 900px); cursor: default; }
 .pd-spotmap-lightbox { background: none; box-shadow: none; padding: 0; }
 .pd-spotmap-illustration {
