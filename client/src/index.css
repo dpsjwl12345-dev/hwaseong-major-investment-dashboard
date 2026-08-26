@@ -966,12 +966,13 @@
   cursor: zoom-in;
 }
 .pd-spotmap img { display: block; width: 100%; height: auto; }
-.pd-spotmap.is-illustration { max-width: 100%; margin: 0; }
-.pd-spotmap.is-zoomed { max-width: min(90vw, 900px); cursor: default; }
+.pd-spotmap.is-illustration { width: 100%; max-width: 100%; margin: 0; min-height: 340px; }
+.pd-spotmap.is-zoomed { width: min(90vw, 1100px); max-width: min(90vw, 1100px); min-height: 0; cursor: default; flex: none; }
 .pd-spotmap-lightbox { background: none; box-shadow: none; padding: 0; }
 .pd-spotmap-illustration {
   display: block;
   width: 100%;
+  height: 100%;
   aspect-ratio: 1000 / 567;
   background: color-mix(in srgb, var(--pd-accent-b) 6%, var(--pd-surface-sunken));
 }
@@ -999,7 +1000,7 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: var(--pd-accent-a, #e5542d);
+  background: #8b93a3;
   color: #fff;
   font-size: 11px;
   font-weight: 800;
@@ -1007,6 +1008,11 @@
   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.35);
   transition: transform 0.15s ease;
 }
+.pd-spotmap-pin.is-tracked .pd-spotmap-pin-dot { background: #f4c14a; color: #3a2c00; }
+.pd-spotmap-legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--pd-text-faint); }
+.pd-spotmap-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.pd-spotmap-legend-dot { width: 10px; height: 10px; border-radius: 50%; background: #8b93a3; flex: none; }
+.pd-spotmap-legend-dot.is-tracked { background: #f4c14a; }
 .pd-spotmap-pin:hover .pd-spotmap-pin-dot { transform: scale(1.18); }
 .pd-spotmap-pin-label {
   font-size: 11px;

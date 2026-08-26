@@ -74,7 +74,7 @@ type Project = {
   rendering_images?: string[];
   overview_images?: string[];
   overview_images_title?: string;
-  overview_map?: { title?: string; image?: string; basemap?: "illustration"; spots: { label: string; x: number; y: number; zoomImage: string }[] };
+  overview_map?: { title?: string; image?: string; basemap?: "illustration"; spots: { label: string; x: number; y: number; zoomImage: string; tracked?: boolean }[] };
   card_total_budget_million_krw: number | null;
   card_invested_to_2025_million_krw: number | null;
   card_invested_to_2026_million_krw: number | null;
@@ -271,7 +271,7 @@ function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_
         <img src={map.image} alt={`${projectName} 위치도`} />
       )}
       {map.spots.map((spot, index) => (
-        <span key={spot.label} className="pd-spotmap-pin" style={{ left: `${spot.x}%`, top: `${spot.y}%` }}>
+        <span key={spot.label} className={`pd-spotmap-pin${spot.tracked ? " is-tracked" : ""}`} style={{ left: `${spot.x}%`, top: `${spot.y}%` }}>
           <span className="pd-spotmap-pin-dot">{index + 1}</span>
           <span className="pd-spotmap-pin-label">{spot.label}</span>
         </span>
@@ -285,6 +285,12 @@ function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_
         <button type="button" className={`pd-spotmap mt-1${map.basemap === "illustration" ? " is-illustration" : ""}`} onClick={() => setIsZoomed(true)} aria-label={`${map.title || "거점 위치도"} 확대 보기`}>
           {mapBody}
         </button>
+        {map.spots.some((s) => s.tracked) && (
+          <div className="pd-spotmap-legend mt-2">
+            <span><i className="pd-spotmap-legend-dot is-tracked" />체육진흥과 추진사업</span>
+            <span><i className="pd-spotmap-legend-dot" />검토·참고 지점</span>
+          </div>
+        )}
       </div>
       {isZoomed && (
         <div className="pd-lightbox-backdrop" onClick={() => setIsZoomed(false)}>
