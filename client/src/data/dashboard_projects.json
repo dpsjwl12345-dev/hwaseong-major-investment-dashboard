@@ -1000,6 +1000,7 @@
       "project_name": "파크골프장 조성",
       "overview": "",
       "overview_map": {
+        "title": "화성시 파크골프장 위치",
         "basemap": "illustration",
         "spots": [
           { "label": "남양 하수처리장 파크골프장(18홀)", "x": 46.0, "y": 32.5, "zoomImage": "/renderings/sports-4/zoom-namyang.png" },
