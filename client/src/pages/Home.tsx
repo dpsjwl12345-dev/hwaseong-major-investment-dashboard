@@ -182,6 +182,8 @@ function parseTimeline(text: string): TimelineEntry[] {
     .filter(Boolean)
     .map((line) => {
       const stripped = line.replace(/^○\s*/, "");
+      const colonMatch = stripped.match(/^(\d[^:：]*?)[:：]\s*(\S.*)$/);
+      if (colonMatch) return { date: formatDateText(colonMatch[1].trim()), desc: colonMatch[2].trim() };
       const match = stripped.match(/^([\d][\d.\s~\-–]*\d\.?)\s+(\S.*)$/);
       return match ? { date: formatDateText(match[1].trim()), desc: match[2].trim() } : { date: "", desc: stripped };
     });
