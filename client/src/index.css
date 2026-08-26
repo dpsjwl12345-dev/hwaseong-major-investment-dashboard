@@ -3213,8 +3213,8 @@ h1, h2, h3, h4, h5, h6,
   gap: 18px;
   width: 560px;
   max-width: min(90vw, 600px);
-  max-height: min(58vh, 380px);
-  overflow: hidden;
+  max-height: 90vh;
+  overflow-y: auto;
   padding: 18px 20px;
   border-radius: 18px;
   background: rgba(9, 17, 31, 0.97);
@@ -3224,7 +3224,7 @@ h1, h2, h3, h4, h5, h6,
   pointer-events: auto;
 }
 .investment-map-select-card-media { flex: 0 0 200px; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
-.investment-map-select-card-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; overflow-y: auto; padding-right: 2px; }
+.investment-map-select-card-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
 .investment-map-select-card-close {
   position: absolute;
   top: 12px;
