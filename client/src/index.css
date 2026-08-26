@@ -963,6 +963,17 @@
   border: 1px solid var(--pd-border-soft);
 }
 .pd-spotmap img { display: block; width: 100%; height: auto; }
+.pd-spotmap-illustration {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1000 / 567;
+  background: color-mix(in srgb, var(--pd-accent-b) 6%, var(--pd-surface-sunken));
+}
+.pd-spotmap-illustration path {
+  fill: color-mix(in srgb, var(--pd-accent-b) 20%, var(--pd-surface-sunken));
+  stroke: color-mix(in srgb, var(--pd-accent-b) 55%, transparent);
+  stroke-width: 1.6;
+}
 .pd-spotmap-pin {
   position: absolute;
   transform: translate(-50%, -50%);

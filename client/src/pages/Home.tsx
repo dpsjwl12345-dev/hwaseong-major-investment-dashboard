@@ -74,7 +74,7 @@ type Project = {
   rendering_images?: string[];
   overview_images?: string[];
   overview_images_title?: string;
-  overview_map?: { image: string; spots: { label: string; x: number; y: number; zoomImage: string }[] };
+  overview_map?: { image?: string; basemap?: "illustration"; spots: { label: string; x: number; y: number; zoomImage: string }[] };
   card_total_budget_million_krw: number | null;
   card_invested_to_2025_million_krw: number | null;
   card_invested_to_2026_million_krw: number | null;
@@ -266,7 +266,13 @@ function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_
       <div className="pd-kv" style={{ gridColumn: "1 / -1" }}>
         <span className="pd-kv-label">거점 위치도</span>
         <div className="pd-spotmap mt-1">
-          <img src={map.image} alt={`${projectName} 위치도`} />
+          {map.basemap === "illustration" ? (
+            <svg className="pd-spotmap-illustration" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label={`${projectName} 위치도`}>
+              <path d={hwaseongBoundary.d} />
+            </svg>
+          ) : (
+            <img src={map.image} alt={`${projectName} 위치도`} />
+          )}
           {map.spots.map((spot, index) => (
             <button
               type="button"
