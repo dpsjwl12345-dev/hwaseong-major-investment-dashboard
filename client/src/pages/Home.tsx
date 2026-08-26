@@ -1163,7 +1163,6 @@ function DepartmentDashboard({
 }) {
   const minBudget = "";
   const maxBudget = "";
-  const budgetSort: "desc" | "asc" = "desc";
   const [stageFilter, setStageFilter] = useState("전체");
   const [divisionFilter, setDivisionFilter] = useState("전체");
   const [isDivisionOpen, setIsDivisionOpen] = useState(false);
@@ -1171,7 +1170,7 @@ function DepartmentDashboard({
   const futurePlanBudgetFor = (project: Project) => project.card_budget_2028_plus_million_krw ?? 0;
   const departmentProjects = projects
     .filter((project) => project.department === initialDepartment)
-    .sort((a, b) => futurePlanBudgetFor(b) - futurePlanBudgetFor(a));
+    .sort((a, b) => a.serial - b.serial);
   const stageOptions = Array.from(new Set(departmentProjects.map((project) => project.current_stage).filter(Boolean))) as string[];
   const totalCost = departmentProjects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
   const investedAmount = departmentProjects.reduce((sum, project) => sum + (project.invested_to_2026_million_krw ?? 0), 0);
@@ -1186,8 +1185,7 @@ function DepartmentDashboard({
       const min = minBudget === "" ? 0 : Number(minBudget);
       const max = maxBudget === "" ? Number.POSITIVE_INFINITY : Number(maxBudget);
       return value >= min && value <= max;
-    })
-    .sort((a, b) => budgetSort === "desc" ? budgetValueFor(b) - budgetValueFor(a) : budgetValueFor(a) - budgetValueFor(b));
+    });
   const filteredTotalCost = filteredProjects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
   const filteredInvested = filteredProjects.reduce((sum, project) => sum + (project.invested_to_2026_million_krw ?? 0), 0);
   const filteredBudget2027 = filteredProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
