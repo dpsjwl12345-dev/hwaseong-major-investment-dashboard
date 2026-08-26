@@ -169,7 +169,7 @@ function parseKvPairs(text: string): KvPair[] {
     .map((line) => line.trim())
     .filter(Boolean)
     .map((line) => {
-      const match = line.match(/^○\s*([^:：]+?)\s*[:：]\s*(.+)$/);
+      const match = line.match(/^○\s*([^:：]+?)\s*[:：]\s*(.*)$/);
       return match ? { label: match[1].replace(/\s+/g, ""), value: formatDateText(match[2].trim()) } : null;
     })
     .filter((pair): pair is KvPair => pair !== null);
