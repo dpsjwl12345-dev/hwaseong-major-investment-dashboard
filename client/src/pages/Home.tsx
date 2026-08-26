@@ -1512,7 +1512,19 @@ export default function Home() {
 
                                       style={{ background: isSelected ? "var(--hanzo-ink)" : "rgba(23, 24, 18, .34)" }}
                                     />
-                                                                        <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-body text-[13.5px] leading-[1.35]">{project.project_name}</span>
+                                                                        <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-body text-[13.5px] leading-[1.35]">
+                                      {(() => {
+                                        const match = project.project_name.match(/^(.*?)(\s*\([^)]+\))\s*$/);
+                                        if (!match) return project.project_name;
+                                        return (
+                                          <>
+                                            {match[1]}
+                                            <br />
+                                            {match[2].trim()}
+                                          </>
+                                        );
+                                      })()}
+                                    </span>
 
                                   </button>
                                 );
