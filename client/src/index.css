@@ -3390,9 +3390,20 @@ h1, h2, h3, h4, h5, h6,
 
 .sidebar-unlock.sidebar-unlock-inline {
   position: absolute;
-  top: -26px;
-  right: 0;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
   z-index: 5;
+}
+.sidebar-unlock.sidebar-unlock-inline .btn-lock {
+  width: 26px;
+  height: 26px;
+  padding: 5px 0 0 7px;
+}
+.sidebar-unlock.sidebar-unlock-inline .btn-lock svg {
+  width: 14px;
+  height: 16px;
 }
 
 .sidebar-unlock input[type="checkbox"] {
