@@ -3377,35 +3377,98 @@ h1, h2, h3, h4, h5, h6,
 
 .sidebar-unlock {
   position: fixed;
-  top: 20px;
-  right: 24px;
-  width: 130px;
+  top: 96px;
+  right: 32px;
+  width: 64px;
+  height: 64px;
   z-index: 260;
 }
 
-.sidebar-unlock-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 9px 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(159, 188, 255, 0.18);
-  background: rgba(255, 255, 255, 0.04);
-  color: #9fb2cc;
-  font: 700 12.5px "Pretendard", sans-serif;
+.sidebar-unlock #inpLock {
+  display: none;
+}
+
+.sidebar-unlock .btn-lock {
+  position: absolute;
+  inset: 0;
+  display: inline-block;
+  background: #ff5b5b;
+  width: 64px;
+  height: 64px;
+  box-sizing: border-box;
+  padding: 12px 0 0 18px;
+  border-radius: 50%;
   cursor: pointer;
-  transition: 0.15s ease;
+  box-shadow: 0 8px 22px -8px rgba(0, 0, 0, 0.45);
+  -webkit-tap-highlight-color: transparent;
 }
-.sidebar-unlock-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #dceaff;
+
+.sidebar-unlock .btn-lock svg {
+  fill: none;
+  transform: translate3d(0, 0, 0);
 }
-.sidebar-unlock-btn.is-unlocked {
-  border-color: rgba(138, 244, 241, 0.35);
-  color: #8af4f1;
-  background: rgba(138, 244, 241, 0.08);
+
+.sidebar-unlock .btn-lock svg .bling {
+  stroke: #fff;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 3;
+  stroke-dashoffset: 15;
+  transition: all 0.3s ease;
+}
+
+.sidebar-unlock .btn-lock svg .lock {
+  stroke: #fff;
+  stroke-width: 4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  stroke-dasharray: 36;
+  transition: all 0.4s ease;
+}
+
+.sidebar-unlock .btn-lock svg .lockb {
+  fill: #fff;
+  fill-rule: evenodd;
+  clip-rule: evenodd;
+  transform: rotate(8deg);
+  transform-origin: 14px 20px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-unlock #inpLock:checked + label {
+  background: #20cca5;
+}
+
+.sidebar-unlock #inpLock:checked + label svg .bling {
+  animation: bling6132 0.3s linear forwards;
+  animation-delay: 0.2s;
+}
+
+.sidebar-unlock #inpLock:checked + label svg .lock {
+  stroke-dasharray: 48;
+  animation: locked 0.3s linear forwards;
+}
+
+.sidebar-unlock #inpLock:checked + label svg .lockb {
+  transform: rotate(0);
+  transform-origin: 14px 22px;
+}
+
+@keyframes bling6132 {
+  50% {
+    stroke-dasharray: 3;
+    stroke-dashoffset: 12;
+  }
+  100% {
+    stroke-dasharray: 3;
+    stroke-dashoffset: 9;
+  }
+}
+
+@keyframes locked {
+  50% {
+    transform: translateY(1px);
+  }
 }
 
 .unlock-modal-backdrop {
