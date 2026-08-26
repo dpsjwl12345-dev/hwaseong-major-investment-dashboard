@@ -229,14 +229,16 @@ function OverviewPanel({ project }: { project: Project }) {
         <div className="pd-card">
       <KvCards pairs={[...pairs, ...extra]} />
       {renderings.length > 0 && (
-        <div className="mt-6">
-          <div className="pd-card-title"><DetailSectionHeading icon={ImageIcon} title="조감도" /></div>
-          <div className="pd-rendering-grid" data-count={Math.min(renderings.length, 4)}>
-            {renderings.map((src, index) => (
-              <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} 조감도 ${index + 1} 확대 보기`}>
-                <img src={src} alt={`${project.project_name} 조감도 ${index + 1}`} />
-              </button>
-            ))}
+        <div className="pd-kv-row mt-4">
+          <div className="pd-kv" style={{ gridColumn: "1 / -1" }}>
+            <span className="pd-kv-label">서해안 거점 주차장</span>
+            <div className="pd-rendering-grid mt-1" data-count={Math.min(renderings.length, 4)}>
+              {renderings.map((src, index) => (
+                <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} 이미지 ${index + 1} 확대 보기`}>
+                  <img src={src} alt={`${project.project_name} 이미지 ${index + 1}`} />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}
