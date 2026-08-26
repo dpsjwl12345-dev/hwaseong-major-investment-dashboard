@@ -942,7 +942,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     const position = cardPositionFor(event);
     if (position) {
       setSelectedPosition(position);
-      setSelectedOpensDown(position.screenY < 400);
+      setSelectedOpensDown(position.screenY < window.innerHeight / 2);
     }
   };
 
