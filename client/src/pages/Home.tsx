@@ -260,42 +260,39 @@ function OverviewPanel({ project }: { project: Project }) {
 }
 
 function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_map"]>; projectName: string }) {
-  const [activeSpot, setActiveSpot] = useState<number | null>(null);
+  const [isZoomed, setIsZoomed] = useState(false);
+  const mapBody = (
+    <>
+      {map.basemap === "illustration" ? (
+        <svg className="pd-spotmap-illustration" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label={`${projectName} 위치도`}>
+          <path d={hwaseongBoundary.d} />
+        </svg>
+      ) : (
+        <img src={map.image} alt={`${projectName} 위치도`} />
+      )}
+      {map.spots.map((spot, index) => (
+        <span key={spot.label} className="pd-spotmap-pin" style={{ left: `${spot.x}%`, top: `${spot.y}%` }}>
+          <span className="pd-spotmap-pin-dot">{index + 1}</span>
+          <span className="pd-spotmap-pin-label">{spot.label}</span>
+        </span>
+      ))}
+    </>
+  );
   return (
     <div className="pd-kv-row mt-4">
       <div className="pd-kv" style={{ gridColumn: "1 / -1" }}>
         <span className="pd-kv-label">{map.title || "거점 위치도"}</span>
-        <div className={`pd-spotmap mt-1${map.basemap === "illustration" ? " is-illustration" : ""}`}>
-          {map.basemap === "illustration" ? (
-            <svg className="pd-spotmap-illustration" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label={`${projectName} 위치도`}>
-              <path d={hwaseongBoundary.d} />
-            </svg>
-          ) : (
-            <img src={map.image} alt={`${projectName} 위치도`} />
-          )}
-          {map.spots.map((spot, index) => (
-            <button
-              type="button"
-              key={spot.label}
-              className="pd-spotmap-pin"
-              style={{ left: `${spot.x}%`, top: `${spot.y}%` }}
-              onClick={() => setActiveSpot(index)}
-              aria-label={`${spot.label} 확대 보기`}
-            >
-              <span className="pd-spotmap-pin-dot">{index + 1}</span>
-              <span className="pd-spotmap-pin-label">{spot.label}</span>
-            </button>
-          ))}
-        </div>
+        <button type="button" className={`pd-spotmap mt-1${map.basemap === "illustration" ? " is-illustration" : ""}`} onClick={() => setIsZoomed(true)} aria-label={`${map.title || "거점 위치도"} 확대 보기`}>
+          {mapBody}
+        </button>
       </div>
-      {activeSpot !== null && (
-        <RenderingLightbox
-          images={map.spots.map((s) => s.zoomImage)}
-          index={activeSpot}
-          projectName={map.spots[activeSpot].label}
-          onClose={() => setActiveSpot(null)}
-          onNavigate={setActiveSpot}
-        />
+      {isZoomed && (
+        <div className="pd-lightbox-backdrop" onClick={() => setIsZoomed(false)}>
+          <button type="button" className="pd-lightbox-close" onClick={() => setIsZoomed(false)} aria-label="닫기"><X size={20} /></button>
+          <div className="pd-lightbox-content pd-spotmap-lightbox" onClick={(event) => event.stopPropagation()}>
+            <div className="pd-spotmap is-illustration is-zoomed">{mapBody}</div>
+          </div>
+        </div>
       )}
     </div>
   );

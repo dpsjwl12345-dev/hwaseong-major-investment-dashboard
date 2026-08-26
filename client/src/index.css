@@ -957,13 +957,18 @@
 
 .pd-spotmap {
   position: relative;
+  display: block;
   border-radius: 12px;
   overflow: hidden;
   background: var(--pd-surface-sunken);
   border: 1px solid var(--pd-border-soft);
+  padding: 0;
+  cursor: zoom-in;
 }
 .pd-spotmap img { display: block; width: 100%; height: auto; }
-.pd-spotmap.is-illustration { max-width: 600px; margin: 0; }
+.pd-spotmap.is-illustration { max-width: 800px; margin: 0; }
+.pd-spotmap.is-zoomed { max-width: min(90vw, 900px); cursor: default; }
+.pd-spotmap-lightbox { background: none; box-shadow: none; padding: 0; }
 .pd-spotmap-illustration {
   display: block;
   width: 100%;
