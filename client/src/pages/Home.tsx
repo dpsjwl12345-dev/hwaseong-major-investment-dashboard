@@ -222,11 +222,33 @@ function OverviewPanel({ project }: { project: Project }) {
     { label: "사업분야", value: project.category || "-" },
     { label: "현추진단계", value: project.current_stage ? `${project.current_stage}${project.current_stage_note ? ` (${project.current_stage_note})` : ""}` : "-" },
   ];
+  const renderings = project.rendering_images ?? [];
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (
         <div className="pd-card">
       <KvCards pairs={[...pairs, ...extra]} />
-
+      {renderings.length > 0 && (
+        <div className="mt-6">
+          <div className="pd-card-title"><DetailSectionHeading icon={ImageIcon} title="조감도" /></div>
+          <div className="pd-rendering-grid" data-count={Math.min(renderings.length, 4)}>
+            {renderings.map((src, index) => (
+              <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} 조감도 ${index + 1} 확대 보기`}>
+                <img src={src} alt={`${project.project_name} 조감도 ${index + 1}`} />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+      {lightboxIndex !== null && (
+        <RenderingLightbox
+          images={renderings}
+          index={lightboxIndex}
+          projectName={project.project_name}
+          onClose={() => setLightboxIndex(null)}
+          onNavigate={setLightboxIndex}
+        />
+      )}
     </div>
   );
 }
