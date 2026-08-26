@@ -1126,10 +1126,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                 {gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}
               </div>
               <div className="investment-map-select-card-body">
-                <div className="investment-map-side-top">
-                  <p className="investment-map-side-kicker">SELECTED PROJECT</p>
-                  <span className="investment-map-side-location"><MapPin size={12} /> {selected.district || selected.town || "위치정보 미등록"}</span>
-                </div>
                 <div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div>
                 <h2>{selected.project_name}</h2>
                 {address && <p className="investment-map-side-address">{address}</p>}
