@@ -72,6 +72,7 @@ type Project = {
   management_card_source: string;
   gallery_images?: { src: string; alt?: string; caption?: string }[];
   rendering_images?: string[];
+  overview_images?: string[];
   card_total_budget_million_krw: number | null;
   card_invested_to_2025_million_krw: number | null;
   card_invested_to_2026_million_krw: number | null;
@@ -222,7 +223,7 @@ function OverviewPanel({ project }: { project: Project }) {
     { label: "사업분야", value: project.category || "-" },
     { label: "현추진단계", value: project.current_stage ? `${project.current_stage}${project.current_stage_note ? ` (${project.current_stage_note})` : ""}` : "-" },
   ];
-  const renderings = project.rendering_images ?? [];
+  const renderings = project.overview_images ?? [];
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (
