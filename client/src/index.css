@@ -3384,7 +3384,18 @@ h1, h2, h3, h4, h5, h6,
   z-index: 260;
 }
 
-.sidebar-unlock #inpLock {
+.pd-summary-cell-location {
+  position: relative;
+}
+
+.sidebar-unlock.sidebar-unlock-inline {
+  position: absolute;
+  top: -26px;
+  right: 0;
+  z-index: 5;
+}
+
+.sidebar-unlock input[type="checkbox"] {
   display: none;
 }
 
@@ -3435,21 +3446,21 @@ h1, h2, h3, h4, h5, h6,
   transition: all 0.2s ease;
 }
 
-.sidebar-unlock #inpLock:checked + label {
+.sidebar-unlock input[type="checkbox"]:checked + label {
   background: #20cca5;
 }
 
-.sidebar-unlock #inpLock:checked + label svg .bling {
+.sidebar-unlock input[type="checkbox"]:checked + label svg .bling {
   animation: bling6132 0.3s linear forwards;
   animation-delay: 0.2s;
 }
 
-.sidebar-unlock #inpLock:checked + label svg .lock {
+.sidebar-unlock input[type="checkbox"]:checked + label svg .lock {
   stroke-dasharray: 48;
   animation: locked 0.3s linear forwards;
 }
 
-.sidebar-unlock #inpLock:checked + label svg .lockb {
+.sidebar-unlock input[type="checkbox"]:checked + label svg .lockb {
   transform: rotate(0);
   transform-origin: 14px 22px;
 }

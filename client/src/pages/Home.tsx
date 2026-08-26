@@ -553,7 +553,7 @@ function RenderingLightbox({
 }
 const TABS = ["사업개요", "예산현황", "추진현황", "사전행정절차", "위치정보"] as const;
 
-function ProjectDetail({ project }: { project: Project }) {
+function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void } }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요");
   const [selectedSubIndex, setSelectedSubIndex] = useState(0);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -663,7 +663,7 @@ function ProjectDetail({ project }: { project: Project }) {
           <span className="pd-summary-label"><CalendarCheck /> 준공예정일</span>
           <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(activeProject.inspection || "-")}</span>
         </div>
-        <div className="pd-summary-cell">
+        <div className="pd-summary-cell pd-summary-cell-location">
           <span className="pd-summary-label"><MapPin /> 위치 · 선거구</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {[activeProject.contact, activeProject.district, activeProject.town].filter(Boolean).map((tag, index) => (
@@ -671,6 +671,27 @@ function ProjectDetail({ project }: { project: Project }) {
             ))}
             {!activeProject.contact && !activeProject.district && !activeProject.town && <span className="pd-empty text-[14px]">-</span>}
           </div>
+          {lock && (
+            <div className="sidebar-unlock sidebar-unlock-inline">
+              <input
+                id="inpLockInline"
+                type="checkbox"
+                checked={lock.isUnlocked}
+                readOnly
+                aria-label={lock.isUnlocked ? "잠금" : "비밀번호"}
+                onClick={() => (lock.isUnlocked ? lock.onLock() : lock.onRequestUnlock())}
+              />
+              <label className="btn-lock" htmlFor="inpLockInline">
+                <svg width="29" height="33" viewBox="0 0 36 40">
+                  <path className="lockb" d="M27 27C27 34.1797 21.1797 40 14 40C6.8203 40 1 34.1797 1 27C1 19.8203 6.8203 14 14 14C21.1797 14 27 19.8203 27 27ZM15.6298 26.5191C16.4544 25.9845 17 25.056 17 24C17 22.3431 15.6569 21 14 21C12.3431 21 11 22.3431 11 24C11 25.056 11.5456 25.9845 12.3702 26.5191L11 32H17L15.6298 26.5191Z" />
+                  <path className="lock" d="M6 21V10C6 5.58172 9.58172 2 14 2V2C18.4183 2 22 5.58172 22 10V21" />
+                  <path className="bling" d="M29 20L31 22" />
+                  <path className="bling" d="M31.5 15H34.5" />
+                  <path className="bling" d="M29 10L31 8" />
+                </svg>
+              </label>
+            </div>
+          )}
         </div>
       </section>
 
@@ -1571,7 +1592,10 @@ export default function Home() {
             <DepartmentDashboard key={selectedDepartmentDashboard} initialDepartment={selectedDepartmentDashboard} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
-              <ProjectDetail project={selectedProject} />
+              <ProjectDetail
+                project={selectedProject}
+                lock={{ isUnlocked, onLock: handleLock, onRequestUnlock: () => setShowUnlockForm(true) }}
+              />
             </div>
           ) : (
             <LandingPage onOpenDashboard={() => { setSelectedDepartmentDashboard("문화예술과"); setSelectedProject(null); setActiveView("department"); }} />
@@ -1586,7 +1610,7 @@ export default function Home() {
         </button>
       )}
 
-      {createPortal(
+      {activeView !== "project" && createPortal(
         <div className="sidebar-unlock">
           <input
             id="inpLock"
