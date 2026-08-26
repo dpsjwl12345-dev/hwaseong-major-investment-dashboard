@@ -1319,7 +1319,7 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
 }
 
 const UNLOCK_STORAGE_KEY = "hs_dashboard_unlocked";
-const UNLOCK_HASH = "b8d94954bc3380bf4cd79badec5c26c248320b7deb5f0855727a7fc1a6d4aed3";
+const UNLOCK_HASH = "b451976f4f722d3d5d8164c1264e3d7551fd4e27b712532a7b5fc0fedd94a812";
 
 async function sha256Hex(text: string): Promise<string> {
   const data = new TextEncoder().encode(text);
