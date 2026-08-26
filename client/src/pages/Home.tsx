@@ -1061,18 +1061,51 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
               })}
             </svg>
           </div>
-          {(() => {
-            // While hovering, that marker's card takes priority; once the
-            // cursor leaves, the card doesn't disappear — it just falls back
-            // to showing whichever project is currently selected, pinned at
-            // the spot it was clicked.
-            const cardProject = hovered ?? selected;
-            const cardPosition = hovered ? hoverPosition : selectedPosition;
-            if (!cardProject) return null;
+          {/* A lightweight hover preview while just pointing at a marker — the
+              full clickable card (below) takes over once a marker is
+              actually clicked, so the two never show at the same time. */}
+          {hovered && hovered.id !== selected?.id && (
+            <div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}>
+              <span>{hovered.category || "미등록"}</span>
+              <strong>{hovered.project_name}</strong>
+            </div>
+          )}
+          {selected && (() => {
+            const gallery = selected.gallery_images ?? [];
+            const active = gallery[galleryIndex] ?? gallery[0];
+            const address = parseKvPairs(selected.overview).find((pair) => pair.label === "사업위치")?.value;
             return (
-              <div className="investment-map-hover-card" style={{ left: `${cardPosition.x}px`, top: `${cardPosition.y}px` }}>
-                <span>{cardProject.category || "미등록"}</span>
-                <strong>{cardProject.project_name}</strong>
+              <div className="investment-map-select-card" style={{ left: `${selectedPosition.x}px`, top: `${selectedPosition.y}px` }}>
+                <button type="button" className="investment-map-select-card-close" onClick={() => setSelected(null)} aria-label="닫기"><X size={15} /></button>
+                <div className="investment-map-side-top">
+                  <p className="investment-map-side-kicker">SELECTED PROJECT</p>
+                  <span className="investment-map-side-location"><MapPin size={12} /> {selected.district || selected.town || "위치정보 미등록"}</span>
+                </div>
+                <div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div>
+                <h2>{selected.project_name}</h2>
+                {address && <p className="investment-map-side-address">{address}</p>}
+                {active ? (
+                  <div className="investment-map-hero">
+                    <img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} />
+                    {gallery.length > 1 && <div className="investment-map-gallery-counter investment-map-hero-counter">{galleryIndex + 1} / {gallery.length}</div>}
+                  </div>
+                ) : (
+                  <div className="investment-map-gallery-empty"><ImageIcon size={20} /><strong>현장 사진 준비 중</strong></div>
+                )}
+                {gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}
+                <div className="investment-map-key-metrics">
+                  <div><span>총사업비</span><strong>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)}<small>백만원</small></strong></div>
+                  <div><span>집행률</span><strong>{selected.execution_rate ?? selected.progress_rate ?? 0}<small>%</small></strong></div>
+                </div>
+                <div className="investment-map-progress">
+                  <div><span>사업 전체 공정률</span><b>{selected.progress_rate ?? selected.execution_rate ?? 0}%</b></div>
+                  <i><em style={{ width: `${Math.min(100, Math.max(0, selected.progress_rate ?? selected.execution_rate ?? 0))}%` }} /></i>
+                </div>
+                <dl className="investment-map-detail-list">
+                  <div><dt>사업 유형</dt><dd>{selected.category || "미등록"}</dd></div>
+                  <div><dt>준공 예정</dt><dd>{selected.inspection || "미등록"}</dd></div>
+                </dl>
+                <button type="button" className="investment-map-open-project" onClick={() => onSelectProject(selected)}>사업 상세 보기 <span>↗</span></button>
               </div>
             );
           })()}
@@ -1107,53 +1140,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
             <button type="button" className="is-reset" onClick={resetZoom} disabled={zoom === 1 && pan.x === 0 && pan.y === 0} aria-label="지도 초기화">초기화</button>
           </div>
         </div>
-        <aside className="investment-map-side">
-          <div className="investment-map-side-top">
-            <p className="investment-map-side-kicker">SELECTED PROJECT</p>
-            {selected && <span className="investment-map-side-location"><MapPin size={12} /> {selected.district || selected.town || "위치정보 미등록"}</span>}
-          </div>
-          {selected ? (
-            <>
-              <div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div>
-              <h2>{selected.project_name}</h2>
-              {(() => {
-                const address = parseKvPairs(selected.overview).find((pair) => pair.label === "사업위치")?.value;
-                return address ? <p className="investment-map-side-address">{address}</p> : null;
-              })()}
-              {(() => {
-                const gallery = selected.gallery_images ?? [];
-                const active = gallery[galleryIndex] ?? gallery[0];
-                if (!active) {
-                  return <div className="investment-map-gallery-empty"><ImageIcon size={22} /><strong>현장 사진 준비 중</strong><span>사업별 주요 이미지가 등록되면 이 영역에 표시됩니다.</span></div>;
-                }
-                return (
-                  <>
-                    <div className="investment-map-hero">
-                      <img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} />
-                      {gallery.length > 1 && <div className="investment-map-gallery-counter investment-map-hero-counter">{galleryIndex + 1} / {gallery.length}</div>}
-                    </div>
-                    {gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}
-                  </>
-                );
-              })()}
-              <div className="investment-map-key-metrics">
-                <div><span>총사업비</span><strong>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)}<small>백만원</small></strong></div>
-                <div><span>집행률</span><strong>{selected.execution_rate ?? selected.progress_rate ?? 0}<small>%</small></strong></div>
-              </div>
-              <div className="investment-map-progress">
-                <div><span>사업 전체 공정률</span><b>{selected.progress_rate ?? selected.execution_rate ?? 0}%</b></div>
-                <i><em style={{ width: `${Math.min(100, Math.max(0, selected.progress_rate ?? selected.execution_rate ?? 0))}%` }} /></i>
-              </div>
-              <dl className="investment-map-detail-list">
-                <div><dt>사업 유형</dt><dd>{selected.category || "미등록"}</dd></div>
-                <div><dt>준공 예정</dt><dd>{selected.inspection || "미등록"}</dd></div>
-              </dl>
-              <button type="button" className="investment-map-open-project" onClick={() => onSelectProject(selected)}>사업 상세 보기 <span>↗</span></button>
-            </>
-          ) : (
-            <div className="investment-map-empty"><MapPin size={28} /><strong>지도에서 사업을 선택하세요</strong><span>위치 점을 클릭하면 요약 정보가 나타납니다.</span></div>
-          )}
-        </aside>
       </div>
     </section>
   );
