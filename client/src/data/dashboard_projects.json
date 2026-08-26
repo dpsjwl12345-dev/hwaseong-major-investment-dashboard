@@ -4125,7 +4125,7 @@
           "amount_million_krw": 6500
         }
       ],
-      "overview": "○ 사업위치: 화성시 만세구 서신면 송교리 377-46번지 일원\n○ 사업규모: 해상공원 조성 A=93,002㎡(출렁다리, 주차장 등)\n○ 사업기간: 2019.08. ~ 2026.12.\n○ 사업내용: ",
+      "overview": "○ 사업위치: 화성시 만세구 서신면 송교리 377-46번지 일원\n○ 사업규모: 해상공원 조성 A=93,002㎡(출렁다리, 주차장 등)\n○ 사업기간: 2019.08. ~ 2027.12.\n○ 사업내용: 고렴섬 특화경관, 생태숲, 선셋라운지 조성",
       "category": "문화관광시설",
       "current_stage": "공사착공",
       "funding_type": "소계",
@@ -4133,12 +4133,12 @@
       "invested_to_2026_million_krw": 32750,
       "budget_2027_million_krw": 6050,
       "execution_rate": 0.0,
-      "progress_status": "○ 2026.12. : 공사준공",
+      "progress_status": "○ 2023. 1.: 도시계획시설(공원) 실시계획인가\n○ 2024. 12.: 고렴산 해상공원 조성사업 착공, 건설사업관리용역 착수\n○ 2026. 7.: 사업계획 변경 보고",
       "progress_rate": 70,
       "expected_completion": "70%",
       "progress_notes": "0",
-      "future_plan": "○ 2026.12. : 공사준공",
-      "inspection": "2026.12.",
+      "future_plan": "○ 2026. 8.: 명도소송 본안 소송 종결\n○ 2026. 12.: 고렴산 해상공원 조성사업 준공(예정)\n○ 2026. 12. ~ 2027. 4.: 대체시설 실시설계추진사항 점검(국방부), 군사시설 철거 및 토지사용 승인 요청\n○ 2027. 06.: 기부대양여사업 착공\n○ 2027. 12. ~: 기부대양여사업 준공 및 최종 합의각서 변경 체결, 기부채납 및 양여 등 후속 절차 진행.",
+      "inspection": "2027.12.",
       "delay_reason": "양호",
       "administrative_procedures": "",
       "project_type": "",
@@ -4177,15 +4177,15 @@
         },
         {
           "name": "시비",
-          "total": 43300,
+          "total": 38800,
           "invested": 32750,
-          "budget_2026": 4500,
+          "budget_2026": null,
           "budget_2027": 6050,
           "budget_2028_plus": null,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": 4500,
+          "budget_2026_third_extra": null,
           "budget_2026_additional": null
         },
         {
@@ -4216,18 +4216,19 @@
         },
         {
           "name": "기타",
-          "total": null,
+          "total": 4500,
           "invested": null,
-          "budget_2026": null,
+          "budget_2026": 4500,
           "budget_2027": null,
           "budget_2028_plus": null,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": null,
+          "budget_2026_third_extra": 4500,
           "budget_2026_additional": null
         }
       ],
+      "funding_breakdown_note": "기타: 지방채",
       "usage_breakdown": [
         {
           "name": "설계",

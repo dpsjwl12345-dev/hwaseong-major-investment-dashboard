@@ -95,6 +95,7 @@ type Project = {
   funding_breakdown: { name: string; total: number | null; invested: number | null; budget_2026: number | null; budget_2027: number | null; budget_2028_plus: number | null; budget_2026_base?: number | null; budget_2026_first_extra?: number | null; budget_2026_second_extra?: number | null; budget_2026_third_extra?: number | null; budget_2026_additional?: number | null }[];
   usage_breakdown: { name: string; total: number | null; invested: number | null; budget_2026: number | null; budget_2027: number | null; budget_2028_plus: number | null; budget_2026_base?: number | null; budget_2026_first_extra?: number | null; budget_2026_second_extra?: number | null; budget_2026_third_extra?: number | null; budget_2026_additional?: number | null }[];
   usage_breakdown_note?: string;
+  funding_breakdown_note?: string;
   card_admin_procedures: string;
   card_admin_legal_basis: string;
   card_admin_status: { mid_term_fiscal?: boolean; investment_review?: boolean; public_property?: boolean; none?: boolean };
@@ -321,7 +322,7 @@ function DetailSectionHeading({ icon: Icon, title, subtitle }: { icon: typeof Co
   return <div className="pd-section-heading"><span className="pd-section-icon"><Icon size={17} strokeWidth={2.2} /></span><div><p className="pd-section-heading-title">{title}</p>{subtitle && <p className="pd-section-heading-subtitle">{subtitle}</p>}</div></div>;
 }
 
-function FundingBreakdownCard({ rows }: { rows: BreakdownRow[] }) {
+function FundingBreakdownCard({ rows, note }: { rows: BreakdownRow[]; note?: string }) {
   const totalBudget = sumBreakdown(rows, "total");
   const columns: { key: keyof BreakdownRow; label: string }[] = [
     { key: "total", label: "재원별 총예산" },
@@ -330,7 +331,7 @@ function FundingBreakdownCard({ rows }: { rows: BreakdownRow[] }) {
     { key: "budget_2027", label: "2027년" },
     { key: "budget_2028_plus", label: "이후" },
   ];
-  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={Banknote} title="재원별 예산" /><span className="pd-budget-panel-caption">총사업비 {formatMillion(totalBudget || null)}<br />(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayBreakdownName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}</div>;
+  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={Banknote} title="재원별 예산" /><span className="pd-budget-panel-caption">총사업비 {formatMillion(totalBudget || null)}<br />(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayBreakdownName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}</div>;
 }
 
 const usageColors = ["#e5542d", "#58c7b1", "#6f8cff", "#9a7bdb", "#6b7280"];
@@ -397,7 +398,7 @@ function BudgetPanel({ project }: { project: Project }) {
           />
         </div>
       </div>
-      <div className="pd-budget-breakdown-grid"><FundingBreakdownCard rows={project.funding_breakdown} /><UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} /></div>
+      <div className="pd-budget-breakdown-grid"><FundingBreakdownCard rows={project.funding_breakdown} note={project.funding_breakdown_note} /><UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} /></div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
     </div>
   );
