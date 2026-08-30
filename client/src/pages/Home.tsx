@@ -1,5 +1,7 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent as ReactFormEvent, type MouseEvent as ReactMouseEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent as ReactFormEvent, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import createGlobe from "cobe";
 import {
   Activity,
   Banknote,
@@ -8,6 +10,7 @@ import {
   CalendarClock,
   ClipboardCheck,
   Download,
+  AlignRight,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -1293,12 +1296,14 @@ function DepartmentDashboard({
   );
 }
 
-function PodaSearch({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+function PodaSearch({ value, onChange, onFocus, onBlur }: { value: string; onChange: (value: string) => void; onFocus?: () => void; onBlur?: () => void }) {
   return (
     <div className="sidebar-search-simple">
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        onFocus={onFocus}
+        onBlur={onBlur}
         placeholder="검색"
         type="text"
         name="text"
@@ -1309,7 +1314,133 @@ function PodaSearch({ value, onChange }: { value: string; onChange: (value: stri
     </div>
   );
 }
-function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
+// Dot-matrix rotating globe behind the landing hero (WebGL via cobe),
+// cropped by the panel so only its top arc shows, with a marker over
+// Hwaseong. Auto-rotates; respects reduced-motion by freezing phi.
+function Globe() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const globe = createGlobe(canvas, {
+      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
+      width: 1600,
+      height: 1600,
+      phi: 0,
+      theta: 0.32,
+      dark: 1,
+      diffuse: 1.2,
+      scale: 1,
+      mapSamples: 15000,
+      mapBrightness: 14,
+      baseColor: [0.55, 0.58, 0.66],
+      markerColor: [0.31, 0.85, 0.77],
+      glowColor: [0.4, 0.45, 0.55],
+      markers: [],
+    });
+    let phi = 0;
+    let frame = 0;
+    if (!prefersReducedMotion) {
+      const animate = () => {
+        phi += 0.0022;
+        globe.update({ phi });
+        frame = requestAnimationFrame(animate);
+      };
+      frame = requestAnimationFrame(animate);
+    }
+    return () => {
+      cancelAnimationFrame(frame);
+      globe.destroy();
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="landing-globe-canvas" aria-hidden="true" />;
+}
+
+// Floating rounded nav bar (HOME / MAP VIEW / department links with a
+// hover accordion of that department's projects / 로그인) — used on the
+// landing hero and reused as-is on every other view so navigation stays
+// visually consistent instead of switching to a different header/menu.
+function FloatingNavBar({
+  onGoHome,
+  onOpenMap,
+  onSelectDepartment,
+  onSelectProject,
+  activeDepartmentName,
+  activeProjectDepartmentName,
+}: {
+  onGoHome: () => void;
+  onOpenMap: () => void;
+  onSelectDepartment: (departmentName: string) => void;
+  onSelectProject: (project: Project) => void;
+  activeDepartmentName: string | null;
+  activeProjectDepartmentName: string | null;
+}) {
+  const floatingNavDepartments = ["문화예술과", "문화유산과", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
+  const projectsByDepartment = organization.flatMap((bureau) => bureau.departments);
+  const [openDept, setOpenDept] = useState<string | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  if (!isMenuOpen) {
+    return (
+      <button type="button" className="landing-floating-bar landing-floating-bar-collapsed" onClick={() => setIsMenuOpen(true)}>
+        <AlignRight size={18} strokeWidth={2.4} />
+        <span>MENU</span>
+      </button>
+    );
+  }
+
+  return (
+    <nav className="landing-floating-bar" aria-label="빠른 이동">
+      <button type="button" className="landing-floating-bar-link" onClick={onGoHome}>HOME</button>
+      <button type="button" className="landing-floating-bar-link landing-floating-bar-map" onClick={onOpenMap}>MAP VIEW</button>
+      {floatingNavDepartments.map((name) => {
+        const department = projectsByDepartment.find((item) => item.name === name);
+        const isSelected = activeDepartmentName === name;
+        const isProjectSelected = activeProjectDepartmentName === name;
+        const isOpen = openDept === name;
+        return (
+          <div key={name} className="landing-floating-bar-item">
+            <button
+              type="button"
+              className={`landing-floating-bar-link ${isSelected ? "is-selected" : ""} ${isProjectSelected ? "is-project-selected" : ""}`}
+              onClick={() => onSelectDepartment(name)}
+            >
+              {name}
+            </button>
+            {department && department.projects.length > 0 && (
+              <button
+                type="button"
+                className={`landing-floating-bar-toggle ${isOpen ? "is-open" : ""}`}
+                onClick={() => setOpenDept(isOpen ? null : name)}
+                aria-label={`${name} 사업 목록 ${isOpen ? "닫기" : "열기"}`}
+                aria-expanded={isOpen}
+              >
+                <ChevronDown size={13} strokeWidth={2.6} />
+              </button>
+            )}
+            {isOpen && department && department.projects.length > 0 && (
+              <div className="landing-floating-bar-dropdown">
+                {department.projects.map((project) => (
+                  <button type="button" key={project.id} onClick={() => { onSelectProject(project); setOpenDept(null); }}>
+                    {project.project_name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
+      <button type="button" className="landing-floating-bar-close" onClick={() => setIsMenuOpen(false)} aria-label="메뉴 닫기">
+        <X size={16} />
+      </button>
+    </nav>
+  );
+}
+
+function LandingPage() {
   const totalBudget = projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
   const averageExecution = projects.length > 0
     ? Math.round(projects.reduce((sum, project) => sum + parseProgress(project), 0) / projects.length)
@@ -1317,9 +1448,8 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   return (
     <section className="landing-page">
       <div className="hero-panel">
-        <div className="landing-photo" aria-hidden="true" />
-        <div className="landing-preloader" aria-hidden="true">
-          <span /><span /><span /><span /><span />
+        <div className="landing-globe-wrap" aria-hidden="true">
+          <Globe />
         </div>
         <div className="landing-orb landing-orb-a" />
         <div className="landing-orb landing-orb-b" />
@@ -1328,7 +1458,6 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">DASHBOARD</span></h1>
-          <button type="button" onClick={onOpenDashboard} className="landing-enter-button"><span>Enter Dashboard</span><span aria-hidden="true">→</span></button>
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
           <div className="landing-metric"><span>전체 사업</span><strong>{projects.length}</strong><small>PROJECTS</small></div>
@@ -1340,62 +1469,138 @@ function LandingPage({ onOpenDashboard }: { onOpenDashboard: () => void }) {
   );
 }
 
-const UNLOCK_STORAGE_KEY = "hs_dashboard_unlocked";
-const UNLOCK_HASH = "b451976f4f722d3d5d8164c1264e3d7551fd4e27b712532a7b5fc0fedd94a812";
+type LiquidMenuSection = {
+  id: string;
+  label: string;
+  items: { label: string; onClick: () => void }[];
+};
 
-async function sha256Hex(text: string): Promise<string> {
-  const data = new TextEncoder().encode(text);
-  const digest = await crypto.subtle.digest("SHA-256", data);
-  return Array.from(new Uint8Array(digest)).map((byte) => byte.toString(16).padStart(2, "0")).join("");
+// Floating "liquid morph" pill (ref: a black capsule that widens into a
+// bar with a CLOSE button, revealing a menu panel of sections/items below
+// — sized down to match our compact button instead of the reference's
+// full-width bar). The label and the right-side icon are separate click
+// targets: the label navigates straight to the map, the icon toggles the
+// menu panel open/closed.
+// Builds a single crisp (unblurred) SVG outline for N side-by-side rounded
+// segments joined by concave "pinched waist" curves — a vector version of
+// the gooey-nav metaball look, exact instead of blur-approximated so it
+// stays sharp at this small button scale.
+function buildPinchedBarPath(segments: { left: number; width: number }[], height: number, neckDepth = 9) {
+  if (segments.length === 0) return "";
+  const r = height / 2;
+  const first = segments[0];
+  const last = segments[segments.length - 1];
+  const top: string[] = [`M ${first.left + r} 0`];
+  const bottom: string[] = [`L ${last.left + last.width - r} ${height}`];
+  segments.forEach((segment, index) => {
+    const right = segment.left + segment.width;
+    top.push(`L ${index === segments.length - 1 ? right - r : right} 0`);
+    if (index < segments.length - 1) {
+      const next = segments[index + 1];
+      const midX = (right + next.left) / 2;
+      top.push(`Q ${midX} ${neckDepth} ${next.left} 0`);
+    }
+  });
+  for (let index = segments.length - 1; index >= 0; index -= 1) {
+    const segment = segments[index];
+    if (index === segments.length - 1) {
+      bottom.push(`A ${r} ${r} 0 0 1 ${segment.left + segment.width} ${r}`, `L ${segment.left + segment.width} ${height - r}`, `A ${r} ${r} 0 0 1 ${segment.left + segment.width - r} ${height}`);
+    }
+    if (index > 0) {
+      const prev = segments[index - 1];
+      const midX = (segment.left + prev.left + prev.width) / 2;
+      bottom.push(`L ${segment.left} ${height}`, `Q ${midX} ${height - neckDepth} ${prev.left + prev.width} ${height}`);
+    } else {
+      bottom.push(`L ${segment.left + r} ${height}`, `A ${r} ${r} 0 0 1 ${segment.left} ${height - r}`, `L ${segment.left} ${r}`, `A ${r} ${r} 0 0 1 ${segment.left + r} 0`);
+    }
+  }
+  return [...top, ...bottom, "Z"].join(" ");
+}
+
+function LiquidMorphMenu({ label, onLabelClick, sections }: { label: string; onLabelClick: () => void; sections: LiquidMenuSection[] }) {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+  const barRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLButtonElement>(null);
+  const infoRef = useRef<HTMLSpanElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const [barPath, setBarPath] = useState("");
+  const [barBox, setBarBox] = useState({ width: 0, height: 52 });
+
+  useEffect(() => {
+    if (!open) return;
+    const measure = () => {
+      const bar = barRef.current;
+      if (!bar) return;
+      const box = bar.getBoundingClientRect();
+      const segments = [labelRef.current, infoRef.current, toggleRef.current]
+        .filter((el): el is HTMLElement => el !== null)
+        .map((el) => {
+          const rect = el.getBoundingClientRect();
+          return { left: rect.left - box.left - 10, width: rect.width + 20 };
+        });
+      setBarBox({ width: box.width, height: box.height });
+      setBarPath(buildPinchedBarPath(segments, box.height));
+    };
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [open, label]);
+
+  return (
+    <div className="liquid-menu-wrap">
+      <div className="liquid-menu-stack">
+        <motion.div
+          className="liquid-menu-shape"
+          animate={{ width: open ? 340 : 224, height: 52, borderRadius: 18 }}
+          transition={{ type: "spring", stiffness: 320, damping: 30 }}
+        >
+          {open ? (
+            <div className="liquid-menu-bar" ref={barRef}>
+              <svg className="liquid-menu-bar-svg" viewBox={`0 0 ${barBox.width} ${barBox.height}`} width={barBox.width} height={barBox.height} aria-hidden="true">
+                <path d={barPath} className="liquid-menu-bar-fill" />
+              </svg>
+              <div className="liquid-menu-bar-labels">
+                <button type="button" ref={labelRef} className="liquid-menu-label" onClick={onLabelClick}>
+                  {label}
+                </button>
+                <span ref={infoRef} className="liquid-menu-info">전체 39개 사업</span>
+                <button type="button" ref={toggleRef} className="liquid-menu-close" onClick={close} aria-label="메뉴 닫기">
+                  CLOSE <X size={14} />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <button type="button" className="liquid-menu-pill" onClick={() => setOpen(true)} aria-label="메뉴 열기">
+              <span>{label}</span>
+              <AlignRight size={18} strokeWidth={2.4} />
+            </button>
+          )}
+        </motion.div>
+
+        {open && (
+          <div className="liquid-menu-panel-box" style={{ width: 340 }}>
+            {sections.map((section) => (
+              <div key={section.id} className="liquid-menu-section">
+                <p className="liquid-menu-section-label">{section.label}</p>
+                {section.items.map((item) => (
+                  <button key={item.label} type="button" className="liquid-menu-item" onClick={() => { item.onClick(); close(); }}>
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default function Home() {
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isUnlocked, setIsUnlocked] = useState(() => {
-    try {
-      return localStorage.getItem(UNLOCK_STORAGE_KEY) === "1";
-    } catch {
-      return false;
-    }
-  });
-  const [showUnlockForm, setShowUnlockForm] = useState(false);
-  const [unlockPassword, setUnlockPassword] = useState("");
-  const [unlockError, setUnlockError] = useState(false);
-
-  const handleUnlockSubmit = async (event: ReactFormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const hash = await sha256Hex(unlockPassword);
-    if (hash === UNLOCK_HASH) {
-      setIsUnlocked(true);
-      setShowUnlockForm(false);
-      setUnlockPassword("");
-      setUnlockError(false);
-      try {
-        localStorage.setItem(UNLOCK_STORAGE_KEY, "1");
-      } catch {
-        // ignore storage failures (e.g. private browsing)
-      }
-    } else {
-      setUnlockError(true);
-      setUnlockPassword("");
-    }
-  };
-
-  const handleLock = () => {
-    setIsUnlocked(false);
-    try {
-      localStorage.removeItem(UNLOCK_STORAGE_KEY);
-    } catch {
-      // ignore storage failures
-    }
-  };
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [query, setQuery] = useState("");
-  const allBureauNames = organization.map((item) => item.name);
-  const allDepartmentKeys = organization.flatMap((bureau) => bureau.departments.map((department) => `${bureau.name}-${department.name}`));
-  const [openBureaus, setOpenBureaus] = useState<string[]>(allBureauNames);
-  const [openDepartments, setOpenDepartments] = useState<string[]>([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedDepartmentDashboard, setSelectedDepartmentDashboard] = useState("전체");
   const [activeView, setActiveView] = useState<"landing" | "project" | "department" | "map">("landing");
@@ -1418,171 +1623,50 @@ export default function Home() {
         .filter((bureau) => bureau.departments.length > 0),
     [normalizedQuery],
   );
+  const searchMatches = useMemo(
+    () =>
+      normalizedQuery
+        ? visibleOrganization.flatMap((bureau) =>
+            bureau.departments.flatMap((department) =>
+              department.projects.map((project) => ({ project, departmentName: department.name })),
+            ),
+          )
+        : [],
+    [normalizedQuery, visibleOrganization],
+  );
 
-  const toggle = (items: string[], setter: (value: string[]) => void, item: string) =>
-    setter(items.includes(item) ? items.filter((value) => value !== item) : [...items, item]);
-  const resetSidebar = () => {
+  const goLanding = () => {
+    setSelectedProject(null);
+    setActiveView("landing");
     setQuery("");
-    setOpenBureaus(allBureauNames);
-    setOpenDepartments([]);
+  };
+  const goMap = () => {
+    setSelectedProject(null);
+    setActiveView("map");
+  };
+  const goDepartment = (departmentName: string) => {
+    setSelectedDepartmentDashboard(departmentName);
+    setSelectedProject(null);
+    setActiveView("department");
+  };
+  const goProject = (project: Project) => {
+    setSelectedProject(project);
+    setActiveView("project");
+    setQuery("");
   };
 
   return (
-    <div className="min-h-screen bg-[var(--pd-ground)]/85 text-white">
-      {isSidebarOpen && (
-        <button aria-label="사이드바 닫기" className="fixed inset-0 z-30 bg-black/60 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
-      )}
-      <aside
-        className={`app-sidebar fixed inset-y-0 left-0 z-40 flex flex-col border-r border-white/[0.08] bg-gradient-to-b from-[#07090f] via-[#0e1220] to-[#030409] transition-all duration-200 lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"} ${isCollapsed ? "w-[76px]" : "w-[300px]"}`}
-      >
-                <div className={`sidebar-brand flex min-h-[104px] items-end bg-black/20 pb-3 ${isCollapsed ? "justify-center px-3" : "justify-between px-6"}`}>
+    <div className="flex min-h-screen flex-col bg-[var(--pd-ground)] text-white">
+      <FloatingNavBar
+        onGoHome={goLanding}
+        onOpenMap={goMap}
+        onSelectDepartment={goDepartment}
+        onSelectProject={goProject}
+        activeDepartmentName={activeView === "department" ? selectedDepartmentDashboard : null}
+        activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
+      />
 
-          {!isCollapsed && (
-            <button
-              type="button"
-                            className="sidebar-title-button text-left"
-
-              onClick={() => {
-                setSelectedProject(null);
-                setActiveView("landing");
-                resetSidebar();
-                setIsSidebarOpen(false);
-              }}
-            >
-                            <p className="sidebar-title-text" aria-label="화성시 주요투자사업">화성시 주요투자사업</p>
-
-              <p className="mt-1 font-body text-[11px] font-semibold tracking-[0.14em] text-[var(--pd-text-muted)]">INVESTMENT DASHBOARD</p>
-            </button>
-          )}
-          
-                </div>
-        <nav className="pd-sidebar-nav min-h-0 flex-1 overflow-y-auto px-3 pb-5 pt-5">
-          {!isCollapsed && (
-            <button
-              type="button"
-              className="btn sidebar-map-link"
-              onClick={() => {
-                setSelectedProject(null);
-                setActiveView("map");
-                setIsSidebarOpen(false);
-              }}
-            >
-              <span className="sidebar-map-label">MAP VIEW</span>
-              {activeView === "map" && <span className="sidebar-map-dot" aria-hidden="true" />}
-            </button>
-          )}
-
-          {visibleOrganization.map((bureau) => {
-            const bureauOpen = normalizedQuery.length > 0 || openBureaus.includes(bureau.name);
-            return (
-              <div key={bureau.name} className="mb-2">
-                <button
-                  className={`sidebar-bureau flex w-full items-center rounded-lg border border-white/[0.07] bg-white/[0.025] px-2.5 py-2 text-left shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-colors hover:border-white/[0.12] hover:bg-white/[0.05] ${bureauOpen ? "is-open" : ""} ${isCollapsed ? "justify-center" : "gap-2"}`}
-                  onClick={() => toggle(openBureaus, setOpenBureaus, bureau.name)}
-                  title={isCollapsed ? bureau.name : undefined}
-                >
-                  {!isCollapsed && <span className="font-body text-[15px] font-semibold tracking-[-0.02em] text-white/85">{bureau.name}</span>}
-                  <span className={`sidebar-bureau-icon ${isCollapsed ? "" : "ml-auto"} ${bureau.name === "문화관광국" ? "is-culture" : "is-education"}`} aria-hidden="true">
-                    {bureau.name === "문화관광국" ? <Building2 size={20} strokeWidth={2.2} /> : <GraduationCap size={20} strokeWidth={2.2} />}
-                  </span>
-                </button>
-                {bureauOpen && !isCollapsed && (
-                                    <div className="ml-1 pl-0">
-                    {bureau.departments.map((department) => {
-
-                      const key = `${bureau.name}-${department.name}`;
-                      const departmentOpen = normalizedQuery.length > 0 || openDepartments.includes(key);
-                      return (
-                        <div key={department.name}>
-                          <button
-                            className={`sidebar-department flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left hover:bg-[#334155] ${departmentOpen ? "is-open" : ""}`}
-                            onClick={() => {
-                              const isOpen = openDepartments.includes(key);
-                              setSelectedDepartmentDashboard(department.name);
-                              setSelectedProject(null);
-                              setActiveView("department");
-                              setOpenBureaus(allBureauNames);
-                              setOpenDepartments(isOpen ? openDepartments.filter((value) => value !== key) : [key]);
-                              setIsSidebarOpen(false);
-                            }}
-                          >
-                            {departmentOpen ? <ChevronDown size={14} className="text-[var(--pd-text-muted)]" /> : <ChevronRight size={14} className="text-[var(--pd-text-muted)]" />}
-                            <span className="font-body text-[15px] font-bold text-[var(--pd-text-muted)]">{department.name}</span>
-                            <span className="ml-auto font-body text-[11px] tabular-nums text-[var(--pd-text-faint)]">{department.projects.length}</span>
-                          </button>
-                          {departmentOpen && (
-                                                        <div className="ml-0 pl-0 pb-1">
-
-                              {department.projects.map((project) => {
-                                const isSelected = selectedProject?.id === project.id;
-                                const color = colorFor(project.department);
-                                return (
-                                  <button
-                                    key={project.id}
-                                    onClick={() => {
-                                      setSelectedProject(project);
-                                      setActiveView("project");
-                                      setOpenBureaus(allBureauNames);
-                                      setOpenDepartments([key]);
-                                      setIsSidebarOpen(false);
-                                    }}
-                                                                        className={`sidebar-project relative mb-0.5 flex min-w-0 w-full items-start rounded-lg py-1.5 pl-11 pr-1 text-left ${isSelected ? "is-selected text-white" : "text-[var(--pd-text-muted)] hover:bg-[#334155] hover:text-white"}`}
-
-                                    style={isSelected ? { background: "var(--hanzo-yellow)", borderLeft: "0", color: "var(--hanzo-ink)" } : undefined}
-                                  >
-                                    <span
-                                                                            className="absolute left-8 top-[13px] h-1.5 w-1.5 rounded-full"
-
-                                      style={{ background: isSelected ? "var(--hanzo-ink)" : "rgba(23, 24, 18, .34)" }}
-                                    />
-                                                                        <span className="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-body text-[13.5px] leading-[1.35]">
-                                      {(() => {
-                                        const match = project.project_name.match(/^(.*?)(\s*\([^)]+\))\s*$/);
-                                        if (!match) return project.project_name;
-                                        return (
-                                          <>
-                                            {match[1]}
-                                            <br />
-                                            {match[2].trim()}
-                                          </>
-                                        );
-                                      })()}
-                                    </span>
-
-                                  </button>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        {!isCollapsed && (
-          <div className="mt-5 px-3 pt-2 pb-1">
-            <PodaSearch value={query} onChange={setQuery} />
-            {normalizedQuery && <p className="sidebar-search-count">{visibleOrganization.reduce((total, bureau) => total + bureau.departments.reduce((sum, department) => sum + department.projects.length, 0), 0)}개 사업 검색됨</p>}
-          </div>
-        )}
-      </nav>
-      </aside>
-
-      <div className={`flex min-h-screen flex-col transition-all duration-200 ${isCollapsed ? "lg:pl-[76px]" : "lg:pl-[300px]"}`}>
-        <header className="flex h-[72px] flex-none items-center border-b border-white/[0.08] bg-[var(--pd-ground)]/80 px-5 backdrop-blur lg:hidden">
-          <button
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.14] bg-white/[0.06] text-white"
-            onClick={() => setIsSidebarOpen(true)}
-            aria-label="사이드바 열기"
-          >
-            <Menu size={18} />
-          </button>
-        </header>
-
-        <main className="app-main relative flex-1 overflow-hidden">
+      <main className={`app-main relative flex-1 overflow-hidden ${activeView === "landing" ? "app-main-flush" : ""}`}>
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
           {selectedProject && <div className="app-panel-topbar" aria-hidden="true" />}
@@ -1592,80 +1676,12 @@ export default function Home() {
             <DepartmentDashboard key={selectedDepartmentDashboard} initialDepartment={selectedDepartmentDashboard} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
-              <ProjectDetail
-                project={selectedProject}
-                lock={{ isUnlocked, onLock: handleLock, onRequestUnlock: () => setShowUnlockForm(true) }}
-              />
+              <ProjectDetail project={selectedProject} />
             </div>
           ) : (
-            <LandingPage onOpenDashboard={() => { setSelectedDepartmentDashboard("문화예술과"); setSelectedProject(null); setActiveView("department"); }} />
+            <LandingPage />
           )}
-
-        </main>
-      </div>
-
-      {isSidebarOpen && (
-        <button className="fixed right-4 top-4 z-50 flex h-9 w-9 items-center justify-center rounded-full bg-[#1e293b] text-white shadow-md lg:hidden" onClick={() => setIsSidebarOpen(false)} aria-label="사이드바 닫기">
-          <X size={18} />
-        </button>
-      )}
-
-      {activeView !== "project" && createPortal(
-        <div className="sidebar-unlock">
-          <input
-            id="inpLock"
-            type="checkbox"
-            checked={isUnlocked}
-            readOnly
-            aria-label={isUnlocked ? "잠금" : "비밀번호"}
-            onClick={() => (isUnlocked ? handleLock() : setShowUnlockForm(true))}
-          />
-          <label className="btn-lock" htmlFor="inpLock">
-            <svg width="29" height="33" viewBox="0 0 36 40">
-              <path className="lockb" d="M27 27C27 34.1797 21.1797 40 14 40C6.8203 40 1 34.1797 1 27C1 19.8203 6.8203 14 14 14C21.1797 14 27 19.8203 27 27ZM15.6298 26.5191C16.4544 25.9845 17 25.056 17 24C17 22.3431 15.6569 21 14 21C12.3431 21 11 22.3431 11 24C11 25.056 11.5456 25.9845 12.3702 26.5191L11 32H17L15.6298 26.5191Z" />
-              <path className="lock" d="M6 21V10C6 5.58172 9.58172 2 14 2V2C18.4183 2 22 5.58172 22 10V21" />
-              <path className="bling" d="M29 20L31 22" />
-              <path className="bling" d="M31.5 15H34.5" />
-              <path className="bling" d="M29 10L31 8" />
-            </svg>
-          </label>
-        </div>,
-        document.body
-      )}
-
-      {!isUnlocked && (
-        <div
-          className="app-lock-overlay"
-          role="presentation"
-          onClick={() => setShowUnlockForm(true)}
-        />
-      )}
-
-      {!isUnlocked && showUnlockForm && (
-        <div className="unlock-modal-backdrop" onClick={() => setShowUnlockForm(false)}>
-          <div className="unlock-container" onClick={(event) => event.stopPropagation()}>
-            <div className="unlock-login-box">
-              <form className="unlock-form" onSubmit={handleUnlockSubmit}>
-                <div className="unlock-logo" aria-hidden="true" />
-                <span className="unlock-header">비밀번호를 입력하세요</span>
-                <input
-                  type="password"
-                  className="unlock-input"
-                  placeholder="Password"
-                  value={unlockPassword}
-                  onChange={(event) => {
-                    setUnlockPassword(event.target.value);
-                    setUnlockError(false);
-                  }}
-                  autoFocus
-                />
-                <button type="submit" className="unlock-button">확인</button>
-                {unlockError && <p className="unlock-error-text">비밀번호가 올바르지 않습니다.</p>}
-              </form>
-            </div>
-          </div>
-        </div>
-      )}
+      </main>
     </div>
   );
 }
