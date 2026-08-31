@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent as ReactFormEvent, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import createGlobe from "cobe";
 import {
   Activity,
   Banknote,
@@ -1322,51 +1321,6 @@ function PodaSearch({ value, onChange, onFocus, onBlur }: { value: string; onCha
     </div>
   );
 }
-// Dot-matrix rotating globe behind the landing hero (WebGL via cobe),
-// cropped by the panel so only its top arc shows, with a marker over
-// Hwaseong. Auto-rotates; respects reduced-motion by freezing phi.
-function Globe() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const globe = createGlobe(canvas, {
-      devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
-      width: 1600,
-      height: 1600,
-      phi: 0,
-      theta: 0.32,
-      dark: 1,
-      diffuse: 1.2,
-      scale: 1,
-      mapSamples: 15000,
-      mapBrightness: 14,
-      baseColor: [0.55, 0.58, 0.66],
-      markerColor: [0.31, 0.85, 0.77],
-      glowColor: [0.4, 0.45, 0.55],
-      markers: [],
-    });
-    let phi = 0;
-    let frame = 0;
-    if (!prefersReducedMotion) {
-      const animate = () => {
-        phi += 0.0022;
-        globe.update({ phi });
-        frame = requestAnimationFrame(animate);
-      };
-      frame = requestAnimationFrame(animate);
-    }
-    return () => {
-      cancelAnimationFrame(frame);
-      globe.destroy();
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="landing-globe-canvas" aria-hidden="true" />;
-}
-
 // Floating pill nav, top-center, translucent glass style. Always shows all
 // 3 items — HOME / MENU / MAP VIEW — in one static bar (ref: saasland.framer.media
 // top-left pill, where only the active item gets a capsule background and
@@ -1512,25 +1466,10 @@ function LandingPage() {
   return (
     <section className="landing-page">
       <div className="hero-panel">
-        <div className="landing-globe-wrap" aria-hidden="true">
-          <Globe />
-        </div>
         <div className="landing-orb landing-orb-a" />
         <div className="landing-orb landing-orb-b" />
         <div className="landing-orb landing-orb-c" />
         <div className="landing-noise" />
-        <svg className="landing-arc" viewBox="0 0 1200 500" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="landingArcFade" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0" stopColor="#fff" stopOpacity="0" />
-              <stop offset=".5" stopColor="#fff" stopOpacity=".5" />
-              <stop offset="1" stopColor="#fff" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-          <path d="M 60 420 Q 600 -100 1140 170" stroke="url(#landingArcFade)" strokeWidth="0.7" fill="none" />
-          <circle className="landing-arc-dot" cx="60" cy="420" r="2.2" />
-          <circle className="landing-arc-dot" cx="1140" cy="170" r="2.2" />
-        </svg>
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">BUDGET</span></h1>
