@@ -3282,6 +3282,12 @@ h1, h2, h3, h4, h5, h6,
 .dept-project-table tbody tr:focus td:nth-child(n+4):nth-child(-n+7) { background: rgba(85,132,220,.18); }
 .dept-project-table th:nth-child(8), .dept-project-table td:nth-child(8) { width: 12%; text-align: center; }
 
+/* Bump table type up a notch for legibility — size only, weights untouched */
+.dept-project-table { font-size: 14px !important; }
+.dept-project-table th { font-size: 14px !important; }
+.dept-project-table td strong { font-size: 16px !important; }
+.dept-project-table td small { font-size: 12.5px !important; }
+
 /* Totals row summarizing the currently filtered projects */
 .dept-total-row td { background: rgba(255,190,61,.08) !important; border-bottom: 2px solid rgba(255,190,61,.28); font-weight: 800; }
 .dept-total-row td strong { color: #ffe08a !important; }
