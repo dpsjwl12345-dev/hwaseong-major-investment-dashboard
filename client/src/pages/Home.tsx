@@ -1463,12 +1463,12 @@ function LandingPage() {
               <stop offset="1" stopColor="#fff" stopOpacity="0" />
             </linearGradient>
           </defs>
-          <path d="M 60 400 Q 600 -60 1140 120" stroke="url(#landingArcFade)" strokeWidth="1.4" fill="none" />
-          <circle className="landing-arc-dot" cx="60" cy="400" r="3.5" />
-          <circle className="landing-arc-dot" cx="1140" cy="120" r="3.5" />
+          <path d="M 60 400 Q 600 -160 1140 120" stroke="url(#landingArcFade)" strokeWidth="1.4" fill="none" />
+          <circle className="landing-arc-dot" cx="60" cy="400" r="2.2" />
+          <circle className="landing-arc-dot" cx="1140" cy="120" r="2.2" />
         </svg>
         <div className="landing-content">
-          <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
+          <p className="landing-eyebrow"><span /> 화성 <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">BUDGET</span></h1>
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
