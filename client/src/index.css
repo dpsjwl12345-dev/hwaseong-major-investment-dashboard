@@ -3930,9 +3930,12 @@ main.app-main.app-main-flush .landing-metric-track {
 }
 .floating-nav-dropdown-row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
+}
+.floating-nav-dropdown-row button {
+  padding: 8px 10px;
 }
 .floating-nav-dropdown button {
   flex: none;
@@ -3964,10 +3967,13 @@ main.app-main.app-main-flush .landing-metric-track {
 .floating-nav-dropdown-projects {
   display: flex;
   flex-wrap: wrap;
+  align-content: flex-start;
   gap: 6px 16px;
   max-width: 100%;
+  max-height: 132px;
   margin-top: 8px;
   padding-top: 8px;
+  overflow-y: auto;
   border-top: 1px solid rgba(255, 255, 255, .1);
 }
 .floating-nav-dropdown-projects button {

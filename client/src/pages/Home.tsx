@@ -1404,12 +1404,26 @@ function FloatingNavBar({
 
   return (
     <nav className="floating-nav" aria-label="빠른 이동">
-      <button type="button" className="floating-nav-link" onClick={onGoHome}>HOME</button>
+      <button
+        type="button"
+        className="floating-nav-link"
+        onClick={() => { onGoHome(); setIsDeptOpen(false); setShowProjects(false); setIsExpanded(false); }}
+      >
+        HOME
+      </button>
       <div className="floating-nav-item">
         <button
           type="button"
           className={`floating-nav-link ${isDeptOpen || activeDepartmentName ? "is-selected" : ""}`}
-          onClick={() => setIsDeptOpen((open) => { const next = !open; if (!next) setShowProjects(false); return next; })}
+          onClick={() => {
+            if (isDeptOpen) {
+              setIsDeptOpen(false);
+              setShowProjects(false);
+              setIsExpanded(false);
+            } else {
+              setIsDeptOpen(true);
+            }
+          }}
           aria-expanded={isDeptOpen}
         >
           MENU
@@ -1456,7 +1470,13 @@ function FloatingNavBar({
           </div>
         )}
       </div>
-      <button type="button" className="floating-nav-link" onClick={onOpenMap}>MAP VIEW</button>
+      <button
+        type="button"
+        className="floating-nav-link"
+        onClick={() => { onOpenMap(); setIsDeptOpen(false); setShowProjects(false); setIsExpanded(false); }}
+      >
+        MAP VIEW
+      </button>
     </nav>
   );
 }
