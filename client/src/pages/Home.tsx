@@ -1359,11 +1359,11 @@ function Globe() {
   return <canvas ref={canvasRef} className="landing-globe-canvas" aria-hidden="true" />;
 }
 
-// Floating pill nav, top-center, translucent glass style. Collapsed to a
-// single "MENU" pill on first paint; clicking it morphs (framer-motion
-// shared layout) into a 3-item bar — HOME / MENU / MAP VIEW — spreading
-// out to both sides. The middle MENU button then toggles a horizontal
-// strip of department links below the bar. Reused as-is on every view.
+// Floating pill nav, top-center, translucent glass style. Always shows all
+// 3 items — HOME / MENU / MAP VIEW — in one static bar (ref: saasland.framer.media
+// top-left pill, where only the active item gets a capsule background and
+// the rest sit plain on the shared bar) so nothing shifts position on
+// click. MENU toggles a horizontal strip of department links below the bar.
 function FloatingNavBar({
   onGoHome,
   onOpenMap,
@@ -1378,47 +1378,37 @@ function FloatingNavBar({
   activeProjectDepartmentName: string | null;
 }) {
   const floatingNavDepartments = ["문화예술과", "문화유산과", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
 
   return (
-    <motion.nav className="floating-nav" layout transition={{ type: "spring", stiffness: 380, damping: 34 }} aria-label="빠른 이동">
-      {!isExpanded ? (
-        <motion.button layout type="button" className="floating-nav-link" onClick={() => setIsExpanded(true)}>
+    <nav className="floating-nav" aria-label="빠른 이동">
+      <button type="button" className="floating-nav-link" onClick={onGoHome}>HOME</button>
+      <div className="floating-nav-item">
+        <button
+          type="button"
+          className={`floating-nav-link ${isDeptOpen || activeDepartmentName ? "is-selected" : ""}`}
+          onClick={() => setIsDeptOpen((open) => !open)}
+          aria-expanded={isDeptOpen}
+        >
           MENU
-        </motion.button>
-      ) : (
-        <>
-          <motion.button layout type="button" className="floating-nav-link" onClick={onGoHome}>HOME</motion.button>
-          <motion.div layout className="floating-nav-item">
-            <motion.button
-              layout
-              type="button"
-              className={`floating-nav-link ${isDeptOpen || activeDepartmentName ? "is-selected" : ""}`}
-              onClick={() => setIsDeptOpen((open) => !open)}
-              aria-expanded={isDeptOpen}
-            >
-              MENU
-            </motion.button>
-            {isDeptOpen && (
-              <div className="floating-nav-dropdown floating-nav-dropdown-row">
-                {floatingNavDepartments.map((name) => (
-                  <button
-                    type="button"
-                    key={name}
-                    className={activeDepartmentName === name ? "is-selected" : ""}
-                    onClick={() => { onSelectDepartment(name); setIsDeptOpen(false); }}
-                  >
-                    {name}
-                  </button>
-                ))}
-              </div>
-            )}
-          </motion.div>
-          <motion.button layout type="button" className="floating-nav-link" onClick={onOpenMap}>MAP VIEW</motion.button>
-        </>
-      )}
-    </motion.nav>
+        </button>
+        {isDeptOpen && (
+          <div className="floating-nav-dropdown floating-nav-dropdown-row">
+            {floatingNavDepartments.map((name) => (
+              <button
+                type="button"
+                key={name}
+                className={activeDepartmentName === name ? "is-selected" : ""}
+                onClick={() => { onSelectDepartment(name); setIsDeptOpen(false); }}
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <button type="button" className="floating-nav-link" onClick={onOpenMap}>MAP VIEW</button>
+    </nav>
   );
 }
 
