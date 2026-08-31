@@ -3883,8 +3883,8 @@ main.app-main.app-main-flush .landing-metric-track {
   display: flex;
   align-items: center;
   gap: 4px;
-  height: 56px;
-  padding: 0 12px;
+  height: 44px;
+  padding: 0 8px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, .18);
   background: rgba(255, 255, 255, .1);
@@ -3894,7 +3894,7 @@ main.app-main.app-main-flush .landing-metric-track {
 }
 .floating-nav-link {
   flex: none;
-  padding: 9px 20px;
+  padding: 7px 18px;
   border-radius: 12px;
   border: 1px solid transparent;
   background: transparent;
@@ -3907,9 +3907,9 @@ main.app-main.app-main-flush .landing-metric-track {
 }
 .floating-nav-link:hover { color: #fff; background: rgba(255, 255, 255, .1); }
 .floating-nav-link.is-selected {
-  color: var(--hanzo-ink, #171812);
-  background: linear-gradient(180deg, #ffe08a, var(--hanzo-yellow, #f2c94c));
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 6px 14px -4px rgba(242, 201, 76, .5);
+  color: #fff;
+  background: rgba(255, 255, 255, .12);
+  box-shadow: none;
 }
 .floating-nav-item { position: relative; display: flex; }
 .floating-nav-dropdown {
