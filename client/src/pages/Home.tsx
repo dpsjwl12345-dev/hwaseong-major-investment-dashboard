@@ -1456,84 +1456,65 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
-// Vertical bar chart driven by real per-category totals (not decorative
-// filler). One signature violet→pink gradient (--metric-gradient, defined in
-// CSS) is used across every metric card for cohesion; within a chart, only
-// the single largest bar gets the full bright gradient — every other bar is
-// a flat dim tone from the same family. That bright/dim contrast is what
-// carries the "which one stands out" signal, instead of six unrelated hues.
-// Carries a native tooltip with the exact label/value.
-function MetricCategoryBars({ data, formatValue }: { data: { label: string; value: number }[]; formatValue: (value: number) => string }) {
-  const max = Math.max(1, ...data.map((d) => d.value));
-  return (
-    <div className="landing-metric-bars" aria-hidden="true">
-      {data.map((d, i) => (
-        <span
-          key={d.label}
-          title={`${d.label} ${formatValue(d.value)}`}
-          className={d.value === max && max > 0 ? "is-peak" : ""}
-          style={{
-            "--h": `${Math.max(4, Math.round((d.value / max) * 100))}%`,
-            animationDelay: `${i * 0.06}s`,
-          } as CSSProperties}
-        />
-      ))}
-    </div>
-  );
-}
+// Positions the hero's compositional grid (two full-height verticals tied
+// to the stat row's own column dividers, plus a stepped pair of horizontal
+// segments in the clear space above the eyebrow / below the cta-pill) by
+// measuring real DOM rects instead of guessing fixed percentages — the
+// only way to keep the lines from ever crossing the title text at any
+// viewport width.
+function useHeroGridPosition() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const eyebrowRef = useRef<HTMLParagraphElement>(null);
+  const pillRef = useRef<HTMLSpanElement>(null);
+  const statLeftRef = useRef<HTMLDivElement>(null);
+  const statRightRef = useRef<HTMLDivElement>(null);
+  const vLeftRef = useRef<HTMLSpanElement>(null);
+  const vRightRef = useRef<HTMLSpanElement>(null);
+  const hTopRef = useRef<HTMLSpanElement>(null);
+  const hBottomRef = useRef<HTMLSpanElement>(null);
+  const dotTopLRef = useRef<HTMLSpanElement>(null);
+  const dotTopMidRef = useRef<HTMLSpanElement>(null);
+  const dotBotLRef = useRef<HTMLSpanElement>(null);
+  const focusTopRef = useRef<HTMLDivElement>(null);
+  const focusBottomRef = useRef<HTMLDivElement>(null);
 
-// Horizontal composition bar for the project-count card — one continuous
-// track split into segments sized by each category's share of the total.
-// Same bright-peak / dim-rest treatment as the bars above, so the two
-// "분야별" cards read as distinct chart shapes sharing one color language.
-function MetricCompositionBar({ data }: { data: { label: string; value: number }[] }) {
-  const total = Math.max(1, data.reduce((sum, d) => sum + d.value, 0));
-  const max = Math.max(1, ...data.map((d) => d.value));
-  return (
-    <div className="landing-metric-composition" aria-hidden="true">
-      {data.filter((d) => d.value > 0).map((d, i) => (
-        <span
-          key={d.label}
-          title={`${d.label} ${d.value}개`}
-          className={d.value === max && max > 0 ? "is-peak" : ""}
-          style={{
-            "--w": `${(d.value / total) * 100}%`,
-            animationDelay: `${i * 0.06}s`,
-          } as CSSProperties}
-        />
-      ))}
-    </div>
-  );
-}
+  useEffect(() => {
+    const position = () => {
+      const hero = heroRef.current;
+      const eyebrow = eyebrowRef.current;
+      const pill = pillRef.current;
+      const leftStat = statLeftRef.current;
+      const rightStat = statRightRef.current;
+      if (!hero || !eyebrow || !pill || !leftStat || !rightStat) return;
+      const heroRect = hero.getBoundingClientRect();
+      const eyebrowRect = eyebrow.getBoundingClientRect();
+      const pillRect = pill.getBoundingClientRect();
+      const leftRect = leftStat.getBoundingClientRect();
+      const rightRect = rightStat.getBoundingClientRect();
 
-// Radial gauge for the execution-rate metric card. `percent` should already
-// be the animated (count-up) value so the ring fills in lockstep with the
-// number ticking up. Uses the same violet→pink gradient as the bar charts
-// so all three cards share one consistent accent instead of three unrelated
-// hues.
-function MetricRadialGauge({ percent }: { percent: number }) {
-  const radius = 30;
-  const circumference = 2 * Math.PI * radius;
-  const clamped = Math.min(100, Math.max(0, percent));
-  const offset = circumference * (1 - clamped / 100);
-  return (
-    <svg className="landing-metric-gauge" viewBox="0 0 76 76" width="76" height="76" aria-hidden="true">
-      <defs>
-        <linearGradient id="metric-gauge-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#ffe08a" />
-          <stop offset="100%" stopColor="#ffbe3d" />
-        </linearGradient>
-      </defs>
-      <circle className="landing-metric-gauge-track" cx="38" cy="38" r={radius} />
-      <circle
-        className="landing-metric-gauge-value"
-        cx="38" cy="38" r={radius}
-        strokeDasharray={circumference}
-        strokeDashoffset={offset}
-        transform="rotate(-90 38 38)"
-      />
-    </svg>
-  );
+      const leftX = leftRect.left - heroRect.left;
+      const rightX = rightRect.left - heroRect.left;
+      const leftPct = (leftX / heroRect.width) * 100;
+      const rightPct = (rightX / heroRect.width) * 100;
+      const topY = heroRect.top + (eyebrowRect.top - heroRect.top) * 0.7 - heroRect.top;
+      const bottomY = pillRect.bottom + (heroRect.bottom - pillRect.bottom) / 2 - heroRect.top;
+
+      if (vLeftRef.current) vLeftRef.current.style.left = `${leftX}px`;
+      if (vRightRef.current) vRightRef.current.style.left = `${rightX}px`;
+      if (hTopRef.current) { hTopRef.current.style.top = `${topY}px`; hTopRef.current.style.left = `${leftX}px`; }
+      if (hBottomRef.current) { hBottomRef.current.style.top = `${bottomY}px`; hBottomRef.current.style.left = `${rightX}px`; }
+      if (dotTopLRef.current) { dotTopLRef.current.style.top = `${topY}px`; dotTopLRef.current.style.left = `${leftPct}%`; }
+      if (dotTopMidRef.current) { dotTopMidRef.current.style.top = `${topY}px`; dotTopMidRef.current.style.left = `${rightPct}%`; }
+      if (dotBotLRef.current) { dotBotLRef.current.style.top = `${bottomY}px`; dotBotLRef.current.style.left = `${rightPct}%`; }
+      if (focusTopRef.current) { focusTopRef.current.style.top = `${topY}px`; focusTopRef.current.style.left = `${leftPct}%`; }
+      if (focusBottomRef.current) { focusBottomRef.current.style.top = `${bottomY}px`; focusBottomRef.current.style.left = `${rightPct}%`; }
+    };
+    position();
+    window.addEventListener("resize", position);
+    return () => window.removeEventListener("resize", position);
+  }, []);
+
+  return { heroRef, eyebrowRef, pillRef, statLeftRef, statRightRef, vLeftRef, vRightRef, hTopRef, hBottomRef, dotTopLRef, dotTopMidRef, dotBotLRef, focusTopRef, focusBottomRef };
 }
 
 function LandingPage() {
@@ -1544,45 +1525,52 @@ function LandingPage() {
   const projectCount = useCountUp(projects.length, 1100);
   const budgetCount = useCountUp(totalBudget, 1400);
   const executionCount = useCountUp(averageExecution, 1000);
-  const categoryOrder = Object.keys(CATEGORY_STYLES);
-  const projectsByCategory = categoryOrder.map((cat) => ({
-    label: cat,
-    value: projects.filter((project) => project.category === cat).length,
-  }));
-  const budgetByCategory = categoryOrder.map((cat) => ({
-    label: cat,
-    value: projects.filter((project) => project.category === cat).reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0),
-  }));
+  const sectorCount = Object.keys(CATEGORY_STYLES).length;
+  const grid = useHeroGridPosition();
+
   return (
     <section className="landing-page">
-      <div className="hero-panel">
-        <div className="landing-orb landing-orb-a" />
-        <div className="landing-orb landing-orb-b" />
-        <div className="landing-orb landing-orb-c" />
-        <div className="landing-noise" />
-        <div className="landing-content">
-          <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
-          <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">BUDGET</span></h1>
-          <span className="landing-cta-pill">화성시 주요투자사업 대시보드</span>
+      <div className="hero-panel landing-hero-panel" ref={grid.heroRef}>
+        <div className="landing-hero-bg" aria-hidden="true" />
+        <div className="landing-noise" aria-hidden="true" />
+        <span className="landing-hero-v" ref={grid.vLeftRef} aria-hidden="true" />
+        <span className="landing-hero-v" ref={grid.vRightRef} aria-hidden="true" />
+        <span className="landing-hero-h" ref={grid.hTopRef} aria-hidden="true" />
+        <span className="landing-hero-h" ref={grid.hBottomRef} aria-hidden="true" />
+        <span className="landing-hero-dot" ref={grid.dotTopLRef} aria-hidden="true" />
+        <span className="landing-hero-dot" ref={grid.dotTopMidRef} aria-hidden="true" />
+        <span className="landing-hero-dot" style={{ left: "98.5%" }} aria-hidden="true" />
+        <span className="landing-hero-dot" ref={grid.dotBotLRef} aria-hidden="true" />
+        <span className="landing-hero-dot" style={{ left: "98.5%" }} aria-hidden="true" />
+        <div className="landing-hero-focus" ref={grid.focusTopRef} aria-hidden="true"><i /><i /><i /><i /></div>
+        <div className="landing-hero-focus" ref={grid.focusBottomRef} aria-hidden="true"><i /><i /><i /><i /></div>
+
+        <div className="landing-hero-content">
+          <p className="landing-hero-eyebrow" ref={grid.eyebrowRef}>HWASEONG SPECIAL CITY</p>
+          <h1 className="landing-hero-title"><span className="landing-hero-title-line landing-hero-title-line-a">MAJOR INVESTMENT</span><span className="landing-hero-title-line landing-hero-title-line-b">BUDGET</span></h1>
+          <span className="landing-hero-pill" ref={grid.pillRef}>화성시 주요투자사업 대시보드</span>
         </div>
-        <div className="landing-metrics-wrap">
-          <p className="landing-metrics-heading"><span /> OVERVIEW</p>
-          <div className="landing-metrics" aria-label="주요 투자사업 요약">
-            <div className="landing-metric">
-              <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Layers3 aria-hidden="true" /></span><span className="landing-metric-label">전체사업</span></div>
-              <strong>{Math.round(projectCount)}<em>개</em></strong>
-              <div className="landing-metric-visual"><MetricCompositionBar data={projectsByCategory} /></div>
-            </div>
-            <div className="landing-metric">
-              <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Coins aria-hidden="true" /></span><span className="landing-metric-label">총사업비</span></div>
-              <strong>{formatBudgetNumber(Math.round(budgetCount))}<em>백만원</em></strong>
-              <div className="landing-metric-visual"><MetricCategoryBars data={budgetByCategory} formatValue={(v) => `${formatBudgetNumber(v)}백만원`} /></div>
-            </div>
-            <div className="landing-metric">
-              <div className="landing-metric-head"><span className="landing-metric-icon-badge"><TrendingUp aria-hidden="true" /></span><span className="landing-metric-label">평균 집행률</span></div>
-              <strong>{Math.round(executionCount)}<em>%</em></strong>
-              <div className="landing-metric-visual landing-metric-visual-gauge"><MetricRadialGauge percent={executionCount} /></div>
-            </div>
+
+        <div className="landing-hero-statrow">
+          <div className="landing-hero-stat">
+            <em>전체사업</em>
+            <b>{Math.round(projectCount)}<small>개</small></b>
+            <span>Total Projects</span>
+          </div>
+          <div className="landing-hero-stat" ref={grid.statLeftRef}>
+            <em>총사업비</em>
+            <b>{formatBudgetNumber(Math.round(budgetCount))}<small>백만원</small></b>
+            <span>Total Budget</span>
+          </div>
+          <div className="landing-hero-stat">
+            <em>평균 집행률</em>
+            <b>{Math.round(executionCount)}<small>%</small></b>
+            <span>Execution Rate</span>
+          </div>
+          <div className="landing-hero-stat" ref={grid.statRightRef}>
+            <em>투자분야</em>
+            <b>{sectorCount}<small>개</small></b>
+            <span>Sectors</span>
           </div>
         </div>
       </div>

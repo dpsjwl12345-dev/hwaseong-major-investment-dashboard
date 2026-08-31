@@ -4222,3 +4222,147 @@ main.app-main.app-main-flush .landing-enter-button {
 /* Clear the fixed floating nav bar (now shown on every view, not just
    landing) on non-flush pages so their content doesn't sit under it. */
 main.app-main:not(.app-main-flush) { padding-top: 140px !important; }
+
+/* ---------------------------------------------------------------------
+   Landing hero v2 — asymmetric composition with a real-measured
+   compositional grid tied to the stat row beneath it. Fresh class names
+   throughout (landing-hero-*) instead of reusing the old .landing-title /
+   .landing-eyebrow / .landing-cta-pill names, which carry a decade of
+   scattered !important overrides elsewhere in this file — inheriting
+   those here would fight this layout at every turn.
+   ------------------------------------------------------------------- */
+.landing-hero-panel {
+  --hero-ink: #F4F1EA;
+  --hero-ink-soft: rgba(244, 241, 234, .62);
+  --hero-ink-faint: rgba(244, 241, 234, .42);
+  --hero-line: rgba(244, 241, 234, .14);
+  --hero-dot: rgba(244, 241, 234, .55);
+  --hero-gold: #E8AC42;
+  position: relative;
+  overflow: hidden;
+  border: none;
+  border-radius: 34px;
+  box-shadow: none;
+  background: #06070c;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 1023px) { .landing-hero-panel { border-radius: 24px; } }
+
+.landing-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(120% 90% at 100% 0%, #182238 0%, #101828 32%, #0a0f1a 54%, #07090f 74%, #06070c 88%);
+}
+.landing-hero-bg::before, .landing-hero-bg::after { content: ""; position: absolute; border-radius: 50%; filter: blur(110px); }
+.landing-hero-bg::before { width: 38vw; height: 38vw; top: -18%; right: -10%; background: radial-gradient(circle, #3a5bc7 0%, #26397e 55%, transparent 78%); opacity: .16; }
+.landing-hero-bg::after { width: 22vw; height: 22vw; top: 18%; right: 22%; background: radial-gradient(circle, #24346b 0%, transparent 72%); opacity: .1; }
+
+.landing-hero-v { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--hero-line); z-index: 2; pointer-events: none; }
+.landing-hero-h { position: absolute; height: 1px; background: var(--hero-line); z-index: 2; pointer-events: none; right: 1.5%; }
+.landing-hero-h:first-of-type { left: 0; }
+.landing-hero-h + .landing-hero-h { left: 68%; }
+.landing-hero-dot { position: absolute; width: 5px; height: 5px; background: var(--hero-dot); transform: translate(-50%, -50%); z-index: 2; pointer-events: none; }
+.landing-hero-focus { position: absolute; width: 22px; height: 22px; transform: translate(-50%, -50%); z-index: 2; pointer-events: none; }
+.landing-hero-focus i { position: absolute; width: 6px; height: 6px; border: 1px solid var(--hero-dot); }
+.landing-hero-focus i:nth-child(1) { top: 0; left: 0; border-right: none; border-bottom: none; }
+.landing-hero-focus i:nth-child(2) { top: 0; right: 0; border-left: none; border-bottom: none; }
+.landing-hero-focus i:nth-child(3) { bottom: 0; left: 0; border-right: none; border-top: none; }
+.landing-hero-focus i:nth-child(4) { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+.landing-hero-content {
+  position: relative;
+  z-index: 3;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 4vh 8vw 0 5vw;
+  text-align: right;
+  color: var(--hero-ink);
+}
+.landing-hero-eyebrow {
+  margin: 0 0 22px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--hero-ink-faint);
+}
+.landing-hero-title {
+  margin: 0;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-weight: 800;
+  font-size: clamp(38px, 5.6vw, 76px);
+  line-height: 1.18;
+  letter-spacing: -.025em;
+  color: var(--hero-ink);
+}
+.landing-hero-title-line { display: block; }
+.landing-hero-title-line-b { color: var(--hero-gold); }
+.landing-hero-pill {
+  display: block;
+  margin: 20px 0 0;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: var(--hero-ink-soft);
+}
+
+.landing-hero-statrow {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--hero-line);
+}
+.landing-hero-stat { padding: 22px 5vw 30px 0; }
+.landing-hero-statrow > .landing-hero-stat:first-child { padding-left: 5vw; }
+.landing-hero-statrow > .landing-hero-stat:not(:first-child) { padding-left: 28px; border-left: 1px solid var(--hero-line); }
+.landing-hero-stat em {
+  display: block;
+  font-style: normal;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--hero-ink-soft);
+}
+.landing-hero-stat b {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 8px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-weight: 800;
+  font-size: clamp(22px, 2.3vw, 30px);
+  color: var(--hero-ink);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+}
+.landing-hero-stat b small { font-family: "Pretendard Variable", sans-serif; font-size: 13px; font-weight: 600; color: var(--hero-ink-faint); }
+.landing-hero-stat span {
+  display: block;
+  margin-top: 8px;
+  font-family: "Pretendard Variable", Pretendard, sans-serif;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: var(--hero-ink-faint);
+}
+
+@media (max-width: 780px) {
+  .landing-hero-v:last-of-type { display: none; }
+  .landing-hero-content { padding: 3.5vh 6vw 0 5vw; }
+  .landing-hero-title { font-size: clamp(30px, 8vw, 44px); }
+  .landing-hero-statrow { grid-template-columns: repeat(2, 1fr); }
+  .landing-hero-statrow > .landing-hero-stat:nth-child(2) { border-left: none; padding-left: 5vw; }
+  .landing-hero-statrow > .landing-hero-stat:nth-child(3) { padding-left: 5vw; border-left: none; border-top: 1px solid var(--hero-line); padding-top: 22px; }
+}
+
+/* HIB wordmark now matches the hero's BUDGET gold exactly. */
+.site-logo-mark { color: #E8AC42 !important; }
