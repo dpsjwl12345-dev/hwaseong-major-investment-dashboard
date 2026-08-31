@@ -1565,21 +1565,24 @@ function LandingPage() {
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">BUDGET</span></h1>
           <span className="landing-cta-pill">화성시 주요투자사업 대시보드</span>
         </div>
-        <div className="landing-metrics" aria-label="주요 투자사업 요약">
-          <div className="landing-metric">
-            <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Layers3 aria-hidden="true" /></span><span className="landing-metric-label">전체 사업 · 분야별</span></div>
-            <strong>{Math.round(projectCount)}<em>개</em></strong>
-            <div className="landing-metric-visual"><MetricCompositionBar data={projectsByCategory} /></div>
-          </div>
-          <div className="landing-metric">
-            <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Coins aria-hidden="true" /></span><span>총사업비 · 분야별</span></div>
-            <strong>{formatBudgetNumber(Math.round(budgetCount))}<em>백만원</em></strong>
-            <div className="landing-metric-visual"><MetricCategoryBars data={budgetByCategory} formatValue={(v) => `${formatBudgetNumber(v)}백만원`} /></div>
-          </div>
-          <div className="landing-metric">
-            <div className="landing-metric-head"><span className="landing-metric-icon-badge"><TrendingUp aria-hidden="true" /></span><span>평균 집행률</span></div>
-            <strong>{Math.round(executionCount)}<em>%</em></strong>
-            <div className="landing-metric-visual landing-metric-visual-gauge"><MetricRadialGauge percent={executionCount} /></div>
+        <div className="landing-metrics-wrap">
+          <p className="landing-metrics-heading"><span /> OVERVIEW</p>
+          <div className="landing-metrics" aria-label="주요 투자사업 요약">
+            <div className="landing-metric">
+              <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Layers3 aria-hidden="true" /></span><span className="landing-metric-label">전체사업</span></div>
+              <strong>{Math.round(projectCount)}<em>개</em></strong>
+              <div className="landing-metric-visual"><MetricCompositionBar data={projectsByCategory} /></div>
+            </div>
+            <div className="landing-metric">
+              <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Coins aria-hidden="true" /></span><span className="landing-metric-label">총사업비</span></div>
+              <strong>{formatBudgetNumber(Math.round(budgetCount))}<em>백만원</em></strong>
+              <div className="landing-metric-visual"><MetricCategoryBars data={budgetByCategory} formatValue={(v) => `${formatBudgetNumber(v)}백만원`} /></div>
+            </div>
+            <div className="landing-metric">
+              <div className="landing-metric-head"><span className="landing-metric-icon-badge"><TrendingUp aria-hidden="true" /></span><span className="landing-metric-label">평균 집행률</span></div>
+              <strong>{Math.round(executionCount)}<em>%</em></strong>
+              <div className="landing-metric-visual landing-metric-visual-gauge"><MetricRadialGauge percent={executionCount} /></div>
+            </div>
           </div>
         </div>
       </div>

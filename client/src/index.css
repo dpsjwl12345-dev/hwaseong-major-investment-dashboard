@@ -2872,16 +2872,36 @@ h1, h2, h3, h4, h5, h6,
 .landing-enter-button:hover { transform: translateY(-3px); background: rgba(233,196,0,.2); border-color: rgba(255,224,138,.78); }
 .landing-enter-button span:last-child { color: #ffe08a; font-size: 20px; line-height: 1; transition: transform .2s ease; }
 .landing-enter-button:hover span:last-child { transform: translateX(4px); }
-.landing-metrics {
+.landing-metrics-wrap {
   position: relative;
   z-index: 2;
+  width: calc(100% - 64px);
+  max-width: 1320px;
+  margin: auto auto 30px;
+}
+.landing-metrics-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 16px;
+  color: rgba(255,224,138,.85);
+  font-family: "Pretendard", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .28em;
+  text-align: left;
+}
+.landing-metrics-heading span {
+  width: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,190,61,.9), transparent);
+}
+.landing-metrics {
   --metric-gradient: linear-gradient(180deg, #ffe08a, #ffbe3d);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
-  width: calc(100% - 64px);
-  max-width: 1320px;
-  margin: auto auto 30px;
+  width: 100%;
 }
 .landing-metric {
   min-width: 0;
@@ -2995,7 +3015,8 @@ h1, h2, h3, h4, h5, h6,
   .landing-metric-gauge-value { animation: none; }
 }
 @media (max-width: 640px) {
-  .landing-metrics { grid-template-columns: 1fr; width: calc(100% - 36px); margin-bottom: 18px; gap: 14px; }
+  .landing-metrics-wrap { width: calc(100% - 36px); margin-bottom: 18px; }
+  .landing-metrics { grid-template-columns: 1fr; gap: 14px; }
   .landing-metric { min-height: 0; padding: 24px; }
   .landing-subtitle { padding: 0 22px; }
 }
@@ -3115,7 +3136,7 @@ h1, h2, h3, h4, h5, h6,
   transform: none !important;
   justify-content: center;
 }
-.app-main:has(.landing-page) .landing-metrics {
+.app-main:has(.landing-page) .landing-metrics-wrap {
   flex: 0 0 auto;
   margin-top: auto;
 }
@@ -3906,7 +3927,7 @@ main.app-main.app-main-flush .landing-content {
   justify-content: flex-start !important;
   padding-top: clamp(150px, 21vh, 220px) !important;
 }
-main.app-main.app-main-flush .landing-metrics {
+main.app-main.app-main-flush .landing-metrics-wrap {
   margin-top: clamp(110px, 16vh, 200px) !important;
   margin-bottom: clamp(64px, 10vh, 120px) !important;
 }
