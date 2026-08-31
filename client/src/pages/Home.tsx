@@ -390,7 +390,7 @@ function BudgetPanel({ project }: { project: Project }) {
     <div className="pd-card">
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}</span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="mt-7">
-        <div className="mb-2 flex justify-between font-body text-[13px] text-[var(--pd-text-faint)]">
+        <div className="mb-2 flex justify-between font-body text-[16px] text-[var(--pd-text-faint)]">
           <span>예산 집행률</span>
           <span>{execution}%</span>
         </div>
@@ -415,9 +415,9 @@ function ProgressPanel({ project }: { project: Project }) {
   return (
     <div className="pd-card">
       <div className="mb-6 flex flex-wrap gap-8">
-        <div><p className="pd-summary-label !text-[13px]">사업 전체 공정률</p><p className="mt-1 text-[21px] font-bold text-[var(--pd-text)]">{percent}%</p></div>
-        <div><p className="pd-summary-label !text-[13px]">추진상황 점검</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-success)]">{project.delay_reason || "-"}</p></div>
-        <div><p className="pd-summary-label !text-[13px]">준공예정일</p><p className="mt-1 text-[15px] font-semibold text-[var(--pd-text)]">{formatDateText(project.inspection || "-")}</p></div>
+        <div><p className="pd-summary-label !text-[16px]">사업 전체 공정률</p><p className="mt-1 text-[26px] font-bold text-[var(--pd-text)]">{percent}%</p></div>
+        <div><p className="pd-summary-label !text-[16px]">추진상황 점검</p><p className="mt-1 text-[18px] font-semibold text-[var(--pd-success)]">{project.delay_reason || "-"}</p></div>
+        <div><p className="pd-summary-label !text-[16px]">준공예정일</p><p className="mt-1 text-[18px] font-semibold text-[var(--pd-text)]">{formatDateText(project.inspection || "-")}</p></div>
       </div>
       <div className="pd-progress-layout">
         <section className="pd-progress-section pd-progress-vertical">

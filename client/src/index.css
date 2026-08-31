@@ -3291,6 +3291,7 @@ h1, h2, h3, h4, h5, h6,
 .dept-project-table td strong { font-size: 16px !important; }
 .dept-project-table td small { font-size: 12.5px !important; }
 .dept-project-table tbody td:first-child { text-align: center !important; justify-self: center; }
+.dept-project-table thead th:first-child { text-align: center !important; }
 .dept-progress > span { width: 92px !important; height: 8px !important; }
 .dept-progress b { font-size: 16px !important; }
 .dept-project-table { font-size: 16px !important; }
