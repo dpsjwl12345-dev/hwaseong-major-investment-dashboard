@@ -1438,7 +1438,7 @@ function FloatingNavBar({
                   <button
                     type="button"
                     key={project.id}
-                    onClick={() => { onSelectProject(project); setIsDeptOpen(false); setOpenDeptName(null); }}
+                    onClick={() => { onSelectProject(project); setIsDeptOpen(false); }}
                   >
                     {project.project_name}
                   </button>
