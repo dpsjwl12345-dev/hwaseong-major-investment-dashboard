@@ -1348,11 +1348,6 @@ function FloatingNavBar({
   const [showProjects, setShowProjects] = useState(false);
   const openDept = openDeptName && showProjects ? projectsByDepartment.find((item) => item.name === openDeptName) : null;
 
-  useEffect(() => {
-    document.body.classList.toggle("nav-projects-open", !!openDept);
-    return () => document.body.classList.remove("nav-projects-open");
-  }, [openDept]);
-
   if (!isExpanded) {
     return (
       <nav className="floating-nav" aria-label="빠른 이동">

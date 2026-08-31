@@ -3921,7 +3921,7 @@ main.app-main.app-main-flush .landing-metric-track {
   z-index: 6;
   width: 720px;
   max-width: calc(100vw - 32px);
-  padding: 12px;
+  padding: 6px 12px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, .18);
   background: rgba(255, 255, 255, .1);
@@ -3936,7 +3936,7 @@ main.app-main.app-main-flush .landing-metric-track {
   gap: 4px;
 }
 .floating-nav-dropdown-row button {
-  padding: 5px 10px;
+  padding: 3px 10px;
 }
 .floating-nav-dropdown button {
   flex: none;
@@ -4124,5 +4124,4 @@ main.app-main.app-main-flush .landing-metric-track {
 
 /* Clear the fixed floating nav bar (now shown on every view, not just
    landing) on non-flush pages so their content doesn't sit under it. */
-main.app-main:not(.app-main-flush) { padding-top: 140px !important; transition: padding-top .18s ease; }
-body.nav-projects-open main.app-main:not(.app-main-flush) { padding-top: 320px !important; }
+main.app-main:not(.app-main-flush) { padding-top: 140px !important; }
