@@ -3943,6 +3943,28 @@ main.app-main.app-main-flush .landing-metric-track {
   .landing-floating-bar { justify-content: flex-start; }
 }
 
+.site-wordmark {
+  position: fixed;
+  top: 34px;
+  left: 34px;
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  color: #fff;
+  font-family: "Pretendard", "Hanken Grotesk", sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  transition: opacity .16s ease;
+}
+.site-wordmark:hover { opacity: .82; }
+.site-wordmark-dot { color: var(--hanzo-yellow, #f2c94c); }
+@media (max-width: 640px) {
+  .site-wordmark { left: 20px; font-size: 16px; }
+}
+
 /* Clear the fixed floating nav bar (now shown on every view, not just
    landing) on non-flush pages so their content doesn't sit under it. */
 main.app-main:not(.app-main-flush) { padding-top: 112px !important; }

@@ -1657,6 +1657,9 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--pd-ground)] text-white">
+      <button type="button" className="site-wordmark" onClick={goLanding}>
+        화성시 주요투자사업<span className="site-wordmark-dot">.</span>
+      </button>
       <FloatingNavBar
         onGoHome={goLanding}
         onOpenMap={goMap}
