@@ -1455,6 +1455,18 @@ function LandingPage() {
         <div className="landing-orb landing-orb-b" />
         <div className="landing-orb landing-orb-c" />
         <div className="landing-noise" />
+        <svg className="landing-arc" viewBox="0 0 1200 500" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="landingArcFade" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stopColor="#fff" stopOpacity="0" />
+              <stop offset=".5" stopColor="#fff" stopOpacity=".5" />
+              <stop offset="1" stopColor="#fff" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <path d="M 60 400 Q 600 -60 1140 120" stroke="url(#landingArcFade)" strokeWidth="1.4" fill="none" />
+          <circle className="landing-arc-dot" cx="60" cy="400" r="3.5" />
+          <circle className="landing-arc-dot" cx="1140" cy="120" r="3.5" />
+        </svg>
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">BUDGET</span></h1>

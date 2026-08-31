@@ -1571,6 +1571,19 @@
   mix-blend-mode: screen;
   will-change: transform;
 }
+.landing-arc {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: .55;
+}
+.landing-arc-dot {
+  fill: #fff;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, .8));
+}
 .landing-orb-a { display: none; }
 .landing-orb-b { display: none; }
 .landing-orb-c { display: none; }
