@@ -1357,7 +1357,7 @@ function FloatingNavBar({
   }
 
   return (
-    <nav className="floating-nav" aria-label="빠른 이동">
+    <nav className={`floating-nav ${isDeptOpen ? "is-dept-open" : ""}`} aria-label="빠른 이동">
       <button
         type="button"
         className="floating-nav-link"

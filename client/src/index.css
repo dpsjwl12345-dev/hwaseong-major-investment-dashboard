@@ -2957,6 +2957,7 @@ h1, h2, h3, h4, h5, h6,
   display: block;
   overflow: visible;
   letter-spacing: -.02em;
+  padding-right: .02em;
   text-transform: uppercase;
 }
 .landing-title span.landing-title-line-a { color: #fff; }
@@ -3891,6 +3892,13 @@ main.app-main.app-main-flush .landing-metric-track {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, .25);
+  transition: width .18s ease;
+}
+.floating-nav.is-dept-open {
+  width: 720px;
+  max-width: calc(100vw - 32px);
+  justify-content: space-between;
+  padding: 0 14px;
 }
 .floating-nav-link {
   flex: none;
@@ -3918,7 +3926,7 @@ main.app-main.app-main-flush .landing-metric-track {
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
-  width: 660px;
+  width: 720px;
   max-width: calc(100vw - 32px);
   padding: 12px;
   border-radius: 20px;
@@ -3935,7 +3943,7 @@ main.app-main.app-main-flush .landing-metric-track {
   gap: 4px;
 }
 .floating-nav-dropdown-row button {
-  padding: 8px 12px;
+  padding: 8px 10px;
 }
 .floating-nav-dropdown button {
   flex: none;
