@@ -1456,15 +1456,20 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
-// Decorative rising sparkline bars for the budget metric card — purely
-// illustrative (heights aren't derived from real data), matching the mini
-// bar-chart motif common on stat-card UIs.
-const METRIC_BAR_HEIGHTS = [34, 56, 44, 72, 100];
-function MetricBars() {
+// Mini bar chart driven by real per-category totals (not decorative filler) —
+// each bar's height is proportional to its share of the largest category, and
+// carries a native tooltip with the exact label/value so the chart holds up
+// to a closer look, not just a glance.
+function MetricCategoryBars({ data, formatValue }: { data: { label: string; value: number }[]; formatValue: (value: number) => string }) {
+  const max = Math.max(1, ...data.map((d) => d.value));
   return (
     <div className="landing-metric-bars" aria-hidden="true">
-      {METRIC_BAR_HEIGHTS.map((h, i) => (
-        <span key={i} style={{ "--h": `${h}%`, animationDelay: `${i * 0.08}s` } as CSSProperties} />
+      {data.map((d, i) => (
+        <span
+          key={d.label}
+          title={`${d.label} ${formatValue(d.value)}`}
+          style={{ "--h": `${Math.max(4, Math.round((d.value / max) * 100))}%`, animationDelay: `${i * 0.06}s` } as CSSProperties}
+        />
       ))}
     </div>
   );
@@ -1474,19 +1479,19 @@ function MetricBars() {
 // be the animated (count-up) value so the ring fills in lockstep with the
 // number ticking up, rather than snapping straight to its final angle.
 function MetricRadialGauge({ percent }: { percent: number }) {
-  const radius = 26;
+  const radius = 16;
   const circumference = 2 * Math.PI * radius;
   const clamped = Math.min(100, Math.max(0, percent));
   const offset = circumference * (1 - clamped / 100);
   return (
-    <svg className="landing-metric-gauge" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
-      <circle className="landing-metric-gauge-track" cx="32" cy="32" r={radius} />
+    <svg className="landing-metric-gauge" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true">
+      <circle className="landing-metric-gauge-track" cx="20" cy="20" r={radius} />
       <circle
         className="landing-metric-gauge-value"
-        cx="32" cy="32" r={radius}
+        cx="20" cy="20" r={radius}
         strokeDasharray={circumference}
         strokeDashoffset={offset}
-        transform="rotate(-90 32 32)"
+        transform="rotate(-90 20 20)"
       />
     </svg>
   );
@@ -1500,6 +1505,15 @@ function LandingPage() {
   const projectCount = useCountUp(projects.length, 1100);
   const budgetCount = useCountUp(totalBudget, 1400);
   const executionCount = useCountUp(averageExecution, 1000);
+  const categoryOrder = Object.keys(CATEGORY_STYLES);
+  const projectsByCategory = categoryOrder.map((cat) => ({
+    label: cat,
+    value: projects.filter((project) => project.category === cat).length,
+  }));
+  const budgetByCategory = categoryOrder.map((cat) => ({
+    label: cat,
+    value: projects.filter((project) => project.category === cat).reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0),
+  }));
   return (
     <section className="landing-page">
       <div className="hero-panel">
@@ -1514,21 +1528,19 @@ function LandingPage() {
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
           <div className="landing-metric">
-            <Layers3 className="landing-metric-icon" aria-hidden="true" />
+            <span>전체 사업 · 분야별</span>
             <strong>{Math.round(projectCount)}<em>개</em></strong>
-            <span>전체 사업</span>
+            <div className="landing-metric-visual"><MetricCategoryBars data={projectsByCategory} formatValue={(v) => `${v}개`} /></div>
           </div>
           <div className="landing-metric">
-            <MetricBars />
+            <span>총사업비 · 분야별</span>
             <strong>{formatBudgetNumber(Math.round(budgetCount))}<em>백만원</em></strong>
-            <span>총사업비</span>
+            <div className="landing-metric-visual"><MetricCategoryBars data={budgetByCategory} formatValue={(v) => `${formatBudgetNumber(v)}백만원`} /></div>
           </div>
           <div className="landing-metric">
-            <div className="landing-metric-gauge-wrap">
-              <MetricRadialGauge percent={executionCount} />
-              <strong>{Math.round(executionCount)}<em>%</em></strong>
-            </div>
             <span>평균 집행률</span>
+            <strong>{Math.round(executionCount)}<em>%</em></strong>
+            <div className="landing-metric-visual landing-metric-visual-gauge"><MetricRadialGauge percent={executionCount} /></div>
           </div>
         </div>
       </div>
