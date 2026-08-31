@@ -1383,7 +1383,8 @@ function FloatingNavBar({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
   const [openDeptName, setOpenDeptName] = useState<string | null>(null);
-  const openDept = openDeptName ? projectsByDepartment.find((item) => item.name === openDeptName) : null;
+  const [showProjects, setShowProjects] = useState(false);
+  const openDept = openDeptName && showProjects ? projectsByDepartment.find((item) => item.name === openDeptName) : null;
 
   if (!isExpanded) {
     return (
@@ -1415,7 +1416,15 @@ function FloatingNavBar({
                     type="button"
                     key={name}
                     className={isSelected ? "is-selected" : ""}
-                    onClick={() => { onSelectDepartment(name); setOpenDeptName(isSelected ? null : name); }}
+                    onClick={() => {
+                      if (isSelected) {
+                        setShowProjects((show) => !show);
+                      } else {
+                        onSelectDepartment(name);
+                        setOpenDeptName(name);
+                        setShowProjects(false);
+                      }
+                    }}
                   >
                     {isSelected && <i className="floating-nav-dot" />}
                     {name}
