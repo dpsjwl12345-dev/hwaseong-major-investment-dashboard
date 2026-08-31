@@ -1486,9 +1486,9 @@ function LandingPage() {
               <stop offset="1" stopColor="#fff" stopOpacity="0" />
             </linearGradient>
           </defs>
-          <path d="M 60 400 Q 600 -160 1140 120" stroke="url(#landingArcFade)" strokeWidth="0.7" fill="none" />
-          <circle className="landing-arc-dot" cx="60" cy="400" r="2.2" />
-          <circle className="landing-arc-dot" cx="1140" cy="120" r="2.2" />
+          <path d="M 60 420 Q 600 -100 1140 170" stroke="url(#landingArcFade)" strokeWidth="0.7" fill="none" />
+          <circle className="landing-arc-dot" cx="60" cy="420" r="2.2" />
+          <circle className="landing-arc-dot" cx="1140" cy="170" r="2.2" />
         </svg>
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
