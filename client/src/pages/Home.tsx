@@ -1520,8 +1520,8 @@ function MetricRadialGauge({ percent }: { percent: number }) {
     <svg className="landing-metric-gauge" viewBox="0 0 76 76" width="76" height="76" aria-hidden="true">
       <defs>
         <linearGradient id="metric-gauge-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#c084fc" />
-          <stop offset="100%" stopColor="#ec4899" />
+          <stop offset="0%" stopColor="#ffe08a" />
+          <stop offset="100%" stopColor="#ffbe3d" />
         </linearGradient>
       </defs>
       <circle className="landing-metric-gauge-track" cx="38" cy="38" r={radius} />
@@ -1567,7 +1567,7 @@ function LandingPage() {
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
           <div className="landing-metric">
-            <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Layers3 aria-hidden="true" /></span><span>전체 사업 · 분야별</span></div>
+            <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Layers3 aria-hidden="true" /></span><span className="landing-metric-label">전체 사업 · 분야별</span></div>
             <strong>{Math.round(projectCount)}<em>개</em></strong>
             <div className="landing-metric-visual"><MetricCompositionBar data={projectsByCategory} /></div>
           </div>

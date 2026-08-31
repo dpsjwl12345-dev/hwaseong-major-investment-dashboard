@@ -2875,7 +2875,7 @@ h1, h2, h3, h4, h5, h6,
 .landing-metrics {
   position: relative;
   z-index: 2;
-  --metric-gradient: linear-gradient(180deg, #c084fc, #ec4899);
+  --metric-gradient: linear-gradient(180deg, #ffe08a, #ffbe3d);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
@@ -2908,13 +2908,12 @@ h1, h2, h3, h4, h5, h6,
   height: 38px;
   flex: none;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, #ec4899 45%, transparent);
-  background: color-mix(in srgb, #ec4899 14%, transparent);
-  color: #f0abfc;
+  border: 1px solid color-mix(in srgb, #ffbe3d 45%, transparent);
+  background: color-mix(in srgb, #ffbe3d 14%, transparent);
+  color: #ffe08a;
 }
 .landing-metric-icon-badge svg { width: 18px; height: 18px; }
-.landing-metric > span,
-.landing-metric-head > span { display: block; color: rgba(222,232,255,.55); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+.landing-metric-label { display: block; color: rgba(222,232,255,.68); font-size: 17px; font-weight: 700; letter-spacing: .04em; }
 .landing-metric strong { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 0; color: #fff; font-family: "Gmarket Sans", "Pretendard", sans-serif; font-size: clamp(38px, 5vw, 58px); font-weight: 700; letter-spacing: -.03em; }
 .landing-metric strong em { color: rgba(222,232,255,.55); font-family: "Pretendard", sans-serif; font-size: 16px; font-style: normal; font-weight: 600; letter-spacing: 0; }
 .landing-metric-visual { align-self: stretch; margin-top: auto; padding-top: 24px; }
@@ -2935,13 +2934,13 @@ h1, h2, h3, h4, h5, h6,
   max-width: 34px;
   height: 0%;
   border-radius: 5px 5px 0 0;
-  background: #3d2233;
+  background: #332a18;
   transform-origin: bottom;
   animation: landing-metric-bar-rise .8s cubic-bezier(.22,1,.36,1) forwards;
 }
 .landing-metric-bars span.is-peak {
   background: var(--metric-gradient);
-  box-shadow: 0 0 16px -4px #ec4899;
+  box-shadow: 0 0 16px -4px #ffbe3d;
   animation: landing-metric-bar-rise .8s cubic-bezier(.22,1,.36,1) forwards, landing-metric-bar-bob 3.6s ease-in-out .9s infinite;
 }
 @keyframes landing-metric-bar-rise {
@@ -2962,7 +2961,7 @@ h1, h2, h3, h4, h5, h6,
   flex: 0 0 auto;
   width: 0%;
   height: 100%;
-  background: #3d2233;
+  background: #332a18;
   animation: landing-metric-seg-grow .8s cubic-bezier(.22,1,.36,1) forwards;
 }
 .landing-metric-composition span.is-peak { background: var(--metric-gradient); }
@@ -2985,8 +2984,8 @@ h1, h2, h3, h4, h5, h6,
   animation: landing-metric-gauge-pulse 2.6s ease-in-out 1.2s infinite;
 }
 @keyframes landing-metric-gauge-pulse {
-  0%, 100% { filter: drop-shadow(0 0 0 rgba(236,72,153,0)); }
-  50% { filter: drop-shadow(0 0 6px rgba(236,72,153,.7)); }
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(255,190,61,0)); }
+  50% { filter: drop-shadow(0 0 6px rgba(255,190,61,.7)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3915,8 +3914,8 @@ main.app-main.app-main-flush .landing-metric {
   min-height: 240px !important;
   padding: 28px 28px 24px !important;
 }
-main.app-main.app-main-flush .landing-metric-head > span {
-  font-size: 12px !important;
+main.app-main.app-main-flush .landing-metric-label {
+  font-size: 15px !important;
 }
 main.app-main.app-main-flush .landing-metric strong {
   font-size: clamp(32px, 4.4vw, 52px) !important;
