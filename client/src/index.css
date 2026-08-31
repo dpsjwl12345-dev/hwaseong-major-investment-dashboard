@@ -3809,6 +3809,20 @@ main.app-main.app-main-flush .landing-metric-track {
   margin-top: 5px !important;
 }
 
+/* Top-left wordmark ("HIB.") ??fixed alongside the floating nav bar so it
+   stays visible on every view, matching the nav bar's top offset/z-index. */
+.site-logo-mark {
+  position: fixed;
+  top: 34px;
+  left: 34px;
+  z-index: 70;
+  font-family: "Pretendard", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -.01em;
+  color: var(--hanzo-yellow, #f2c94c);
+}
+
 /* Floating rounded top bar on the landing hero (ref: SaaS landing page
    composition ??inset pill navbar, title, CTA, feature cards, then a
    large visual at the bottom; here the "large visual" is the globe). */
