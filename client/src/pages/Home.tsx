@@ -1359,17 +1359,15 @@ function Globe() {
   return <canvas ref={canvasRef} className="landing-globe-canvas" aria-hidden="true" />;
 }
 
-// Floating rounded nav bar (HOME / MAP VIEW / department links with a
-// hover accordion of that department's projects / 로그인) — used on the
-// landing hero and reused as-is on every other view so navigation stays
-// visually consistent instead of switching to a different header/menu.
+// Floating pill nav, top-center, translucent glass style. Collapsed to a
+// single "메뉴" pill on first paint; clicking it morphs (framer-motion
+// shared layout) into a 3-item bar — 홈 / 메뉴 (department dropdown) /
+// MAP VIEW — reused as-is on every view so navigation stays consistent.
 function FloatingNavBar({
   onGoHome,
   onOpenMap,
   onSelectDepartment,
-  onSelectProject,
   activeDepartmentName,
-  activeProjectDepartmentName,
 }: {
   onGoHome: () => void;
   onOpenMap: () => void;
@@ -1379,64 +1377,47 @@ function FloatingNavBar({
   activeProjectDepartmentName: string | null;
 }) {
   const floatingNavDepartments = ["문화예술과", "문화유산과", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
-  const projectsByDepartment = organization.flatMap((bureau) => bureau.departments);
-  const [openDept, setOpenDept] = useState<string | null>(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  if (!isMenuOpen) {
-    return (
-      <button type="button" className="landing-floating-bar landing-floating-bar-collapsed" onClick={() => setIsMenuOpen(true)}>
-        <AlignRight size={18} strokeWidth={2.4} />
-        <span>MENU</span>
-      </button>
-    );
-  }
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isDeptOpen, setIsDeptOpen] = useState(false);
 
   return (
-    <nav className="landing-floating-bar" aria-label="빠른 이동">
-      <button type="button" className="landing-floating-bar-link" onClick={onGoHome}>HOME</button>
-      <button type="button" className="landing-floating-bar-link landing-floating-bar-map" onClick={onOpenMap}>MAP VIEW</button>
-      {floatingNavDepartments.map((name) => {
-        const department = projectsByDepartment.find((item) => item.name === name);
-        const isSelected = activeDepartmentName === name;
-        const isProjectSelected = activeProjectDepartmentName === name;
-        const isOpen = openDept === name;
-        return (
-          <div key={name} className="landing-floating-bar-item">
-            <button
+    <motion.nav className="floating-nav" layout transition={{ type: "spring", stiffness: 380, damping: 34 }} aria-label="빠른 이동">
+      {!isExpanded ? (
+        <motion.button layout type="button" className="floating-nav-link" onClick={() => setIsExpanded(true)}>
+          메뉴
+        </motion.button>
+      ) : (
+        <>
+          <motion.button layout type="button" className="floating-nav-link" onClick={onGoHome}>홈</motion.button>
+          <motion.div layout className="floating-nav-item">
+            <motion.button
+              layout
               type="button"
-              className={`landing-floating-bar-link ${isSelected ? "is-selected" : ""} ${isProjectSelected ? "is-project-selected" : ""}`}
-              onClick={() => onSelectDepartment(name)}
+              className={`floating-nav-link ${isDeptOpen || activeDepartmentName ? "is-selected" : ""}`}
+              onClick={() => setIsDeptOpen((open) => !open)}
+              aria-expanded={isDeptOpen}
             >
-              {name}
-            </button>
-            {department && department.projects.length > 0 && (
-              <button
-                type="button"
-                className={`landing-floating-bar-toggle ${isOpen ? "is-open" : ""}`}
-                onClick={() => setOpenDept(isOpen ? null : name)}
-                aria-label={`${name} 사업 목록 ${isOpen ? "닫기" : "열기"}`}
-                aria-expanded={isOpen}
-              >
-                <ChevronDown size={13} strokeWidth={2.6} />
-              </button>
-            )}
-            {isOpen && department && department.projects.length > 0 && (
-              <div className="landing-floating-bar-dropdown">
-                {department.projects.map((project) => (
-                  <button type="button" key={project.id} onClick={() => { onSelectProject(project); setOpenDept(null); }}>
-                    {project.project_name}
+              메뉴
+            </motion.button>
+            {isDeptOpen && (
+              <div className="floating-nav-dropdown">
+                {floatingNavDepartments.map((name) => (
+                  <button
+                    type="button"
+                    key={name}
+                    className={activeDepartmentName === name ? "is-selected" : ""}
+                    onClick={() => { onSelectDepartment(name); setIsDeptOpen(false); }}
+                  >
+                    {name}
                   </button>
                 ))}
               </div>
             )}
-          </div>
-        );
-      })}
-      <button type="button" className="landing-floating-bar-close" onClick={() => setIsMenuOpen(false)} aria-label="메뉴 닫기">
-        <X size={16} />
-      </button>
-    </nav>
+          </motion.div>
+          <motion.button layout type="button" className="floating-nav-link" onClick={onOpenMap}>MAP VIEW</motion.button>
+        </>
+      )}
+    </motion.nav>
   );
 }
 

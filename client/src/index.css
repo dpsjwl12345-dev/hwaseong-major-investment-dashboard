@@ -3847,6 +3847,71 @@ main.app-main.app-main-flush .landing-metric-track {
   color: var(--hanzo-yellow, #f2c94c);
 }
 
+/* Top-center translucent pill nav. Collapsed to a single "메뉴" button on
+   first paint; framer-motion `layout` animates the width/shape morph when
+   it expands to the 3-item 홈 / 메뉴 / MAP VIEW bar (ref: saasland.framer.media
+   top-left glass pill). */
+.floating-nav {
+  position: fixed;
+  top: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 52px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  background: rgba(20, 22, 30, .26);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.floating-nav-link {
+  flex: none;
+  padding: 9px 20px;
+  border-radius: 999px;
+  color: rgba(255, 255, 255, .85);
+  font-family: "Pretendard", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background-color .16s ease, color .16s ease;
+}
+.floating-nav-link:hover { color: #fff; background: rgba(255, 255, 255, .12); }
+.floating-nav-link.is-selected { color: #fff; background: rgba(242, 201, 76, .22); }
+.floating-nav-item { position: relative; display: flex; }
+.floating-nav-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  min-width: 200px;
+  padding: 8px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(20, 22, 30, .96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, .6);
+}
+.floating-nav-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, .78);
+  font-family: "Pretendard", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  transition: background-color .14s ease, color .14s ease;
+}
+.floating-nav-dropdown button:hover { color: #fff; background: rgba(255, 255, 255, .1); }
+.floating-nav-dropdown button.is-selected { color: #fff; background: rgba(242, 201, 76, .18); }
+
 /* Floating rounded top bar on the landing hero (ref: SaaS landing page
    composition ??inset pill navbar, title, CTA, feature cards, then a
    large visual at the bottom; here the "large visual" is the globe). */
