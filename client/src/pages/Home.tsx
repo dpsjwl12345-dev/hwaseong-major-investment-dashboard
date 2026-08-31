@@ -1474,7 +1474,7 @@ function LandingPage() {
           <span className="landing-cta-pill">화성시 주요투자사업 대시보드</span>
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
-          <div className="landing-metric"><span>전체 사업</span><strong>{projects.length}</strong><small>PROJECTS</small></div>
+          <div className="landing-metric"><span>전체 사업</span><strong>{projects.length}<em>개</em></strong><small>PROJECTS</small></div>
           <div className="landing-metric"><span>총사업비</span><strong>{formatBudgetNumber(totalBudget)}<em>백만원</em></strong><small>TOTAL BUDGET</small></div>
           <div className="landing-metric"><span>평균 집행률</span><strong>{averageExecution}%</strong><div className="landing-metric-track"><i style={{ width: `${averageExecution}%` }} /></div></div>
         </div>
