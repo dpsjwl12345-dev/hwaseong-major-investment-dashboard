@@ -1458,11 +1458,11 @@ function useCountUp(target: number, duration = 1200) {
 
 // Vertical bar chart driven by real per-category totals (not decorative
 // filler) — each bar's height is proportional to its share of the largest
-// category and is colored with that category's own map/legend color (see
-// CATEGORY_STYLES), so the chart carries real, cross-referenceable meaning
-// instead of a single flat accent tone. Carries a native tooltip with the
-// exact label/value so it holds up to a closer look, not just a glance.
-function MetricCategoryBars({ data, formatValue }: { data: { label: string; value: number }[]; formatValue: (value: number) => string }) {
+// category. All bars share one accent color per card; only the opacity
+// varies with magnitude, so the chart stays visually calm and cohesive
+// instead of six category colors clashing side by side. Carries a native
+// tooltip with the exact label/value so it holds up to a closer look.
+function MetricCategoryBars({ data, formatValue, color }: { data: { label: string; value: number }[]; formatValue: (value: number) => string; color: string }) {
   const max = Math.max(1, ...data.map((d) => d.value));
   return (
     <div className="landing-metric-bars" aria-hidden="true">
@@ -1472,7 +1472,8 @@ function MetricCategoryBars({ data, formatValue }: { data: { label: string; valu
           title={`${d.label} ${formatValue(d.value)}`}
           style={{
             "--h": `${Math.max(4, Math.round((d.value / max) * 100))}%`,
-            "--bar-color": categoryStyleFor(d.label).mid,
+            "--bar-color": color,
+            opacity: 0.4 + 0.6 * (d.value / max),
             animationDelay: `${i * 0.06}s`,
           } as CSSProperties}
         />
@@ -1482,12 +1483,12 @@ function MetricCategoryBars({ data, formatValue }: { data: { label: string; valu
 }
 
 // Horizontal composition bar for the project-count card — one continuous
-// track split into segments sized by each category's share of the total,
-// colored with that category's own map/legend color. Visually distinct from
-// the vertical comparison chart above it so the two "분야별" cards don't
-// read as the same chart type twice.
-function MetricCompositionBar({ data }: { data: { label: string; value: number }[] }) {
+// track split into segments sized by each category's share of the total.
+// Same single-accent-color-with-opacity treatment as the bars above, so the
+// two "분야별" cards read as distinct chart shapes without clashing colors.
+function MetricCompositionBar({ data, color }: { data: { label: string; value: number }[]; color: string }) {
   const total = Math.max(1, data.reduce((sum, d) => sum + d.value, 0));
+  const max = Math.max(1, ...data.map((d) => d.value));
   return (
     <div className="landing-metric-composition" aria-hidden="true">
       {data.filter((d) => d.value > 0).map((d, i) => (
@@ -1496,7 +1497,8 @@ function MetricCompositionBar({ data }: { data: { label: string; value: number }
           title={`${d.label} ${d.value}개`}
           style={{
             "--w": `${(d.value / total) * 100}%`,
-            "--seg-color": categoryStyleFor(d.label).mid,
+            "--seg-color": color,
+            opacity: 0.4 + 0.6 * (d.value / max),
             animationDelay: `${i * 0.06}s`,
           } as CSSProperties}
         />
@@ -1568,12 +1570,12 @@ function LandingPage() {
           <div className="landing-metric">
             <span>전체 사업 · 분야별</span>
             <strong>{Math.round(projectCount)}<em>개</em></strong>
-            <div className="landing-metric-visual"><MetricCompositionBar data={projectsByCategory} /></div>
+            <div className="landing-metric-visual"><MetricCompositionBar data={projectsByCategory} color="#34d399" /></div>
           </div>
           <div className="landing-metric">
             <span>총사업비 · 분야별</span>
             <strong>{formatBudgetNumber(Math.round(budgetCount))}<em>백만원</em></strong>
-            <div className="landing-metric-visual"><MetricCategoryBars data={budgetByCategory} formatValue={(v) => `${formatBudgetNumber(v)}백만원`} /></div>
+            <div className="landing-metric-visual"><MetricCategoryBars data={budgetByCategory} formatValue={(v) => `${formatBudgetNumber(v)}백만원`} color="#ffbe3d" /></div>
           </div>
           <div className="landing-metric">
             <span>평균 집행률</span>
