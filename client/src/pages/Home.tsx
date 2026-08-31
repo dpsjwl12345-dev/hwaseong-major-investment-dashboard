@@ -1457,7 +1457,7 @@ function LandingPage() {
         <div className="landing-noise" />
         <div className="landing-content">
           <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
-          <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">DASHBOARD</span></h1>
+          <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">화성시 메이저 인베스트먼트</span><span className="landing-title-line landing-title-line-b">예산</span></h1>
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
           <div className="landing-metric"><span>전체 사업</span><strong>{projects.length}</strong><small>PROJECTS</small></div>
@@ -1658,7 +1658,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-[var(--pd-ground)] text-white">
       <button type="button" className="site-wordmark" onClick={goLanding}>
-        화성시 주요투자사업<span className="site-wordmark-dot">.</span>
+        HIB<span className="site-wordmark-dot">.</span>
       </button>
       <FloatingNavBar
         onGoHome={goLanding}
