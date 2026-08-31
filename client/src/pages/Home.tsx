@@ -1362,11 +1362,13 @@ function Globe() {
 // Floating pill nav, top-center, translucent glass style. Collapsed to a
 // single "MENU" pill on first paint; clicking it morphs (framer-motion
 // shared layout) into a 3-item bar — HOME / MENU / MAP VIEW — spreading
-// out to both sides. Clicking MENU again folds it back to one button.
-// Reused as-is on every view so navigation stays consistent.
+// out to both sides. The middle MENU button then toggles a horizontal
+// strip of department links below the bar. Reused as-is on every view.
 function FloatingNavBar({
   onGoHome,
   onOpenMap,
+  onSelectDepartment,
+  activeDepartmentName,
 }: {
   onGoHome: () => void;
   onOpenMap: () => void;
@@ -1375,7 +1377,9 @@ function FloatingNavBar({
   activeDepartmentName: string | null;
   activeProjectDepartmentName: string | null;
 }) {
+  const floatingNavDepartments = ["문화예술과", "문화유산과", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isDeptOpen, setIsDeptOpen] = useState(false);
 
   return (
     <motion.nav className="floating-nav" layout transition={{ type: "spring", stiffness: 380, damping: 34 }} aria-label="빠른 이동">
@@ -1386,9 +1390,31 @@ function FloatingNavBar({
       ) : (
         <>
           <motion.button layout type="button" className="floating-nav-link" onClick={onGoHome}>HOME</motion.button>
-          <motion.button layout type="button" className="floating-nav-link is-selected" onClick={() => setIsExpanded(false)}>
-            MENU
-          </motion.button>
+          <motion.div layout className="floating-nav-item">
+            <motion.button
+              layout
+              type="button"
+              className={`floating-nav-link ${isDeptOpen || activeDepartmentName ? "is-selected" : ""}`}
+              onClick={() => setIsDeptOpen((open) => !open)}
+              aria-expanded={isDeptOpen}
+            >
+              MENU
+            </motion.button>
+            {isDeptOpen && (
+              <div className="floating-nav-dropdown floating-nav-dropdown-row">
+                {floatingNavDepartments.map((name) => (
+                  <button
+                    type="button"
+                    key={name}
+                    className={activeDepartmentName === name ? "is-selected" : ""}
+                    onClick={() => { onSelectDepartment(name); setIsDeptOpen(false); }}
+                  >
+                    {name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </motion.div>
           <motion.button layout type="button" className="floating-nav-link" onClick={onOpenMap}>MAP VIEW</motion.button>
         </>
       )}
