@@ -3939,8 +3939,10 @@ main.app-main.app-main-flush .landing-metric-track {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  max-height: 200px;
   margin-top: 8px;
   padding-top: 8px;
+  overflow-y: auto;
   border-top: 1px solid rgba(255, 255, 255, .1);
 }
 .floating-nav-dropdown-projects button {
