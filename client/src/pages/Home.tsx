@@ -1463,7 +1463,8 @@ function LandingPage() {
               <stop offset="1" stopColor="#fff" stopOpacity="0" />
             </linearGradient>
           </defs>
-          <path d="M 60 400 Q 600 -160 1140 120" stroke="url(#landingArcFade)" strokeWidth="1.4" fill="none" />
+          <path d="M 60 400 Q 600 -160 1140 120" stroke="url(#landingArcFade)" strokeWidth="0.7" fill="none" />
+          <path className="landing-arc-flow" d="M 60 400 Q 600 -160 1140 120" pathLength={100} fill="none" />
           <circle className="landing-arc-dot" cx="60" cy="400" r="2.2" />
           <circle className="landing-arc-dot" cx="1140" cy="120" r="2.2" />
         </svg>

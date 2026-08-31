@@ -1593,6 +1593,21 @@
   fill: #fff;
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, .8));
 }
+.landing-arc-flow {
+  stroke: #fff;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 7 93;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, .9));
+  animation: landing-arc-flow 4.5s linear infinite;
+}
+@keyframes landing-arc-flow {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -100; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-arc-flow { animation: none; }
+}
 .landing-orb-a { display: none; }
 .landing-orb-b { display: none; }
 .landing-orb-c { display: none; }
