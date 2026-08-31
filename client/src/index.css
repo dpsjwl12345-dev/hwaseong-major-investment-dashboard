@@ -2877,64 +2877,105 @@ h1, h2, h3, h4, h5, h6,
   z-index: 2;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 20px;
   width: calc(100% - 64px);
-  max-width: 1040px;
+  max-width: 1320px;
   margin: auto auto 30px;
 }
 .landing-metric {
   min-width: 0;
-  min-height: 168px;
-  padding: 22px 22px 20px;
+  min-height: 280px;
+  padding: 32px 32px 28px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
   border: 1px solid rgba(255,255,255,.13);
-  border-radius: 16px;
+  border-radius: 22px;
   background: rgba(255,255,255,.03);
   opacity: 0;
   animation: landing-metric-rise .7s ease forwards;
 }
 .landing-metric:nth-child(2) { animation-delay: .1s; }
 .landing-metric:nth-child(3) { animation-delay: .2s; }
-.landing-metric > span { display: block; color: rgba(222,232,255,.55); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
-.landing-metric strong { display: flex; align-items: baseline; gap: 6px; margin: 8px 0 0; color: #fff; font-family: "Gmarket Sans", "Pretendard", sans-serif; font-size: clamp(26px, 3.2vw, 38px); font-weight: 700; letter-spacing: -.03em; }
-.landing-metric strong em { color: rgba(222,232,255,.55); font-family: "Pretendard", sans-serif; font-size: 13px; font-style: normal; font-weight: 600; letter-spacing: 0; }
-.landing-metric-visual { align-self: stretch; margin-top: auto; padding-top: 16px; }
+.landing-metric > span { display: block; color: rgba(222,232,255,.55); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+.landing-metric strong { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 0; color: #fff; font-family: "Gmarket Sans", "Pretendard", sans-serif; font-size: clamp(38px, 5vw, 58px); font-weight: 700; letter-spacing: -.03em; }
+.landing-metric strong em { color: rgba(222,232,255,.55); font-family: "Pretendard", sans-serif; font-size: 16px; font-style: normal; font-weight: 600; letter-spacing: 0; }
+.landing-metric-visual { align-self: stretch; margin-top: auto; padding-top: 24px; }
 @keyframes landing-metric-rise {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Cards 1 & 2 — real per-category breakdown as a mini bar chart */
-.landing-metric-bars { display: flex; align-items: flex-end; gap: 5px; height: 30px; }
+/* Card 2 — budget by category: vertical comparison bars, each bar colored
+   with that category's own map/legend color (--bar-color). A slow infinite
+   bob keeps the chart visibly alive after the initial rise instead of going
+   static. */
+.landing-metric-bars { display: flex; align-items: flex-end; gap: 8px; height: 76px; }
 .landing-metric-bars span {
   flex: 1;
-  min-width: 3px;
-  max-width: 14px;
+  min-width: 6px;
+  max-width: 34px;
   height: 0%;
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(180deg, #ffe08a, #ffbe3d);
-  animation: landing-metric-bar-rise .8s cubic-bezier(.22,1,.36,1) forwards;
+  border-radius: 5px 5px 0 0;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--bar-color) 70%, #fff), var(--bar-color));
+  box-shadow: 0 0 14px -4px var(--bar-color);
+  transform-origin: bottom;
+  animation: landing-metric-bar-rise .8s cubic-bezier(.22,1,.36,1) forwards, landing-metric-bar-bob 3.6s ease-in-out .9s infinite;
 }
 @keyframes landing-metric-bar-rise {
   from { height: 0%; }
   to { height: var(--h); }
 }
+@keyframes landing-metric-bar-bob {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.06); }
+}
 
-/* Card 3 — execution rate: radial gauge */
+/* Card 1 — project count by category: one horizontal track split into
+   segments sized by share of total, each colored with that category's own
+   map/legend color (--seg-color) — a visually distinct chart type from the
+   vertical bars in card 2. */
+.landing-metric-composition { display: flex; width: 100%; height: 20px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.06); }
+.landing-metric-composition span {
+  flex: 0 0 auto;
+  width: 0%;
+  height: 100%;
+  background: var(--seg-color);
+  animation: landing-metric-seg-grow .8s cubic-bezier(.22,1,.36,1) forwards;
+}
+.landing-metric-composition span + span { border-left: 2px solid rgba(10,14,26,.6); }
+@keyframes landing-metric-seg-grow {
+  from { width: 0%; }
+  to { width: var(--w); }
+}
+
+/* Card 3 — execution rate: radial gauge, blue→violet gradient (matches the
+   app's existing --pd-accent-a/b pair) instead of the gold used elsewhere.
+   A soft pulsing glow keeps it visibly alive once the fill animation ends. */
 .landing-metric-visual-gauge { display: flex; }
-.landing-metric-gauge-track { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 4; }
-.landing-metric-gauge-value { fill: none; stroke: #ffbe3d; stroke-width: 4; stroke-linecap: round; }
+.landing-metric-gauge-track { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 6; }
+.landing-metric-gauge-value {
+  fill: none;
+  stroke: url(#metric-gauge-gradient);
+  stroke-width: 6;
+  stroke-linecap: round;
+  animation: landing-metric-gauge-pulse 2.6s ease-in-out 1.2s infinite;
+}
+@keyframes landing-metric-gauge-pulse {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(154,92,245,0)); }
+  50% { filter: drop-shadow(0 0 6px rgba(154,92,245,.7)); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .landing-metric { opacity: 1; animation: none; }
   .landing-metric-bars span { animation: none; height: var(--h); }
+  .landing-metric-composition span { animation: none; width: var(--w); }
+  .landing-metric-gauge-value { animation: none; }
 }
 @media (max-width: 640px) {
-  .landing-metrics { grid-template-columns: 1fr; width: calc(100% - 36px); margin-bottom: 18px; gap: 10px; }
-  .landing-metric { min-height: 0; padding: 18px; }
+  .landing-metrics { grid-template-columns: 1fr; width: calc(100% - 36px); margin-bottom: 18px; gap: 14px; }
+  .landing-metric { min-height: 0; padding: 24px; }
   .landing-subtitle { padding: 0 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -3849,14 +3890,14 @@ main.app-main.app-main-flush .landing-metrics {
   margin-bottom: clamp(64px, 10vh, 120px) !important;
 }
 main.app-main.app-main-flush .landing-metric {
-  min-height: 148px !important;
-  padding: 20px 20px 18px !important;
+  min-height: 240px !important;
+  padding: 28px 28px 24px !important;
 }
 main.app-main.app-main-flush .landing-metric > span {
-  font-size: 11px !important;
+  font-size: 12px !important;
 }
 main.app-main.app-main-flush .landing-metric strong {
-  font-size: clamp(18px, 2.4vw, 26px) !important;
+  font-size: clamp(32px, 4.4vw, 52px) !important;
   font-family: "Pretendard", sans-serif !important;
 }
 main.app-main.app-main-flush .landing-title,

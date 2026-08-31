@@ -1456,10 +1456,12 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
-// Mini bar chart driven by real per-category totals (not decorative filler) —
-// each bar's height is proportional to its share of the largest category, and
-// carries a native tooltip with the exact label/value so the chart holds up
-// to a closer look, not just a glance.
+// Vertical bar chart driven by real per-category totals (not decorative
+// filler) — each bar's height is proportional to its share of the largest
+// category and is colored with that category's own map/legend color (see
+// CATEGORY_STYLES), so the chart carries real, cross-referenceable meaning
+// instead of a single flat accent tone. Carries a native tooltip with the
+// exact label/value so it holds up to a closer look, not just a glance.
 function MetricCategoryBars({ data, formatValue }: { data: { label: string; value: number }[]; formatValue: (value: number) => string }) {
   const max = Math.max(1, ...data.map((d) => d.value));
   return (
@@ -1468,7 +1470,35 @@ function MetricCategoryBars({ data, formatValue }: { data: { label: string; valu
         <span
           key={d.label}
           title={`${d.label} ${formatValue(d.value)}`}
-          style={{ "--h": `${Math.max(4, Math.round((d.value / max) * 100))}%`, animationDelay: `${i * 0.06}s` } as CSSProperties}
+          style={{
+            "--h": `${Math.max(4, Math.round((d.value / max) * 100))}%`,
+            "--bar-color": categoryStyleFor(d.label).mid,
+            animationDelay: `${i * 0.06}s`,
+          } as CSSProperties}
+        />
+      ))}
+    </div>
+  );
+}
+
+// Horizontal composition bar for the project-count card — one continuous
+// track split into segments sized by each category's share of the total,
+// colored with that category's own map/legend color. Visually distinct from
+// the vertical comparison chart above it so the two "분야별" cards don't
+// read as the same chart type twice.
+function MetricCompositionBar({ data }: { data: { label: string; value: number }[] }) {
+  const total = Math.max(1, data.reduce((sum, d) => sum + d.value, 0));
+  return (
+    <div className="landing-metric-composition" aria-hidden="true">
+      {data.filter((d) => d.value > 0).map((d, i) => (
+        <span
+          key={d.label}
+          title={`${d.label} ${d.value}개`}
+          style={{
+            "--w": `${(d.value / total) * 100}%`,
+            "--seg-color": categoryStyleFor(d.label).mid,
+            animationDelay: `${i * 0.06}s`,
+          } as CSSProperties}
         />
       ))}
     </div>
@@ -1477,21 +1507,29 @@ function MetricCategoryBars({ data, formatValue }: { data: { label: string; valu
 
 // Radial gauge for the execution-rate metric card. `percent` should already
 // be the animated (count-up) value so the ring fills in lockstep with the
-// number ticking up, rather than snapping straight to its final angle.
+// number ticking up, rather than snapping straight to its final angle. Uses
+// the app's existing blue→violet accent pair (--pd-accent-a/b) rather than
+// the gold used elsewhere, so the three cards aren't monochrome.
 function MetricRadialGauge({ percent }: { percent: number }) {
-  const radius = 16;
+  const radius = 30;
   const circumference = 2 * Math.PI * radius;
   const clamped = Math.min(100, Math.max(0, percent));
   const offset = circumference * (1 - clamped / 100);
   return (
-    <svg className="landing-metric-gauge" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true">
-      <circle className="landing-metric-gauge-track" cx="20" cy="20" r={radius} />
+    <svg className="landing-metric-gauge" viewBox="0 0 76 76" width="76" height="76" aria-hidden="true">
+      <defs>
+        <linearGradient id="metric-gauge-gradient" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="var(--pd-accent-a)" />
+          <stop offset="100%" stopColor="var(--pd-accent-b)" />
+        </linearGradient>
+      </defs>
+      <circle className="landing-metric-gauge-track" cx="38" cy="38" r={radius} />
       <circle
         className="landing-metric-gauge-value"
-        cx="20" cy="20" r={radius}
+        cx="38" cy="38" r={radius}
         strokeDasharray={circumference}
         strokeDashoffset={offset}
-        transform="rotate(-90 20 20)"
+        transform="rotate(-90 38 38)"
       />
     </svg>
   );
@@ -1530,7 +1568,7 @@ function LandingPage() {
           <div className="landing-metric">
             <span>전체 사업 · 분야별</span>
             <strong>{Math.round(projectCount)}<em>개</em></strong>
-            <div className="landing-metric-visual"><MetricCategoryBars data={projectsByCategory} formatValue={(v) => `${v}개`} /></div>
+            <div className="landing-metric-visual"><MetricCompositionBar data={projectsByCategory} /></div>
           </div>
           <div className="landing-metric">
             <span>총사업비 · 분야별</span>
