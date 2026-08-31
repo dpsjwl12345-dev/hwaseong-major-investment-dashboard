@@ -1384,11 +1384,11 @@ function FloatingNavBar({
     <motion.nav className="floating-nav" layout transition={{ type: "spring", stiffness: 380, damping: 34 }} aria-label="빠른 이동">
       {!isExpanded ? (
         <motion.button layout type="button" className="floating-nav-link" onClick={() => setIsExpanded(true)}>
-          메뉴
+          MENU
         </motion.button>
       ) : (
         <>
-          <motion.button layout type="button" className="floating-nav-link" onClick={onGoHome}>홈</motion.button>
+          <motion.button layout type="button" className="floating-nav-link" onClick={onGoHome}>HOME</motion.button>
           <motion.div layout className="floating-nav-item">
             <motion.button
               layout
@@ -1397,7 +1397,7 @@ function FloatingNavBar({
               onClick={() => setIsDeptOpen((open) => !open)}
               aria-expanded={isDeptOpen}
             >
-              메뉴
+              MENU
             </motion.button>
             {isDeptOpen && (
               <div className="floating-nav-dropdown">

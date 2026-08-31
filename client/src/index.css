@@ -3892,9 +3892,9 @@ main.app-main.app-main-flush .landing-metric-track {
   padding: 8px;
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, .12);
-  background: rgba(20, 22, 30, .96);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(20, 22, 30, .32);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 24px 48px -20px rgba(0, 0, 0, .6);
 }
 .floating-nav-dropdown button {
