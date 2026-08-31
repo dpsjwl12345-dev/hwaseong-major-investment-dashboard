@@ -3825,13 +3825,16 @@ main.app-main.app-main-flush {
 }
 main.app-main.app-main-flush {
   height: 100vh !important;
+  overflow-y: auto !important;
 }
 main.app-main.app-main-flush .landing-page {
-  height: 100vh !important;
+  min-height: 100vh !important;
+  height: auto !important;
   flex: 1 1 auto !important;
 }
 main.app-main.app-main-flush .hero-panel {
-  height: 100vh !important;
+  min-height: 100vh !important;
+  height: auto !important;
   border-radius: 0 !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -3843,11 +3846,11 @@ main.app-main.app-main-flush .landing-content {
 }
 main.app-main.app-main-flush .landing-metrics {
   margin-top: clamp(110px, 16vh, 200px) !important;
-  margin-bottom: clamp(48px, 8vh, 100px) !important;
+  margin-bottom: clamp(64px, 10vh, 120px) !important;
 }
 main.app-main.app-main-flush .landing-metric {
-  min-height: 132px !important;
-  padding: 16px 18px 14px !important;
+  min-height: 148px !important;
+  padding: 20px 20px 18px !important;
 }
 main.app-main.app-main-flush .landing-metric > span {
   font-size: 11px !important;
