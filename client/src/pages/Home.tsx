@@ -554,7 +554,7 @@ function RenderingLightbox({
     </div>
   );
 }
-const TABS = ["사업개요", "예산현황", "추진현황", "사전행정절차", "위치정보"] as const;
+const TABS = ["사업개요", "예산현황", "추진현황"] as const;
 
 function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void } }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요");
@@ -712,11 +712,19 @@ function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocke
       </div>
 
       <div key={`${project.id}-${selectedSubIndex}-${activeTab}`} className="pd-panel-fade">
-        {activeTab === "사업개요" && <OverviewPanel project={activeProject} />}
+        {activeTab === "사업개요" && (
+          <>
+            <OverviewPanel project={activeProject} />
+            <LocationPanel project={activeProject} />
+          </>
+        )}
         {activeTab === "예산현황" && <BudgetPanel project={activeProject} />}
-        {activeTab === "추진현황" && <ProgressPanel project={activeProject} />}
-        {activeTab === "사전행정절차" && <AdminPanel project={activeProject} />}
-        {activeTab === "위치정보" && <LocationPanel project={activeProject} />}
+        {activeTab === "추진현황" && (
+          <>
+            <ProgressPanel project={activeProject} />
+            <AdminPanel project={activeProject} />
+          </>
+        )}
       </div>
       {overviewPairs.length === 0 && activeTab === "사업개요" && null}
     </section>
