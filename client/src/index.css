@@ -3883,28 +3883,29 @@ main.app-main.app-main-flush .landing-metric-track {
   display: flex;
   align-items: center;
   gap: 4px;
-  height: 52px;
-  padding: 0 10px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, .1);
-  background: rgba(20, 22, 30, .26);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  height: 56px;
+  padding: 0 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .25);
 }
 .floating-nav-link {
   flex: none;
   padding: 9px 20px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid transparent;
   background: transparent;
-  color: rgba(255, 255, 255, .72);
+  color: rgba(255, 255, 255, .65);
   font-family: "Pretendard", sans-serif;
   font-size: 14px;
   font-weight: 700;
   white-space: nowrap;
   transition: background-color .16s ease, color .16s ease, box-shadow .16s ease;
 }
-.floating-nav-link:hover { color: #fff; }
+.floating-nav-link:hover { color: #fff; background: rgba(255, 255, 255, .1); }
 .floating-nav-link.is-selected {
   color: var(--hanzo-ink, #171812);
   background: linear-gradient(180deg, #ffe08a, var(--hanzo-yellow, #f2c94c));
@@ -3918,13 +3919,13 @@ main.app-main.app-main-flush .landing-metric-track {
   transform: translateX(-50%);
   z-index: 6;
   max-width: min(80vw, 800px);
-  padding: 8px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, .12);
-  background: rgba(20, 22, 30, .32);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, .6);
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .1);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .15);
 }
 .floating-nav-dropdown-row {
   display: flex;
@@ -3935,17 +3936,17 @@ main.app-main.app-main-flush .landing-metric-track {
 .floating-nav-dropdown button {
   flex: none;
   padding: 9px 14px;
-  border-radius: 9px;
+  border-radius: 12px;
   border: 1px solid transparent;
   background: transparent;
-  color: rgba(255, 255, 255, .74);
+  color: rgba(255, 255, 255, .7);
   font-family: "Pretendard", sans-serif;
   font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
   transition: background-color .14s ease, color .14s ease;
 }
-.floating-nav-dropdown button:hover { color: #fff; }
+.floating-nav-dropdown button:hover { color: #fff; background: rgba(255, 255, 255, .12); }
 .floating-nav-dropdown-row button.is-selected {
   display: inline-flex;
   align-items: center;
