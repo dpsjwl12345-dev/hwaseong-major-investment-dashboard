@@ -1409,7 +1409,7 @@ function FloatingNavBar({
         <button
           type="button"
           className={`floating-nav-link ${isDeptOpen || activeDepartmentName ? "is-selected" : ""}`}
-          onClick={() => setIsDeptOpen((open) => !open)}
+          onClick={() => setIsDeptOpen((open) => { const next = !open; if (!next) setShowProjects(false); return next; })}
           aria-expanded={isDeptOpen}
         >
           MENU
@@ -1446,7 +1446,7 @@ function FloatingNavBar({
                   <button
                     type="button"
                     key={project.id}
-                    onClick={() => { onSelectProject(project); setIsDeptOpen(false); }}
+                    onClick={() => { onSelectProject(project); setIsDeptOpen(false); setShowProjects(false); }}
                   >
                     {project.project_name}
                   </button>
