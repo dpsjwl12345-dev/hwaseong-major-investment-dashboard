@@ -1414,6 +1414,7 @@ function FloatingNavBar({
                   <button
                     type="button"
                     key={project.id}
+                    title={project.project_name}
                     onClick={() => { onSelectProject(project); setIsDeptOpen(false); setShowProjects(false); }}
                   >
                     {project.project_name}
@@ -1455,6 +1456,42 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
+// Decorative rising sparkline bars for the budget metric card — purely
+// illustrative (heights aren't derived from real data), matching the mini
+// bar-chart motif common on stat-card UIs.
+const METRIC_BAR_HEIGHTS = [34, 56, 44, 72, 100];
+function MetricBars() {
+  return (
+    <div className="landing-metric-bars" aria-hidden="true">
+      {METRIC_BAR_HEIGHTS.map((h, i) => (
+        <span key={i} style={{ "--h": `${h}%`, animationDelay: `${i * 0.08}s` } as CSSProperties} />
+      ))}
+    </div>
+  );
+}
+
+// Radial gauge for the execution-rate metric card. `percent` should already
+// be the animated (count-up) value so the ring fills in lockstep with the
+// number ticking up, rather than snapping straight to its final angle.
+function MetricRadialGauge({ percent }: { percent: number }) {
+  const radius = 26;
+  const circumference = 2 * Math.PI * radius;
+  const clamped = Math.min(100, Math.max(0, percent));
+  const offset = circumference * (1 - clamped / 100);
+  return (
+    <svg className="landing-metric-gauge" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true">
+      <circle className="landing-metric-gauge-track" cx="32" cy="32" r={radius} />
+      <circle
+        className="landing-metric-gauge-value"
+        cx="32" cy="32" r={radius}
+        strokeDasharray={circumference}
+        strokeDashoffset={offset}
+        transform="rotate(-90 32 32)"
+      />
+    </svg>
+  );
+}
+
 function LandingPage() {
   const totalBudget = projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
   const averageExecution = projects.length > 0
@@ -1476,9 +1513,23 @@ function LandingPage() {
           <span className="landing-cta-pill">화성시 주요투자사업 대시보드</span>
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
-          <div className="landing-metric"><span>전체 사업</span><strong>{Math.round(projectCount)}<em>개</em></strong><small>PROJECTS</small></div>
-          <div className="landing-metric"><span>총사업비</span><strong>{formatBudgetNumber(Math.round(budgetCount))}<em>백만원</em></strong><small>TOTAL BUDGET</small></div>
-          <div className="landing-metric"><span>평균 집행률</span><strong>{Math.round(executionCount)}%</strong><div className="landing-metric-track"><i style={{ width: `${averageExecution}%` }} /></div></div>
+          <div className="landing-metric">
+            <Layers3 className="landing-metric-icon" aria-hidden="true" />
+            <strong>{Math.round(projectCount)}<em>개</em></strong>
+            <span>전체 사업</span>
+          </div>
+          <div className="landing-metric">
+            <MetricBars />
+            <strong>{formatBudgetNumber(Math.round(budgetCount))}<em>백만원</em></strong>
+            <span>총사업비</span>
+          </div>
+          <div className="landing-metric">
+            <div className="landing-metric-gauge-wrap">
+              <MetricRadialGauge percent={executionCount} />
+              <strong>{Math.round(executionCount)}<em>%</em></strong>
+            </div>
+            <span>평균 집행률</span>
+          </div>
         </div>
       </div>
     </section>
