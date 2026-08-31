@@ -186,6 +186,7 @@
 .pd-panel-fade {
   animation: pd-panel-fade 0.25s ease;
 }
+.pd-stacked-panel { margin-top: 32px; }
 @keyframes pd-panel-fade {
   from {
     opacity: 0;
