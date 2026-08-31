@@ -3873,7 +3873,7 @@ main.app-main.app-main-flush .landing-metric-track {
   padding: 9px 20px;
   border-radius: 10px;
   border: 1px solid transparent;
-  background: rgba(255, 255, 255, .07);
+  background: transparent;
   color: rgba(255, 255, 255, .72);
   font-family: "Pretendard", sans-serif;
   font-size: 14px;
@@ -3881,7 +3881,7 @@ main.app-main.app-main-flush .landing-metric-track {
   white-space: nowrap;
   transition: background-color .16s ease, color .16s ease, box-shadow .16s ease;
 }
-.floating-nav-link:hover { color: #fff; background: rgba(255, 255, 255, .13); }
+.floating-nav-link:hover { color: #fff; }
 .floating-nav-link.is-selected {
   color: var(--hanzo-ink, #171812);
   background: linear-gradient(180deg, #ffe08a, var(--hanzo-yellow, #f2c94c));
@@ -3913,7 +3913,7 @@ main.app-main.app-main-flush .landing-metric-track {
   padding: 9px 14px;
   border-radius: 9px;
   border: 1px solid transparent;
-  background: rgba(255, 255, 255, .06);
+  background: transparent;
   color: rgba(255, 255, 255, .74);
   font-family: "Pretendard", sans-serif;
   font-size: 13px;
