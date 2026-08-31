@@ -3813,7 +3813,7 @@ main.app-main.app-main-flush .landing-metric-track {
    stays visible on every view, matching the nav bar's top offset/z-index. */
 .site-logo-mark {
   position: fixed;
-  top: 64px;
+  top: 40px;
   left: 64px;
   z-index: 70;
   font-family: "Pretendard", sans-serif;
