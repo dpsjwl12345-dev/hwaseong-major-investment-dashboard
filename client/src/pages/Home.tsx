@@ -1457,12 +1457,13 @@ function useCountUp(target: number, duration = 1200) {
 }
 
 // Vertical bar chart driven by real per-category totals (not decorative
-// filler) — each bar's height is proportional to its share of the largest
-// category. All bars share one accent color per card; only the opacity
-// varies with magnitude, so the chart stays visually calm and cohesive
-// instead of six category colors clashing side by side. Carries a native
-// tooltip with the exact label/value so it holds up to a closer look.
-function MetricCategoryBars({ data, formatValue, color }: { data: { label: string; value: number }[]; formatValue: (value: number) => string; color: string }) {
+// filler). One signature violet→pink gradient (--metric-gradient, defined in
+// CSS) is used across every metric card for cohesion; within a chart, only
+// the single largest bar gets the full bright gradient — every other bar is
+// a flat dim tone from the same family. That bright/dim contrast is what
+// carries the "which one stands out" signal, instead of six unrelated hues.
+// Carries a native tooltip with the exact label/value.
+function MetricCategoryBars({ data, formatValue }: { data: { label: string; value: number }[]; formatValue: (value: number) => string }) {
   const max = Math.max(1, ...data.map((d) => d.value));
   return (
     <div className="landing-metric-bars" aria-hidden="true">
@@ -1470,10 +1471,9 @@ function MetricCategoryBars({ data, formatValue, color }: { data: { label: strin
         <span
           key={d.label}
           title={`${d.label} ${formatValue(d.value)}`}
+          className={d.value === max && max > 0 ? "is-peak" : ""}
           style={{
             "--h": `${Math.max(4, Math.round((d.value / max) * 100))}%`,
-            "--bar-color": color,
-            opacity: 0.4 + 0.6 * (d.value / max),
             animationDelay: `${i * 0.06}s`,
           } as CSSProperties}
         />
@@ -1484,9 +1484,9 @@ function MetricCategoryBars({ data, formatValue, color }: { data: { label: strin
 
 // Horizontal composition bar for the project-count card — one continuous
 // track split into segments sized by each category's share of the total.
-// Same single-accent-color-with-opacity treatment as the bars above, so the
-// two "분야별" cards read as distinct chart shapes without clashing colors.
-function MetricCompositionBar({ data, color }: { data: { label: string; value: number }[]; color: string }) {
+// Same bright-peak / dim-rest treatment as the bars above, so the two
+// "분야별" cards read as distinct chart shapes sharing one color language.
+function MetricCompositionBar({ data }: { data: { label: string; value: number }[] }) {
   const total = Math.max(1, data.reduce((sum, d) => sum + d.value, 0));
   const max = Math.max(1, ...data.map((d) => d.value));
   return (
@@ -1495,10 +1495,9 @@ function MetricCompositionBar({ data, color }: { data: { label: string; value: n
         <span
           key={d.label}
           title={`${d.label} ${d.value}개`}
+          className={d.value === max && max > 0 ? "is-peak" : ""}
           style={{
             "--w": `${(d.value / total) * 100}%`,
-            "--seg-color": color,
-            opacity: 0.4 + 0.6 * (d.value / max),
             animationDelay: `${i * 0.06}s`,
           } as CSSProperties}
         />
@@ -1509,9 +1508,9 @@ function MetricCompositionBar({ data, color }: { data: { label: string; value: n
 
 // Radial gauge for the execution-rate metric card. `percent` should already
 // be the animated (count-up) value so the ring fills in lockstep with the
-// number ticking up, rather than snapping straight to its final angle. Uses
-// the app's existing blue→violet accent pair (--pd-accent-a/b) rather than
-// the gold used elsewhere, so the three cards aren't monochrome.
+// number ticking up. Uses the same violet→pink gradient as the bar charts
+// so all three cards share one consistent accent instead of three unrelated
+// hues.
 function MetricRadialGauge({ percent }: { percent: number }) {
   const radius = 30;
   const circumference = 2 * Math.PI * radius;
@@ -1521,8 +1520,8 @@ function MetricRadialGauge({ percent }: { percent: number }) {
     <svg className="landing-metric-gauge" viewBox="0 0 76 76" width="76" height="76" aria-hidden="true">
       <defs>
         <linearGradient id="metric-gauge-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="var(--pd-accent-a)" />
-          <stop offset="100%" stopColor="var(--pd-accent-b)" />
+          <stop offset="0%" stopColor="#c084fc" />
+          <stop offset="100%" stopColor="#ec4899" />
         </linearGradient>
       </defs>
       <circle className="landing-metric-gauge-track" cx="38" cy="38" r={radius} />
@@ -1568,17 +1567,17 @@ function LandingPage() {
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
           <div className="landing-metric">
-            <span>전체 사업 · 분야별</span>
+            <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Layers3 aria-hidden="true" /></span><span>전체 사업 · 분야별</span></div>
             <strong>{Math.round(projectCount)}<em>개</em></strong>
-            <div className="landing-metric-visual"><MetricCompositionBar data={projectsByCategory} color="#34d399" /></div>
+            <div className="landing-metric-visual"><MetricCompositionBar data={projectsByCategory} /></div>
           </div>
           <div className="landing-metric">
-            <span>총사업비 · 분야별</span>
+            <div className="landing-metric-head"><span className="landing-metric-icon-badge"><Coins aria-hidden="true" /></span><span>총사업비 · 분야별</span></div>
             <strong>{formatBudgetNumber(Math.round(budgetCount))}<em>백만원</em></strong>
-            <div className="landing-metric-visual"><MetricCategoryBars data={budgetByCategory} formatValue={(v) => `${formatBudgetNumber(v)}백만원`} color="#ffbe3d" /></div>
+            <div className="landing-metric-visual"><MetricCategoryBars data={budgetByCategory} formatValue={(v) => `${formatBudgetNumber(v)}백만원`} /></div>
           </div>
           <div className="landing-metric">
-            <span>평균 집행률</span>
+            <div className="landing-metric-head"><span className="landing-metric-icon-badge"><TrendingUp aria-hidden="true" /></span><span>평균 집행률</span></div>
             <strong>{Math.round(executionCount)}<em>%</em></strong>
             <div className="landing-metric-visual landing-metric-visual-gauge"><MetricRadialGauge percent={executionCount} /></div>
           </div>

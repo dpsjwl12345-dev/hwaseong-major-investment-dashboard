@@ -2875,6 +2875,7 @@ h1, h2, h3, h4, h5, h6,
 .landing-metrics {
   position: relative;
   z-index: 2;
+  --metric-gradient: linear-gradient(180deg, #c084fc, #ec4899);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 20px;
@@ -2885,7 +2886,7 @@ h1, h2, h3, h4, h5, h6,
 .landing-metric {
   min-width: 0;
   min-height: 280px;
-  padding: 32px 32px 28px;
+  padding: 28px 32px 28px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2898,7 +2899,22 @@ h1, h2, h3, h4, h5, h6,
 }
 .landing-metric:nth-child(2) { animation-delay: .1s; }
 .landing-metric:nth-child(3) { animation-delay: .2s; }
-.landing-metric > span { display: block; color: rgba(222,232,255,.55); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
+.landing-metric-head { display: flex; align-items: center; gap: 12px; }
+.landing-metric-icon-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, #ec4899 45%, transparent);
+  background: color-mix(in srgb, #ec4899 14%, transparent);
+  color: #f0abfc;
+}
+.landing-metric-icon-badge svg { width: 18px; height: 18px; }
+.landing-metric > span,
+.landing-metric-head > span { display: block; color: rgba(222,232,255,.55); font-size: 13px; font-weight: 700; letter-spacing: .12em; }
 .landing-metric strong { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 0; color: #fff; font-family: "Gmarket Sans", "Pretendard", sans-serif; font-size: clamp(38px, 5vw, 58px); font-weight: 700; letter-spacing: -.03em; }
 .landing-metric strong em { color: rgba(222,232,255,.55); font-family: "Pretendard", sans-serif; font-size: 16px; font-style: normal; font-weight: 600; letter-spacing: 0; }
 .landing-metric-visual { align-self: stretch; margin-top: auto; padding-top: 24px; }
@@ -2907,10 +2923,11 @@ h1, h2, h3, h4, h5, h6,
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Card 2 — budget by category: vertical comparison bars, each bar colored
-   with that category's own map/legend color (--bar-color). A slow infinite
-   bob keeps the chart visibly alive after the initial rise instead of going
-   static. */
+/* Card 2 — budget by category: vertical comparison bars. Only the single
+   largest bar (.is-peak) gets the full violet→pink gradient; every other
+   bar is a flat dim wine tone from the same family, so the "which category
+   leads" signal comes from bright/dim contrast, not six competing hues. A
+   slow infinite bob keeps the chart visibly alive after the initial rise. */
 .landing-metric-bars { display: flex; align-items: flex-end; gap: 8px; height: 76px; }
 .landing-metric-bars span {
   flex: 1;
@@ -2918,9 +2935,13 @@ h1, h2, h3, h4, h5, h6,
   max-width: 34px;
   height: 0%;
   border-radius: 5px 5px 0 0;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--bar-color) 70%, #fff), var(--bar-color));
-  box-shadow: 0 0 14px -4px var(--bar-color);
+  background: #3d2233;
   transform-origin: bottom;
+  animation: landing-metric-bar-rise .8s cubic-bezier(.22,1,.36,1) forwards;
+}
+.landing-metric-bars span.is-peak {
+  background: var(--metric-gradient);
+  box-shadow: 0 0 16px -4px #ec4899;
   animation: landing-metric-bar-rise .8s cubic-bezier(.22,1,.36,1) forwards, landing-metric-bar-bob 3.6s ease-in-out .9s infinite;
 }
 @keyframes landing-metric-bar-rise {
@@ -2933,26 +2954,27 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* Card 1 — project count by category: one horizontal track split into
-   segments sized by share of total, each colored with that category's own
-   map/legend color (--seg-color) — a visually distinct chart type from the
-   vertical bars in card 2. */
+   segments sized by share of total. Same bright-peak / dim-rest treatment
+   as the bars above — a visually distinct chart type from card 2 that still
+   shares the same color language. */
 .landing-metric-composition { display: flex; width: 100%; height: 20px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.06); }
 .landing-metric-composition span {
   flex: 0 0 auto;
   width: 0%;
   height: 100%;
-  background: var(--seg-color);
+  background: #3d2233;
   animation: landing-metric-seg-grow .8s cubic-bezier(.22,1,.36,1) forwards;
 }
+.landing-metric-composition span.is-peak { background: var(--metric-gradient); }
 .landing-metric-composition span + span { border-left: 2px solid rgba(10,14,26,.6); }
 @keyframes landing-metric-seg-grow {
   from { width: 0%; }
   to { width: var(--w); }
 }
 
-/* Card 3 — execution rate: radial gauge, blue→violet gradient (matches the
-   app's existing --pd-accent-a/b pair) instead of the gold used elsewhere.
-   A soft pulsing glow keeps it visibly alive once the fill animation ends. */
+/* Card 3 — execution rate: radial gauge using the same violet→pink gradient
+   (see MetricRadialGauge's SVG defs) so all three cards share one accent. A
+   soft pulsing glow keeps it visibly alive once the fill animation ends. */
 .landing-metric-visual-gauge { display: flex; }
 .landing-metric-gauge-track { fill: none; stroke: rgba(255,255,255,.12); stroke-width: 6; }
 .landing-metric-gauge-value {
@@ -2963,8 +2985,8 @@ h1, h2, h3, h4, h5, h6,
   animation: landing-metric-gauge-pulse 2.6s ease-in-out 1.2s infinite;
 }
 @keyframes landing-metric-gauge-pulse {
-  0%, 100% { filter: drop-shadow(0 0 0 rgba(154,92,245,0)); }
-  50% { filter: drop-shadow(0 0 6px rgba(154,92,245,.7)); }
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(236,72,153,0)); }
+  50% { filter: drop-shadow(0 0 6px rgba(236,72,153,.7)); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -3893,7 +3915,7 @@ main.app-main.app-main-flush .landing-metric {
   min-height: 240px !important;
   padding: 28px 28px 24px !important;
 }
-main.app-main.app-main-flush .landing-metric > span {
+main.app-main.app-main-flush .landing-metric-head > span {
   font-size: 12px !important;
 }
 main.app-main.app-main-flush .landing-metric strong {
