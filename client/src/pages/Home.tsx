@@ -1407,7 +1407,7 @@ function FloatingNavBar({
       <button
         type="button"
         className="floating-nav-link"
-        onClick={() => { onGoHome(); setIsDeptOpen(false); setShowProjects(false); setIsExpanded(false); }}
+        onClick={() => { onGoHome(); setIsDeptOpen(false); setShowProjects(false); }}
       >
         HOME
       </button>
@@ -1473,7 +1473,7 @@ function FloatingNavBar({
       <button
         type="button"
         className="floating-nav-link"
-        onClick={() => { onOpenMap(); setIsDeptOpen(false); setShowProjects(false); setIsExpanded(false); }}
+        onClick={() => { onOpenMap(); setIsDeptOpen(false); setShowProjects(false); }}
       >
         MAP VIEW
       </button>

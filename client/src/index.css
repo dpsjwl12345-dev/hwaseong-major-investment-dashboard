@@ -3918,9 +3918,9 @@ main.app-main.app-main-flush .landing-metric-track {
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
-  width: 620px;
+  width: 660px;
   max-width: calc(100vw - 32px);
-  padding: 10px;
+  padding: 12px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, .18);
   background: rgba(255, 255, 255, .1);
@@ -3935,7 +3935,7 @@ main.app-main.app-main-flush .landing-metric-track {
   gap: 4px;
 }
 .floating-nav-dropdown-row button {
-  padding: 8px 10px;
+  padding: 8px 12px;
 }
 .floating-nav-dropdown button {
   flex: none;
@@ -3965,16 +3965,18 @@ main.app-main.app-main-flush .landing-metric-track {
   background: var(--hanzo-yellow, #f2c94c);
 }
 .floating-nav-dropdown-projects {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px 16px;
   max-width: 100%;
-  max-height: 132px;
   margin-top: 8px;
   padding-top: 8px;
-  overflow-y: auto;
   border-top: 1px solid rgba(255, 255, 255, .1);
+}
+.floating-nav-dropdown-projects button {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .floating-nav-dropdown-projects button {
   text-align: left;
