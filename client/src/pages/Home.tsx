@@ -1368,6 +1368,7 @@ function FloatingNavBar({
   onGoHome,
   onOpenMap,
   onSelectDepartment,
+  onSelectProject,
   activeDepartmentName,
 }: {
   onGoHome: () => void;
@@ -1378,7 +1379,10 @@ function FloatingNavBar({
   activeProjectDepartmentName: string | null;
 }) {
   const floatingNavDepartments = ["문화예술과", "문화유산과", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
+  const projectsByDepartment = organization.flatMap((bureau) => bureau.departments);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
+  const [openDeptName, setOpenDeptName] = useState<string | null>(null);
+  const openDept = openDeptName ? projectsByDepartment.find((item) => item.name === openDeptName) : null;
 
   return (
     <nav className="floating-nav" aria-label="빠른 이동">
@@ -1393,17 +1397,36 @@ function FloatingNavBar({
           MENU
         </button>
         {isDeptOpen && (
-          <div className="floating-nav-dropdown floating-nav-dropdown-row">
-            {floatingNavDepartments.map((name) => (
-              <button
-                type="button"
-                key={name}
-                className={activeDepartmentName === name ? "is-selected" : ""}
-                onClick={() => { onSelectDepartment(name); setIsDeptOpen(false); }}
-              >
-                {name}
-              </button>
-            ))}
+          <div className="floating-nav-dropdown">
+            <div className="floating-nav-dropdown-row">
+              {floatingNavDepartments.map((name) => {
+                const isSelected = openDeptName === name;
+                return (
+                  <button
+                    type="button"
+                    key={name}
+                    className={isSelected ? "is-selected" : ""}
+                    onClick={() => { onSelectDepartment(name); setOpenDeptName(isSelected ? null : name); }}
+                  >
+                    {isSelected && <i className="floating-nav-dot" />}
+                    {name}
+                  </button>
+                );
+              })}
+            </div>
+            {openDept && openDept.projects.length > 0 && (
+              <div className="floating-nav-dropdown-projects">
+                {openDept.projects.map((project) => (
+                  <button
+                    type="button"
+                    key={project.id}
+                    onClick={() => { onSelectProject(project); setIsDeptOpen(false); setOpenDeptName(null); }}
+                  >
+                    {project.project_name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </div>
