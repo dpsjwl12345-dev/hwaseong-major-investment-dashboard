@@ -1440,11 +1440,34 @@ function FloatingNavBar({
   );
 }
 
+// Counts up from 0 to `target` once on mount (landing hero metrics) using
+// an eased requestAnimationFrame loop rather than a setInterval ticker, so
+// the motion decelerates smoothly instead of stepping at a fixed rate.
+function useCountUp(target: number, duration = 1200) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    let raf: number;
+    const start = performance.now();
+    const animate = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setValue(target * eased);
+      if (t < 1) raf = requestAnimationFrame(animate);
+    };
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, [target, duration]);
+  return value;
+}
+
 function LandingPage() {
   const totalBudget = projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
   const averageExecution = projects.length > 0
     ? Math.round(projects.reduce((sum, project) => sum + parseProgress(project), 0) / projects.length)
     : 0;
+  const projectCount = useCountUp(projects.length, 1100);
+  const budgetCount = useCountUp(totalBudget, 1400);
+  const executionCount = useCountUp(averageExecution, 1000);
   return (
     <section className="landing-page">
       <div className="hero-panel">
@@ -1473,9 +1496,9 @@ function LandingPage() {
           <span className="landing-cta-pill">화성시 주요투자사업 대시보드</span>
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
-          <div className="landing-metric"><span>전체 사업</span><strong>{projects.length}<em>개</em></strong><small>PROJECTS</small></div>
-          <div className="landing-metric"><span>총사업비</span><strong>{formatBudgetNumber(totalBudget)}<em>백만원</em></strong><small>TOTAL BUDGET</small></div>
-          <div className="landing-metric"><span>평균 집행률</span><strong>{averageExecution}%</strong><div className="landing-metric-track"><i style={{ width: `${averageExecution}%` }} /></div></div>
+          <div className="landing-metric"><span>전체 사업</span><strong>{Math.round(projectCount)}<em>개</em></strong><small>PROJECTS</small></div>
+          <div className="landing-metric"><span>총사업비</span><strong>{formatBudgetNumber(Math.round(budgetCount))}<em>백만원</em></strong><small>TOTAL BUDGET</small></div>
+          <div className="landing-metric"><span>평균 집행률</span><strong>{Math.round(executionCount)}%</strong><div className="landing-metric-track"><i style={{ width: `${averageExecution}%` }} /></div></div>
         </div>
       </div>
     </section>
