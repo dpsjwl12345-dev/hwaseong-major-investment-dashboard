@@ -4091,4 +4091,4 @@ main.app-main.app-main-flush .landing-metric-track {
 
 /* Clear the fixed floating nav bar (now shown on every view, not just
    landing) on non-flush pages so their content doesn't sit under it. */
-main.app-main:not(.app-main-flush) { padding-top: 112px !important; }
+main.app-main:not(.app-main-flush) { padding-top: 140px !important; }
