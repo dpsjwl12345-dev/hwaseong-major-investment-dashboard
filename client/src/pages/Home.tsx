@@ -1706,9 +1706,12 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--pd-ground)] text-white">
-      <button type="button" className="site-logo-mark" onClick={goLanding} aria-label="홈으로 이동">
-        HIB.
-      </button>
+      {createPortal(
+        <button type="button" className="site-logo-mark" onClick={goLanding} aria-label="홈으로 이동">
+          HIB.
+        </button>,
+        document.body,
+      )}
       <FloatingNavBar
         onGoHome={goLanding}
         onOpenMap={goMap}
