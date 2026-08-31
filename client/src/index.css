@@ -3289,7 +3289,17 @@ h1, h2, h3, h4, h5, h6,
 .dept-project-table td small { font-size: 12.5px !important; }
 .dept-project-table td:first-child { text-align: center !important; }
 .dept-progress > span { width: 92px !important; height: 8px !important; }
-.dept-progress b { font-size: 14px !important; }
+.dept-progress b { font-size: 16px !important; }
+.dept-project-table { font-size: 16px !important; }
+.dept-project-table th { font-size: 16px !important; }
+.dept-project-table td strong { font-size: 19px !important; }
+.dept-project-table td small { font-size: 14px !important; }
+.dept-project-type { font-size: 15px !important; }
+.dept-stage-chip { font-size: 15px !important; }
+.dept-amount-cell { font-size: 18px !important; }
+.dept-kpi span { font-size: 15px !important; }
+.dept-kpi small { font-size: 13px !important; }
+.floating-nav-dropdown button { font-size: 16px !important; }
 
 /* Totals row summarizing the currently filtered projects */
 .dept-total-row td { background: rgba(255,190,61,.08) !important; border-bottom: 2px solid rgba(255,190,61,.28); font-weight: 800; }
