@@ -1571,6 +1571,15 @@
   mix-blend-mode: screen;
   will-change: transform;
 }
+.landing-cta-pill {
+  display: block;
+  margin-top: clamp(16px, 2.6vh, 26px);
+  color: rgba(222, 232, 255, .78);
+  font-family: "Pretendard", sans-serif;
+  font-size: clamp(15px, 1.6vw, 19px);
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
 .landing-arc {
   position: absolute;
   inset: 0;
