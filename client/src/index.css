@@ -3892,13 +3892,6 @@ main.app-main.app-main-flush .landing-metric-track {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, .25);
-  transition: width .18s ease;
-}
-.floating-nav.is-dept-open {
-  width: 720px;
-  max-width: calc(100vw - 32px);
-  justify-content: space-between;
-  padding: 0 14px;
 }
 .floating-nav-link {
   flex: none;
@@ -3974,7 +3967,7 @@ main.app-main.app-main-flush .landing-metric-track {
 }
 .floating-nav-dropdown-projects {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 6px 16px;
   max-width: 100%;
   margin-top: 8px;
@@ -4131,4 +4124,5 @@ main.app-main.app-main-flush .landing-metric-track {
 
 /* Clear the fixed floating nav bar (now shown on every view, not just
    landing) on non-flush pages so their content doesn't sit under it. */
-main.app-main:not(.app-main-flush) { padding-top: 140px !important; }
+main.app-main:not(.app-main-flush) { padding-top: 140px !important; transition: padding-top .18s ease; }
+body.nav-projects-open main.app-main:not(.app-main-flush) { padding-top: 320px !important; }
