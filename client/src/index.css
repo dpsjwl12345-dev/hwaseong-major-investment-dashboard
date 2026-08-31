@@ -2651,7 +2651,7 @@ html, body, #root,
 .dept-project-table td small { margin-top: 4px; color: var(--pd-text-faint); font-size: 11px; }
 .dept-stage-chip { display: inline-flex; align-items: center; border: 1px solid rgba(255,190,61,.3); border-radius: 999px; padding: 5px 8px; color: #ffd36b; background: rgba(255,190,61,.1); font-size: 11px; }
 .dept-amount-cell { color: #ffd36b !important; font-weight: 800; }
-.dept-progress { display: flex; align-items: center; gap: 8px; min-width: 100px; }
+.dept-progress { display: flex; align-items: center; justify-content: flex-end; gap: 8px; min-width: 100px; }
 .dept-progress > span { display: block; width: 70px; height: 6px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.1); }
 .dept-progress > span em { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ff9e2c, #ffe08a); }
 .dept-progress b { color: #fff; font-size: 11px; }
