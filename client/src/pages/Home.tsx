@@ -1468,7 +1468,7 @@ function LandingPage() {
           <circle className="landing-arc-dot" cx="1140" cy="120" r="2.2" />
         </svg>
         <div className="landing-content">
-          <p className="landing-eyebrow"><span /> 화성 <span /></p>
+          <p className="landing-eyebrow"><span /> HWASEONG SPECIAL CITY <span /></p>
           <h1 className="landing-title"><span className="landing-title-line landing-title-line-a">MAJOR INVESTMENT</span><span className="landing-title-line landing-title-line-b">BUDGET</span></h1>
         </div>
         <div className="landing-metrics" aria-label="주요 투자사업 요약">
