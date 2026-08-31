@@ -91,7 +91,7 @@
   }
 }
 .pd-summary-label {
-  font-size: 13.5px;
+  font-size: 16px !important;
   color: var(--pd-text-faint);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -313,13 +313,13 @@
   }
 }
 .pd-kv-label {
-  font-size: 13px;
+  font-size: 15px !important;
   color: var(--pd-text-faint);
   display: block;
   margin-bottom: 5px;
 }
 .pd-kv-value {
-  font-size: 15.5px;
+  font-size: 18px !important;
   line-height: 1.55;
   color: var(--pd-text);
   white-space: pre-line;
@@ -1087,10 +1087,10 @@
 }
 
 /* Detail pill-radio menu adapted to the existing dashboard palette */
-.pd-pill-tabs { --total-options: 5; display: inline-grid; grid-template-columns: repeat(5, max-content); position: relative; width: fit-content; max-width: 100%; margin: 0 0 24px; padding: 4px; gap: 0; border: 1px solid var(--pd-border-soft); border-radius: 3rem; background: var(--pd-surface); box-shadow: 0 0 12px rgba(0,0,0,.24) inset; overflow: hidden; }
+.pd-pill-tabs { --total-options: 3; display: inline-grid; grid-template-columns: repeat(3, max-content); position: relative; width: fit-content; max-width: 100%; margin: 0 0 24px; padding: 4px; gap: 0; border: 1px solid var(--pd-border-soft); border-radius: 3rem; background: var(--pd-surface); box-shadow: 0 0 12px rgba(0,0,0,.24) inset; overflow: hidden; }
 .pd-pill-tabs .pill-tab-option { display: contents; }
 .pd-pill-tabs input { display: none; }
-.pd-pill-tabs label { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 42px; padding: 0 14px; border-radius: 3rem; cursor: pointer; color: var(--pd-text-muted); font-size: 15px; font-weight: 700; line-height: 1.2; text-align: center; white-space: nowrap; transition: color .2s ease, background-color .2s ease; }
+.pd-pill-tabs label { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 46px; padding: 0 34px; border-radius: 3rem; cursor: pointer; color: var(--pd-text-muted); font-size: 15px; font-weight: 700; line-height: 1.2; text-align: center; white-space: nowrap; transition: color .2s ease, background-color .2s ease; }
 .pd-pill-tabs label:hover { color: var(--pd-text-muted); }
 .pd-pill-tabs input:checked + label { color: #fff; background: transparent; }
 .pd-pill-tabs .pill-indicator { position: absolute; z-index: 1; left: 0; bottom: 4px; width: 0; height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--pd-accent-a), var(--pd-accent-b)); box-shadow: none; transform: translateX(0); transition: transform .25s ease, width .25s ease; pointer-events: none; }
@@ -2275,9 +2275,11 @@ html, body, #root,
   min-height: 0;
   overflow-y: auto;
   scrollbar-width: none;
-  border: 1px solid rgba(255,255,255,.9);
+  border: 1px solid rgba(255,255,255,.12);
   border-radius: 34px;
-  background: #070707;
+  background: rgba(10, 10, 12, .7);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   box-shadow: 0 22px 46px -30px rgba(0,0,0,.78), 0 0 0 1px rgba(20,20,20,.08);
 }
 .detail-panel-shell::-webkit-scrollbar { display: none; }
@@ -3288,7 +3290,7 @@ h1, h2, h3, h4, h5, h6,
 .dept-project-table th { font-size: 14px !important; }
 .dept-project-table td strong { font-size: 16px !important; }
 .dept-project-table td small { font-size: 12.5px !important; }
-.dept-project-table td:first-child { text-align: center !important; }
+.dept-project-table tbody td:first-child { text-align: center !important; justify-self: center; }
 .dept-progress > span { width: 92px !important; height: 8px !important; }
 .dept-progress b { font-size: 16px !important; }
 .dept-project-table { font-size: 16px !important; }
