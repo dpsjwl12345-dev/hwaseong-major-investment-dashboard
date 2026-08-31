@@ -1573,12 +1573,12 @@
 }
 .landing-cta-pill {
   display: block;
-  margin-top: clamp(16px, 2.6vh, 26px);
-  color: rgba(222, 232, 255, .78);
+  margin-top: clamp(14px, 2.2vh, 22px);
+  color: rgba(222, 232, 255, .58);
   font-family: "Pretendard", sans-serif;
-  font-size: clamp(15px, 1.6vw, 19px);
-  font-weight: 600;
-  letter-spacing: -.01em;
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-weight: 500;
+  letter-spacing: 0;
 }
 .landing-arc {
   position: absolute;
@@ -1592,21 +1592,6 @@
 .landing-arc-dot {
   fill: #fff;
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, .8));
-}
-.landing-arc-flow {
-  stroke: #fff;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-dasharray: 7 93;
-  filter: drop-shadow(0 0 4px rgba(255, 255, 255, .9));
-  animation: landing-arc-flow 4.5s linear infinite;
-}
-@keyframes landing-arc-flow {
-  from { stroke-dashoffset: 0; }
-  to { stroke-dashoffset: -100; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .landing-arc-flow { animation: none; }
 }
 .landing-orb-a { display: none; }
 .landing-orb-b { display: none; }
