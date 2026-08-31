@@ -3894,6 +3894,7 @@ main.app-main.app-main-flush .landing-metric-track {
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
+  max-width: min(80vw, 800px);
   padding: 8px;
   border-radius: 14px;
   border: 1px solid rgba(255, 255, 255, .12);
@@ -3937,19 +3938,18 @@ main.app-main.app-main-flush .landing-metric-track {
 }
 .floating-nav-dropdown-projects {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-height: 200px;
+  flex-flow: row wrap;
+  gap: 4px 18px;
   margin-top: 8px;
   padding-top: 8px;
-  overflow-y: auto;
   border-top: 1px solid rgba(255, 255, 255, .1);
 }
 .floating-nav-dropdown-projects button {
-  width: 100%;
+  flex: none;
   text-align: left;
   font-size: 12.5px;
   font-weight: 500;
+  white-space: nowrap;
   color: rgba(255, 255, 255, .68);
 }
 .floating-nav-dropdown-projects button:hover { color: #fff; }
