@@ -1386,14 +1386,15 @@ function FloatingNavBar({
           <div className="floating-nav-dropdown">
             <div className="floating-nav-dropdown-row">
               {floatingNavDepartments.map((name) => {
-                const isSelected = openDeptName === name;
+                const isOpen = openDeptName === name;
+                const isActive = activeDepartmentName === name;
                 return (
                   <button
                     type="button"
                     key={name}
-                    className={isSelected ? "is-selected" : ""}
+                    className={isOpen ? "is-selected" : ""}
                     onClick={() => {
-                      if (isSelected) {
+                      if (isOpen) {
                         setShowProjects((show) => !show);
                       } else {
                         onSelectDepartment(name);
@@ -1402,7 +1403,7 @@ function FloatingNavBar({
                       }
                     }}
                   >
-                    {isSelected && <i className="floating-nav-dot" />}
+                    {isActive && <i className="floating-nav-dot" />}
                     {name}
                   </button>
                 );
