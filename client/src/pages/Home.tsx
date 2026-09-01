@@ -630,7 +630,9 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
       </svg>
 
       <div className="flex flex-wrap items-center gap-4">
-        <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
+        <div className="pd-detail-title-block">
+          <p className="pd-detail-eyebrow">PROJECT INVESTMENT DETAIL</p>
+          <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
           {(() => {
             const match = project.project_name.match(/^(.*?)(\s*\([^)]+\))\s*$/);
             if (!match) return project.project_name;
@@ -642,7 +644,8 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
               </>
             );
           })()}
-        </h1>
+          </h1>
+        </div>
 
         {hasSubProjects && (() => {
           const subCount = project.sub_projects!.length;
