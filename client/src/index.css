@@ -4884,10 +4884,10 @@ main.app-main.app-main-flush .landing-enter-button {
   width: 7.6em;
   position: absolute;
   height: 2.75em;
-  border: 0;
+  border: 3px ridge #e8ac42;
   outline: none;
   background-color: transparent;
-  color: #fff;
+  color: white;
   transition: 1s;
   border-radius: 0.3em;
   font-size: 16px;
@@ -4896,36 +4896,35 @@ main.app-main.app-main-flush .landing-enter-button {
   cursor: pointer;
 }
 
-/* 좌우 괄호만 표시하고, 평상시 중앙 음영과 위·아래 가로선은 표시하지 않음. */
-.landing-map-button::after,
-.landing-map-button::before {
+.landing-map-button::after {
   content: "";
   position: absolute;
-  top: 15%;
-  width: 9px;
-  height: 70%;
-  background-color: transparent;
+  top: -10px;
+  left: 3%;
+  width: 95%;
+  height: 40%;
+  background-color: #0b1020;
   transition: 0.5s;
   transform-origin: center;
-  pointer-events: none;
 }
 
 .landing-map-button::before {
-  left: 0;
-  border-top: 3px solid #fff;
-  border-bottom: 3px solid #fff;
-  border-left: 3px solid #fff;
-  border-radius: 0.3em 0 0 0.3em;
+  content: "";
+  transform-origin: center;
+  position: absolute;
+  top: 80%;
+  left: 3%;
+  width: 95%;
+  height: 40%;
+  background-color: #0b1020;
+  transition: 0.5s;
 }
 
-.landing-map-button::after {
-  right: 0;
-  border-top: 3px solid #fff;
-  border-bottom: 3px solid #fff;
-  border-right: 3px solid #fff;
-  border-radius: 0 0.3em 0.3em 0;
+.landing-map-button:hover::before,
+.landing-map-button:hover::after {
+  transform: scale(0);
 }
 
 .landing-map-button:hover {
-  box-shadow: inset 0px 0px 25px rgba(255, 255, 255, .72);
+  box-shadow: inset 0px 0px 25px #e8ac42;
 }
