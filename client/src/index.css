@@ -4134,6 +4134,7 @@ main.app-main.app-main-flush .landing-enter-button {
   .site-search { right: 20px; }
   .site-search.is-open .site-search-input { width: 160px; }
   .site-search-results { width: 260px; }
+  .landing-map-button { top: 34px; right: 20px; height: 38px; padding: 0 14px; font-size: 13px; }
 }
 
 /* Small re-lock icon button in the header, next to the search toggle. */
@@ -4250,6 +4251,34 @@ main.app-main.app-main-flush .landing-enter-button {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+.landing-map-button {
+  position: absolute;
+  top: 34px;
+  right: 64px;
+  z-index: 71;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .25);
+  color: #fff;
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .03em;
+  cursor: pointer;
+  transition: background-color .16s ease, color .16s ease, box-shadow .16s ease;
+}
+.landing-map-button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, .16);
 }
 .floating-nav {
   position: static;

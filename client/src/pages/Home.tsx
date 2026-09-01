@@ -1872,15 +1872,11 @@ export default function Home() {
             activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
             includeMapView={activeView !== "landing"}
           />
-          {activeView === "landing" ? (
-            <div className="site-utility-group" aria-label="보조 기능">
-              <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
-              <button type="button" className="floating-nav-link site-utility-map" onClick={goMap}>MAP VIEW</button>
-            </div>
-          ) : (
-            <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
-          )}
+          <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
         </div>
+        {activeView === "landing" && (
+          <button type="button" className="landing-map-button" onClick={goMap}>MAP VIEW</button>
+        )}
         {activeView !== "landing" && (
           <div className={`site-search ${isSearchFocused ? "is-open" : ""}`}>
             <input
