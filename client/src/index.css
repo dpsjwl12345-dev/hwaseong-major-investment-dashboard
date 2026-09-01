@@ -4900,16 +4900,17 @@ main.app-main.app-main-flush .landing-enter-button {
 .landing-map-button::before {
   content: "";
   position: absolute;
-  top: 15%;
-  width: 9px;
-  height: 70%;
+  top: 8%;
+  width: 14px;
+  height: 84%;
+  box-sizing: border-box;
   background-color: transparent;
   transition: 0.5s;
   transform-origin: center;
 }
 
 .landing-map-button::before {
-  left: 0;
+  left: -3px;
   border-top: 3px solid #e8ac42;
   border-bottom: 3px solid #e8ac42;
   border-left: 3px solid #e8ac42;
@@ -4917,7 +4918,7 @@ main.app-main.app-main-flush .landing-enter-button {
 }
 
 .landing-map-button::after {
-  right: 0;
+  right: -3px;
   border-top: 3px solid #e8ac42;
   border-bottom: 3px solid #e8ac42;
   border-right: 3px solid #e8ac42;
