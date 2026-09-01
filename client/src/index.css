@@ -3957,7 +3957,7 @@ main.app-main.app-main-flush .landing-enter-button {
 .site-header-sticky {
   position: relative;
   width: 100%;
-  height: 160px;
+  height: 140px;
   z-index: 70;
 }
 /* Landing page: float over the full-height hero instead of taking up flow
@@ -4246,9 +4246,9 @@ main.app-main.app-main-flush .landing-enter-button {
   .landing-floating-bar { justify-content: flex-start; }
 }
 
-/* Clear the fixed floating nav bar (now shown on every view, not just
-   landing) on non-flush pages so their content doesn't sit under it. */
-main.app-main:not(.app-main-flush) { padding-top: 140px !important; }
+/* The header sits in normal flow above .app-main now, so no extra top
+   padding is needed here to clear it (that used to compensate for the
+   header being position:fixed and overlaying the content). */
 
 /* ---------------------------------------------------------------------
    Landing hero v2 — asymmetric composition with a real-measured

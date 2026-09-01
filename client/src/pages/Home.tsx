@@ -1766,20 +1766,24 @@ export default function Home() {
     setSelectedProject(null);
     setActiveView("landing");
     setQuery("");
+    window.scrollTo(0, 0);
   };
   const goMap = () => {
     setSelectedProject(null);
     setActiveView("map");
+    window.scrollTo(0, 0);
   };
   const goDepartment = (departmentName: string) => {
     setSelectedDepartmentDashboard(departmentName);
     setSelectedProject(null);
     setActiveView("department");
+    window.scrollTo(0, 0);
   };
   const goProject = (project: Project) => {
     setSelectedProject(project);
     setActiveView("project");
     setQuery("");
+    window.scrollTo(0, 0);
   };
 
   return (
