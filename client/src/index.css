@@ -4995,3 +4995,15 @@ main.app-main.app-main-flush .landing-enter-button {
 .pd-detail-attached-group > .pd-stacked-panel.pd-attached-last > .pd-card {
   border-radius: 0 0 18px 18px !important;
 }
+
+/* Remove decorative lower-right gradients from project detail summary cards. */
+.pd-detail-page .pd-progress-section::after {
+  display: none !important;
+}
+.pd-detail-page .pd-exec-card,
+.pd-detail-page .pd-exec-card.is-primary {
+  background: #111111 !important;
+}
+.pd-detail-page .pd-exec-card-glow {
+  display: none !important;
+}
