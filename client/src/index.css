@@ -4028,9 +4028,13 @@ main.app-main.app-main-flush .landing-enter-button {
   letter-spacing: -.01em;
 }
 .site-logo-mark-tagline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.15;
   letter-spacing: .02em;
   text-align: left;
   white-space: nowrap;
