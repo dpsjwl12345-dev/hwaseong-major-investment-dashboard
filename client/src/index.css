@@ -4934,3 +4934,14 @@ main.app-main.app-main-flush .landing-enter-button {
   border-color: #e8ac42;
   box-shadow: inset 0px 0px 25px #e8ac42;
 }
+
+/* Keep the supplied hover state active while the map view is open. */
+.landing-map-button.is-map-active::before,
+.landing-map-button.is-map-active::after {
+  transform: scale(0);
+}
+
+.landing-map-button.is-map-active {
+  border-color: #e8ac42;
+  box-shadow: inset 0px 0px 25px #e8ac42;
+}

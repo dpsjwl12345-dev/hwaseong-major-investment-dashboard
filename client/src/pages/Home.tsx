@@ -1867,7 +1867,7 @@ export default function Home() {
           />
           <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
         </div>
-        <button type="button" className="landing-map-button" onClick={goMap}>MAP VIEW</button>
+        <button type="button" className={`landing-map-button${activeView === "map" ? " is-map-active" : ""}`} onClick={goMap}>MAP VIEW</button>
         {/* 검색 기능은 유지하되, 당분간 화면에서는 노출하지 않음 */}
         {false && activeView !== "landing" && (
           <div className={`site-search ${isSearchFocused ? "is-open" : ""}`}>
