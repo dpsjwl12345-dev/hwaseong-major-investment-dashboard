@@ -4884,14 +4884,15 @@ main.app-main.app-main-flush .landing-enter-button {
   width: 7.6em;
   position: absolute;
   height: 2.75em;
-  border: 3px ridge #149CEA;
+  border: 3px ridge #e8ac42;
   outline: none;
   background-color: transparent;
-  color: white;
+  color: #e8ac42;
   transition: 1s;
   border-radius: 0.3em;
   font-size: 16px;
   font-weight: bold;
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -4925,5 +4926,5 @@ main.app-main.app-main-flush .landing-enter-button {
 }
 
 .landing-map-button:hover {
-  box-shadow: inset 0px 0px 25px #1479EA;
+  box-shadow: inset 0px 0px 25px #e8ac42;
 }
