@@ -1123,7 +1123,7 @@
 .pd-pill-tabs::before { display: none; }
 .pd-pill-tabs .pill-tab-option { display: contents; }
 .pd-pill-tabs input { display: none; }
-.pd-pill-tabs label { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; padding: 0 18px; border-radius: 999px; cursor: pointer; color: var(--pd-text-faint); font-family: "Gmarket Sans", "Pretendard", sans-serif; font-size: 18px; font-weight: 500; line-height: 1; white-space: nowrap; transition: color .3s ease; }
+.pd-pill-tabs label { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; flex: 1; height: 100%; padding: 0 18px; border-radius: 999px; cursor: pointer; color: rgba(244, 241, 234, .72); font-family: "Gmarket Sans", "Pretendard", sans-serif; font-size: 18px; font-weight: 500; line-height: 1; white-space: nowrap; transition: color .3s ease; }
 .pd-pill-tabs label:hover { color: var(--pd-text-muted); }
 .pd-step-num { display: none; }
 .pd-pill-tabs input:checked + label { color: #06070c; font-weight: 700; }
