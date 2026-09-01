@@ -1493,7 +1493,7 @@ function FloatingNavBar({
       {includeMapView && (
         <button
           type="button"
-          className="floating-nav-link"
+          className="floating-nav-link floating-nav-map-link"
           onClick={() => { onOpenMap(); setIsDeptOpen(false); setShowProjects(false); }}
         >
           MAP VIEW
