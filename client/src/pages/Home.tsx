@@ -1401,7 +1401,7 @@ function FloatingNavBar({
 }) {
   const floatingNavDepartments = ["문화예술과", "문화유산과", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
   const projectsByDepartment = organization.flatMap((bureau) => bureau.departments);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
   const [openDeptName, setOpenDeptName] = useState<string | null>(null);
   const [showProjects, setShowProjects] = useState(false);
