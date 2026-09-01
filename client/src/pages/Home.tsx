@@ -751,7 +751,7 @@ function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocke
             <OverviewPanel project={activeProject} />
             <div className="pd-detail-attached-group">
               <ProgressPanel project={activeProject} />
-              <div className="pd-stacked-panel"><AdminPanel project={activeProject} /></div>
+              <div className={`pd-stacked-panel${activeProject.rendering_images?.length ? "" : " pd-attached-last"}`}><AdminPanel project={activeProject} /></div>
               {activeProject.rendering_images?.length ? <div className="pd-stacked-panel"><LocationPanel project={activeProject} /></div> : null}
             </div>
           </>

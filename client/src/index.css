@@ -4990,3 +4990,8 @@ main.app-main.app-main-flush .landing-enter-button {
 .pd-detail-attached-group > .pd-card + .pd-stacked-panel > .pd-card {
   border-top: 0 !important;
 }
+
+/* When no rendering card follows, the admin card becomes the attached group's rounded bottom. */
+.pd-detail-attached-group > .pd-stacked-panel.pd-attached-last > .pd-card {
+  border-radius: 0 0 18px 18px !important;
+}
