@@ -1622,7 +1622,6 @@ function LandingPage() {
 
         <div className="landing-hero-content">
           <div className="landing-hero-title-group">
-            <p className="landing-hero-eyebrow" ref={grid.eyebrowRef}>HWASEONG SPECIAL CITY</p>
             <h1 className="landing-hero-title"><span className="landing-hero-title-line landing-hero-title-line-a">MAJOR INVESTMENT</span><span className="landing-hero-title-line landing-hero-title-line-b">BUDGET</span></h1>
           </div>
           <span className="landing-hero-pill" ref={grid.pillRef}>화성시 주요투자사업 대시보드</span>
