@@ -5067,3 +5067,18 @@ main.app-main.app-main-flush .landing-enter-button {
 @media (max-width: 680px) {
   .dept-inline-search.is-open .site-search-input { width: min(190px, 58vw); }
 }
+
+/* Keep the same compact expanding search in both department and project headers. */
+.pd-detail-search {
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+.pd-detail-search .dept-inline-search {
+  position: relative;
+  top: auto;
+  right: auto;
+}
+.pd-detail-search .dept-inline-search-results {
+  right: 0;
+  left: auto;
+}

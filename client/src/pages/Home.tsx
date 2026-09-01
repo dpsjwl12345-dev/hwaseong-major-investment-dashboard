@@ -585,7 +585,7 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
 
 const TABS = ["사업개요·추진현황", "예산현황"] as const;
 
-function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void } }) {
+function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
   const [selectedSubIndex, setSelectedSubIndex] = useState(0);
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -643,6 +643,8 @@ function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocke
             );
           })()}
         </h1>
+
+        <div className="pd-detail-search"><PodaSearch value={searchValue} onChange={onSearchChange} projects={searchProjects} onSelectProject={onSelectProject} /></div>
 
         {hasSubProjects && (() => {
           const subCount = project.sub_projects!.length;
@@ -1303,7 +1305,7 @@ function DepartmentDashboard({
           <h1>{initialDepartment} 추진현황</h1>
         </div>
         <div className="dept-dashboard-search">
-          <PodaSearch value={projectSearch} onChange={setProjectSearch} />
+          <PodaSearch value={projectSearch} onChange={setProjectSearch} projects={departmentProjects} onSelectProject={onSelectProject} />
         </div>
       </div>
 
@@ -1356,9 +1358,13 @@ function DepartmentDashboard({
   );
 }
 
-function PodaSearch({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+function PodaSearch({ value, onChange, projects, onSelectProject }: { value: string; onChange: (value: string) => void; projects: Project[]; onSelectProject: (project: Project) => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const normalizedSearch = value.trim().toLowerCase();
+  const matches = normalizedSearch
+    ? projects.filter((project) => `${project.project_name} ${project.department} ${project.category} ${project.project_type} ${project.region} ${project.district} ${project.town}`.toLowerCase().includes(normalizedSearch)).slice(0, 8)
+    : [];
 
   const toggleSearch = () => {
     setIsOpen((open) => {
@@ -1384,6 +1390,16 @@ function PodaSearch({ value, onChange }: { value: string; onChange: (value: stri
       <button type="button" className="site-search-toggle" onClick={toggleSearch} aria-label={isOpen ? "검색 닫기" : "검색 열기"}>
         <Search size={18} strokeWidth={2.2} />
       </button>
+      {isOpen && normalizedSearch && (
+        <div className="site-search-results dept-inline-search-results">
+          {matches.length > 0 ? matches.map((project) => (
+            <button type="button" key={project.id} className="site-search-result" onMouseDown={(event) => event.preventDefault()} onClick={() => { onSelectProject(project); setIsOpen(false); }}>
+              <span>{project.project_name}</span>
+              <small>{project.department} · {project.current_stage || "미등록"}</small>
+            </button>
+          )) : <div className="site-search-empty">검색 결과가 없습니다.</div>}
+        </div>
+      )}
     </div>
   );
 }
@@ -1934,7 +1950,7 @@ export default function Home() {
             <DepartmentDashboard key={selectedDepartmentDashboard} initialDepartment={selectedDepartmentDashboard} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
-              <ProjectDetail project={selectedProject} />
+              <ProjectDetail project={selectedProject} searchValue={query} onSearchChange={setQuery} searchProjects={projects} onSelectProject={goProject} />
             </div>
           ) : (
             <LandingPage />
