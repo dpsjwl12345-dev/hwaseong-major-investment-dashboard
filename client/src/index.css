@@ -5100,12 +5100,13 @@ main.app-main.app-main-flush .landing-enter-button {
   border: 0;
   border-radius: 999px;
   color: #fff;
-  background: #090909;
-  box-shadow: none;
+  background: linear-gradient(145deg, #242424 0%, #090909 58%, #000 100%);
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,.18), inset -2px -2px 4px rgba(0,0,0,.72), 0 3px 8px rgba(0,0,0,.34);
 }
 .dept-inline-search .site-search-toggle:hover {
   color: #fff;
-  background: #202020;
+  background: linear-gradient(145deg, #303030 0%, #111 70%);
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,.2), inset -2px -2px 4px rgba(0,0,0,.66), 0 4px 10px rgba(0,0,0,.38);
 }
 .dept-inline-search .site-search-input,
 .dept-inline-search.is-open .site-search-input {
