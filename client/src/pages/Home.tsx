@@ -1621,8 +1621,10 @@ function LandingPage() {
         <span className="landing-hero-dot" ref={grid.dotBotRightRef} aria-hidden="true" />
 
         <div className="landing-hero-content">
-          <p className="landing-hero-eyebrow" ref={grid.eyebrowRef}>HWASEONG SPECIAL CITY</p>
-          <h1 className="landing-hero-title"><span className="landing-hero-title-line landing-hero-title-line-a">MAJOR INVESTMENT</span><span className="landing-hero-title-line landing-hero-title-line-b">BUDGET</span></h1>
+          <div className="landing-hero-title-group">
+            <p className="landing-hero-eyebrow" ref={grid.eyebrowRef}>HWASEONG SPECIAL CITY</p>
+            <h1 className="landing-hero-title"><span className="landing-hero-title-line landing-hero-title-line-a">MAJOR INVESTMENT</span><span className="landing-hero-title-line landing-hero-title-line-b">BUDGET</span></h1>
+          </div>
           <span className="landing-hero-pill" ref={grid.pillRef}>화성시 주요투자사업 대시보드</span>
         </div>
 
@@ -1631,12 +1633,10 @@ function LandingPage() {
           <div className="landing-hero-stat">
             <em>관리사업</em>
             <b>{Math.round(projectCount)}<small>개</small></b>
-            <span>Total Projects</span>
           </div>
           <div className="landing-hero-stat" ref={grid.statLeftRef}>
             <em>총사업비</em>
             <b>{formatBudgetNumber(Math.round(budgetCount))}<small>백만원</small></b>
-            <span>Total Budget</span>
           </div>
           <div className="landing-hero-stat" ref={grid.statMidRef}>
             <em>2027년 예산 요구액</em>
@@ -1645,7 +1645,6 @@ function LandingPage() {
           <div className="landing-hero-stat" ref={grid.statRightRef}>
             <em>2026년까지 누적 투자액</em>
             <b>{formatBudgetNumber(Math.round(investedCount))}<small>백만원</small></b>
-            <span>Invested to 2026</span>
           </div>
         </div>
       </div>
