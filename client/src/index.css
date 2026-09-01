@@ -5007,3 +5007,25 @@ main.app-main.app-main-flush .landing-enter-button {
 .pd-detail-page .pd-exec-card-glow {
   display: none !important;
 }
+
+/* Department dashboard search stays hidden on the landing page and sits in the header row here. */
+.dept-dashboard-header .dept-dashboard-search {
+  flex: 0 1 280px;
+  width: min(280px, 100%);
+  margin-left: auto;
+}
+.dept-dashboard-header .sidebar-search-simple .input {
+  height: 38px;
+  border-radius: 9px;
+  outline-color: rgba(255, 190, 61, .72);
+  background-color: rgba(255, 255, 255, .92);
+}
+.dept-dashboard-header .sidebar-search-simple .input:focus {
+  outline-color: #ffbe3d;
+}
+@media (max-width: 680px) {
+  .dept-dashboard-header .dept-dashboard-search {
+    width: 100%;
+    margin-left: 0;
+  }
+}

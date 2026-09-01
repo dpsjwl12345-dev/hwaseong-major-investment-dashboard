@@ -1242,6 +1242,7 @@ function DepartmentDashboard({
   const maxBudget = "";
   const [stageFilter, setStageFilter] = useState("전체");
   const [divisionFilter, setDivisionFilter] = useState("전체");
+  const [projectSearch, setProjectSearch] = useState("");
   const [isDivisionOpen, setIsDivisionOpen] = useState(false);
   const [isStageOpen, setIsStageOpen] = useState(false);
   const futurePlanBudgetFor = (project: Project) => project.card_budget_2028_plus_million_krw ?? 0;
@@ -1255,6 +1256,11 @@ function DepartmentDashboard({
   const futurePlanBudget = departmentProjects.reduce((sum, project) => sum + futurePlanBudgetFor(project), 0);
   const budgetValueFor = (project: Project) => futureBudgetFor(project);
   const filteredProjects = departmentProjects
+    .filter((project) => {
+      const normalizedSearch = projectSearch.trim().toLowerCase();
+      if (!normalizedSearch) return true;
+      return `${project.project_name} ${project.department} ${project.category} ${project.project_type} ${project.region} ${project.district} ${project.town}`.toLowerCase().includes(normalizedSearch);
+    })
     .filter((project) => stageFilter === "전체" || project.current_stage === stageFilter)
     .filter((project) => divisionFilter === "전체" || project.region === divisionFilter)
     .filter((project) => {
@@ -1295,6 +1301,9 @@ function DepartmentDashboard({
         <div>
           <p className="dept-dashboard-eyebrow">DEPARTMENT INVESTMENT CONTROL</p>
           <h1>{initialDepartment} 추진현황</h1>
+        </div>
+        <div className="dept-dashboard-search">
+          <PodaSearch value={projectSearch} onChange={setProjectSearch} />
         </div>
       </div>
 
