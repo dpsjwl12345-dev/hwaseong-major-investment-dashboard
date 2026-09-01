@@ -1376,6 +1376,7 @@ function FloatingNavBar({
   onSelectDepartment,
   onSelectProject,
   activeDepartmentName,
+  activeProjectDepartmentName,
   includeMapView = true,
 }: {
   onGoHome: () => void;
@@ -1394,6 +1395,14 @@ function FloatingNavBar({
   const [showProjects, setShowProjects] = useState(false);
   const openDept = openDeptName && showProjects ? projectsByDepartment.find((item) => item.name === openDeptName) : null;
 
+  useEffect(() => {
+    if (!activeDepartmentName && !activeProjectDepartmentName) {
+      setIsDeptOpen(false);
+      setOpenDeptName(null);
+      setShowProjects(false);
+    }
+  }, [activeDepartmentName, activeProjectDepartmentName]);
+
   if (!isExpanded) {
     return (
       <nav className="floating-nav" aria-label="빠른 이동">
@@ -1407,7 +1416,7 @@ function FloatingNavBar({
       <button
         type="button"
         className="floating-nav-link"
-        onClick={() => { onGoHome(); setIsDeptOpen(false); setShowProjects(false); }}
+        onClick={() => { onGoHome(); setIsDeptOpen(false); setOpenDeptName(null); setShowProjects(false); }}
       >
         HOME
       </button>
@@ -1475,7 +1484,7 @@ function FloatingNavBar({
         <button
           type="button"
           className="floating-nav-link"
-          onClick={() => { onOpenMap(); setIsDeptOpen(false); setShowProjects(false); }}
+          onClick={() => { onOpenMap(); setIsDeptOpen(false); setOpenDeptName(null); setShowProjects(false); }}
         >
           MAP VIEW
         </button>
