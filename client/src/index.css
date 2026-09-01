@@ -4713,9 +4713,9 @@ main.app-main.app-main-flush .landing-enter-button {
   left: 0;
   margin: 0 0 22px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: .22em;
+  letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--hero-ink-faint);
   opacity: 0;
@@ -4752,7 +4752,7 @@ main.app-main.app-main-flush .landing-enter-button {
   position: relative;
   left: -1.5vw;
   display: block;
-  margin: 4px 0 0;
+  margin: -2px 0 0;
   font-family: "Gmarket Sans", "Pretendard Variable", Pretendard, sans-serif;
   font-size: 21px;
   font-weight: 600;
