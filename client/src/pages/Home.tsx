@@ -644,8 +644,6 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           })()}
         </h1>
 
-        <div className="pd-detail-search"><PodaSearch value={searchValue} onChange={onSearchChange} projects={searchProjects} onSelectProject={onSelectProject} /></div>
-
         {hasSubProjects && (() => {
           const subCount = project.sub_projects!.length;
           const maxLabelLen = Math.max(...project.sub_projects!.map((sub) => sub.name.length));
@@ -665,6 +663,8 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           </div>
           );
         })()}
+
+        <div className="pd-detail-search"><PodaSearch value={searchValue} onChange={onSearchChange} projects={searchProjects} onSelectProject={onSelectProject} /></div>
       </div>
 
       <section className="pd-summary mt-8" aria-label="사업 요약">
