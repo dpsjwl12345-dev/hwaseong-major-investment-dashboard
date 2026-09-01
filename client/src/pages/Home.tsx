@@ -255,7 +255,6 @@ function OverviewPanel({ project }: { project: Project }) {
           onNavigate={setLightboxIndex}
         />
       )}
-      {project.overview_map && <SpotMapCard map={project.overview_map} projectName={project.project_name} />}
     </div>
   );
 }
@@ -448,35 +447,19 @@ function realCoordsFor(project: Project): [number, number] | null {
 }
 
 function LocationPanel({ project }: { project: Project }) {
-  const coords = realCoordsFor(project);
   const renderings = project.rendering_images ?? [];
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  if (renderings.length === 0) return null;
 
   return (
     <div className="pd-card">
-      <div className={`grid gap-4 ${renderings.length > 0 ? "lg:grid-cols-2" : ""}`}>
-        <div>
-          <div className="pd-card-title"><DetailSectionHeading icon={MapPin} title="위치도" /></div>
-          <div className="pd-map-placeholder relative overflow-hidden">
-            {coords ? (
-              <HwaseongGLMap longitude={coords[0]} latitude={coords[1]} label={project.project_name} />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center p-6 text-center"><div><div className="pd-map-pin" /><span className="pd-map-caption">등록된 사업위치가 없습니다</span></div></div>
-            )}
-          </div>
-        </div>
-        {renderings.length > 0 && (
-          <div>
-            <div className="pd-card-title"><DetailSectionHeading icon={ImageIcon} title="조감도" /></div>
-            <div className="pd-rendering-grid" data-count={Math.min(renderings.length, 4)}>
-              {renderings.map((src, index) => (
-                <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} 조감도 ${index + 1} 확대 보기`}>
-                  <img src={src} alt={`${project.project_name} 조감도 ${index + 1}`} />
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+      <div className="pd-card-title"><DetailSectionHeading icon={ImageIcon} title="조감도" /></div>
+      <div className="pd-rendering-grid" data-count={Math.min(renderings.length, 4)}>
+        {renderings.map((src, index) => (
+          <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} 조감도 ${index + 1} 확대 보기`}>
+            <img src={src} alt={`${project.project_name} 조감도 ${index + 1}`} />
+          </button>
+        ))}
       </div>
       {lightboxIndex !== null && (
         <RenderingLightbox
@@ -600,16 +583,16 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
   );
 }
 
-const TABS = ["사업개요", "예산현황", "추진현황"] as const;
+const TABS = ["사업개요·추진현황", "예산현황"] as const;
 
 function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void } }) {
-  const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요");
+  const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
   const [selectedSubIndex, setSelectedSubIndex] = useState(0);
   const tabsRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setActiveTab("사업개요");
+    setActiveTab("사업개요·추진현황");
     setSelectedSubIndex(0);
   }, [project.id]);
 
@@ -763,21 +746,17 @@ function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocke
       </div>
 
       <div key={`${project.id}-${selectedSubIndex}-${activeTab}`} className="pd-panel-fade">
-        {activeTab === "사업개요" && (
+        {activeTab === "사업개요·추진현황" && (
           <>
             <OverviewPanel project={activeProject} />
+            <ProgressPanel project={activeProject} />
+            <div className="pd-stacked-panel"><AdminPanel project={activeProject} /></div>
             <div className="pd-stacked-panel"><LocationPanel project={activeProject} /></div>
           </>
         )}
         {activeTab === "예산현황" && <BudgetPanel project={activeProject} />}
-        {activeTab === "추진현황" && (
-          <>
-            <ProgressPanel project={activeProject} />
-            <div className="pd-stacked-panel"><AdminPanel project={activeProject} /></div>
-          </>
-        )}
       </div>
-      {overviewPairs.length === 0 && activeTab === "사업개요" && null}
+      {overviewPairs.length === 0 && activeTab === "사업개요·추진현황" && null}
     </section>
   );
 }
