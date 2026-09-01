@@ -1541,7 +1541,6 @@ function useHeroGridPosition() {
   const dotTopRRef = useRef<HTMLSpanElement>(null);
   const dotBot25Ref = useRef<HTMLSpanElement>(null);
   const dotBot50Ref = useRef<HTMLSpanElement>(null);
-  const dotBot75Ref = useRef<HTMLSpanElement>(null);
   const focusTopRef = useRef<HTMLDivElement>(null);
   const focusBottomRef = useRef<HTMLDivElement>(null);
 
@@ -1582,7 +1581,6 @@ function useHeroGridPosition() {
       if (dotTopRRef.current) { dotTopRRef.current.style.top = `${topY}px`; }
       if (dotBot25Ref.current) { dotBot25Ref.current.style.top = `${botY}px`; dotBot25Ref.current.style.left = `${leftPct}%`; }
       if (dotBot50Ref.current) { dotBot50Ref.current.style.top = `${botY}px`; dotBot50Ref.current.style.left = `${midPct}%`; }
-      if (dotBot75Ref.current) { dotBot75Ref.current.style.top = `${botY}px`; dotBot75Ref.current.style.left = `${rightPct}%`; }
       if (focusTopRef.current) { focusTopRef.current.style.top = `${topY}px`; focusTopRef.current.style.left = `${leftPct}%`; }
       if (focusBottomRef.current) { focusBottomRef.current.style.top = `${botY}px`; focusBottomRef.current.style.left = `${rightPct}%`; }
     };
@@ -1595,7 +1593,7 @@ function useHeroGridPosition() {
     return () => window.removeEventListener("resize", position);
   }, []);
 
-  return { heroRef, eyebrowRef, pillRef, statRowRef, statLeftRef, statMidRef, statRightRef, vLeftRef, vRightRef, hTopRef, dotTopLRef, dotTopMidRef, dotTopRRef, dotBot25Ref, dotBot50Ref, dotBot75Ref, focusTopRef, focusBottomRef };
+  return { heroRef, eyebrowRef, pillRef, statRowRef, statLeftRef, statMidRef, statRightRef, vLeftRef, vRightRef, hTopRef, dotTopLRef, dotTopMidRef, dotTopRRef, dotBot25Ref, dotBot50Ref, focusTopRef, focusBottomRef };
 }
 
 function LandingPage() {
@@ -1621,7 +1619,6 @@ function LandingPage() {
         <span className="landing-hero-dot" ref={grid.dotTopRRef} style={{ left: "98.5%" }} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotBot25Ref} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotBot50Ref} aria-hidden="true" />
-        <span className="landing-hero-dot" ref={grid.dotBot75Ref} aria-hidden="true" />
         <div className="landing-hero-focus" ref={grid.focusTopRef} aria-hidden="true"><i /><i /><i /><i /></div>
         <div className="landing-hero-focus" ref={grid.focusBottomRef} aria-hidden="true"><i /><i /><i /><i /></div>
 
