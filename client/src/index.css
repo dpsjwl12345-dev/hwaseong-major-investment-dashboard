@@ -4900,9 +4900,9 @@ main.app-main.app-main-flush .landing-enter-button {
 .landing-map-button::before {
   content: "";
   position: absolute;
-  top: 8%;
+  top: -3px;
   width: 14px;
-  height: 84%;
+  height: calc(100% + 6px);
   box-sizing: border-box;
   background-color: transparent;
   transition: 0.5s;
