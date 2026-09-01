@@ -540,7 +540,6 @@ const SITE_PASSWORD = "51897225";
 const SITE_UNLOCK_STORAGE_KEY = "hib-site-unlocked";
 
 function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnlock: () => void }) {
-  const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
 
@@ -549,7 +548,6 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
     if (value === SITE_PASSWORD) {
       localStorage.setItem(SITE_UNLOCK_STORAGE_KEY, "1");
       onUnlock();
-      setOpen(false);
       setValue("");
       setError(false);
     } else {
@@ -572,26 +570,19 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
   }
 
   return (
-    <div className="site-password-hover" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
-      {open ? (
-        <form className="styled-button-pill" onSubmit={submit}>
-          <input
-            type="text"
-            autoFocus
-            value={value}
-            onChange={(event) => { setValue(event.target.value); setError(false); }}
-            placeholder="비밀번호"
-            className={`styled-button-input ${error ? "is-error" : ""}`}
-          />
-          <button type="submit" className="inner-button" aria-label="입장">
-            <ArrowRight className="icon" />
-          </button>
-        </form>
-      ) : (
-        <button type="button" className="styled-button-circle" aria-label="비밀번호" title="비밀번호">
+    <div className="site-password-hover">
+      <form className="styled-button-pill" onSubmit={submit}>
+        <input
+          type="text"
+          value={value}
+          onChange={(event) => { setValue(event.target.value); setError(false); }}
+          placeholder="비밀번호"
+          className={`styled-button-input ${error ? "is-error" : ""}`}
+        />
+        <button type="submit" className="inner-button" aria-label="입장">
           <ArrowRight className="icon" />
         </button>
-      )}
+      </form>
     </div>
   );
 }
