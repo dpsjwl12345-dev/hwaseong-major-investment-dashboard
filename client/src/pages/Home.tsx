@@ -540,11 +540,13 @@ const SITE_PASSWORD = "51897225";
 const SITE_UNLOCK_STORAGE_KEY = "hib-site-unlocked";
 
 function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnlock: () => void }) {
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [error, setError] = useState(false);
 
   const submit = (event: ReactFormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!value.trim()) return;
     if (value === SITE_PASSWORD) {
       localStorage.setItem(SITE_UNLOCK_STORAGE_KEY, "1");
       onUnlock();
@@ -571,18 +573,29 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
 
   return (
     <div className="site-password-hover">
-      <form className="styled-button-pill" onSubmit={submit}>
-        <input
-          type="text"
-          value={value}
-          onChange={(event) => { setValue(event.target.value); setError(false); }}
-          placeholder="비밀번호"
-          className={`styled-button-input ${error ? "is-error" : ""}`}
-        />
-        <button type="submit" className="inner-button" aria-label="입장">
+      {open ? (
+        <form className="styled-button-pill" onSubmit={submit}>
+          <input
+            type="text"
+            value={value}
+            onChange={(event) => { setValue(event.target.value); setError(false); }}
+            placeholder="비밀번호"
+            className={`styled-button-input ${error ? "is-error" : ""}`}
+          />
+          <button
+            type={value.trim() ? "submit" : "button"}
+            className="inner-button"
+            aria-label={value.trim() ? "입장" : "비밀번호 입력창 닫기"}
+            onClick={() => { if (!value.trim()) { setOpen(false); setError(false); } }}
+          >
+            <ArrowRight className="icon" />
+          </button>
+        </form>
+      ) : (
+        <button type="button" className="styled-button-circle" aria-label="비밀번호 입력창 열기" title="비밀번호" onClick={() => setOpen(true)}>
           <ArrowRight className="icon" />
         </button>
-      </form>
+      )}
     </div>
   );
 }
@@ -1562,7 +1575,7 @@ function useHeroGridPosition() {
 
       if (vLeftRef.current) vLeftRef.current.style.left = `${leftX}px`;
       if (vRightRef.current) vRightRef.current.style.left = `${rightX}px`;
-      if (hTopRef.current) { hTopRef.current.style.top = `${topY}px`; hTopRef.current.style.left = `${leftX}px`; }
+      if (hTopRef.current) { hTopRef.current.style.top = `${topY}px`; hTopRef.current.style.left = "0px"; }
       if (dotTopLRef.current) { dotTopLRef.current.style.top = `${topY}px`; dotTopLRef.current.style.left = `${leftPct}%`; }
       if (dotTopMidRef.current) { dotTopMidRef.current.style.top = `${topY}px`; dotTopMidRef.current.style.left = `${rightPct}%`; }
       if (dotTopRRef.current) { dotTopRRef.current.style.top = `${topY}px`; }
