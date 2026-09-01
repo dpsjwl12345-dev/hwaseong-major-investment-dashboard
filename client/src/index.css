@@ -4711,13 +4711,13 @@ main.app-main.app-main-flush .landing-enter-button {
 .landing-hero-eyebrow {
   position: relative;
   left: 0;
-  margin: 0 0 22px;
+  margin: 0 0 7px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 18px;
   font-weight: 700;
-  letter-spacing: .16em;
+  letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--hero-ink-faint);
+  color: var(--hero-ink-soft);
   opacity: 0;
   animation: hero-rise-in .7s ease .1s forwards;
 }
