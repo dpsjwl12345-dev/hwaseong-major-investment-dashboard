@@ -1641,7 +1641,6 @@ function LandingPage() {
           <div className="landing-hero-stat" ref={grid.statMidRef}>
             <em>2027년 예산 요구액</em>
             <b>{formatBudgetNumber(Math.round(budgetRequestCount))}<small>백만원</small></b>
-            <span>2027 Budget Request</span>
           </div>
           <div className="landing-hero-stat" ref={grid.statRightRef}>
             <em>2026년까지 누적 투자액</em>
