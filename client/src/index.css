@@ -4768,9 +4768,10 @@ main.app-main.app-main-flush .landing-enter-button {
 
 .landing-hero-statrow {
   --hero-stat-line-right: 1.5%;
+  --hero-stat-lower-extension: clamp(56px, 8vh, 96px);
   position: relative;
   z-index: 3;
-  margin-bottom: clamp(56px, 8vh, 96px);
+  margin-bottom: var(--hero-stat-lower-extension);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
@@ -4785,7 +4786,20 @@ main.app-main.app-main-flush .landing-enter-button {
 }
 .landing-hero-stat { padding: 22px 5vw 30px 0; }
 .landing-hero-statrow > .landing-hero-stat:first-child { padding-left: 5vw; }
-.landing-hero-statrow > .landing-hero-stat:not(:first-child) { padding-left: 28px; border-left: 1px solid var(--hero-line); }
+.landing-hero-statrow > .landing-hero-stat:not(:first-child) {
+  position: relative;
+  padding-left: 28px;
+  border-left: 0;
+}
+.landing-hero-statrow > .landing-hero-stat:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: calc(-1 * var(--hero-stat-lower-extension));
+  left: 0;
+  width: 1px;
+  background: var(--hero-line);
+}
 .landing-hero-stat em {
   display: block;
   font-style: normal;
@@ -4824,7 +4838,7 @@ main.app-main.app-main-flush .landing-enter-button {
   .landing-hero-content { padding: 3.5vh 6vw 0 5vw; }
   .landing-hero-title { font-size: clamp(30px, 8vw, 44px); }
   .landing-hero-pill { font-size: 20px; }
-  .landing-hero-statrow { grid-template-columns: repeat(2, 1fr); margin-bottom: 32px; }
+  .landing-hero-statrow { --hero-stat-lower-extension: 32px; grid-template-columns: repeat(2, 1fr); margin-bottom: 32px; }
   .landing-hero-statrow > .landing-hero-stat:nth-child(2) { border-left: none; padding-left: 5vw; }
   .landing-hero-statrow > .landing-hero-stat:nth-child(3) { padding-left: 5vw; border-left: none; border-top: 1px solid var(--hero-line); padding-top: 22px; }
 }
