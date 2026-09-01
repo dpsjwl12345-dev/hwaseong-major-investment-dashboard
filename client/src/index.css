@@ -4715,7 +4715,7 @@ main.app-main.app-main-flush .landing-enter-button {
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 16px;
   font-weight: 700;
-  letter-spacing: .225em;
+  letter-spacing: .22em;
   text-transform: uppercase;
   color: var(--hero-ink-faint);
   opacity: 0;
@@ -4750,7 +4750,7 @@ main.app-main.app-main-flush .landing-enter-button {
 }
 .landing-hero-pill {
   position: relative;
-  left: 0;
+  left: -1.5vw;
   display: block;
   margin: 4px 0 0;
   font-family: "Gmarket Sans", "Pretendard Variable", Pretendard, sans-serif;
@@ -4956,6 +4956,6 @@ main.app-main.app-main-flush .landing-enter-button {
   max-width: 100%;
 }
 .landing-hero-title-group .landing-hero-eyebrow {
-  width: 100%;
+  width: auto;
   text-align: left;
 }
