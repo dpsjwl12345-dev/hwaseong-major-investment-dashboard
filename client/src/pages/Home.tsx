@@ -1595,13 +1595,12 @@ function useHeroGridPosition() {
 
 function LandingPage() {
   const totalBudget = projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
-  const averageExecution = projects.length > 0
-    ? Math.round(projects.reduce((sum, project) => sum + parseProgress(project), 0) / projects.length)
-    : 0;
+  const investedTo2026 = projects.reduce((sum, project) => sum + (project.invested_to_2026_million_krw ?? 0), 0);
+  const budgetRequest2027 = projects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
   const projectCount = useCountUp(projects.length, 1100);
   const budgetCount = useCountUp(totalBudget, 1400);
-  const executionCount = useCountUp(averageExecution, 1000);
-  const sectorCount = Object.keys(CATEGORY_STYLES).length;
+  const budgetRequestCount = useCountUp(budgetRequest2027, 1200);
+  const investedCount = useCountUp(investedTo2026, 1200);
   const grid = useHeroGridPosition();
 
   return (
@@ -1631,7 +1630,7 @@ function LandingPage() {
           <span className="landing-hero-dot" style={{ top: 0, left: "1.5%" }} aria-hidden="true" />
           <span className="landing-hero-dot" style={{ top: 0, left: "98.5%" }} aria-hidden="true" />
           <div className="landing-hero-stat">
-            <em>전체사업</em>
+            <em>관리사업</em>
             <b>{Math.round(projectCount)}<small>개</small></b>
             <span>Total Projects</span>
           </div>
@@ -1641,14 +1640,14 @@ function LandingPage() {
             <span>Total Budget</span>
           </div>
           <div className="landing-hero-stat" ref={grid.statMidRef}>
-            <em>평균 집행률</em>
-            <b>{Math.round(executionCount)}<small>%</small></b>
-            <span>Execution Rate</span>
+            <em>2027년 예산 요구액</em>
+            <b>{formatBudgetNumber(Math.round(budgetRequestCount))}<small>백만원</small></b>
+            <span>2027 Budget Request</span>
           </div>
           <div className="landing-hero-stat" ref={grid.statRightRef}>
-            <em>투자분야</em>
-            <b>{sectorCount}<small>개</small></b>
-            <span>Sectors</span>
+            <em>2026년까지 누적 투자액</em>
+            <b>{formatBudgetNumber(Math.round(investedCount))}<small>백만원</small></b>
+            <span>Invested to 2026</span>
           </div>
         </div>
       </div>
