@@ -4959,3 +4959,9 @@ main.app-main.app-main-flush .landing-enter-button {
   width: auto;
   text-align: left;
 }
+
+/* Restore visibility of the hero grid without changing the lower metric separators. */
+.landing-hero-panel > .landing-hero-v,
+.landing-hero-panel > .landing-hero-h {
+  background: rgba(244, 241, 234, .18);
+}

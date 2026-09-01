@@ -1531,7 +1531,7 @@ function useCountUp(target: number, duration = 1200) {
 // viewport width.
 function useHeroGridPosition() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const eyebrowRef = useRef<HTMLParagraphElement>(null);
+  const eyebrowRef = useRef<HTMLHeadingElement>(null);
   const pillRef = useRef<HTMLSpanElement>(null);
   const statRowRef = useRef<HTMLDivElement>(null);
   const statLeftRef = useRef<HTMLDivElement>(null);
@@ -1622,7 +1622,7 @@ function LandingPage() {
 
         <div className="landing-hero-content">
           <div className="landing-hero-title-group">
-            <h1 className="landing-hero-title"><span className="landing-hero-title-line landing-hero-title-line-a">MAJOR INVESTMENT</span><span className="landing-hero-title-line landing-hero-title-line-b">BUDGET</span></h1>
+            <h1 ref={grid.eyebrowRef} className="landing-hero-title"><span className="landing-hero-title-line landing-hero-title-line-a">MAJOR INVESTMENT</span><span className="landing-hero-title-line landing-hero-title-line-b">BUDGET</span></h1>
           </div>
           <span className="landing-hero-pill" ref={grid.pillRef}>화성시 주요투자사업 대시보드</span>
         </div>
