@@ -4709,7 +4709,7 @@ main.app-main.app-main-flush .landing-enter-button {
 }
 .landing-hero-eyebrow {
   position: relative;
-  left: clamp(8px, 1.2vw, 18px);
+  left: 0;
   margin: 0 0 22px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 16px;
@@ -4749,9 +4749,9 @@ main.app-main.app-main-flush .landing-enter-button {
 }
 .landing-hero-pill {
   position: relative;
-  left: clamp(8px, 1.2vw, 18px);
+  left: 0;
   display: block;
-  margin: 4px 16px 0 0;
+  margin: 4px 0 0;
   font-family: "Gmarket Sans", "Pretendard Variable", Pretendard, sans-serif;
   font-size: 21px;
   font-weight: 600;
