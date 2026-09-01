@@ -5083,37 +5083,40 @@ main.app-main.app-main-flush .landing-enter-button {
   left: auto;
 }
 
-/* Final department/project header search treatment: black shell, right icon, left expansion. */
+/* Final department/project header search treatment: only a black circle at rest; input expands left. */
 .dept-inline-search {
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 10px;
-  background: #090909;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   box-shadow: none;
 }
 .dept-inline-search .site-search-toggle {
   position: relative;
   z-index: 2;
+  width: 38px;
+  height: 38px;
   border: 0;
-  border-radius: 0;
+  border-radius: 999px;
   color: #fff;
   background: #090909;
+  box-shadow: none;
 }
 .dept-inline-search .site-search-toggle:hover {
   color: #fff;
-  background: #1b1b1b;
+  background: #202020;
 }
 .dept-inline-search .site-search-input,
 .dept-inline-search.is-open .site-search-input {
-  margin-right: 0;
   border: 0;
-  border-radius: 0;
+  border-radius: 999px;
   background: #090909;
   color: #fff;
   box-shadow: none;
 }
 .dept-inline-search.is-open .site-search-input {
   width: min(240px, 42vw);
+  margin-right: 8px;
   padding: 0 14px;
 }
 .dept-inline-search .site-search-input::placeholder { color: rgba(255,255,255,.48); }
