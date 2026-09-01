@@ -1545,6 +1545,7 @@ function useHeroGridPosition() {
   const dotTopRRef = useRef<HTMLSpanElement>(null);
   const dotBot25Ref = useRef<HTMLSpanElement>(null);
   const dotBot50Ref = useRef<HTMLSpanElement>(null);
+  const dotBotRightRef = useRef<HTMLSpanElement>(null);
   const focusTopRef = useRef<HTMLDivElement>(null);
   const focusBottomRef = useRef<HTMLDivElement>(null);
 
@@ -1585,6 +1586,7 @@ function useHeroGridPosition() {
       if (dotTopRRef.current) { dotTopRRef.current.style.top = `${topY}px`; }
       if (dotBot25Ref.current) { dotBot25Ref.current.style.top = `${botY}px`; dotBot25Ref.current.style.left = `${leftPct}%`; }
       if (dotBot50Ref.current) { dotBot50Ref.current.style.top = `${botY}px`; dotBot50Ref.current.style.left = `${midPct}%`; }
+      if (dotBotRightRef.current) { dotBotRightRef.current.style.top = `${botY}px`; dotBotRightRef.current.style.left = `${rightPct}%`; }
       if (focusTopRef.current) { focusTopRef.current.style.top = `${topY}px`; focusTopRef.current.style.left = `${leftPct}%`; }
       if (focusBottomRef.current) { focusBottomRef.current.style.top = `${botY}px`; focusBottomRef.current.style.left = `${rightPct}%`; }
     };
@@ -1597,7 +1599,7 @@ function useHeroGridPosition() {
     return () => window.removeEventListener("resize", position);
   }, []);
 
-  return { heroRef, eyebrowRef, pillRef, statRowRef, statLeftRef, statMidRef, statRightRef, vLeftRef, vRightRef, hTopRef, dotTopLRef, dotTopMidRef, dotTopRRef, dotBot25Ref, dotBot50Ref, focusTopRef, focusBottomRef };
+  return { heroRef, eyebrowRef, pillRef, statRowRef, statLeftRef, statMidRef, statRightRef, vLeftRef, vRightRef, hTopRef, dotTopLRef, dotTopMidRef, dotTopRRef, dotBot25Ref, dotBot50Ref, dotBotRightRef, focusTopRef, focusBottomRef };
 }
 
 function LandingPage() {
@@ -1623,6 +1625,7 @@ function LandingPage() {
         <span className="landing-hero-dot" ref={grid.dotTopRRef} style={{ left: "98.5%" }} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotBot25Ref} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotBot50Ref} aria-hidden="true" />
+        <span className="landing-hero-dot" ref={grid.dotBotRightRef} aria-hidden="true" />
         <div className="landing-hero-focus" ref={grid.focusTopRef} aria-hidden="true"><i /><i /><i /><i /></div>
         <div className="landing-hero-focus" ref={grid.focusBottomRef} aria-hidden="true"><i /><i /><i /><i /></div>
 
@@ -1870,14 +1873,13 @@ export default function Home() {
             onSelectProject={goProject}
             activeDepartmentName={activeView === "department" ? selectedDepartmentDashboard : null}
             activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
-            includeMapView={activeView !== "landing"}
+            includeMapView={false}
           />
           <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
         </div>
-        {activeView === "landing" && (
-          <button type="button" className="landing-map-button" onClick={goMap}>MAP VIEW</button>
-        )}
-        {activeView !== "landing" && (
+        <button type="button" className="landing-map-button" onClick={goMap}>MAP VIEW</button>
+        {/* 검색 기능은 유지하되, 당분간 화면에서는 노출하지 않음 */}
+        {false && activeView !== "landing" && (
           <div className={`site-search ${isSearchFocused ? "is-open" : ""}`}>
             <input
               type="text"
