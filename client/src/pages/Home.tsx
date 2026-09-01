@@ -402,7 +402,7 @@ function ProgressPanel({ project }: { project: Project }) {
   const upcoming = parseTimeline(project.future_plan);
   return (
     <div className="pd-card">
-      <div className="mb-6 flex flex-wrap gap-8">
+      <div className="pd-progress-summary mb-6 flex flex-wrap gap-8">
         <div><p className="pd-summary-label !text-[16px]">사업 전체 공정률</p><p className="pd-summary-value mt-1 !text-[20px]">{percent}%</p></div>
         <div><p className="pd-summary-label !text-[16px]">추진상황 점검</p><p className="pd-summary-value mt-1 !text-[20px] text-[var(--pd-success)]">{project.delay_reason || "-"}</p></div>
         <div><p className="pd-summary-label !text-[16px]">준공예정일</p><p className="pd-summary-value mt-1 !text-[20px]">{formatDateText(project.inspection || "-")}</p></div>
