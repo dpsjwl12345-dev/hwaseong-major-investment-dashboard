@@ -27,6 +27,8 @@ import {
   X,
   Search,
   RefreshCw,
+  Lock,
+  ArrowRight,
 } from "lucide-react";
 import dataset from "../data/dashboard_projects.json";
 import hwaseongBoundary from "../data/hwaseong-boundary.json";
@@ -337,7 +339,7 @@ function FundingBreakdownCard({ rows, note, execution, projectId }: { rows: Brea
   return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={Banknote} title="재원별 예산" /><span className="pd-budget-panel-caption">(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayFundingSourceName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}<div className="pd-budget-panel-heading pd-exec-rate-heading"><DetailSectionHeading icon={Activity} title="예산 집행률" /><span className="pd-budget-panel-caption">{execution}%</span></div><div className="pd-exec-rate-track"><div key={projectId} className="pd-bar-fill" style={{ ["--pd-bar-width" as string]: `${execution}%` } as CSSProperties} /></div></div>;
 }
 
-const usageColors = ["#e5542d", "#58c7b1", "#6f8cff", "#9a7bdb", "#6b7280"];
+const usageColors = ["#e5542d", "#58c7b1", "#e8b84a", "#c9915a", "#8a8378"];
 const usageColorNames = ["공사", "감리", "설계", "부대", "기타"];
 
 function UsageBreakdownChart({ rows, note }: { rows: BreakdownRow[]; note?: string }) {
@@ -354,11 +356,12 @@ function UsageBreakdownChart({ rows, note }: { rows: BreakdownRow[]; note?: stri
   const yearTotals = years.map((year) => sumBreakdown(rows, year.key));
   const flowValues = [sumBreakdown(rows, "invested"), ...yearTotals];
   const maxFlowValue = Math.max(...flowValues, 1);
-  const flowX = (index: number) => index * (320 / (flowValues.length - 1));
-  const points = flowValues.map((value, index) => `${flowX(index)},${84 - (value / maxFlowValue) * 66}`).join(" ");
+  const flowX = (index: number) => 20 + index * (280 / (flowValues.length - 1));
+  const flowY = (value: number) => 46 - (value / maxFlowValue) * 30;
+  const points = flowValues.map((value, index) => `${flowX(index)},${flowY(value)}`).join(" ");
   const usageRows = rows.map((row) => ({ row, value: (row[selectedYear] as number | null | undefined) ?? 0 })).sort((a, b) => b.value - a.value);
   const usageColorFor = (name: string) => usageColors[Math.max(0, usageColorNames.indexOf(name)) % usageColors.length];
-  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={Layers3} title="성질별 예산" /></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-pulse-content"><div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">{years.map((year) => <button key={year.key} type="button" className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>)}</div><div className="pd-pulse-summary"><div><span className="pd-pulse-eyebrow">{selectedLabel} 편성 예산</span><strong>{formatMillion(selectedTotal || null)}</strong><span className="pd-pulse-positive">전체 사업비의 {selectedShare.toFixed(1)}%</span></div><div className="pd-pulse-donut" style={{ background: `conic-gradient(var(--pd-accent-a) ${selectedShare}%, rgba(255,255,255,.1) 0)` }}><span>{selectedShare.toFixed(0)}%</span><small>전체</small></div></div><div className="pd-usage-progress-list">{usageRows.map(({ row, value }) => { const share = selectedTotal > 0 ? (value / selectedTotal) * 100 : 0; return <div className="pd-usage-progress-row" key={row.name}><div className="pd-usage-progress-label"><span>{displayBreakdownName(row.name)}</span><b>{formatMillion(value || null)}</b><strong>{share.toFixed(0)}%</strong></div><div className="pd-usage-progress-track"><span style={{ width: `${share}%`, background: usageColorFor(row.name) }} /></div></div>; })}</div><div className="pd-usage-legend pd-usage-legend-top">{usageColorNames.map((name, index) => <span key={name}><i style={{ background: usageColors[index] }} />{name}</span>)}</div><div className="pd-pulse-trend"><div className="pd-pulse-section-label"><span>연도별 예산 흐름</span></div><svg viewBox="0 0 320 116" role="img" aria-label="연도별 예산 흐름"><defs><linearGradient id="budgetArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="var(--pd-accent-a)" stopOpacity=".28" /><stop offset="100%" stopColor="var(--pd-accent-a)" stopOpacity="0" /></linearGradient></defs><polygon points={`0,84 ${points} 320,84`} fill="url(#budgetArea)" /><polyline points={points} fill="none" stroke="var(--pd-accent-a)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />{flowValues.map((value, index) => <circle key={`flow-${index}`} cx={flowX(index)} cy={84 - (value / maxFlowValue) * 66} r="4.5" fill="#fff" stroke="var(--pd-accent-a)" strokeWidth="3" />)}{["기투자", "2026년", "2027년", "이후"].map((axisLabel, index) => <text key={axisLabel} x={flowX(index)} y="106" textAnchor={index === 0 ? "start" : index === 3 ? "end" : "middle"} className="pd-pulse-axis-label">{axisLabel}</text>)}</svg></div>{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}</div>}</div>;
+  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={Layers3} title="성질별 예산" /></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-pulse-content"><div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">{years.map((year) => <button key={year.key} type="button" className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>)}</div><div className="pd-pulse-summary"><div><span className="pd-pulse-eyebrow">{selectedLabel} 편성 예산</span><strong>{formatMillion(selectedTotal || null)}</strong><span className="pd-pulse-positive">전체 사업비의 {selectedShare.toFixed(1)}%</span></div><div className="pd-pulse-donut" style={{ background: `conic-gradient(var(--pd-accent-a) ${selectedShare}%, rgba(255,255,255,.1) 0)` }}><span>{selectedShare.toFixed(0)}%</span><small>전체</small></div></div><div className="pd-usage-progress-list">{usageRows.map(({ row, value }) => { const share = selectedTotal > 0 ? (value / selectedTotal) * 100 : 0; return <div className="pd-usage-progress-row" key={row.name}><div className="pd-usage-progress-label"><span>{displayBreakdownName(row.name)}</span><b>{formatMillion(value || null)}</b><strong>{share.toFixed(0)}%</strong></div><div className="pd-usage-progress-track"><span style={{ width: `${share}%`, background: usageColorFor(row.name) }} /></div></div>; })}</div><div className="pd-usage-legend pd-usage-legend-top">{usageColorNames.map((name, index) => <span key={name}><i style={{ background: usageColors[index] }} />{name}</span>)}</div><div className="pd-pulse-trend"><div className="pd-pulse-section-label"><span>연도별 예산 흐름</span></div><svg viewBox="0 0 320 80" role="img" aria-label="연도별 예산 흐름"><polyline points={points} fill="none" stroke="var(--pd-accent-a)" strokeWidth="0.5" strokeDasharray="0.5 1.5" strokeLinecap="round" strokeLinejoin="round" />{flowValues.map((value, index) => <circle key={`flow-dot-${index}`} cx={flowX(index)} cy={flowY(value)} r="5" fill="var(--pd-accent-a)" />)}{flowValues.map((value, index) => <text key={`flow-num-${index}`} x={flowX(index)} y={flowY(value) - 9} textAnchor="middle" className="pd-pulse-flow-value">{formatMillion(value || null)}</text>)}{["기투자", "2026년", "2027년", "이후"].map((axisLabel, index) => <text key={axisLabel} x={flowX(index)} y="70" textAnchor="middle" className="pd-pulse-axis-label">{axisLabel}</text>)}</svg></div>{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}</div>}</div>;
 }
 
 function formatMillion(value: number | null | undefined) {
@@ -388,7 +391,7 @@ function BudgetPanel({ project }: { project: Project }) {
   return (
     <div className="pd-card">
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
-      <div className="pd-budget-breakdown-grid"><FundingBreakdownCard rows={project.funding_breakdown} note={project.funding_breakdown_note} execution={execution} projectId={project.id} /><UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} /></div>
+      <div className="pd-budget-breakdown-grid"><FundingBreakdownCard rows={project.funding_breakdown} execution={execution} projectId={project.id} /><UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} /></div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
     </div>
   );
@@ -401,9 +404,9 @@ function ProgressPanel({ project }: { project: Project }) {
   return (
     <div className="pd-card">
       <div className="mb-6 flex flex-wrap gap-8">
-        <div><p className="pd-summary-label !text-[16px]">사업 전체 공정률</p><p className="mt-1 text-[26px] font-bold text-[var(--pd-text)]">{percent}%</p></div>
-        <div><p className="pd-summary-label !text-[16px]">추진상황 점검</p><p className="mt-1 text-[18px] font-semibold text-[var(--pd-success)]">{project.delay_reason || "-"}</p></div>
-        <div><p className="pd-summary-label !text-[16px]">준공예정일</p><p className="mt-1 text-[18px] font-semibold text-[var(--pd-text)]">{formatDateText(project.inspection || "-")}</p></div>
+        <div><p className="pd-summary-label !text-[16px]">사업 전체 공정률</p><p className="pd-summary-value mt-1 !text-[20px]">{percent}%</p></div>
+        <div><p className="pd-summary-label !text-[16px]">추진상황 점검</p><p className="pd-summary-value mt-1 !text-[20px] text-[var(--pd-success)]">{project.delay_reason || "-"}</p></div>
+        <div><p className="pd-summary-label !text-[16px]">준공예정일</p><p className="pd-summary-value mt-1 !text-[20px]">{formatDateText(project.inspection || "-")}</p></div>
       </div>
       <div className="pd-progress-layout">
         <section className="pd-progress-section pd-progress-vertical">
@@ -422,7 +425,7 @@ function ProgressPanel({ project }: { project: Project }) {
 function AdminPanel({ project }: { project: Project }) {
   const status = project.card_admin_status || {};
   const checks = [["중기재정", status.mid_term_fiscal], ["투·융자심사", status.investment_review], ["공유재산", status.public_property], ["해당없음", status.none]] as const;
-  return <div className="pd-card pd-admin-card"><div className="pd-card-title"><DetailSectionHeading icon={ClipboardCheck} title="이행여부" /></div>{project.management_card_matched ? <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{checks.map(([label, checked]) => <div key={label} className={`rounded-xl border px-4 py-4 ${checked ? "border-[var(--pd-success)]/50 bg-[var(--pd-success)]/10" : "border-[var(--pd-border)] bg-white/[0.02]"}`}><span className="text-[13px] text-[var(--pd-text-muted)]">{checked ? "■" : "□"} {label}</span></div>)}</div><div className="mt-5 grid gap-4 sm:grid-cols-2"><div className="pd-kv"><span className="pd-kv-label">선택된 절차</span><span className="pd-kv-value">{project.card_admin_procedures || "-"}</span></div><div className="pd-kv"><span className="pd-kv-label">법적근거</span><span className="pd-kv-value">{project.card_admin_legal_basis || "-"}</span></div></div></> : <div className="pd-note-box">해당 사업의 사업별 관리카드가 검색되지 않았습니다.</div>}</div>;
+  return <div className="pd-card pd-admin-card"><div className="pd-card-title"><DetailSectionHeading icon={ClipboardCheck} title="사전절차 이행여부" /></div>{project.management_card_matched ? <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{checks.map(([label, checked]) => <div key={label} className={`rounded-xl border px-4 py-4 ${checked ? "border-white/25 bg-white/[0.06]" : "border-[var(--pd-border)] bg-white/[0.02]"}`}><span className={`text-[15px] font-medium ${checked ? "text-[var(--pd-text)]" : "text-[var(--pd-text-muted)]"}`}>{checked ? "■" : "□"} {label}</span></div>)}</div><div className="mt-5 grid gap-4 sm:grid-cols-2"><div className="pd-kv"><span className="pd-kv-label">선택된 절차</span><span className="pd-kv-value">{project.card_admin_procedures || "-"}</span></div><div className="pd-kv"><span className="pd-kv-label">법적근거</span><span className="pd-kv-value">{project.card_admin_legal_basis || "-"}</span></div></div></> : <div className="pd-note-box">해당 사업의 사업별 관리카드가 검색되지 않았습니다.</div>}</div>;
 }
 
 // Real lon/lat for a project, derived only from our own offline boundary
@@ -533,6 +536,66 @@ function RenderingLightbox({
     document.body,
   );
 }
+const SITE_PASSWORD = "51897225";
+const SITE_UNLOCK_STORAGE_KEY = "hib-site-unlocked";
+
+function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnlock: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [error, setError] = useState(false);
+
+  const submit = (event: ReactFormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (value === SITE_PASSWORD) {
+      localStorage.setItem(SITE_UNLOCK_STORAGE_KEY, "1");
+      onUnlock();
+      setOpen(false);
+      setValue("");
+      setError(false);
+    } else {
+      setError(true);
+    }
+  };
+
+  if (unlocked) {
+    return (
+      <button
+        type="button"
+        className="styled-button-circle"
+        aria-label="다시 잠그기"
+        title="다시 잠그기"
+        onClick={() => { localStorage.removeItem(SITE_UNLOCK_STORAGE_KEY); onUnlock(); }}
+      >
+        <Lock className="icon" />
+      </button>
+    );
+  }
+
+  return (
+    <div className="site-password-hover" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+      {open ? (
+        <form className="styled-button-pill" onSubmit={submit}>
+          <input
+            type="text"
+            autoFocus
+            value={value}
+            onChange={(event) => { setValue(event.target.value); setError(false); }}
+            placeholder="비밀번호"
+            className={`styled-button-input ${error ? "is-error" : ""}`}
+          />
+          <button type="submit" className="inner-button" aria-label="입장">
+            <ArrowRight className="icon" />
+          </button>
+        </form>
+      ) : (
+        <button type="button" className="styled-button-circle" aria-label="비밀번호" title="비밀번호">
+          <ArrowRight className="icon" />
+        </button>
+      )}
+    </div>
+  );
+}
+
 const TABS = ["사업개요", "예산현황", "추진현황"] as const;
 
 function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void } }) {
@@ -637,9 +700,12 @@ function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocke
             <span className="pd-summary-value grad">{percent}%</span>
           </div>
         </div>
-        <div className="pd-summary-cell">
+        <div className="pd-summary-cell hero">
           <span className="pd-summary-label"><TrendingUp /> 예산 집행률</span>
-          <span className="pd-summary-value">{activeProject.execution_rate ?? 0}%</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+            <Gauge key={`${project.id}-${selectedSubIndex}-exec`} percent={activeProject.execution_rate ?? 0} />
+            <span className="pd-summary-value grad">{activeProject.execution_rate ?? 0}%</span>
+          </div>
         </div>
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><CalendarCheck /> 준공예정일</span>
@@ -684,7 +750,6 @@ function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocke
             <span key={tab} className="pill-tab-option">
               <input id={inputId} name={`detail-tab-${project.id}`} type="radio" checked={activeTab === tab} onChange={() => setActiveTab(tab)} />
               <label htmlFor={inputId} role="tab" aria-selected={activeTab === tab}>
-                <span className="pd-step-num">{String(index + 1).padStart(2, "0")}</span>
                 {tab}
               </label>
             </span>
@@ -1720,6 +1785,7 @@ function LiquidMorphMenu({ label, onLabelClick, sections }: { label: string; onL
 }
 
 export default function Home() {
+  const [siteUnlocked, setSiteUnlocked] = useState(() => typeof window !== "undefined" && localStorage.getItem(SITE_UNLOCK_STORAGE_KEY) === "1");
 
   const [query, setQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -1788,16 +1854,64 @@ export default function Home() {
           and scrolls away with the content instead of staying pinned. */}
       <div className={`site-header-sticky ${activeView === "landing" ? "site-header-sticky-overlay" : ""}`}>
         <button type="button" className="site-logo-mark" onClick={goLanding} aria-label="홈으로 이동">
-          HIB.
+          <span className="site-logo-mark-word">HIB.</span>
+          <span className="site-logo-mark-tagline">화성시<br />주요투자사업</span>
         </button>
-        <FloatingNavBar
-          onGoHome={goLanding}
-          onOpenMap={goMap}
-          onSelectDepartment={goDepartment}
-          onSelectProject={goProject}
-          activeDepartmentName={activeView === "department" ? selectedDepartmentDashboard : null}
-          activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
-        />
+        <div className="floating-nav-row">
+          <FloatingNavBar
+            onGoHome={goLanding}
+            onOpenMap={goMap}
+            onSelectDepartment={goDepartment}
+            onSelectProject={goProject}
+            activeDepartmentName={activeView === "department" ? selectedDepartmentDashboard : null}
+            activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
+          />
+          <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
+        </div>
+        {activeView !== "landing" && (
+          <div className={`site-search ${isSearchFocused ? "is-open" : ""}`}>
+            <input
+              type="text"
+              className="site-search-input"
+              placeholder="사업명 검색"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => window.setTimeout(() => setIsSearchFocused(false), 150)}
+            />
+            <button
+              type="button"
+              className="site-search-toggle"
+              aria-label="검색"
+              onClick={() => setIsSearchFocused((open) => !open)}
+            >
+              <Search />
+            </button>
+            {isSearchFocused && normalizedQuery && (
+              <div className="site-search-results">
+                {searchMatches.length > 0 ? (
+                  searchMatches.slice(0, 8).map(({ project, departmentName }) => (
+                    <button
+                      type="button"
+                      key={project.id}
+                      className="site-search-result"
+                      onMouseDown={(event) => event.preventDefault()}
+                      onClick={() => {
+                        goProject(project);
+                        setIsSearchFocused(false);
+                      }}
+                    >
+                      <span>{project.project_name}</span>
+                      <small>{departmentName}</small>
+                    </button>
+                  ))
+                ) : (
+                  <div className="site-search-empty">검색 결과가 없습니다</div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <main className={`app-main relative flex-1 overflow-hidden ${activeView === "landing" ? "app-main-flush" : ""}`}>
