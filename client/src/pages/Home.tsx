@@ -1395,6 +1395,7 @@ function FloatingNavBar({
   onSelectDepartment,
   onSelectProject,
   activeDepartmentName,
+  includeMapView = true,
 }: {
   onGoHome: () => void;
   onOpenMap: () => void;
@@ -1402,6 +1403,7 @@ function FloatingNavBar({
   onSelectProject: (project: Project) => void;
   activeDepartmentName: string | null;
   activeProjectDepartmentName: string | null;
+  includeMapView?: boolean;
 }) {
   const floatingNavDepartments = ["문화예술과", "문화유산과", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
   const projectsByDepartment = organization.flatMap((bureau) => bureau.departments);
@@ -1488,13 +1490,15 @@ function FloatingNavBar({
           </div>
         )}
       </div>
-      <button
-        type="button"
-        className="floating-nav-link"
-        onClick={() => { onOpenMap(); setIsDeptOpen(false); setShowProjects(false); }}
-      >
-        MAP VIEW
-      </button>
+      {includeMapView && (
+        <button
+          type="button"
+          className="floating-nav-link"
+          onClick={() => { onOpenMap(); setIsDeptOpen(false); setShowProjects(false); }}
+        >
+          MAP VIEW
+        </button>
+      )}
     </nav>
   );
 }
@@ -1866,8 +1870,16 @@ export default function Home() {
             onSelectProject={goProject}
             activeDepartmentName={activeView === "department" ? selectedDepartmentDashboard : null}
             activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
+            includeMapView={activeView !== "landing"}
           />
-          <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
+          {activeView === "landing" ? (
+            <div className="site-utility-group" aria-label="보조 기능">
+              <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
+              <button type="button" className="floating-nav-link site-utility-map" onClick={goMap}>MAP VIEW</button>
+            </div>
+          ) : (
+            <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
+          )}
         </div>
         {activeView !== "landing" && (
           <div className={`site-search ${isSearchFocused ? "is-open" : ""}`}>

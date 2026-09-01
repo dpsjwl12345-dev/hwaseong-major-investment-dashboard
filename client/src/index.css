@@ -4268,7 +4268,28 @@ main.app-main.app-main-flush .landing-enter-button {
 /* Password entry, next to the floating nav pill: a small circular icon
    badge (matches the dark-gradient bevel reference) that swaps for an
    inline pill with a text input on hover. */
-.site-password-hover { position: relative; display: inline-flex; align-items: center; }
+.site-password-hover { position: relative; display: inline-flex; align-items: center; flex: none; }
+.site-utility-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 5px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .22);
+}
+.site-utility-map {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  padding: 7px 14px;
+  border-radius: 14px;
+}
 .styled-button-circle,
 .styled-button-pill .inner-button {
   position: relative;
@@ -4351,8 +4372,10 @@ main.app-main.app-main-flush .landing-enter-button {
 .styled-button-input.is-error { color: #f2685c; }
 @media (max-width: 900px) {
   .floating-nav-row { flex-direction: column; gap: 8px; }
+  .site-utility-group { height: 40px; }
   .styled-button-circle, .styled-button-pill .inner-button { width: 34px; height: 34px; }
   .styled-button-input { width: 100px; height: 28px; }
+  .site-utility-map { height: 32px; padding: 6px 12px; }
 }
 
 .floating-nav-link {
