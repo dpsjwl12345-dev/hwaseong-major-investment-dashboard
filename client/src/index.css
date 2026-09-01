@@ -4693,34 +4693,7 @@ main.app-main.app-main-flush .landing-enter-button {
 
 .landing-hero-v { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--hero-line); z-index: 2; pointer-events: none; overflow: hidden; }
 .landing-hero-h { position: absolute; height: 1px; background: var(--hero-line); z-index: 2; pointer-events: none; right: 1.5%; left: 0; overflow: hidden; }
-.landing-hero-v::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(232, 172, 66, .45) 46%, transparent 58%);
-  background-size: 100% 320%;
-  animation: hero-line-glow-v 5s linear infinite;
-}
-.landing-hero-h::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, transparent 0%, rgba(232, 172, 66, .45) 46%, transparent 58%);
-  background-size: 320% 100%;
-  animation: hero-line-glow-h 5s linear infinite;
-}
-@keyframes hero-line-glow-v { 0% { background-position: 0 -220%; } 100% { background-position: 0 100%; } }
-@keyframes hero-line-glow-h { 0% { background-position: -220% 0; } 100% { background-position: 100% 0; } }
-@media (prefers-reduced-motion: reduce) {
-  .landing-hero-v::after, .landing-hero-h::after { animation: none; display: none; }
-}
 .landing-hero-dot { position: absolute; width: 5px; height: 5px; background: var(--hero-dot); transform: translate(-50%, -50%); z-index: 2; pointer-events: none; }
-.landing-hero-focus { position: absolute; width: 22px; height: 22px; transform: translate(-50%, -50%); z-index: 2; pointer-events: none; }
-.landing-hero-focus i { position: absolute; width: 6px; height: 6px; border: 1px solid var(--hero-dot); }
-.landing-hero-focus i:nth-child(1) { top: 0; left: 0; border-right: none; border-bottom: none; }
-.landing-hero-focus i:nth-child(2) { top: 0; right: 0; border-left: none; border-bottom: none; }
-.landing-hero-focus i:nth-child(3) { bottom: 0; left: 0; border-right: none; border-top: none; }
-.landing-hero-focus i:nth-child(4) { bottom: 0; right: 0; border-left: none; border-top: none; }
 
 .landing-hero-content {
   position: relative;
@@ -4735,6 +4708,8 @@ main.app-main.app-main-flush .landing-enter-button {
   color: var(--hero-ink);
 }
 .landing-hero-eyebrow {
+  position: relative;
+  left: clamp(8px, 1.2vw, 18px);
   margin: 0 0 22px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 16px;
@@ -4773,6 +4748,8 @@ main.app-main.app-main-flush .landing-enter-button {
   55%, 100% { background-position: 140% 0, 0 0; }
 }
 .landing-hero-pill {
+  position: relative;
+  left: clamp(8px, 1.2vw, 18px);
   display: block;
   margin: 4px 16px 0 0;
   font-family: "Gmarket Sans", "Pretendard Variable", Pretendard, sans-serif;

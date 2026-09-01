@@ -1542,12 +1542,9 @@ function useHeroGridPosition() {
   const hTopRef = useRef<HTMLSpanElement>(null);
   const dotTopLRef = useRef<HTMLSpanElement>(null);
   const dotTopMidRef = useRef<HTMLSpanElement>(null);
-  const dotTopRRef = useRef<HTMLSpanElement>(null);
   const dotBot25Ref = useRef<HTMLSpanElement>(null);
   const dotBot50Ref = useRef<HTMLSpanElement>(null);
   const dotBotRightRef = useRef<HTMLSpanElement>(null);
-  const focusTopRef = useRef<HTMLDivElement>(null);
-  const focusBottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const position = () => {
@@ -1583,12 +1580,9 @@ function useHeroGridPosition() {
       statRow.style.setProperty("--hero-stat-line-right", `${Math.max(0, heroRect.width - rightX)}px`);
       if (dotTopLRef.current) { dotTopLRef.current.style.top = `${topY}px`; dotTopLRef.current.style.left = `${leftPct}%`; }
       if (dotTopMidRef.current) { dotTopMidRef.current.style.top = `${topY}px`; dotTopMidRef.current.style.left = `${rightPct}%`; }
-      if (dotTopRRef.current) { dotTopRRef.current.style.top = `${topY}px`; }
       if (dotBot25Ref.current) { dotBot25Ref.current.style.top = `${botY}px`; dotBot25Ref.current.style.left = `${leftPct}%`; }
       if (dotBot50Ref.current) { dotBot50Ref.current.style.top = `${botY}px`; dotBot50Ref.current.style.left = `${midPct}%`; }
       if (dotBotRightRef.current) { dotBotRightRef.current.style.top = `${botY}px`; dotBotRightRef.current.style.left = `${rightPct}%`; }
-      if (focusTopRef.current) { focusTopRef.current.style.top = `${topY}px`; focusTopRef.current.style.left = `${leftPct}%`; }
-      if (focusBottomRef.current) { focusBottomRef.current.style.top = `${botY}px`; focusBottomRef.current.style.left = `${rightPct}%`; }
     };
     position();
     window.addEventListener("resize", position);
@@ -1599,7 +1593,7 @@ function useHeroGridPosition() {
     return () => window.removeEventListener("resize", position);
   }, []);
 
-  return { heroRef, eyebrowRef, pillRef, statRowRef, statLeftRef, statMidRef, statRightRef, vLeftRef, vRightRef, hTopRef, dotTopLRef, dotTopMidRef, dotTopRRef, dotBot25Ref, dotBot50Ref, dotBotRightRef, focusTopRef, focusBottomRef };
+  return { heroRef, eyebrowRef, pillRef, statRowRef, statLeftRef, statMidRef, statRightRef, vLeftRef, vRightRef, hTopRef, dotTopLRef, dotTopMidRef, dotBot25Ref, dotBot50Ref, dotBotRightRef };
 }
 
 function LandingPage() {
@@ -1622,12 +1616,9 @@ function LandingPage() {
         <span className="landing-hero-h" ref={grid.hTopRef} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotTopLRef} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotTopMidRef} aria-hidden="true" />
-        <span className="landing-hero-dot" ref={grid.dotTopRRef} style={{ left: "98.5%" }} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotBot25Ref} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotBot50Ref} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotBotRightRef} aria-hidden="true" />
-        <div className="landing-hero-focus" ref={grid.focusTopRef} aria-hidden="true"><i /><i /><i /><i /></div>
-        <div className="landing-hero-focus" ref={grid.focusBottomRef} aria-hidden="true"><i /><i /><i /><i /></div>
 
         <div className="landing-hero-content">
           <p className="landing-hero-eyebrow" ref={grid.eyebrowRef}>HWASEONG SPECIAL CITY</p>
@@ -1637,7 +1628,6 @@ function LandingPage() {
 
         <div className="landing-hero-statrow" ref={grid.statRowRef}>
           <span className="landing-hero-dot" style={{ top: 0, left: "1.5%" }} aria-hidden="true" />
-          <span className="landing-hero-dot" style={{ top: 0, left: "98.5%" }} aria-hidden="true" />
           <div className="landing-hero-stat">
             <em>관리사업</em>
             <b>{Math.round(projectCount)}<small>개</small></b>
