@@ -518,7 +518,8 @@
 .pd-pulse-donut span { color:#fff; font-size:20px; font-weight:800; }
 .pd-pulse-donut small { color:var(--pd-text-faint); font-size:10px; }
 .pd-pulse-trend { margin-top: 36px; padding:20px 12px 9px; border:1px solid rgba(255,255,255,.1); border-radius:14px; background:rgba(255,255,255,.025); }
-.pd-pulse-section-label { display:flex; justify-content:flex-start; padding-left:14px; margin-top:6px; gap:8px; color:var(--pd-text); font-size:12px; font-weight:800; }
+.pd-pulse-section-label { display:flex; justify-content:flex-start; padding-left:0; margin-top:0; gap:8px; color:var(--pd-text); }
+.pd-pulse-section-label .pd-pulse-eyebrow { margin:0; }
 .pd-pulse-section-label small { color:var(--pd-text-faint); font-size:10px; font-weight:500; }
 .pd-pulse-trend svg { display:block; width:100%; aspect-ratio: 320 / 80; height:auto; margin-top:10px; overflow:visible; }
 .pd-pulse-axis-label { fill: var(--pd-text-faint); font-size: 7px; dominant-baseline: alphabetic; }
