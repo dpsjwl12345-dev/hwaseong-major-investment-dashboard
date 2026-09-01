@@ -4829,7 +4829,7 @@ main.app-main.app-main-flush .landing-enter-button {
   display: flex;
   align-items: baseline;
   gap: 4px;
-  margin-top: 4px;
+  margin-top: 2px;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-weight: 800;
   font-size: clamp(22px, 2.3vw, 30px);
