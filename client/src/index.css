@@ -4770,6 +4770,7 @@ main.app-main.app-main-flush .landing-enter-button {
   --hero-stat-line-right: 1.5%;
   position: relative;
   z-index: 3;
+  margin-bottom: clamp(56px, 8vh, 96px);
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
@@ -4823,7 +4824,7 @@ main.app-main.app-main-flush .landing-enter-button {
   .landing-hero-content { padding: 3.5vh 6vw 0 5vw; }
   .landing-hero-title { font-size: clamp(30px, 8vw, 44px); }
   .landing-hero-pill { font-size: 20px; }
-  .landing-hero-statrow { grid-template-columns: repeat(2, 1fr); }
+  .landing-hero-statrow { grid-template-columns: repeat(2, 1fr); margin-bottom: 32px; }
   .landing-hero-statrow > .landing-hero-stat:nth-child(2) { border-left: none; padding-left: 5vw; }
   .landing-hero-statrow > .landing-hero-stat:nth-child(3) { padding-left: 5vw; border-left: none; border-top: 1px solid var(--hero-line); padding-top: 22px; }
 }
