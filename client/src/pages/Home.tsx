@@ -749,9 +749,11 @@ function ProjectDetail({ project, lock }: { project: Project; lock?: { isUnlocke
         {activeTab === "사업개요·추진현황" && (
           <>
             <OverviewPanel project={activeProject} />
-            <ProgressPanel project={activeProject} />
-            <div className="pd-stacked-panel"><AdminPanel project={activeProject} /></div>
-            <div className="pd-stacked-panel"><LocationPanel project={activeProject} /></div>
+            <div className="pd-detail-attached-group">
+              <ProgressPanel project={activeProject} />
+              <div className="pd-stacked-panel"><AdminPanel project={activeProject} /></div>
+              <div className="pd-stacked-panel"><LocationPanel project={activeProject} /></div>
+            </div>
           </>
         )}
         {activeTab === "예산현황" && <BudgetPanel project={activeProject} />}

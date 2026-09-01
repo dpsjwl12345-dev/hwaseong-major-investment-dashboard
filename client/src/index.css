@@ -4965,3 +4965,28 @@ main.app-main.app-main-flush .landing-enter-button {
 .landing-hero-panel > .landing-hero-h {
   background: rgba(244, 241, 234, .18);
 }
+
+/* Keep the overview card separate, while visually joining progress, admin, and rendering cards. */
+.pd-detail-attached-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 28px;
+}
+.pd-detail-attached-group > .pd-stacked-panel {
+  margin-top: 0;
+}
+.pd-detail-attached-group > .pd-card,
+.pd-detail-attached-group > .pd-stacked-panel > .pd-card {
+  border-radius: 0 !important;
+}
+.pd-detail-attached-group > .pd-card:first-child {
+  border-radius: 18px 18px 0 0 !important;
+}
+.pd-detail-attached-group > .pd-stacked-panel:last-child > .pd-card {
+  border-radius: 0 0 18px 18px !important;
+}
+.pd-detail-attached-group > .pd-stacked-panel > .pd-card,
+.pd-detail-attached-group > .pd-card + .pd-stacked-panel > .pd-card {
+  border-top: 0 !important;
+}
