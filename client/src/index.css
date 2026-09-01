@@ -4737,6 +4737,7 @@ main.app-main.app-main-flush .landing-enter-button {
 }
 
 .landing-hero-statrow {
+  --hero-stat-line-right: 1.5%;
   position: relative;
   z-index: 3;
   display: grid;
@@ -4747,7 +4748,7 @@ main.app-main.app-main-flush .landing-enter-button {
   position: absolute;
   top: 0;
   left: 1.5%;
-  right: 1.5%;
+  right: var(--hero-stat-line-right);
   height: 1px;
   background: var(--hero-line);
 }

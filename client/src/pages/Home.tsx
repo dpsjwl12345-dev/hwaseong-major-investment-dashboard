@@ -1575,7 +1575,8 @@ function useHeroGridPosition() {
 
       if (vLeftRef.current) vLeftRef.current.style.left = `${leftX}px`;
       if (vRightRef.current) vRightRef.current.style.left = `${rightX}px`;
-      if (hTopRef.current) { hTopRef.current.style.top = `${topY}px`; hTopRef.current.style.left = "0px"; }
+      if (hTopRef.current) { hTopRef.current.style.top = `${topY}px`; hTopRef.current.style.left = `${leftX}px`; }
+      statRow.style.setProperty("--hero-stat-line-right", `${Math.max(0, heroRect.width - rightX)}px`);
       if (dotTopLRef.current) { dotTopLRef.current.style.top = `${topY}px`; dotTopLRef.current.style.left = `${leftPct}%`; }
       if (dotTopMidRef.current) { dotTopMidRef.current.style.top = `${topY}px`; dotTopMidRef.current.style.left = `${rightPct}%`; }
       if (dotTopRRef.current) { dotTopRRef.current.style.top = `${topY}px`; }
