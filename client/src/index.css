@@ -4879,15 +4879,15 @@ main.app-main.app-main-flush .landing-enter-button {
   border-color: rgba(244, 243, 238, .22) !important;
 }
 
-/* MAP VIEW button: supplied hover effect, with only the dimensions adjusted for the existing header. */
+/* MAP VIEW button: transparent by default, with only gold brackets; the full gold rectangle appears on hover. */
 .landing-map-button {
   width: 7.6em;
   position: absolute;
   height: 2.75em;
-  border: 3px ridge #e8ac42;
+  border: 3px solid transparent;
   outline: none;
   background-color: transparent;
-  color: white;
+  color: #fff;
   transition: 1s;
   border-radius: 0.3em;
   font-size: 16px;
@@ -4896,28 +4896,32 @@ main.app-main.app-main-flush .landing-enter-button {
   cursor: pointer;
 }
 
-.landing-map-button::after {
+.landing-map-button::after,
+.landing-map-button::before {
   content: "";
   position: absolute;
-  top: -10px;
-  left: 3%;
-  width: 95%;
-  height: 40%;
-  background-color: #0b1020;
+  top: 15%;
+  width: 9px;
+  height: 70%;
+  background-color: transparent;
   transition: 0.5s;
   transform-origin: center;
 }
 
 .landing-map-button::before {
-  content: "";
-  transform-origin: center;
-  position: absolute;
-  top: 80%;
-  left: 3%;
-  width: 95%;
-  height: 40%;
-  background-color: #0b1020;
-  transition: 0.5s;
+  left: 0;
+  border-top: 3px solid #e8ac42;
+  border-bottom: 3px solid #e8ac42;
+  border-left: 3px solid #e8ac42;
+  border-radius: 0.3em 0 0 0.3em;
+}
+
+.landing-map-button::after {
+  right: 0;
+  border-top: 3px solid #e8ac42;
+  border-bottom: 3px solid #e8ac42;
+  border-right: 3px solid #e8ac42;
+  border-radius: 0 0.3em 0.3em 0;
 }
 
 .landing-map-button:hover::before,
@@ -4926,5 +4930,6 @@ main.app-main.app-main-flush .landing-enter-button {
 }
 
 .landing-map-button:hover {
+  border-color: #e8ac42;
   box-shadow: inset 0px 0px 25px #e8ac42;
 }
