@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent as ReactFormEvent, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
-import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Activity,
@@ -1415,7 +1414,6 @@ function FloatingNavBar({
                   <button
                     type="button"
                     key={project.id}
-                    title={project.project_name}
                     onClick={() => { onSelectProject(project); setIsDeptOpen(false); setShowProjects(false); }}
                   >
                     {project.project_name}
@@ -1467,15 +1465,19 @@ function useHeroGridPosition() {
   const heroRef = useRef<HTMLDivElement>(null);
   const eyebrowRef = useRef<HTMLParagraphElement>(null);
   const pillRef = useRef<HTMLSpanElement>(null);
+  const statRowRef = useRef<HTMLDivElement>(null);
   const statLeftRef = useRef<HTMLDivElement>(null);
+  const statMidRef = useRef<HTMLDivElement>(null);
   const statRightRef = useRef<HTMLDivElement>(null);
   const vLeftRef = useRef<HTMLSpanElement>(null);
   const vRightRef = useRef<HTMLSpanElement>(null);
   const hTopRef = useRef<HTMLSpanElement>(null);
-  const hBottomRef = useRef<HTMLSpanElement>(null);
   const dotTopLRef = useRef<HTMLSpanElement>(null);
   const dotTopMidRef = useRef<HTMLSpanElement>(null);
-  const dotBotLRef = useRef<HTMLSpanElement>(null);
+  const dotTopRRef = useRef<HTMLSpanElement>(null);
+  const dotBot25Ref = useRef<HTMLSpanElement>(null);
+  const dotBot50Ref = useRef<HTMLSpanElement>(null);
+  const dotBot75Ref = useRef<HTMLSpanElement>(null);
   const focusTopRef = useRef<HTMLDivElement>(null);
   const focusBottomRef = useRef<HTMLDivElement>(null);
 
@@ -1483,39 +1485,52 @@ function useHeroGridPosition() {
     const position = () => {
       const hero = heroRef.current;
       const eyebrow = eyebrowRef.current;
-      const pill = pillRef.current;
+      const statRow = statRowRef.current;
       const leftStat = statLeftRef.current;
+      const midStat = statMidRef.current;
       const rightStat = statRightRef.current;
-      if (!hero || !eyebrow || !pill || !leftStat || !rightStat) return;
+      if (!hero || !eyebrow || !statRow || !leftStat || !midStat || !rightStat) return;
       const heroRect = hero.getBoundingClientRect();
       const eyebrowRect = eyebrow.getBoundingClientRect();
-      const pillRect = pill.getBoundingClientRect();
+      const rowRect = statRow.getBoundingClientRect();
       const leftRect = leftStat.getBoundingClientRect();
+      const midRect = midStat.getBoundingClientRect();
       const rightRect = rightStat.getBoundingClientRect();
 
       const leftX = leftRect.left - heroRect.left;
+      const midX = midRect.left - heroRect.left;
       const rightX = rightRect.left - heroRect.left;
       const leftPct = (leftX / heroRect.width) * 100;
+      const midPct = (midX / heroRect.width) * 100;
       const rightPct = (rightX / heroRect.width) * 100;
       const topY = heroRect.top + (eyebrowRect.top - heroRect.top) * 0.7 - heroRect.top;
-      const bottomY = pillRect.bottom + (heroRect.bottom - pillRect.bottom) / 2 - heroRect.top;
+      // The real "bottom" line is the stat row's own top border — anchor every
+      // bottom-tier dot/bracket to that instead of an independently computed
+      // Y, so they can never drift apart from the line they're supposed to mark.
+      const botY = rowRect.top - heroRect.top;
 
       if (vLeftRef.current) vLeftRef.current.style.left = `${leftX}px`;
       if (vRightRef.current) vRightRef.current.style.left = `${rightX}px`;
       if (hTopRef.current) { hTopRef.current.style.top = `${topY}px`; hTopRef.current.style.left = `${leftX}px`; }
-      if (hBottomRef.current) { hBottomRef.current.style.top = `${bottomY}px`; hBottomRef.current.style.left = `${rightX}px`; }
       if (dotTopLRef.current) { dotTopLRef.current.style.top = `${topY}px`; dotTopLRef.current.style.left = `${leftPct}%`; }
       if (dotTopMidRef.current) { dotTopMidRef.current.style.top = `${topY}px`; dotTopMidRef.current.style.left = `${rightPct}%`; }
-      if (dotBotLRef.current) { dotBotLRef.current.style.top = `${bottomY}px`; dotBotLRef.current.style.left = `${rightPct}%`; }
+      if (dotTopRRef.current) { dotTopRRef.current.style.top = `${topY}px`; }
+      if (dotBot25Ref.current) { dotBot25Ref.current.style.top = `${botY}px`; dotBot25Ref.current.style.left = `${leftPct}%`; }
+      if (dotBot50Ref.current) { dotBot50Ref.current.style.top = `${botY}px`; dotBot50Ref.current.style.left = `${midPct}%`; }
+      if (dotBot75Ref.current) { dotBot75Ref.current.style.top = `${botY}px`; dotBot75Ref.current.style.left = `${rightPct}%`; }
       if (focusTopRef.current) { focusTopRef.current.style.top = `${topY}px`; focusTopRef.current.style.left = `${leftPct}%`; }
-      if (focusBottomRef.current) { focusBottomRef.current.style.top = `${bottomY}px`; focusBottomRef.current.style.left = `${rightPct}%`; }
+      if (focusBottomRef.current) { focusBottomRef.current.style.top = `${botY}px`; focusBottomRef.current.style.left = `${rightPct}%`; }
     };
     position();
     window.addEventListener("resize", position);
+    // Custom fonts load with font-display:swap, so the very first measurement
+    // (taken against fallback-font metrics) can land a few px off the text's
+    // final position — re-measure once webfonts finish swapping in.
+    document.fonts?.ready?.then(position).catch(() => {});
     return () => window.removeEventListener("resize", position);
   }, []);
 
-  return { heroRef, eyebrowRef, pillRef, statLeftRef, statRightRef, vLeftRef, vRightRef, hTopRef, hBottomRef, dotTopLRef, dotTopMidRef, dotBotLRef, focusTopRef, focusBottomRef };
+  return { heroRef, eyebrowRef, pillRef, statRowRef, statLeftRef, statMidRef, statRightRef, vLeftRef, vRightRef, hTopRef, dotTopLRef, dotTopMidRef, dotTopRRef, dotBot25Ref, dotBot50Ref, dotBot75Ref, focusTopRef, focusBottomRef };
 }
 
 function LandingPage() {
@@ -1537,12 +1552,12 @@ function LandingPage() {
         <span className="landing-hero-v" ref={grid.vLeftRef} aria-hidden="true" />
         <span className="landing-hero-v" ref={grid.vRightRef} aria-hidden="true" />
         <span className="landing-hero-h" ref={grid.hTopRef} aria-hidden="true" />
-        <span className="landing-hero-h" ref={grid.hBottomRef} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotTopLRef} aria-hidden="true" />
         <span className="landing-hero-dot" ref={grid.dotTopMidRef} aria-hidden="true" />
-        <span className="landing-hero-dot" style={{ left: "98.5%" }} aria-hidden="true" />
-        <span className="landing-hero-dot" ref={grid.dotBotLRef} aria-hidden="true" />
-        <span className="landing-hero-dot" style={{ left: "98.5%" }} aria-hidden="true" />
+        <span className="landing-hero-dot" ref={grid.dotTopRRef} style={{ left: "98.5%" }} aria-hidden="true" />
+        <span className="landing-hero-dot" ref={grid.dotBot25Ref} aria-hidden="true" />
+        <span className="landing-hero-dot" ref={grid.dotBot50Ref} aria-hidden="true" />
+        <span className="landing-hero-dot" ref={grid.dotBot75Ref} aria-hidden="true" />
         <div className="landing-hero-focus" ref={grid.focusTopRef} aria-hidden="true"><i /><i /><i /><i /></div>
         <div className="landing-hero-focus" ref={grid.focusBottomRef} aria-hidden="true"><i /><i /><i /><i /></div>
 
@@ -1552,7 +1567,9 @@ function LandingPage() {
           <span className="landing-hero-pill" ref={grid.pillRef}>화성시 주요투자사업 대시보드</span>
         </div>
 
-        <div className="landing-hero-statrow">
+        <div className="landing-hero-statrow" ref={grid.statRowRef}>
+          <span className="landing-hero-dot" style={{ top: 0, left: "1.5%" }} aria-hidden="true" />
+          <span className="landing-hero-dot" style={{ top: 0, left: "98.5%" }} aria-hidden="true" />
           <div className="landing-hero-stat">
             <em>전체사업</em>
             <b>{Math.round(projectCount)}<small>개</small></b>
@@ -1563,7 +1580,7 @@ function LandingPage() {
             <b>{formatBudgetNumber(Math.round(budgetCount))}<small>백만원</small></b>
             <span>Total Budget</span>
           </div>
-          <div className="landing-hero-stat">
+          <div className="landing-hero-stat" ref={grid.statMidRef}>
             <em>평균 집행률</em>
             <b>{Math.round(executionCount)}<small>%</small></b>
             <span>Execution Rate</span>
@@ -1767,20 +1784,22 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen flex-col bg-[var(--pd-ground)] text-white">
-      {createPortal(
+      {/* On the landing page the header floats over the full-height hero
+          (no reserved space). On every other page it sits in normal flow
+          and scrolls away with the content instead of staying pinned. */}
+      <div className={`site-header-sticky ${activeView === "landing" ? "site-header-sticky-overlay" : ""}`}>
         <button type="button" className="site-logo-mark" onClick={goLanding} aria-label="홈으로 이동">
           HIB.
-        </button>,
-        document.body,
-      )}
-      <FloatingNavBar
-        onGoHome={goLanding}
-        onOpenMap={goMap}
-        onSelectDepartment={goDepartment}
-        onSelectProject={goProject}
-        activeDepartmentName={activeView === "department" ? selectedDepartmentDashboard : null}
-        activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
-      />
+        </button>
+        <FloatingNavBar
+          onGoHome={goLanding}
+          onOpenMap={goMap}
+          onSelectDepartment={goDepartment}
+          onSelectProject={goProject}
+          activeDepartmentName={activeView === "department" ? selectedDepartmentDashboard : null}
+          activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
+        />
+      </div>
 
       <main className={`app-main relative flex-1 overflow-hidden ${activeView === "landing" ? "app-main-flush" : ""}`}>
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />

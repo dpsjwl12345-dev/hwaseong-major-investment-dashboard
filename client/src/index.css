@@ -3950,22 +3950,35 @@ main.app-main.app-main-flush .landing-enter-button {
   font-family: "Pretendard", sans-serif !important;
 }
 
-/* Top-left wordmark ("HIB.") ??fixed alongside the floating nav bar so it
-   stays visible on every view, matching the nav bar's top offset/z-index. */
+/* Header sits in normal document flow (not fixed/sticky) so it scrolls
+   away with the page instead of staying pinned on screen. Real height so
+   the absolutely-positioned logo/nav inside it have somewhere to sit and
+   the page content below starts after them. */
+.site-header-sticky {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  z-index: 70;
+}
+/* Landing page: float over the full-height hero instead of taking up flow
+   space, so the hero fills the viewport with nothing pushed down. */
+.site-header-sticky-overlay {
+  position: absolute;
+  top: 0;
+  height: 0;
+}
+
+/* Top-left wordmark ("HIB.") ??positioned within the header wrapper so it
+   lines up with the nav bar's top offset. */
 .site-logo-mark {
-  position: fixed;
+  position: absolute;
   top: 40px;
   left: 64px;
-  z-index: 70;
   font-family: "Pretendard", sans-serif;
   font-size: 44px;
   font-weight: 800;
   letter-spacing: -.01em;
   color: var(--hanzo-yellow, #f2c94c);
-  /* Force its own compositor layer so it repaints in place during scroll
-     instead of visually lagging to its old scrolled-past position. */
-  transform: translateZ(0);
-  will-change: transform;
 }
 
 /* Top-center translucent pill nav. Collapsed to a single "메뉴" button on
@@ -3973,14 +3986,10 @@ main.app-main.app-main-flush .landing-enter-button {
    it expands to the 3-item 홈 / 메뉴 / MAP VIEW bar (ref: saasland.framer.media
    top-left glass pill). */
 .floating-nav {
-  position: fixed;
+  position: absolute;
   top: 34px;
   left: 50%;
-  /* translateZ(0) forces its own compositor layer so it repaints in place
-     during scroll instead of visually lagging to its old position. */
-  transform: translateX(-50%) translateZ(0);
-  will-change: transform;
-  z-index: 70;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 4px;
@@ -3999,10 +4008,11 @@ main.app-main.app-main-flush .landing-enter-button {
   border-radius: 12px;
   border: 1px solid transparent;
   background: transparent;
-  color: rgba(255, 255, 255, .65);
+  color: #fff;
   font-family: "Pretendard", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .03em;
   white-space: nowrap;
   transition: background-color .16s ease, color .16s ease, box-shadow .16s ease;
 }
@@ -4021,7 +4031,7 @@ main.app-main.app-main-flush .landing-enter-button {
   z-index: 6;
   width: 640px;
   max-width: calc(100vw - 32px);
-  padding: 4px 12px;
+  padding: 0 12px;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, .18);
   background: rgba(255, 255, 255, .1);
@@ -4277,9 +4287,7 @@ main.app-main:not(.app-main-flush) { padding-top: 140px !important; }
 .landing-hero-bg::after { width: 22vw; height: 22vw; top: 18%; right: 22%; background: radial-gradient(circle, #24346b 0%, transparent 72%); opacity: .1; }
 
 .landing-hero-v { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--hero-line); z-index: 2; pointer-events: none; }
-.landing-hero-h { position: absolute; height: 1px; background: var(--hero-line); z-index: 2; pointer-events: none; right: 1.5%; }
-.landing-hero-h:first-of-type { left: 0; }
-.landing-hero-h + .landing-hero-h { left: 68%; }
+.landing-hero-h { position: absolute; height: 1px; background: var(--hero-line); z-index: 2; pointer-events: none; right: 1.5%; left: 0; }
 .landing-hero-dot { position: absolute; width: 5px; height: 5px; background: var(--hero-dot); transform: translate(-50%, -50%); z-index: 2; pointer-events: none; }
 .landing-hero-focus { position: absolute; width: 22px; height: 22px; transform: translate(-50%, -50%); z-index: 2; pointer-events: none; }
 .landing-hero-focus i { position: absolute; width: 6px; height: 6px; border: 1px solid var(--hero-dot); }
@@ -4321,25 +4329,33 @@ main.app-main:not(.app-main-flush) { padding-top: 140px !important; }
   color: var(--hero-ink);
 }
 .landing-hero-title-line { display: block; opacity: 0; animation: hero-rise-in .8s ease forwards; }
-.landing-hero-title-line-a { animation-delay: .2s; }
+.landing-hero-title-line-a { animation-delay: .1s; }
 .landing-hero-title-line-b {
-  animation-delay: .3s;
-  background: linear-gradient(100deg, #ffe9b8 0%, var(--hero-gold) 55%, #b9791f 100%);
+  animation: hero-rise-in .8s ease .1s forwards, hero-illuminate 5s ease-in-out 1.3s infinite;
+  background:
+    linear-gradient(100deg, transparent 40%, rgba(255, 255, 255, .85) 50%, transparent 60%),
+    linear-gradient(100deg, #ffe9b8 0%, var(--hero-gold) 55%, #b9791f 100%);
+  background-size: 250% 100%, 100% 100%;
+  background-position: -40% 0, 0 0;
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
 }
+@keyframes hero-illuminate {
+  0%, 12% { background-position: -40% 0, 0 0; }
+  55%, 100% { background-position: 140% 0, 0 0; }
+}
 .landing-hero-pill {
   display: block;
-  margin: 12px 0 0;
+  margin: 4px 16px 0 0;
   font-family: "Pretendard Variable", Pretendard, sans-serif;
   font-size: 19px;
   font-weight: 600;
   letter-spacing: .01em;
   color: var(--hero-ink-soft);
   opacity: 0;
-  animation: hero-rise-in .7s ease .42s forwards;
+  animation: hero-rise-in .7s ease .1s forwards;
 }
 @keyframes hero-rise-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) {
@@ -4351,7 +4367,15 @@ main.app-main:not(.app-main-flush) { padding-top: 140px !important; }
   z-index: 3;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid var(--hero-line);
+}
+.landing-hero-statrow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 1.5%;
+  right: 1.5%;
+  height: 1px;
+  background: var(--hero-line);
 }
 .landing-hero-stat { padding: 22px 5vw 30px 0; }
 .landing-hero-statrow > .landing-hero-stat:first-child { padding-left: 5vw; }
