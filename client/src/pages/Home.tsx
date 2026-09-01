@@ -1853,7 +1853,7 @@ export default function Home() {
       <div className={`site-header-sticky ${activeView === "landing" ? "site-header-sticky-overlay" : ""}`}>
         <button type="button" className="site-logo-mark" onClick={goLanding} aria-label="홈으로 이동">
           <span className="site-logo-mark-word">HIB.</span>
-          <span className="site-logo-mark-tagline">화성시<br />주요투자사업</span>
+          <span className="site-logo-mark-tagline">화성시 주요투자사업</span>
         </button>
         <div className="floating-nav-row">
           <FloatingNavBar
