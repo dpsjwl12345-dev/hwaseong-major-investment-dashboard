@@ -5029,3 +5029,41 @@ main.app-main.app-main-flush .landing-enter-button {
     margin-left: 0;
   }
 }
+
+/* Department header search: compact black magnifier that expands left on click. */
+.dept-inline-search {
+  position: relative;
+  top: auto;
+  right: auto;
+  z-index: 4;
+  width: auto;
+  min-height: 38px;
+  justify-content: flex-end;
+}
+.dept-inline-search .site-search-toggle {
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 10px;
+  color: #0a0a0a;
+  background: #f4f3ee;
+  box-shadow: none;
+}
+.dept-inline-search .site-search-toggle:hover {
+  color: #0a0a0a;
+  background: #fff;
+}
+.dept-inline-search .site-search-input {
+  height: 38px;
+  background: #f4f3ee;
+  color: #171717;
+  border-color: rgba(255,255,255,.18);
+  box-shadow: none;
+}
+.dept-inline-search .site-search-input::placeholder { color: #777; }
+.dept-inline-search.is-open .site-search-input {
+  width: min(240px, 42vw);
+}
+@media (max-width: 680px) {
+  .dept-inline-search.is-open .site-search-input { width: min(190px, 58vw); }
+}

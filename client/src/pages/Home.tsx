@@ -1356,21 +1356,34 @@ function DepartmentDashboard({
   );
 }
 
-function PodaSearch({ value, onChange, onFocus, onBlur }: { value: string; onChange: (value: string) => void; onFocus?: () => void; onBlur?: () => void }) {
+function PodaSearch({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const toggleSearch = () => {
+    setIsOpen((open) => {
+      const nextOpen = !open;
+      if (nextOpen) window.requestAnimationFrame(() => inputRef.current?.focus());
+      return nextOpen;
+    });
+  };
+
   return (
-    <div className="sidebar-search-simple">
+    <div className={`site-search dept-inline-search${isOpen ? " is-open" : ""}`}>
       <input
+        ref={inputRef}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        onFocus={onFocus}
-        onBlur={onBlur}
-        placeholder="검색"
+        onBlur={() => window.setTimeout(() => setIsOpen(false), 150)}
+        placeholder="사업명 검색"
         type="text"
-        name="text"
-        className="input"
+        name="department-project-search"
+        className="site-search-input"
         aria-label="사업명·부서·분야 검색"
       />
-      <Search className="sidebar-search-simple-icon" size={18} strokeWidth={2} aria-hidden="true" />
+      <button type="button" className="site-search-toggle" onClick={toggleSearch} aria-label={isOpen ? "검색 닫기" : "검색 열기"}>
+        <Search size={18} strokeWidth={2.2} />
+      </button>
     </div>
   );
 }
