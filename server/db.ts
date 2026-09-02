@@ -1,6 +1,6 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, projectContentOverrides, projectContentRevisions, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -89,4 +89,67 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+type ProjectContentPayload = Record<string, unknown>;
+let projectContentTablesReady: Promise<boolean> | null = null;
+
+export async function ensureProjectContentTables() {
+  const db = await getDb();
+  if (!db) return false;
+  if (!projectContentTablesReady) {
+    projectContentTablesReady = (async () => {
+      try {
+        await db.execute(sql`CREATE TABLE IF NOT EXISTS project_content_overrides (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          projectId VARCHAR(128) NOT NULL UNIQUE,
+          payload LONGTEXT NOT NULL,
+          updatedBy INT NOT NULL,
+          createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updatedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )`);
+        await db.execute(sql`CREATE TABLE IF NOT EXISTS project_content_revisions (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          projectId VARCHAR(128) NOT NULL,
+          payload LONGTEXT NOT NULL,
+          changedBy INT NOT NULL,
+          changedAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`);
+        return true;
+      } catch (error) {
+        projectContentTablesReady = null;
+        console.error("[Database] Failed to ensure project content tables:", error);
+        return false;
+      }
+    })();
+  }
+  return projectContentTablesReady;
+}
+
+export async function getProjectContentOverrides() {
+  const db = await getDb();
+  if (!db || !(await ensureProjectContentTables())) return [];
+  const rows = await db.select().from(projectContentOverrides);
+  return rows.flatMap((row) => {
+    try {
+      return [{ projectId: row.projectId, payload: JSON.parse(row.payload) as ProjectContentPayload, updatedAt: row.updatedAt }];
+    } catch {
+      return [];
+    }
+  });
+}
+
+export async function saveProjectContentOverride(projectId: string, payload: ProjectContentPayload, userId: number) {
+  const db = await getDb();
+  if (!db || !(await ensureProjectContentTables())) throw new Error("데이터베이스를 사용할 수 없습니다.");
+  const serialized = JSON.stringify(payload);
+  await db.insert(projectContentOverrides).values({ projectId, payload: serialized, updatedBy: userId }).onDuplicateKeyUpdate({
+    set: { payload: serialized, updatedBy: userId, updatedAt: new Date() },
+  });
+  await db.insert(projectContentRevisions).values({ projectId, payload: serialized, changedBy: userId });
+  return { projectId, payload };
+}
+
+export async function getProjectContentRevisions(projectId: string) {
+  const db = await getDb();
+  if (!db || !(await ensureProjectContentTables())) return [];
+  return db.select({ id: projectContentRevisions.id, projectId: projectContentRevisions.projectId, payload: projectContentRevisions.payload, changedBy: projectContentRevisions.changedBy, changedAt: projectContentRevisions.changedAt }).from(projectContentRevisions).where(eq(projectContentRevisions.projectId, projectId));
+}

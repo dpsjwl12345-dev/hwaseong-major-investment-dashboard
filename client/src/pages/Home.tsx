@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent as ReactFormEvent, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import { trpc } from "@/lib/trpc";
+import { startLogin } from "../const";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Activity,
@@ -31,6 +33,8 @@ import {
   ArrowRight,
   ArrowLeftRight,
   ShieldCheck,
+  Pencil,
+  Save,
 } from "lucide-react";
 import dataset from "../data/dashboard_projects.json";
 import hwaseongBoundary from "../data/hwaseong-boundary.json";
@@ -117,8 +121,8 @@ const bureauFor = (department: string) =>
 const BUREAU_ORDER = ["문화관광국", "교육체육국"];
 const DEPARTMENT_ORDER = ["문화예술과", "문화유산과", "독립기념관", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
 
-const organization: Bureau[] = Object.values(
-  projects.reduce<Record<string, Bureau>>((acc, project) => {
+const buildOrganization = (sourceProjects: Project[]): Bureau[] => Object.values(
+  sourceProjects.reduce<Record<string, Bureau>>((acc, project) => {
     const bureau = bureauFor(project.department);
     acc[bureau] ??= { name: bureau, departments: [] };
     let department = acc[bureau].departments.find((item) => item.name === project.department);
@@ -138,6 +142,7 @@ const organization: Bureau[] = Object.values(
     ),
   }));
 
+const organization: Bureau[] = buildOrganization(projects);
 organization.forEach((bureau) =>
   bureau.departments.forEach((department) => department.projects.sort((a, b) => a.serial - b.serial)),
 );
@@ -583,9 +588,25 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
 
 const TABS = ["사업개요·추진현황", "예산현황"] as const;
 
-function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void }) {
+function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, isAdmin, onProjectUpdated }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; isAdmin?: boolean; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
   const [selectedSubIndex, setSelectedSubIndex] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editDraft, setEditDraft] = useState<Partial<Project>>({});
+  const saveProjectContent = trpc.projectContent.save.useMutation();
+  const projectContentUtils = trpc.useUtils();
+  useEffect(() => { setEditDraft({}); setIsEditing(false); }, [project.id]);
+  const beginEdit = () => {
+    setEditDraft({ project_name: project.project_name, region: project.region, current_stage: project.current_stage, total_cost_million_krw: project.total_cost_million_krw, execution_rate: project.execution_rate, progress_rate: project.progress_rate, inspection: project.inspection, district: project.district, town: project.town, contact: project.contact, overview: project.overview, progress_notes: project.progress_notes, future_plan: project.future_plan });
+    setIsEditing(true);
+  };
+  const updateDraft = (key: keyof Project, value: string | number | null) => setEditDraft((draft) => ({ ...draft, [key]: value }));
+  const commitEdit = async () => {
+    const result = await saveProjectContent.mutateAsync({ projectId: project.id, payload: editDraft as Record<string, unknown> });
+    onProjectUpdated?.(project.id, result.payload as Partial<Project>);
+    await projectContentUtils.projectContent.list.invalidate();
+    setIsEditing(false);
+  };
   const tabsRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
 
@@ -643,7 +664,20 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             );
           })()}
           </h1>
+          {isAdmin ? (!isEditing && <button type="button" className="pd-edit-trigger" onClick={beginEdit}><Pencil size={14} /> 사업 정보 편집</button>) : <button type="button" className="pd-edit-login" onClick={() => startLogin()}><Lock size={14} /> 관리자 로그인</button>}
         </div>
+
+        {isAdmin && isEditing && (
+          <section className="pd-editor" aria-label="사업 정보 편집">
+            <div className="pd-editor-heading"><div><span className="pd-detail-eyebrow">ADMIN CONTENT EDITOR</span><strong>사업 정보 편집</strong></div><div className="pd-editor-actions"><button type="button" className="pd-editor-cancel" onClick={() => setIsEditing(false)}>취소</button><button type="button" className="pd-editor-save" onClick={commitEdit} disabled={saveProjectContent.isPending}><Save size={14} /> {saveProjectContent.isPending ? "저장 중…" : "저장"}</button></div></div>
+            <div className="pd-editor-grid">
+              {([["project_name", "사업명"], ["region", "사업 성격"], ["current_stage", "추진 단계"], ["contact", "선거구"], ["district", "읍·면·동"], ["town", "선거구 세부"]] as [keyof Project, string][]).map(([key, label]) => <label key={String(key)}><span>{label}</span><input value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value)} /></label>)}
+              {([["total_cost_million_krw", "총사업비(백만원)"], ["execution_rate", "예산 집행률(%)"], ["progress_rate", "사업 진척도(%)"]] as [keyof Project, string][]).map(([key, label]) => <label key={String(key)}><span>{label}</span><input type="number" min="0" max={String(key).includes("rate") ? 100 : undefined} value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value === "" ? null : Number(event.target.value))} /></label>)}
+              {([["inspection", "준공 목표"], ["overview", "사업 개요"], ["progress_notes", "추진 경과"], ["future_plan", "향후 계획"]] as [keyof Project, string][]).map(([key, label]) => <label className="pd-editor-wide" key={String(key)}><span>{label}</span><textarea rows={key === "overview" ? 4 : 3} value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value)} /></label>)}
+            </div>
+            {saveProjectContent.isError && <p className="pd-editor-error">저장하지 못했습니다. 관리자 로그인 상태와 서버 연결을 확인해 주세요.</p>}
+          </section>
+        )}
 
         {hasSubProjects && (() => {
           const subCount = project.sub_projects!.length;
@@ -1141,9 +1175,11 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
 function DepartmentDashboard({
   onSelectProject,
   initialDepartment,
+  projects,
 }: {
   onSelectProject: (project: Project) => void;
   initialDepartment: string;
+  projects: Project[];
 }) {
   const minBudget = "";
   const maxBudget = "";
@@ -1714,6 +1750,13 @@ function LiquidMorphMenu({ label, onLabelClick, sections }: { label: string; onL
 
 export default function Home() {
   const [siteUnlocked, setSiteUnlocked] = useState(() => typeof window !== "undefined" && localStorage.getItem(SITE_UNLOCK_STORAGE_KEY) === "1");
+  const authQuery = trpc.auth.me.useQuery();
+  const overridesQuery = trpc.projectContent.list.useQuery();
+  const liveProjects = useMemo(() => projects.map((project) => {
+    const override = overridesQuery.data?.find((item) => item.projectId === project.id);
+    return override ? { ...project, ...(override.payload as Partial<Project>) } : project;
+  }), [overridesQuery.data]);
+  const isAdmin = authQuery.data?.role === "admin";
 
   const [query, setQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -1724,7 +1767,7 @@ export default function Home() {
   const normalizedQuery = query.trim().toLowerCase();
   const visibleOrganization = useMemo(
     () =>
-      organization
+      buildOrganization(liveProjects)
         .map((bureau) => ({
           ...bureau,
           departments: bureau.departments
@@ -1737,7 +1780,7 @@ export default function Home() {
             .filter((department) => department.projects.length > 0),
         }))
         .filter((bureau) => bureau.departments.length > 0),
-    [normalizedQuery],
+    [normalizedQuery, liveProjects],
   );
   const searchMatches = useMemo(
     () =>
@@ -1850,12 +1893,12 @@ export default function Home() {
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
           {selectedProject && <div className="app-panel-topbar" aria-hidden="true" />}
           {activeView === "map" ? (
-            <InvestmentDistribution projects={projects} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+            <InvestmentDistribution projects={liveProjects} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "department" ? (
-            <DepartmentDashboard key={selectedDepartmentDashboard} initialDepartment={selectedDepartmentDashboard} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+            <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
-              <ProjectDetail project={selectedProject} searchValue={query} onSearchChange={setQuery} searchProjects={projects} onSelectProject={goProject} />
+              <ProjectDetail project={selectedProject} isAdmin={isAdmin} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />
             </div>
           ) : (
             <LandingPage />

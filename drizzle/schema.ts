@@ -25,4 +25,22 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+/** Editable project content stored separately from the shipped baseline dataset. */
+export const projectContentOverrides = mysqlTable("project_content_overrides", {
+  id: int("id").autoincrement().primaryKey(),
+  projectId: varchar("projectId", { length: 128 }).notNull().unique(),
+  payload: text("payload").notNull(),
+  updatedBy: int("updatedBy").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type ProjectContentOverride = typeof projectContentOverrides.$inferSelect;
+
+export const projectContentRevisions = mysqlTable("project_content_revisions", {
+  id: int("id").autoincrement().primaryKey(),
+  projectId: varchar("projectId", { length: 128 }).notNull(),
+  payload: text("payload").notNull(),
+  changedBy: int("changedBy").notNull(),
+  changedAt: timestamp("changedAt").defaultNow().notNull(),
+});
+export type ProjectContentRevision = typeof projectContentRevisions.$inferSelect;
