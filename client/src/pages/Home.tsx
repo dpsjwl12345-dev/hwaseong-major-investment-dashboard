@@ -273,6 +273,12 @@ function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_
       ) : (
         <img src={map.image} alt={`${projectName} 위치도`} />
       )}
+      {map.spots.map((spot, index) => (
+        <span key={spot.label} className={`pd-spotmap-pin${spot.tracked ? " is-tracked" : ""}`} style={{ left: `${spot.x}%`, top: `${spot.y}%` }}>
+          <span className="pd-spotmap-pin-dot">{index + 1}</span>
+          <span className="pd-spotmap-pin-label">{spot.label}</span>
+        </span>
+      ))}
     </>
   );
   return (
