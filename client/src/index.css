@@ -1734,6 +1734,15 @@
   width: min(100%, 1500px);
   margin: 0 auto;
 }
+.pd-detail-title-row.is-inline-subproject {
+  align-items: flex-end !important;
+}
+.pd-detail-title-row.is-inline-subproject .pd-detail-title-block {
+  flex: 0 1 auto;
+}
+.pd-detail-title-row.is-inline-subproject .radio-group {
+  margin-bottom: 6px;
+}
 .pd-detail-title-block {
   min-width: 0;
   flex: 1 1 auto;

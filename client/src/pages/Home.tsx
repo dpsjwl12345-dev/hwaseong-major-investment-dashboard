@@ -596,7 +596,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
     setSelectedSubIndex(0);
   }, [project.id]);
 
-  const hasSubProjects = (project.sub_projects?.length ?? 0) > 1;
+  const hasSubProjects = (project.sub_projects?.length ?? 0) > 1 || project.project_name === "서해안 관광벨트 주차장 및 도로 조성";
   const activeProject: Project = hasSubProjects ? { ...project, ...project.sub_projects![selectedSubIndex] } : project;
 
   useEffect(() => {
@@ -629,7 +629,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
         </defs>
       </svg>
 
-      <div className="flex flex-wrap items-center gap-4">
+      <div className={`pd-detail-title-row flex flex-wrap items-center gap-4${project.project_name === "서해안 관광벨트 주차장 및 도로 조성" ? " is-inline-subproject" : ""}`}>
         <div className="pd-detail-title-block">
           <p className="pd-detail-eyebrow">PROJECT INVESTMENT DETAIL</p>
           <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
@@ -649,7 +649,8 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
 
         {hasSubProjects && (() => {
           const subCount = project.sub_projects!.length;
-          const maxLabelLen = Math.max(...project.sub_projects!.map((sub) => sub.name.length));
+          const subLabels = project.sub_projects!.map((sub) => project.project_name === "서해안 관광벨트 주차장 및 도로 조성" && sub.name.startsWith("송교리 주차장") ? "송교리 주차장" : sub.name);
+          const maxLabelLen = Math.max(...subLabels.map((label) => label.length));
           const subButtonWidth = Math.max(100, maxLabelLen * 15 + 52);
           return (
           <div className="radio-group" role="tablist" aria-label="세부 사업 선택" style={{ width: `${subButtonWidth * subCount}px` }}>
@@ -659,7 +660,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
               return (
                 <div key={sub.name} className="radio-option">
                   <input id={inputId} name={`detail-subproject-${project.id}`} type="radio" checked={selectedSubIndex === index} onChange={() => setSelectedSubIndex(index)} />
-                  <label htmlFor={inputId} className={`radio-label${selectedSubIndex === index ? " is-active" : ""}`} role="tab" aria-selected={selectedSubIndex === index}>{sub.name}</label>
+                  <label htmlFor={inputId} className={`radio-label${selectedSubIndex === index ? " is-active" : ""}`} role="tab" aria-selected={selectedSubIndex === index}>{subLabels[index]}</label>
                 </div>
               );
             })}
