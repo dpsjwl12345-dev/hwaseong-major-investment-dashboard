@@ -16,8 +16,9 @@ const STREET_STYLE = {
   },
   layers: [{ id: "carto-dark-basemap", type: "raster" as const, source: "carto" }],
 };
-const INITIAL_CENTER: [number, number] = [126.68, 37.16];
-const INITIAL_ZOOM = 10.35;
+// Centered on Hwaseong's mainland/coastal project belt rather than the far-west coast.
+const INITIAL_CENTER: [number, number] = [126.84, 37.16];
+const INITIAL_ZOOM = 9.85;
 
 const CATEGORY_COLORS: Record<string, string> = {
   문화관광시설: "#d97706",
@@ -184,6 +185,11 @@ export function InvestmentRealMap({ projects, selectedProjectId, onSelectProject
       const bounds = new maplibregl.LngLatBounds();
       projectPoints.forEach(({ point }) => bounds.extend(point));
       initialBoundsRef.current = bounds;
+      // The first map load can occur before markers are mounted. Fit here as
+      // well so the full Hwaseong project range is visible on first render.
+      if (map.isStyleLoaded()) {
+        map.fitBounds(bounds, { padding: 70, duration: 0, maxZoom: INITIAL_ZOOM });
+      }
     }
 
     projectPoints.forEach(({ project, point }) => {
