@@ -1006,7 +1006,7 @@
           { "label": "남양 하수처리장 파크골프장(18홀)", "x": 46.0, "y": 32.5, "zoomImage": "/renderings/sports-4/zoom-namyang.png", "tracked": true },
           { "label": "봉담 개발제한구역 파크골프장(18홀)", "x": 62.9, "y": 33.8, "zoomImage": "/renderings/sports-4/zoom-bongdam.png", "tracked": true },
           { "label": "동탄 수질복원센터 파크골프장(18홀)", "x": 89.5, "y": 38.5, "zoomImage": "/renderings/sports-4/zoom-dongtan.png" },
-          { "label": "오산천 파크골프장(18홀)", "x": 91.5, "y": 42.5, "zoomImage": "/renderings/sports-4/zoom-osancheon.png", "tracked": true },
+          { "label": "오산천 파크골프장(18홀)", "x": 91.5, "y": 49.0, "zoomImage": "/renderings/sports-4/zoom-osancheon.png", "tracked": true },
           { "label": "향남오음공원 파크골프장(9홀)", "x": 61.2, "y": 62.3, "zoomImage": "/renderings/sports-4/zoom-hyangnam.png" },
           { "label": "우정읍 매향리 파크골프장(36홀)", "x": 40.9, "y": 73.1, "zoomImage": "/renderings/sports-4/zoom-maehyangri.png", "tracked": true }
         ]
