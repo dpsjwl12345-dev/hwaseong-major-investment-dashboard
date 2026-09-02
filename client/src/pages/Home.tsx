@@ -42,6 +42,7 @@ import islands from "../data/hwaseong-islands.json";
 import dongLonLat from "../data/hwaseong-dong-lonlat.json";
 import coastalLonLat from "../data/hwaseong-coastal-lonlat.json";
 import { HwaseongGLMap } from "../components/HwaseongGLMap";
+import { InvestmentRealMap } from "../components/InvestmentRealMap";
 
 type Project = {
   id: string;
@@ -1054,102 +1055,26 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
         <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT DISTRIBUTION MAP</p><h1>주요 투자사업 분포도</h1></div>
       </header>
       <div className="investment-map-layout">
-        <div
-          className={`investment-map-canvas ${isPanning ? "is-panning" : ""} ${zoom > 1 ? "is-zoomed" : ""}`}
-          role="group"
-          aria-label="화성시 주요 투자사업 위치 분포도"
-          ref={canvasRef}
-          onMouseDown={handlePanStart}
-          onMouseMove={handlePanMove}
-          onMouseUp={handlePanEnd}
-          onMouseLeave={handlePanEnd}
-        >
-          <div
-            className="investment-map-zoom-layer"
-            style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`, transition: isPanning ? "none" : "transform .18s ease-out" }}
-          >
-            <div className="investment-map-grid" /><div className="investment-map-glow" />
-            <svg className="investment-map-outline accurate" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet">
-              <defs>
-                {[...Object.values(CATEGORY_STYLES), DEFAULT_CATEGORY_STYLE].map((style) => (
-                  <radialGradient key={style.id} id={`atlasPointGradient-${style.id}`} cx="35%" cy="30%" r="70%">
-                    <stop offset="0%" stopColor={style.hi} />
-                    <stop offset="45%" stopColor={style.mid} />
-                    <stop offset="100%" stopColor={style.lo} />
-                  </radialGradient>
-                ))}
-                <filter id="atlasPointGlow" x="-200%" y="-200%" width="500%" height="500%">
-                  <feMorphology operator="dilate" radius="0.6" />
-                  <feGaussianBlur stdDeviation="1.4" result="coloredBlur" />
-                  <feMerge>
-                    <feMergeNode in="coloredBlur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-              <path d={hwaseongBoundary.d} />
-              <g className="investment-map-islands">
-                {Object.entries(islands as Record<string, { d: string }>).map(([name, island]) => (
-                  <path key={name} d={island.d}><title>{name}</title></path>
-                ))}
-              </g>
-              <g className="investment-map-gu-fills">
-                {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => (
-                  <path key={name} d={gu.d} fill={GU_COLORS[name]?.fill ?? "rgba(255,255,255,.05)"} />
-                ))}
-              </g>
-              <g className="investment-map-dong-lines">
-                {Object.values(dongOutlines as Record<string, string>).map((d, index) => (
-                  <path key={index} d={d} />
-                ))}
-              </g>
-              {Object.entries(guOutlines as Record<string, { d: string; labelX: number; labelY: number }>).map(([name, gu]) => {
-                const lx = (gu.labelX / 100) * hwaseongBoundary.width;
-                const ly = (gu.labelY / 100) * hwaseongBoundary.height;
-                return (
-                  <foreignObject key={name} x={lx - 52} y={ly - 20} width={104} height={40} className="investment-map-gu-label-box">
-                    <div className="investment-map-gu-label-pill"><span>{name}</span></div>
-                  </foreignObject>
-                );
-              })}
-              {visiblePoints.map(({ project, x, y, isIsland }) => {
-                const cx = (x / 100) * hwaseongBoundary.width;
-                const cy = (y / 100) * hwaseongBoundary.height;
-                const isSelected = selected?.id === project.id;
-                const categoryStyle = categoryStyleFor(project.category);
-                return (
-                  <g
-                    key={project.id}
-                    className={`investment-map-point ${isSelected ? "is-selected" : ""}`}
-                    transform={`translate(${cx} ${cy})`}
-                    role="button"
-                    tabIndex={0}
-                    aria-label={`${project.project_name} 위치 보기${isIsland ? " (도서지역, 근사 위치)" : ""}`}
-                    onClick={(event) => selectProjectAt(project, event)}
-                    onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelected(project); setGalleryIndex(0); } }}
-                    onMouseEnter={(event) => showHoverCardFor(project, event)}
-                    onMouseLeave={() => setHovered(null)}
-                  >
-                    <title>{project.project_name} ({project.category || "미분류"}){isIsland ? " — 도서지역 (섬 위치는 추정)" : ""}</title>
-                    {(() => {
-                      const baseR = isSelected ? 9 : 7;
-                      const fill = isSelected ? "#ffd83d" : `url(#atlasPointGradient-${categoryStyle.id})`;
-                      return (
-                        <>
-                          <circle r={baseR} fill={fill} filter="url(#atlasPointGlow)" className="investment-map-point-core" />
-                          <circle r={baseR} fill={fill} opacity="0.55" className="investment-map-point-ping">
-                            <animate attributeName="r" from={baseR} to={baseR * 3.4} dur="2.2s" begin="0s" repeatCount="indefinite" />
-                            <animate attributeName="opacity" from="0.55" to="0" dur="2.2s" begin="0s" repeatCount="indefinite" />
-                          </circle>
-                          {isIsland && <text className="investment-map-point-island-badge" y={-baseR - 5} textAnchor="middle">🏝</text>}
-                        </>
-                      );
-                    })()}
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
+        <div className="investment-map-canvas investment-map-real-canvas">
+          <InvestmentRealMap
+            projects={visiblePoints.map(({ project }) => project)}
+            selectedProjectId={selected?.id}
+            onHoverProject={(mapProject, position) => {
+              const project = projects.find((item) => item.id === mapProject.id);
+              if (!project) return;
+              setHovered(project);
+              setHoverPosition(position);
+            }}
+            onLeaveProject={() => setHovered(null)}
+            onSelectProject={(mapProject, position) => {
+              const project = projects.find((item) => item.id === mapProject.id);
+              if (!project) return;
+              setSelected(project);
+              setGalleryIndex(0);
+              setSelectedPosition(position);
+              setSelectedOpensDown(position.screenY < window.innerHeight / 2);
+            }}
+          />
           <div className="investment-map-filter-panel">
             <button
               type="button"
@@ -1174,11 +1099,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
                 )}
               </div>
             )}
-          </div>
-          <div className="investment-map-zoom-controls">
-            <button type="button" onClick={zoomIn} disabled={zoom >= MAX_ZOOM} aria-label="지도 확대">+</button>
-            <button type="button" onClick={zoomOut} disabled={zoom <= MIN_ZOOM} aria-label="지도 축소">−</button>
-            <button type="button" className="is-reset" onClick={resetZoom} disabled={zoom === 1 && pan.x === 0 && pan.y === 0} aria-label="지도 초기화">초기화</button>
           </div>
         </div>
         {/* Cards live outside the canvas (which clips overflow for panning/

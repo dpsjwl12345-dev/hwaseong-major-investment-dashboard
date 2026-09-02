@@ -5226,3 +5226,96 @@ main.app-main.app-main-flush .landing-enter-button {
   padding: 0 14px;
 }
 .dept-inline-search .site-search-input::placeholder { color: rgba(255,255,255,.48); }
+
+/* Real basemap version of MAP VIEW. The data and overlays remain the same;
+   this layer replaces the graphic SVG atlas with an interactive street map. */
+.investment-map-real-canvas { background: #dfe7e3; }
+.investment-real-map { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; }
+.investment-real-map .maplibregl-canvas { outline: none; }
+.investment-real-map .maplibregl-ctrl-top-right { top: 18px; right: 18px; }
+.investment-real-map .maplibregl-ctrl-group { overflow: hidden; border: 1px solid rgba(27, 57, 64, .22); border-radius: 10px; background: rgba(255,255,255,.92); box-shadow: 0 8px 22px rgba(24,52,58,.18); }
+.investment-real-map .maplibregl-ctrl-group button { width: 34px; height: 34px; }
+.investment-real-map .maplibregl-ctrl-attrib { color: #28434a; background: rgba(255,255,255,.72); font-size: 9px; }
+.investment-real-map-topbar { position: absolute; z-index: 4; top: 18px; left: 18px; display: flex; align-items: center; gap: 9px; max-width: calc(100% - 120px); pointer-events: none; }
+.investment-real-map-badge { padding: 7px 10px; border: 1px solid rgba(24, 75, 83, .22); border-radius: 999px; color: #11474f; background: rgba(241, 252, 247, .92); box-shadow: 0 5px 16px rgba(24,52,58,.12); font: 800 10px/1 "Pretendard", sans-serif; letter-spacing: .04em; white-space: nowrap; }
+.investment-real-map-hint { color: #244d55; font: 600 10px/1.25 "Pretendard", sans-serif; text-shadow: 0 1px 0 rgba(255,255,255,.85); }
+.investment-real-map-controls { position: absolute; z-index: 5; right: 18px; bottom: 44px; display: flex; flex-direction: column; gap: 6px; }
+.investment-real-map-controls button { width: 34px; height: 34px; border: 1px solid rgba(27, 57, 64, .22); border-radius: 9px; color: #173e45; background: rgba(255,255,255,.92); box-shadow: 0 7px 18px rgba(24,52,58,.16); font: 800 17px/1 "Pretendard", sans-serif; cursor: pointer; transition: .15s ease; }
+.investment-real-map-controls button:hover { border-color: #0d8290; color: #fff; background: #0d8290; }
+.investment-real-map-controls button.is-reset { width: auto; padding: 0 10px; font-size: 10px; }
+.investment-real-map-legend { position: absolute; z-index: 5; left: 18px; bottom: 18px; display: flex; flex-wrap: wrap; gap: 6px 12px; max-width: calc(100% - 90px); padding: 9px 11px; border: 1px solid rgba(27, 57, 64, .16); border-radius: 10px; color: #26464e; background: rgba(255,255,255,.88); box-shadow: 0 7px 18px rgba(24,52,58,.13); font: 700 10px/1.2 "Pretendard", sans-serif; }
+.investment-real-map-legend span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.investment-real-map-legend i { width: 8px; height: 8px; border-radius: 50%; box-shadow: 0 0 0 2px rgba(255,255,255,.72); }
+.investment-real-marker { position: relative; display: block; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 50%; background: transparent; cursor: pointer; transform: translateZ(0); }
+.investment-real-marker-dot { position: absolute; left: 50%; top: 50%; width: 13px; height: 13px; border: 2px solid #fff; border-radius: 50%; background: var(--marker-color); box-shadow: 0 2px 7px rgba(17,45,50,.48), 0 0 0 1px rgba(17,45,50,.18); transform: translate(-50%, -50%); transition: .15s ease; }
+.investment-real-marker-pulse { position: absolute; left: 50%; top: 50%; width: 20px; height: 20px; border: 1px solid color-mix(in srgb, var(--marker-color) 65%, white); border-radius: 50%; opacity: .5; transform: translate(-50%, -50%); animation: real-map-marker-pulse 2.3s ease-out infinite; }
+.investment-real-marker:hover .investment-real-marker-dot, .investment-real-marker:focus-visible .investment-real-marker-dot { width: 17px; height: 17px; box-shadow: 0 3px 9px rgba(17,45,50,.55), 0 0 0 3px rgba(255,255,255,.45); }
+.investment-real-marker.is-selected .investment-real-marker-dot { width: 18px; height: 18px; border-width: 3px; background: #f59e0b; box-shadow: 0 3px 12px rgba(245,158,11,.55), 0 0 0 3px rgba(255,255,255,.7); }
+.investment-real-marker:focus-visible { outline: 2px solid #f59e0b; outline-offset: 3px; }
+@keyframes real-map-marker-pulse { 0% { opacity: .55; transform: translate(-50%, -50%) scale(.55); } 70%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.4); } }
+.investment-map-real-canvas > .investment-map-filter-panel { z-index: 7; top: 18px; left: 18px; }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-toggle { color: #173e45; border-color: rgba(27,57,64,.2); background: rgba(255,255,255,.9); box-shadow: 0 7px 18px rgba(24,52,58,.14); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-toggle:hover, .investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-toggle.is-open { color: #075862; border-color: #0d8290; background: rgba(240,255,252,.96); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-options-combined { color: #23444a; border-color: rgba(27,57,64,.16); background: rgba(250,255,253,.97); box-shadow: 0 16px 36px rgba(24,52,58,.22); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-section-label { color: #537078; }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-chip-row button { color: #264d55; border-color: rgba(27,57,64,.18); background: rgba(19,108,116,.05); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-chip-row button:hover { background: rgba(19,108,116,.12); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-chip-row button.is-active { color: #fff; border-color: #0d8290; background: #0d8290; }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-reset { color: #537078; }
+@media (max-width: 700px) {
+  .investment-real-map-topbar { top: 12px; left: 12px; }
+  .investment-real-map-hint { display: none; }
+  .investment-real-map .maplibregl-ctrl-top-right { top: 12px; right: 12px; }
+  .investment-real-map-controls { right: 12px; bottom: 52px; }
+  .investment-real-map-legend { left: 12px; bottom: 12px; max-width: calc(100% - 72px); }
+  .investment-map-real-canvas > .investment-map-filter-panel { top: 12px; left: 12px; }
+  .investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-toggle { padding: 10px 13px; font-size: 14px; }
+}
+
+/* Dark coastal atlas treatment for the real basemap. */
+.investment-map-real-canvas { background: #08121e; border-color: rgba(118, 224, 226, .3); }
+.investment-real-map { background: #08121e; }
+.investment-real-map .maplibregl-canvas { filter: brightness(.72) saturate(.82) contrast(1.08); }
+.investment-real-map .maplibregl-ctrl-group { border-color: rgba(154, 229, 225, .3); background: rgba(7, 22, 35, .9); box-shadow: 0 9px 24px rgba(0,0,0,.34); }
+.investment-real-map .maplibregl-ctrl-group button { filter: invert(1) hue-rotate(150deg) saturate(.45); }
+.investment-real-map .maplibregl-ctrl-attrib { color: rgba(221, 247, 244, .86); background: rgba(5, 20, 33, .72); }
+.investment-real-map-topbar { top: 18px; }
+.investment-real-map-badge { color: #b8fff2; border-color: rgba(119, 241, 224, .45); background: rgba(5, 28, 39, .88); box-shadow: 0 7px 18px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.08); }
+.investment-real-map-hint { color: rgba(224, 250, 244, .78); text-shadow: 0 1px 8px rgba(0,0,0,.82); }
+.investment-real-map-controls { right: 18px; bottom: 44px; }
+.investment-real-map-controls button { border-color: rgba(147, 224, 220, .34); color: #b9fff5; background: rgba(5, 23, 37, .88); box-shadow: 0 7px 18px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.07); }
+.investment-real-map-controls button:hover { border-color: #8af4f1; color: #06242a; background: #8af4f1; }
+.investment-real-map-legend { color: #d8fbf3; border-color: rgba(147, 224, 220, .28); background: rgba(5, 23, 37, .88); box-shadow: 0 7px 18px rgba(0,0,0,.28); }
+.investment-real-map-legend i { box-shadow: 0 0 0 2px rgba(8, 27, 40, .8); }
+.investment-real-marker { width: 30px; height: 36px; }
+.investment-real-marker-dot { width: 23px; height: 23px; border: 2px solid rgba(245,255,253,.94); border-radius: 50% 50% 50% 0; background: var(--marker-color); box-shadow: 0 4px 12px rgba(0,0,0,.44), 0 0 0 1px rgba(5,26,37,.55); transform: translate(-50%, -58%) rotate(-45deg); }
+.investment-real-marker-dot::after { content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; border: 2px solid rgba(255,255,255,.78); border-radius: 50%; background: rgba(5,31,39,.66); transform: translate(-50%, -50%) rotate(45deg); }
+.investment-real-marker-pulse { width: 28px; height: 28px; border-color: color-mix(in srgb, var(--marker-color) 72%, white); transform: translate(-50%, -58%) rotate(-45deg); }
+.investment-real-marker:hover .investment-real-marker-dot, .investment-real-marker:focus-visible .investment-real-marker-dot { width: 27px; height: 27px; box-shadow: 0 5px 14px rgba(0,0,0,.52), 0 0 0 3px rgba(255,255,255,.35); }
+.investment-real-marker.is-selected .investment-real-marker-dot { width: 29px; height: 29px; border-width: 3px; background: #ffd34e; box-shadow: 0 5px 16px rgba(255, 193, 57, .45), 0 0 0 4px rgba(255, 226, 113, .26); }
+.investment-real-marker.is-selected .investment-real-marker-dot::after { background: #163843; }
+.investment-real-marker:focus-visible { outline-color: #ffd34e; }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-toggle { color: #d9fff7; border-color: rgba(147,224,220,.32); background: rgba(5,23,37,.88); box-shadow: 0 7px 18px rgba(0,0,0,.28); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-toggle:hover, .investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-toggle.is-open { color: #06242a; border-color: #8af4f1; background: #8af4f1; }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-options-combined { color: #e1fff7; border-color: rgba(147,224,220,.28); background: rgba(5,23,37,.96); box-shadow: 0 16px 36px rgba(0,0,0,.5); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-section-label { color: rgba(190,241,231,.6); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-chip-row button { color: #d6f8f1; border-color: rgba(147,224,220,.22); background: rgba(147,224,220,.06); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-chip-row button:hover { background: rgba(147,224,220,.14); }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-chip-row button.is-active { color: #06242a; border-color: #8af4f1; background: #8af4f1; }
+.investment-map-real-canvas > .investment-map-filter-panel .investment-map-filter-reset { color: rgba(190,241,231,.7); }
+
+/* Reference-map marker treatment: satellite imagery with compact project badges,
+   especially a clear P badge for parking-related projects. */
+.investment-real-map .maplibregl-canvas { filter: brightness(.56) saturate(.7) contrast(1.15); }
+.investment-real-marker { width: 34px; height: 34px; }
+.investment-real-marker-dot { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: 2px solid rgba(255,255,255,.96); border-radius: 50%; color: #fff; background: var(--marker-color); box-shadow: 0 3px 10px rgba(0,0,0,.58), 0 0 0 2px rgba(4,22,31,.48); transform: translate(-50%, -50%); }
+.investment-real-marker-dot::after { display: none; }
+.investment-real-marker-dot b { position: relative; z-index: 1; color: #fff; font: 900 13px/1 "Arial", sans-serif; text-shadow: 0 1px 2px rgba(0,0,0,.45); transform: none; }
+.investment-real-marker-pulse { width: 30px; height: 30px; border-color: color-mix(in srgb, var(--marker-color) 74%, white); transform: translate(-50%, -50%); }
+.investment-real-marker:hover .investment-real-marker-dot, .investment-real-marker:focus-visible .investment-real-marker-dot { width: 30px; height: 30px; transform: translate(-50%, -50%); box-shadow: 0 4px 13px rgba(0,0,0,.68), 0 0 0 3px rgba(255,255,255,.38); }
+.investment-real-marker.is-selected .investment-real-marker-dot { width: 32px; height: 32px; border-width: 3px; color: #05212c; background: #ffd531; box-shadow: 0 5px 16px rgba(255,205,57,.54), 0 0 0 4px rgba(255,225,105,.3); }
+.investment-real-marker.is-selected .investment-real-marker-dot b { color: #05212c; text-shadow: none; }
+.investment-real-map::after { content: "SATELLITE PROJECT MAP"; position: absolute; right: 18px; bottom: 18px; z-index: 3; color: rgba(235,255,249,.6); font: 800 9px/1 "Pretendard", sans-serif; letter-spacing: .16em; pointer-events: none; text-shadow: 0 1px 5px rgba(0,0,0,.8); }
+.investment-real-map-legend { color: #f3fff9; border-color: rgba(210,245,234,.3); background: rgba(4,20,29,.86); }
+.investment-real-map-legend i { box-shadow: 0 0 0 2px rgba(4,20,29,.9); }
+@media (max-width: 700px) { .investment-real-map::after { right: 12px; bottom: 12px; font-size: 8px; } }
