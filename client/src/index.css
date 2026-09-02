@@ -3267,6 +3267,10 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-stats span { display:block; color:rgba(218,230,255,.55); font-size:11px; font-weight:700; } .investment-map-stats strong { display:block; margin-top:4px; color:#fff; font:800 23px "Pretendard",sans-serif; } .investment-map-stats small { margin-left:4px; color:#7ce7ef; font:700 11px "Pretendard",sans-serif; }
 .investment-map-layout { display:grid; grid-template-columns:minmax(0,1fr) 280px; gap:18px; max-width:1500px; min-height:500px; margin:0 auto; }
 .investment-map-canvas { position:relative; min-height:540px; overflow:hidden; border:1px solid rgba(117,182,255,.2); border-radius:22px; background:linear-gradient(145deg,#0a1830,#0b1325 65%,#101a2f); box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 22px 60px rgba(0,0,0,.22); }
+.investment-map-vworld-backdrop { position:absolute; z-index:0; inset:0; overflow:hidden; opacity:.9; filter:saturate(.8) brightness(.82); pointer-events:none; }
+.investment-map-vworld-backdrop .maplibregl-map { position:absolute; inset:0; }
+.investment-map-vworld-backdrop .maplibregl-canvas { outline:none; }
+.investment-map-vworld-backdrop .maplibregl-control-container { display:none; }
 .investment-map-canvas.is-zoomed { cursor:grab; }
 .investment-map-canvas.is-zoomed.is-panning { cursor:grabbing; }
 .investment-map-zoom-layer { position:absolute; inset:0; transform-origin:center center; will-change:transform; }
