@@ -123,6 +123,13 @@
   letter-spacing: -0.01em;
   color: var(--pd-text);
 }
+.pd-summary-cell-date .pd-summary-value {
+  align-self: flex-start;
+  min-width: 100%;
+  text-align: left;
+  margin-top: 2px;
+  line-height: 1.2;
+}
 .pd-pill {
   display: inline-flex;
   align-items: center;

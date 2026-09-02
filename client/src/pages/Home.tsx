@@ -699,7 +699,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             <span className="pd-summary-value grad">{activeProject.execution_rate ?? 0}%</span>
           </div>
         </div>
-        <div className="pd-summary-cell">
+        <div className="pd-summary-cell pd-summary-cell-date">
           <span className="pd-summary-label"><CalendarCheck /> 준공예정일</span>
           <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(activeProject.inspection || "-")}</span>
         </div>
