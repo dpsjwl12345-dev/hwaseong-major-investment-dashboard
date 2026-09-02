@@ -234,6 +234,7 @@ function OverviewPanel({ project }: { project: Project }) {
   return (
         <div className="pd-card">
       <KvCards pairs={[...pairs, ...extra]} />
+      {project.overview_map && <SpotMapCard map={project.overview_map} projectName={project.project_name} />}
       {renderings.length > 0 && (
         <div className="pd-kv-row mt-4">
           <div className="pd-kv" style={{ gridColumn: "1 / -1" }}>
