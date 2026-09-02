@@ -3576,7 +3576,7 @@ h1, h2, h3, h4, h5, h6,
    the canvas ??replacing both the old bottom-of-map legend and the earlier
    three-separate-button design. */
 .investment-map-filter-panel { position: absolute; z-index: 6; left: 16px; top: 16px; }
-.investment-map-filter-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 240px; border: 1px solid rgba(159,188,255,.22); border-radius: 10px; padding: 12px 22px; color: #e7f1ff; background: rgba(7,16,31,.72); font: 700 16px "Pretendard", sans-serif; cursor: pointer; backdrop-filter: blur(10px); transition: .15s ease; }
+.investment-map-filter-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 240px; border: 1px solid rgba(159,188,255,.22); border-radius: 10px; padding: 12px 22px; color: #e7f1ff; background: rgba(7,16,31,.72); font: 700 18px "Pretendard", sans-serif; cursor: pointer; backdrop-filter: blur(10px); transition: .15s ease; }
 .investment-map-filter-toggle:hover { background: rgba(138,244,241,.18); border-color: rgba(138,244,241,.35); }
 .investment-map-filter-toggle.is-open { border-color: #8af4f1; color: #8af4f1; }
 .investment-map-filter-toggle svg { transition: transform .16s ease; }
@@ -3594,7 +3594,7 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-filter-reset:hover { color: #8af4f1; }
 @media (max-width: 700px) {
   .investment-map-filter-panel { left: 10px; top: 10px; }
-  .investment-map-filter-toggle { min-width: 0; padding: 10px 14px; font-size: 14px; }
+  .investment-map-filter-toggle { min-width: 0; padding: 11px 15px; font-size: 16px; }
   .investment-map-filter-options-combined { width: calc(100vw - 44px); max-width: 300px; }
 }
 
