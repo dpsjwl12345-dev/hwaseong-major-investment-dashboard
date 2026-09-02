@@ -483,6 +483,10 @@
 .pd-budget-panel-heading > div { display:flex; align-items:center; gap:10px; min-width:0; }
 .pd-section-heading { display:flex; align-items:center; gap:9px; min-width:0; }
 .pd-section-icon { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; flex:none; border:1px solid rgba(255,255,255,.16); border-radius:10px; color:rgba(255,255,255,.72); background:rgba(255,255,255,.06); box-shadow:none; }
+.pd-section-icon-image { border-color: transparent; background: transparent; }
+.pd-section-icon-image img { width:26px; height:26px; object-fit:contain; mix-blend-mode:screen; }
+.pd-summary-icon-image { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; flex:none; }
+.pd-summary-icon-image img { width:24px; height:24px; object-fit:contain; filter:grayscale(1) brightness(1.45); mix-blend-mode:screen; }
 .pd-section-heading-title { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; line-height:1.2; }
 .pd-section-heading-subtitle { margin:3px 0 0; color:var(--pd-text-faint); font-size:11px; line-height:1.25; }
 .pd-progress-heading .pd-section-heading { width:100%; }
