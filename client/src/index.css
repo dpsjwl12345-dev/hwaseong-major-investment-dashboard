@@ -3452,6 +3452,14 @@ h1, h2, h3, h4, h5, h6,
 /* Usage detail labels: all first-column items align left */
 .pd-usage-progress-label > span { text-align: left; justify-self: start; }
 
+/* Top six summary icons: no background, one neutral color across all six cells */
+.pd-summary > .pd-summary-cell .pd-summary-label svg {
+  color: var(--pd-text-faint) !important;
+  stroke: var(--pd-text-faint) !important;
+  background: transparent !important;
+  filter: none !important;
+}
+
 /* Final text-column alignment pass */
 .pd-funding-table thead th:first-child,
 .pd-funding-table tbody th:first-child,
