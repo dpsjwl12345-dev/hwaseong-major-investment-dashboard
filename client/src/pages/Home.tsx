@@ -671,7 +671,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
 
       <section className="pd-summary mt-8" aria-label="사업 요약">
         <div className="pd-summary-cell">
-          <span className="pd-summary-label"><Tag /> 사업구분 · 진행상태</span>
+          <span className="pd-summary-label"><Tag /> 사업 성격 · 추진 단계</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             <span className="pd-pill pd-pill-new">{activeProject.region || "-"}</span>
             <span className="pd-pill pd-pill-status">{activeProject.current_stage || "-"}</span>
@@ -685,28 +685,28 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           </span>
         </div>
         <div className="pd-summary-cell hero">
-          <span className="pd-summary-label pd-summary-label-progress"><Route /> 사업 전체 공정률</span>
+          <span className="pd-summary-label pd-summary-label-progress"><Route /> 사업 진척도</span>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <Gauge key={`${project.id}-${selectedSubIndex}`} percent={percent} />
             <span className="pd-summary-value grad">{percent}%</span>
           </div>
         </div>
         <div className="pd-summary-cell hero">
-          <span className="pd-summary-label pd-summary-label-execution"><Download /> 예산 집행률</span>
+          <span className="pd-summary-label pd-summary-label-execution"><Download /> 예산 집행 현황</span>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <Gauge key={`${project.id}-${selectedSubIndex}-exec`} percent={activeProject.execution_rate ?? 0} />
             <span className="pd-summary-value grad">{activeProject.execution_rate ?? 0}%</span>
           </div>
         </div>
         <div className="pd-summary-cell pd-summary-cell-date">
-          <span className="pd-summary-label pd-summary-label-schedule"><CalendarClock /> 준공예정일</span>
+          <span className="pd-summary-label pd-summary-label-schedule"><CalendarClock /> 준공 목표</span>
           <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(activeProject.inspection || "-")}</span>
         </div>
         <div className="pd-summary-cell pd-summary-cell-location">
-          <span className="pd-summary-label pd-summary-label-location"><Building2 /> 위치 · 선거구</span>
+          <span className="pd-summary-label pd-summary-label-location"><Building2 /> 사업 위치 · 선거구</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {[activeProject.contact, activeProject.district, activeProject.town].filter(Boolean).map((tag, index) => (
-              <span key={`${tag}-${index}`} className={`pd-pill ${index === 2 ? "pd-pill-district" : "pd-pill-tag"}`}>{tag}</span>
+              <span key={`${tag}-${index}`} className={`pd-pill ${index === 0 ? "pd-pill-status" : index === 2 ? "pd-pill-district" : "pd-pill-tag"}`}>{tag}</span>
             ))}
             {!activeProject.contact && !activeProject.district && !activeProject.town && <span className="pd-empty text-[14px]">-</span>}
           </div>

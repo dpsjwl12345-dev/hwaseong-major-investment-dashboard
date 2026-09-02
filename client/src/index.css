@@ -5319,3 +5319,20 @@ main.app-main.app-main-flush .landing-enter-button {
 .investment-real-map-legend { color: #f3fff9; border-color: rgba(210,245,234,.3); background: rgba(4,20,29,.86); }
 .investment-real-map-legend i { box-shadow: 0 0 0 2px rgba(4,20,29,.9); }
 @media (max-width: 700px) { .investment-real-map::after { right: 12px; bottom: 12px; font-size: 8px; } }
+
+/* Project-detail summary: calm label hierarchy and matched capsules. */
+.pd-summary { border: 1px solid rgba(244,243,238,.16); border-radius: 18px; background: rgba(11,15,24,.72); box-shadow: 0 18px 46px -32px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06); overflow: hidden; }
+.pd-summary-cell { min-height: 118px; padding: 20px 22px; gap: 12px; background: rgba(255,255,255,.025); }
+.pd-summary-cell + .pd-summary-cell { border-left: 1px solid rgba(255,255,255,.08); }
+.pd-summary-cell.hero { background: linear-gradient(145deg, rgba(47,184,196,.10), rgba(255,255,255,.025)); }
+.pd-summary-label { color: rgba(244,243,238,.62); font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 12px !important; font-weight: 650; letter-spacing: .015em; line-height: 1.35; text-transform: none; }
+.pd-summary-label svg { width: 12px; height: 12px; padding: 5px; border-radius: 9px; }
+.pd-summary-value.grad { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -.035em; line-height: 1; }
+.pd-summary-cell-date .pd-summary-value { font-size: 19px !important; font-weight: 750; letter-spacing: -.02em; }
+.pd-pill { min-height: 29px; box-sizing: border-box; padding: 0 11px; border-radius: 999px; font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 700; letter-spacing: -.01em; line-height: 1; }
+.pd-pill-new { border: 1px solid rgba(196,167,245,.35); background: rgba(196,167,245,.14); color: #d8c8ff; }
+/* Election-district capsule deliberately matches the progress/status capsule. */
+.pd-summary-cell-location .pd-pill-status { background: color-mix(in srgb, var(--pd-accent-a) 16%, transparent); color: var(--pd-accent-a); border: 1px solid color-mix(in srgb, var(--pd-accent-a) 45%, transparent); }
+.pd-summary-cell-location .pd-pill-tag { color: rgba(244,243,238,.75); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.13); }
+.pd-summary-cell-location .pd-pill-district { color: #b9d6ff; background: rgba(96,165,250,.14); border-color: rgba(96,165,250,.38); }
+@media (max-width: 1020px) { .pd-summary-cell + .pd-summary-cell { border-left: 0; border-top: 1px solid rgba(255,255,255,.08); } }
