@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type FormEvent as ReactFormEvent, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import maplibregl from "maplibre-gl";
-import "maplibre-gl/dist/maplibre-gl.css";
 import {
   Activity,
   Banknote,
@@ -44,39 +42,6 @@ import islands from "../data/hwaseong-islands.json";
 import dongLonLat from "../data/hwaseong-dong-lonlat.json";
 import coastalLonLat from "../data/hwaseong-coastal-lonlat.json";
 import { HwaseongGLMap } from "../components/HwaseongGLMap";
-
-const VWORLD_API_KEY = import.meta.env.VITE_VWORLD_API_KEY as string | undefined;
-
-function VWorldMidnightBackdrop() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (!VWORLD_API_KEY || !containerRef.current) return;
-    const map = new maplibregl.Map({
-      container: containerRef.current,
-      center: [126.83, 37.18],
-      zoom: 9.7,
-      minZoom: 8,
-      maxZoom: 17,
-      interactive: false,
-      attributionControl: { compact: true },
-      style: {
-        version: 8,
-        sources: {
-          vworld: {
-            type: "raster",
-            tiles: [`https://api.vworld.kr/req/wmts/1.0.0/${VWORLD_API_KEY}/Midnight/{z}/{y}/{x}.png`],
-            tileSize: 256,
-            attribution: "© VWorld"
-          }
-        },
-        layers: [{ id: "vworld-midnight", type: "raster", source: "vworld", paint: { "raster-opacity": 0.92 } }]
-      }
-    });
-    return () => map.remove();
-  }, []);
-  if (!VWORLD_API_KEY) return null;
-  return <div className="investment-map-vworld-backdrop" ref={containerRef} aria-hidden="true" />;
-}
 
 type Project = {
   id: string;
@@ -1103,7 +1068,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
             className="investment-map-zoom-layer"
             style={{ transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`, transition: isPanning ? "none" : "transform .18s ease-out" }}
           >
-            <VWorldMidnightBackdrop />
             <div className="investment-map-grid" /><div className="investment-map-glow" />
             <svg className="investment-map-outline accurate" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet">
               <defs>

@@ -3266,17 +3266,22 @@ h1, h2, h3, h4, h5, h6,
 .investment-map-stats > div { padding:14px 18px; border-right:1px solid rgba(159,188,255,.12); } .investment-map-stats > div:last-child{border-right:0}
 .investment-map-stats span { display:block; color:rgba(218,230,255,.55); font-size:11px; font-weight:700; } .investment-map-stats strong { display:block; margin-top:4px; color:#fff; font:800 23px "Pretendard",sans-serif; } .investment-map-stats small { margin-left:4px; color:#7ce7ef; font:700 11px "Pretendard",sans-serif; }
 .investment-map-layout { display:grid; grid-template-columns:minmax(0,1fr) 280px; gap:18px; max-width:1500px; min-height:500px; margin:0 auto; }
-.investment-map-canvas { position:relative; min-height:540px; overflow:hidden; border:1px solid rgba(117,182,255,.2); border-radius:22px; background:linear-gradient(145deg,#0a1830,#0b1325 65%,#101a2f); box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 22px 60px rgba(0,0,0,.22); }
-.investment-map-vworld-backdrop { position:absolute; z-index:0; inset:0; overflow:hidden; opacity:.9; filter:saturate(.8) brightness(.82); pointer-events:none; }
-.investment-map-vworld-backdrop .maplibregl-map { position:absolute; inset:0; }
-.investment-map-vworld-backdrop .maplibregl-canvas { outline:none; }
-.investment-map-vworld-backdrop .maplibregl-control-container { display:none; }
+.investment-map-canvas { position:relative; min-height:540px; overflow:hidden; border:1px solid rgba(117,182,255,.2); border-radius:22px; background:radial-gradient(ellipse at 52% 44%,rgba(27,77,110,.22),transparent 48%),linear-gradient(145deg,#09182d,#0a1325 68%,#0d1b31); box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 22px 60px rgba(0,0,0,.22); }
+.investment-map-canvas::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.45; background:radial-gradient(circle at 18% 18%,rgba(124,238,240,.12) 0 1px,transparent 1.5px),radial-gradient(circle at 78% 72%,rgba(153,169,255,.1) 0 1px,transparent 1.5px); background-size:84px 84px,112px 112px; mix-blend-mode:screen; }
+.investment-map-canvas::after { content:"CITYWIDE INVESTMENT MAP"; position:absolute; left:26px; bottom:22px; z-index:2; color:rgba(218,230,255,.38); font:700 10px/1 "Pretendard",sans-serif; letter-spacing:.18em; pointer-events:none; }
+.investment-map-outline { position:absolute; inset:8%; width:84%; height:84%; fill:rgba(22,48,86,.62); stroke:rgba(155,175,255,.78); stroke-width:1.6; filter:drop-shadow(0 0 12px rgba(90,170,220,.22)); }
+.investment-map-outline.accurate { paint-order:stroke fill; }
+
 .investment-map-canvas.is-zoomed { cursor:grab; }
 .investment-map-canvas.is-zoomed.is-panning { cursor:grabbing; }
 .investment-map-zoom-layer { position:absolute; inset:0; transform-origin:center center; will-change:transform; }
-.investment-map-grid { position:absolute; inset:0; opacity:.25; background-image:linear-gradient(rgba(120,180,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(120,180,255,.12) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 90%); }
+.investment-map-grid { position:absolute; inset:0; opacity:.18; background-image:linear-gradient(rgba(120,180,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(120,180,255,.12) 1px,transparent 1px); background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 90%); }
+.investment-map-dong-lines path { stroke:rgba(178,206,255,.24); stroke-width:1.1; }
+.investment-map-gu-fills path { stroke:rgba(168,207,255,.18); stroke-width:1.2; }
+.investment-map-islands path { fill:rgba(44,112,143,.34); stroke:rgba(124,238,240,.55); stroke-width:1.1; }
+
 .investment-map-glow { position:absolute; width:55%; height:55%; left:22%; top:24%; border-radius:50%; background:radial-gradient(circle,rgba(40,208,224,.12),transparent 68%); filter:blur(20px); }
-.investment-map-outline { position:absolute; inset:8%; width:84%; height:84%; fill:rgba(22,48,86,.55); stroke:rgba(138,155,235,.7); stroke-width:1.6; filter:drop-shadow(0 0 10px rgba(90,110,220,.25)); }
+
 .investment-map-point { cursor:pointer; outline:none; }
 .investment-map-point-core { stroke:rgba(255,255,255,.35); stroke-width:.6; transition:.15s ease; }
 .investment-map-point.is-selected .investment-map-point-core { stroke:#fff; stroke-width:1; }
