@@ -3408,8 +3408,8 @@ h1, h2, h3, h4, h5, h6,
    bubble, but interactive (pointer-events:auto) and holds the full summary
    plus a link into the project detail page. */
 .investment-map-select-card {
-  position: absolute;
-  z-index: 9;
+  position: fixed;
+  z-index: 120;
   left: 0;
   top: 0;
   transform: translate(-50%, calc(-100% - 14px));
@@ -3430,6 +3430,7 @@ h1, h2, h3, h4, h5, h6,
   pointer-events: auto;
 }
 .investment-map-select-card.is-open-down { transform: translate(-50%, 14px); }
+.investment-map-select-card { max-height: min(90vh, 720px); }
 .investment-map-select-card-media { flex: 0 0 200px; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
 .investment-map-select-card-body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
 .investment-map-select-card-close {

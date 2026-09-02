@@ -823,7 +823,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   const [selected, setSelected] = useState<Project | null>(null);
   const [hovered, setHovered] = useState<Project | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
-  const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: 0 });
+  const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: 0, screenX: 0, screenY: 0 });
   const [selectedOpensDown, setSelectedOpensDown] = useState(false);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [categoryFilter, setCategoryFilter] = useState("전체");
@@ -1007,7 +1007,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
     const scale = Math.hypot(ctm.a, ctm.b);
     const core = group.querySelector(".investment-map-point-core");
     const baseR = core ? Number(core.getAttribute("r")) || 7 : 7;
-    return { x: screenCenter.x - canvasRect.left, y: screenCenter.y - canvasRect.top - baseR * scale, screenY: screenCenter.y };
+    return { x: screenCenter.x - canvasRect.left, y: screenCenter.y - canvasRect.top - baseR * scale, screenX: screenCenter.x, screenY: screenCenter.y - baseR * scale };
   };
   const showHoverCardFor = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
     setHovered(project);
@@ -1195,7 +1195,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
           const active = gallery[galleryIndex] ?? gallery[0];
           const address = parseKvPairs(selected.overview).find((pair) => pair.label === "사업위치")?.value;
           return (
-            <div className={`investment-map-select-card${selectedOpensDown ? " is-open-down" : ""}`} style={{ left: `${selectedPosition.x}px`, top: `${selectedPosition.y}px` }}>
+            <div className={`investment-map-select-card${selectedOpensDown ? " is-open-down" : ""}`} style={{ left: `${selectedPosition.screenX}px`, top: `${selectedPosition.screenY}px` }}>
               <button type="button" className="investment-map-select-card-close" onClick={() => setSelected(null)} aria-label="닫기"><X size={15} /></button>
               <div className="investment-map-select-card-media">
                 {active ? (
