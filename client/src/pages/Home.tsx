@@ -263,6 +263,8 @@ function OverviewPanel({ project }: { project: Project }) {
 
 function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_map"]>; projectName: string }) {
   const [isZoomed, setIsZoomed] = useState(false);
+  const [selectedSpotIndex, setSelectedSpotIndex] = useState(0);
+  const selectedSpot = map.spots[selectedSpotIndex] ?? map.spots[0];
   const mapBody = (
     <>
       {map.basemap === "illustration" ? (
@@ -273,7 +275,7 @@ function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_
         <img src={map.image} alt={`${projectName} 위치도`} />
       )}
       {map.spots.map((spot, index) => (
-        <span key={spot.label} className={`pd-spotmap-pin${spot.tracked ? " is-tracked" : ""}`} style={{ left: `${spot.x}%`, top: `${spot.y}%` }}>
+        <span key={spot.label} className={`pd-spotmap-pin${spot.tracked ? " is-tracked" : ""}`} style={{ left: `${spot.x}%`, top: `${spot.y}%` }} onClick={(event) => { event.stopPropagation(); setSelectedSpotIndex(index); }} role="button" tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedSpotIndex(index); } }}>
           <span className="pd-spotmap-pin-dot">{index + 1}</span>
           <span className="pd-spotmap-pin-label">{spot.label}</span>
         </span>
@@ -287,6 +289,10 @@ function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_
         <button type="button" className={`pd-spotmap mt-1${map.basemap === "illustration" ? " is-illustration" : ""}`} onClick={() => setIsZoomed(true)} aria-label={`${map.title || "거점 위치도"} 확대 보기`}>
           {mapBody}
         </button>
+        {selectedSpot?.zoomImage && <div className="pd-spotmap-photo-row">
+          <div className="pd-spotmap-photo-main"><img src={selectedSpot.zoomImage} alt={`${selectedSpot.label} 지도 사진`} /><p>{selectedSpot.label}</p></div>
+          <div className="pd-spotmap-photo-list">{map.spots.filter((spot) => spot.zoomImage).map((spot) => { const index = map.spots.indexOf(spot); return <button type="button" key={spot.label} className={`pd-spotmap-photo-thumb${index === selectedSpotIndex ? " is-selected" : ""}`} onClick={() => setSelectedSpotIndex(index)} aria-label={`${spot.label} 지도 사진 보기`}><img src={spot.zoomImage} alt="" /></button>; })}</div>
+        </div>}
         {map.spots.some((s) => s.tracked) && (
           <div className="pd-spotmap-legend mt-2">
             <span><i className="pd-spotmap-legend-dot is-tracked" />체육진흥과 추진사업</span>

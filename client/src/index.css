@@ -1063,6 +1063,15 @@
 .pd-spotmap-legend-dot { width: 10px; height: 10px; border-radius: 50%; background: #8b93a3; flex: none; }
 .pd-spotmap-legend-dot.is-tracked { background: #f4c14a; }
 .pd-spotmap-pin:hover .pd-spotmap-pin-dot { transform: scale(1.18); }
+.pd-spotmap-photo-row { display:grid; grid-template-columns:minmax(0,1fr) 180px; gap:12px; margin-top:12px; align-items:start; }
+.pd-spotmap-photo-main { min-width:0; }
+.pd-spotmap-photo-main img { display:block; width:100%; aspect-ratio:430 / 205; object-fit:cover; border-radius:10px; border:1px solid rgba(255,255,255,.14); }
+.pd-spotmap-photo-main p { margin:7px 0 0; color:var(--pd-text-muted); font-size:12px; line-height:1.35; }
+.pd-spotmap-photo-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:7px; }
+.pd-spotmap-photo-thumb { display:block; padding:0; overflow:hidden; border:1px solid rgba(255,255,255,.12); border-radius:7px; opacity:.62; transition:opacity .2s ease,border-color .2s ease; }
+.pd-spotmap-photo-thumb:hover,.pd-spotmap-photo-thumb.is-selected { opacity:1; border-color:#6f9ca4; }
+.pd-spotmap-photo-thumb img { display:block; width:100%; aspect-ratio:430 / 205; object-fit:cover; }
+@media (max-width: 640px) { .pd-spotmap-photo-row { grid-template-columns:1fr; } .pd-spotmap-photo-list { grid-template-columns:repeat(3,minmax(0,1fr)); } }
 .pd-spotmap-pin-label {
   font-size: 11px;
   font-weight: 700;
