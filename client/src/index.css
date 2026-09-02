@@ -5325,8 +5325,8 @@ main.app-main.app-main-flush .landing-enter-button {
 .pd-summary-cell { min-height: 118px; padding: 20px 22px; gap: 12px; background: rgba(255,255,255,.025); }
 .pd-summary-cell + .pd-summary-cell { border-left: 1px solid rgba(255,255,255,.08); }
 .pd-summary-cell.hero { background: linear-gradient(145deg, rgba(47,184,196,.10), rgba(255,255,255,.025)); }
-.pd-summary-label { color: rgba(244,243,238,.62); font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 12px !important; font-weight: 650; letter-spacing: .015em; line-height: 1.35; text-transform: none; }
-.pd-summary-label svg { width: 12px; height: 12px; padding: 5px; border-radius: 9px; }
+.pd-summary-label { color: rgba(244,243,238,.62); font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 15px !important; font-weight: 650; letter-spacing: .015em; line-height: 1.35; text-transform: none; }
+.pd-summary-label svg { width: 13px; height: 13px; padding: 5px; border-radius: 9px; }
 .pd-summary-value.grad { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 30px; font-weight: 800; letter-spacing: -.035em; line-height: 1; }
 .pd-summary-cell-date .pd-summary-value { font-size: 19px !important; font-weight: 750; letter-spacing: -.02em; }
 .pd-pill { min-height: 29px; box-sizing: border-box; padding: 0 11px; border-radius: 999px; font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 700; letter-spacing: -.01em; line-height: 1; }
