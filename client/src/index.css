@@ -126,6 +126,7 @@
 .pd-summary-cell-date .pd-summary-value {
   align-self: flex-start;
   min-width: 100%;
+  padding-left: 8px;
   text-align: left;
   margin-top: 2px;
   line-height: 1.2;
