@@ -854,7 +854,7 @@ const CATEGORY_STYLES: Record<string, { id: string; hi: string; mid: string; lo:
 const DEFAULT_CATEGORY_STYLE = { id: "default", hi: "#d1fae5", mid: "#34d399", lo: "#047857" };
 const categoryStyleFor = (category: string | undefined) => (category && CATEGORY_STYLES[category]) || DEFAULT_CATEGORY_STYLE;
 
-function InvestmentDistribution({ projects, onBack, onSelectProject }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void }) {
+function InvestmentDistribution({ projects, onBack, onSelectProject, isAdmin }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void; isAdmin?: boolean }) {
   const [selected, setSelected] = useState<Project | null>(null);
   const [hovered, setHovered] = useState<Project | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
@@ -1084,7 +1084,8 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   return (
     <section className="investment-map-page">
       <header className="investment-map-header">
-        <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT DISTRIBUTION MAP</p><h1>주요 투자사업 분포도</h1></div>
+        <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT DISTRIBUTION MAP</p><h1>주요 투자사업 분포도</h1><p className="investment-map-description">화성시 주요 투자사업의 위치와 분포를 실제 지도 위에서 확인합니다.</p></div>
+        <button type="button" className="investment-map-admin-action" onClick={() => startLogin()}>{isAdmin ? <><Pencil size={14} /> 사업 정보 편집</> : <><Lock size={14} /> 관리자 로그인</>}</button>
       </header>
       <div className="investment-map-layout">
         <div className="investment-map-canvas investment-map-real-canvas">
@@ -1838,7 +1839,6 @@ export default function Home() {
             activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
             includeMapView={false}
           />
-          <SitePasswordButton unlocked={siteUnlocked} onUnlock={() => setSiteUnlocked((v) => !v)} />
         </div>
         <button type="button" className={`landing-map-button${activeView === "map" ? " is-map-active" : ""}`} onClick={goMap}>MAP VIEW</button>
         {/* 검색 기능은 유지하되, 당분간 화면에서는 노출하지 않음 */}
@@ -1893,7 +1893,7 @@ export default function Home() {
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
           {selectedProject && <div className="app-panel-topbar" aria-hidden="true" />}
           {activeView === "map" ? (
-            <InvestmentDistribution projects={liveProjects} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+            <InvestmentDistribution projects={liveProjects} isAdmin={isAdmin} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "department" ? (
             <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (

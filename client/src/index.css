@@ -5362,3 +5362,11 @@ main.app-main.app-main-flush .landing-enter-button {
 
 .pd-edit-login { display:inline-flex; align-items:center; gap:7px; margin-top:14px; padding:9px 13px; border:1px solid rgba(255,190,61,.38); border-radius:999px; color:#ffd979; background:rgba(255,190,61,.08); font-family:"Pretendard","Noto Sans KR",sans-serif; font-size:12px; font-weight:700; cursor:pointer; }
 .pd-edit-login:hover { border-color:rgba(255,190,61,.7); background:rgba(255,190,61,.16); }
+
+.investment-map-header { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; }
+.investment-map-description { margin:8px 0 0; color:rgba(220,232,255,.58); font:500 12px/1.5 "Pretendard","Noto Sans KR",sans-serif; }
+.investment-map-admin-action { display:inline-flex; align-items:center; gap:7px; flex:none; margin-bottom:2px; padding:9px 13px; border:1px solid rgba(194,164,96,.44); border-radius:999px; color:#d8bf83; background:rgba(194,164,96,.10); font:700 11px/1 "Pretendard","Noto Sans KR",sans-serif; cursor:pointer; transition:background .18s ease,border-color .18s ease,transform .18s ease; }
+.investment-map-admin-action:hover { border-color:rgba(216,191,131,.78); background:rgba(194,164,96,.18); transform:translateY(-1px); }
+.investment-real-marker.is-selected .investment-real-marker-dot { background:#c7a866; box-shadow:0 5px 14px rgba(159,126,53,.38),0 0 0 3px rgba(222,197,132,.22); }
+.investment-real-marker:focus-visible { outline-color:#c7a866; }
+@media (max-width:700px) { .investment-map-header { align-items:flex-start; flex-direction:column; gap:12px; } .investment-map-admin-action { margin-bottom:0; } }
