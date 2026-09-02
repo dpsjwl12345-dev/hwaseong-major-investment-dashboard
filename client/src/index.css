@@ -532,7 +532,7 @@
 .pd-usage-progress-track { height:8px; margin-top:5px; overflow:hidden; border-radius:999px; background:rgba(255,255,255,.1); }
 .pd-usage-progress-track span { display:block; height:100%; border-radius:inherit; transition:width .25s ease; }
 .pd-usage-legend { display:flex; flex-wrap:wrap; gap:7px 12px; padding-top:14px; }
-.pd-usage-legend-top { justify-content: flex-end; padding-top: 0; }
+.pd-usage-legend-top { justify-content: flex-end; padding-top: 8px; }
 .pd-usage-legend span { display:inline-flex; align-items:center; gap:6px; color:var(--pd-text-faint); font-size:14px; }
 .pd-usage-legend i { width:8px; height:8px; border-radius:2px; }
 @media (min-width: 1101px) {
