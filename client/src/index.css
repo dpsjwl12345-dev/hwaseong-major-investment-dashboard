@@ -483,13 +483,15 @@
 .pd-budget-panel-heading > div { display:flex; align-items:center; gap:10px; min-width:0; }
 .pd-section-heading { display:flex; align-items:center; gap:9px; min-width:0; }
 .pd-section-icon { display:inline-flex; align-items:center; justify-content:center; width:32px; height:32px; flex:none; border:1px solid rgba(255,255,255,.16); border-radius:10px; color:rgba(255,255,255,.72); background:rgba(255,255,255,.06); box-shadow:none; }
-.pd-section-icon-budget { color:#39c8f4; border-color:rgba(255,255,255,.3); background:linear-gradient(135deg, rgba(57,200,244,.22), rgba(255,255,255,.08)); box-shadow:inset 0 0 0 1px rgba(57,200,244,.12); }
-.pd-summary-label-amount svg { color:#f1eee5; stroke:#f1eee5; background:rgba(255,255,255,.06); }
+.pd-section-icon-budget { position:relative; width:34px; height:34px; border:0; border-radius:0; color:#39c8f4; background:transparent; box-shadow:none; }
+.pd-section-icon-budget svg { position:relative; z-index:1; stroke:#39c8f4; }
+.pd-section-icon-budget i { position:absolute; right:2px; bottom:4px; width:9px; height:3px; border-radius:999px; background:#f4f1e8; content:""; }
+.pd-summary-label-amount svg { color:#f1eee5; stroke:#f1eee5; background:transparent; }
 .pd-summary-label-progress svg { color:#43c7f4; stroke:#43c7f4; background:rgba(67,199,244,.1); }
 .pd-summary-label-execution svg { color:#58c7b1; stroke:#58c7b1; background:rgba(88,199,177,.1); }
 .pd-summary-label-schedule svg { color:#f0c85a; stroke:#f0c85a; background:rgba(240,200,90,.1); }
 .pd-summary-label-location svg { color:#c4a7f5; stroke:#c4a7f5; background:rgba(196,167,245,.1); }
-.pd-summary-label-amount svg { color:#f1eee5; stroke:#f1eee5; background:rgba(255,255,255,.06); }
+.pd-summary-label-amount svg { color:#f1eee5; stroke:#f1eee5; background:transparent; }
 .pd-section-heading-title { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; line-height:1.2; }
 .pd-section-heading-subtitle { margin:3px 0 0; color:var(--pd-text-faint); font-size:11px; line-height:1.25; }
 .pd-progress-heading .pd-section-heading { width:100%; }
