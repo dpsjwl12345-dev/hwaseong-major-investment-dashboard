@@ -323,8 +323,8 @@ function displayFundingSourceName(name: string) {
   return cleaned === "기타" ? "지방채" : cleaned;
 }
 
-function DetailSectionHeading({ icon: Icon, title, subtitle, imageSrc }: { icon: typeof Coins; title: string; subtitle?: string; imageSrc?: string }) {
-  return <div className="pd-section-heading"><span className={`pd-section-icon${imageSrc ? " pd-section-icon-image" : ""}`}>{imageSrc ? <img src={imageSrc} alt="" aria-hidden="true" /> : <Icon size={17} strokeWidth={2.2} />}</span><div><p className="pd-section-heading-title">{title}</p>{subtitle && <p className="pd-section-heading-subtitle">{subtitle}</p>}</div></div>;
+function DetailSectionHeading({ icon: Icon, title, subtitle, tone = "neutral" }: { icon: typeof Coins; title: string; subtitle?: string; tone?: "neutral" | "progress" | "schedule" | "check" }) {
+  return <div className="pd-section-heading"><span className={`pd-section-icon pd-section-icon-${tone}`}><Icon size={17} strokeWidth={2.1} /></span><div><p className="pd-section-heading-title">{title}</p>{subtitle && <p className="pd-section-heading-subtitle">{subtitle}</p>}</div></div>;
 }
 
 function FundingBreakdownCard({ rows, note, execution, projectId }: { rows: BreakdownRow[]; note?: string; execution: number; projectId: string }) {
@@ -409,11 +409,11 @@ function ProgressPanel({ project }: { project: Project }) {
       </div>
       <div className="pd-progress-layout">
         <section className="pd-progress-section pd-progress-vertical">
-          <div className="pd-progress-heading"><DetailSectionHeading icon={Route} imageSrc="/icons/process-duotone.png" title="추진경과" /></div>
+          <div className="pd-progress-heading"><DetailSectionHeading icon={Route} tone="progress" title="추진경과" /></div>
           {past.length > 0 ? <div className="pd-progress-vertical-list">{past.map((item, index) => <div key={index} className={`pd-progress-vertical-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{item.desc}</div></div></div>)}</div> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
         </section>
         <section className="pd-progress-section pd-progress-horizontal">
-          <div className="pd-progress-heading"><DetailSectionHeading icon={CalendarClock} imageSrc="/icons/process-duotone.png" title="향후계획" /></div>
+          <div className="pd-progress-heading"><DetailSectionHeading icon={CalendarClock} tone="schedule" title="향후계획" /></div>
           {upcoming.length > 0 ? <div className="pd-progress-horizontal-track"><div className="pd-progress-horizontal-line" />{upcoming.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{item.desc}</div></div></div>)}</div> : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
         </section>
       </div>
@@ -424,7 +424,7 @@ function ProgressPanel({ project }: { project: Project }) {
 function AdminPanel({ project }: { project: Project }) {
   const status = project.card_admin_status || {};
   const checks = [["중기재정", status.mid_term_fiscal], ["투·융자심사", status.investment_review], ["공유재산", status.public_property], ["해당없음", status.none]] as const;
-  return <div className="pd-card pd-admin-card"><div className="pd-card-title"><DetailSectionHeading icon={ClipboardCheck} imageSrc="/icons/process-duotone.png" title="사전절차 이행여부" /></div>{project.management_card_matched ? <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{checks.map(([label, checked]) => <div key={label} className={`rounded-xl border px-4 py-4 ${checked ? "border-white/25 bg-white/[0.06]" : "border-[var(--pd-border)] bg-white/[0.02]"}`}><span className={`text-[15px] font-medium ${checked ? "text-[var(--pd-text)]" : "text-[var(--pd-text-muted)]"}`}>{checked ? "■" : "□"} {label}</span></div>)}</div><div className="mt-5 grid gap-4 sm:grid-cols-2"><div className="pd-kv"><span className="pd-kv-label">선택된 절차</span><span className="pd-kv-value">{project.card_admin_procedures || "-"}</span></div><div className="pd-kv"><span className="pd-kv-label">법적근거</span><span className="pd-kv-value">{project.card_admin_legal_basis || "-"}</span></div></div></> : <div className="pd-note-box">해당 사업의 사업별 관리카드가 검색되지 않았습니다.</div>}</div>;
+  return <div className="pd-card pd-admin-card"><div className="pd-card-title"><DetailSectionHeading icon={ClipboardCheck} tone="check" title="사전절차 이행여부" /></div>{project.management_card_matched ? <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{checks.map(([label, checked]) => <div key={label} className={`rounded-xl border px-4 py-4 ${checked ? "border-white/25 bg-white/[0.06]" : "border-[var(--pd-border)] bg-white/[0.02]"}`}><span className={`text-[15px] font-medium ${checked ? "text-[var(--pd-text)]" : "text-[var(--pd-text-muted)]"}`}>{checked ? "■" : "□"} {label}</span></div>)}</div><div className="mt-5 grid gap-4 sm:grid-cols-2"><div className="pd-kv"><span className="pd-kv-label">선택된 절차</span><span className="pd-kv-value">{project.card_admin_procedures || "-"}</span></div><div className="pd-kv"><span className="pd-kv-label">법적근거</span><span className="pd-kv-value">{project.card_admin_legal_basis || "-"}</span></div></div></> : <div className="pd-note-box">해당 사업의 사업별 관리카드가 검색되지 않았습니다.</div>}</div>;
 }
 
 // Real lon/lat for a project, derived only from our own offline boundary
@@ -679,32 +679,32 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           </div>
         </div>
         <div className="pd-summary-cell hero">
-          <span className="pd-summary-label"><span className="pd-summary-icon-image"><img src="/icons/amount-transfer.png" alt="" aria-hidden="true" /></span> 총사업비</span>
+          <span className="pd-summary-label pd-summary-label-amount"><Coins /> 총사업비</span>
           <span className="pd-summary-value grad">
             {activeProject.total_cost_million_krw?.toLocaleString("ko-KR") ?? "-"}
             <small style={{ fontSize: 14, fontWeight: 700, background: "none", WebkitTextFillColor: "var(--pd-text-muted)", color: "var(--pd-text-muted)" }}> 백만원</small>
           </span>
         </div>
         <div className="pd-summary-cell hero">
-          <span className="pd-summary-label"><Activity /> 사업 전체 공정률</span>
+          <span className="pd-summary-label pd-summary-label-progress"><Activity /> 사업 전체 공정률</span>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <Gauge key={`${project.id}-${selectedSubIndex}`} percent={percent} />
             <span className="pd-summary-value grad">{percent}%</span>
           </div>
         </div>
         <div className="pd-summary-cell hero">
-          <span className="pd-summary-label"><TrendingUp /> 예산 집행률</span>
+          <span className="pd-summary-label pd-summary-label-execution"><TrendingUp /> 예산 집행률</span>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <Gauge key={`${project.id}-${selectedSubIndex}-exec`} percent={activeProject.execution_rate ?? 0} />
             <span className="pd-summary-value grad">{activeProject.execution_rate ?? 0}%</span>
           </div>
         </div>
         <div className="pd-summary-cell pd-summary-cell-date">
-          <span className="pd-summary-label"><CalendarCheck /> 준공예정일</span>
+          <span className="pd-summary-label pd-summary-label-schedule"><CalendarCheck /> 준공예정일</span>
           <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(activeProject.inspection || "-")}</span>
         </div>
         <div className="pd-summary-cell pd-summary-cell-location">
-          <span className="pd-summary-label"><MapPin /> 위치 · 선거구</span>
+          <span className="pd-summary-label pd-summary-label-location"><MapPin /> 위치 · 선거구</span>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
             {[activeProject.contact, activeProject.district, activeProject.town].filter(Boolean).map((tag, index) => (
               <span key={`${tag}-${index}`} className={`pd-pill ${index === 2 ? "pd-pill-district" : "pd-pill-tag"}`}>{tag}</span>
