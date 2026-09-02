@@ -826,7 +826,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
   const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: 0, screenX: 0, screenY: 0 });
   const [selectedOpensDown, setSelectedOpensDown] = useState(false);
-  const [galleryIndex, setGalleryIndex] = useState(0);
   const [categoryFilter, setCategoryFilter] = useState("전체");
   const [zoneFilter, setZoneFilter] = useState("전체");
   const [deptFilter, setDeptFilter] = useState("전체");
@@ -1022,7 +1021,6 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
   // above it, flip it to open downward instead so it never gets clipped.
   const selectProjectAt = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
     setSelected(project);
-    setGalleryIndex(0);
     const position = cardPositionFor(event);
     if (position) {
       setSelectedPosition(position);
@@ -1070,8 +1068,7 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
               const project = projects.find((item) => item.id === mapProject.id);
               if (!project) return;
               setSelected(project);
-              setGalleryIndex(0);
-              setSelectedPosition(position);
+                        setSelectedPosition(position);
               setSelectedOpensDown(position.screenY < window.innerHeight / 2);
             }}
           />
@@ -1111,23 +1108,10 @@ function InvestmentDistribution({ projects, onBack, onSelectProject }: { project
           </div>
         )}
         {selected && (() => {
-          const gallery = selected.gallery_images ?? [];
-          const active = gallery[galleryIndex] ?? gallery[0];
           const address = parseKvPairs(selected.overview).find((pair) => pair.label === "사업위치")?.value;
           return (
             <div className={`investment-map-select-card${selectedOpensDown ? " is-open-down" : ""}`} style={{ left: `${selectedPosition.screenX}px`, top: `${selectedPosition.screenY}px` }}>
               <button type="button" className="investment-map-select-card-close" onClick={() => setSelected(null)} aria-label="닫기"><X size={15} /></button>
-              <div className="investment-map-select-card-media">
-                {active ? (
-                  <div className="investment-map-hero">
-                    <img src={active.src} alt={active.alt || `${selected.project_name} 현장 이미지`} />
-                    {gallery.length > 1 && <div className="investment-map-gallery-counter investment-map-hero-counter">{galleryIndex + 1} / {gallery.length}</div>}
-                  </div>
-                ) : (
-                  <div className="investment-map-gallery-empty"><ImageIcon size={20} /><strong>현장 사진 준비 중</strong></div>
-                )}
-                {gallery.length > 1 && <div className="investment-map-gallery-thumbs">{gallery.map((image, index) => <button type="button" key={`${image.src}-${index}`} className={index === galleryIndex ? "is-active" : ""} onClick={() => setGalleryIndex(index)}><img src={image.src} alt="" /></button>)}</div>}
-              </div>
               <div className="investment-map-select-card-body">
                 <div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div>
                 <h2>{selected.project_name}</h2>
