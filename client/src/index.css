@@ -487,8 +487,8 @@
 .pd-section-icon-budget svg { position:relative; z-index:1; stroke:#39c8f4; }
 .pd-section-icon-budget i { position:absolute; right:2px; bottom:4px; width:9px; height:3px; border-radius:999px; background:#f4f1e8; content:""; }
 .pd-summary-label-amount svg { color:#f1eee5; stroke:#f1eee5; background:transparent; }
-.pd-summary-label-progress svg { color:#43c7f4; stroke:#43c7f4; background:rgba(67,199,244,.1); }
-.pd-summary-label-execution svg { color:#58c7b1; stroke:#58c7b1; background:rgba(88,199,177,.1); }
+.pd-summary-label-progress svg { color:#43c7f4; stroke:#43c7f4; background:transparent; }
+.pd-summary-label-execution svg { color:#39c8f4; stroke:#39c8f4; background:transparent; filter:drop-shadow(2px 1px 0 rgba(244,241,232,.9)); }
 .pd-summary-label-schedule svg { color:#f0c85a; stroke:#f0c85a; background:rgba(240,200,90,.1); }
 .pd-summary-label-location svg { color:#c4a7f5; stroke:#c4a7f5; background:rgba(196,167,245,.1); }
 .pd-summary-label-amount svg { color:#f1eee5; stroke:#f1eee5; background:transparent; }
