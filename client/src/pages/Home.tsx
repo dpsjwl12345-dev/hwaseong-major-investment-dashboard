@@ -377,7 +377,7 @@ function FundingBreakdownCard({ rows, note, yearlyExecution, projectId }: { rows
     { key: "budget_2027", label: "2027년" },
     { key: "budget_2028_plus", label: "이후" },
   ];
-  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={SafeIcon} tone="budget" title="재원별 예산" /><span className="pd-budget-panel-caption">(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayFundingSourceName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}<div className="pd-budget-panel-heading pd-exec-rate-heading"><DetailSectionHeading icon={CardSendIcon} tone="budget" title="진행률" /></div><div className="pd-yearly-exec">{yearlyExecution.map(({ key, label, rate }) => <div className="pd-yearly-exec-col" key={`${projectId}-${key}`}><span className="pd-yearly-exec-value">{rate}%</span><div className="pd-yearly-exec-bar"><div className={`pd-yearly-exec-bar-fill ${key === "2026" ? "is-current" : "is-future"}`} style={{ height: `${rate}%` }} /></div><span className="pd-yearly-exec-label">{label}</span></div>)}</div></div>;
+  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={SafeIcon} tone="budget" title="재원별 예산" /><span className="pd-budget-panel-caption">(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayFundingSourceName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}<div className="pd-budget-panel-heading pd-exec-rate-heading"><DetailSectionHeading icon={CardSendIcon} tone="budget" title="예산 집행률" /></div><div className="pd-yearly-exec">{yearlyExecution.map(({ key, label, rate }) => <div className="pd-yearly-exec-col" key={`${projectId}-${key}`}><span className="pd-yearly-exec-value">{rate}%</span><div className="pd-yearly-exec-bar"><div className={`pd-yearly-exec-bar-fill ${key === "2026" ? "is-current" : "is-future"}`} style={{ height: `${rate}%` }} /></div><span className="pd-yearly-exec-label">{label}</span></div>)}</div></div>;
 }
 
 const usageColors = ["#5b7fbd", "#58c7b1", "#e8b84a", "#c9915a", "#8a8378"];
@@ -424,8 +424,8 @@ function BudgetPanel({ project }: { project: Project }) {
   const carryoverLabel = carryoverItems.length === 1 ? `이월액 · ${carryoverItems[0].type}` : "이월액";
   const budgetCards = [
     { label: "총사업비", value: total, icon: WalletMoneyIcon, tone: "teal", carryoverItems: undefined },
-    { label: "기투자액 (~2025)", value: invested, icon: GraphUpIcon, tone: "teal", carryoverItems: undefined },
-    { label: "2026년 예산", value: budget, icon: CalendarAddIcon, tone: "teal", carryoverItems: undefined },
+    { label: "기투자액 (~2026)", value: invested, icon: GraphUpIcon, tone: "teal", carryoverItems: undefined },
+    { label: "2027년 예산액", value: budget, icon: CalendarAddIcon, tone: "teal", carryoverItems: undefined },
     { label: carryoverLabel, value: carryoverTotal, icon: RefreshCircleIcon, tone: "teal", carryoverItems },
     { label: "집행액", value: executionAmount, icon: CardSendIcon, tone: "teal", carryoverItems: undefined },
   ] as const;
@@ -1132,85 +1132,11 @@ function InvestmentDistribution({ projects, onBack, onSelectProject, isAdmin }: 
       </header>
       <div className="investment-map-layout">
         <div className="investment-map-canvas investment-map-real-canvas">
-          <InvestmentRealMap
-            projects={visiblePoints.map(({ project }) => project)}
-            selectedProjectId={selected?.id}
-            onHoverProject={(mapProject, position) => {
-              const project = projects.find((item) => item.id === mapProject.id);
-              if (!project) return;
-              setHovered(project);
-              setHoverPosition(position);
-            }}
-            onLeaveProject={() => setHovered(null)}
-            onSelectProject={(mapProject, position) => {
-              const project = projects.find((item) => item.id === mapProject.id);
-              if (!project) return;
-              setSelected(project);
-                        setSelectedPosition(position);
-              setSelectedOpensDown(position.screenY < window.innerHeight / 2);
-            }}
-          />
-          <div className="investment-map-filter-panel">
-            <button
-              type="button"
-              className={`investment-map-filter-toggle ${isMapFilterOpen ? "is-open" : ""}`}
-              onClick={() => setIsMapFilterOpen((open) => !open)}
-            >
-              조건별 분포보기{activeMapFilterCount > 0 ? ` (${activeMapFilterCount})` : ""} <ChevronDown size={12} />
-            </button>
-            {isMapFilterOpen && (
-              <div className="investment-map-filter-options-combined">
-                {renderMapFilterSection("사업분야", mapCategoryOptions, categoryFilter, setCategoryFilter)}
-                {renderMapFilterSection("구청", mapZoneOptions, zoneFilter, setZoneFilter)}
-                {renderMapFilterSection("소관부서", mapDeptOptions, deptFilter, setDeptFilter)}
-                {activeMapFilterCount > 0 && (
-                  <button
-                    type="button"
-                    className="investment-map-filter-reset"
-                    onClick={() => { setCategoryFilter("전체"); setZoneFilter("전체"); setDeptFilter("전체"); }}
-                  >
-                    필터 초기화
-                  </button>
-                )}
-              </div>
-            )}
+          <div className="investment-map-empty">
+            <strong>지도 준비 중입니다</strong>
+            <span>더 나은 지도 서비스로 개선하고 있습니다. 잠시만 기다려 주세요.</span>
           </div>
         </div>
-        {/* Cards live outside the canvas (which clips overflow for panning/
-            zoom) so they never get cut off near an edge; positioned via the
-            same screen coordinates the canvas-relative math already computes. */}
-        {hovered && hovered.id !== selected?.id && (
-          <div className="investment-map-hover-card" style={{ left: `${hoverPosition.x}px`, top: `${hoverPosition.y}px` }}>
-            <span>{hovered.category || "미등록"}</span>
-            <strong>{hovered.project_name}</strong>
-          </div>
-        )}
-        {selected && (() => {
-          const address = parseKvPairs(selected.overview).find((pair) => pair.label === "사업위치")?.value;
-          return (
-            <div className={`investment-map-select-card${selectedOpensDown ? " is-open-down" : ""}`} style={{ left: `${selectedPosition.screenX}px`, top: `${selectedPosition.screenY}px` }}>
-              <button type="button" className="investment-map-select-card-close" onClick={() => setSelected(null)} aria-label="닫기"><X size={15} /></button>
-              <div className="investment-map-select-card-body">
-                <div className="investment-map-project-tags"><span>{selected.region || "주요사업"}</span><span>{selected.current_stage || "미등록"}</span></div>
-                <h2>{selected.project_name}</h2>
-                {address && <p className="investment-map-side-address">{address}</p>}
-                <div className="investment-map-key-metrics">
-                  <div><span>총사업비</span><strong>{formatBudgetNumber(selected.total_cost_million_krw ?? 0)}<small>백만원</small></strong></div>
-                  <div><span>집행률</span><strong>{selected.execution_rate ?? selected.progress_rate ?? 0}<small>%</small></strong></div>
-                </div>
-                <div className="investment-map-progress">
-                  <div><span>사업 진척도</span><b>{selected.progress_rate ?? selected.execution_rate ?? 0}%</b></div>
-                  <i><em style={{ width: `${Math.min(100, Math.max(0, selected.progress_rate ?? selected.execution_rate ?? 0))}%` }} /></i>
-                </div>
-                <dl className="investment-map-detail-list">
-                  <div><dt>사업 유형</dt><dd>{selected.category || "미등록"}</dd></div>
-                  <div><dt>준공 예정</dt><dd>{selected.inspection || "미등록"}</dd></div>
-                </dl>
-                <button type="button" className="investment-map-open-project" onClick={() => onSelectProject(selected)}>사업 상세 보기 <span>↗</span></button>
-              </div>
-            </div>
-          );
-        })()}
       </div>
     </section>
   );

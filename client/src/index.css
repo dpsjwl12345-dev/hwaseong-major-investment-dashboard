@@ -517,8 +517,8 @@
   .pd-yearly-exec-bar-fill { transition: none; }
 }
 .pd-funding-table-wrap { flex: none; padding: 4px 14px 14px; overflow-x:auto; }
-.pd-funding-table { width:100%; min-width:560px; border-collapse:collapse; font-size:13px; }
-.pd-funding-table th:first-child, .pd-funding-table td:first-child { padding-left: 4px; }
+.pd-funding-table { width:100%; min-width:560px; border-collapse:collapse; font-size:13px; table-layout:fixed; }
+.pd-funding-table th:first-child, .pd-funding-table td:first-child { width: 13%; padding-left: 4px; }
 .pd-funding-table th:last-child, .pd-funding-table td:last-child { padding-right: 4px; }
 .pd-funding-table th,
 .pd-funding-table td { padding:13px 10px; border-bottom:1px solid rgba(38,46,77,.72); white-space:nowrap; text-align:right; }
