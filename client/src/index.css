@@ -4571,8 +4571,18 @@ main.app-main.app-main-flush .hero-panel {
 .pd-editor-grid input:focus,.pd-editor-grid textarea:focus { border-color:#5cd6e0; box-shadow:0 0 0 3px rgba(92,214,224,.12); }
 .pd-editor-wide { grid-column:span 3; }
 .pd-editor-error { margin:14px 0 0; color:#ff9f9f; font-size:12px; }
+.pd-editor-checkrow { display:flex; flex-direction:column; gap:7px; }
+.pd-editor-checks { display:flex; flex-wrap:wrap; gap:14px; }
+.pd-editor-check { display:inline-flex !important; flex-direction:row !important; align-items:center; gap:6px; color:rgba(244,243,238,.85); font-size:12.5px; font-weight:600; cursor:pointer; }
+.pd-editor-check input { width:auto !important; accent-color:#5cd6e0; cursor:pointer; }
+.pd-editor-breakdown-table { display:flex; flex-direction:column; gap:6px; overflow-x:auto; }
+.pd-editor-breakdown-row { display:grid; grid-template-columns:88px repeat(4,minmax(0,1fr)); gap:8px; align-items:center; }
+.pd-editor-breakdown-head { color:rgba(244,243,238,.5); font-size:11px; font-weight:700; }
+.pd-editor-breakdown-row input { width:100%; box-sizing:border-box; border:1px solid rgba(255,255,255,.13); border-radius:9px; outline:none; color:#f4f3ee; background:rgba(4,8,14,.72); padding:8px 9px; font-family:"Pretendard","Noto Sans KR",sans-serif; font-size:12.5px; transition:border-color .18s ease, box-shadow .18s ease; }
+.pd-editor-breakdown-row input:focus { border-color:#5cd6e0; box-shadow:0 0 0 3px rgba(92,214,224,.12); }
+.pd-editor-breakdown-row > span:first-child { color:rgba(244,243,238,.75); font-size:12.5px; font-weight:700; }
 @media (max-width:780px) { .pd-editor-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .pd-editor-wide { grid-column:span 2; } }
-@media (max-width:560px) { .pd-editor { padding:16px; } .pd-editor-heading { align-items:flex-start; flex-direction:column; } .pd-editor-grid { grid-template-columns:1fr; } .pd-editor-wide { grid-column:span 1; } }
+@media (max-width:560px) { .pd-editor { padding:16px; } .pd-editor-heading { align-items:flex-start; flex-direction:column; } .pd-editor-grid { grid-template-columns:1fr; } .pd-editor-wide { grid-column:span 1; } .pd-editor-breakdown-row { grid-template-columns:72px repeat(4,minmax(64px,1fr)); font-size:11px; } }
 
 .pd-edit-login { display:inline-flex; align-items:center; gap:5px; padding:6px 10px; border:1px solid rgba(255,255,255,.16); border-radius:999px; color:rgba(255,255,255,.68); background:rgba(255,255,255,.05); font-family:"Pretendard","Noto Sans KR",sans-serif; font-size:11px; font-weight:600; cursor:pointer; }
 .pd-edit-login:hover { border-color:rgba(255,190,61,.7); background:rgba(255,190,61,.16); }

@@ -411,8 +411,8 @@ function formatMillion(value: number | null | undefined) {
 
 function BudgetPanel({ project }: { project: Project }) {
   const total = project.card_total_budget_million_krw ?? project.total_cost_million_krw;
-  const invested = project.card_invested_to_2025_million_krw ?? project.card_invested_to_2026_million_krw ?? project.invested_to_2026_million_krw;
-  const budget = project.budget_2026_hide ? null : project.card_budget_2026_million_krw ?? project.budget_2027_million_krw;
+  const invested = project.card_invested_to_2026_million_krw ?? project.invested_to_2026_million_krw ?? project.card_invested_to_2025_million_krw;
+  const budget = project.budget_2026_hide ? null : project.card_budget_2027_million_krw ?? project.budget_2027_million_krw;
   const executionAmount = project.card_execution_amount_million_krw;
   const yearlyExecution = buildYearlyExecution(project, total);
   const carryoverItems = project.carryover_items?.length
@@ -636,10 +636,52 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
   const projectContentUtils = trpc.useUtils();
   useEffect(() => { setEditDraft({}); setIsEditing(false); }, [project.id]);
   const beginEdit = () => {
-    setEditDraft({ project_name: project.project_name, region: project.region, current_stage: project.current_stage, total_cost_million_krw: project.total_cost_million_krw, execution_rate: project.execution_rate, progress_rate: project.progress_rate, inspection: project.inspection, district: project.district, town: project.town, contact: project.contact, overview: project.overview, progress_notes: project.progress_notes, future_plan: project.future_plan });
+    setEditDraft({
+      project_name: project.project_name, region: project.region, current_stage: project.current_stage,
+      total_cost_million_krw: project.total_cost_million_krw, card_total_budget_million_krw: project.card_total_budget_million_krw,
+      invested_to_2026_million_krw: project.invested_to_2026_million_krw, card_invested_to_2025_million_krw: project.card_invested_to_2025_million_krw, card_invested_to_2026_million_krw: project.card_invested_to_2026_million_krw,
+      card_budget_2026_million_krw: project.card_budget_2026_million_krw,
+      budget_2027_million_krw: project.budget_2027_million_krw, card_budget_2027_million_krw: project.card_budget_2027_million_krw,
+      card_execution_amount_million_krw: project.card_execution_amount_million_krw,
+      carryover_million_krw: project.carryover_million_krw ?? null,
+      execution_rate: project.execution_rate, progress_rate: project.progress_rate, inspection: project.inspection,
+      district: project.district, town: project.town, contact: project.contact,
+      overview: project.overview, progress_status: project.progress_status, future_plan: project.future_plan,
+      card_admin_procedures: project.card_admin_procedures, card_admin_status: { ...project.card_admin_status },
+      funding_breakdown: project.funding_breakdown.map((row) => ({ ...row })),
+      usage_breakdown: project.usage_breakdown.map((row) => ({ ...row })),
+    });
     setIsEditing(true);
   };
   const updateDraft = (key: keyof Project, value: string | number | null) => setEditDraft((draft) => ({ ...draft, [key]: value }));
+  const updateDraftGroup = (keys: (keyof Project)[], value: number | null) =>
+    setEditDraft((draft) => { const patch: Partial<Project> = {}; keys.forEach((key) => { (patch as Record<string, unknown>)[key] = value; }); return { ...draft, ...patch }; });
+  const updateBreakdownRow = (kind: "funding_breakdown" | "usage_breakdown", index: number, field: keyof BreakdownRow, value: number | null) =>
+    setEditDraft((draft) => {
+      const rows = (draft[kind] ?? project[kind]).map((row, i) => (i === index ? { ...row, [field]: value } : row));
+      return { ...draft, [kind]: rows };
+    });
+  const updateAdminStatus = (field: keyof Project["card_admin_status"], value: boolean) =>
+    setEditDraft((draft) => ({ ...draft, card_admin_status: { ...(draft.card_admin_status ?? project.card_admin_status), [field]: value } }));
+  const renderBreakdownEditor = (kind: "funding_breakdown" | "usage_breakdown", title: string) => {
+    const rows = editDraft[kind] ?? project[kind];
+    return (
+      <label className="pd-editor-wide pd-editor-breakdown" key={kind}>
+        <span>{title}</span>
+        <div className="pd-editor-breakdown-table">
+          <div className="pd-editor-breakdown-row pd-editor-breakdown-head"><span>구분</span><span>총계</span><span>기투자</span><span>2026년</span><span>2027년</span></div>
+          {rows.map((row, index) => (
+            <div className="pd-editor-breakdown-row" key={`${kind}-${row.name}-${index}`}>
+              <span>{displayBreakdownName(row.name)}</span>
+              {(["total", "invested", "budget_2026", "budget_2027"] as (keyof BreakdownRow)[]).map((field) => (
+                <input key={String(field)} type="number" value={String((row[field] as number | null) ?? "")} onChange={(event) => updateBreakdownRow(kind, index, field, event.target.value === "" ? null : Number(event.target.value))} />
+              ))}
+            </div>
+          ))}
+        </div>
+      </label>
+    );
+  };
   const commitEdit = async () => {
     const result = await saveProjectContent.mutateAsync({ projectId: project.id, payload: editDraft as Record<string, unknown> });
     onProjectUpdated?.(project.id, result.payload as Partial<Project>);
@@ -714,8 +756,24 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             <div className="pd-editor-heading"><div><span className="pd-detail-eyebrow">ADMIN CONTENT EDITOR</span><strong>사업 정보 편집</strong></div><div className="pd-editor-actions"><button type="button" className="pd-editor-cancel" onClick={() => setIsEditing(false)}>취소</button><button type="button" className="pd-editor-save" onClick={commitEdit} disabled={saveProjectContent.isPending}><Save size={14} /> {saveProjectContent.isPending ? "저장 중…" : "저장"}</button></div></div>
             <div className="pd-editor-grid">
               {([["project_name", "사업명"], ["region", "사업 성격"], ["current_stage", "추진 단계"], ["contact", "선거구"], ["district", "읍·면·동"], ["town", "선거구 세부"]] as [keyof Project, string][]).map(([key, label]) => <label key={String(key)}><span>{label}</span><input value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value)} /></label>)}
-              {([["total_cost_million_krw", "총사업비(백만원)"], ["execution_rate", "예산 집행률(%)"], ["progress_rate", "사업 진척도(%)"]] as [keyof Project, string][]).map(([key, label]) => <label key={String(key)}><span>{label}</span><input type="number" min="0" max={String(key).includes("rate") ? 100 : undefined} value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value === "" ? null : Number(event.target.value))} /></label>)}
-              {([["inspection", "준공 목표"], ["overview", "사업 개요"], ["progress_notes", "추진 경과"], ["future_plan", "향후 계획"]] as [keyof Project, string][]).map(([key, label]) => <label className="pd-editor-wide" key={String(key)}><span>{label}</span><textarea rows={key === "overview" ? 4 : 3} value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value)} /></label>)}
+              {([
+                { keys: ["total_cost_million_krw", "card_total_budget_million_krw"], label: "총사업비(백만원)" },
+                { keys: ["invested_to_2026_million_krw", "card_invested_to_2025_million_krw", "card_invested_to_2026_million_krw"], label: "기투자액(~2026, 백만원)" },
+                { keys: ["card_budget_2026_million_krw"], label: "2026년 예산(백만원)" },
+                { keys: ["budget_2027_million_krw", "card_budget_2027_million_krw"], label: "2027년 예산(백만원)" },
+                { keys: ["card_execution_amount_million_krw"], label: "집행액(백만원)" },
+                { keys: ["carryover_million_krw"], label: "이월액(백만원)" },
+              ] as { keys: (keyof Project)[]; label: string }[]).map(({ keys, label }) => <label key={keys[0]}><span>{label}</span><input type="number" value={String(editDraft[keys[0]] ?? "")} onChange={(event) => updateDraftGroup(keys, event.target.value === "" ? null : Number(event.target.value))} /></label>)}
+              {([["execution_rate", "예산 집행률(%)"], ["progress_rate", "사업 진척도(%)"]] as [keyof Project, string][]).map(([key, label]) => <label key={String(key)}><span>{label}</span><input type="number" min="0" max="100" value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value === "" ? null : Number(event.target.value))} /></label>)}
+              {([["inspection", "준공 목표"], ["overview", "사업 개요"], ["progress_status", "추진 경과"], ["future_plan", "향후 계획"], ["card_admin_procedures", "사전절차"]] as [keyof Project, string][]).map(([key, label]) => <label className="pd-editor-wide" key={String(key)}><span>{label}</span><textarea rows={key === "overview" ? 4 : key === "card_admin_procedures" ? 2 : 3} value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value)} /></label>)}
+              <div className="pd-editor-wide pd-editor-checkrow">
+                <span>사전절차 체크</span>
+                <div className="pd-editor-checks">
+                  {([["mid_term_fiscal", "중기재정"], ["investment_review", "투·융자심사"], ["public_property", "공유재산"], ["none", "해당없음"]] as [keyof Project["card_admin_status"], string][]).map(([field, label]) => <label key={String(field)} className="pd-editor-check"><input type="checkbox" checked={!!(editDraft.card_admin_status ?? project.card_admin_status)[field]} onChange={(event) => updateAdminStatus(field, event.target.checked)} /> {label}</label>)}
+                </div>
+              </div>
+              {renderBreakdownEditor("funding_breakdown", "재원별 예산 (총계 / 기투자 / 2026년 / 2027년, 백만원)")}
+              {renderBreakdownEditor("usage_breakdown", "성질별 예산 (총계 / 기투자 / 2026년 / 2027년, 백만원)")}
             </div>
             {saveProjectContent.isError && <p className="pd-editor-error">저장하지 못했습니다. 관리자 로그인 상태와 서버 연결을 확인해 주세요.</p>}
           </section>
