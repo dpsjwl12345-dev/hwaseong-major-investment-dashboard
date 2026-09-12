@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ComponentType, type CSSProperties, type FormEvent as ReactFormEvent, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { trpc } from "@/lib/trpc";
-import { startLogin } from "../const";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Banknote,
@@ -625,9 +624,59 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
   );
 }
 
+// Inline admin login: swaps a "관리자 로그인" button for a small password
+// field on click, submits it via tRPC, and reports success so the caller can
+// refetch auth.me. Used in both the project-detail header and the map view.
+function AdminLoginControl({ className, onLoggedIn }: { className?: string; onLoggedIn: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const loginMutation = trpc.auth.login.useMutation({
+    onSuccess: () => {
+      setOpen(false);
+      setValue("");
+      setError(null);
+      onLoggedIn();
+    },
+    onError: (mutationError) => setError(mutationError.message || "로그인에 실패했습니다."),
+  });
+
+  const submit = (event: ReactFormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!value.trim() || loginMutation.isPending) return;
+    loginMutation.mutate({ password: value });
+  };
+
+  return (
+    <div className="pd-admin-login-wrap">
+      {open ? (
+        <form className="pd-admin-login-form" onSubmit={submit}>
+          <input
+            type="password"
+            autoFocus
+            value={value}
+            onChange={(event) => { setValue(event.target.value); setError(null); }}
+            onBlur={() => { if (!value.trim()) setOpen(false); }}
+            placeholder="관리자 비밀번호"
+            className={error ? "is-error" : ""}
+          />
+          <button type="submit" disabled={loginMutation.isPending} aria-label="로그인">
+            <ArrowRight size={13} />
+          </button>
+          {error && <span className="pd-admin-login-error">{error}</span>}
+        </form>
+      ) : (
+        <button type="button" className={className} onClick={() => setOpen(true)}>
+          <Lock size={14} /> 관리자 로그인
+        </button>
+      )}
+    </div>
+  );
+}
+
 const TABS = ["사업개요·추진현황", "예산현황"] as const;
 
-function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, isAdmin, onProjectUpdated }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; isAdmin?: boolean; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void }) {
+function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, isAdmin, onProjectUpdated, onAdminLoggedIn }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; isAdmin?: boolean; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void; onAdminLoggedIn: () => void }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
   const [selectedSubIndex, setSelectedSubIndex] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
@@ -746,7 +795,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           })()}
           </h1>
           {typeof document !== "undefined" && document.getElementById("pd-admin-login-slot") && createPortal(
-            isAdmin ? (!isEditing && <button type="button" className="pd-edit-trigger" onClick={beginEdit}><Pencil size={14} /> 사업 정보 편집</button>) : <button type="button" className="pd-edit-login" onClick={() => startLogin()}><Lock size={14} /> 관리자 로그인</button>,
+            isAdmin ? (!isEditing && <button type="button" className="pd-edit-trigger" onClick={beginEdit}><Pencil size={14} /> 사업 정보 편집</button>) : <AdminLoginControl className="pd-edit-login" onLoggedIn={onAdminLoggedIn} />,
             document.getElementById("pd-admin-login-slot")!
           )}
         </div>
@@ -955,7 +1004,7 @@ const CATEGORY_STYLES: Record<string, { id: string; hi: string; mid: string; lo:
 const DEFAULT_CATEGORY_STYLE = { id: "default", hi: "#d1fae5", mid: "#34d399", lo: "#047857" };
 const categoryStyleFor = (category: string | undefined) => (category && CATEGORY_STYLES[category]) || DEFAULT_CATEGORY_STYLE;
 
-function InvestmentDistribution({ projects, onBack, onSelectProject, isAdmin }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void; isAdmin?: boolean }) {
+function InvestmentDistribution({ projects, onBack, onSelectProject, isAdmin, onAdminLoggedIn }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void; isAdmin?: boolean; onAdminLoggedIn: () => void }) {
   const [selected, setSelected] = useState<Project | null>(null);
   const [hovered, setHovered] = useState<Project | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
@@ -1186,7 +1235,11 @@ function InvestmentDistribution({ projects, onBack, onSelectProject, isAdmin }: 
     <section className="investment-map-page">
       <header className="investment-map-header">
         <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT DISTRIBUTION MAP</p><h1>주요 투자사업 분포도</h1><p className="investment-map-description">화성시 주요 투자사업의 위치와 분포를 실제 지도 위에서 확인합니다.</p></div>
-        <button type="button" className="investment-map-admin-action" onClick={() => startLogin()}>{isAdmin ? <><Pencil size={14} /> 사업 정보 편집</> : <><Lock size={14} /> 관리자 로그인</>}</button>
+        {isAdmin ? (
+          <span className="investment-map-admin-action investment-map-admin-badge"><Pencil size={14} /> 사업 정보 편집</span>
+        ) : (
+          <AdminLoginControl className="investment-map-admin-action" onLoggedIn={onAdminLoggedIn} />
+        )}
       </header>
       <div className="investment-map-layout">
         <div className="investment-map-canvas investment-map-real-canvas">
@@ -1966,12 +2019,12 @@ export default function Home() {
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
           {selectedProject && <div className="app-panel-topbar" aria-hidden="true" />}
           {activeView === "map" ? (
-            <InvestmentDistribution projects={liveProjects} isAdmin={isAdmin} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+            <InvestmentDistribution projects={liveProjects} isAdmin={isAdmin} onAdminLoggedIn={() => authQuery.refetch()} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "department" ? (
             <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
-              <ProjectDetail project={selectedProject} isAdmin={isAdmin} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />
+              <ProjectDetail project={selectedProject} isAdmin={isAdmin} onAdminLoggedIn={() => authQuery.refetch()} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />
             </div>
           ) : (
             <LandingPage />
