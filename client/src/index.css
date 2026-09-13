@@ -1,5 +1,7 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+/* Pretendard는 여기서 @import 하지 않는다. 번들 CSS 안의 @import는 render-blocking이라
+   사내망에서 cdn.jsdelivr.net 이 차단(응답 없이 drop)되면 연결이 끊길 때까지 화면이 백지로 남고,
+   사용자 입장에서는 "로딩만 계속되다 수십 번 만에 겨우 열리는" 증상으로 보인다.
+   index.html에서 media="print" -> onload 방식으로 비차단 로드한다. */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -1337,8 +1339,10 @@
 
 @layer base {
   :root {
-    --font-display: "Gmarket Sans", "GmarketSans", sans-serif;
-    --font-body: "Pretendard Variable", Pretendard, sans-serif;
+    /* 웹폰트를 못 받는 환경(사내망에서 cdn.jsdelivr.net 차단)에서도 한글이 제대로 보이도록
+       시스템 한글 폰트를 폴백에 명시한다. */
+    --font-display: "Gmarket Sans", "GmarketSans", system-ui, "Malgun Gothic", sans-serif;
+    --font-body: "Pretendard Variable", Pretendard, system-ui, "Malgun Gothic", sans-serif;
   }
 
   * {
