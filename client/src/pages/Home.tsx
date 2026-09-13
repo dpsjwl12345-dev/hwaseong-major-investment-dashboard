@@ -198,6 +198,25 @@ function parseTimeline(text: string): TimelineEntry[] {
     });
 }
 
+type TimelineGroup = { label: string; items: TimelineEntry[] };
+// 향후계획을 "[구간명] 내용" 형태로 태그해두면 여러 세부사업(예: 공원 조성 + 진입도로 개설)을
+// 한 박스 안에 위아래로 나눠서 보여준다. 태그가 없으면 기존처럼 그룹 구분 없이 하나로 표시된다.
+function groupTimeline(entries: TimelineEntry[]): TimelineGroup[] {
+  const groups: TimelineGroup[] = [];
+  const indexByLabel = new Map<string, number>();
+  entries.forEach((entry) => {
+    const match = entry.desc.match(/^\[([^\]]+)\]\s*(.*)$/);
+    const label = match ? match[1] : "";
+    const desc = match ? match[2] : entry.desc;
+    if (!indexByLabel.has(label)) {
+      indexByLabel.set(label, groups.length);
+      groups.push({ label, items: [] });
+    }
+    groups[indexByLabel.get(label)!].items.push({ date: entry.date, desc });
+  });
+  return groups;
+}
+
 const MILESTONE_WORDS = ["준공", "개관"];
 const milestoneRegex = new RegExp(`(${MILESTONE_WORDS.join("|")})`, "g");
 function highlightMilestones(text: string): ReactNode {
@@ -444,6 +463,7 @@ function ProgressPanel({ project }: { project: Project }) {
   const percent = progressPercent(project);
   const past = parseTimeline(project.progress_status);
   const upcoming = parseTimeline(project.future_plan);
+  const upcomingGroups = groupTimeline(upcoming);
   return (
     <div className="pd-card">
       <div className="pd-progress-summary mb-6 flex flex-wrap gap-8">
@@ -458,7 +478,12 @@ function ProgressPanel({ project }: { project: Project }) {
         </section>
         <section className="pd-progress-section pd-progress-horizontal">
           <div className="pd-progress-heading"><DetailSectionHeading icon={CalendarAddIcon} tone="budget" title="향후계획" /></div>
-          {upcoming.length > 0 ? <div className="pd-progress-horizontal-track"><div className="pd-progress-horizontal-line" />{upcoming.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{highlightMilestones(item.desc)}</div></div></div>)}</div> : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
+          {upcoming.length > 0 ? upcomingGroups.map((group, gi) => (
+            <div className="pd-progress-horizontal-group" key={gi}>
+              {group.label && <div className="pd-progress-group-label">{group.label}</div>}
+              <div className="pd-progress-horizontal-track" style={{ ["--pd-progress-cols" as string]: Math.min(group.items.length, 7) } as CSSProperties}><div className="pd-progress-horizontal-line" />{group.items.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{highlightMilestones(item.desc)}</div></div></div>)}</div>
+            </div>
+          )) : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
           {/* 향후계획 박스는 왼쪽 추진경과보다 보통 짧아서 아래에 빈 공간이 남는다(그리드
               align-items:stretch로 두 박스 높이가 맞춰지기 때문) - 그 공간에 자유 메모(진행사항)
               박스를 붙인다. 편집은 "사업 정보 편집" 폼의 progress_notes 칸에서 한다. */}
