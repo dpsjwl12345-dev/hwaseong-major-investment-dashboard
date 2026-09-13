@@ -9248,11 +9248,11 @@
       "card_budget_2028_plus_million_krw": null
     },
     {
-      "id": "독립기념관_수동등록.json:개요:1",
-      "source_file": "독립기념관_수동등록.json",
-      "source_sheet": "개요",
+      "id": "독립기념관_수동입력:13",
+      "source_file": "수동입력",
+      "source_sheet": "",
       "source_link": "",
-      "serial": 1,
+      "serial": 13,
       "department": "독립기념관",
       "project_name": "화성독립운동역사문화공원 조성",
       "rendering_images": [
@@ -9269,7 +9269,7 @@
       "progress_status": "○ 토지보상 진행 중(계속비이월액 1,743백만원 미집행 잔액 보유 — 시설비 1,545 + 감리비 186 + 시설부대비 12)",
       "progress_rate": 90,
       "expected_completion": "90%",
-      "progress_notes": "0",
+      "progress_notes": "",
       "future_plan": "[역사문화공원]\n○ 2026. 9. ~ 10. 역사문화공원 토지보상 완료\n○ 2026. 9.\n  - 도시관리계획(공원) 및 공원조성계획 결정(변경)\n  - 도시계획시설(공원)사업 실시계획(변경) 인가\n○ 2026. 12. 限\n  - 도시계획시설(공원)사업 준공 및 지적공부 정리(토지합필·지목변경)\n  - 市-농어촌공사 농업용수관로 시설이용 관련 등기사항 정리\n\n[기념관 진입도로(향남소로1-37호선)]\n○ 2026. 12. 편입토지 보상 완료\n○ 2027. 3. 향남소로1-37호선 도시계획도로 개설공사 착공\n○ 2027. 6. 限\n  - 향남소로1-37호선 도시계획도로 개설공사 준공\n  - 도시관리계획(도로) 결정(변경) 및 실시계획(변경) 인가(확정측량성과 반영)\n  - 도시계획시설(도로)사업 준공 및 지적공부 정리(토지합필·지목변경)\n  - 市-농어촌공사 농업용수관로 시설이용 관련 등기사항 정리",
       "inspection": "2027.06.",
       "delay_reason": "",
@@ -9279,7 +9279,7 @@
       "district": "향남읍",
       "town": "제안리",
       "contact": "",
-      "last_saved": "",
+      "last_saved": "2026-09-13",
       "management_card_matched": false,
       "management_card_source": "",
       "card_total_budget_million_krw": 49300,
@@ -9363,6 +9363,19 @@
       ],
       "usage_breakdown": [
         {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "공사",
           "total": 35600,
           "invested": null,
@@ -9376,8 +9389,8 @@
           "budget_2026_additional": null
         },
         {
-          "name": "보상",
-          "total": 8400,
+          "name": "감리",
+          "total": null,
           "invested": null,
           "budget_2026": null,
           "budget_2027": null,
@@ -9389,8 +9402,8 @@
           "budget_2026_additional": null
         },
         {
-          "name": "용역",
-          "total": 4200,
+          "name": "부대",
+          "total": null,
           "invested": null,
           "budget_2026": null,
           "budget_2027": null,
@@ -9403,7 +9416,7 @@
         },
         {
           "name": "기타",
-          "total": 1100,
+          "total": 13700,
           "invested": null,
           "budget_2026": null,
           "budget_2027": null,
@@ -9415,10 +9428,15 @@
           "budget_2026_additional": null
         }
       ],
-      "usage_breakdown_note": "",
+      "usage_breakdown_note": "* 공사=공사비 35,600 / 기타=보상비 8,400+용역비 4,200+기타 1,100",
       "card_admin_procedures": "",
       "card_admin_legal_basis": "",
-      "card_admin_status": {},
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": false
+      },
       "card_invested_to_2025_million_krw": 47557,
       "card_budget_2026_million_krw": 0,
       "card_budget_2026_base_million_krw": null,
@@ -9429,11 +9447,11 @@
       "card_budget_2028_plus_million_krw": 0
     },
     {
-      "id": "독립기념관_수동등록.json:개요:2",
-      "source_file": "독립기념관_수동등록.json",
-      "source_sheet": "개요",
+      "id": "독립기념관_수동입력:14",
+      "source_file": "수동입력",
+      "source_sheet": "",
       "source_link": "",
-      "serial": 2,
+      "serial": 14,
       "department": "독립기념관",
       "project_name": "쌍봉산 기념탑 조성",
       "overview": "○ 사업위치: 화성시 우정읍 조암리 산26번지 일원\n○ 사업기간: 2025.2. ~ 2027.8.\n○ 사업내용: 독립운동기념탑 및 추모공간 조성",
@@ -9447,7 +9465,7 @@
       "progress_status": "○ 2025년 설계비 55백만원 편성·집행 완료",
       "progress_rate": 10,
       "expected_completion": "10%",
-      "progress_notes": "0",
+      "progress_notes": "",
       "future_plan": "○ 2027. 1. ~ 3.   제안서 제출 및 평가위원회 개최\n○ 2027. 3. ~ 2027. 8.  기념탑 조성 공사 착·준공",
       "inspection": "2027.08.",
       "delay_reason": "",
@@ -9457,7 +9475,7 @@
       "district": "우정읍",
       "town": "조암리",
       "contact": "",
-      "last_saved": "",
+      "last_saved": "2026-09-13",
       "management_card_matched": false,
       "management_card_source": "",
       "card_total_budget_million_krw": 1956,
@@ -9567,6 +9585,32 @@
           "budget_2026_additional": null
         },
         {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "기타",
           "total": 1,
           "invested": null,
@@ -9583,7 +9627,12 @@
       "usage_breakdown_note": "",
       "card_admin_procedures": "",
       "card_admin_legal_basis": "",
-      "card_admin_status": {},
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": false
+      },
       "card_invested_to_2025_million_krw": 55,
       "card_budget_2026_million_krw": 0,
       "card_budget_2026_base_million_krw": null,
