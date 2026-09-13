@@ -1,22 +1,8 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+/* Pretendard / Gmarket Sans는 여기서 @import 하지 않는다. 예전엔 jsdelivr에서 받았는데, 사내망에서
+   그 경로 자체가 간헐적으로 느려 "로딩만 계속되다 수십 번 만에 겨우 열리는" 증상이 있었다.
+   index.html에서 자체 호스팅(/fonts/)한 파일로 @font-face 선언한다. */
 @import "tailwindcss";
 @import "tw-animate-css";
-
-@font-face {
-  font-family: "Gmarket Sans";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Gmarket Sans";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -780,6 +766,43 @@
 }
 .pd-progress-horizontal {
   min-width: 0;
+  /* 왼쪽 추진경과(세로 리스트)가 보통 더 길어서, grid의 align-items:stretch로 늘어난 높이만큼
+     이 박스 아래에 빈 공간이 남는다. 그 공간에 진행사항 메모 박스를 붙이기 위해 세로 flex로
+     바꾸고 메모 박스를 margin-top:auto로 맨 아래에 고정한다. */
+  display: flex;
+  flex-direction: column;
+}
+.pd-progress-notes {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 18px;
+}
+.pd-progress-notes-inner {
+  border: 1px solid #2c2c2c;
+  border-radius: 12px;
+  background: #161616;
+  padding: 14px 16px;
+}
+.pd-progress-notes-title {
+  margin: 0 0 8px;
+  color: #b8b8b8;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.pd-progress-notes-body {
+  margin: 0;
+  color: #e2e2e2;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+.pd-progress-notes-empty {
+  color: #6b6b6b;
+  font-size: 13px;
 }
 .pd-progress-horizontal-track {
   position: relative;
@@ -1337,8 +1360,10 @@
 
 @layer base {
   :root {
-    --font-display: "Gmarket Sans", "GmarketSans", sans-serif;
-    --font-body: "Pretendard Variable", Pretendard, sans-serif;
+    /* 폰트는 자체 호스팅 중이지만, 만에 하나 못 받는 상황에서도 한글이 깨지지 않도록
+       시스템 한글 폰트를 폴백에 명시한다. */
+    --font-display: "Gmarket Sans", "GmarketSans", system-ui, "Malgun Gothic", sans-serif;
+    --font-body: "Pretendard Variable", Pretendard, system-ui, "Malgun Gothic", sans-serif;
   }
 
   * {
@@ -2940,6 +2965,36 @@ h6,
 .dept-total-row td { background: rgba(255,255,255,.04) !important; border-bottom: 1px solid rgba(255,255,255,.065); font-weight: 600; }
 .dept-total-row td strong { color: #ffe08a !important; font-size: 15px !important; }
 .dept-total-row:hover td { background: rgba(255,255,255,.04) !important; }
+
+/* 관리자 전용: 부서별 현황 표의 행 추가 / 순서 변경 */
+.dept-reorder-hint { color: #ffb545; font-size: 11px; }
+.dept-reorder-col { width: 64px; white-space: nowrap !important; }
+.dept-project-table td.dept-reorder-col { display: flex; gap: 4px; padding-top: 10px; padding-bottom: 10px; }
+.dept-reorder-col button {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border: 1px solid rgba(255,255,255,.16); border-radius: 6px;
+  color: #fff; background: rgba(255,255,255,.05); cursor: pointer;
+}
+.dept-reorder-col button:hover:not(:disabled) { background: rgba(255,255,255,.12); }
+.dept-reorder-col button:disabled { opacity: .3; cursor: not-allowed; }
+.dept-new-row { cursor: default !important; background: rgba(111,156,164,.06); }
+.dept-new-row:hover { background: rgba(111,156,164,.06) !important; }
+.dept-new-row td { white-space: nowrap; vertical-align: top; }
+.dept-new-row input, .dept-new-row select {
+  width: 100%; min-width: 72px; border: 1px solid rgba(255,255,255,.18); border-radius: 6px;
+  padding: 6px 8px; color: #fff; background: #171d31; font-size: 12px;
+}
+.dept-new-row input::placeholder { color: #8e909a; }
+.dept-new-row td:nth-child(2) input { min-width: 180px; }
+.dept-new-row-actions { display: flex; gap: 6px; }
+.dept-new-row-save, .dept-new-row-cancel {
+  display: inline-flex; align-items: center; gap: 4px; border-radius: 7px; padding: 6px 9px;
+  font-size: 12px; cursor: pointer; border: 1px solid rgba(255,255,255,.16);
+}
+.dept-new-row-save { color: #101614; background: #ffd36b; border-color: #ffd36b; font-weight: 700; }
+.dept-new-row-save:disabled { opacity: .5; cursor: not-allowed; }
+.dept-new-row-cancel { color: #fff; background: rgba(255,255,255,.06); }
+@media (max-width: 900px) { .dept-reorder-hint { width: 100%; } }
 
 /* 구분 / ?�추진단�?accordion filters replacing the old dropdown filter row */
 .dept-filter-accordion { position: relative; }

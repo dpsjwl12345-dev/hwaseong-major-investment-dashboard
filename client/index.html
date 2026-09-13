@@ -7,11 +7,34 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>화성시 주요투자사업 대시보드</title>    
-    <!-- THIS IS THE START OF A COMMENT BLOCK, BLOCK TO BE DELETED: Google Fonts here, example:
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    THIS IS THE END OF A COMMENT BLOCK, BLOCK TO BE DELETED -->
+    <!-- 폰트를 자체 호스팅한다(/fonts/, Vite public 폴더). 예전에는 cdn.jsdelivr.net 에서 받았는데,
+         차단이 아니라 그 경로 자체가 사내망에서 간헐적으로 느려서 "로딩만 계속되다 수십 번 만에
+         겨우 열린다"는 증상이 있었다. 비차단 로드(media=print)로는 화면은 뜨게 했지만 폰트 자체가
+         계속 실패/재시도되는 근본 원인은 남아 있어, 외부 요청을 아예 없앴다.
+         Pretendard는 variable 폰트 1개로 전체 굵기를 커버한다. -->
+    <style>
+      @font-face {
+        font-family: 'Pretendard';
+        src: url('/fonts/Pretendard.woff2') format('woff2');
+        font-weight: 45 920;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Gmarket Sans';
+        src: url('/fonts/GmarketSansMedium.woff') format('woff');
+        font-weight: 500;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Gmarket Sans';
+        src: url('/fonts/GmarketSansBold.woff') format('woff');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+    </style>
   </head>
 
   <body>
