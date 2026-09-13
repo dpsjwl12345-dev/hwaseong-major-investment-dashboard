@@ -199,7 +199,7 @@
       "serial": 2,
       "department": "문화유산과",
       "project_name": "만년제 복원 및 정비",
-      "overview": "○ 사업목적: 만년제를 복원 및 정비하여 만년제의 위상과 정체성 확립하고자 함\n○ 사업위치: 화성시 병점구 안녕동 152번지 일원\n○ 사업기간: 2024.01. ~ 2028.12.\n○ 사업내용\n  - 복원사업: 괴성복원, 제방복원·조경\n  - 주변정비사업: 토지매입(7필지/6,400㎡), 공원조성·주차장·홍보관 등",
+      "overview": "○ 사업목적: 만년제를 복원 및 정비하여 만년제의 위상과 정체성 확립하고자 함\n○ 사업위치: 화성시 병점구 안녕동 152번지 일원\n○ 사업기간: 2024.01. ~ 2028.12.\n○ 사업내용\n  - 주변정비사업: 토지매입(7필지/6,400㎡), 공원조성·주차장·홍보관 등\n  - 복원사업: 괴성복원, 제방복원·조경",
       "rendering_images": [
         "/renderings/heritage-2/1.png",
         "/renderings/heritage-2/2.png"
@@ -209,7 +209,7 @@
       "funding_type": "소계",
       "total_cost_million_krw": 28011,
       "invested_to_2026_million_krw": 3965,
-      "budget_2027_million_krw": null,
+      "budget_2027_million_krw": 8384,
       "execution_rate": 0.0,
       "progress_status": "○ 2022.11. 담수 타당성 용역 착수\n○ 2023.04. 시설결정 용역 착수\n○ 2023.08. 담수 타당성 용역 준공 [결과: 비담수 및 영상아트로 대체]\n○ 2025.01. 공원조성계획 고시\n○ 2025.04. 만년제 역사공원 기본 및 실시설계 착수\n○ 2025.11. 만년제 역사공원 BF 예비인증 신청\n○ 2026.01. 역사공원 내 홍보관 건축기획 용역 준공\n○ 2026.03. 실시계획인가 신청 및 사업인정(의제)사업 협의 요청\n○ 2026.04. 사업인정에 관한 주민 열람 공고\n○ 2026.06. 만년제 역사공원 기본 및 실시설계 설계변경",
       "progress_rate": 17,
@@ -229,7 +229,7 @@
       "management_card_source": "주요투자사업 관리카드 1.hwpx",
       "card_total_budget_million_krw": 28011,
       "card_invested_to_2026_million_krw": 3965,
-      "card_budget_2027_million_krw": null,
+      "card_budget_2027_million_krw": 8384,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
@@ -271,8 +271,8 @@
           "total": 22100,
           "invested": 2343,
           "budget_2026": 277,
-          "budget_2027": null,
-          "budget_2028_plus": 19480,
+          "budget_2027": 8384,
+          "budget_2028_plus": 11096,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
@@ -319,7 +319,11 @@
           "budget_2026_additional": null
         }
       ],
-      "usage_breakdown": [],
+      "usage_breakdown": [
+        { "name": "설계", "total": null, "invested": null, "budget_2026": null, "budget_2027": 144, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+        { "name": "부대", "total": null, "invested": null, "budget_2026": null, "budget_2027": 240, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+        { "name": "보상", "total": null, "invested": null, "budget_2026": null, "budget_2027": 8000, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+      ],
       "card_admin_procedures": "",
       "card_admin_legal_basis": "",
       "card_admin_status": {},
@@ -330,7 +334,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 554,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 23492,
+      "card_budget_2028_plus_million_krw": 15108,
       "sub_projects": [
         {
           "name": "주변 정비",
@@ -338,7 +342,7 @@
           "current_stage": "설계",
           "total_cost_million_krw": 17089,
           "invested_to_2026_million_krw": 1621,
-          "budget_2027_million_krw": null,
+          "budget_2027_million_krw": 8384,
           "execution_rate": 0.0,
           "progress_status": "○ 2022.11. 담수 타당성 용역 착수\n○ 2023.04. 시설결정 용역 착수\n○ 2023.08. 담수 타당성 용역 준공 [결과: 비담수 및 영상아트로 대체]\n○ 2025.01. 공원조성계획 고시\n○ 2025.04. 만년제 역사공원 기본 및 실시설계 착수\n○ 2025.11. 만년제 역사공원 BF 예비인증 신청\n○ 2026.01. 역사공원 내 홍보관 건축기획 용역 준공\n○ 2026.03. 실시계획인가 신청 및 사업인정(의제)사업 협의 요청\n○ 2026.04. 사업인정에 관한 주민 열람 공고\n○ 2026.06. 만년제 역사공원 기본 및 실시설계 설계변경",
           "progress_rate": 10,
@@ -346,14 +350,16 @@
           "future_plan": "○ 2026.08. 역사공원 기본 및 실시설계 준공\n○ 2026.08. 사업인정고시\n○ 2026.10. 토지보상 개시 및 홍보관 설계 착수\n○ 2027.02. 토지보상 완료 및 홍보관 설계 준공\n○ 2027. ~ 2028. 공원 조성공사",
           "inspection": "2028.12.",
           "delay_reason": "양호",
-          "carryover_items": [],
+          "carryover_items": [
+            { "label": "주변 정비", "type": "이월", "amount_million_krw": 100 }
+          ],
           "management_card_matched": true,
           "card_total_budget_million_krw": 17089,
           "card_invested_to_2025_million_krw": 1621,
           "card_invested_to_2026_million_krw": 1621,
           "card_budget_2026_million_krw": 0,
           "card_execution_rate": null,
-          "card_execution_amount_million_krw": null,
+          "card_execution_amount_million_krw": 11,
           "funding_breakdown": [
             {
               "name": "도비",
@@ -373,8 +379,8 @@
               "total": 17089,
               "invested": 1621,
               "budget_2026": 0,
-              "budget_2027": null,
-              "budget_2028_plus": 15468,
+              "budget_2027": 8384,
+              "budget_2028_plus": 7084,
               "budget_2026_base": null,
               "budget_2026_first_extra": null,
               "budget_2026_second_extra": null,
@@ -421,7 +427,11 @@
               "budget_2026_additional": null
             }
           ],
-          "usage_breakdown": []
+          "usage_breakdown": [
+            { "name": "설계", "total": null, "invested": null, "budget_2026": null, "budget_2027": 144, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+            { "name": "부대", "total": null, "invested": null, "budget_2026": null, "budget_2027": 240, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+            { "name": "보상", "total": null, "invested": null, "budget_2026": null, "budget_2027": 8000, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+          ]
         },
         {
           "name": "복원",
