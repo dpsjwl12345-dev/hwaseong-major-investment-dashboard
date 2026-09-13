@@ -1693,7 +1693,10 @@ function FloatingNavBar({
   activeProjectDepartmentName: string | null;
   includeMapView?: boolean;
 }) {
-  const floatingNavDepartments = ["문화예술과", "문화유산과", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
+  // DEPARTMENT_ORDER와 같은 순서로 맞춘다. 새 부서가 생겨도(예: 독립기념관) 실제 사업이 있어야만
+  // 여기 나열된 것 중 반영되므로(projectsByDepartment 필터링), 이 배열엔 앞으로 생길 수 있는
+  // 문화관광국 소속 부서까지 미리 다 적어둔다.
+  const floatingNavDepartments = ["문화예술과", "문화유산과", "독립기념관", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
   const projectsByDepartment = organization.flatMap((bureau) => bureau.departments);
   const [isExpanded, setIsExpanded] = useState(true);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
