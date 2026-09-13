@@ -766,6 +766,43 @@
 }
 .pd-progress-horizontal {
   min-width: 0;
+  /* 왼쪽 추진경과(세로 리스트)가 보통 더 길어서, grid의 align-items:stretch로 늘어난 높이만큼
+     이 박스 아래에 빈 공간이 남는다. 그 공간에 진행사항 메모 박스를 붙이기 위해 세로 flex로
+     바꾸고 메모 박스를 margin-top:auto로 맨 아래에 고정한다. */
+  display: flex;
+  flex-direction: column;
+}
+.pd-progress-notes {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  padding-top: 18px;
+}
+.pd-progress-notes-inner {
+  border: 1px solid #2c2c2c;
+  border-radius: 12px;
+  background: #161616;
+  padding: 14px 16px;
+}
+.pd-progress-notes-title {
+  margin: 0 0 8px;
+  color: #b8b8b8;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.pd-progress-notes-body {
+  margin: 0;
+  color: #e2e2e2;
+  font-size: 13px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+.pd-progress-notes-empty {
+  color: #6b6b6b;
+  font-size: 13px;
 }
 .pd-progress-horizontal-track {
   position: relative;

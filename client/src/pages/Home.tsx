@@ -251,7 +251,8 @@ function OverviewPanel({ project }: { project: Project }) {
   return (
         <div className="pd-card">
       <KvCards pairs={[...pairs, ...extra]} />
-      {project.overview_map && <SpotMapCard map={project.overview_map} projectName={project.project_name} />}
+      {/* 거점 위치도(SpotMapCard)는 여기 있었는데, 조감도와 함께 "위치도" 탭으로 옮겼다
+          (ProjectDetail의 activeTab === "위치도" 분기 참고). */}
       {renderings.length > 0 && (
         <div className="pd-kv-row mt-4">
           <div className="pd-kv" style={{ gridColumn: "1 / -1" }}>
@@ -456,6 +457,19 @@ function ProgressPanel({ project }: { project: Project }) {
         <section className="pd-progress-section pd-progress-horizontal">
           <div className="pd-progress-heading"><DetailSectionHeading icon={CalendarAddIcon} tone="budget" title="향후계획" /></div>
           {upcoming.length > 0 ? <div className="pd-progress-horizontal-track"><div className="pd-progress-horizontal-line" />{upcoming.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{highlightMilestones(item.desc)}</div></div></div>)}</div> : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
+          {/* 향후계획 박스는 왼쪽 추진경과보다 보통 짧아서 아래에 빈 공간이 남는다(그리드
+              align-items:stretch로 두 박스 높이가 맞춰지기 때문) - 그 공간에 자유 메모(진행사항)
+              박스를 붙인다. 편집은 "사업 정보 편집" 폼의 progress_notes 칸에서 한다. */}
+          <div className="pd-progress-notes">
+            <div className="pd-progress-notes-inner">
+              <p className="pd-progress-notes-title">진행사항</p>
+              {project.progress_notes && project.progress_notes.trim() && project.progress_notes.trim() !== "0" ? (
+                <p className="pd-progress-notes-body">{project.progress_notes}</p>
+              ) : (
+                <p className="pd-progress-notes-empty">작성된 메모가 없습니다. 관리자 로그인 후 "사업 정보 편집"에서 작성할 수 있습니다.</p>
+              )}
+            </div>
+          </div>
         </section>
       </div>
     </div>
@@ -674,7 +688,7 @@ function AdminLoginControl({ className, onLoggedIn }: { className?: string; onLo
   );
 }
 
-const TABS = ["사업개요·추진현황", "예산현황"] as const;
+const TABS = ["사업개요·추진현황", "예산현황", "위치도"] as const;
 
 function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, isAdmin, onProjectUpdated, onAdminLoggedIn }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; isAdmin?: boolean; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void; onAdminLoggedIn: () => void }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
@@ -696,6 +710,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
       execution_rate: project.execution_rate, progress_rate: project.progress_rate, inspection: project.inspection,
       district: project.district, town: project.town, contact: project.contact,
       overview: project.overview, progress_status: project.progress_status, future_plan: project.future_plan,
+      progress_notes: project.progress_notes,
       card_admin_procedures: project.card_admin_procedures, card_admin_status: { ...project.card_admin_status },
       funding_breakdown: project.funding_breakdown.map((row) => ({ ...row })),
       usage_breakdown: project.usage_breakdown.map((row) => ({ ...row })),
@@ -794,8 +809,10 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             );
           })()}
           </h1>
-          {typeof document !== "undefined" && document.getElementById("pd-admin-login-slot") && createPortal(
-            isAdmin ? (!isEditing && <button type="button" className="pd-edit-trigger" onClick={beginEdit}><Pencil size={14} /> 사업 정보 편집</button>) : <AdminLoginControl className="pd-edit-login" onLoggedIn={onAdminLoggedIn} />,
+          {/* 로그인 자체는 헤더가 전역으로 담당한다(Home 컴포넌트, isAdmin 기준) - 여기서는 이미
+              로그인된 상태에서만 이 사업의 편집을 시작하는 버튼을 같은 슬롯에 포개 얹는다. */}
+          {isAdmin && !isEditing && typeof document !== "undefined" && document.getElementById("pd-admin-login-slot") && createPortal(
+            <button type="button" className="pd-edit-trigger" onClick={beginEdit}><Pencil size={14} /> 사업 정보 편집</button>,
             document.getElementById("pd-admin-login-slot")!
           )}
         </div>
@@ -814,7 +831,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
                 { keys: ["carryover_million_krw"], label: "이월액(백만원)" },
               ] as { keys: (keyof Project)[]; label: string }[]).map(({ keys, label }) => <label key={keys[0]}><span>{label}</span><input type="number" value={String(editDraft[keys[0]] ?? "")} onChange={(event) => updateDraftGroup(keys, event.target.value === "" ? null : Number(event.target.value))} /></label>)}
               {([["execution_rate", "예산 집행률(%)"], ["progress_rate", "사업 진척도(%)"]] as [keyof Project, string][]).map(([key, label]) => <label key={String(key)}><span>{label}</span><input type="number" min="0" max="100" value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value === "" ? null : Number(event.target.value))} /></label>)}
-              {([["inspection", "준공 목표"], ["overview", "사업 개요"], ["progress_status", "추진 경과"], ["future_plan", "향후 계획"], ["card_admin_procedures", "사전절차"]] as [keyof Project, string][]).map(([key, label]) => <label className="pd-editor-wide" key={String(key)}><span>{label}</span><textarea rows={key === "overview" ? 4 : key === "card_admin_procedures" ? 2 : 3} value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value)} /></label>)}
+              {([["inspection", "준공 목표"], ["overview", "사업 개요"], ["progress_status", "추진 경과"], ["future_plan", "향후 계획"], ["progress_notes", "진행사항 메모"], ["card_admin_procedures", "사전절차"]] as [keyof Project, string][]).map(([key, label]) => <label className="pd-editor-wide" key={String(key)}><span>{label}</span><textarea rows={key === "overview" ? 4 : key === "card_admin_procedures" ? 2 : 3} value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value)} /></label>)}
               <div className="pd-editor-wide pd-editor-checkrow">
                 <span>사전절차 체크</span>
                 <div className="pd-editor-checks">
@@ -939,12 +956,28 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             <OverviewPanel project={activeProject} />
             <div className="pd-detail-attached-group">
               <ProgressPanel project={activeProject} />
-              <div className={`pd-stacked-panel${activeProject.rendering_images?.length ? "" : " pd-attached-last"}`}><AdminPanel project={activeProject} /></div>
-              {activeProject.rendering_images?.length ? <div className="pd-stacked-panel"><LocationPanel project={activeProject} /></div> : null}
+              <div className="pd-stacked-panel pd-attached-last"><AdminPanel project={activeProject} /></div>
             </div>
           </>
         )}
         {activeTab === "예산현황" && <BudgetPanel project={activeProject} />}
+        {activeTab === "위치도" && (() => {
+          const hasSpotMap = !!activeProject.overview_map;
+          const hasRenderings = (activeProject.rendering_images?.length ?? 0) > 0;
+          return (
+            <div className="pd-detail-attached-group">
+              {/* SpotMapCard는 원래 OverviewPanel의 pd-card 안에 얹혀 있던 하위 섹션이라 그 자체엔
+                  pd-card 배경이 없다 - 여기서는 독립 카드로 보여야 하니 pd-card로 감싼다. */}
+              {hasSpotMap && (
+                <div className={`pd-stacked-panel${hasRenderings ? "" : " pd-attached-last"}`}>
+                  <div className="pd-card"><SpotMapCard map={activeProject.overview_map!} projectName={activeProject.project_name} /></div>
+                </div>
+              )}
+              {hasRenderings && <div className="pd-stacked-panel pd-attached-last"><LocationPanel project={activeProject} /></div>}
+              {!hasSpotMap && !hasRenderings && <div className="pd-note-box">등록된 위치도·조감도가 없습니다.</div>}
+            </div>
+          );
+        })()}
       </div>
       {overviewPairs.length === 0 && activeTab === "사업개요·추진현황" && null}
     </section>
@@ -1235,11 +1268,9 @@ function InvestmentDistribution({ projects, onBack, onSelectProject, isAdmin, on
     <section className="investment-map-page">
       <header className="investment-map-header">
         <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT DISTRIBUTION MAP</p><h1>주요 투자사업 분포도</h1><p className="investment-map-description">화성시 주요 투자사업의 위치와 분포를 실제 지도 위에서 확인합니다.</p></div>
-        {isAdmin ? (
-          <span className="investment-map-admin-action investment-map-admin-badge"><Pencil size={14} /> 사업 정보 편집</span>
-        ) : (
-          <AdminLoginControl className="investment-map-admin-action" onLoggedIn={onAdminLoggedIn} />
-        )}
+        {/* 로그인 자체는 헤더가 전역으로 담당한다(Home 컴포넌트) - 여기는 이미 로그인된 상태를
+            보여주는 배지만 남긴다. */}
+        {isAdmin && <span className="investment-map-admin-action investment-map-admin-badge"><Pencil size={14} /> 사업 정보 편집</span>}
       </header>
       <div className="investment-map-layout">
         <div className="investment-map-canvas investment-map-real-canvas">
@@ -1966,7 +1997,13 @@ export default function Home() {
           />
         </div>
         <button type="button" className={`landing-map-button${activeView === "map" ? " is-map-active" : ""}`} onClick={goMap}>MAP VIEW</button>
-        <div id="pd-admin-login-slot" className="pd-admin-login-slot" />
+        {/* 예전엔 지도 화면에서만 로그인 버튼이 보였다 - 헤더는 모든 화면(홈/메뉴/지도/사업상세)에서
+            항상 떠 있으니 여기서 전역으로 하나만 노출한다. 관리자로 로그인된 뒤에는 여기엔 아무것도
+            띄우지 않고, 사업상세 화면의 "사업 정보 편집" 버튼처럼 화면별로 의미 있는 편집 트리거만
+            그 화면 안에서 계속 보여준다(ProjectDetail이 이 슬롯에 포털로 얹는 부분 참고). */}
+        <div id="pd-admin-login-slot" className="pd-admin-login-slot">
+          {!isAdmin && <AdminLoginControl className="pd-edit-login" onLoggedIn={() => authQuery.refetch()} />}
+        </div>
         {/* 검색 기능은 유지하되, 당분간 화면에서는 노출하지 않음 */}
         {false && activeView !== "landing" && (
           <div className={`site-search ${isSearchFocused ? "is-open" : ""}`}>
