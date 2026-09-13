@@ -1747,8 +1747,14 @@ function FloatingNavBar({
                   type="button"
                   className={isOpen ? "is-selected" : ""}
                   onClick={() => {
-                    if (isOpen) {
-                      setShowProjects((show) => !show);
+                    if (isOpen && showProjects) {
+                      // 사업명 드롭다운이 이미 열려있는 상태에서 부서명을 한 번 더 누르면 - 프로젝트
+                      // 상세 페이지 등 부서현황이 아닌 곳에 있었더라도 - 그 부서의 부서현황 페이지로
+                      // 이동하고 드롭다운은 닫는다.
+                      onSelectDepartment(name);
+                      setShowProjects(false);
+                    } else if (isOpen) {
+                      setShowProjects(true);
                     } else {
                       onSelectDepartment(name);
                       setOpenDeptName(name);
