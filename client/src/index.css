@@ -804,11 +804,23 @@
   color: #6b6b6b;
   font-size: 13px;
 }
+.pd-progress-horizontal-group + .pd-progress-horizontal-group {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px dashed #2c2c2c;
+}
+.pd-progress-group-label {
+  margin: 0 0 10px 2px;
+  color: #6f9ca4;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
 .pd-progress-horizontal-track {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--pd-progress-cols, 7), minmax(0, 1fr));
   gap: 10px;
   min-height: 250px;
   /* Keep the first item in wrapped rows clear of the section edge. */
