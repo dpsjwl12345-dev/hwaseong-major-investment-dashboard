@@ -1,11 +1,9 @@
 {
-  "framework": "vite",
   "installCommand": "pnpm install",
   "buildCommand": "pnpm build:client && pnpm build:vercel-api",
   "outputDirectory": "dist/public",
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/api/index.js" },
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
