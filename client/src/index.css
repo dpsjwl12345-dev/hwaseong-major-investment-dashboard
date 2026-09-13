@@ -1,24 +1,8 @@
-/* Pretendard는 여기서 @import 하지 않는다. 번들 CSS 안의 @import는 render-blocking이라
-   사내망에서 cdn.jsdelivr.net 이 차단(응답 없이 drop)되면 연결이 끊길 때까지 화면이 백지로 남고,
-   사용자 입장에서는 "로딩만 계속되다 수십 번 만에 겨우 열리는" 증상으로 보인다.
-   index.html에서 media="print" -> onload 방식으로 비차단 로드한다. */
+/* Pretendard / Gmarket Sans는 여기서 @import 하지 않는다. 예전엔 jsdelivr에서 받았는데, 사내망에서
+   그 경로 자체가 간헐적으로 느려 "로딩만 계속되다 수십 번 만에 겨우 열리는" 증상이 있었다.
+   index.html에서 자체 호스팅(/fonts/)한 파일로 @font-face 선언한다. */
 @import "tailwindcss";
 @import "tw-animate-css";
-
-@font-face {
-  font-family: "Gmarket Sans";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Gmarket Sans";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff") format("woff");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 @custom-variant dark (&:is(.dark *));
 
@@ -1339,7 +1323,7 @@
 
 @layer base {
   :root {
-    /* 웹폰트를 못 받는 환경(사내망에서 cdn.jsdelivr.net 차단)에서도 한글이 제대로 보이도록
+    /* 폰트는 자체 호스팅 중이지만, 만에 하나 못 받는 상황에서도 한글이 깨지지 않도록
        시스템 한글 폰트를 폴백에 명시한다. */
     --font-display: "Gmarket Sans", "GmarketSans", system-ui, "Malgun Gothic", sans-serif;
     --font-body: "Pretendard Variable", Pretendard, system-ui, "Malgun Gothic", sans-serif;
