@@ -21,6 +21,8 @@ import {
   ArrowRight,
   Pencil,
   Save,
+  Plus,
+  ChevronUp,
 } from "lucide-react";
 import {
   TagIcon,
@@ -747,7 +749,12 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
     );
   };
   const commitEdit = async () => {
-    const result = await saveProjectContent.mutateAsync({ projectId: project.id, payload: editDraft as Record<string, unknown> });
+    // 저장은 병합이 아니라 덮어쓰기라서, 정적 데이터셋에 없는 "행 추가"로 만든 사업(id가
+    // custom-row- 로 시작)은 이 편집 폼에 없는 필드(부서·구분 등)까지 포함해 전체를 다시 보내야
+    // 한다 - editDraft만 보내면 그 필드들이 통째로 사라진다. 기존 사업은 정적 베이스가 있어서
+    // 지금처럼 editDraft(부분)만 보내도 안전하다.
+    const payload = isCustomRowId(project.id) ? { ...project, ...editDraft } : editDraft;
+    const result = await saveProjectContent.mutateAsync({ projectId: project.id, payload: payload as Record<string, unknown> });
     onProjectUpdated?.(project.id, result.payload as Partial<Project>);
     await projectContentUtils.projectContent.list.invalidate();
     setIsEditing(false);
@@ -994,6 +1001,67 @@ function futureBudgetFor(project: Project) {
 function parseProgress(project: Project) {
   const value = Number.parseInt(project.expected_completion ?? "", 10);
   return Number.isFinite(value) ? Math.min(100, Math.max(0, value)) : 0;
+}
+
+// 부서별 현황 표에서 관리자가 "행 추가"로 만드는 사업은 정적 데이터셋(dashboard_projects.json)에
+// 없는 완전히 새 사업이라, projectContent_overrides에 이 id로 저장된 payload 자체가 사업 전체를
+// 대신한다(기존 사업처럼 "일부 필드만 덮어쓰기"가 아니라 그 자체가 사업 데이터 전부). id를 이
+// 접두사로 시작하게 해서 liveProjects 계산에서 "새로 만든 사업"과 "기존 사업 덮어쓰기"를 구분한다.
+const NEW_ROW_ID_PREFIX = "custom-row-";
+function isCustomRowId(id: string) {
+  return id.startsWith(NEW_ROW_ID_PREFIX);
+}
+function createBlankProject(department: string, serial: number): Project {
+  return {
+    id: `${NEW_ROW_ID_PREFIX}${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    serial,
+    department,
+    project_name: "",
+    overview: "",
+    category: "",
+    current_stage: "",
+    funding_type: "",
+    total_cost_million_krw: null,
+    invested_to_2026_million_krw: null,
+    budget_2027_million_krw: null,
+    execution_rate: null,
+    progress_status: "",
+    progress_rate: null,
+    expected_completion: "",
+    progress_notes: "",
+    future_plan: "",
+    inspection: "",
+    delay_reason: "",
+    administrative_procedures: "",
+    project_type: "",
+    region: "신규",
+    district: "",
+    town: "",
+    contact: "",
+    last_saved: new Date().toISOString().slice(0, 10),
+    management_card_matched: false,
+    management_card_source: "",
+    card_total_budget_million_krw: null,
+    card_invested_to_2025_million_krw: null,
+    card_invested_to_2026_million_krw: null,
+    card_budget_2026_million_krw: null,
+    card_budget_2026_base_million_krw: null,
+    card_budget_2026_first_extra_million_krw: null,
+    card_budget_2026_second_extra_million_krw: null,
+    card_budget_2026_third_extra_million_krw: null,
+    card_budget_2026_additional_million_krw: null,
+    card_budget_2027_million_krw: null,
+    card_budget_2028_plus_million_krw: null,
+    card_execution_budget_million_krw: null,
+    card_execution_amount_million_krw: null,
+    card_execution_rate: null,
+    card_inspection: "",
+    funding_breakdown: [],
+    usage_breakdown: [],
+    card_admin_procedures: "",
+    card_admin_legal_basis: "",
+    card_admin_status: {},
+  };
 }
 
 function formatBudgetNumber(value: number) {
@@ -1288,10 +1356,12 @@ function DepartmentDashboard({
   onSelectProject,
   initialDepartment,
   projects,
+  isAdmin,
 }: {
   onSelectProject: (project: Project) => void;
   initialDepartment: string;
   projects: Project[];
+  isAdmin?: boolean;
 }) {
   const minBudget = "";
   const maxBudget = "";
@@ -1308,6 +1378,12 @@ function DepartmentDashboard({
   const [isBudget2027Open, setIsBudget2027Open] = useState(false);
   const [sortColumn, setSortColumn] = useState<"total_cost" | "budget_2027" | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  // 새 행 추가: 표 안에서 바로 입력받는 임시 상태. 저장 전까지는 서버에 아무것도 안 남는다.
+  const [newRowDraft, setNewRowDraft] = useState<Project | null>(null);
+  const [isSavingNewRow, setIsSavingNewRow] = useState(false);
+  const [reorderingId, setReorderingId] = useState<string | null>(null);
+  const saveProjectContent = trpc.projectContent.save.useMutation();
+  const departmentUtils = trpc.useUtils();
   const inRange = (value: number, min: string, max: string) => {
     const lo = min === "" ? Number.NEGATIVE_INFINITY : Number(min);
     const hi = max === "" ? Number.POSITIVE_INFINITY : Number(max);
@@ -1323,6 +1399,58 @@ function DepartmentDashboard({
   const budget2027 = departmentProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
   const futurePlanBudget = departmentProjects.reduce((sum, project) => sum + futurePlanBudgetFor(project), 0);
   const budgetValueFor = (project: Project) => futureBudgetFor(project);
+
+  // 검색/필터/정렬이 하나라도 걸려 있으면 화면에 보이는 순서가 실제 저장 순서(serial)와 달라져서
+  // "위/아래로 옮기기"가 눈에 보이는 것과 다르게 동작할 수 있다 - 그런 혼란을 막기 위해 아무 필터도
+  // 없을 때만(= departmentProjects와 filteredProjects가 같은 순서일 때만) 순서 변경을 허용한다.
+  const isFiltered = Boolean(
+    projectSearch.trim() || stageFilter !== "전체" || divisionFilter !== "전체" ||
+    totalCostMin || totalCostMax || budget2027Min || budget2027Max || sortColumn
+  );
+
+  const startNewRow = () => {
+    const maxSerial = departmentProjects.reduce((max, project) => Math.max(max, project.serial), 0);
+    setNewRowDraft(createBlankProject(initialDepartment, maxSerial + 1));
+  };
+  const cancelNewRow = () => setNewRowDraft(null);
+  const updateNewRowDraft = (patch: Partial<Project>) => setNewRowDraft((draft) => (draft ? { ...draft, ...patch } : draft));
+  const saveNewRow = async () => {
+    if (!newRowDraft) return;
+    if (!newRowDraft.project_name.trim()) return; // 사업명 없이는 저장하지 않는다
+    setIsSavingNewRow(true);
+    try {
+      await saveProjectContent.mutateAsync({ projectId: newRowDraft.id, payload: newRowDraft as unknown as Record<string, unknown> });
+      await departmentUtils.projectContent.list.invalidate();
+      setNewRowDraft(null);
+    } finally {
+      setIsSavingNewRow(false);
+    }
+  };
+
+  // 두 사업의 serial을 맞바꿔서 저장한다 - 표에서 "위로/아래로"는 이 결과로 나타난다.
+  const swapSerial = async (a: Project, b: Project) => {
+    setReorderingId(a.id);
+    // 저장은 병합이 아니라 덮어쓰기다. 정적 데이터셋에 있는 사업은 serial만 보내도 나머지는
+    // 렌더링 시 정적 베이스와 합쳐지니 안전하지만, "행 추가"로 만든 사업(custom row)은 저장된
+    // payload 자체가 사업 전체라 serial만 보내면 나머지가 전부 사라진다 - 그 경우 전체를 다시 보낸다.
+    const payloadFor = (project: Project, newSerial: number) =>
+      (isCustomRowId(project.id) ? { ...project, serial: newSerial } : { serial: newSerial }) as unknown as Record<string, unknown>;
+    try {
+      await Promise.all([
+        saveProjectContent.mutateAsync({ projectId: a.id, payload: payloadFor(a, b.serial) }),
+        saveProjectContent.mutateAsync({ projectId: b.id, payload: payloadFor(b, a.serial) }),
+      ]);
+      await departmentUtils.projectContent.list.invalidate();
+    } finally {
+      setReorderingId(null);
+    }
+  };
+  const moveRow = (project: Project, direction: "up" | "down") => {
+    const index = departmentProjects.findIndex((p) => p.id === project.id);
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    if (index === -1 || targetIndex < 0 || targetIndex >= departmentProjects.length) return;
+    swapSerial(project, departmentProjects[targetIndex]);
+  };
   const filteredProjects = departmentProjects
     .filter((project) => {
       const normalizedSearch = projectSearch.trim().toLowerCase();
@@ -1393,7 +1521,9 @@ function DepartmentDashboard({
       <div className="dept-panel dept-panel-projects dept-panel-selected">
         <div className="dept-filter-row dept-budget-filter-row">
           <button type="button" className="dept-table-export" onClick={exportBudgetCsv}><Download size={14} /> CSV 출력</button>
+          {isAdmin && !newRowDraft && <button type="button" className="dept-table-export" onClick={startNewRow}><Plus size={14} /> 행 추가</button>}
           <span>(단위:백만원)</span>
+          {isAdmin && isFiltered && <span className="dept-reorder-hint">필터·정렬이 걸려 있으면 순서를 바꿀 수 없습니다 - 초기화 후 이용해 주세요.</span>}
         </div>
         <div className="dept-project-table-wrap">
           <table className="dept-project-table"><thead><tr>
@@ -1453,14 +1583,42 @@ function DepartmentDashboard({
               )}
             </th>
             <th>향후 계획예산액</th><th>예산집행률</th>
+            {isAdmin && <th className="dept-reorder-col">순서</th>}
           </tr></thead><tbody>
             {filteredProjects.length > 0 && <tr className="dept-total-row">
-              <td></td><td><strong>합계</strong></td><td></td><td className="dept-amount-cell">{formatBudgetNumber(filteredTotalCost)}</td><td className="dept-amount-cell">{formatBudgetNumber(filteredInvested)}</td><td className="dept-amount-cell">{formatBudgetNumber(filteredBudget2027)}</td><td className="dept-amount-cell">{formatBudgetNumber(filteredFuturePlan)}</td><td></td>
+              <td></td><td><strong>합계</strong></td><td></td><td className="dept-amount-cell">{formatBudgetNumber(filteredTotalCost)}</td><td className="dept-amount-cell">{formatBudgetNumber(filteredInvested)}</td><td className="dept-amount-cell">{formatBudgetNumber(filteredBudget2027)}</td><td className="dept-amount-cell">{formatBudgetNumber(filteredFuturePlan)}</td><td></td>{isAdmin && <td></td>}
             </tr>}
-            {filteredProjects.map((project) => <tr key={project.id} onClick={() => onSelectProject(project)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") onSelectProject(project); }}>
+            {isAdmin && newRowDraft && (
+              <tr className="dept-new-row" onClick={(event) => event.stopPropagation()}>
+                <td>
+                  <select value={newRowDraft.region} onChange={(event) => updateNewRowDraft({ region: event.target.value })}>
+                    <option value="신규">신규</option>
+                    <option value="계속">계속</option>
+                  </select>
+                </td>
+                <td><input type="text" placeholder="사업명 입력" value={newRowDraft.project_name} onChange={(event) => updateNewRowDraft({ project_name: event.target.value })} autoFocus /></td>
+                <td><input type="text" placeholder="추진단계" value={newRowDraft.current_stage} onChange={(event) => updateNewRowDraft({ current_stage: event.target.value })} /></td>
+                <td className="dept-amount-cell"><input type="number" placeholder="0" value={newRowDraft.total_cost_million_krw ?? ""} onChange={(event) => updateNewRowDraft({ total_cost_million_krw: event.target.value === "" ? null : Number(event.target.value) })} /></td>
+                <td className="dept-amount-cell"><input type="number" placeholder="0" value={newRowDraft.invested_to_2026_million_krw ?? ""} onChange={(event) => updateNewRowDraft({ invested_to_2026_million_krw: event.target.value === "" ? null : Number(event.target.value) })} /></td>
+                <td className="dept-amount-cell"><input type="number" placeholder="0" value={newRowDraft.budget_2027_million_krw ?? ""} onChange={(event) => updateNewRowDraft({ budget_2027_million_krw: event.target.value === "" ? null : Number(event.target.value) })} /></td>
+                <td className="dept-amount-cell"><input type="number" placeholder="0" value={newRowDraft.card_budget_2028_plus_million_krw ?? ""} onChange={(event) => updateNewRowDraft({ card_budget_2028_plus_million_krw: event.target.value === "" ? null : Number(event.target.value) })} /></td>
+                <td className="dept-amount-cell"><input type="number" min="0" max="100" placeholder="0" value={newRowDraft.expected_completion || ""} onChange={(event) => updateNewRowDraft({ expected_completion: event.target.value })} /></td>
+                <td className="dept-new-row-actions">
+                  <button type="button" className="dept-new-row-save" onClick={saveNewRow} disabled={isSavingNewRow || !newRowDraft.project_name.trim()}><Save size={13} /> {isSavingNewRow ? "저장 중…" : "저장"}</button>
+                  <button type="button" className="dept-new-row-cancel" onClick={cancelNewRow} disabled={isSavingNewRow}><X size={13} /></button>
+                </td>
+              </tr>
+            )}
+            {filteredProjects.map((project, index) => <tr key={project.id} onClick={() => onSelectProject(project)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") onSelectProject(project); }}>
               <td><span className={`dept-project-type ${project.region === "신규" ? "is-new" : "is-continuing"}`}>{project.region === "신규" || project.region === "계속" ? project.region : "-"}</span></td><td><strong>{formatProjectNameLines(project.project_name)}</strong></td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatBudgetNumber(project.total_cost_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.invested_to_2026_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.budget_2027_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(futurePlanBudgetFor(project))}</td><td><div className="dept-progress"><b>{parseProgress(project)}%</b><span><em style={{ width: `${parseProgress(project)}%` }} /></span></div></td>
+              {isAdmin && (
+                <td className="dept-reorder-col" onClick={(event) => event.stopPropagation()}>
+                  <button type="button" aria-label="위로 이동" disabled={isFiltered || index === 0 || reorderingId !== null} onClick={() => moveRow(project, "up")}><ChevronUp size={14} /></button>
+                  <button type="button" aria-label="아래로 이동" disabled={isFiltered || index === filteredProjects.length - 1 || reorderingId !== null} onClick={() => moveRow(project, "down")}><ChevronDown size={14} /></button>
+                </td>
+              )}
             </tr>)}
-            {filteredProjects.length === 0 && <tr><td colSpan={8} className="dept-empty">조건에 맞는 사업이 없습니다.</td></tr>}
+            {filteredProjects.length === 0 && <tr><td colSpan={isAdmin ? 9 : 8} className="dept-empty">조건에 맞는 사업이 없습니다.</td></tr>}
           </tbody></table>
         </div>
       </div>
@@ -1909,10 +2067,18 @@ export default function Home() {
   const [siteUnlocked, setSiteUnlocked] = useState(() => typeof window !== "undefined" && localStorage.getItem(SITE_UNLOCK_STORAGE_KEY) === "1");
   const authQuery = trpc.auth.me.useQuery();
   const overridesQuery = trpc.projectContent.list.useQuery();
-  const liveProjects = useMemo(() => projects.map((project) => {
-    const override = overridesQuery.data?.find((item) => item.projectId === project.id);
-    return override ? { ...project, ...(override.payload as Partial<Project>) } : project;
-  }), [overridesQuery.data]);
+  const liveProjects = useMemo(() => {
+    const overridden = projects.map((project) => {
+      const override = overridesQuery.data?.find((item) => item.projectId === project.id);
+      return override ? { ...project, ...(override.payload as Partial<Project>) } : project;
+    });
+    // 부서별 현황 표에서 관리자가 새로 추가한 사업은 정적 데이터셋에 없어서 위 map으로는 안 잡힌다.
+    // custom-row- 로 시작하는 id의 override는 그 payload 자체가 사업 전체 데이터다.
+    const customRows = (overridesQuery.data ?? [])
+      .filter((item: { projectId: string }) => isCustomRowId(item.projectId))
+      .map((item: { payload: unknown }) => item.payload as unknown as Project);
+    return [...overridden, ...customRows];
+  }, [overridesQuery.data]);
   const isAdmin = authQuery.data?.role === "admin";
 
   const [query, setQuery] = useState("");
@@ -2058,7 +2224,7 @@ export default function Home() {
           {activeView === "map" ? (
             <InvestmentDistribution projects={liveProjects} isAdmin={isAdmin} onAdminLoggedIn={() => authQuery.refetch()} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "department" ? (
-            <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+            <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
               <ProjectDetail project={selectedProject} isAdmin={isAdmin} onAdminLoggedIn={() => authQuery.refetch()} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />

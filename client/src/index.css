@@ -2966,6 +2966,36 @@ h6,
 .dept-total-row td strong { color: #ffe08a !important; font-size: 15px !important; }
 .dept-total-row:hover td { background: rgba(255,255,255,.04) !important; }
 
+/* 관리자 전용: 부서별 현황 표의 행 추가 / 순서 변경 */
+.dept-reorder-hint { color: #ffb545; font-size: 11px; }
+.dept-reorder-col { width: 64px; white-space: nowrap !important; }
+.dept-project-table td.dept-reorder-col { display: flex; gap: 4px; padding-top: 10px; padding-bottom: 10px; }
+.dept-reorder-col button {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 24px; height: 24px; border: 1px solid rgba(255,255,255,.16); border-radius: 6px;
+  color: #fff; background: rgba(255,255,255,.05); cursor: pointer;
+}
+.dept-reorder-col button:hover:not(:disabled) { background: rgba(255,255,255,.12); }
+.dept-reorder-col button:disabled { opacity: .3; cursor: not-allowed; }
+.dept-new-row { cursor: default !important; background: rgba(111,156,164,.06); }
+.dept-new-row:hover { background: rgba(111,156,164,.06) !important; }
+.dept-new-row td { white-space: nowrap; vertical-align: top; }
+.dept-new-row input, .dept-new-row select {
+  width: 100%; min-width: 72px; border: 1px solid rgba(255,255,255,.18); border-radius: 6px;
+  padding: 6px 8px; color: #fff; background: #171d31; font-size: 12px;
+}
+.dept-new-row input::placeholder { color: #8e909a; }
+.dept-new-row td:nth-child(2) input { min-width: 180px; }
+.dept-new-row-actions { display: flex; gap: 6px; }
+.dept-new-row-save, .dept-new-row-cancel {
+  display: inline-flex; align-items: center; gap: 4px; border-radius: 7px; padding: 6px 9px;
+  font-size: 12px; cursor: pointer; border: 1px solid rgba(255,255,255,.16);
+}
+.dept-new-row-save { color: #101614; background: #ffd36b; border-color: #ffd36b; font-weight: 700; }
+.dept-new-row-save:disabled { opacity: .5; cursor: not-allowed; }
+.dept-new-row-cancel { color: #fff; background: rgba(255,255,255,.06); }
+@media (max-width: 900px) { .dept-reorder-hint { width: 100%; } }
+
 /* 구분 / ?�추진단�?accordion filters replacing the old dropdown filter row */
 .dept-filter-accordion { position: relative; }
 .dept-filter-accordion-toggle { display: inline-flex; align-items: center; gap: 5px; border: 1px solid rgba(255,255,255,.16); border-radius: 7px; padding: 6px 9px; color: #fff; background: rgba(255,255,255,.03); font-size: 12px; cursor: pointer; }
