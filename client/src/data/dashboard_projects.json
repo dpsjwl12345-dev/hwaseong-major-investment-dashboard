@@ -7817,7 +7817,6 @@
       "carryover_million_krw": 6390,
       "carryover_type": "계속비이월",
       "budget_2027_million_krw": 13165,
-      "budget_2026_hide": true,
       "execution_rate": 0.0,
       "progress_status": "○ 2013.01. 공룡박물관 건립계획 수립\n○ 2017.07. 시화지구(송산그린시티) 개발계획 변경(국토부 제2017-458호, 역사공원 반영)\n○ 2019.06. ~ 2020.02. 공룡자연과학센터 기본계획 용역 완료\n○ 2023.08.07. 화성시 공룡(자연) 과학센터 건립 사업계획 변경 보고(방문자센터 철거 및 6,835㎡ 규모로 연면적 확대)\n○ 2024.04. 기본 및 실시계획 준공\n○ 2024.09. 건축기획 용역 완료\n○ 2026.04. 공원조성계획 수립 및 작성 용역 준공",
       "progress_rate": 25,
@@ -7981,7 +7980,7 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_procedures": "중기재정, 투·융자심사(2023.11.), 공유재산(2023.9.)",
       "card_admin_legal_basis": "■ 과학관의 설립ㆍ운영 및 육성에 관한 법률 ■ 정책사업",
       "card_admin_status": {
         "mid_term_fiscal": true,
