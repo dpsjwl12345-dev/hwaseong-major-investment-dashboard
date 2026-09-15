@@ -490,6 +490,9 @@
 .pd-budget-panel-heading h3 { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; }
 .pd-budget-panel-kicker { display:none; }
 .pd-budget-panel-caption { flex:none; color:var(--pd-text-faint); font-size:12px; text-align:right; }
+
+/* 모든 금액이 어느 시점 기준인지 화면에서 바로 알 수 있게 하는 표기. */
+.pd-baseline-note, .dept-baseline-note { margin: 0 0 10px; color: var(--pd-text-faint); font-size: 12px; letter-spacing: 0.02em; }
 .pd-exec-rate-heading { flex: none; margin-top: 40px; padding-top: 18px; border-bottom: none; }
 .pd-yearly-exec { display: flex; align-items: stretch; flex: 1 1 auto; min-height: 148px; gap: 20px; padding: 20px 4px 20px; }
 .pd-yearly-exec-col { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 0; min-width: 0; }

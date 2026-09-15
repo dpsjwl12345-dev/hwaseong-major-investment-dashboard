@@ -118,6 +118,11 @@ type Project = {
 type Bureau = { name: string; departments: { name: string; projects: Project[] }[] };
 
 const projects = dataset.projects as Project[];
+
+// 이 대시보드의 모든 금액은 2027년 본예산 요구시기(2026.9.)에 제출된 자료가 기준이다.
+// 그래서 연도별로 갈리는 화면(성질별 예산 등)도 2027년을 먼저 보여준다. 숫자를 읽는 사람이
+// "언제 기준인지"를 화면에서 바로 알 수 있도록 부서 현황과 사업 예산현황에 함께 표기한다.
+const BUDGET_BASELINE_LABEL = "기준 2026.9. · 2027년 본예산 요구";
 const bureauFor = (department: string) =>
   ["문화예술과", "문화유산과", "독립기념관", "관광진흥과"].includes(department) ? "문화관광국" : "교육체육국";
 
@@ -454,6 +459,7 @@ function BudgetPanel({ project }: { project: Project }) {
   ] as const;
   return (
     <div className="pd-card">
+      <p className="pd-baseline-note">{BUDGET_BASELINE_LABEL}</p>
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid"><FundingBreakdownCard rows={project.funding_breakdown} yearlyExecution={yearlyExecution} projectId={project.id} /><UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} /></div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
@@ -1538,6 +1544,7 @@ function DepartmentDashboard({
         </div>
       </div>
 
+      <p className="dept-baseline-note">{BUDGET_BASELINE_LABEL}</p>
       <div className="dept-kpi-grid dept-kpi-grid-selected">
         <div className="dept-kpi"><span>총사업비</span><strong>{formatDepartmentAmount(totalCost)}</strong></div>
         <div className="dept-kpi"><span>기투자액</span><strong>{formatDepartmentAmount(investedAmount)}</strong><small>2026년까지 누적 투자</small></div>
