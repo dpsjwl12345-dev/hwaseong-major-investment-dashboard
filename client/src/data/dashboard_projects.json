@@ -4695,7 +4695,11 @@
           "amount_million_krw": 48.4
         }
       ],
-      "overview": "○ 사업위치: 화성시 만세구 국화도 일원\n○ 사업규모: 해안데크 철거 및 재설치(L=680m)\n○ 사업기간: 2025. ~ 2027.\n○ 사업내용: ",
+      "overview": "○ 사업위치: 화성시 만세구 국화도 일원\n○ 사업규모: 해안데크 철거 및 재설치(L=680m)\n○ 사업기간: 2025. ~ 2027.\n○ 사업내용: 해안데크 철거 및 재설치",
+      "overview_images": [
+        "/renderings/tourism-12/1.png"
+      ],
+      "overview_images_title": "국화도 해안데크 위치도",
       "category": "문화관광시설",
       "current_stage": "설계",
       "funding_type": "소계",
@@ -4707,7 +4711,7 @@
       "progress_rate": 10,
       "expected_completion": "10%",
       "progress_notes": "0",
-      "future_plan": "○ 2026.09.: 해역이용협의 및 재설치사업 실시설계 용역 완료\n○ 2027.02.: 재설치사업 착공\n○ 2027.12.: 재설치사업 준공",
+      "future_plan": "○ 2025.11.19.: 중기재정계획 반영\n○ 2025.11.19.: 투자심사 통과\n○ 2026.09.: 해역이용협의 및 재설치사업 실시설계 용역 완료\n○ 2027.02.: 재설치사업 착공\n○ 2027.12.: 재설치사업 준공",
       "inspection": "2027.",
       "delay_reason": "양호",
       "administrative_procedures": "",
@@ -4865,9 +4869,9 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "",
+      "card_admin_procedures": "중기재정(2025.11.19.), 투·융자심사(2025.11.19.)",
       "card_admin_legal_basis": "",
-      "card_admin_status": {},
+      "card_admin_status": { "mid_term_fiscal": true, "investment_review": true, "public_property": false, "none": false },
       "card_invested_to_2025_million_krw": 615,
       "card_budget_2026_million_krw": 100,
       "card_budget_2026_base_million_krw": null,
