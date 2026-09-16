@@ -3452,11 +3452,11 @@
         },
         {
           "name": "공사",
-          "total": null,
+          "total": 525500,
           "invested": null,
           "budget_2026": null,
           "budget_2027": null,
-          "budget_2028_plus": null,
+          "budget_2028_plus": 525500,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
@@ -3503,6 +3503,7 @@
           "budget_2026_additional": null
         }
       ],
+      "usage_breakdown_note": "* 공사 525,500은 향후 설계·투자심사 확정 전 잠정 추정치(총사업비-기투자·2027년 편성분)",
       "card_admin_procedures": "",
       "card_admin_legal_basis": "",
       "card_admin_status": {
@@ -3518,7 +3519,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 525500
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:12",
@@ -3843,11 +3844,11 @@
         },
         {
           "name": "공사",
-          "total": null,
+          "total": 194700,
           "invested": null,
           "budget_2026": null,
           "budget_2027": null,
-          "budget_2028_plus": null,
+          "budget_2028_plus": 194700,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
@@ -3894,7 +3895,7 @@
           "budget_2026_additional": null
         }
       ],
-      "usage_breakdown_note": "* 기투자(~2026) 100=기본계획 수립 / 2027년 200=타당성조사 용역",
+      "usage_breakdown_note": "* 기투자(~2026) 100=기본계획 수립 / 2027년 200=타당성조사 용역 / 공사 194,700은 향후 설계·투자심사 확정 전 잠정 추정치(총사업비-기투자·2027년 편성분)",
       "card_admin_procedures": "",
       "card_admin_legal_basis": "",
       "card_admin_status": {
