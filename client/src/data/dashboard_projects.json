@@ -363,6 +363,7 @@
           "card_invested_to_2026_million_krw": 1621,
           "card_budget_2026_million_krw": 0,
           "card_budget_2027_million_krw": 11384,
+          "card_budget_2028_plus_million_krw": 4084,
           "card_execution_rate": null,
           "card_execution_amount_million_krw": 11,
           "funding_breakdown": [
@@ -463,6 +464,7 @@
           "card_invested_to_2025_million_krw": 2344,
           "card_invested_to_2026_million_krw": 2344,
           "card_budget_2026_million_krw": 554,
+          "card_budget_2028_plus_million_krw": 4769,
           "card_execution_rate": null,
           "card_execution_amount_million_krw": 1116,
           "funding_breakdown": [
@@ -1384,7 +1386,7 @@
           "current_stage": "기타",
           "total_cost_million_krw": 1990,
           "invested_to_2026_million_krw": null,
-          "budget_2027_million_krw": null,
+          "budget_2027_million_krw": 1790,
           "execution_rate": 0,
           "progress_status": "○ 2026.04.  기본 및 실시설계용역, 공원조성계획 변경용역 착수",
           "progress_rate": 5,
@@ -1397,7 +1399,7 @@
           "management_card_source": "주요투자사업 관리카드 1.hwpx",
           "card_total_budget_million_krw": 1990,
           "card_invested_to_2026_million_krw": null,
-          "card_budget_2027_million_krw": null,
+          "card_budget_2027_million_krw": 1790,
           "card_budget_2027_base_million_krw": null,
           "card_budget_2027_first_extra_million_krw": null,
           "card_budget_2027_additional_million_krw": null,
@@ -1425,13 +1427,13 @@
               "name": "시비",
               "total": 1990,
               "invested": null,
-              "budget_2026": 1990,
-              "budget_2027": null,
+              "budget_2026": 200,
+              "budget_2027": 1790,
               "budget_2028_plus": null,
               "budget_2026_base": 200,
               "budget_2026_first_extra": null,
               "budget_2026_second_extra": null,
-              "budget_2026_third_extra": 1790,
+              "budget_2026_third_extra": null,
               "budget_2026_additional": null
             },
             {
@@ -1492,13 +1494,13 @@
               "name": "공사",
               "total": 1790,
               "invested": null,
-              "budget_2026": 1790,
-              "budget_2027": null,
+              "budget_2026": null,
+              "budget_2027": 1790,
               "budget_2028_plus": null,
               "budget_2026_base": null,
               "budget_2026_first_extra": null,
               "budget_2026_second_extra": null,
-              "budget_2026_third_extra": 1790,
+              "budget_2026_third_extra": null,
               "budget_2026_additional": null
             },
             {
@@ -1550,11 +1552,11 @@
             "none": true
           },
           "card_invested_to_2025_million_krw": null,
-          "card_budget_2026_million_krw": 1990,
+          "card_budget_2026_million_krw": 200,
           "card_budget_2026_base_million_krw": 200,
           "card_budget_2026_first_extra_million_krw": null,
           "card_budget_2026_second_extra_million_krw": null,
-          "card_budget_2026_third_extra_million_krw": 1790,
+          "card_budget_2026_third_extra_million_krw": null,
           "card_budget_2026_additional_million_krw": null,
           "card_budget_2028_plus_million_krw": null,
           "district": "우정읍",
@@ -1563,11 +1565,11 @@
         },
         {
           "name": "오산천",
-          "overview": "○ 사업위치: 화성시 동탄구 방교동 872-221번지 일원\n○ 사 업 량: 파크골프장(18홀), 조성면적 약 30,000㎡(대한파크골프협회 규정 9홀당 8,250㎡)\n○ 사업기간: 2026.07. ~ 2028.04.\n○ 총사업비: 1,900백만원",
+          "overview": "○ 사업위치: 화성시 동탄구 방교동 872-221번지 일원\n○ 사 업 량: 파크골프장(18홀), 조성면적 약 30,000㎡(대한파크골프협회 규정 9홀당 8,250㎡)\n○ 사업기간: 2026.07. ~ 2028.04.\n○ 총사업비: 1,960백만원",
           "current_stage": "사전 행정절차",
-          "total_cost_million_krw": 1900,
+          "total_cost_million_krw": 1960,
           "invested_to_2026_million_krw": null,
-          "budget_2027_million_krw": 1850,
+          "budget_2027_million_krw": 1910,
           "execution_rate": null,
           "progress_status": "○ 2026.07.  한강유역환경청 사전협의 (사업추진 가능 시 예산 편성)",
           "progress_rate": 0,
@@ -1578,9 +1580,9 @@
           "delay_reason": "양호",
           "management_card_matched": false,
           "management_card_source": "",
-          "card_total_budget_million_krw": 1900,
+          "card_total_budget_million_krw": 1960,
           "card_invested_to_2026_million_krw": null,
-          "card_budget_2027_million_krw": 1850,
+          "card_budget_2027_million_krw": 1910,
           "card_budget_2027_base_million_krw": null,
           "card_budget_2027_first_extra_million_krw": null,
           "card_budget_2027_additional_million_krw": null,
@@ -1606,10 +1608,10 @@
             },
             {
               "name": "시비",
-              "total": 1900,
+              "total": 1960,
               "invested": null,
               "budget_2026": 50,
-              "budget_2027": 1850,
+              "budget_2027": 1910,
               "budget_2028_plus": null,
               "budget_2026_base": null,
               "budget_2026_first_extra": null,
@@ -1660,10 +1662,10 @@
           "usage_breakdown": [
             {
               "name": "설계",
-              "total": null,
+              "total": 50,
               "invested": null,
               "budget_2026": null,
-              "budget_2027": null,
+              "budget_2027": 50,
               "budget_2028_plus": null,
               "budget_2026_base": null,
               "budget_2026_first_extra": null,
@@ -1673,10 +1675,10 @@
             },
             {
               "name": "공사",
-              "total": null,
+              "total": 1860,
               "invested": null,
               "budget_2026": null,
-              "budget_2027": null,
+              "budget_2027": 1860,
               "budget_2028_plus": null,
               "budget_2026_base": null,
               "budget_2026_first_extra": null,
@@ -2120,20 +2122,23 @@
       "serial": 11,
       "department": "체육진흥과",
       "project_name": "서해선 교량하부 체육시설 조성",
-      "overview": "○ 사업위치: 화성시 만세구 향남읍,남양읍,팔탄면 일원\n○ 사업규모:\n○ 사업기간: 2026.03. ~ 2027.06.\n○ 사업내용: ",
+      "rendering_images": [
+        "/renderings/sports-15/1.png"
+      ],
+      "overview": "○ 사업위치: 화성시 만세구 향남읍,남양읍,팔탄면 일원\n○ 사업규모:\n○ 사업기간: 2026.09. ~ 2027.09.\n○ 사업내용: 서해선 교량하부 유휴부지 내 체육시설 조성",
       "category": "체육시설",
-      "current_stage": "발주 및 계약체결",
+      "current_stage": "설계",
       "funding_type": "소계",
-      "total_cost_million_krw": 2774,
+      "total_cost_million_krw": 4791,
       "invested_to_2026_million_krw": null,
-      "budget_2027_million_krw": 820,
+      "budget_2027_million_krw": 2837,
       "execution_rate": 0.0,
-      "progress_status": "",
+      "progress_status": "○ 2024.01.11. 철도전략과 실시설계 실시",
       "progress_rate": 0,
       "expected_completion": "0%",
       "progress_notes": "0",
       "future_plan": "",
-      "inspection": "2027.06.",
+      "inspection": "2027.09.",
       "delay_reason": "양호",
       "administrative_procedures": "",
       "project_type": "조건부 추진(관리 및 유지보수 용이한 조성 계획 필요, 안전시설, 안전요원 배치 등 안전한 시설을 위한 안전관리 계획 수립 필요)",
@@ -2144,9 +2149,9 @@
       "last_saved": "육동현\n(6188)",
       "management_card_matched": true,
       "management_card_source": "주요투자사업 관리카드 1.hwpx",
-      "card_total_budget_million_krw": 2774,
+      "card_total_budget_million_krw": 4791,
       "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": 820,
+      "card_budget_2027_million_krw": 2837,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
@@ -2172,10 +2177,10 @@
         },
         {
           "name": "시비",
-          "total": 2774,
+          "total": 4791,
           "invested": null,
           "budget_2026": 1954,
-          "budget_2027": 820,
+          "budget_2027": 2837,
           "budget_2028_plus": null,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
@@ -2239,10 +2244,10 @@
         },
         {
           "name": "공사",
-          "total": 2774,
+          "total": 4791,
           "invested": null,
           "budget_2026": 1954,
-          "budget_2027": 820,
+          "budget_2027": 2837,
           "budget_2028_plus": null,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
@@ -2290,7 +2295,7 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "투·융자심사",
+      "card_admin_procedures": "투·융자심사(2025.03.05.)",
       "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
       "card_admin_status": {
         "mid_term_fiscal": false,
@@ -2520,20 +2525,23 @@
       "serial": 2,
       "department": "체육진흥과",
       "project_name": "비봉 다목적체육관 건립",
-      "overview": "○ 사업위치: 화성시 효행구 비봉면 삼화리 1842번지\n○ 사업규모: 연면적 2,500㎡(지상 1층 ~ 지상 3층) 시니어친화형 국민체육센터\n○ 사업기간: 2025.07. ~ 2029.12.\n○ 사업내용: ",
+      "rendering_images": [
+        "/renderings/sports-16/1.png"
+      ],
+      "overview": "○ 사업위치: 화성시 효행구 비봉면 삼화리 1842번지\n○ 사업규모: 연면적 2,500㎡(지상 1층 ~ 지상 3층) 시니어친화형 국민체육센터\n○ 사업기간: 2025.07. ~ 2030.01.\n○ 사업내용: ",
       "category": "체육시설",
       "current_stage": "사전 행정절차",
       "funding_type": "소계",
       "total_cost_million_krw": 14000,
       "invested_to_2026_million_krw": null,
-      "budget_2027_million_krw": 5380,
+      "budget_2027_million_krw": 300,
       "execution_rate": 0.0,
-      "progress_status": "○ 2026.06.  공유재산 심의회 완료\n ○ 2026.09.  중기지방재정계획 반영\n ○ 2026.10. 설계공모\n ○ 2026.11. 건축설계 착수\n ○ 2027.12. 건축설계 준공\n ○ 2028.02. 건립공사 착공\n ○ 2029.12. 건립공사 준공\n ○ 2030.01. 개관",
+      "progress_status": "○ 2025.07. 기본계획 수립\n○ 2025.07. 문화체육관광부 생활체육시설 확충 지원사업 공모 신청\n○ 2025.09. 문화체육관광부 생활체육시설 확충 지원사업 공모 선정\n○ 2026.04. 2026년 화성시 수시2차 지방재정투자심사 조건부 승인\n○ 2026.06. 공유재산 심의회 완료\n○ 2026.09. 중기지방재정계획 반영",
       "progress_rate": 0,
       "expected_completion": "0%",
       "progress_notes": "0",
-      "future_plan": "○ 2026.06.  공유재산 심의회 완료\n○ 2026.09.  중기지방재정계획 반영\n○ 2026.10. 설계공모\n○ 2026.11. 건축설계 착수\n○ 2027.12. 건축설계 준공\n○ 2028.02. 건립공사 착공\n○ 2029.12. 건립공사 준공\n○ 2030.01. 개관",
-      "inspection": "2029.12.",
+      "future_plan": "○ 2026.10. ~ 12. 건축기획‧지반조사 용역 착수 및 공공건축 사전검토\n○ 2027.01. ~ 06. 설계공모위원회 개최, 공공건축위원회 심의, 설계공모\n○ 2027.07. ~ 2028.01. 기본 및 실시설계 용역, 공원조성계획결정(변경) 및 실시계획인가\n○ 2028.02. 건립공사 착공\n○ 2029.10. 건립공사 준공\n○ 2030.01. 개관",
+      "inspection": "2030.01.",
       "delay_reason": "",
       "administrative_procedures": "",
       "project_type": "예산재정과-5897(2026.4.9.)호 : 2026년 화성시 수시2차 지방재정투자심사 조건부 승",
@@ -2546,7 +2554,7 @@
       "management_card_source": "주요투자사업 관리카드 1.hwpx",
       "card_total_budget_million_krw": 14000,
       "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": 5380,
+      "card_budget_2027_million_krw": 300,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
@@ -2575,8 +2583,8 @@
           "total": 10000,
           "invested": null,
           "budget_2026": 420,
-          "budget_2027": 4580,
-          "budget_2028_plus": 5000,
+          "budget_2027": 300,
+          "budget_2028_plus": 8980,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
@@ -2626,11 +2634,11 @@
       "usage_breakdown": [
         {
           "name": "설계",
-          "total": 600,
+          "total": 900,
           "invested": null,
           "budget_2026": 600,
-          "budget_2027": null,
-          "budget_2028_plus": null,
+          "budget_2027": 300,
+          "budget_2028_plus": 0,
           "budget_2026_base": null,
           "budget_2026_first_extra": 300,
           "budget_2026_second_extra": null,
@@ -2639,11 +2647,11 @@
         },
         {
           "name": "공사",
-          "total": 10880,
+          "total": 10580,
           "invested": null,
           "budget_2026": 100,
-          "budget_2027": 4380,
-          "budget_2028_plus": 6400,
+          "budget_2027": null,
+          "budget_2028_plus": 10480,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
@@ -2655,8 +2663,8 @@
           "total": 2500,
           "invested": null,
           "budget_2026": null,
-          "budget_2027": 1000,
-          "budget_2028_plus": 1500,
+          "budget_2027": null,
+          "budget_2028_plus": 2500,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
@@ -2690,12 +2698,12 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "투·융자심사",
+      "card_admin_procedures": "투·융자심사(2026.04.06.), 공유재산(2026.06.30.)",
       "card_admin_legal_basis": "■ 「체육시설의 설치ㆍ이용에 관한 법률」 제4조 ■ 정책사업",
       "card_admin_status": {
         "mid_term_fiscal": false,
         "investment_review": true,
-        "public_property": false,
+        "public_property": true,
         "none": false
       },
       "card_invested_to_2025_million_krw": null,
@@ -2705,7 +2713,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 420,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 7900
+      "card_budget_2028_plus_million_krw": 12980
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:8",
@@ -3316,7 +3324,7 @@
       "source_link": "https://docs.google.com/spreadsheets/d/1mr8h5SSzUZkP5RKcYiKIgOUevj2t2bLH/edit",
       "serial": 10,
       "department": "체육진흥과",
-      "project_name": "화성 돔구장 건립",
+      "project_name": "화성 돔구장 및 복합체육센터 건립",
       "rendering_images": [
         "/renderings/sports-14/1.png",
         "/renderings/sports-14/2.png"
@@ -5882,7 +5890,7 @@
       "category": "도로1(시도·농어촌)",
       "current_stage": "부지확보 및 보상",
       "funding_type": "소계",
-      "total_cost_million_krw": 17898,
+      "total_cost_million_krw": 26848,
       "invested_to_2026_million_krw": 3253,
       "budget_2027_million_krw": 8950,
       "execution_rate": 0.0,
@@ -5902,7 +5910,7 @@
       "last_saved": "이상현\n(6021)",
       "management_card_matched": true,
       "management_card_source": "주요투자사업 관리카드 1.hwpx",
-      "card_total_budget_million_krw": 17898,
+      "card_total_budget_million_krw": 26848,
       "card_invested_to_2026_million_krw": 3253,
       "card_budget_2027_million_krw": 8950,
       "card_budget_2027_base_million_krw": null,
@@ -6059,7 +6067,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 4898,
       "card_budget_2026_additional_million_krw": 6247,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 0
     },
     {
       "id": "총괄데이터_2.xlsx:Sheet1:1",
@@ -6733,11 +6741,11 @@
         },
         {
           "name": "시비",
-          "total": 1395,
+          "total": 9041,
           "invested": 55,
           "budget_2026": 0,
           "budget_2027": 1340,
-          "budget_2028_plus": null,
+          "budget_2028_plus": 7646,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
@@ -6787,7 +6795,7 @@
       "usage_breakdown": [
         {
           "name": "설계",
-          "total": null,
+          "total": 472,
           "invested": null,
           "budget_2026": null,
           "budget_2027": 472,
@@ -6800,7 +6808,7 @@
         },
         {
           "name": "공사",
-          "total": null,
+          "total": 780,
           "invested": null,
           "budget_2026": null,
           "budget_2027": 780,
@@ -6813,7 +6821,7 @@
         },
         {
           "name": "감리",
-          "total": null,
+          "total": 20,
           "invested": null,
           "budget_2026": null,
           "budget_2027": 20,
@@ -6826,7 +6834,7 @@
         },
         {
           "name": "부대",
-          "total": null,
+          "total": 20,
           "invested": null,
           "budget_2026": null,
           "budget_2027": 20,
@@ -6839,7 +6847,7 @@
         },
         {
           "name": "기타",
-          "total": null,
+          "total": 48,
           "invested": null,
           "budget_2026": null,
           "budget_2027": 48,
@@ -6851,6 +6859,7 @@
           "budget_2026_additional": null
         }
       ],
+      "usage_breakdown_note": "* 공사비 등 나머지 7,646백만원(2028년 이후)은 세부 산출내역 미확정으로 항목 미반영",
       "card_admin_procedures": "중기재정(2026.1.1.), 투·융자심사(2025.09.30.)",
       "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
       "card_admin_status": {
@@ -6866,7 +6875,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 0,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 7646
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:2",
@@ -7275,7 +7284,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 8214,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 15429
+      "card_budget_2028_plus_million_krw": 23321
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:5",
@@ -8830,7 +8839,7 @@
       "category": "교육 및 도서관",
       "current_stage": "공사중",
       "funding_type": "소계",
-      "total_cost_million_krw": 22000,
+      "total_cost_million_krw": 23794,
       "invested_to_2026_million_krw": 18490,
       "budget_2027_million_krw": 5304,
       "execution_rate": 0.0,
@@ -8850,7 +8859,7 @@
       "last_saved": "이준혁\n(6181)",
       "management_card_matched": true,
       "management_card_source": "주요투자사업 관리카드 1.hwpx",
-      "card_total_budget_million_krw": 22000,
+      "card_total_budget_million_krw": 23794,
       "card_invested_to_2026_million_krw": 18490,
       "card_budget_2027_million_krw": 5304,
       "card_budget_2027_base_million_krw": null,
@@ -9011,7 +9020,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 0
     },
     {
       "id": "총괄데이터_일반.xlsx:Sheet1:3",
@@ -9216,7 +9225,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 4027
     },
     {
       "id": "총괄데이터_일반.xlsx:Sheet1:4",
@@ -9424,7 +9433,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 353
     },
     {
       "id": "독립기념관_수동입력:13",
@@ -9623,7 +9632,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 0
+      "card_budget_2028_plus_million_krw": 1743
     },
     {
       "id": "독립기념관_수동입력:14",
@@ -9819,7 +9828,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 1901
+      "card_budget_2028_plus_million_krw": 0
     }
   ]
 }
