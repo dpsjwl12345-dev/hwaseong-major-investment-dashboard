@@ -2586,13 +2586,13 @@
           "name": "시비",
           "total": 10000,
           "invested": null,
-          "budget_2026": 420,
+          "budget_2026": null,
           "budget_2027": 300,
           "budget_2028_plus": 8980,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": 420,
+          "budget_2026_third_extra": null,
           "budget_2026_additional": null
         },
         {
@@ -2711,11 +2711,11 @@
         "none": false
       },
       "card_invested_to_2025_million_krw": null,
-      "card_budget_2026_million_krw": 720,
+      "card_budget_2026_million_krw": 300,
       "card_budget_2026_base_million_krw": null,
       "card_budget_2026_first_extra_million_krw": 300,
       "card_budget_2026_second_extra_million_krw": null,
-      "card_budget_2026_third_extra_million_krw": 420,
+      "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
       "card_budget_2028_plus_million_krw": 12980
     },
