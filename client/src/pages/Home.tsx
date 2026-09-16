@@ -150,11 +150,6 @@ const buildOrganization = (sourceProjects: Project[]): Bureau[] => Object.values
     ),
   }));
 
-const organization: Bureau[] = buildOrganization(projects);
-organization.forEach((bureau) =>
-  bureau.departments.forEach((department) => department.projects.sort((a, b) => a.serial - b.serial)),
-);
-
 // One consistent teal accent across every department's project detail page —
 // used to be a different color per department, which read as inconsistent
 // alongside the department dashboard's single gold accent.
@@ -1711,6 +1706,7 @@ function PodaSearch({ value, onChange, projects, onSelectProject }: { value: str
 // the rest sit plain on the shared bar) so nothing shifts position on
 // click. MENU toggles a horizontal strip of department links below the bar.
 function FloatingNavBar({
+  organization: navOrganization,
   onGoHome,
   onOpenMap,
   onSelectDepartment,
@@ -1719,6 +1715,7 @@ function FloatingNavBar({
   activeProjectDepartmentName,
   includeMapView = true,
 }: {
+  organization: Bureau[];
   onGoHome: () => void;
   onOpenMap: () => void;
   onSelectDepartment: (departmentName: string) => void;
@@ -1731,7 +1728,9 @@ function FloatingNavBar({
   // 여기 나열된 것 중 반영되므로(projectsByDepartment 필터링), 이 배열엔 앞으로 생길 수 있는
   // 문화관광국 소속 부서까지 미리 다 적어둔다.
   const floatingNavDepartments = ["문화예술과", "문화유산과", "독립기념관", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
-  const projectsByDepartment = organization.flatMap((bureau) => bureau.departments);
+  // navOrganization은 overrides가 반영된 liveOrganization이어야 한다 — 관리자가 부서별
+  // 현황 표에서 사업 순서를 바꾸면(serial 변경) 이 드롭다운도 같은 순서로 보여야 하기 때문.
+  const projectsByDepartment = navOrganization.flatMap((bureau) => bureau.departments);
   const [isExpanded, setIsExpanded] = useState(true);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
   const [openDeptName, setOpenDeptName] = useState<string | null>(null);
@@ -2123,6 +2122,15 @@ export default function Home() {
     return [...overridden, ...customRows];
   }, [overridesQuery.data]);
   const isAdmin = authQuery.data?.role === "admin";
+  // 부서별 현황 표(DepartmentDashboard)와 동일하게 overrides가 반영된 순서로 상단 메뉴
+  // 드롭다운을 채운다 — 검색어 필터는 적용하지 않는다(드롭다운은 검색과 무관하게 항상 전체 목록).
+  const liveOrganization = useMemo(() => {
+    const org = buildOrganization(liveProjects);
+    org.forEach((bureau) =>
+      bureau.departments.forEach((department) => department.projects.sort((a, b) => a.serial - b.serial)),
+    );
+    return org;
+  }, [liveProjects]);
 
   const [query, setQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
@@ -2196,6 +2204,7 @@ export default function Home() {
         </button>
         <div className="floating-nav-row">
           <FloatingNavBar
+            organization={liveOrganization}
             onGoHome={goLanding}
             onOpenMap={goMap}
             onSelectDepartment={goDepartment}
