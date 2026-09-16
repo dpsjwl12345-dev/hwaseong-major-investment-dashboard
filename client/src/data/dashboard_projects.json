@@ -209,7 +209,7 @@
       "funding_type": "소계",
       "total_cost_million_krw": 28011,
       "invested_to_2026_million_krw": 3965,
-      "budget_2027_million_krw": 8384,
+      "budget_2027_million_krw": 14639,
       "execution_rate": 0.0,
       "progress_status": "○ 2022.11. 담수 타당성 용역 착수\n○ 2023.04. 시설결정 용역 착수\n○ 2023.08. 담수 타당성 용역 준공 [결과: 비담수 및 영상아트로 대체]\n○ 2025.01. 공원조성계획 고시\n○ 2025.04. 만년제 역사공원 기본 및 실시설계 착수\n○ 2025.11. 만년제 역사공원 BF 예비인증 신청\n○ 2026.01. 역사공원 내 홍보관 건축기획 용역 준공\n○ 2026.03. 실시계획인가 신청 및 사업인정(의제)사업 협의 요청\n○ 2026.04. 사업인정에 관한 주민 열람 공고\n○ 2026.06. 만년제 역사공원 기본 및 실시설계 설계변경",
       "progress_rate": 17,
@@ -229,7 +229,7 @@
       "management_card_source": "주요투자사업 관리카드 1.hwpx",
       "card_total_budget_million_krw": 28011,
       "card_invested_to_2026_million_krw": 3965,
-      "card_budget_2027_million_krw": 8384,
+      "card_budget_2027_million_krw": 14639,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
@@ -271,8 +271,8 @@
           "total": 22100,
           "invested": 2343,
           "budget_2026": 277,
-          "budget_2027": 8384,
-          "budget_2028_plus": 11096,
+          "budget_2027": 11384,
+          "budget_2028_plus": 8096,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
@@ -320,9 +320,11 @@
         }
       ],
       "usage_breakdown": [
-        { "name": "설계", "total": null, "invested": null, "budget_2026": null, "budget_2027": 144, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+        { "name": "설계", "total": null, "invested": 520, "budget_2026": null, "budget_2027": 144, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "부대", "total": null, "invested": null, "budget_2026": null, "budget_2027": 240, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "보상", "total": null, "invested": null, "budget_2026": null, "budget_2027": 8000, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+        { "name": "보상", "total": null, "invested": null, "budget_2026": null, "budget_2027": 8000, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+        { "name": "부지", "total": null, "invested": 1101, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+        { "name": "공사비", "total": null, "invested": null, "budget_2026": null, "budget_2027": 3000, "budget_2028_plus": 4084, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
       ],
       "card_admin_procedures": "",
       "card_admin_legal_basis": "",
@@ -334,7 +336,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 554,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 15108,
+      "card_budget_2028_plus_million_krw": 8853,
       "sub_projects": [
         {
           "name": "주변 정비",
@@ -342,7 +344,7 @@
           "current_stage": "설계",
           "total_cost_million_krw": 17089,
           "invested_to_2026_million_krw": 1621,
-          "budget_2027_million_krw": 8384,
+          "budget_2027_million_krw": 11384,
           "execution_rate": 0.0,
           "progress_status": "○ 2022.11. 담수 타당성 용역 착수\n○ 2023.04. 시설결정 용역 착수\n○ 2023.08. 담수 타당성 용역 준공 [결과: 비담수 및 영상아트로 대체]\n○ 2025.01. 공원조성계획 고시\n○ 2025.04. 만년제 역사공원 기본 및 실시설계 착수\n○ 2025.11. 만년제 역사공원 BF 예비인증 신청\n○ 2026.01. 역사공원 내 홍보관 건축기획 용역 준공\n○ 2026.03. 실시계획인가 신청 및 사업인정(의제)사업 협의 요청\n○ 2026.04. 사업인정에 관한 주민 열람 공고\n○ 2026.06. 만년제 역사공원 기본 및 실시설계 설계변경",
           "progress_rate": 10,
@@ -360,6 +362,7 @@
           "card_invested_to_2025_million_krw": 1621,
           "card_invested_to_2026_million_krw": 1621,
           "card_budget_2026_million_krw": 0,
+          "card_budget_2027_million_krw": 11384,
           "card_execution_rate": null,
           "card_execution_amount_million_krw": 11,
           "funding_breakdown": [
@@ -381,8 +384,8 @@
               "total": 17089,
               "invested": 1621,
               "budget_2026": 0,
-              "budget_2027": 8384,
-              "budget_2028_plus": 7084,
+              "budget_2027": 11384,
+              "budget_2028_plus": 4084,
               "budget_2026_base": null,
               "budget_2026_first_extra": null,
               "budget_2026_second_extra": null,
@@ -430,9 +433,11 @@
             }
           ],
           "usage_breakdown": [
-            { "name": "설계", "total": null, "invested": null, "budget_2026": null, "budget_2027": 144, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-            { "name": "부대", "total": null, "invested": null, "budget_2026": null, "budget_2027": 240, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-            { "name": "보상", "total": null, "invested": null, "budget_2026": null, "budget_2027": 8000, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+            { "name": "설계", "total": 664, "invested": 520, "budget_2026": null, "budget_2027": 144, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+            { "name": "부대", "total": 240, "invested": null, "budget_2026": null, "budget_2027": 240, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+            { "name": "보상", "total": 8000, "invested": null, "budget_2026": null, "budget_2027": 8000, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+            { "name": "부지", "total": 1101, "invested": 1101, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+            { "name": "공사비", "total": 7084, "invested": null, "budget_2026": null, "budget_2027": 3000, "budget_2028_plus": 4084, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
           ]
         },
         {
@@ -441,7 +446,7 @@
           "current_stage": "공사",
           "total_cost_million_krw": 10922,
           "invested_to_2026_million_krw": 2344,
-          "budget_2027_million_krw": null,
+          "budget_2027_million_krw": 3255,
           "execution_rate": 0.0,
           "progress_status": "○ 2023.04. 실시설계 용역 착수\n○ 2023.12. 설계승인 통보(경기도 문화유산과)\n○ 2023.12. 실시설계 용역 준공\n○ 2025.06. 만년제 괴성 복원공사 착공\n○ 2026.03. 만년제 매립토 처리공사 현상변경\n○ 2026.04. 만년제 매립토 처리공사 실시설계 준공\n○ 2026.05. 만년제 괴성복원공사 설계변경 실시설계 준공\n○ 2026.06. 만년제 괴성복원 폐기물처리용역 준공",
           "progress_rate": 27,
@@ -449,14 +454,17 @@
           "future_plan": "○ 2026.07. 제방 복원공사 실시설계 착수\n○ 2026.07. 괴성복원공사 준공\n○ 2026.12. 제방 복원공사 실시설계 완료\n○ 2027. ~ 2028. 제방 복원 공사",
           "inspection": "2028.12.",
           "delay_reason": "양호",
-          "carryover_items": [],
+          "carryover_items": [
+            { "label": "복원", "type": "이월", "amount_million_krw": 1039 }
+          ],
           "management_card_matched": true,
           "card_total_budget_million_krw": 10922,
+          "card_budget_2027_million_krw": 3255,
           "card_invested_to_2025_million_krw": 2344,
           "card_invested_to_2026_million_krw": 2344,
           "card_budget_2026_million_krw": 554,
           "card_execution_rate": null,
-          "card_execution_amount_million_krw": null,
+          "card_execution_amount_million_krw": 1116,
           "funding_breakdown": [
             {
               "name": "국비",
@@ -476,8 +484,8 @@
               "total": 5011,
               "invested": 722,
               "budget_2026": 277,
-              "budget_2027": null,
-              "budget_2028_plus": 4012,
+              "budget_2027": 1628,
+              "budget_2028_plus": 2384,
               "budget_2026_base": null,
               "budget_2026_first_extra": null,
               "budget_2026_second_extra": null,
@@ -489,8 +497,8 @@
               "total": 5011,
               "invested": 722,
               "budget_2026": 277,
-              "budget_2027": null,
-              "budget_2028_plus": 4012,
+              "budget_2027": 1627,
+              "budget_2028_plus": 2385,
               "budget_2026_base": null,
               "budget_2026_first_extra": null,
               "budget_2026_second_extra": null,
@@ -524,7 +532,11 @@
               "budget_2026_additional": null
             }
           ],
-          "usage_breakdown": []
+          "usage_breakdown": [
+            { "name": "설계", "total": 704, "invested": 150, "budget_2026": 554, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+            { "name": "공사", "total": 5449, "invested": 2194, "budget_2026": null, "budget_2027": 3255, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+          ],
+          "usage_breakdown_note": "* 제방복원 공사비(2028년 이후, 약 4,769백만원)는 세부 산출내역 미확정으로 항목 미반영"
         }
       ]
     },
@@ -7512,7 +7524,7 @@
       "card_inspection": "",
       "funding_breakdown": [
         { "name": "도비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "시비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+        { "name": "시비", "total": 772710, "invested": 0, "budget_2026": null, "budget_2027": 212, "budget_2028_plus": 772498, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "특교", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "특조", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "기타", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
@@ -7521,10 +7533,10 @@
         { "name": "설계", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "공사", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "감리", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "부대", "total": null, "invested": null, "budget_2026": null, "budget_2027": 162, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "기타", "total": null, "invested": null, "budget_2026": null, "budget_2027": 50, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+        { "name": "부대", "total": 162, "invested": null, "budget_2026": null, "budget_2027": 162, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+        { "name": "기타", "total": 50, "invested": null, "budget_2026": null, "budget_2027": 50, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
       ],
-      "usage_breakdown_note": "",
+      "usage_breakdown_note": "* 공사비 등 나머지 772,498백만원(2028년 이후)은 기본구상·타당성조사 이후 세부 산출내역 확정 예정으로 항목 미반영",
       "card_admin_procedures": "",
       "card_admin_legal_basis": "■ 문화예술진흥법 제5조 ■ 정책사업",
       "card_admin_status": { "mid_term_fiscal": false, "investment_review": false, "public_property": false, "none": false },
@@ -7535,7 +7547,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 72498
+      "card_budget_2028_plus_million_krw": 772498
     },
     {
       "id": "문화예술과_수동입력:7",
@@ -7545,20 +7557,23 @@
       "serial": 7,
       "department": "문화예술과",
       "project_name": "정남면 복합문화센터 건립",
-      "overview": "",
+      "rendering_images": [
+        "/renderings/culture-10/1.jpg"
+      ],
+      "overview": "○ 사업위치: 화성시 정남면 발산리 405-6번지 일원(現 정남도서관 부지)\n○ 사업기간: 2027.01. ~ 2030.09.\n○ 사업내용: 구 정남면 청사부지 활용 복합문화센터 건립\n○ 총사업비: 건축기획 용역 추진에 따라 결정 예정",
       "category": "",
-      "current_stage": "",
+      "current_stage": "사전 행정절차",
       "funding_type": "",
       "total_cost_million_krw": null,
       "invested_to_2026_million_krw": null,
-      "budget_2027_million_krw": null,
+      "budget_2027_million_krw": 22,
       "execution_rate": null,
-      "progress_status": "",
+      "progress_status": "○ 2026.02. 복합문화센터 타당성 및 기본계획수립 용역 시행\n○ 2026.05. 타당성조사 용역 중간보고회 개최\n○ 2026.08. 타당성조사 용역 최종보고회 개최",
       "progress_rate": null,
       "expected_completion": "",
       "progress_notes": "",
-      "future_plan": "",
-      "inspection": "",
+      "future_plan": "○ 2026.12. 타당성조사 용역 결과 보완(사업 규모 및 세부 공간계획 재검토)\n○ 2027.01. ~ 03. 건축기획 용역\n○ 2027.04. ~ 05. 지방재정 투자심사(자체)\n○ 2027.12. 사전 행정절차 완료(공유재산심의, 공공건축 사전검토, 공공건축 심의위원회 등)\n○ 2028.01. 건축 설계공모 추진\n○ 2028.04. ~ 2029.02. 기본 및 실시설계 용역 착수 및 준공\n○ 2029.06. ~ 2030.06. 공사 착공 및 준공\n○ 2030.07. ~ 08. 시범 운영\n○ 2030.09. 정남면 복합문화센터 개관",
+      "inspection": "2030.09.",
       "delay_reason": "",
       "administrative_procedures": "",
       "project_type": "",
@@ -7571,7 +7586,7 @@
       "management_card_source": "",
       "card_total_budget_million_krw": null,
       "card_invested_to_2026_million_krw": null,
-      "card_budget_2027_million_krw": null,
+      "card_budget_2027_million_krw": 22,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
@@ -7583,13 +7598,13 @@
       "card_inspection": "",
       "funding_breakdown": [
         { "name": "도비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "시비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+        { "name": "시비", "total": 22, "invested": null, "budget_2026": null, "budget_2027": 22, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "특교", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "특조", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "기타", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
       ],
       "usage_breakdown": [
-        { "name": "설계", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
+        { "name": "설계", "total": 22, "invested": null, "budget_2026": null, "budget_2027": 22, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "공사", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "감리", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "부대", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
@@ -7597,7 +7612,7 @@
       ],
       "usage_breakdown_note": "",
       "card_admin_procedures": "",
-      "card_admin_legal_basis": "",
+      "card_admin_legal_basis": "「문화예술진흥법」 제5조(문화예술 공간의 설치 권장)",
       "card_admin_status": { "mid_term_fiscal": false, "investment_review": false, "public_property": false, "none": false },
       "card_invested_to_2025_million_krw": null,
       "card_budget_2026_million_krw": null,
