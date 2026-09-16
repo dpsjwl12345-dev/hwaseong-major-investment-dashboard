@@ -354,6 +354,8 @@
             { "label": "주변 정비", "type": "이월", "amount_million_krw": 100 }
           ],
           "management_card_matched": true,
+          "card_admin_procedures": "중기재정(2024.10.29.), 투·융자심사(2024.10.24.)",
+          "card_admin_status": { "mid_term_fiscal": true, "investment_review": true, "public_property": false, "none": false },
           "card_total_budget_million_krw": 17089,
           "card_invested_to_2025_million_krw": 1621,
           "card_invested_to_2026_million_krw": 1621,
