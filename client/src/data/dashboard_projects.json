@@ -739,7 +739,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 0
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:2",
@@ -934,7 +934,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 400,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 1350
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:3",
@@ -1141,7 +1141,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 0
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:4",
@@ -1383,7 +1383,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null,
+      "card_budget_2028_plus_million_krw": 250,
       "sub_projects": [
         {
           "name": "서부권",
@@ -2315,7 +2315,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 1954,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 1954
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:6",
@@ -2520,7 +2520,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 536,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 2956
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:7",
@@ -2923,7 +2923,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 244,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 3069
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:9",
@@ -3118,7 +3118,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 0
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:10",
@@ -3715,7 +3715,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 1800
     },
     {
       "id": "체육진흥과_수동입력:13",
@@ -4114,7 +4114,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 0
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:2",
@@ -4307,7 +4307,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 24
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:3",
@@ -4509,7 +4509,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 6780
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:4",
@@ -4711,7 +4711,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": 4500,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 4500
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:5",
@@ -4911,7 +4911,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 100
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:7",
@@ -5868,7 +5868,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": 442
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:10",
