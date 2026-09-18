@@ -1667,7 +1667,12 @@ function PledgeBoard({ isAdmin }: { isAdmin?: boolean }) {
       <div className="pledge-board" style={{ marginLeft: boardIndent, marginRight: "auto" }}>
         {themes.map((group) => (
           <div className="pledge-theme" key={group.theme}>
-            <h2 className="pledge-theme-name">{group.theme}</h2>
+            <h2
+              className="pledge-theme-name"
+              style={group.theme === "미래세대와 함께하는 평생교육도시" ? { marginBottom: 28 } : undefined}
+            >
+              {group.theme}
+            </h2>
             <div className="pledge-list">
               {group.pledges.map((pledge) => {
                 const isOpen = expandedPledge === pledge.name;
