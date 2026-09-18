@@ -1152,7 +1152,7 @@ type PledgeDetail = {
   plan: { year: string; content: string[] }[]; // Ⅴ. 추진계획
   departmentOpinions?: string[]; // Ⅵ. 부서의견
 };
-type Pledge = { theme: string; name: string; bureau: string; department: string; note?: string; detail?: PledgeDetail };
+type Pledge = { theme: string; name: string; bureau: string; department: string; note?: string; budget2027?: boolean; detail?: PledgeDetail };
 const PLEDGES: Pledge[] = [
   { theme: "모두가 즐거운 글로벌 관광도시", name: "화성형 문화자치제 도입", bureau: "문화관광국", department: "문화예술과" },
   {
@@ -1160,6 +1160,7 @@ const PLEDGES: Pledge[] = [
     name: "AI 기반 新화성8경 선정",
     bureau: "문화관광국",
     department: "관광진흥과",
+    budget2027: true,
     detail: {
       termScope: "임기내",
       operator: "자체",
@@ -1216,6 +1217,7 @@ const PLEDGES: Pledge[] = [
     name: "최고의 인재를 만드는 영재교육원 확대",
     bureau: "교육체육국",
     department: "교육지원과",
+    budget2027: true,
     detail: {
       termScope: "임기내",
       operator: "자체",
@@ -1331,6 +1333,7 @@ const PLEDGES: Pledge[] = [
     name: "지역도서관 추가건립",
     bureau: "교육체육국",
     department: "도서관정책과",
+    budget2027: true,
     detail: {
       termScope: "임기후",
       operator: "자체",
@@ -1394,6 +1397,7 @@ const PLEDGES: Pledge[] = [
     name: "파크골프장 확대",
     bureau: "교육체육국",
     department: "체육진흥과",
+    budget2027: true,
     detail: {
       termScope: "임기내",
       operator: "자체",
@@ -1442,9 +1446,10 @@ const PLEDGES: Pledge[] = [
   },
   {
     theme: "미래세대와 함께하는 평생교육도시",
-    name: "화성 돔 야구장 건립 · 프로야구단 유치 기반 조성",
+    name: "화성 돔구장 건립 · 프로야구단 유치 기반 조성",
     bureau: "교육체육국",
     department: "체육진흥과",
+    budget2027: true,
     detail: {
       termScope: "임기후",
       operator: "자체",
@@ -1682,7 +1687,10 @@ function PledgeBoard({ isAdmin }: { isAdmin?: boolean }) {
                       className={`pledge-row ${pledge.detail ? "is-clickable" : ""} ${isOpen ? "is-open" : ""}`}
                       onClick={() => pledge.detail && setExpandedPledge(isOpen ? null : pledge.name)}
                     >
-                      <span className="pledge-name">{pledge.name}</span>
+                      <span className="pledge-name">
+                        {pledge.budget2027 && <span className="pledge-budget2027-dot" title="2027년 예산 편성 사업" />}
+                        {pledge.name}
+                      </span>
                       <span className="pledge-tags">
                         <span className="pledge-tag pledge-tag-bureau">{pledge.bureau}</span>
                         <span className="pledge-tag pledge-tag-department">{pledge.department}</span>
