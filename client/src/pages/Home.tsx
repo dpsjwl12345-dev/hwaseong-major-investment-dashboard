@@ -41,10 +41,8 @@ import {
 } from "@/components/icons/solar";
 import dataset from "../data/dashboard_projects.json";
 import hwaseongBoundary from "../data/hwaseong-boundary.json";
-import dongCentroids from "../data/hwaseong-dong-centroids.json";
 import dongOutlines from "../data/hwaseong-dong-outlines.json";
 import guOutlines from "../data/hwaseong-gu-outlines.json";
-import coastalPoints from "../data/hwaseong-coastal-points.json";
 import islands from "../data/hwaseong-islands.json";
 import dongLonLat from "../data/hwaseong-dong-lonlat.json";
 import coastalLonLat from "../data/hwaseong-coastal-lonlat.json";
@@ -1133,248 +1131,547 @@ const CATEGORY_STYLES: Record<string, { id: string; hi: string; mid: string; lo:
 const DEFAULT_CATEGORY_STYLE = { id: "default", hi: "#d1fae5", mid: "#34d399", lo: "#047857" };
 const categoryStyleFor = (category: string | undefined) => (category && CATEGORY_STYLES[category]) || DEFAULT_CATEGORY_STYLE;
 
-function InvestmentDistribution({ projects, onBack, onSelectProject, isAdmin, onAdminLoggedIn }: { projects: Project[]; onBack: () => void; onSelectProject: (project: Project) => void; isAdmin?: boolean; onAdminLoggedIn: () => void }) {
-  const [selected, setSelected] = useState<Project | null>(null);
-  const [hovered, setHovered] = useState<Project | null>(null);
-  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
-  const [selectedPosition, setSelectedPosition] = useState({ x: 0, y: 0, screenX: 0, screenY: 0 });
-  const [selectedOpensDown, setSelectedOpensDown] = useState(false);
-  const [categoryFilter, setCategoryFilter] = useState("전체");
-  const [zoneFilter, setZoneFilter] = useState("전체");
-  const [deptFilter, setDeptFilter] = useState("전체");
-  const [isMapFilterOpen, setIsMapFilterOpen] = useState(false);
-  const mapCategoryOptions = Object.keys(CATEGORY_STYLES);
-  const mapZoneOptions = Object.keys(GU_COLORS);
-  const mapDeptOptions = DEPARTMENT_ORDER.filter((name) => projects.some((project) => project.department === name));
-  const [zoom, setZoom] = useState(1);
-  const [pan, setPan] = useState({ x: 0, y: 0 });
-  const [isPanning, setIsPanning] = useState(false);
-  const canvasRef = useRef<HTMLDivElement>(null);
-  const dragState = useRef({ x: 0, y: 0, panX: 0, panY: 0 });
-  const MIN_ZOOM = 1;
-  const MAX_ZOOM = 4;
-  const clampPan = (nextPan: { x: number; y: number }, z: number) => {
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (!rect || z <= 1) return { x: 0, y: 0 };
-    const maxX = (rect.width * (z - 1)) / 2;
-    const maxY = (rect.height * (z - 1)) / 2;
-    return { x: Math.max(-maxX, Math.min(maxX, nextPan.x)), y: Math.max(-maxY, Math.min(maxY, nextPan.y)) };
-  };
-  const applyZoom = (next: number) => {
-    const clamped = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, Number(next.toFixed(2))));
-    setZoom(clamped);
-    setPan((prev) => clampPan(prev, clamped));
-  };
-  const zoomIn = () => applyZoom(zoom + 0.5);
-  const zoomOut = () => applyZoom(zoom - 0.5);
-  const resetZoom = () => { setZoom(1); setPan({ x: 0, y: 0 }); };
-  useEffect(() => {
-    const el = canvasRef.current;
-    if (!el) return;
-    const onWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      const delta = event.deltaY > 0 ? -0.35 : 0.35;
-      applyZoom(zoom + delta);
-    };
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [zoom]);
-  const handlePanStart = (event: ReactMouseEvent<HTMLDivElement>) => {
-    if (zoom <= 1) return;
-    setIsPanning(true);
-    dragState.current = { x: event.clientX, y: event.clientY, panX: pan.x, panY: pan.y };
-  };
-  const handlePanMove = (event: ReactMouseEvent<HTMLDivElement>) => {
-    if (!isPanning) return;
-    const dx = event.clientX - dragState.current.x;
-    const dy = event.clientY - dragState.current.y;
-    setPan(clampPan({ x: dragState.current.panX + dx, y: dragState.current.panY + dy }, zoom));
-  };
-  const handlePanEnd = () => setIsPanning(false);
-  // project.contact already holds the real 구 name (효행구/만세구/병점구/동탄구)
-  // — prefer that over guessing from free text. The regex fallback only
-  // covers the rare project missing that field.
-  const zoneFor = (project: Project) => {
-    if (project.contact) return project.contact;
-    const text = `${project.district} ${project.town} ${project.overview}`;
-    if (/동탄/.test(text)) return "동탄구";
-    if (/반월|병점|진안|화산동/.test(text)) return "병점구";
-    if (/봉담|기배|매송|비봉|정남/.test(text)) return "효행구";
-    if (/남양|마도|송산|서신|궁평|제부|국화도|우정|장안|향남|양감|팔탄|새솔/.test(text)) return "만세구";
-    return "화성시";
-  };
-  // Fallback for the rare project whose district isn't one of the 29 dong
-  // names in hwaseong-dong-centroids.json (e.g. free-text or missing data).
-  const approxPositionFor = (project: Project, index: number) => {
-    const text = `${project.district} ${project.town} ${project.overview}`;
-    const areas: [RegExp, number, number][] = [
-      [/동탄|반월|병점|진안/, 75, 47], [/봉담|기배|화산/, 49, 57], [/남양|마도|송산|비봉|매송/, 34, 38],
-      [/향남|양감|팔탄|정남/, 43, 72], [/서신|궁평|제부|국화도/, 16, 68], [/우정|장안/, 23, 83],
-    ];
-    const hit = areas.find(([pattern]) => pattern.test(text));
-    const base = hit ? [hit[1], hit[2]] : [52, 52];
-    const spread = ((index * 17) % 7) - 3;
-    return { x: Math.max(8, Math.min(92, base[0] + spread)), y: Math.max(12, Math.min(88, base[1] + (((index * 11) % 9) - 4))) };
-  };
-  // Places a project at its 읍면동 centroid — computed offline from public
-  // administrative-boundary data (see scripts/generate_hwaseong_dong_centroids.mjs).
-  // No address or project data is ever sent to an outside service for this.
-  // Multi-site projects (district holds several dong names, comma-separated)
-  // are placed at the average of their centroids. Projects that share a dong
-  // (or otherwise land on the exact same spot) are spread apart afterward by
-  // the de-clustering pass below — this function just returns the true point.
-  const dongPositionFor = (project: Project) => {
-    const dongNames = (project.district ?? "").split(",").map((name) => name.trim()).filter(Boolean);
-    const matches = dongNames.map((name) => (dongCentroids as Record<string, { x: number; y: number }>)[name]).filter(Boolean);
-    if (matches.length === 0) return null;
-    const avgX = matches.reduce((sum, m) => sum + m.x, 0) / matches.length;
-    const avgY = matches.reduce((sum, m) => sum + m.y, 0) / matches.length;
-    return { x: Math.max(2, Math.min(98, avgX)), y: Math.max(2, Math.min(98, avgY)) };
-  };
+// 민선9기(2026~2030) 공약사항. 구분(대주제) 아래에 공약명·실국소명·부서를 묶어 보여준다.
+// 공약별 상세 자료(detail)가 채워진 항목은 행을 눌러 펼쳐볼 수 있다 - 아직 상세가
+// 없는 공약은 이름/국/부서만 보여준다.
+type PledgeDetailTable = { columns: string[]; rows: { label: string; values: string[] }[] };
+type PledgeDetail = {
+  termScope: string; // 임기내 / 임기후
+  operator: string; // 사업주체: 국가/도/자체/민간
+  isNew: string; // 신규 / 계속
+  budgetType: string; // 예산 / 비예산
+  metrics: string[]; // 성과 지표
+  centralHelp: string; // 중앙정부 도움 필요성
+  leadDepartment: string; // 추진부서
+  cooperatingAgency?: string; // 협조기관(부서)
+  goals: string[]; // Ⅰ. 사업목표
+  overview?: { label: string; value: string | string[]; note?: string }[]; // Ⅱ. 개요 - 공약마다 항목명이 달라(추진기간/교육기간, 사업위치/교육대상 등) 라벨·값 쌍으로 둔다
+  overviewSites?: PledgeDetailTable; // Ⅱ. 개요를 지역별 시설 표로 대신하는 경우(파크골프장처럼 여러 부지가 있는 사업)
+  policyTargets: PledgeDetailTable; // Ⅲ. 정책목표
+  yearlyBudget: PledgeDetailTable; // Ⅳ. 연도별 예산계획
+  plan: { year: string; content: string[] }[]; // Ⅴ. 추진계획
+  departmentOpinions?: string[]; // Ⅵ. 부서의견
+};
+type Pledge = { theme: string; name: string; bureau: string; department: string; note?: string; detail?: PledgeDetail };
+const PLEDGES: Pledge[] = [
+  { theme: "모두가 즐거운 글로벌 관광도시", name: "화성형 문화자치제 도입", bureau: "문화관광국", department: "문화예술과" },
+  {
+    theme: "모두가 즐거운 글로벌 관광도시",
+    name: "AI 기반 新화성8경 선정",
+    bureau: "문화관광국",
+    department: "관광진흥과",
+    detail: {
+      termScope: "임기내",
+      operator: "자체",
+      isNew: "신규",
+      budgetType: "예산",
+      metrics: ["①AI관광 플랫폼 기본계획", "②AI관광 플랫폼 시스템 구축", "③민간협력 정보모델 운영"],
+      centralHelp: "해당없음",
+      leadDepartment: "관광진흥과 관광정책팀(☎6017)",
+      cooperatingAgency: "AI스마트전략실",
+      goals: [
+        "관광플랫폼 구축, 운영 기본 계획 수립",
+        "초개인화 관광홍보 시스템 구축, 관광-소비 연계 관광모델 운영",
+      ],
+      overview: [
+        { label: "추진기간", value: "2026. 9. ~ 2028. 12." },
+        { label: "사업대상", value: "시 소재 관광자원과 편의시설 등(지역 관광상권 포함)" },
+        { label: "사업주체", value: "자체사업" },
+        { label: "사업량", value: "기본 계획, 시스템 구축과 운영" },
+        { label: "사업내용", value: [
+          "AI·데이터 수집, 분석, 관광 핫플레이스(AI Golden Pick) 선정 기본계획",
+          "超개인화 맞춤형 명소 안내, 관광객과 지역상권 연계 촉진체계 구축",
+          "민관 연계, 협력 관광상품 및 정보모델 운영",
+        ] },
+        { label: "사업비", value: "382백만원", note: "'AI관광 플랫폼 기본계획' 완료 후 2028년 포함 플랫폼 고도화 확정 예산 산출" },
+      ],
+      policyTargets: {
+        columns: ["2026", "2027", "2028", "2029", "2030"],
+        rows: [
+          { label: "①AI관광 플랫폼 기본계획 (건)", values: ["1건", "", "", "", ""] },
+          { label: "②AI관광 플랫폼 시스템 구축 (건)", values: ["", "1건", "", "", ""] },
+          { label: "③민간협력 정보모델 운영 (-)", values: ["", "", "1건", "", ""] },
+          { label: "공약 달성률(%)", values: ["10", "70", "100", "", ""] },
+        ],
+      },
+      yearlyBudget: {
+        columns: ["총계", "기투자액", "2026년", "2027년", "2028년", "2029년", "2030년", "임기 후"],
+        rows: [
+          { label: "계", values: ["382", "0", "22", "360", "미정", "0", "0", "0"] },
+          { label: "국비", values: ["0", "", "", "", "", "", "", ""] },
+          { label: "도비", values: ["0", "", "", "", "", "", "", ""] },
+          { label: "시비", values: ["382", "", "22", "360", "미정", "", "", ""] },
+          { label: "기타", values: ["0", "", "", "", "", "", "", ""] },
+        ],
+      },
+      plan: [
+        { year: "2026년", content: ["AI 기반 데이터 활용 관광 플랫폼 구축 기본 계획"] },
+        { year: "2027년", content: ["AI 기반 데이터 활용 관광 플랫폼 시스템 구축, 운영"] },
+        { year: "2028년", content: ["관광객, 지역상권, 정책 연계 통합 플랫폼 기능 확산"] },
+      ],
+    },
+  },
+  {
+    theme: "미래세대와 함께하는 평생교육도시",
+    name: "최고의 인재를 만드는 영재교육원 확대",
+    bureau: "교육체육국",
+    department: "교육지원과",
+    detail: {
+      termScope: "임기내",
+      operator: "자체",
+      isNew: "신규",
+      budgetType: "예산",
+      metrics: ["교육 분야 확대 추진", "교육 공간 조성 추진"],
+      centralHelp: "해당없음",
+      leadDepartment: "교육지원과 교육특화팀(☎7472)",
+      cooperatingAgency: "화성시인재육성재단 영재교육원",
+      goals: [
+        "인공지능(AI) 등 미래사회를 준비하는 창의융합형 핵심인재를 양성하기 위한 화성시 영재교육원 확대·운영",
+      ],
+      overview: [
+        { label: "교육기간", value: "2026. 5. 16.(토) ~ 11. 21.(토)" },
+        { label: "교육대상", value: "관내 초등(5·6학년), 중등(1·2학년) 120명", note: "'26학년도 교육대상자 총 117명 선발" },
+        { label: "교육장소", value: "[과학] 화성시민대학 / [정보] 서연이음터" },
+        { label: "교육내용", value: "STEM+I 영재교육과정 중 과학, 정보영역 영재교육 프로그램 운영" },
+        { label: "교육방법", value: "대면수업 및 캠프 (교과활동 80시간, 비교과활동 20시간/총 100시간)" },
+        { label: "소요예산", value: "470백만원" },
+      ],
+      policyTargets: {
+        columns: ["2026", "2027", "2028", "2029", "2030"],
+        rows: [
+          { label: "교육 분야 확대 추진 (%)", values: ["영재교육원 개원·운영", "AI·융합 교육 강화", "문화예술 분야 시범 확대 운영", "문화예술 분야 확대 운영", "확대 운영 체계 안정화"] },
+          { label: "교육 공간 조성 추진 (%)", values: ["법률검토 및 안전관리 자문", "구조안전진단, 기본 및 실시설계", "공사 착공", "공사 준공", "개관"] },
+          { label: "공약 달성률(%)", values: ["15", "30", "50", "70", "100"] },
+        ],
+      },
+      yearlyBudget: {
+        columns: ["총계", "기투자액", "2026년", "2027년", "2028년", "2029년", "2030년", "임기 후"],
+        rows: [
+          { label: "계", values: ["0", "0", "470", "1,100", "11,344", "920", "670", "670"] },
+          { label: "국비", values: ["0", "0", "0", "0", "0", "0", "0", "0"] },
+          { label: "도비", values: ["0", "0", "0", "0", "0", "0", "0", "0"] },
+          { label: "시비", values: ["0", "0", "470", "1,100", "11,344", "920", "670", "670"] },
+          { label: "기타", values: ["0", "0", "0", "0", "0", "0", "0", "0"] },
+        ],
+      },
+      plan: [
+        { year: "2026년", content: [
+          "영재교육원 운영(1기) - 초등(5·6학년), 중등(1·2학년) 대상, [과학] 화성시민대학 / [정보] 서연이음터",
+          "교육공간 조성을 위한 법률 검토 및 부서 협의, 안전관리 자문",
+        ] },
+        { year: "2027년", content: [
+          "AI·융합 교육 강화 - 융합과학·융합정보 분야 안착, 교육분야 확대 검토 및 연구, 관내 기업 연계 MOU 체결",
+          "교육공간 조성을 위한 정밀구조안전진단, 기본 및 실시설계",
+        ] },
+        { year: "2028년", content: [
+          "영재교육 분야 확대 시범 운영 - 문화예술 분야 시범적 확대 운영, 자체 교육공간 확보 및 조성 추진",
+          "교육공간 조성 공사 착공",
+        ] },
+        { year: "2029년", content: [
+          "영재교육 분야 확대 운영 - 문화예술 등 교육 분야 확대 운영",
+          "교육공간 조성 공사 준공 및 2030년 개관 목표 교육 운영 준비",
+        ] },
+        { year: "2030년", content: [
+          "영재교육 확대 운영 체계 안정화 - 문화예술 분야 운영 정착 및 교육과정 고도화",
+          "교육공간 개관",
+        ] },
+      ],
+    },
+  },
+  {
+    theme: "미래세대와 함께하는 평생교육도시",
+    name: "화성교육지원청 유치",
+    bureau: "교육체육국",
+    department: "교육지원과",
+    detail: {
+      termScope: "임기내",
+      operator: "도",
+      isNew: "신규",
+      budgetType: "예산",
+      metrics: ["분리 교육지원청 출범"],
+      centralHelp: "해당없음",
+      leadDepartment: "교육지원과 교육정책팀(☎3480)",
+      cooperatingAgency: "화성오산교육지원청 기획경영과",
+      goals: [
+        "화성시 교육격차 해소 및 신속한 행정 대응을 위한 독립적 교육행정 체계 구축",
+      ],
+      overview: [
+        { label: "추진기간", value: "2026. 5. ~ 2027." },
+        { label: "사업위치", value: "미정" },
+        { label: "사업주체", value: "화성오산교육지원청" },
+        { label: "사업량", value: "미정" },
+        { label: "사업내용", value: "화성교육지원청 분리·유치" },
+        { label: "사업비", value: "미정" },
+      ],
+      policyTargets: {
+        columns: ["2026", "2027", "2028", "2029", "2030"],
+        rows: [
+          { label: "분리 교육지원청 출범 (%)", values: ["주민설명회 개최 및 분청 신청서 제출", "화성교육지원청 출범 및 임시청사 운영", "", "", ""] },
+          { label: "공약 달성률(%)", values: ["50", "100", "", "", ""] },
+        ],
+      },
+      yearlyBudget: {
+        columns: ["총계", "기투자액", "2026년", "2027년", "2028년", "2029년", "2030년", "임기 후"],
+        rows: [
+          { label: "계", values: ["0", "0", "0", "0", "0", "0", "0", "0"] },
+          { label: "국비", values: ["0", "", "", "", "", "", "", ""] },
+          { label: "도비", values: ["0", "", "", "", "", "", "", ""] },
+          { label: "시비", values: ["0", "", "", "", "", "", "", ""] },
+          { label: "기타", values: ["0", "", "", "", "", "", "", ""] },
+        ],
+      },
+      plan: [
+        { year: "2026년", content: ["주민설명회 개최 및 분청 신청서 제출"] },
+        { year: "2027년", content: ["화성교육지원청 출범 및 임시청사 운영"] },
+      ],
+    },
+  },
+  {
+    theme: "미래세대와 함께하는 평생교육도시",
+    name: "지역도서관 추가건립",
+    bureau: "교육체육국",
+    department: "도서관정책과",
+    detail: {
+      termScope: "임기후",
+      operator: "자체",
+      isNew: "계속",
+      budgetType: "예산",
+      metrics: ["도서관 건립(3개소)"],
+      centralHelp: "해당없음",
+      leadDepartment: "도서관정책과 도서관시설팀(☎6119)",
+      cooperatingAgency: "공공건축과",
+      goals: [
+        "일상생활 속 지식과 쉼을 누리는 문화 거점 조성을 위해 지역도서관을 추가 확충하여 시민의 복합문화활동 지원",
+      ],
+      overview: [
+        { label: "추진기간", value: "2026년 ~ 2030년" },
+        { label: "사업위치", value: "봉담읍 동화리 11-1 외 2개소" },
+        { label: "사업주체", value: "화성시(자체사업)" },
+        { label: "사업량", value: "건립중 2개소, 추가건립 1개소" },
+        { label: "사업내용", value: ["지역 신규 도서관 추가 건립"] },
+        { label: "사업비", value: "58,200백만원", note: "도비 4,500, 시비 48,400, 기타 5,300" },
+      ],
+      policyTargets: {
+        columns: ["2026", "2027", "2028", "2029", "2030"],
+        rows: [
+          { label: "도서관 건립(3개소) (개소)", values: ["", "준공 2개소", "기본 및 실시설계", "착공", "공사진행"] },
+          { label: "공약 달성률(%)", values: ["", "60", "70", "80", "100"] },
+        ],
+      },
+      yearlyBudget: {
+        columns: ["총계", "기투자액", "2026년", "2027년", "2028년", "2029년", "2030년", "임기 후"],
+        rows: [
+          { label: "계", values: ["58,200", "30,840", "11,400", "3,010", "6,450", "6,500", "0", "0"] },
+          { label: "국비", values: ["0", "-", "-", "-", "-", "-", "-", "-"] },
+          { label: "도비", values: ["4,500", "2,500", "2,000", "-", "-", "-", "-", "-"] },
+          { label: "시비", values: ["48,400", "23,040", "9,400", "3,010", "6,450", "6,500", "-", "-"] },
+          { label: "기타", values: ["5,300", "5,300", "-", "-", "-", "-", "-", "-"] },
+        ],
+      },
+      plan: [
+        { year: "2026년", content: [
+          "(가칭)반월도서관: 공사 재착수(26. 3.)",
+          "(가칭)독서문화공간: 내부공간 디자인 기본계획 용역(26. 6. ~ 7.)",
+          "(가칭)다올공원도서관: 기본계획 수립 및 타당성 조사 용역(26. 4. ~ 9.)",
+        ] },
+        { year: "2027년", content: [
+          "(가칭)반월도서관: 공사준공(27. 5.) 및 도서관 개관(27. 8.)",
+          "(가칭)독서문화공간: 공사준공(27. 1.) 및 도서관 개관(27. 4.)",
+          "(가칭)다올공원도서관: 건축기획 용역, 공공건축 심의, 설계공모, 기본 및 실시설계 용역 착수",
+        ] },
+        { year: "2028년", content: ["(가칭)다올공원도서관: 기본 및 실시설계 용역 준공"] },
+        { year: "2029년", content: ["(가칭)다올공원도서관: 공사 착공"] },
+        { year: "2030년", content: ["(가칭)다올공원도서관: 공사 준공(30. 8.) 및 도서관 개관(30. 11.)"] },
+      ],
+      departmentOpinions: [
+        "기존 신규 건립 2개소(반월, 독서문화공간): 2027년 준공 및 개관 가능",
+        "추가 신규 건립 1개소(다올공원도서관) - 조달청 계약, 혹서기·동절기, 설계변경 등 사업 추진시 다양한 변수 발생으로 공기 연장 가능성",
+      ],
+    },
+  },
+  {
+    theme: "미래세대와 함께하는 평생교육도시",
+    name: "파크골프장 확대",
+    bureau: "교육체육국",
+    department: "체육진흥과",
+    detail: {
+      termScope: "임기내",
+      operator: "자체",
+      isNew: "신규",
+      budgetType: "예산",
+      metrics: ["파크골프장 3개소 준공"],
+      centralHelp: "도움 필요",
+      leadDepartment: "체육진흥과 체육시설건립팀(☎6188)",
+      cooperatingAgency: "국토교통부, 한강유역환경청",
+      goals: [
+        "최근 고령화 사회에 적합한 여가문화로 자리잡은 파크골프에 대한 관심과 수요가 증가함에 따라, 파크골프 기반 확충을 통해 건전한 여가문화 조성과 지속 가능한 체육 인프라 마련",
+      ],
+      overviewSites: {
+        columns: ["시설명", "지번", "홀", "면적(㎡)", "예상사업비(백만원)"],
+        rows: [
+          { label: "합계", values: ["4개소", "", "", "", "9,690"] },
+          { label: "만세", values: ["우정읍 매향리 파크골프장", "우정읍 매향리 986", "36", "33,000", "1,990"] },
+          { label: "만세", values: ["남양하수처리장 파크골프장", "남양읍 남양리 967-11", "18", "9,453", "1,000"] },
+          { label: "효행", values: ["개발제한구역 파크골프장", "봉담, 비봉, 매송 일원", "36이상", "40,000", "4,800"] },
+          { label: "동탄", values: ["오산천 파크골프장", "방교동 872-192", "27", "25,810", "1,900"] },
+        ],
+      },
+      policyTargets: {
+        columns: ["2026", "2027", "2028", "2029", "2030"],
+        rows: [
+          { label: "파크골프장 조성", values: ["-", "1개소", "2개소", "계속추진", "계속추진"] },
+          { label: "공약 달성률(%)", values: ["-", "30", "100", "-", "-"] },
+        ],
+      },
+      yearlyBudget: {
+        columns: ["총계", "기투자액", "2026년", "2027년", "2028년", "2029년", "2030년", "임기 후"],
+        rows: [
+          { label: "계", values: ["9,690", "0", "300", "4,790", "1,000", "3,600", "0", "0"] },
+          { label: "시비", values: ["0", "", "300", "4,790", "1,000", "3,600", "", ""] },
+        ],
+      },
+      plan: [
+        { year: "2026년", content: ["매향리 파크골프장 실시설계"] },
+        { year: "2027년", content: ["매향리 파크골프장 준공", "오산천 파크골프장 실시설계", "개발제한구역 파크골프장 기본계획 수립"] },
+        { year: "2028년", content: ["오산천 파크골프장 준공", "남양 하수처리장 파크골프장 준공"] },
+        { year: "2029년", content: ["개발제한구역 파크골프장 GB관리계획 승인"] },
+        { year: "2030년", content: ["개발제한구역 파크골프장 착공"] },
+        { year: "임기후", content: ["개발제한구역 파크골프장 준공"] },
+      ],
+    },
+  },
+  {
+    theme: "미래세대와 함께하는 평생교육도시",
+    name: "화성 돔 야구장 건립 · 프로야구단 유치 기반 조성",
+    bureau: "교육체육국",
+    department: "체육진흥과",
+    detail: {
+      termScope: "임기후",
+      operator: "자체",
+      isNew: "신규",
+      budgetType: "예산",
+      metrics: ["돔야구장 건립 추진"],
+      centralHelp: "해당없음",
+      leadDepartment: "체육진흥과 체육시설건립팀(☎6189)",
+      goals: [
+        "시민의 스포츠·문화 향유 기회를 확대하고 대규모 체육·문화행사를 유치할 수 있는 돔야구장 건립",
+      ],
+      overview: [
+        { label: "추진기간", value: "2026. 10. ~ 2035. 12." },
+        { label: "사업위치", value: "화성시 전역(대상지 미정)" },
+        { label: "사업주체", value: "자체사업" },
+        { label: "사업량", value: "대지면적 60,000㎡ 이상/건축면적 40,000㎡ 이상" },
+        { label: "사업내용", value: ["돔야구장(복합체육센터 포함) 건립"] },
+        { label: "사업비", value: "약 526,500백만원" },
+      ],
+      policyTargets: {
+        columns: ["2026", "2027", "2028", "2029", "2030"],
+        rows: [
+          { label: "돔야구장 건립 추진", values: ["기본계획 수립 및 타당성조사 용역 착수", "지방재정투자사업 타당성조사 의뢰", "지방재정투자심사, 설계공모", "설계완료", "실시계획 작성"] },
+          { label: "공약 달성률(%)", values: ["20", "40", "60", "80", "100"] },
+        ],
+      },
+      yearlyBudget: {
+        columns: ["총계", "기투자액", "2026년", "2027년", "2028년", "2029년", "2030년", "임기 후"],
+        rows: [
+          { label: "계", values: ["526,500", "0", "100", "900", "8,500", "9,900", "83,000", "424,100"] },
+          { label: "시비", values: ["526,500", "-", "100", "900", "8,500", "9,900", "83,000", "424,100"] },
+        ],
+      },
+      plan: [
+        { year: "2026년", content: ["기본계획 수립 및 타당성조사 용역 발주"] },
+        { year: "2027년", content: ["기본계획 수립 완료 및 지방재정투자사업 타당성조사 의뢰"] },
+        { year: "2028년", content: ["타당성조사 완료, 지방재정투자심사 완료 후 설계공모"] },
+        { year: "2029년", content: ["설계완료"] },
+        { year: "2030년", content: ["실시계획 작성, 보상 착수"] },
+        { year: "임기후", content: ["보상완료 및 공사 착공"] },
+      ],
+    },
+  },
+  { theme: "미래세대와 함께하는 평생교육도시", name: "패밀리풀 권역별 확대 조성", bureau: "교육체육국", department: "체육진흥과" },
+  {
+    theme: "미래세대와 함께하는 평생교육도시",
+    name: "화성 롤러경기장 건립",
+    bureau: "교육체육국",
+    department: "전국체전추진단",
+    detail: {
+      termScope: "임기내",
+      operator: "자체",
+      isNew: "계속",
+      budgetType: "예산",
+      metrics: ["경기장 준공"],
+      centralHelp: "해당없음",
+      leadDepartment: "전국체전추진단 전국체전시설팀(☎7009)",
+      goals: [
+        "2027년 제108회 전국체육대회 및 제47회 전국장애인체육대회 주 개최도시 선정 및 롤러스포츠 종목 유치함에 따라 신규 체육시설 조성",
+      ],
+      overview: [
+        { label: "추진기간", value: "2024. 5. ~ 2027. 5." },
+        { label: "사업위치", value: "화성시 동탄구 반송동 59번지" },
+        { label: "사업주체", value: "자체사업" },
+        { label: "사업량", value: "4,000㎡(100m×40m), 200m 트랙" },
+        { label: "사업내용", value: ["롤러스포츠 경기장 1면 건립"] },
+        { label: "사업비", value: "2,000백만원" },
+      ],
+      policyTargets: {
+        columns: ["2026", "2027", "2028", "2029", "2030"],
+        rows: [
+          { label: "경기장 준공 (개소)", values: ["공사 착공", "공사 준공", "", "", ""] },
+          { label: "공약 달성률(%)", values: ["50", "100", "", "", ""] },
+        ],
+      },
+      yearlyBudget: {
+        columns: ["총계", "기투자액", "2026년", "2027년", "2028년", "2029년", "2030년", "임기 후"],
+        rows: [
+          { label: "계", values: ["2,000", "50", "1,950", "0", "0", "0", "0", "0"] },
+          { label: "국비", values: ["585", "-", "585", "-", "-", "-", "-", "-"] },
+          { label: "도비", values: ["956", "-", "956", "-", "-", "-", "-", "-"] },
+          { label: "시비", values: ["459", "50", "409", "-", "-", "-", "-", "-"] },
+          { label: "기타", values: ["-", "-", "-", "-", "-", "-", "-", "-"] },
+        ],
+      },
+      plan: [
+        { year: "2026년", content: ["공원조성계획 변경 및 실시설계", "공사 착공"] },
+        { year: "2027년", content: ["공사 준공"] },
+      ],
+      departmentOpinions: [
+        "경기장 주변 대회운영시설(본부석, 계측실 등) 설치공간 확보를 위해 관련부서(동부공원관리과 등)와 협의 필요",
+        "기존 X-게임장 철거에 따른 대체부지 확보 및 설치를 위해 관련부서(동부공원관리과, 체육진흥과, 동탄1동 등)와 협의 필요",
+      ],
+    },
+  },
+];
 
-  // Named coastal/island landmarks (궁평항, 국화도, 제부도) are finer than the
-  // 읍면동 centroids above — a project addressed to one of these was landing
-  // at its whole township's inland center instead of on the coast. Check the
-  // project text for these place names before falling back to the dong.
-  const coastalPositionFor = (project: Project) => {
-    const text = `${project.project_name} ${project.district} ${project.overview}`;
-    // Match on the short place-name root, not the full landmark name — the
-    // source address text says "궁평리"/"제부리", not "궁평항"/"제부도".
-    const keywordToPoint: Record<string, string> = { 궁평: "궁평항", 제부: "제부도", 국화도: "국화도", 입파도: "입파도" };
-    const hit = Object.keys(keywordToPoint).find((keyword) => text.includes(keyword));
-    if (!hit) return null;
-    return (coastalPoints as Record<string, { x: number; y: number }>)[keywordToPoint[hit]] ?? null;
-  };
-  // 국화도/입파도 and 제부도 are real islands (제부도 reachable only by a
-  // tidal causeway) now drawn on the map as their own small shapes — but the
-  // source data doesn't label its extra polygon rings individually, so which
-  // ring is 국화도 vs 입파도 is inferred (by size/position), not certain.
-  // Flag these so the UI can say so.
-  const isIslandProject = (project: Project) => {
-    const text = `${project.project_name} ${project.district} ${project.overview}`;
-    return ["국화도", "입파도", "제부"].some((keyword) => text.includes(keyword));
-  };
-
-  const rawPoints = projects.map((project, index) => ({
-    project,
-    zone: zoneFor(project),
-    isIsland: isIslandProject(project),
-    ...(coastalPositionFor(project) ?? dongPositionFor(project) ?? approxPositionFor(project, index)),
-  }));
-  // Multiple projects sharing a dong (or otherwise landing on the exact same
-  // spot) used to stack perfectly on top of each other — invisible and
-  // unclickable underneath whichever marker happened to render last. Group
-  // by (rounded) position and fan any group of 2+ out into a small ring so
-  // every marker stays visible and separately clickable. Rounding to 1
-  // decimal only catches true stacking, not projects that are merely close
-  // together at different real locations.
-  const positionGroups = new Map<string, typeof rawPoints>();
-  for (const point of rawPoints) {
-    const key = `${point.x.toFixed(1)},${point.y.toFixed(1)}`;
-    const group = positionGroups.get(key);
-    if (group) group.push(point);
-    else positionGroups.set(key, [point]);
-  }
-  const CLUSTER_RADIUS_UNITS = 14; // in the 1000-wide SVG viewBox
-  const points = rawPoints.map((point) => {
-    const key = `${point.x.toFixed(1)},${point.y.toFixed(1)}`;
-    const group = positionGroups.get(key)!;
-    if (group.length < 2) return point;
-    const slot = group.indexOf(point);
-    const angle = (slot / group.length) * Math.PI * 2 - Math.PI / 2;
-    const offsetXPercent = (Math.cos(angle) * CLUSTER_RADIUS_UNITS) / hwaseongBoundary.width * 100;
-    const offsetYPercent = (Math.sin(angle) * CLUSTER_RADIUS_UNITS) / hwaseongBoundary.height * 100;
-    return {
-      ...point,
-      x: Math.max(2, Math.min(98, point.x + offsetXPercent)),
-      y: Math.max(2, Math.min(98, point.y + offsetYPercent)),
-    };
-  });
-  // Filtering only trims which points render — it never recomputes position/
-  // clustering, so the remaining markers don't shift around when a filter
-  // changes. A project's zone can be a comma-separated list ("효행구,병점구")
-  // for cross-district projects, so match with includes rather than ===.
-  const visiblePoints = points.filter(
-    (point) =>
-      (categoryFilter === "전체" || point.project.category === categoryFilter) &&
-      (zoneFilter === "전체" || point.zone.split(",").includes(zoneFilter)) &&
-      (deptFilter === "전체" || point.project.department === deptFilter),
+function PledgeDetailPanel({ detail }: { detail: PledgeDetail }) {
+  const renderTable = (table: PledgeDetailTable, firstColumnLabel: string) => (
+    <table className="pledge-detail-table">
+      <thead>
+        <tr>
+          <th>{firstColumnLabel}</th>
+          {table.columns.map((column) => <th key={column}>{column}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {table.rows.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            <td>{row.label}</td>
+            {row.values.map((value, index) => <td key={index}>{value || "-"}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 
-  // Anchors the speech-bubble card to the marker's true geometric center via
-  // getScreenCTM (not getBoundingClientRect on the core circle, which is
-  // inflated by its glow filter's bleed region and would push the card too
-  // far up) so the tail sits tight against the exact spot regardless of the
-  // cursor position or how the map is zoomed/panned.
-  const cardPositionFor = (event: ReactMouseEvent<SVGGElement>) => {
-    const group = event.currentTarget;
-    const svg = group.ownerSVGElement;
-    const canvasRect = group.closest(".investment-map-canvas")?.getBoundingClientRect();
-    const ctm = group.getScreenCTM();
-    if (!svg || !canvasRect || !ctm) return null;
-    const point = svg.createSVGPoint();
-    point.x = 0;
-    point.y = 0;
-    const screenCenter = point.matrixTransform(ctm);
-    const scale = Math.hypot(ctm.a, ctm.b);
-    const core = group.querySelector(".investment-map-point-core");
-    const baseR = core ? Number(core.getAttribute("r")) || 7 : 7;
-    return { x: screenCenter.x - canvasRect.left, y: screenCenter.y - canvasRect.top - baseR * scale, screenX: screenCenter.x, screenY: screenCenter.y - baseR * scale };
-  };
-  const showHoverCardFor = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
-    setHovered(project);
-    const position = cardPositionFor(event);
-    if (position) setHoverPosition(position);
-  };
-  // Clicking a marker pins its info card in place above that marker so it
-  // stays visible after the cursor moves away, instead of just disappearing
-  // like a plain hover tooltip once you're no longer pointing at it. If the
-  // marker sits too close to the top of the screen for the card to fit
-  // above it, flip it to open downward instead so it never gets clipped.
-  const selectProjectAt = (project: Project, event: ReactMouseEvent<SVGGElement>) => {
-    setSelected(project);
-    const position = cardPositionFor(event);
-    if (position) {
-      setSelectedPosition(position);
-      setSelectedOpensDown(position.screenY < window.innerHeight / 2);
-    }
-  };
-
-  const activeMapFilterCount = [categoryFilter, zoneFilter, deptFilter].filter((value) => value !== "전체").length;
-  const renderMapFilterSection = (label: string, options: string[], value: string, setValue: (next: string) => void) => (
-    <div className="investment-map-filter-section">
-      <span className="investment-map-filter-section-label">{label}</span>
-      <div className="investment-map-filter-chip-row">
-        {["전체", ...options].map((option) => (
-          <button
-            key={option}
-            type="button"
-            className={value === option ? "is-active" : ""}
-            onClick={() => setValue(option)}
-          >
-            {option}
-          </button>
-        ))}
+  return (
+    <div className="pledge-detail" onClick={(event) => event.stopPropagation()}>
+      <div className="pledge-detail-chips">
+        <span className="pledge-detail-chip">{detail.termScope}</span>
+        <span className="pledge-detail-chip">사업주체 · {detail.operator}</span>
+        <span className="pledge-detail-chip">{detail.isNew}</span>
+        <span className="pledge-detail-chip">{detail.budgetType}</span>
       </div>
+      <dl className="pledge-detail-dl">
+        <div><dt>성과 지표</dt><dd>{detail.metrics.join(" ")}</dd></div>
+        <div><dt>중앙정부 도움 필요성</dt><dd>{detail.centralHelp}</dd></div>
+        <div><dt>추진부서</dt><dd>{detail.leadDepartment}</dd></div>
+        {detail.cooperatingAgency && <div><dt>협조기관(부서)</dt><dd>{detail.cooperatingAgency}</dd></div>}
+      </dl>
+
+      <h4 className="pledge-detail-heading">Ⅰ. 사업목표</h4>
+      <ul className="pledge-detail-list">
+        {detail.goals.map((goal, index) => <li key={index}>{goal}</li>)}
+      </ul>
+
+      <h4 className="pledge-detail-heading">Ⅱ. 개요</h4>
+      {detail.overview && (
+        <dl className="pledge-detail-dl">
+          {detail.overview.map((field, index) => (
+            <div key={index}>
+              <dt>{field.label}</dt>
+              <dd>
+                {Array.isArray(field.value)
+                  ? <ul className="pledge-detail-list">{field.value.map((line, lineIndex) => <li key={lineIndex}>{line}</li>)}</ul>
+                  : field.value}
+                {field.note && <span className="pledge-detail-note"> ※ {field.note}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
+      {detail.overviewSites && renderTable(detail.overviewSites, "지역")}
+
+      <h4 className="pledge-detail-heading">Ⅲ. 정책목표 (단위: 건)</h4>
+      {renderTable(detail.policyTargets, "성과 지표명")}
+
+      <h4 className="pledge-detail-heading">Ⅳ. 연도별 예산계획 (단위: 백만원)</h4>
+      {renderTable(detail.yearlyBudget, "구분")}
+
+      <h4 className="pledge-detail-heading">Ⅴ. 추진계획</h4>
+      <dl className="pledge-detail-dl">
+        {detail.plan.map((item) => (
+          <div key={item.year}>
+            <dt>{item.year}</dt>
+            <dd><ul className="pledge-detail-list">{item.content.map((line, index) => <li key={index}>{line}</li>)}</ul></dd>
+          </div>
+        ))}
+      </dl>
+
+      {detail.departmentOpinions && (
+        <>
+          <h4 className="pledge-detail-heading">Ⅵ. 부서의견</h4>
+          <ul className="pledge-detail-list">
+            {detail.departmentOpinions.map((opinion, index) => <li key={index}>{opinion}</li>)}
+          </ul>
+        </>
+      )}
     </div>
   );
+}
+
+function PledgeBoard({ isAdmin }: { isAdmin?: boolean }) {
+  const [expandedPledge, setExpandedPledge] = useState<string | null>(null);
+  const themes = Array.from(new Set(PLEDGES.map((pledge) => pledge.theme))).map((theme) => ({
+    theme,
+    pledges: PLEDGES.filter((pledge) => pledge.theme === theme),
+  }));
 
   return (
     <section className="investment-map-page">
       <header className="investment-map-header">
-        <div><p className="investment-map-eyebrow">HWASEONG · INVESTMENT DISTRIBUTION MAP</p><h1>주요 투자사업 분포도</h1><p className="investment-map-description">화성시 주요 투자사업의 위치와 분포를 실제 지도 위에서 확인합니다.</p></div>
-        {/* 로그인 자체는 헤더가 전역으로 담당한다(Home 컴포넌트) - 여기는 이미 로그인된 상태를
-            보여주는 배지만 남긴다. */}
-        {isAdmin && <span className="investment-map-admin-action investment-map-admin-badge"><Pencil size={14} /> 사업 정보 편집</span>}
-      </header>
-      <div className="investment-map-layout">
-        <div className="investment-map-canvas investment-map-real-canvas">
-          <div className="investment-map-empty">
-            <strong>지도 준비 중입니다</strong>
-            <span>더 나은 지도 서비스로 개선하고 있습니다. 잠시만 기다려 주세요.</span>
-          </div>
+        <div>
+          <p className="investment-map-eyebrow">HWASEONG · MINSEON 9GI</p>
+          <h1>민선9기 공약사항</h1>
+          <p className="investment-map-description">민선9기 공약을 구분·국·부서별로 확인합니다. 공약명을 누르면 상세 계획을 볼 수 있습니다.</p>
         </div>
+        {isAdmin && <span className="investment-map-admin-action investment-map-admin-badge"><Pencil size={14} /> 공약 정보 편집</span>}
+      </header>
+      <div className="pledge-board">
+        {themes.map((group) => (
+          <div className="pledge-theme" key={group.theme}>
+            <h2 className="pledge-theme-name">{group.theme}</h2>
+            <div className="pledge-list">
+              {group.pledges.map((pledge) => {
+                const isOpen = expandedPledge === pledge.name;
+                return (
+                  <div key={pledge.name}>
+                    <div
+                      className={`pledge-row ${pledge.detail ? "is-clickable" : ""} ${isOpen ? "is-open" : ""}`}
+                      onClick={() => pledge.detail && setExpandedPledge(isOpen ? null : pledge.name)}
+                    >
+                      <span className="pledge-name">{pledge.name}</span>
+                      <span className="pledge-tags">
+                        <span className="pledge-tag pledge-tag-bureau">{pledge.bureau}</span>
+                        <span className="pledge-tag pledge-tag-department">{pledge.department}</span>
+                      </span>
+                      {pledge.note && <span className="pledge-note">{pledge.note}</span>}
+                    </div>
+                    {isOpen && pledge.detail && <PledgeDetailPanel detail={pledge.detail} />}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
@@ -2136,7 +2433,7 @@ export default function Home() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedDepartmentDashboard, setSelectedDepartmentDashboard] = useState("전체");
-  const [activeView, setActiveView] = useState<"landing" | "project" | "department" | "map">("landing");
+  const [activeView, setActiveView] = useState<"landing" | "project" | "department" | "pledges">("landing");
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleOrganization = useMemo(
@@ -2174,9 +2471,9 @@ export default function Home() {
     setQuery("");
     window.scrollTo(0, 0);
   };
-  const goMap = () => {
+  const goPledges = () => {
     setSelectedProject(null);
-    setActiveView("map");
+    setActiveView("pledges");
     window.scrollTo(0, 0);
   };
   const goDepartment = (departmentName: string) => {
@@ -2206,7 +2503,7 @@ export default function Home() {
           <FloatingNavBar
             organization={liveOrganization}
             onGoHome={goLanding}
-            onOpenMap={goMap}
+            onOpenMap={goPledges}
             onSelectDepartment={goDepartment}
             onSelectProject={goProject}
             activeDepartmentName={activeView === "department" ? selectedDepartmentDashboard : null}
@@ -2214,7 +2511,7 @@ export default function Home() {
             includeMapView={false}
           />
         </div>
-        <button type="button" className={`landing-map-button${activeView === "map" ? " is-map-active" : ""}`} onClick={goMap}>MAP VIEW</button>
+        <button type="button" className={`landing-map-button${activeView === "pledges" ? " is-map-active" : ""}`} onClick={goPledges}>민선9기 공약</button>
         {/* 예전엔 지도 화면에서만 로그인 버튼이 보였다 - 헤더는 모든 화면(홈/메뉴/지도/사업상세)에서
             항상 떠 있으니 여기서 전역으로 하나만 노출한다. 관리자로 로그인된 뒤에는 여기엔 아무것도
             띄우지 않고, 사업상세 화면의 "사업 정보 편집" 버튼처럼 화면별로 의미 있는 편집 트리거만
@@ -2273,8 +2570,8 @@ export default function Home() {
           <div className="pointer-events-none absolute right-[8%] top-[-8%] h-[520px] w-[170px] rotate-[24deg] rounded-full bg-[var(--pd-accent-a)]/25 blur-3xl" />
           <div className="pointer-events-none absolute bottom-[-8%] right-[17%] h-[440px] w-[145px] -rotate-[28deg] rounded-full bg-[var(--pd-accent-b)]/25 blur-3xl" />
           {selectedProject && <div className="app-panel-topbar" aria-hidden="true" />}
-          {activeView === "map" ? (
-            <InvestmentDistribution projects={liveProjects} isAdmin={isAdmin} onAdminLoggedIn={() => authQuery.refetch()} onBack={() => setActiveView("landing")} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+          {activeView === "pledges" ? (
+            <PledgeBoard isAdmin={isAdmin} />
           ) : activeView === "department" ? (
             <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
