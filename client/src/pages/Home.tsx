@@ -1548,14 +1548,14 @@ function PledgeDetailPanel({ detail }: { detail: PledgeDetail }) {
       <thead>
         <tr>
           <th>{firstColumnLabel}</th>
-          {table.columns.map((column) => <th key={column}>{column}</th>)}
+          {table.columns.map((column) => <th key={column} className={column === "2027년" ? "is-target-year" : undefined}>{column}</th>)}
         </tr>
       </thead>
       <tbody>
         {table.rows.map((row, rowIndex) => (
           <tr key={rowIndex}>
             <td>{row.label}</td>
-            {row.values.map((value, index) => <td key={index}>{value || "-"}</td>)}
+            {row.values.map((value, index) => <td key={index} className={table.columns[index] === "2027년" ? "is-target-year" : undefined}>{value || "-"}</td>)}
           </tr>
         ))}
       </tbody>
@@ -1609,7 +1609,7 @@ function PledgeDetailPanel({ detail }: { detail: PledgeDetail }) {
       <h4 className="pledge-detail-heading">Ⅴ. 추진계획</h4>
       <dl className="pledge-detail-dl">
         {detail.plan.map((item) => (
-          <div key={item.year}>
+          <div key={item.year} className={item.year === "2027년" ? "is-target-year" : undefined}>
             <dt>{item.year}</dt>
             <dd><ul className="pledge-detail-list">{item.content.map((line, index) => <li key={index}>{line}</li>)}</ul></dd>
           </div>
