@@ -1639,9 +1639,8 @@ function PledgeBoard({ isAdmin }: { isAdmin?: boolean }) {
     <section className="investment-map-page">
       <header className="investment-map-header">
         <div>
-          <p className="investment-map-eyebrow">HWASEONG · MINSEON 9GI</p>
+          <p className="investment-map-eyebrow">HWASEONG · 9TH ELECTED TERM</p>
           <h1>민선9기 공약사항</h1>
-          <p className="investment-map-description">민선9기 공약을 구분·국·부서별로 확인합니다. 공약명을 누르면 상세 계획을 볼 수 있습니다.</p>
         </div>
         {isAdmin && <span className="investment-map-admin-action investment-map-admin-badge"><Pencil size={14} /> 공약 정보 편집</span>}
       </header>
