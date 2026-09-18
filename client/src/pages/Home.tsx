@@ -1635,16 +1635,36 @@ function PledgeBoard({ isAdmin }: { isAdmin?: boolean }) {
     pledges: PLEDGES.filter((pledge) => pledge.theme === theme),
   }));
 
+  const headerRef = useRef<HTMLElement>(null);
+  const nineRef = useRef<HTMLSpanElement>(null);
+  const [boardIndent, setBoardIndent] = useState(0);
+
+  useEffect(() => {
+    const alignBoard = () => {
+      if (!headerRef.current || !nineRef.current) return;
+      // 좁은 화면(태블릿/모바일)에서는 인덴트를 주면 리스트가 지나치게 좁아지므로 그대로 좌측 정렬 유지
+      if (window.innerWidth < 900) {
+        setBoardIndent(0);
+        return;
+      }
+      const delta = nineRef.current.getBoundingClientRect().left - headerRef.current.getBoundingClientRect().left;
+      setBoardIndent(Math.max(0, delta));
+    };
+    alignBoard();
+    window.addEventListener("resize", alignBoard);
+    return () => window.removeEventListener("resize", alignBoard);
+  }, []);
+
   return (
     <section className="investment-map-page">
-      <header className="investment-map-header">
+      <header className="investment-map-header" ref={headerRef}>
         <div>
           <p className="investment-map-eyebrow">HWASEONG · 9TH ELECTED TERM</p>
-          <h1>민선9기 공약사항</h1>
+          <h1>민선<span ref={nineRef}>9</span>기 공약사항</h1>
         </div>
         {isAdmin && <span className="investment-map-admin-action investment-map-admin-badge"><Pencil size={14} /> 공약 정보 편집</span>}
       </header>
-      <div className="pledge-board">
+      <div className="pledge-board" style={{ marginLeft: boardIndent, marginRight: "auto" }}>
         {themes.map((group) => (
           <div className="pledge-theme" key={group.theme}>
             <h2 className="pledge-theme-name">{group.theme}</h2>
