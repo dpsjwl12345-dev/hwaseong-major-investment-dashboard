@@ -2883,7 +2883,7 @@ h6,
 @media (max-width:700px) { .pledge-tags { margin-left:0; } }
 
 /* 공약 상세 - 행을 펼치면 나오는 사업목표/개요/정책목표/예산/추진계획 패널. */
-.pledge-detail { margin:8px 2px 4px; padding:18px 20px; border:1px solid rgba(117,182,255,.14); border-radius:14px; background:rgba(10,20,38,.6); }
+.pledge-detail { margin:8px 0 4px; padding:18px 20px 18px 18px; border:1px solid rgba(117,182,255,.14); border-radius:14px; background:rgba(10,20,38,.6); }
 .pledge-detail-chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
 .pledge-detail-chip { font-size:13px; font-weight:700; color:#c9d6f5; background:rgba(159,188,255,.1); padding:5px 12px; border-radius:999px; }
 .pledge-detail-heading { margin:20px 0 10px; color:#8af4f1; font-size:15px; font-weight:800; letter-spacing:.03em; }
