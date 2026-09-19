@@ -381,22 +381,21 @@ function executionRate(project: Project) {
 
 type YearlyAllocationEntry = { key: string; label: string; rate: number; amount: number };
 
-// 이 막대는 "그해에 사업비의 몇 %를 편성했는가"를 보여준다. 예전에는 2026년 칸만
-// 집행률(기투자 증가분 ÷ 편성액)이고 2027년·이후는 편성 비중이라, 이름은 집행률
-// 하나인데 서로 다른 값을 같은 막대에 그리고 있었다. 세 칸 모두 편성 비중으로 통일한다.
-// 실제 집행률(집행액 ÷ 예산현액)은 상단 카드에서 따로 본다.
-function buildYearlyAllocation(project: Project, total: number | null): YearlyAllocationEntry[] {
-  const entries: { key: string; label: string; amount: number }[] = [
-    { key: "2026", label: "2026년", amount: project.card_budget_2026_million_krw ?? 0 },
-    { key: "2027", label: "2027년", amount: project.card_budget_2027_million_krw ?? project.budget_2027_million_krw ?? 0 },
-    { key: "2028+", label: "2028년 이후", amount: project.card_budget_2028_plus_million_krw ?? 0 },
+// 이 막대는 "그해 예산현액(편성액+이월액) 대비 얼마나 집행했는가"를 보여준다. 실제 집행액은
+// 진행 중인 2026년에만 있고, 아직 시작하지 않은 2027년·2028년 이후는 집행액이 0이라
+// 예산현액이 얼마든 0%로 나온다 — 이는 데이터 오류가 아니라 아직 집행할 수 없기 때문이다.
+function buildYearlyExecution(project: Project): YearlyAllocationEntry[] {
+  const entries: { key: string; label: string; executed: number; budget: number }[] = [
+    { key: "2026", label: "2026년", executed: project.card_execution_amount_million_krw ?? 0, budget: currentBudget(project) },
+    { key: "2027", label: "2027년", executed: 0, budget: project.card_budget_2027_million_krw ?? project.budget_2027_million_krw ?? 0 },
+    { key: "2028+", label: "2028년 이후", executed: 0, budget: project.card_budget_2028_plus_million_krw ?? 0 },
   ];
 
-  return entries.map(({ key, label, amount }) => ({
+  return entries.map(({ key, label, executed, budget }) => ({
     key,
     label,
-    amount,
-    rate: total && total > 0 ? Math.min(100, Math.max(0, Math.round((amount / total) * 100))) : 0,
+    amount: executed,
+    rate: budget > 0 ? Math.min(100, Math.max(0, Math.round((executed / budget) * 100))) : 0,
   }));
 }
 
@@ -408,7 +407,7 @@ function FundingBreakdownCard({ rows, note, yearlyAllocation, projectId }: { row
     { key: "budget_2027", label: "2027년" },
     { key: "budget_2028_plus", label: "이후" },
   ];
-  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={SafeIcon} tone="budget" title="재원별 예산" /><span className="pd-budget-panel-caption">(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayFundingSourceName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}<div className="pd-budget-panel-heading pd-exec-rate-heading"><DetailSectionHeading icon={CardSendIcon} tone="budget" title="연도별 편성 비중" /></div><div className="pd-yearly-exec">{yearlyAllocation.map(({ key, label, rate }) => <div className="pd-yearly-exec-col" key={`${projectId}-${key}`}><span className="pd-yearly-exec-value">{rate}%</span><div className="pd-yearly-exec-bar"><div className={`pd-yearly-exec-bar-fill ${key === "2026" ? "is-current" : "is-future"}`} style={{ height: `${rate}%` }} /></div><span className="pd-yearly-exec-label">{label}</span></div>)}</div></div>;
+  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={SafeIcon} tone="budget" title="재원별 예산" /><span className="pd-budget-panel-caption">(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayFundingSourceName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}<div className="pd-budget-panel-heading pd-exec-rate-heading"><DetailSectionHeading icon={CardSendIcon} tone="budget" title="연도별 집행 현황" /></div><div className="pd-yearly-exec">{yearlyAllocation.map(({ key, label, rate }) => <div className="pd-yearly-exec-col" key={`${projectId}-${key}`}><span className="pd-yearly-exec-value">{rate}%</span><div className="pd-yearly-exec-bar"><div className={`pd-yearly-exec-bar-fill ${key === "2026" ? "is-current" : "is-future"}`} style={{ height: `${rate}%` }} /></div><span className="pd-yearly-exec-label">{label}</span></div>)}</div></div>;
 }
 
 const usageColors = ["#5b7fbd", "#58c7b1", "#e8b84a", "#c9915a", "#8a8378"];
@@ -421,7 +420,7 @@ function usageCostLabel(name: string) {
   return USAGE_COST_LABEL[name] ?? displayBreakdownName(name);
 }
 
-function UsageBreakdownChart({ rows, note }: { rows: BreakdownRow[]; note?: string }) {
+function UsageBreakdownChart({ rows, note, yearlyTotals }: { rows: BreakdownRow[]; note?: string; yearlyTotals: { invested: number; budget2026: number; budget2027: number; budget2028Plus: number } }) {
   const years: { key: BudgetYearKey; label: string }[] = [
     { key: "budget_2026", label: "2026년" },
     { key: "budget_2027", label: "2027년" },
@@ -436,15 +435,16 @@ function UsageBreakdownChart({ rows, note }: { rows: BreakdownRow[]; note?: stri
   const selectedTotal = sumBreakdown(rows, selectedYear);
   const usageTotal = sumBreakdown(rows, "total");
   const selectedShare = usageTotal > 0 ? (selectedTotal / usageTotal) * 100 : 0;
-  const yearTotals = years.map((year) => sumBreakdown(rows, year.key));
-  const flowValues = [sumBreakdown(rows, "invested"), ...yearTotals];
+  // 성질별(공사/감리/설계/부대/기타) 세부 항목 합계는 반올림·누락으로 공식 총액과
+  // 어긋날 수 있어, 흐름 그래프는 상단 카드·재원별 예산과 같은 공식 총액을 그대로 쓴다.
+  const flowValues = [yearlyTotals.invested, yearlyTotals.budget2026, yearlyTotals.budget2027, yearlyTotals.budget2028Plus];
   const maxFlowValue = Math.max(...flowValues, 1);
   const flowX = (index: number) => 20 + index * (280 / (flowValues.length - 1));
   const flowY = (value: number) => 46 - (value / maxFlowValue) * 30;
   const points = flowValues.map((value, index) => `${flowX(index)},${flowY(value)}`).join(" ");
   const usageRows = rows.map((row) => ({ row, value: (row[selectedYear] as number | null | undefined) ?? 0 })).sort((a, b) => b.value - a.value);
   const usageColorFor = (name: string) => usageColors[Math.max(0, usageColorNames.indexOf(name)) % usageColors.length];
-  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={LayersIcon} tone="budget" title="성질별 예산" /></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-pulse-content"><div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">{years.map((year) => <button key={year.key} type="button" className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>)}</div><div className="pd-pulse-summary"><div><span className="pd-pulse-eyebrow">{selectedLabel} 편성 예산</span><div className="pd-pulse-amount-row"><strong>{formatMillion(selectedTotal || null)}</strong>{usageRows.some(({ value }) => value > 0) && <span className="pd-pulse-detail">[{usageRows.filter(({ value }) => value > 0).map(({ row, value }) => `${usageCostLabel(row.name)} ${formatMillion(value)}백만원`).join(" · ")}]</span>}</div><span className="pd-pulse-positive">전체 사업비의 {selectedShare.toFixed(1)}%</span></div><div className="pd-pulse-donut" style={{ background: `conic-gradient(var(--pd-accent-a) ${selectedShare}%, rgba(255,255,255,.1) 0)` }}><span>{selectedShare.toFixed(0)}%</span><small>전체</small></div></div><div className="pd-usage-progress-list">{usageRows.map(({ row, value }) => { const share = selectedTotal > 0 ? (value / selectedTotal) * 100 : 0; return <div className="pd-usage-progress-row" key={row.name}><div className="pd-usage-progress-label"><span>{displayBreakdownName(row.name)}</span><b>{formatMillion(value || null)}</b><strong>{share.toFixed(0)}%</strong></div><div className="pd-usage-progress-track"><span style={{ width: `${share}%`, background: usageColorFor(row.name) }} /></div></div>; })}</div><div className="pd-usage-legend pd-usage-legend-top">{usageColorNames.map((name, index) => <span key={name}><i style={{ background: usageColors[index] }} />{name}</span>)}</div><div className="pd-pulse-trend"><div className="pd-pulse-section-label"><span className="pd-pulse-eyebrow">연도별 예산 흐름</span></div><svg viewBox="0 0 320 80" role="img" aria-label="연도별 예산 흐름"><polyline points={points} fill="none" stroke="var(--pd-accent-a)" strokeWidth="0.5" strokeDasharray="0.5 1.5" strokeLinecap="round" strokeLinejoin="round" />{flowValues.map((value, index) => <circle key={`flow-dot-${index}`} cx={flowX(index)} cy={flowY(value)} r="5" fill="var(--pd-accent-a)" />)}{flowValues.map((value, index) => <text key={`flow-num-${index}`} x={flowX(index)} y={flowY(value) - 9} textAnchor="middle" className="pd-pulse-flow-value">{formatMillion(value || null)}</text>)}{["기투자", "2026년", "2027년", "이후"].map((axisLabel, index) => <text key={axisLabel} x={flowX(index)} y="70" textAnchor="middle" className="pd-pulse-axis-label">{axisLabel}</text>)}</svg></div>{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}</div>}</div>;
+  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={LayersIcon} tone="budget" title="성질별 예산" /></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-pulse-content"><div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">{years.map((year) => <button key={year.key} type="button" className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>)}</div><div className="pd-pulse-summary"><div><span className="pd-pulse-eyebrow">{selectedLabel} 편성 예산</span><div className="pd-pulse-amount-row"><strong>{formatMillion(selectedTotal || null)}</strong>{usageRows.some(({ value }) => value > 0) && <span className="pd-pulse-detail">[{usageRows.filter(({ value }) => value > 0).map(({ row, value }) => `${usageCostLabel(row.name)} ${formatMillion(value)}`).join(" · ")}]</span>}</div><span className="pd-pulse-positive">전체 사업비의 {selectedShare.toFixed(1)}%</span></div><div className="pd-pulse-donut" style={{ background: `conic-gradient(var(--pd-accent-a) ${selectedShare}%, rgba(255,255,255,.1) 0)` }}><span>{selectedShare.toFixed(0)}%</span><small>전체</small></div></div><div className="pd-usage-progress-list">{usageRows.map(({ row, value }) => { const share = selectedTotal > 0 ? (value / selectedTotal) * 100 : 0; return <div className="pd-usage-progress-row" key={row.name}><div className="pd-usage-progress-label"><span>{displayBreakdownName(row.name)}</span><b>{formatMillion(value || null)}</b><strong>{share.toFixed(0)}%</strong></div><div className="pd-usage-progress-track"><span style={{ width: `${share}%`, background: usageColorFor(row.name) }} /></div></div>; })}</div><div className="pd-usage-legend pd-usage-legend-top">{usageColorNames.map((name, index) => <span key={name}><i style={{ background: usageColors[index] }} />{name}</span>)}</div><div className="pd-pulse-trend"><div className="pd-pulse-section-label"><span className="pd-pulse-eyebrow">연도별 예산 흐름</span></div><svg viewBox="0 0 320 80" role="img" aria-label="연도별 예산 흐름"><polyline points={points} fill="none" stroke="var(--pd-accent-a)" strokeWidth="0.5" strokeDasharray="0.5 1.5" strokeLinecap="round" strokeLinejoin="round" />{flowValues.map((value, index) => <circle key={`flow-dot-${index}`} cx={flowX(index)} cy={flowY(value)} r="5" fill="var(--pd-accent-a)" />)}{flowValues.map((value, index) => <text key={`flow-num-${index}`} x={flowX(index)} y={flowY(value) - 9} textAnchor="middle" className="pd-pulse-flow-value">{formatMillion(value || null)}</text>)}{["기투자", "2026년", "2027년", "이후"].map((axisLabel, index) => <text key={axisLabel} x={flowX(index)} y="70" textAnchor="middle" className="pd-pulse-axis-label">{axisLabel}</text>)}</svg></div>{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}</div>}</div>;
 }
 
 function formatMillion(value: number | null | undefined) {
@@ -456,7 +456,20 @@ function BudgetPanel({ project }: { project: Project }) {
   const invested = project.card_invested_to_2026_million_krw ?? project.invested_to_2026_million_krw ?? project.card_invested_to_2025_million_krw;
   const budget = project.budget_2026_hide ? null : project.card_budget_2027_million_krw ?? project.budget_2027_million_krw;
   const executionAmount = project.card_execution_amount_million_krw;
-  const yearlyAllocation = buildYearlyAllocation(project, total);
+  const yearlyAllocation = buildYearlyExecution(project);
+  // 재원별 예산 표의 "총사업비" 행과 같은 숫자를 쓴다 — card_budget_2028_plus_million_krw는
+  // 총사업비에서 역산한 잔여치라 재원별·성질별 세부표 합계(15,429 등)와 다를 수 있었다.
+  // 일부 사업은 재원별 예산표가 통째로 비어 있고 성질별 예산표에만 실제 수치가 있어(예:
+  // 화성 돔구장 및 복합체육센터 건립), 그 경우엔 성질별 합계로 대신한다.
+  const fundingYearlyTotal = ["invested", "budget_2026", "budget_2027", "budget_2028_plus"] as const;
+  const fundingHasData = fundingYearlyTotal.some((key) => sumBreakdown(project.funding_breakdown, key) > 0);
+  const breakdownForFlow = fundingHasData ? project.funding_breakdown : project.usage_breakdown;
+  const yearlyTotals = {
+    invested: sumBreakdown(breakdownForFlow, "invested"),
+    budget2026: sumBreakdown(breakdownForFlow, "budget_2026"),
+    budget2027: sumBreakdown(breakdownForFlow, "budget_2027"),
+    budget2028Plus: sumBreakdown(breakdownForFlow, "budget_2028_plus"),
+  };
   const carryoverItems = project.carryover_items?.length
     ? project.carryover_items
     : project.carryover_million_krw != null
@@ -475,7 +488,7 @@ function BudgetPanel({ project }: { project: Project }) {
     <div className="pd-card">
       <p className="pd-baseline-note">{BUDGET_BASELINE_LABEL}</p>
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
-      <div className="pd-budget-breakdown-grid"><FundingBreakdownCard rows={project.funding_breakdown} yearlyAllocation={yearlyAllocation} projectId={project.id} /><UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} /></div>
+      <div className="pd-budget-breakdown-grid"><FundingBreakdownCard rows={project.funding_breakdown} yearlyAllocation={yearlyAllocation} projectId={project.id} /><UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} yearlyTotals={yearlyTotals} /></div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
     </div>
   );
