@@ -2332,7 +2332,7 @@
         {
           "label": "장안 다목적복합센터 건립",
           "type": "계속비이월",
-          "amount_million_krw": 2750.1883
+          "amount_million_krw": 2750
         }
       ],
       "overview": "○ 사업위치: 화성시 만세구 장안면 사랑리 138-14번지\n○ 사업규모: 지상2층, 연면적 950.88㎡\n○ 사업기간: 2021.08. ~ 2026.12.\n○ 소요예산: 7,136백만원",
@@ -2341,7 +2341,7 @@
       "funding_type": "소계",
       "total_cost_million_krw": 7136,
       "invested_to_2026_million_krw": 4180,
-      "budget_2027_million_krw": null,
+      "budget_2027_million_krw": 0,
       "execution_rate": 0.0,
       "progress_status": "○ 2026.12. 준공",
       "progress_rate": 47,
@@ -2361,15 +2361,15 @@
       "management_card_source": "주요투자사업 관리카드 1.hwpx",
       "card_total_budget_million_krw": 7136,
       "card_invested_to_2026_million_krw": 4180,
-      "card_budget_2027_million_krw": null,
+      "card_budget_2027_million_krw": 0,
       "card_budget_2027_base_million_krw": null,
       "card_budget_2027_first_extra_million_krw": null,
       "card_budget_2027_additional_million_krw": null,
       "card_budget_2028_million_krw": null,
       "card_budget_2029_plus_million_krw": null,
       "card_execution_budget_million_krw": 6600,
-      "card_execution_amount_million_krw": 222,
-      "card_execution_rate": 3,
+      "card_execution_amount_million_krw": 1903,
+      "card_execution_rate": 29,
       "card_inspection": "양호",
       "funding_breakdown": [
         {
@@ -2387,15 +2387,15 @@
         },
         {
           "name": "시비",
-          "total": 4621,
+          "total": 4085,
           "invested": 1665,
-          "budget_2026": 2956,
-          "budget_2027": null,
+          "budget_2026": 2420,
+          "budget_2027": 0,
           "budget_2028_plus": null,
           "budget_2026_base": 1500,
           "budget_2026_first_extra": 920,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": 536,
+          "budget_2026_third_extra": null,
           "budget_2026_additional": null
         },
         {
@@ -2454,28 +2454,28 @@
         },
         {
           "name": "공사",
-          "total": 6253,
+          "total": 5750,
           "invested": 3480,
-          "budget_2026": 2773,
-          "budget_2027": null,
+          "budget_2026": 2270,
+          "budget_2027": 0,
           "budget_2028_plus": null,
           "budget_2026_base": 1500,
           "budget_2026_first_extra": 770,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": 503,
+          "budget_2026_third_extra": null,
           "budget_2026_additional": null
         },
         {
           "name": "감리",
-          "total": 583,
+          "total": 550,
           "invested": 400,
-          "budget_2026": 183,
-          "budget_2027": null,
+          "budget_2026": 150,
+          "budget_2027": 0,
           "budget_2028_plus": null,
           "budget_2026_base": null,
           "budget_2026_first_extra": 150,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": 33,
+          "budget_2026_third_extra": null,
           "budget_2026_additional": null
         },
         {
@@ -2514,11 +2514,11 @@
         "none": false
       },
       "card_invested_to_2025_million_krw": 4180,
-      "card_budget_2026_million_krw": 2956,
+      "card_budget_2026_million_krw": 2420,
       "card_budget_2026_base_million_krw": 1500,
       "card_budget_2026_first_extra_million_krw": 920,
       "card_budget_2026_second_extra_million_krw": null,
-      "card_budget_2026_third_extra_million_krw": 536,
+      "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
       "card_budget_2028_plus_million_krw": 2956
     },
