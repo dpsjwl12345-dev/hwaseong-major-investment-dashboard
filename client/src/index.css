@@ -480,7 +480,7 @@
 .pd-summary-label-progress svg { color:#43c7f4; stroke:#43c7f4; background:transparent; }
 .pd-summary-label-execution svg { color:#39c8f4; stroke:#39c8f4; background:transparent; filter:drop-shadow(2px 1px 0 rgba(244,241,232,.9)); }
 /* 카드 안에서 무엇을 나눈 값인지 바로 읽히도록 산식을 한 줄로 적어둔다. */
-.pd-summary-formula { display:block; margin-top:6px; font-size:11px; font-weight:600; letter-spacing:-.01em; color:var(--pd-text-muted); }
+.pd-summary-formula { display:block; margin:2px 0 8px; font-size:11px; font-weight:600; letter-spacing:-.01em; color:var(--pd-text-muted); }
 /* 편성액 숫자 옆에 항목별 금액을 나란히 둔다. */
 .pd-pulse-amount-row { display:flex; align-items:baseline; flex-wrap:wrap; gap:10px; }
 .pd-pulse-detail { font-size:14px; font-weight:700; line-height:1.45; color:var(--pd-text-soft, var(--pd-text-muted)); word-break:keep-all; }

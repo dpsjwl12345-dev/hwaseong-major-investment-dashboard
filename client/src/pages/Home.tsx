@@ -948,11 +948,11 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
         </div>
         <div className="pd-summary-cell hero">
           <span className="pd-summary-label pd-summary-label-execution"><CardSendIcon /> 예산 집행 현황</span>
+          <span className="pd-summary-formula">집행액 / 예산현액(편성액+이월액)</span>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <Gauge key={`${project.id}-${selectedSubIndex}-exec`} percent={executionRate(activeProject)} />
             <span className="pd-summary-value grad">{executionRate(activeProject)}<small style={{ fontSize: 16, fontWeight: 700, color: "var(--pd-text-muted)" }}>%</small></span>
           </div>
-          <span className="pd-summary-formula">집행액 / 예산현액(편성액+이월액)</span>
         </div>
         <div className="pd-summary-cell pd-summary-cell-date">
           <span className="pd-summary-label pd-summary-label-schedule"><CalendarMarkIcon /> 준공 목표</span>
