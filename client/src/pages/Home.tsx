@@ -421,8 +421,10 @@ function UsageBreakdownChart({ rows, note }: { rows: BreakdownRow[]; note?: stri
     { key: "budget_2028_plus", label: "2028년 이후" },
   ];
   // 성질별 예산은 2027년 편성을 기준으로 본다(예전 기본값이 2026년이라 화면을 열면 늘 지난해
-  // 숫자가 먼저 보였다).
-  const [selectedYear, setSelectedYear] = useState<BudgetYearKey>("budget_2027");
+  // 숫자가 먼저 보였다). 다만 2027년 편성 계획이 없는 사업은 빈 화면이 먼저 뜨므로
+  // 그때는 2026년을 기본으로 둔다.
+  const defaultYear: BudgetYearKey = sumBreakdown(rows, "budget_2027") > 0 ? "budget_2027" : "budget_2026";
+  const [selectedYear, setSelectedYear] = useState<BudgetYearKey>(defaultYear);
   const selectedLabel = years.find((year) => year.key === selectedYear)?.label ?? "2026년";
   const selectedTotal = sumBreakdown(rows, selectedYear);
   const usageTotal = sumBreakdown(rows, "total");
