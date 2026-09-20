@@ -9958,7 +9958,7 @@
       "usage_breakdown": [
         {
           "name": "설계",
-          "total": null,
+          "total": 401,
           "invested": null,
           "budget_2026": null,
           "budget_2027": 401,
@@ -9971,7 +9971,7 @@
         },
         {
           "name": "공사",
-          "total": 3880,
+          "total": 3684,
           "invested": null,
           "budget_2026": 3065,
           "budget_2027": 619,
@@ -9984,7 +9984,7 @@
         },
         {
           "name": "감리",
-          "total": 43,
+          "total": 54,
           "invested": null,
           "budget_2026": 34,
           "budget_2027": 20,
@@ -9997,7 +9997,7 @@
         },
         {
           "name": "부대",
-          "total": null,
+          "total": 493,
           "invested": null,
           "budget_2026": null,
           "budget_2027": 493,
