@@ -50,6 +50,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -372,6 +385,19 @@
           "card_execution_amount_million_krw": 11,
           "funding_breakdown": [
             {
+              "name": "국비",
+              "total": null,
+              "invested": null,
+              "budget_2026": null,
+              "budget_2027": null,
+              "budget_2028_plus": null,
+              "budget_2026_base": null,
+              "budget_2026_first_extra": null,
+              "budget_2026_second_extra": null,
+              "budget_2026_third_extra": null,
+              "budget_2026_additional": null
+            },
+            {
               "name": "도비",
               "total": null,
               "invested": null,
@@ -592,6 +618,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -786,6 +825,19 @@
       "card_execution_rate": null,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -993,6 +1045,19 @@
       "card_execution_rate": 31,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -1235,6 +1300,19 @@
       "card_inspection": "",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -1415,6 +1493,19 @@
           "card_execution_rate": null,
           "card_inspection": "양호",
           "funding_breakdown": [
+            {
+              "name": "국비",
+              "total": null,
+              "invested": null,
+              "budget_2026": null,
+              "budget_2027": null,
+              "budget_2028_plus": null,
+              "budget_2026_base": null,
+              "budget_2026_first_extra": null,
+              "budget_2026_second_extra": null,
+              "budget_2026_third_extra": null,
+              "budget_2026_additional": null
+            },
             {
               "name": "도비",
               "total": null,
@@ -1599,6 +1690,19 @@
           "card_inspection": "",
           "funding_breakdown": [
             {
+              "name": "국비",
+              "total": null,
+              "invested": null,
+              "budget_2026": null,
+              "budget_2027": null,
+              "budget_2028_plus": null,
+              "budget_2026_base": null,
+              "budget_2026_first_extra": null,
+              "budget_2026_second_extra": null,
+              "budget_2026_third_extra": null,
+              "budget_2026_additional": null
+            },
+            {
               "name": "도비",
               "total": null,
               "invested": null,
@@ -1782,6 +1886,19 @@
           "card_inspection": "",
           "funding_breakdown": [
             {
+              "name": "국비",
+              "total": null,
+              "invested": null,
+              "budget_2026": null,
+              "budget_2027": null,
+              "budget_2028_plus": null,
+              "budget_2026_base": null,
+              "budget_2026_first_extra": null,
+              "budget_2026_second_extra": null,
+              "budget_2026_third_extra": null,
+              "budget_2026_additional": null
+            },
+            {
               "name": "도비",
               "total": null,
               "invested": null,
@@ -1964,6 +2081,19 @@
           "card_execution_rate": null,
           "card_inspection": "",
           "funding_breakdown": [
+            {
+              "name": "국비",
+              "total": null,
+              "invested": null,
+              "budget_2026": null,
+              "budget_2027": null,
+              "budget_2028_plus": null,
+              "budget_2026_base": null,
+              "budget_2026_first_extra": null,
+              "budget_2026_second_extra": null,
+              "budget_2026_third_extra": null,
+              "budget_2026_additional": null
+            },
             {
               "name": "도비",
               "total": null,
@@ -2167,6 +2297,19 @@
       "card_execution_rate": null,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -2373,6 +2516,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -2570,6 +2726,19 @@
       "card_execution_rate": null,
       "card_inspection": "",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": 300,
@@ -2776,6 +2945,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": 20,
           "invested": null,
@@ -2971,6 +3153,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -3143,11 +3338,11 @@
       "invested_to_2026_million_krw": 200,
       "budget_2027_million_krw": 5084,
       "execution_rate": 0.0,
-      "progress_status": "○ 2026.02.: 주민설명회 개최 및 건축기획용역 준공\n ○ 2026.03.: 공공건축 사전검토\n ○ 2026.08.: 설계공모\n ○ 2026.09.: 기본 및 실시설계 용역 착수\n ○ 2026.10.: 화성시 장애인체육회, 주민 등 설명회 개최\n ○ 2027.03.: 공원조성계획결정(변경) 및 실시계획인가 용역 착수\n ○ 2027.10.: 공사 착공\n ○ 2029.04.: 공사 준공 \n ○ 2029.07.: 동부 반다비 체육센터 개관",
+      "progress_status": "○ 2026.02.: 주민설명회 개최 및 건축기획용역 준공\n○ 2026.03.: 공공건축 사전검토\n○ 2026.08.: 설계공모\n○ 2026.09.: 기본 및 실시설계 용역 착수",
       "progress_rate": 5,
       "expected_completion": "5%",
       "progress_notes": "0",
-      "future_plan": "○ 2026.02.: 주민설명회 개최 및 건축기획용역 준공\n○ 2026.03.: 공공건축 사전검토\n○ 2026.08.: 설계공모\n○ 2026.09.: 기본 및 실시설계 용역 착수\n○ 2026.10.: 화성시 장애인체육회, 주민 등 설명회 개최\n○ 2027.03.: 공원조성계획결정(변경) 및 실시계획인가 용역 착수\n○ 2027.10.: 공사 착공\n○ 2029.04.: 공사 준공\n○ 2029.07.: 동부 반다비 체육센터 개관",
+      "future_plan": "○ 2026.10.: 화성시 장애인체육회, 주민 등 설명회 개최\n○ 2027.03.: 공원조성계획결정(변경) 및 실시계획인가 용역 착수\n○ 2027.10.: 공사 착공\n○ 2029.04.: 공사 준공\n○ 2029.07.: 동부 반다비 체육센터 개관",
       "inspection": "2029.07.",
       "delay_reason": "양호",
       "administrative_procedures": "",
@@ -3172,6 +3367,19 @@
       "card_execution_rate": 2,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -3372,6 +3580,19 @@
       "card_inspection": "",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -3568,6 +3789,19 @@
       "card_inspection": "",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -3763,6 +3997,19 @@
       "card_execution_rate": null,
       "card_inspection": "",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -3972,6 +4219,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": 600,
           "invested": 600,
@@ -4164,6 +4424,19 @@
       "card_execution_rate": null,
       "card_inspection": null,
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -4367,6 +4640,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": 2060,
           "invested": 2060,
@@ -4567,6 +4853,19 @@
       "card_execution_rate": 113,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -4769,6 +5068,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -4962,6 +5274,19 @@
       "card_inspection": "",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -5152,6 +5477,19 @@
           "card_inspection": "양호",
           "funding_breakdown": [
             {
+              "name": "국비",
+              "total": null,
+              "invested": null,
+              "budget_2026": null,
+              "budget_2027": null,
+              "budget_2028_plus": null,
+              "budget_2026_base": null,
+              "budget_2026_first_extra": null,
+              "budget_2026_second_extra": null,
+              "budget_2026_third_extra": null,
+              "budget_2026_additional": null
+            },
+            {
               "name": "도비",
               "total": null,
               "invested": null,
@@ -5337,6 +5675,19 @@
           "card_inspection": "양호",
           "funding_breakdown": [
             {
+              "name": "국비",
+              "total": null,
+              "invested": null,
+              "budget_2026": null,
+              "budget_2027": null,
+              "budget_2028_plus": null,
+              "budget_2026_base": null,
+              "budget_2026_first_extra": null,
+              "budget_2026_second_extra": null,
+              "budget_2026_third_extra": null,
+              "budget_2026_additional": null
+            },
+            {
               "name": "도비",
               "total": null,
               "invested": null,
@@ -5521,6 +5872,19 @@
           "card_execution_rate": 16,
           "card_inspection": "양호",
           "funding_breakdown": [
+            {
+              "name": "국비",
+              "total": null,
+              "invested": null,
+              "budget_2026": null,
+              "budget_2027": null,
+              "budget_2028_plus": null,
+              "budget_2026_base": null,
+              "budget_2026_first_extra": null,
+              "budget_2026_second_extra": null,
+              "budget_2026_third_extra": null,
+              "budget_2026_additional": null
+            },
             {
               "name": "도비",
               "total": null,
@@ -5726,6 +6090,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -5930,6 +6307,19 @@
       "card_execution_rate": 30,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -6776,6 +7166,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -6976,6 +7379,19 @@
       "card_execution_rate": 15,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -7185,6 +7601,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -7384,6 +7813,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -7581,6 +8023,7 @@
       "card_execution_rate": null,
       "card_inspection": "",
       "funding_breakdown": [
+        { "name": "국비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "도비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "시비", "total": 772710, "invested": 0, "budget_2026": null, "budget_2027": 212, "budget_2028_plus": 772498, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "특교", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
@@ -7655,6 +8098,7 @@
       "card_execution_rate": null,
       "card_inspection": "",
       "funding_breakdown": [
+        { "name": "국비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "도비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "시비", "total": 22, "invested": null, "budget_2026": null, "budget_2027": 22, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
         { "name": "특교", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
@@ -7731,6 +8175,19 @@
       "card_execution_rate": 75,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -7933,6 +8390,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -8127,6 +8597,19 @@
       "card_execution_rate": 6,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": 500,
@@ -8327,6 +8810,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -8522,6 +9018,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -8716,6 +9225,19 @@
       "card_execution_rate": null,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
@@ -8922,6 +9444,19 @@
       "card_inspection": "양호",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": 2500,
           "invested": 2500,
@@ -9126,6 +9661,19 @@
       "card_execution_rate": 46,
       "card_inspection": "양호",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": 2000,
@@ -9533,6 +10081,19 @@
       "card_inspection": "",
       "funding_breakdown": [
         {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
           "name": "도비",
           "total": null,
           "invested": null,
@@ -9728,6 +10289,19 @@
       "card_execution_rate": 2.8,
       "card_inspection": "",
       "funding_breakdown": [
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
         {
           "name": "도비",
           "total": null,
