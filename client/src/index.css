@@ -485,6 +485,11 @@
 .pd-summary-label-amount svg { color:#f1eee5; stroke:#f1eee5; background:transparent; }
 .pd-summary-label-progress svg { color:#43c7f4; stroke:#43c7f4; background:transparent; }
 .pd-summary-label-execution svg { color:#39c8f4; stroke:#39c8f4; background:transparent; filter:drop-shadow(2px 1px 0 rgba(244,241,232,.9)); }
+/* 카드 안에서 무엇을 나눈 값인지 바로 읽히도록 산식을 한 줄로 적어둔다. */
+.pd-summary-formula { display:block; margin:-6px 0 8px; font-size:13px; font-weight:600; letter-spacing:-.01em; color:var(--pd-text-muted); }
+/* 편성액 숫자 옆에 항목별 금액을 나란히 둔다. */
+.pd-pulse-amount-row { display:flex; align-items:baseline; flex-wrap:wrap; gap:10px; }
+.pd-pulse-detail { font-size:17px; font-weight:700; line-height:1.45; color:var(--pd-text-soft, var(--pd-text-muted)); word-break:keep-all; }
 .pd-summary-label-schedule svg { color:#f0c85a; stroke:#f0c85a; background:rgba(240,200,90,.1); }
 .pd-summary-label-location svg { color:#c4a7f5; stroke:#c4a7f5; background:rgba(196,167,245,.1); }
 .pd-summary-label-amount svg { color:#f1eee5; stroke:#f1eee5; background:transparent; }
