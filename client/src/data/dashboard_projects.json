@@ -3323,6 +3323,7 @@
       "serial": 1,
       "department": "체육진흥과",
       "project_name": "화성 동부 반다비체육센터 건립",
+      "rendering_images": ["/renderings/sports-10/location.png"],
       "carryover_items": [
         {
           "label": "화성 동부 반다비체육센터 건립",
@@ -3335,7 +3336,7 @@
       "current_stage": "사전 행정절차",
       "funding_type": "소계",
       "total_cost_million_krw": 19000,
-      "invested_to_2026_million_krw": 200,
+      "invested_to_2026_million_krw": 965,
       "budget_2027_million_krw": 5084,
       "execution_rate": 0.0,
       "progress_status": "○ 2026.02.: 주민설명회 개최 및 건축기획용역 준공\n○ 2026.03.: 공공건축 사전검토\n○ 2026.08.: 설계공모\n○ 2026.09.: 기본 및 실시설계 용역 착수",
@@ -3370,7 +3371,7 @@
         {
           "name": "국비",
           "total": null,
-          "invested": null,
+          "invested": 400,
           "budget_2026": null,
           "budget_2027": null,
           "budget_2028_plus": null,
@@ -3395,13 +3396,13 @@
         },
         {
           "name": "시비",
-          "total": 15000,
-          "invested": null,
-          "budget_2026": 565,
-          "budget_2027": 1484,
+          "total": 19000,
+          "invested": 565,
+          "budget_2026": 765,
+          "budget_2027": 5084,
           "budget_2028_plus": 12951,
           "budget_2026_base": 465,
-          "budget_2026_first_extra": 100,
+          "budget_2026_first_extra": 300,
           "budget_2026_second_extra": null,
           "budget_2026_third_extra": null,
           "budget_2026_additional": null
@@ -3450,7 +3451,7 @@
         {
           "name": "설계",
           "total": 1000,
-          "invested": 200,
+          "invested": 965,
           "budget_2026": 765,
           "budget_2027": 35,
           "budget_2028_plus": null,
@@ -3513,13 +3514,17 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "usage_breakdown_note": "* 2027년 5,084(설계 35+공사 5,049)은 1회 추경편성 예정",
+      "card_admin_procedures": "중기재정(2025.09.30.), 투·융자심사(2025.03.05.), 공유재산(2025.02.25.)",
       "card_admin_legal_basis": "■ 「체육시설의 설치ㆍ이용에 관한 법률」 제4조 ■ 정책사업",
       "card_admin_status": {
         "mid_term_fiscal": true,
         "investment_review": true,
         "public_property": true,
-        "none": false
+        "none": false,
+        "mid_term_fiscal_date": "2025.09.30",
+        "investment_review_date": "2025.03.05",
+        "public_property_date": "2025.02.25"
       },
       "card_invested_to_2025_million_krw": 200,
       "card_budget_2026_million_krw": 765,
