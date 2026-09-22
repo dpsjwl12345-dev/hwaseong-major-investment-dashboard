@@ -2495,6 +2495,8 @@ html, body, #root,
 .dept-project-table td strong { color: #fff; font-size: 13px; line-height: 1.35; }
 .dept-project-table td small { margin-top: 4px; color: var(--pd-text-faint); font-size: 11px; }
 .dept-stage-chip { display: inline-flex; align-items: center; border: 1px solid rgba(255,190,61,.3); border-radius: 999px; padding: 5px 8px; color: #ffd36b; background: rgba(255,190,61,.1); font-size: 11px; }
+/* 내역표와 총괄표가 어긋난 사업을 목록에서 바로 찾을 수 있게 한다. 마우스를 올리면 사유가 뜬다. */
+.dept-budget-warning { display: inline-block; margin-left: 6px; padding: 2px 6px; border: 1px solid rgba(239, 118, 122, .45); border-radius: 5px; background: rgba(239, 118, 122, .12); color: #ef767a; font-size: 10.5px; font-weight: 700; white-space: nowrap; cursor: help; }
 .dept-amount-cell { color: #ffd36b !important; font-weight: 800; }
 .dept-progress { display: flex; align-items: center; justify-content: flex-start; gap: 8px; min-width: 100px; padding-left: 18px; }
 .dept-progress > span { display: block; width: 70px; height: 6px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.1); }

@@ -48,6 +48,10 @@ import dongLonLat from "../data/hwaseong-dong-lonlat.json";
 import coastalLonLat from "../data/hwaseong-coastal-lonlat.json";
 import { HwaseongGLMap } from "../components/HwaseongGLMap";
 import { InvestmentRealMap } from "../components/InvestmentRealMap";
+// 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
+import { deriveProjectBudget } from "../lib/projectBudget";
+
+const pb = deriveProjectBudget;
 
 type Project = {
   id: string;
@@ -387,8 +391,8 @@ type YearlyAllocationEntry = { key: string; label: string; rate: number; amount:
 function buildYearlyExecution(project: Project): YearlyAllocationEntry[] {
   const entries: { key: string; label: string; executed: number; budget: number }[] = [
     { key: "2026", label: "2026년", executed: project.card_execution_amount_million_krw ?? 0, budget: currentBudget(project) },
-    { key: "2027", label: "2027년", executed: 0, budget: project.card_budget_2027_million_krw ?? project.budget_2027_million_krw ?? 0 },
-    { key: "2028+", label: "2028년 이후", executed: 0, budget: project.card_budget_2028_plus_million_krw ?? 0 },
+    { key: "2027", label: "2027년", executed: 0, budget: pb(project).budget2027 },
+    { key: "2028+", label: "2028년 이후", executed: 0, budget: pb(project).budget2028Plus },
   ];
 
   return entries.map(({ key, label, executed, budget }) => ({
@@ -452,23 +456,18 @@ function formatMillion(value: number | null | undefined) {
 }
 
 function BudgetPanel({ project }: { project: Project }) {
-  const total = project.card_total_budget_million_krw ?? project.total_cost_million_krw;
-  const invested = project.card_invested_to_2026_million_krw ?? project.invested_to_2026_million_krw ?? project.card_invested_to_2025_million_krw;
-  const budget = project.budget_2026_hide ? null : project.card_budget_2027_million_krw ?? project.budget_2027_million_krw;
+  // 상단 카드·연도별 막대·연도별 흐름 그래프가 모두 같은 계산을 쓴다.
+  const budgetOf = pb(project);
+  const total = budgetOf.total || null;
+  const invested = budgetOf.invested || null;
+  const budget = project.budget_2026_hide ? null : budgetOf.budget2027 || null;
   const executionAmount = project.card_execution_amount_million_krw;
   const yearlyAllocation = buildYearlyExecution(project);
-  // 재원별 예산 표의 "총사업비" 행과 같은 숫자를 쓴다 — card_budget_2028_plus_million_krw는
-  // 총사업비에서 역산한 잔여치라 재원별·성질별 세부표 합계(15,429 등)와 다를 수 있었다.
-  // 일부 사업은 재원별 예산표가 통째로 비어 있고 성질별 예산표에만 실제 수치가 있어(예:
-  // 화성 돔구장 및 복합체육센터 건립), 그 경우엔 성질별 합계로 대신한다.
-  const fundingYearlyTotal = ["invested", "budget_2026", "budget_2027", "budget_2028_plus"] as const;
-  const fundingHasData = fundingYearlyTotal.some((key) => sumBreakdown(project.funding_breakdown, key) > 0);
-  const breakdownForFlow = fundingHasData ? project.funding_breakdown : project.usage_breakdown;
   const yearlyTotals = {
-    invested: sumBreakdown(breakdownForFlow, "invested"),
-    budget2026: sumBreakdown(breakdownForFlow, "budget_2026"),
-    budget2027: sumBreakdown(breakdownForFlow, "budget_2027"),
-    budget2028Plus: sumBreakdown(breakdownForFlow, "budget_2028_plus"),
+    invested: budgetOf.invested,
+    budget2026: budgetOf.budget2026,
+    budget2027: budgetOf.budget2027,
+    budget2028Plus: budgetOf.budget2028Plus,
   };
   const carryoverItems = project.carryover_items?.length
     ? project.carryover_items
@@ -479,7 +478,7 @@ function BudgetPanel({ project }: { project: Project }) {
   const carryoverLabel = carryoverItems.length === 1 ? `이월액 · ${carryoverItems[0].type}` : "이월액";
   const budgetCards = [
     { label: "총사업비", value: total, icon: WalletMoneyIcon, tone: "teal", carryoverItems: undefined },
-    { label: "기투자액 (~2026)", value: invested, icon: GraphUpIcon, tone: "teal", carryoverItems: undefined },
+    { label: "기투자액 (2026년 이전)", value: invested, icon: GraphUpIcon, tone: "teal", carryoverItems: undefined },
     { label: "2027년 예산액", value: budget, icon: CalendarAddIcon, tone: "teal", carryoverItems: undefined },
     { label: carryoverLabel, value: carryoverTotal, icon: RefreshCircleIcon, tone: "teal", carryoverItems },
     { label: "집행액", value: executionAmount, icon: CardSendIcon, tone: "teal", carryoverItems: undefined },
@@ -490,6 +489,13 @@ function BudgetPanel({ project }: { project: Project }) {
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid"><FundingBreakdownCard rows={project.funding_breakdown} yearlyAllocation={yearlyAllocation} projectId={project.id} /><UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} yearlyTotals={yearlyTotals} /></div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
+      {/* 내역표가 스스로 맞지 않으면 숫자를 지어내지 않고 저장값을 쓴다는 사실을 화면에 남긴다. */}
+      {budgetOf.issues.length > 0 && (
+        <div className="pd-note-box mt-4 text-amber-300">
+          <b>예산 검증 필요{budgetOf.source === "stored" ? " · 총괄표 값으로 표시 중" : ""}</b>
+          <ul className="mt-1 list-disc pl-5">{budgetOf.issues.map((issue) => <li key={issue}>{issue}</li>)}</ul>
+        </div>
+      )}
     </div>
   );
 }
@@ -896,7 +902,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
               {([["project_name", "사업명"], ["region", "사업 성격"], ["current_stage", "추진 단계"], ["contact", "선거구"], ["district", "읍·면·동"], ["town", "선거구 세부"]] as [keyof Project, string][]).map(([key, label]) => <label key={String(key)}><span>{label}</span><input value={String(editDraft[key] ?? "")} onChange={(event) => updateDraft(key, event.target.value)} /></label>)}
               {([
                 { keys: ["total_cost_million_krw", "card_total_budget_million_krw"], label: "총사업비(백만원)" },
-                { keys: ["invested_to_2026_million_krw", "card_invested_to_2025_million_krw", "card_invested_to_2026_million_krw"], label: "기투자액(~2026, 백만원)" },
+                { keys: ["invested_to_2026_million_krw", "card_invested_to_2025_million_krw", "card_invested_to_2026_million_krw"], label: "기투자액(2026년 이전, 백만원)" },
                 { keys: ["card_budget_2026_million_krw"], label: "2026년 예산(백만원)" },
                 { keys: ["budget_2027_million_krw", "card_budget_2027_million_krw"], label: "2027년 예산(백만원)" },
                 { keys: ["card_execution_amount_million_krw"], label: "집행액(백만원)" },
@@ -953,7 +959,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
         <div className="pd-summary-cell hero">
           <span className="pd-summary-label pd-summary-label-amount"><WalletMoneyIcon /> 총사업비</span>
           <span className="pd-summary-value grad">
-            {activeProject.total_cost_million_krw?.toLocaleString("ko-KR") ?? "-"}
+            {pb(activeProject).total ? pb(activeProject).total.toLocaleString("ko-KR") : "-"}
             <small style={{ fontSize: 16, fontWeight: 700, background: "none", WebkitTextFillColor: "var(--pd-text-muted)", color: "var(--pd-text-muted)" }}> 백만원</small>
           </span>
         </div>
@@ -1059,9 +1065,10 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
 
 
 function futureBudgetFor(project: Project) {
-  const planned = (project.budget_2027_million_krw ?? 0) + (project.card_budget_2028_plus_million_krw ?? 0);
+  const budget = pb(project);
+  const planned = budget.budget2027 + budget.budget2028Plus;
   if (planned > 0) return planned;
-  return Math.max((project.total_cost_million_krw ?? 0) - (project.invested_to_2026_million_krw ?? 0), 0);
+  return Math.max(budget.total - budget.invested, 0);
 }
 
 function parseProgress(project: Project) {
@@ -1786,14 +1793,14 @@ function DepartmentDashboard({
     const hi = max === "" ? Number.POSITIVE_INFINITY : Number(max);
     return value >= lo && value <= hi;
   };
-  const futurePlanBudgetFor = (project: Project) => project.card_budget_2028_plus_million_krw ?? 0;
+  const futurePlanBudgetFor = (project: Project) => pb(project).budget2028Plus;
   const departmentProjects = projects
     .filter((project) => project.department === initialDepartment)
     .sort((a, b) => a.serial - b.serial);
   const stageOptions = Array.from(new Set(departmentProjects.map((project) => project.current_stage).filter(Boolean))) as string[];
-  const totalCost = departmentProjects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
-  const investedAmount = departmentProjects.reduce((sum, project) => sum + (project.invested_to_2026_million_krw ?? 0), 0);
-  const budget2027 = departmentProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
+  const totalCost = departmentProjects.reduce((sum, project) => sum + pb(project).total, 0);
+  const investedAmount = departmentProjects.reduce((sum, project) => sum + pb(project).invested, 0);
+  const budget2027 = departmentProjects.reduce((sum, project) => sum + pb(project).budget2027, 0);
   const futurePlanBudget = departmentProjects.reduce((sum, project) => sum + futurePlanBudgetFor(project), 0);
   const budgetValueFor = (project: Project) => futureBudgetFor(project);
 
@@ -1856,8 +1863,8 @@ function DepartmentDashboard({
     })
     .filter((project) => stageFilter === "전체" || project.current_stage === stageFilter)
     .filter((project) => divisionFilter === "전체" || project.region === divisionFilter)
-    .filter((project) => inRange(project.total_cost_million_krw ?? 0, totalCostMin, totalCostMax))
-    .filter((project) => inRange(project.budget_2027_million_krw ?? 0, budget2027Min, budget2027Max))
+    .filter((project) => inRange(pb(project).total, totalCostMin, totalCostMax))
+    .filter((project) => inRange(pb(project).budget2027, budget2027Min, budget2027Max))
     .filter((project) => {
       const value = budgetValueFor(project);
       const min = minBudget === "" ? 0 : Number(minBudget);
@@ -1866,13 +1873,13 @@ function DepartmentDashboard({
     })
     .sort((a, b) => {
       if (!sortColumn) return 0;
-      const key = sortColumn === "total_cost" ? "total_cost_million_krw" : "budget_2027_million_krw";
-      const diff = (a[key] ?? 0) - (b[key] ?? 0);
+      const key = sortColumn === "total_cost" ? "total" : "budget2027";
+      const diff = pb(a)[key] - pb(b)[key];
       return sortDir === "asc" ? diff : -diff;
     });
-  const filteredTotalCost = filteredProjects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
-  const filteredInvested = filteredProjects.reduce((sum, project) => sum + (project.invested_to_2026_million_krw ?? 0), 0);
-  const filteredBudget2027 = filteredProjects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
+  const filteredTotalCost = filteredProjects.reduce((sum, project) => sum + pb(project).total, 0);
+  const filteredInvested = filteredProjects.reduce((sum, project) => sum + pb(project).invested, 0);
+  const filteredBudget2027 = filteredProjects.reduce((sum, project) => sum + pb(project).budget2027, 0);
   const filteredFuturePlan = filteredProjects.reduce((sum, project) => sum + futurePlanBudgetFor(project), 0);
 
   const exportBudgetCsv = () => {
@@ -1880,9 +1887,9 @@ function DepartmentDashboard({
     const rows = filteredProjects.map((project) => [
       project.project_name,
       project.current_stage || "미등록",
-      project.total_cost_million_krw ?? 0,
-      project.invested_to_2026_million_krw ?? 0,
-      project.budget_2027_million_krw ?? 0,
+      pb(project).total,
+      pb(project).invested,
+      pb(project).budget2027,
       futurePlanBudgetFor(project),
       futureBudgetFor(project),
       `${parseProgress(project)}%`,
@@ -2008,7 +2015,7 @@ function DepartmentDashboard({
               </tr>
             )}
             {filteredProjects.map((project, index) => <tr key={project.id} onClick={() => onSelectProject(project)} tabIndex={0} onKeyDown={(event) => { if (event.key === "Enter") onSelectProject(project); }}>
-              <td><span className={`dept-project-type ${project.region === "신규" ? "is-new" : "is-continuing"}`}>{project.region === "신규" || project.region === "계속" ? project.region : "-"}</span></td><td><strong>{formatProjectNameLines(project.project_name)}</strong></td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatBudgetNumber(project.total_cost_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.invested_to_2026_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(project.budget_2027_million_krw ?? 0)}</td><td className="dept-amount-cell">{formatBudgetNumber(futurePlanBudgetFor(project))}</td><td><div className="dept-progress"><b>{parseProgress(project)}%</b><span><em style={{ width: `${parseProgress(project)}%` }} /></span></div></td>
+              <td><span className={`dept-project-type ${project.region === "신규" ? "is-new" : "is-continuing"}`}>{project.region === "신규" || project.region === "계속" ? project.region : "-"}</span></td><td><strong>{formatProjectNameLines(project.project_name)}</strong>{pb(project).issues.length > 0 && <span className="dept-budget-warning" title={pb(project).issues.join("\n")}>예산 검증 필요</span>}</td><td><span className="dept-stage-chip">{project.current_stage || "미등록"}</span></td><td className="dept-amount-cell">{formatBudgetNumber(pb(project).total)}</td><td className="dept-amount-cell">{formatBudgetNumber(pb(project).invested)}</td><td className="dept-amount-cell">{formatBudgetNumber(pb(project).budget2027)}</td><td className="dept-amount-cell">{formatBudgetNumber(futurePlanBudgetFor(project))}</td><td><div className="dept-progress"><b>{parseProgress(project)}%</b><span><em style={{ width: `${parseProgress(project)}%` }} /></span></div></td>
               {isAdmin && (
                 <td className="dept-reorder-col" onClick={(event) => event.stopPropagation()}>
                   <button type="button" aria-label="위로 이동" disabled={isFiltered || index === 0 || reorderingId !== null} onClick={() => moveRow(project, "up")}><ChevronUp size={14} /></button>
@@ -2292,9 +2299,9 @@ function useHeroGridPosition() {
 }
 
 function LandingPage() {
-  const totalBudget = projects.reduce((sum, project) => sum + (project.total_cost_million_krw ?? 0), 0);
-  const investedTo2026 = projects.reduce((sum, project) => sum + (project.invested_to_2026_million_krw ?? 0), 0);
-  const budgetRequest2027 = projects.reduce((sum, project) => sum + (project.budget_2027_million_krw ?? 0), 0);
+  const totalBudget = projects.reduce((sum, project) => sum + pb(project).total, 0);
+  const investedTo2026 = projects.reduce((sum, project) => sum + pb(project).invested, 0);
+  const budgetRequest2027 = projects.reduce((sum, project) => sum + pb(project).budget2027, 0);
   const projectCount = useCountUp(projects.length, 1100);
   const budgetCount = useCountUp(totalBudget, 1400);
   const budgetRequestCount = useCountUp(budgetRequest2027, 1200);
@@ -2657,3 +2664,7 @@ export default function Home() {
     </div>
   );
 }
+
+
+
+
