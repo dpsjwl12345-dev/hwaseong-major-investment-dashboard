@@ -78,22 +78,32 @@ export function deriveProjectBudget(project: BudgetSourceProject): ProjectBudget
   const primary = fundingHasData ? funding : usage;
   const issues: string[] = [];
 
-  // 저장된 기투자액은 2026년 편성액을 포함하지 않는다(재원별 2026년이 0이 아닌 25개 사업을
-  // 전수 대조한 결과, 총괄표·카드 값이 "기투자 + 2026"과 같은 사업은 한 건도 없다).
-  // 그래서 ~2026 누적은 여기서 2026년을 더해 만든다 — 이중계상 위험 사업은 없다.
+  // 저장된 기투자액은 대개 2026년 편성액을 포함하지 않는다 — 43개 중 20개는
+  // card_invested_to_2026 이 card_invested_to_2025 와 값이 같다(이름과 달리 누적이 아니다).
+  // 그래서 ~2026 누적은 여기서 2026년을 더해 만든다.
+  //
+  // 다만 반대로 이미 2026년을 포함해 적어 둔 사업도 있다(석우동 축구장: ~2025 2,800 +
+  // 2026년 1,700 = ~2026 4,500). 그런 사업에 또 더하면 기투자액이 총사업비를 넘는 값
+  // (6,200 > 4,500)이 되어 화면이 엉뚱해진다. 총사업비를 넘기면 이미 누적된 값으로 보고
+  // 더하지 않으며, 사유를 남긴다.
+  const storedTotal = n(project.total_cost_million_krw ?? project.card_total_budget_million_krw);
   const storedInvested = n(project.invested_to_2026_million_krw ?? project.card_invested_to_2026_million_krw ?? project.card_invested_to_2025_million_krw);
   const storedBudget2026 = n(project.card_budget_2026_million_krw);
+  const overshoots = storedTotal > 0 && storedInvested + storedBudget2026 > storedTotal;
   const stored: Omit<ProjectBudget, "source" | "issues"> = {
-    total: n(project.total_cost_million_krw ?? project.card_total_budget_million_krw),
+    total: storedTotal,
     invested: storedInvested,
-    investedThrough2026: storedInvested + storedBudget2026,
+    investedThrough2026: overshoots ? storedInvested : storedInvested + storedBudget2026,
     budget2026: storedBudget2026,
     budget2027: n(project.budget_2027_million_krw ?? project.card_budget_2027_million_krw),
     budget2028Plus: n(project.card_budget_2028_plus_million_krw),
   };
+  if (overshoots) {
+    issues.push(`기투자액 ${storedInvested.toLocaleString("ko-KR")} + 2026년 ${storedBudget2026.toLocaleString("ko-KR")}이 총사업비 ${storedTotal.toLocaleString("ko-KR")}을 넘습니다 — 기투자액에 2026년이 이미 포함된 것으로 보고 더하지 않았습니다.`);
+  }
 
   if (!fundingHasData && !usageHasData) {
-    return { ...stored, source: "stored", issues: ["내역표(재원별·성질별)가 비어 있어 총괄표 값을 그대로 씁니다."] };
+    return { ...stored, source: "stored", issues: [...issues, "내역표(재원별·성질별)가 비어 있어 총괄표 값을 그대로 씁니다."] };
   }
 
   const segments = {
@@ -110,6 +120,13 @@ export function deriveProjectBudget(project: BudgetSourceProject): ProjectBudget
   // 어느 쪽이 맞는지는 원본을 봐야 알 수 있으므로 한쪽을 골라 쓰지 않는다. 예컨대 제부도
   // 도로 개설은 재원별 2027년이 0인데 성질별과 총괄표는 8,950이다 — 재원별을 그대로
   // 따랐다면 화면의 2027년 예산이 0으로 바뀌어 버린다. 이럴 때는 저장값을 그대로 두고 알린다.
+  // 내역표 "기투자" 칸에 총계가 그대로 들어간 사업이 있다(석우동 축구장·롤러스포츠 경기장:
+  // 총 4,500 = 기투자 4,500인데 2026년 1,700이 따로 적혀 있고, 성질별에는 전액 2027년이다).
+  // 이러면 기투자액이 실제보다 총사업비만큼 부풀어 보이므로 반드시 사람이 확인해야 한다.
+  if (declaredTotal > 0 && declaredTotal === segments.invested && segments.budget2026 > 0) {
+    issues.push(`내역표 기투자 ${segments.invested.toLocaleString("ko-KR")}이 총액과 같은데 2026년 ${segments.budget2026.toLocaleString("ko-KR")}이 따로 있습니다 — 기투자 칸에 총계가 들어간 것으로 보입니다.`);
+  }
+
   // 카드의 2026년 편성액이 내역표와 다르면 ~2026 누적이 화면마다 갈린다.
   if (storedBudget2026 !== 0 && storedBudget2026 !== segments.budget2026) {
     issues.push(`2026년 편성액 카드 ${storedBudget2026.toLocaleString("ko-KR")} ≠ 내역표 ${segments.budget2026.toLocaleString("ko-KR")}`);
