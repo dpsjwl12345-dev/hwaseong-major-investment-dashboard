@@ -48,6 +48,7 @@ import dongLonLat from "../data/hwaseong-dong-lonlat.json";
 import coastalLonLat from "../data/hwaseong-coastal-lonlat.json";
 import { HwaseongGLMap } from "../components/HwaseongGLMap";
 import { InvestmentRealMap } from "../components/InvestmentRealMap";
+import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
 
@@ -2085,19 +2086,23 @@ function FloatingNavBar({
   organization: navOrganization,
   onGoHome,
   onOpenMap,
+  onOpenInvestmentReview,
   onSelectDepartment,
   onSelectProject,
   activeDepartmentName,
   activeProjectDepartmentName,
+  isInvestmentReviewActive,
   includeMapView = true,
 }: {
   organization: Bureau[];
   onGoHome: () => void;
   onOpenMap: () => void;
+  onOpenInvestmentReview: () => void;
   onSelectDepartment: (departmentName: string) => void;
   onSelectProject: (project: Project) => void;
   activeDepartmentName: string | null;
   activeProjectDepartmentName: string | null;
+  isInvestmentReviewActive?: boolean;
   includeMapView?: boolean;
 }) {
   // DEPARTMENT_ORDER와 같은 순서로 맞춘다. 새 부서가 생겨도(예: 독립기념관) 실제 사업이 있어야만
@@ -2147,6 +2152,16 @@ function FloatingNavBar({
           MENU
         </button>
         <div className="floating-nav-dropdown-row-static">
+          <div className="floating-nav-dept-item">
+            <button
+              type="button"
+              className={isInvestmentReviewActive ? "is-selected" : ""}
+              onClick={() => { onOpenInvestmentReview(); setOpenDeptName(null); setShowProjects(false); }}
+            >
+              {isInvestmentReviewActive && <i className="floating-nav-dot" />}
+              투자심사
+            </button>
+          </div>
           {floatingNavDepartments.map((name) => {
             const isOpen = openDeptName === name;
             const isActive = activeDepartmentName === name;
@@ -2512,7 +2527,7 @@ export default function Home() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [selectedDepartmentDashboard, setSelectedDepartmentDashboard] = useState("전체");
-  const [activeView, setActiveView] = useState<"landing" | "project" | "department" | "pledges">("landing");
+  const [activeView, setActiveView] = useState<"landing" | "project" | "department" | "pledges" | "investment-review">("landing");
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleOrganization = useMemo(
@@ -2555,6 +2570,11 @@ export default function Home() {
     setActiveView("pledges");
     window.scrollTo(0, 0);
   };
+  const goInvestmentReview = () => {
+    setSelectedProject(null);
+    setActiveView("investment-review");
+    window.scrollTo(0, 0);
+  };
   const goDepartment = (departmentName: string) => {
     setSelectedDepartmentDashboard(departmentName);
     setSelectedProject(null);
@@ -2583,10 +2603,12 @@ export default function Home() {
             organization={liveOrganization}
             onGoHome={goLanding}
             onOpenMap={goPledges}
+            onOpenInvestmentReview={goInvestmentReview}
             onSelectDepartment={goDepartment}
             onSelectProject={goProject}
             activeDepartmentName={activeView === "department" ? selectedDepartmentDashboard : null}
             activeProjectDepartmentName={activeView === "project" ? selectedProject?.department ?? null : null}
+            isInvestmentReviewActive={activeView === "investment-review"}
             includeMapView={false}
           />
         </div>
@@ -2651,6 +2673,8 @@ export default function Home() {
           {selectedProject && <div className="app-panel-topbar" aria-hidden="true" />}
           {activeView === "pledges" ? (
             <PledgeBoard isAdmin={isAdmin} />
+          ) : activeView === "investment-review" ? (
+            <InvestmentReviewBoard />
           ) : activeView === "department" ? (
             <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
