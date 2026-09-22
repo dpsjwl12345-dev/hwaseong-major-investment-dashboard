@@ -1,0 +1,330 @@
+{
+  "generated_from": "27년 본예산 투자심사 안건 의뢰 현황(소관부서만).hwp",
+  "unit": "억원",
+  "records": [
+    {
+      "id": "ir-request-1",
+      "category": "일반",
+      "agenda_no": "3",
+      "department": "관광진흥과",
+      "division": "신규",
+      "project_name": "제부도 광장 및 조형물 조성사업",
+      "overview": "∙시행주체: 화성시 ∙총사업비: 33억원(시비 33억원) ∙위치: 만세구 서신면 제부리 3-6번지 일원,   만세구 서신면 송교리 377-46번지 일원 ∙내용: 광장 및 상징조형물 조성 ∙사업량: 도시계획시설(광장) (A= 2,402㎡) 및상징조형물(4EA) 조성",
+      "period": "2027~2028",
+      "total_eok": 33,
+      "invested_eok": null,
+      "y27_eok": 33,
+      "y28_eok": null,
+      "y29plus_eok": null,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 33,
+          "invested_eok": null,
+          "y27_eok": 33,
+          "y28_eok": null,
+          "y29plus_eok": null
+        }
+      ]
+    },
+    {
+      "id": "ir-request-2",
+      "category": "일반",
+      "agenda_no": "10",
+      "department": "도서관정책과",
+      "division": "신규",
+      "project_name": "둥지나래어린이도서관 리모델링",
+      "overview": "∙시행주체: 화성시 ∙총사업비: 46억원(국비 27억원, 시비 19억원) ∙위치: 만세구 향남읍 행정중앙2로 88 ∙내용: 도서관 리모델링 ∙사업량: 부지면적 47,003㎡, 건축면적 861.9㎡,연면적 1,619,2㎡",
+      "period": "2027~",
+      "total_eok": 46,
+      "invested_eok": 27,
+      "y27_eok": 3,
+      "y28_eok": 16,
+      "y29plus_eok": null,
+      "funding": [
+        {
+          "name": "국비",
+          "total_eok": 27,
+          "invested_eok": 27,
+          "y27_eok": null,
+          "y28_eok": null,
+          "y29plus_eok": null
+        },
+        {
+          "name": "시비",
+          "total_eok": 19,
+          "invested_eok": null,
+          "y27_eok": 3,
+          "y28_eok": 16,
+          "y29plus_eok": null
+        }
+      ]
+    },
+    {
+      "id": "ir-request-3",
+      "category": "일반",
+      "agenda_no": "11",
+      "department": "문화유산과",
+      "division": "신규",
+      "project_name": "무형유산 전수교육관 건립",
+      "overview": "∙시행주체: 화성시 ∙총사업비: 141억원(국비 50억원, 시비 91억원) ∙위치: 팔탄면 구장리 산81외 4필지 ∙내용: 무형유산 전수교육관, 야외공연장,밭 체험장 조성 ∙사업량: 건축면적 2,087㎡, 연면적 3,070㎡",
+      "period": "2027~",
+      "total_eok": 141,
+      "invested_eok": 1,
+      "y27_eok": 6,
+      "y28_eok": 75,
+      "y29plus_eok": 59,
+      "funding": [
+        {
+          "name": "국비",
+          "total_eok": 50,
+          "invested_eok": null,
+          "y27_eok": 2,
+          "y28_eok": 35,
+          "y29plus_eok": 13
+        },
+        {
+          "name": "시비",
+          "total_eok": 91,
+          "invested_eok": 1,
+          "y27_eok": 4,
+          "y28_eok": 40,
+          "y29plus_eok": 46
+        }
+      ]
+    },
+    {
+      "id": "ir-request-4",
+      "category": "행사성",
+      "agenda_no": "2",
+      "department": "체육진흥과",
+      "division": "신규",
+      "project_name": "화성 효 마라톤대회 개최",
+      "overview": "∙시행주체: 화성시 ∙총사업비: 연간 2.95억원(시비 2.95억원) ∙위치: 화성종합경기타운(향남읍 향남로 470) 일원 ∙내용: 효마라톤 대회(5km, 10km, 하프코스) 개최 ∙규모: 약 11,000명",
+      "period": "연례반복",
+      "total_eok": 8.85,
+      "invested_eok": null,
+      "y27_eok": 2.95,
+      "y28_eok": 2.95,
+      "y29plus_eok": 2.95,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 8.85,
+          "invested_eok": null,
+          "y27_eok": 2.95,
+          "y28_eok": 2.95,
+          "y29plus_eok": 2.95
+        }
+      ]
+    },
+    {
+      "id": "ir-request-5",
+      "category": "행사성",
+      "agenda_no": "3",
+      "department": "전국체전추진단",
+      "division": "신규",
+      "project_name": "문화체육관광부장관기 전국시도 대항육상경기 겸 문화체육관광부장관배 전국생활체육육상경기대회",
+      "overview": "∙시행주체: 화성시, 대한육상연맹 ∙시행주관: 경기도육상연맹, 화성시육상연맹,화성시체육회 ∙총사업비: 2.2억원(시비 2.2억원) ∙위치: 화성종합경기타운(향남읍 향남로 470) ∙내용: 육상경기 개최 ∙규모: 약 2,300명",
+      "period": "2027",
+      "total_eok": 2.2,
+      "invested_eok": null,
+      "y27_eok": 2.2,
+      "y28_eok": null,
+      "y29plus_eok": null,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 2.2,
+          "invested_eok": null,
+          "y27_eok": 2.2,
+          "y28_eok": null,
+          "y29plus_eok": null
+        }
+      ]
+    },
+    {
+      "id": "ir-request-6",
+      "category": "행사성",
+      "agenda_no": "4",
+      "department": "문화유산과",
+      "division": "신규",
+      "project_name": "(가칭)모여,기분좋은 장음악회<산사의 밤,마음을 듣다>",
+      "overview": "∙시행주체: (사)화성시불교사암연합회 ∙총사업비: 연간 1.6억원(시비 1.44억원, 민자 0.16억원) ∙위치: 용주사(병점구 송산동 187-2) ∙내용: 산사 체험프로그램, 음악회 등 ∙규모: 약 2,000명",
+      "period": "연례반복",
+      "total_eok": 4.8,
+      "invested_eok": null,
+      "y27_eok": 1.6,
+      "y28_eok": 1.6,
+      "y29plus_eok": 1.6,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 4.32,
+          "invested_eok": null,
+          "y27_eok": 1.44,
+          "y28_eok": 1.44,
+          "y29plus_eok": 1.44
+        },
+        {
+          "name": "민자",
+          "total_eok": 0.48,
+          "invested_eok": null,
+          "y27_eok": 0.16,
+          "y28_eok": 0.16,
+          "y29plus_eok": 0.16
+        }
+      ]
+    },
+    {
+      "id": "ir-request-7",
+      "category": "행사성",
+      "agenda_no": "5",
+      "department": "만세구자치행정과",
+      "division": "신규",
+      "project_name": "만세구 권역별 콘서트",
+      "overview": "∙시행주체: 화성시 ∙총사업비: 연간 1.8억원(시비 1.8억원) ∙위치: 화성종합경기타운(향남읍 향남로 470) ∙내용: 공연(지역문화예술단체, 대중가수 등) ∙규모: 약 2,000명",
+      "period": "연례반복",
+      "total_eok": 5.4,
+      "invested_eok": null,
+      "y27_eok": 1.8,
+      "y28_eok": 1.8,
+      "y29plus_eok": 1.8,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 5.4,
+          "invested_eok": null,
+          "y27_eok": 1.8,
+          "y28_eok": 1.8,
+          "y29plus_eok": 1.8
+        }
+      ]
+    },
+    {
+      "id": "ir-request-8",
+      "category": "행사성",
+      "agenda_no": "6",
+      "department": "효행구자치행정과",
+      "division": "신규",
+      "project_name": "효행구 권역별 콘서트",
+      "overview": "∙시행주체: 화성시 ∙총사업비: 연간 1.98억원(시비 1.98억원) ∙위치: 효행구 봉담읍 상리1길 87(봉담2 생태체육공원) ∙내용: 공연(지역문화예술단체, 대중가수 등) ∙규모: 약 2,000명",
+      "period": "연례반복",
+      "total_eok": 5.94,
+      "invested_eok": null,
+      "y27_eok": 1.98,
+      "y28_eok": 1.98,
+      "y29plus_eok": 1.98,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 5.94,
+          "invested_eok": null,
+          "y27_eok": 1.98,
+          "y28_eok": 1.98,
+          "y29plus_eok": 1.98
+        }
+      ]
+    },
+    {
+      "id": "ir-request-9",
+      "category": "행사성",
+      "agenda_no": "7",
+      "department": "효행구자치행정과",
+      "division": "신규",
+      "project_name": "효행구 페스티벌",
+      "overview": "∙시행주체: 화성시 ∙총사업비: 연간 1.32억원(시비 1.32억원) ∙위치: 효행구 봉담읍 상리1길 87(봉담2 생태체육공원) ∙내용: 댄스경영대회 및 갈라쇼 등 ∙규모: 약 1,500명",
+      "period": "연례반복",
+      "total_eok": 3.96,
+      "invested_eok": null,
+      "y27_eok": 1.32,
+      "y28_eok": 1.32,
+      "y29plus_eok": 1.32,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 3.93,
+          "invested_eok": null,
+          "y27_eok": 1.32,
+          "y28_eok": 1.32,
+          "y29plus_eok": 1.32
+        }
+      ]
+    },
+    {
+      "id": "ir-request-10",
+      "category": "행사성",
+      "agenda_no": "8",
+      "department": "병점구자치행정과",
+      "division": "신규",
+      "project_name": "병점구 권역별 콘서트",
+      "overview": "∙시행주체: 화성시 ∙총사업비: 연간 1.8억원(시비 1.8억원) ∙위치: 병점구 장조1로 34(정조효공원) ∙내용: 공연(지역문화예술단체, 대중가수 등) ∙규모: 약 4,000명",
+      "period": "연례반복",
+      "total_eok": 5.4,
+      "invested_eok": null,
+      "y27_eok": 1.8,
+      "y28_eok": 1.8,
+      "y29plus_eok": 1.8,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 5.4,
+          "invested_eok": null,
+          "y27_eok": 1.8,
+          "y28_eok": 1.8,
+          "y29plus_eok": 1.8
+        }
+      ]
+    },
+    {
+      "id": "ir-request-11",
+      "category": "행사성",
+      "agenda_no": "9",
+      "department": "동탄구자치행정과",
+      "division": "신규",
+      "project_name": "동탄구 권역별 콘서트",
+      "overview": "∙시행주체: 화성시 ∙총사업비: 연간 1.8억원(시비 1.8억원) ∙위치: 동탄구 동부대로 1063-3(동탄 여울공원) ∙내용: 공연(지역문화예술단체, 대중가수 등) ∙규모: 약 5,000명",
+      "period": "연례반복",
+      "total_eok": 5.4,
+      "invested_eok": null,
+      "y27_eok": 1.8,
+      "y28_eok": 1.8,
+      "y29plus_eok": 1.8,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 5.4,
+          "invested_eok": null,
+          "y27_eok": 1.8,
+          "y28_eok": 1.8,
+          "y29plus_eok": 1.8
+        }
+      ]
+    },
+    {
+      "id": "ir-request-12",
+      "category": "행사성",
+      "agenda_no": "10",
+      "department": "교육지원과",
+      "division": "신규",
+      "project_name": "화성 유스 앰버서더 진로 아카데미",
+      "overview": "∙시행주체: 화성시인재육성재단 ∙총사업비: 연간 1.35억원(시비 1.35억원) ∙위치: 만세구 궁평관광로153번길 39(화성서해마루유스호스텔) ∙내용: 관내 고등학생 대상 모의 외교장관회의및 교육, 외교관 특강 및 서울 외교공관 체험 ∙규모: 약 100명",
+      "period": "2027",
+      "total_eok": 1.35,
+      "invested_eok": null,
+      "y27_eok": 1.35,
+      "y28_eok": null,
+      "y29plus_eok": null,
+      "funding": [
+        {
+          "name": "시비",
+          "total_eok": 1.35,
+          "invested_eok": null,
+          "y27_eok": 1.35,
+          "y28_eok": null,
+          "y29plus_eok": null
+        }
+      ]
+    }
+  ]
+}

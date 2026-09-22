@@ -2515,14 +2515,15 @@ html, body, #root,
 .ir-tabs button.is-active { color: #10131f; background: #ffbe3d; }
 .ir-count { color: var(--pd-text-faint); font-size: 12px; }
 .ir-table-wrap { overflow-x: auto; }
-.ir-table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 12.5px; }
+.ir-table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 14.5px; }
 .ir-table th, .ir-table td { padding: 13px 12px; border-bottom: 1px solid rgba(255,255,255,.08); text-align: left; vertical-align: top; }
-.ir-table th { color: var(--pd-text-faint); background: rgba(255,255,255,.04); font-size: 11px; font-weight: 800; white-space: nowrap; }
+.ir-table th { color: var(--pd-text-faint); background: rgba(255,255,255,.04); font-size: 13.5px; font-weight: 800; white-space: nowrap; }
 .ir-table tbody tr.ir-row { cursor: pointer; transition: background .15s ease; }
 .ir-table tbody tr.ir-row:hover, .ir-table tbody tr.ir-row.is-open { background: rgba(255,190,61,.07); }
 .ir-project-name { color: #fff; font-weight: 700; min-width: 220px; }
 .ir-re-review-tag { display: inline-block; margin-left: 7px; padding: 2px 7px; border: 1px solid rgba(255,190,61,.4); border-radius: 999px; color: #ffd36b; background: rgba(255,190,61,.12); font-size: 10px; font-weight: 700; white-space: nowrap; }
-.ir-amount { color: #ffd36b; font-weight: 800; white-space: nowrap; }
+.ir-amount { color: #ffd36b; font-weight: 800; white-space: nowrap; text-align: right; }
+.ir-amount-head { text-align: right; }
 .ir-result-badge { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 700; white-space: nowrap; }
 .ir-result-success { color: var(--pd-success); background: var(--pd-success-wash); }
 .ir-result-warning { color: var(--pd-warning); background: var(--pd-warning-wash); }
@@ -2532,6 +2533,12 @@ html, body, #root,
 .ir-detail-block span { display: block; margin-bottom: 6px; color: #ffd36b; font-size: 11px; font-weight: 800; letter-spacing: .04em; }
 .ir-detail-block p { margin: 0; color: var(--pd-text-muted); font-size: 12.5px; line-height: 1.6; white-space: pre-line; }
 .ir-empty { margin: 4px; }
+.ir-actions-head { width: 64px; }
+.ir-row-actions { display: inline-flex; gap: 6px; }
+.ir-row-actions button { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border: 1px solid rgba(255,255,255,.14); border-radius: 8px; color: var(--pd-text-muted); background: rgba(255,255,255,.04); cursor: pointer; transition: background .15s ease, color .15s ease, border-color .15s ease; }
+.ir-row-actions button:hover { color: #fff; background: rgba(255,255,255,.1); }
+.ir-row-actions .ir-row-delete:hover { color: var(--pd-critical); border-color: rgba(242,104,92,.45); background: var(--pd-critical-wash); }
+.ir-editor { margin-top: 0; }
 @media (max-width: 900px) { .ir-detail-grid { grid-template-columns: 1fr; } }
 
 /* Department status view: neutral/near-black surface, matching the black

@@ -2674,7 +2674,7 @@ export default function Home() {
           {activeView === "pledges" ? (
             <PledgeBoard isAdmin={isAdmin} />
           ) : activeView === "investment-review" ? (
-            <InvestmentReviewBoard />
+            <InvestmentReviewBoard isAdmin={isAdmin} />
           ) : activeView === "department" ? (
             <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (

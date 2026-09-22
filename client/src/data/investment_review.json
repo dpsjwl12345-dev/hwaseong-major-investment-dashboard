@@ -3,6 +3,7 @@
   "unit": "억원",
   "records": [
     {
+      "id": "ir-review-1",
       "category": "일반",
       "department": "철도전략과",
       "year": "2024",
@@ -29,6 +30,7 @@
       "contact": "이성현\n(031-5189-\n3699)"
     },
     {
+      "id": "ir-review-2",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -55,6 +57,7 @@
       "contact": "김기순\n(031-5189-4513)"
     },
     {
+      "id": "ir-review-3",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -81,6 +84,7 @@
       "contact": "정지원\n(031-5189-4823)"
     },
     {
+      "id": "ir-review-4",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -107,6 +111,7 @@
       "contact": "황영순\n(031-5189-6508)"
     },
     {
+      "id": "ir-review-5",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -133,6 +138,7 @@
       "contact": "황영순\n(031-5189-6508)"
     },
     {
+      "id": "ir-review-6",
       "category": "일반",
       "department": "복지정책과",
       "year": "2024",
@@ -159,6 +165,7 @@
       "contact": "이영원\n(031-5189-2216)"
     },
     {
+      "id": "ir-review-7",
       "category": "행사",
       "department": "경제정책과",
       "year": "2024",
@@ -185,6 +192,7 @@
       "contact": "남재희\n(031-5189-2682)"
     },
     {
+      "id": "ir-review-8",
       "category": "문화",
       "department": "문화시설과",
       "year": "2024",
@@ -211,6 +219,7 @@
       "contact": "이예랑\n(031-5189-7028)"
     },
     {
+      "id": "ir-review-9",
       "category": "체육",
       "department": "체육진흥과",
       "year": "2024",
@@ -237,6 +246,7 @@
       "contact": "이경건\n(031-5189-3983)"
     },
     {
+      "id": "ir-review-10",
       "category": "체육",
       "department": "체육진흥과",
       "year": "2024",
@@ -263,6 +273,7 @@
       "contact": "정호\n(031-5189-\n7009)"
     },
     {
+      "id": "ir-review-11",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -289,6 +300,7 @@
       "contact": "정지원\n(031-5189-4823)"
     },
     {
+      "id": "ir-review-12",
       "category": "일반",
       "department": "보타닉가든\n추진단",
       "year": "2024",
@@ -315,6 +327,7 @@
       "contact": "김승규\n(031-5189-\n7176)"
     },
     {
+      "id": "ir-review-13",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -341,6 +354,7 @@
       "contact": "김기순\n(031-5189-4513)"
     },
     {
+      "id": "ir-review-14",
       "category": "행사",
       "department": "문화예술과",
       "year": "2024",
@@ -367,6 +381,7 @@
       "contact": "조경신\n(031-5189-3835)"
     },
     {
+      "id": "ir-review-15",
       "category": "행사",
       "department": "문화예술과",
       "year": "2024",
@@ -393,6 +408,7 @@
       "contact": "지소영\n(031-5189-\n6656)"
     },
     {
+      "id": "ir-review-16",
       "category": "행사",
       "department": "문화예술과",
       "year": "2024",
@@ -419,6 +435,7 @@
       "contact": "지소영\n(031-5189-\n6656)"
     },
     {
+      "id": "ir-review-17",
       "category": "일반",
       "department": "자원순환과",
       "year": "2024",
@@ -445,6 +462,7 @@
       "contact": "문정길\n(031-5189-\n7135)"
     },
     {
+      "id": "ir-review-18",
       "category": "일반",
       "department": "문화시설과",
       "year": "2024",
@@ -471,6 +489,7 @@
       "contact": "이진욱\n(031-5189-3021)"
     },
     {
+      "id": "ir-review-19",
       "category": "일반",
       "department": "도로관리과",
       "year": "2024",
@@ -497,6 +516,7 @@
       "contact": "송기선\n(031-5189-\n2436)"
     },
     {
+      "id": "ir-review-20",
       "category": "일반",
       "department": "위생정책과",
       "year": "2024",
@@ -523,6 +543,7 @@
       "contact": "이준호\n(031-5189-6290)"
     },
     {
+      "id": "ir-review-21",
       "category": "일반",
       "department": "공원조성과",
       "year": "2024",
@@ -549,6 +570,7 @@
       "contact": "박지영\n(031-5189-3992)"
     },
     {
+      "id": "ir-review-22",
       "category": "일반",
       "department": "공원조성과",
       "year": "2024",
@@ -575,6 +597,7 @@
       "contact": "김동현\n(031-5189-3253)"
     },
     {
+      "id": "ir-review-23",
       "category": "일반",
       "department": "대중교통과",
       "year": "2024",
@@ -601,6 +624,7 @@
       "contact": "진병석\n(031-5189-2847)"
     },
     {
+      "id": "ir-review-24",
       "category": "일반",
       "department": "보타닉가든\n추진단",
       "year": "2024",
@@ -627,6 +651,7 @@
       "contact": "김우진\n(031-5189-7180)"
     },
     {
+      "id": "ir-review-25",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -653,6 +678,7 @@
       "contact": "황영순\n(031-5189-6508)"
     },
     {
+      "id": "ir-review-26",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -679,6 +705,7 @@
       "contact": "황영순\n(031-5189-6508)"
     },
     {
+      "id": "ir-review-27",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -705,6 +732,7 @@
       "contact": "황영순\n(031-5189-6508)"
     },
     {
+      "id": "ir-review-28",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -731,6 +759,7 @@
       "contact": "황영순\n(031-5189-6508)"
     },
     {
+      "id": "ir-review-29",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -757,6 +786,7 @@
       "contact": "진소라\n(031-5189-2432)"
     },
     {
+      "id": "ir-review-30",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -783,6 +813,7 @@
       "contact": "진소라\n(031-5189-2432)"
     },
     {
+      "id": "ir-review-31",
       "category": "일반",
       "department": "AI전략과",
       "year": "2024",
@@ -809,6 +840,7 @@
       "contact": "최병권\n(031-5189-6446)"
     },
     {
+      "id": "ir-review-32",
       "category": "일반",
       "department": "문화유산과",
       "year": "2024",
@@ -835,6 +867,7 @@
       "contact": "김성민\n(031-5189-3675)"
     },
     {
+      "id": "ir-review-33",
       "category": "행사",
       "department": "문화예술과",
       "year": "2024",
@@ -861,6 +894,7 @@
       "contact": "이수지\n(031-5189-2065)"
     },
     {
+      "id": "ir-review-34",
       "category": "행사",
       "department": "문화유산과",
       "year": "2024",
@@ -887,6 +921,7 @@
       "contact": "이수지\n(031-5189-2065)"
     },
     {
+      "id": "ir-review-35",
       "category": "체육",
       "department": "체육진흥과",
       "year": "2024",
@@ -913,6 +948,7 @@
       "contact": "정호\n(031-5189-\n7009)"
     },
     {
+      "id": "ir-review-36",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -939,6 +975,7 @@
       "contact": "신상원\n(031-5189-4823)"
     },
     {
+      "id": "ir-review-37",
       "category": "행사",
       "department": "AI전략과",
       "year": "2024",
@@ -965,6 +1002,7 @@
       "contact": "권동섭\n(031-5189-3864)"
     },
     {
+      "id": "ir-review-38",
       "category": "일반",
       "department": "신도시조성과",
       "year": "2024",
@@ -991,6 +1029,7 @@
       "contact": "최재혁\n(031-5189-3646)"
     },
     {
+      "id": "ir-review-39",
       "category": "일반",
       "department": "신도시조성과",
       "year": "2024",
@@ -1017,6 +1056,7 @@
       "contact": "한유지\n(031-5189-2683)"
     },
     {
+      "id": "ir-review-40",
       "category": "일반",
       "department": "문화시설과",
       "year": "2024",
@@ -1043,6 +1083,7 @@
       "contact": "지수현\n(031-5189-7255)"
     },
     {
+      "id": "ir-review-41",
       "category": "일반",
       "department": "철도전략과",
       "year": "2024",
@@ -1069,6 +1110,7 @@
       "contact": "이성현\n(031-5189-3699)"
     },
     {
+      "id": "ir-review-42",
       "category": "행사",
       "department": "문화예술과",
       "year": "2024",
@@ -1095,6 +1137,7 @@
       "contact": "이수지\n(031-5189-2065)"
     },
     {
+      "id": "ir-review-43",
       "category": "행사",
       "department": "문화예술과",
       "year": "2024",
@@ -1121,6 +1164,7 @@
       "contact": "이수지\n(031-5189-2065)"
     },
     {
+      "id": "ir-review-44",
       "category": "행사",
       "department": "체육진흥과",
       "year": "2024",
@@ -1147,6 +1191,7 @@
       "contact": "김대융\n(031-5189-6193)"
     },
     {
+      "id": "ir-review-45",
       "category": "행사",
       "department": "체육진흥과",
       "year": "2024",
@@ -1173,6 +1218,7 @@
       "contact": "김대융\n(031-5189-6193)"
     },
     {
+      "id": "ir-review-46",
       "category": "행사",
       "department": "체육진흥과",
       "year": "2024",
@@ -1199,6 +1245,7 @@
       "contact": "하동호\n(031-5189-2148)"
     },
     {
+      "id": "ir-review-47",
       "category": "행사",
       "department": "청년청소년\n정책과",
       "year": "2024",
@@ -1225,6 +1272,7 @@
       "contact": "이우혁\n(031-5189-7245)"
     },
     {
+      "id": "ir-review-48",
       "category": "행사",
       "department": "청년청소년\n정책과",
       "year": "2024",
@@ -1251,6 +1299,7 @@
       "contact": "최힘찬\n(031-5189-3370)"
     },
     {
+      "id": "ir-review-49",
       "category": "행사",
       "department": "문화유산과",
       "year": "2024",
@@ -1277,6 +1326,7 @@
       "contact": "김도연\n(031-5189-6530)"
     },
     {
+      "id": "ir-review-50",
       "category": "일반",
       "department": "문화유산과",
       "year": "2024",
@@ -1303,6 +1353,7 @@
       "contact": "김성민\n(031-5189-3675)"
     },
     {
+      "id": "ir-review-51",
       "category": "일반",
       "department": "공원조성과",
       "year": "2024",
@@ -1329,6 +1380,7 @@
       "contact": "김동현\n(031-5189-3253)"
     },
     {
+      "id": "ir-review-52",
       "category": "행사",
       "department": "평생교육과",
       "year": "2024",
@@ -1355,6 +1407,7 @@
       "contact": "곽보람\n(031-5189-3097)"
     },
     {
+      "id": "ir-review-53",
       "category": "일반",
       "department": "도시정책관",
       "year": "2024",
@@ -1381,6 +1434,7 @@
       "contact": "강지훈\n(031-5189-3778)"
     },
     {
+      "id": "ir-review-54",
       "category": "일반",
       "department": "맑은물운영과",
       "year": "2024",
@@ -1407,6 +1461,7 @@
       "contact": "이정훈\n(031-5189-3279)"
     },
     {
+      "id": "ir-review-55",
       "category": "행사",
       "department": "문화예술과",
       "year": "2024",
@@ -1433,6 +1488,7 @@
       "contact": "장은채\n(031-5189-6654)"
     },
     {
+      "id": "ir-review-56",
       "category": "행사",
       "department": "문화예술과",
       "year": "2024",
@@ -1459,6 +1515,7 @@
       "contact": "김일웅\n(031-5189-3834)"
     },
     {
+      "id": "ir-review-57",
       "category": "일반",
       "department": "도로과",
       "year": "2024",
@@ -1485,6 +1542,7 @@
       "contact": "박희정\n(031-5189-4202)"
     },
     {
+      "id": "ir-review-58",
       "category": "행사",
       "department": "체육진흥과",
       "year": "2024",
