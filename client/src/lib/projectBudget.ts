@@ -39,7 +39,14 @@ type BudgetSourceProject = {
 // "기투자액(~2026)"이라 오해를 사지만 실제 값은 2026년 편성액과 별개다.
 export type ProjectBudget = {
   total: number;
+  /** 기투자액 — 2026년 편성액을 포함하지 않는 누적액. 구간을 나눠 보여주는 내역표·흐름 그래프용. */
   invested: number;
+  /**
+   * 기투자액(~2026) — 기투자 + 2026년 편성액. 카드와 부서 현황 표처럼 2026년 칸이 따로 없는
+   * 화면은 반드시 이 값을 쓴다. 전에는 2026년을 뺀 값을 "기투자액(~2026)"으로 적어서
+   * 2026년 예산이 어디에도 안 잡히고 떠 있었다(총사업비 = 기투자 + 2027 + 이후 가 안 맞았다).
+   */
+  investedThrough2026: number;
   budget2026: number;
   budget2027: number;
   budget2028Plus: number;
@@ -71,10 +78,16 @@ export function deriveProjectBudget(project: BudgetSourceProject): ProjectBudget
   const primary = fundingHasData ? funding : usage;
   const issues: string[] = [];
 
+  // 저장된 기투자액은 2026년 편성액을 포함하지 않는다(재원별 2026년이 0이 아닌 25개 사업을
+  // 전수 대조한 결과, 총괄표·카드 값이 "기투자 + 2026"과 같은 사업은 한 건도 없다).
+  // 그래서 ~2026 누적은 여기서 2026년을 더해 만든다 — 이중계상 위험 사업은 없다.
+  const storedInvested = n(project.invested_to_2026_million_krw ?? project.card_invested_to_2026_million_krw ?? project.card_invested_to_2025_million_krw);
+  const storedBudget2026 = n(project.card_budget_2026_million_krw);
   const stored: Omit<ProjectBudget, "source" | "issues"> = {
     total: n(project.total_cost_million_krw ?? project.card_total_budget_million_krw),
-    invested: n(project.invested_to_2026_million_krw ?? project.card_invested_to_2026_million_krw ?? project.card_invested_to_2025_million_krw),
-    budget2026: n(project.card_budget_2026_million_krw),
+    invested: storedInvested,
+    investedThrough2026: storedInvested + storedBudget2026,
+    budget2026: storedBudget2026,
     budget2027: n(project.budget_2027_million_krw ?? project.card_budget_2027_million_krw),
     budget2028Plus: n(project.card_budget_2028_plus_million_krw),
   };
@@ -85,6 +98,7 @@ export function deriveProjectBudget(project: BudgetSourceProject): ProjectBudget
 
   const segments = {
     invested: sumRows(primary, "invested"),
+    investedThrough2026: sumRows(primary, "invested") + sumRows(primary, "budget_2026"),
     budget2026: sumRows(primary, "budget_2026"),
     budget2027: sumRows(primary, "budget_2027"),
     budget2028Plus: sumRows(primary, "budget_2028_plus"),
@@ -96,6 +110,11 @@ export function deriveProjectBudget(project: BudgetSourceProject): ProjectBudget
   // 어느 쪽이 맞는지는 원본을 봐야 알 수 있으므로 한쪽을 골라 쓰지 않는다. 예컨대 제부도
   // 도로 개설은 재원별 2027년이 0인데 성질별과 총괄표는 8,950이다 — 재원별을 그대로
   // 따랐다면 화면의 2027년 예산이 0으로 바뀌어 버린다. 이럴 때는 저장값을 그대로 두고 알린다.
+  // 카드의 2026년 편성액이 내역표와 다르면 ~2026 누적이 화면마다 갈린다.
+  if (storedBudget2026 !== 0 && storedBudget2026 !== segments.budget2026) {
+    issues.push(`2026년 편성액 카드 ${storedBudget2026.toLocaleString("ko-KR")} ≠ 내역표 ${segments.budget2026.toLocaleString("ko-KR")}`);
+  }
+
   if (fundingHasData && usageHasData) {
     const usageTotal = sumRows(usage, "total");
     if (usageTotal !== declaredTotal) issues.push(`재원별 총액 ${declaredTotal.toLocaleString("ko-KR")} ≠ 성질별 총액 ${usageTotal.toLocaleString("ko-KR")}`);
