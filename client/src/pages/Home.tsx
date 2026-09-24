@@ -47,6 +47,7 @@ import islands from "../data/hwaseong-islands.json";
 import dongLonLat from "../data/hwaseong-dong-lonlat.json";
 import coastalLonLat from "../data/hwaseong-coastal-lonlat.json";
 import { HwaseongGLMap } from "../components/HwaseongGLMap";
+import { ProjectLocationMap, type ProjectLocationMapData } from "../components/ProjectLocationMap";
 import { InvestmentRealMap } from "../components/InvestmentRealMap";
 import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
@@ -94,6 +95,8 @@ type Project = {
   overview_images_title?: string;
   // 이미지 묶음 제목(기본 "조감도"). 위치도만 있는 사업은 "위치도"로 바꿔 쓴다.
   rendering_images_title?: string;
+  // 인터랙티브 위치도(벡터 지도 + 대상지 경계 + 주변 시설 마커). 있으면 "위치도" 탭 맨 위에 보인다.
+  location_map?: ProjectLocationMapData;
   overview_map?: { title?: string; image?: string; basemap?: "illustration"; spots: { label: string; x: number; y: number; zoomImage: string; tracked?: boolean }[] };
   card_total_budget_million_krw: number | null;
   card_invested_to_2025_million_krw: number | null;
@@ -1045,10 +1048,19 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
         )}
         {activeTab === "예산현황" && <BudgetPanel project={activeProject} />}
         {activeTab === "위치도" && (() => {
+          const hasLocationMap = !!activeProject.location_map;
           const hasSpotMap = !!activeProject.overview_map;
           const hasRenderings = (activeProject.rendering_images?.length ?? 0) > 0;
           return (
             <div className="pd-detail-attached-group">
+              {hasLocationMap && (
+                <div className={`pd-stacked-panel${hasSpotMap || hasRenderings ? "" : " pd-attached-last"}`}>
+                  <div className="pd-card">
+                    <div className="pd-card-title"><DetailSectionHeading icon={GalleryIcon} title="위치도" /></div>
+                    <ProjectLocationMap data={activeProject.location_map!} projectName={activeProject.project_name} />
+                  </div>
+                </div>
+              )}
               {/* SpotMapCard는 원래 OverviewPanel의 pd-card 안에 얹혀 있던 하위 섹션이라 그 자체엔
                   pd-card 배경이 없다 - 여기서는 독립 카드로 보여야 하니 pd-card로 감싼다. */}
               {hasSpotMap && (
@@ -1057,7 +1069,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
                 </div>
               )}
               {hasRenderings && <div className="pd-stacked-panel pd-attached-last"><LocationPanel project={activeProject} /></div>}
-              {!hasSpotMap && !hasRenderings && <div className="pd-note-box">등록된 위치도·조감도가 없습니다.</div>}
+              {!hasLocationMap && !hasSpotMap && !hasRenderings && <div className="pd-note-box">등록된 위치도·조감도가 없습니다.</div>}
             </div>
           );
         })()}
