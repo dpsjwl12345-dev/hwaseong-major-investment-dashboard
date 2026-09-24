@@ -842,13 +842,29 @@
   padding: 6px 8px 0;
   overflow: visible;
 }
-.pd-progress-horizontal-line {
+/* 연결선은 항목마다 그린다 — 한 줄짜리 선은 항목이 7개를 넘어 줄이 바뀌면 첫 줄에만 남았다.
+   각 항목은 자기 동그라미 오른쪽부터 다음 칸 시작까지 선을 긋고, 줄 끝 항목은 오른쪽 끝까지,
+   다음 줄 첫 항목은 왼쪽 끝에서부터 이어 받아 마지막(준공)까지 끊기지 않게 보인다. */
+.pd-progress-horizontal-item:not(:last-child)::after {
+  content: "";
   position: absolute;
-  top: 26px;
-  left: 50px;
-  right: 29px;
+  top: 20px;
+  left: 42px;
+  right: -10px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(111,156,164,.55), #3c5b60 45%, #4a4a4a);
+  background: #3c5b60;
+}
+.pd-progress-horizontal-item.is-active:not(:last-child)::after {
+  background: linear-gradient(90deg, rgba(111,156,164,.55), #3c5b60);
+}
+.pd-progress-horizontal-item:nth-child(7n+1):not(:first-child)::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: -8px;
+  width: 8px;
+  height: 1px;
+  background: #3c5b60;
 }
 .pd-progress-horizontal-item {
   position: relative;
@@ -868,10 +884,14 @@
 @media (max-width: 900px) {
   .pd-progress-layout { grid-template-columns: 1fr; }
   .pd-progress-horizontal-track { grid-template-columns: repeat(4, minmax(0, 1fr)); min-height: 220px; gap: 12px 8px; }
+  .pd-progress-horizontal-item:not(:last-child)::after { right: -8px; }
+  .pd-progress-horizontal-item:nth-child(7n+1):not(:first-child)::before { display: none; }
+  .pd-progress-horizontal-item:nth-child(4n+1):not(:first-child)::before { content: ""; display: block; position: absolute; top: 20px; left: -8px; width: 8px; height: 1px; background: #3c5b60; }
 }
 @media (max-width: 560px) {
   .pd-progress-horizontal-track { grid-template-columns: repeat(2, minmax(0, 1fr)); min-height: 0; }
-  .pd-progress-horizontal-line { display: none; }
+  .pd-progress-horizontal-item::after,
+  .pd-progress-horizontal-item::before { display: none !important; }
 }
 @media (max-width: 560px) {
   .pd-progress-summary { margin: 6px 4px 24px; gap: 18px !important; }

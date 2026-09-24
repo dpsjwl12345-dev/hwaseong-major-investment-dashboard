@@ -92,6 +92,8 @@ type Project = {
   rendering_images?: string[];
   overview_images?: string[];
   overview_images_title?: string;
+  // 이미지 묶음 제목(기본 "조감도"). 위치도만 있는 사업은 "위치도"로 바꿔 쓴다.
+  rendering_images_title?: string;
   overview_map?: { title?: string; image?: string; basemap?: "illustration"; spots: { label: string; x: number; y: number; zoomImage: string; tracked?: boolean }[] };
   card_total_budget_million_krw: number | null;
   card_invested_to_2025_million_krw: number | null;
@@ -523,7 +525,7 @@ function ProgressPanel({ project }: { project: Project }) {
           {upcoming.length > 0 ? upcomingGroups.map((group, gi) => (
             <div className="pd-progress-horizontal-group" key={gi}>
               {group.label && <div className="pd-progress-group-label">{group.label}</div>}
-              <div className="pd-progress-horizontal-track" style={{ ["--pd-progress-cols" as string]: Math.min(group.items.length, 7) } as CSSProperties}><div className="pd-progress-horizontal-line" />{group.items.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{highlightMilestones(item.desc)}</div></div></div>)}</div>
+              <div className="pd-progress-horizontal-track" style={{ ["--pd-progress-cols" as string]: Math.min(group.items.length, 7) } as CSSProperties}>{group.items.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{highlightMilestones(item.desc)}</div></div></div>)}</div>
             </div>
           )) : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
           {/* 향후계획 박스는 왼쪽 추진경과보다 보통 짧아서 아래에 빈 공간이 남는다(그리드
@@ -577,16 +579,17 @@ function realCoordsFor(project: Project): [number, number] | null {
 
 function LocationPanel({ project }: { project: Project }) {
   const renderings = project.rendering_images ?? [];
+  const imagesTitle = project.rendering_images_title || "조감도";
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   if (renderings.length === 0) return null;
 
   return (
     <div className="pd-card">
-      <div className="pd-card-title"><DetailSectionHeading icon={GalleryIcon} title="조감도" /></div>
+      <div className="pd-card-title"><DetailSectionHeading icon={GalleryIcon} title={imagesTitle} /></div>
       <div className="pd-rendering-grid" data-count={Math.min(renderings.length, 4)}>
         {renderings.map((src, index) => (
-          <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} 조감도 ${index + 1} 확대 보기`}>
-            <img src={src} alt={`${project.project_name} 조감도 ${index + 1}`} />
+          <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} ${imagesTitle} ${index + 1} 확대 보기`}>
+            <img src={src} alt={`${project.project_name} ${imagesTitle} ${index + 1}`} />
           </button>
         ))}
       </div>
