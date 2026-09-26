@@ -2501,6 +2501,7 @@ html, body, #root,
 .dept-budget-bar { grid-column: 1 / -1; display: block; height: 4px; overflow: hidden; margin-top: 4px; border-radius: 999px; background: rgba(255,255,255,.08); }
 .dept-budget-bar em { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #ffb52e, #ffe08a); }
 .dept-filter-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,.06); color: var(--pd-text-faint); font-size: 12px; }
+.dept-filter-row-end { justify-content: flex-end; }
 .dept-filter-row label { display: inline-flex; align-items: center; gap: 8px; }
 .dept-filter-row select { border: 1px solid rgba(255,255,255,.14); border-radius: 7px; padding: 6px 9px; color: #fff; background: #171d31; font-size: 12px; }
 .dept-project-table-wrap { overflow-x: auto; }
@@ -2535,9 +2536,9 @@ html, body, #root,
 .ir-tabs button.is-active { color: #10131f; background: #ffbe3d; }
 .ir-count { color: var(--pd-text-faint); font-size: 12px; }
 .ir-table-wrap { overflow-x: auto; }
-.ir-table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 14.5px; }
+.ir-table { width: 100%; min-width: 980px; border-collapse: collapse; font-size: 15.5px; }
 .ir-table th, .ir-table td { padding: 13px 12px; border-bottom: 1px solid rgba(255,255,255,.08); text-align: left; vertical-align: top; }
-.ir-table th { color: var(--pd-text-faint); background: rgba(255,255,255,.04); font-size: 13.5px; font-weight: 800; white-space: nowrap; }
+.ir-table th { color: var(--pd-text-faint); background: rgba(255,255,255,.04); font-size: 15.5px; font-weight: 800; white-space: nowrap; }
 .ir-table tbody tr.ir-row { cursor: pointer; transition: background .15s ease; }
 .ir-table tbody tr.ir-row:hover, .ir-table tbody tr.ir-row.is-open { background: rgba(255,190,61,.07); }
 .ir-project-name { color: #fff; font-weight: 700; min-width: 220px; }
@@ -4095,6 +4096,12 @@ main.app-main.app-main-flush .hero-panel {
   font-weight: 800;
   background: rgba(255, 255, 255, .1);
 }
+.floating-nav-dropdown-row-static button.floating-nav-investment-review {
+  color: #E8AC42;
+}
+.floating-nav-dropdown-row-static button.floating-nav-investment-review:hover {
+  color: #E8AC42;
+}
 .floating-nav-dot {
   width: 5px;
   height: 5px;
@@ -4339,6 +4346,9 @@ main.app-main.app-main-flush .hero-panel {
 /* Same specificity+!important as the table-wide td-strong size bump above,
    so it must come after that rule in source order to actually win. */
 .dept-total-row td strong { font-size: 15px !important; }
+
+/* 합계 라인 금액도 "합계" 라벨과 같은 색으로 - 아래 .dept-amount-cell 규칙들보다 뒤에 와야 이긴다. */
+.dept-total-row .dept-amount-cell { color: #ffe08a !important; }
 
 /* 예산현황 tab (BudgetPanel: exec cards, 재원별 예산 table, 성질별 예산 chart):
    bump every text size up a notch for readability. */

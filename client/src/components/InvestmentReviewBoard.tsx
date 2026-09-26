@@ -4,6 +4,13 @@ import { trpc } from "@/lib/trpc";
 import investmentReviewData from "../data/investment_review.json";
 import investmentRequestData from "../data/investment_request.json";
 
+const DEPARTMENT_ORDER = ["문화예술과", "문화유산과", "독립기념관", "관광진흥과", "도서관정책과", "체육진흥과", "전국체전추진단"];
+function byDepartmentOrder(a: { department: string }, b: { department: string }) {
+  const ai = DEPARTMENT_ORDER.indexOf(a.department);
+  const bi = DEPARTMENT_ORDER.indexOf(b.department);
+  return (ai === -1 ? DEPARTMENT_ORDER.length : ai) - (bi === -1 ? DEPARTMENT_ORDER.length : bi);
+}
+
 type ReviewRecord = {
   id: string;
   category: string | null;
@@ -148,10 +155,14 @@ export function InvestmentReviewBoard({ isAdmin = false }: { isAdmin?: boolean }
   const request = useRowOverrides(requestRecords);
 
   const departments = useMemo(
-    () => ["전체", ...Array.from(new Set(review.records.map((record) => record.department))).sort((a, b) => a.localeCompare(b, "ko"))],
+    () => ["전체", ...Array.from(new Set(review.records.map((record) => record.department))).sort((a, b) => byDepartmentOrder({ department: a }, { department: b }))],
     [review.records],
   );
-  const filtered = departmentFilter === "전체" ? review.records : review.records.filter((record) => record.department === departmentFilter);
+  const filtered = useMemo(
+    () => (departmentFilter === "전체" ? review.records : review.records.filter((record) => record.department === departmentFilter)).slice().sort(byDepartmentOrder),
+    [review.records, departmentFilter],
+  );
+  const sortedRequestRecords = useMemo(() => request.records.slice().sort(byDepartmentOrder), [request.records]);
 
   const beginReviewEdit = (record: ReviewRecord) => {
     setEditingId(record.id);
@@ -302,7 +313,7 @@ export function InvestmentReviewBoard({ isAdmin = false }: { isAdmin?: boolean }
         </div>
       ) : (
         <div className="dept-panel">
-          <div className="dept-filter-row">
+          <div className="dept-filter-row dept-filter-row-end">
             <span className="ir-count">{request.records.length}건 · 27년 본예산 투자심사 안건 의뢰 현황, 단위: 억원</span>
           </div>
           {request.records.length === 0 ? (
@@ -322,7 +333,7 @@ export function InvestmentReviewBoard({ isAdmin = false }: { isAdmin?: boolean }
                   </tr>
                 </thead>
                 <tbody>
-                  {request.records.map((record) => {
+                  {sortedRequestRecords.map((record) => {
                     const isOpen = expandedKey === record.id;
                     const isEditing = editingId === record.id;
                     const colSpan = isAdmin ? 7 : 6;

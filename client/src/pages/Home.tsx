@@ -495,13 +495,6 @@ function BudgetPanel({ project }: { project: Project }) {
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid"><FundingBreakdownCard rows={project.funding_breakdown} yearlyAllocation={yearlyAllocation} projectId={project.id} /><UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} yearlyTotals={yearlyTotals} /></div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
-      {/* 내역표가 스스로 맞지 않으면 숫자를 지어내지 않고 저장값을 쓴다는 사실을 화면에 남긴다. */}
-      {budgetOf.issues.length > 0 && (
-        <div className="pd-note-box mt-4 text-amber-300">
-          <b>예산 검증 필요{budgetOf.source === "stored" ? " · 총괄표 값으로 표시 중" : ""}</b>
-          <ul className="mt-1 list-disc pl-5">{budgetOf.issues.map((issue) => <li key={issue}>{issue}</li>)}</ul>
-        </div>
-      )}
     </div>
   );
 }
@@ -1812,7 +1805,12 @@ function DepartmentDashboard({
   const futurePlanBudgetFor = (project: Project) => pb(project).budget2028Plus;
   const departmentProjects = projects
     .filter((project) => project.department === initialDepartment)
-    .sort((a, b) => a.serial - b.serial);
+    // 계속사업을 먼저, 신규사업을 뒤에 보여준다 - 같은 구분 안에서는 기존 serial 순서를 유지한다.
+    .sort((a, b) => {
+      const rank = (project: Project) => (project.region === "신규" ? 1 : 0);
+      const diff = rank(a) - rank(b);
+      return diff !== 0 ? diff : a.serial - b.serial;
+    });
   const stageOptions = Array.from(new Set(departmentProjects.map((project) => project.current_stage).filter(Boolean))) as string[];
   const totalCost = departmentProjects.reduce((sum, project) => sum + pb(project).total, 0);
   const investedAmount = departmentProjects.reduce((sum, project) => sum + pb(project).investedThrough2026, 0);
@@ -2170,7 +2168,7 @@ function FloatingNavBar({
           <div className="floating-nav-dept-item">
             <button
               type="button"
-              className={isInvestmentReviewActive ? "is-selected" : ""}
+              className={`floating-nav-investment-review${isInvestmentReviewActive ? " is-selected" : ""}`}
               onClick={() => { onOpenInvestmentReview(); setOpenDeptName(null); setShowProjects(false); }}
             >
               {isInvestmentReviewActive && <i className="floating-nav-dot" />}
