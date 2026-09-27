@@ -2551,12 +2551,9 @@ html, body, #root,
    제목이 아래로 밀려 그 위에 빈 여백이 생겼다. 이 헤더만 위쪽 정렬로 맞춘다. */
 .ir-board .dept-dashboard-header { align-items: flex-start; padding-top: 4px; margin-bottom: 12px; }
 .ir-board .ir-tabs { margin-top: 0; }
-.ir-result-legend { flex: none; max-width: 480px; border: 1px solid rgba(255,255,255,.14); border-radius: 12px; background: rgba(255,255,255,.04); padding: 14px 18px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; }
+.ir-result-legend { flex: none; max-width: 560px; border: 1px solid rgba(255,255,255,.14); border-radius: 12px; background: rgba(255,255,255,.04); padding: 14px 18px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; }
 .ir-result-legend-title { grid-column: 1 / -1; margin: 0 0 8px; color: #ffbe3d; font-size: 11px; font-weight: 800; letter-spacing: .1em; }
 .ir-result-legend-row { display: flex; align-items: baseline; gap: 10px; padding: 6px 0; }
-/* "조건부 추진" 설명이 다른 항목보다 길어서 반칸에 넣으면 줄바꿈됨 - 이 줄만 전체너비로 펼쳐서 한 줄로 */
-.ir-result-legend-row:nth-of-type(2) { grid-column: 1 / -1; }
-.ir-result-legend-row:nth-of-type(2) .ir-result-legend-desc { white-space: nowrap; }
 .ir-result-legend-desc { color: var(--pd-text-muted); font-size: 12.5px; line-height: 1.4; }
 @media (max-width: 900px) { .ir-result-legend { display: none; } }
 .ir-detail-row td { background: rgba(0,0,0,.18); cursor: default; }
