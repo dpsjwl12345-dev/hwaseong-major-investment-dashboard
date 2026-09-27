@@ -191,6 +191,25 @@ export function InvestmentReviewBoard({ isAdmin = false }: { isAdmin?: boolean }
           <p className="dept-dashboard-eyebrow">INVESTMENT REVIEW</p>
           <h1>지방재정 투자 심사</h1>
         </div>
+        <div className="ir-result-legend">
+          <p className="ir-result-legend-title">투자심사 결과 및 효력</p>
+          <div className="ir-result-legend-row">
+            <span className="ir-result-badge ir-result-success">① 적정</span>
+            <span className="ir-result-legend-desc">사업 타당성이 인정되어 예산 반영 가능</span>
+          </div>
+          <div className="ir-result-legend-row">
+            <span className="ir-result-badge ir-result-warning">② 조건부 추진</span>
+            <span className="ir-result-legend-desc">제시된 조건(재원 재보완, 사업 규모 축소 등) 이행을 전제로 예산 반영 가능</span>
+          </div>
+          <div className="ir-result-legend-row">
+            <span className="ir-result-badge ir-result-critical">③ 재검토</span>
+            <span className="ir-result-legend-desc">사업 계획 재검토 필요 (예산 편성 불가)</span>
+          </div>
+          <div className="ir-result-legend-row">
+            <span className="ir-result-badge ir-result-critical">④ 부적정</span>
+            <span className="ir-result-legend-desc">사업 추진 타당성 없음 (예산 편성 전면 금지)</span>
+          </div>
+        </div>
       </div>
 
       <div className="ir-tabs" role="tablist" aria-label="투자심사 화면 전환">
