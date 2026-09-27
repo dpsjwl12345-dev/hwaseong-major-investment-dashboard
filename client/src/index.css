@@ -2528,7 +2528,7 @@ html, body, #root,
 
 /* 투자심사 탭 (InvestmentReviewBoard) — dept-dashboard 골격을 그대로 쓰고
    표/배지/상세영역만 이 사업에 맞게 새로 정의한다. */
-.ir-tabs { display: inline-flex; gap: 6px; margin: 4px 0 20px; padding: 4px; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; background: rgba(255,255,255,.03); }
+.ir-tabs { display: inline-flex; gap: 6px; margin: 4px 0 12px; padding: 4px; border: 1px solid rgba(255,255,255,.12); border-radius: 999px; background: rgba(255,255,255,.03); }
 .ir-tabs button { border: none; border-radius: 999px; padding: 8px 20px; color: var(--pd-text-faint); background: transparent; font-family: "Gmarket Sans", "Pretendard", sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: background .15s ease, color .15s ease; }
 .ir-tabs button:hover { color: #fff; }
 .ir-tabs button.is-active { color: #10131f; background: #ffbe3d; }
