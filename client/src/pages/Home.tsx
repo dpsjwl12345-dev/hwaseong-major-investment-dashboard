@@ -927,8 +927,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           const subCount = project.sub_projects!.length;
           const subLabels = project.sub_projects!.map((sub) => project.project_name === "서해안 관광벨트 주차장 및 도로 조성" && sub.name.startsWith("송교리 주차장") ? "송교리 주차장" : sub.name);
           const maxLabelLen = Math.max(...subLabels.map((label) => label.length));
-          const isParkingLot = project.project_name === "서해안 관광벨트 주차장 및 도로 조성";
-          const subButtonWidth = isParkingLot ? Math.max(84, maxLabelLen * 11 + 28) : Math.max(100, maxLabelLen * 15 + 52);
+          const subButtonWidth = Math.max(100, maxLabelLen * 15 + 52);
           return (
           <div className="radio-group" role="tablist" aria-label="세부 사업 선택" style={{ width: `${subButtonWidth * subCount}px` }}>
             <div key={selectedSubIndex} className="slider" style={{ width: `calc((100% - 8px) / ${subCount})`, transform: `translateX(${selectedSubIndex * 100}%)` }} />
