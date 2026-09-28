@@ -567,6 +567,9 @@
 .pd-pulse-donut span,.pd-pulse-donut small { position:relative; z-index:1; }
 .pd-pulse-donut span { position:absolute; top:50%; left:50%; transform:translate(-50%,-58%); color:#fff; font-size:20px; font-weight:800; }
 .pd-pulse-donut small { position:absolute; top:62%; left:50%; transform:translateX(-50%); color:var(--pd-text-faint); font-size:10px; }
+.pd-usage-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.pd-usage-right.pd-pulse-trend { margin-top: 0; }
+@media (max-width: 760px) { .pd-usage-split { grid-template-columns: minmax(0, 1fr); } }
 .pd-pulse-trend { margin-top: 36px; padding:20px 12px 9px; border:1px solid rgba(255,255,255,.1); border-radius:14px; background:rgba(255,255,255,.025); }
 .pd-pulse-section-label { display:flex; justify-content:flex-start; padding-left:0; margin-top:0; gap:8px; color:var(--pd-text); }
 .pd-pulse-section-label .pd-pulse-eyebrow { margin:0; }
