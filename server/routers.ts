@@ -6,7 +6,7 @@ import { createAdminSessionToken } from "./_core/adminSession";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { ENV } from "./_core/env";
-import { adminProcedure, publicProcedure, router } from "./_core/trpc";
+import { publicProcedure, router } from "./_core/trpc";
 import { getProjectContentOverrides, getProjectContentRevisions, saveProjectContentOverride } from "./db";
 
 function isCorrectPassword(candidate: string): boolean {
@@ -48,10 +48,11 @@ export const appRouter = router({
   }),
   projectContent: router({
     list: publicProcedure.query(() => getProjectContentOverrides()),
-    save: adminProcedure
+    // 로그인 없이 누구나 편집할 수 있도록 저장/이력 조회를 공개 프로시저로 연다.
+    save: publicProcedure
       .input(z.object({ projectId: z.string().min(1).max(128), payload: z.record(z.string(), z.unknown()) }))
       .mutation(({ input }) => saveProjectContentOverride(input.projectId, input.payload, "admin")),
-    revisions: adminProcedure
+    revisions: publicProcedure
       .input(z.object({ projectId: z.string().min(1).max(128) }))
       .query(({ input }) => getProjectContentRevisions(input.projectId)),
   }),

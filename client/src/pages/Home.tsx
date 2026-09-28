@@ -751,59 +751,9 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
   );
 }
 
-// Inline admin login: swaps a "관리자 로그인" button for a small password
-// field on click, submits it via tRPC, and reports success so the caller can
-// refetch auth.me. Used in both the project-detail header and the map view.
-function AdminLoginControl({ className, onLoggedIn }: { className?: string; onLoggedIn: () => void }) {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const loginMutation = trpc.auth.login.useMutation({
-    onSuccess: () => {
-      setOpen(false);
-      setValue("");
-      setError(null);
-      onLoggedIn();
-    },
-    onError: (mutationError) => setError(mutationError.message || "로그인에 실패했습니다."),
-  });
-
-  const submit = (event: ReactFormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!value.trim() || loginMutation.isPending) return;
-    loginMutation.mutate({ password: value });
-  };
-
-  return (
-    <div className="pd-admin-login-wrap">
-      {open ? (
-        <form className="pd-admin-login-form" onSubmit={submit}>
-          <input
-            type="password"
-            autoFocus
-            value={value}
-            onChange={(event) => { setValue(event.target.value); setError(null); }}
-            onBlur={() => { if (!value.trim()) setOpen(false); }}
-            placeholder="관리자 비밀번호"
-            className={error ? "is-error" : ""}
-          />
-          <button type="submit" disabled={loginMutation.isPending} aria-label="로그인">
-            <ArrowRight size={13} />
-          </button>
-          {error && <span className="pd-admin-login-error">{error}</span>}
-        </form>
-      ) : (
-        <button type="button" className={className} onClick={() => setOpen(true)}>
-          <Lock size={14} /> 관리자 로그인
-        </button>
-      )}
-    </div>
-  );
-}
-
 const TABS = ["사업개요·추진현황", "예산현황", "위치도"] as const;
 
-function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, isAdmin, onProjectUpdated, onAdminLoggedIn }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; isAdmin?: boolean; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void; onAdminLoggedIn: () => void }) {
+function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, isAdmin, onProjectUpdated }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; isAdmin?: boolean; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
   const [selectedSubIndex, setSelectedSubIndex] = useState(0);
   const [isEditing, setIsEditing] = useState(false);
@@ -1977,7 +1927,6 @@ function LiquidMorphMenu({ label, onLabelClick, sections }: { label: string; onL
 
 export default function Home() {
   const [siteUnlocked, setSiteUnlocked] = useState(() => typeof window !== "undefined" && localStorage.getItem(SITE_UNLOCK_STORAGE_KEY) === "1");
-  const authQuery = trpc.auth.me.useQuery();
   const overridesQuery = trpc.projectContent.list.useQuery();
   const liveProjects = useMemo(() => {
     const overridden = projects.map((project) => {
@@ -1991,7 +1940,8 @@ export default function Home() {
       .map((item: { payload: unknown }) => item.payload as unknown as Project);
     return [...overridden, ...customRows];
   }, [overridesQuery.data]);
-  const isAdmin = authQuery.data?.role === "admin";
+  // 로그인 없이 누구나 편집할 수 있도록 관리자 게이트를 없앴다 - isAdmin은 항상 true.
+  const isAdmin = true;
   // 부서별 현황 표(DepartmentDashboard)와 동일하게 overrides가 반영된 순서로 상단 메뉴
   // 드롭다운을 채운다 — 검색어 필터는 적용하지 않는다(드롭다운은 검색과 무관하게 항상 전체 목록).
   const liveOrganization = useMemo(() => {
@@ -2094,13 +2044,9 @@ export default function Home() {
             includeMapView={false}
           />
         </div>
-        {/* 예전엔 지도 화면에서만 로그인 버튼이 보였다 - 헤더는 모든 화면(홈/메뉴/지도/사업상세)에서
-            항상 떠 있으니 여기서 전역으로 하나만 노출한다. 관리자로 로그인된 뒤에는 여기엔 아무것도
-            띄우지 않고, 사업상세 화면의 "사업 정보 편집" 버튼처럼 화면별로 의미 있는 편집 트리거만
-            그 화면 안에서 계속 보여준다(ProjectDetail이 이 슬롯에 포털로 얹는 부분 참고). */}
-        <div id="pd-admin-login-slot" className="pd-admin-login-slot">
-          {!isAdmin && <AdminLoginControl className="pd-edit-login" onLoggedIn={() => authQuery.refetch()} />}
-        </div>
+        {/* 로그인 없이 누구나 편집 가능해서 이 슬롯엔 더 이상 로그인 버튼이 없다 - 사업상세
+            화면의 "사업 정보 편집" 버튼이 포털로 얹히는 자리로만 남겨둔다. */}
+        <div id="pd-admin-login-slot" className="pd-admin-login-slot" />
         {/* 검색 기능은 유지하되, 당분간 화면에서는 노출하지 않음 */}
         {false && activeView !== "landing" && (
           <div className={`site-search ${isSearchFocused ? "is-open" : ""}`}>
@@ -2158,7 +2104,7 @@ export default function Home() {
             <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
-              <ProjectDetail project={selectedProject} isAdmin={isAdmin} onAdminLoggedIn={() => authQuery.refetch()} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />
+              <ProjectDetail project={selectedProject} isAdmin={isAdmin} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />
             </div>
           ) : (
             <LandingPage />
