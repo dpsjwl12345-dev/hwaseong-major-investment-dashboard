@@ -1951,8 +1951,16 @@ export default function Home() {
   // 드롭다운을 채운다 — 검색어 필터는 적용하지 않는다(드롭다운은 검색과 무관하게 항상 전체 목록).
   const liveOrganization = useMemo(() => {
     const org = buildOrganization(liveProjects);
+    // DepartmentDashboard(부서별 현황)와 똑같이 계속사업을 먼저, 신규사업을 뒤에 두고
+    // 같은 구분 안에서는 serial 순서를 유지한다 - 안 맞추면 드롭다운과 표의 사업 순서가 어긋난다.
     org.forEach((bureau) =>
-      bureau.departments.forEach((department) => department.projects.sort((a, b) => a.serial - b.serial)),
+      bureau.departments.forEach((department) =>
+        department.projects.sort((a, b) => {
+          const rank = (project: Project) => (project.region === "신규" ? 1 : 0);
+          const diff = rank(a) - rank(b);
+          return diff !== 0 ? diff : a.serial - b.serial;
+        }),
+      ),
     );
     return org;
   }, [liveProjects]);
