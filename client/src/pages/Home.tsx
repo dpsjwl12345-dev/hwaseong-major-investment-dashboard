@@ -60,6 +60,8 @@ type Project = {
   serial: number;
   department: string;
   project_name: string;
+  // 스포츠시설추진TF 소관 사업(축구전용경기장~권역별 체육센터 건립) 제목 앞에 TF 뱃지를 붙인다.
+  tf_badge?: boolean;
   overview: string;
   category: string;
   current_stage: string;
@@ -913,7 +915,11 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
         <div className="pd-detail-title-block">
           <p className="pd-detail-eyebrow">PROJECT INVESTMENT DETAIL</p>
           <h1 className="max-w-4xl font-display text-2xl font-bold leading-[1.15] tracking-[-0.045em] text-white lg:text-4xl">
+          {project.tf_badge && <span className="pd-tf-badge">TF</span>}
           {(() => {
+            // 축구전용경기장 건립(동탄여울공원)은 다른 사업과 달리 괄호를 줄바꿈 없이
+            // 제목 옆에 그대로 붙여서 보여달라는 요청이 있어 자동 줄바꿈 대상에서 제외한다.
+            if (project.project_name === "축구전용경기장 건립(동탄여울공원)") return project.project_name;
             const match = project.project_name.match(/^(.*?)(\s*\([^)]+\))\s*$/);
             if (!match) return project.project_name;
             return (
