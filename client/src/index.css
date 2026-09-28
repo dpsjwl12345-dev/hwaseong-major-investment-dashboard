@@ -576,7 +576,7 @@
 .pd-pulse-section-label .pd-pulse-eyebrow { margin:0; }
 .pd-pulse-section-label small { color:var(--pd-text-faint); font-size:10px; font-weight:500; }
 .pd-pulse-trend svg { display:block; width:100%; aspect-ratio: 320 / 80; height:auto; margin-top:10px; overflow:visible; }
-.pd-pulse-axis-label { fill: var(--pd-text-faint); font-size: 8.5px; dominant-baseline: alphabetic; }
+.pd-pulse-axis-label { fill: var(--pd-text-faint); font-size: 7.5px; dominant-baseline: alphabetic; }
 .pd-pulse-flow-value { fill: var(--pd-text); font-size: 8px; font-weight: 600; font-variant-numeric: tabular-nums; pointer-events: none; }
 .pd-usage-progress-list { display:grid; gap:11px; padding:18px 2px 4px; }
 .pd-usage-progress-row { min-width:0; }
