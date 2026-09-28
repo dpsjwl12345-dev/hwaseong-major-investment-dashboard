@@ -97,7 +97,7 @@ type Project = {
   rendering_images_title?: string;
   // 인터랙티브 위치도(벡터 지도 + 대상지 경계 + 주변 시설 마커). 있으면 "위치도" 탭 맨 위에 보인다.
   location_map?: ProjectLocationMapData;
-  overview_map?: { title?: string; image?: string; basemap?: "illustration"; spots: { label: string; x: number; y: number; zoomImage: string; tracked?: boolean }[] };
+  overview_map?: { title?: string; image?: string; basemap?: "illustration"; spots: { label: string; x: number; y: number; zoomImage: string; tracked?: boolean; detail?: string }[] };
   card_total_budget_million_krw: number | null;
   card_invested_to_2025_million_krw: number | null;
   card_invested_to_2026_million_krw: number | null;
@@ -311,36 +311,63 @@ function OverviewPanel({ project }: { project: Project }) {
 
 function SpotMapCard({ map, projectName }: { map: NonNullable<Project["overview_map"]>; projectName: string }) {
   const [isZoomed, setIsZoomed] = useState(false);
-  const mapBody = (
-    <>
-      {map.basemap === "illustration" ? (
-        <svg className="pd-spotmap-illustration" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label={`${projectName} 위치도`}>
-          <path d={hwaseongBoundary.d} />
-        </svg>
-      ) : (
-        <img src={map.image} alt={`${projectName} 위치도`} />
-      )}
-      {map.spots.map((spot, index) => (
-        <span key={spot.label} className={`pd-spotmap-pin${spot.tracked ? " is-tracked" : ""}`} style={{ left: `${spot.x}%`, top: `${spot.y}%` }}>
+  // 핀은 상시 라벨(장소명)만 보여주고, 클릭하면 주소·규모 같은 상세 텍스트를 그 자리에 펼친다.
+  // 배경(지도) 클릭은 그대로 전체 위치도 확대(lightbox)로 이어진다 - 핀 클릭만 막아서(stopPropagation)
+  // 확대와 상세보기가 서로 안 겹치게 한다.
+  const [openSpotLabel, setOpenSpotLabel] = useState<string | null>(null);
+  const renderSpots = () => map.spots.map((spot, index) => (
+    <span key={spot.label} className={`pd-spotmap-pin${spot.tracked ? " is-tracked" : ""}${openSpotLabel === spot.label ? " is-open" : ""}`} style={{ left: `${spot.x}%`, top: `${spot.y}%` }}>
+      {spot.detail ? (
+        <button
+          type="button"
+          className="pd-spotmap-pin-trigger"
+          onClick={(event) => { event.stopPropagation(); setOpenSpotLabel((current) => (current === spot.label ? null : spot.label)); }}
+        >
           <span className="pd-spotmap-pin-dot">{index + 1}</span>
           <span className="pd-spotmap-pin-label">{spot.label}</span>
-        </span>
-      ))}
-    </>
+        </button>
+      ) : (
+        <>
+          <span className="pd-spotmap-pin-dot">{index + 1}</span>
+          <span className="pd-spotmap-pin-label">{spot.label}</span>
+        </>
+      )}
+      {spot.detail && openSpotLabel === spot.label && (
+        <span className="pd-spotmap-pin-detail" onClick={(event) => event.stopPropagation()}>{spot.detail}</span>
+      )}
+    </span>
+  ));
+  const mapBackground = map.basemap === "illustration" ? (
+    <svg className="pd-spotmap-illustration" viewBox={`0 0 ${hwaseongBoundary.width} ${hwaseongBoundary.height}`} preserveAspectRatio="xMidYMid meet" role="img" aria-label={`${projectName} 위치도`}>
+      <path d={hwaseongBoundary.d} />
+    </svg>
+  ) : (
+    <img src={map.image} alt={`${projectName} 위치도`} />
   );
   return (
     <div className="pd-kv-row mt-4">
       <div className="pd-kv" style={{ gridColumn: "1 / -1" }}>
         <span className="pd-kv-label">{map.title || "거점 위치도"}</span>
-        <button type="button" className={`pd-spotmap mt-1${map.basemap === "illustration" ? " is-illustration" : ""}`} onClick={() => setIsZoomed(true)} aria-label={`${map.title || "거점 위치도"} 확대 보기`}>
-          {mapBody}
-        </button>
+        <div
+          className={`pd-spotmap mt-1${map.basemap === "illustration" ? " is-illustration" : ""}`}
+          onClick={() => setIsZoomed(true)}
+          role="button"
+          tabIndex={0}
+          aria-label={`${map.title || "거점 위치도"} 확대 보기`}
+          onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") setIsZoomed(true); }}
+        >
+          <div className="pd-spotmap-bg">{mapBackground}</div>
+          {renderSpots()}
+        </div>
       </div>
       {isZoomed && (
         <div className="pd-lightbox-backdrop" onClick={() => setIsZoomed(false)}>
           <button type="button" className="pd-lightbox-close" onClick={() => setIsZoomed(false)} aria-label="닫기"><X size={20} /></button>
           <div className="pd-lightbox-content pd-spotmap-lightbox" onClick={(event) => event.stopPropagation()}>
-            <div className="pd-spotmap is-illustration is-zoomed">{mapBody}</div>
+            <div className="pd-spotmap is-illustration is-zoomed">
+              <div className="pd-spotmap-bg">{mapBackground}</div>
+              {renderSpots()}
+            </div>
           </div>
         </div>
       )}

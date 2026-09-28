@@ -1102,11 +1102,17 @@
   position: relative;
   display: block;
   border-radius: 12px;
-  overflow: hidden;
   background: var(--pd-surface-sunken);
   border: 1px solid var(--pd-border-soft);
   padding: 0;
   cursor: zoom-in;
+}
+/* 배경(지도 그림)만 둥근 모서리로 잘라내고, 핀·상세 말풍선은 이 안에 안 갇히게 분리한다.
+   전에는 overflow:hidden이 .pd-spotmap 전체에 걸려 있어서 핀 클릭 상세가 지도 밖으로
+   나가는 순간 그대로 잘려 안 보였다. */
+.pd-spotmap-bg {
+  border-radius: 12px;
+  overflow: hidden;
 }
 .pd-spotmap img { display: block; width: 100%; height: auto; }
 .pd-spotmap.is-illustration { width: min(90vw, 1100px); max-width: 100%; margin: 0; min-height: 340px; }
@@ -1176,6 +1182,34 @@
   white-space: nowrap;
   pointer-events: none;
 }
+.pd-spotmap-pin-trigger {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.pd-spotmap-pin-detail {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(10, 12, 20, 0.94);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  z-index: 5;
+  cursor: default;
+}
+.pd-spotmap-pin.is-open .pd-spotmap-pin-dot { transform: scale(1.18); }
 
 .pd-lightbox-backdrop {
   position: fixed;
