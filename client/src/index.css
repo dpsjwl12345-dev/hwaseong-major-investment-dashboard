@@ -2942,44 +2942,6 @@ h6,
 @media (max-width:1100px) {.investment-map-page{padding-left:24px;padding-right:24px}}
 @media (max-width:700px) {.investment-map-page{padding:22px 16px 30px}.investment-map-layout{height:auto;min-height:0}.investment-map-canvas{height:480px}.investment-map-header h1{font-size:34px}}
 
-/* 민선9기 공약사항: 구분(대주제)별로 공약명 행을 나열하는 단순 리스트 레이아웃. */
-.pledge-board { display:flex; flex-direction:column; gap:28px; max-width:1100px; margin:0 auto; }
-.pledge-theme-name { margin:0 0 14px; color:#8af4f1; text-shadow:0 0 14px rgba(124,231,239,.22); font:800 20px/1.3 "Pretendard",sans-serif !important; letter-spacing:-.03em; }
-.pledge-list { display:flex; flex-direction:column; gap:10px; }
-.pledge-row { display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px; padding:14px 18px; border:1px solid rgba(117,182,255,.16); border-radius:14px; background:rgba(19,34,61,.55); }
-.pledge-name { color:#eef4ff; font-size:16px; font-weight:600; }
-.pledge-budget2027-dot { display:inline-block; width:7px; height:7px; margin-right:8px; border-radius:50%; background:#ffcc4d; box-shadow:0 0 6px rgba(255,204,77,.7); vertical-align:middle; }
-.pledge-tags { display:flex; gap:6px; margin-left:auto; }
-.pledge-tag { font-size:11px; font-weight:700; padding:4px 10px; border-radius:999px; white-space:nowrap; }
-.pledge-tag-bureau { color:#8af4f1; background:rgba(124,231,239,.12); }
-.pledge-tag-department { color:#c9d6f5; background:rgba(159,188,255,.12); }
-.pledge-note { flex-basis:100%; color:rgba(218,230,255,.5); font-size:12px; }
-.pledge-row.is-clickable { cursor:pointer; }
-.pledge-row.is-clickable:hover { border-color:rgba(138,244,241,.4); }
-.pledge-row.is-open { border-color:rgba(138,244,241,.55); background:rgba(19,34,61,.85); }
-@media (max-width:700px) { .pledge-tags { margin-left:0; } }
-
-/* 공약 상세 - 행을 펼치면 나오는 사업목표/개요/정책목표/예산/추진계획 패널. */
-.pledge-detail { margin:8px 0 4px; padding:18px 20px 18px 18px; border:1px solid rgba(117,182,255,.14); border-radius:14px; background:rgba(10,20,38,.6); }
-.pledge-detail-chips { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
-.pledge-detail-chip { font-size:13px; font-weight:700; color:#c9d6f5; background:rgba(159,188,255,.1); padding:5px 12px; border-radius:999px; }
-.pledge-detail-heading { margin:20px 0 10px; color:#8af4f1; font-size:15px; font-weight:800; letter-spacing:.03em; }
-.pledge-detail-list { margin:0; padding-left:18px; color:#dce6fa; font-size:15px; line-height:1.7; }
-.pledge-detail-dl { display:flex; flex-direction:column; gap:8px; margin:0; }
-.pledge-detail-dl > div { display:flex; gap:14px; padding:8px 0; border-top:1px solid rgba(159,188,255,.1); }
-.pledge-detail-dl > div:first-child { border-top:none; }
-.pledge-detail-dl dt { flex:0 0 130px; color:rgba(218,230,255,.55); font-size:14px; }
-.pledge-detail-dl dd { margin:0; flex:1; color:#eef4ff; font-size:15px; line-height:1.7; }
-.pledge-detail-note { color:rgba(218,230,255,.5); font-size:13px; }
-.pledge-detail-table { width:100%; margin-bottom:6px; border-collapse:collapse; font-size:14px; }
-.pledge-detail-table th, .pledge-detail-table td { padding:8px 10px; border:1px solid rgba(159,188,255,.14); text-align:center; color:#dce6fa; }
-.pledge-detail-table th { color:#c9d6f5; font-weight:700; background:rgba(159,188,255,.08); }
-.pledge-detail-table td:first-child { text-align:left; color:#eef4ff; }
-.pledge-detail-table th.is-target-year, .pledge-detail-table td.is-target-year { background:rgba(250,204,21,.16); }
-.pledge-detail-table th.is-target-year { color:#ffe08a; }
-.pledge-detail-dl > div.is-target-year { background:rgba(250,204,21,.1); border-radius:10px; padding:8px 10px; margin:0 -10px; border-top-color:transparent; }
-@media (max-width:700px) { .pledge-detail-dl dt { flex-basis:100px; } .pledge-detail-table { font-size:13px; } }
-
 /* Floating card for a clicked marker ??replaces the old fixed side panel;
    anchored to the marker's screen position like the lightweight hover
    bubble, but interactive (pointer-events:auto) and holds the full summary
@@ -3776,7 +3738,6 @@ main.app-main.app-main-flush .hero-panel {
   .site-search { right: 20px; }
   .site-search.is-open .site-search-input { width: 160px; }
   .site-search-results { width: 260px; }
-  .landing-map-button { top: 34px; right: 20px; height: 38px; padding: 0 14px; font-size: 13px; }
 }
 
 /* Small re-lock icon button in the header, next to the search toggle. */
@@ -3893,34 +3854,6 @@ main.app-main.app-main-flush .hero-panel {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-.landing-map-button {
-  position: absolute;
-  top: 34px;
-  right: 64px;
-  z-index: 71;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 44px;
-  padding: 0 18px;
-  border: 1px solid rgba(255, 255, 255, .18);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, .1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, .25);
-  color: #fff;
-  font-family: "Pretendard", sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: .03em;
-  cursor: pointer;
-  transition: background-color .16s ease, color .16s ease, box-shadow .16s ease;
-}
-.landing-map-button:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, .16);
 }
 .floating-nav {
   position: static;
@@ -4386,73 +4319,6 @@ main.app-main.app-main-flush .hero-panel {
 .pd-detail-page .pd-budget-panel,
 .pd-detail-page .pd-rendering-grid {
   border-color: rgba(244, 243, 238, .22) !important;
-}
-
-/* MAP VIEW button: transparent by default, with only gold brackets; the full gold rectangle appears on hover. */
-.landing-map-button {
-  width: 7.6em;
-  position: absolute;
-  height: 2.75em;
-  border: 3px solid transparent;
-  outline: none;
-  background-color: transparent;
-  color: #fff;
-  transition: 1s;
-  border-radius: 0.3em;
-  font-size: 16px;
-  font-weight: bold;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.landing-map-button::after,
-.landing-map-button::before {
-  content: "";
-  position: absolute;
-  top: -3px;
-  width: 14px;
-  height: calc(100% + 6px);
-  box-sizing: border-box;
-  background-color: transparent;
-  transition: 0.5s;
-  transform-origin: center;
-}
-
-.landing-map-button::before {
-  left: -3px;
-  border-top: 3px solid #e8ac42;
-  border-bottom: 3px solid #e8ac42;
-  border-left: 3px solid #e8ac42;
-  border-radius: 0.3em 0 0 0.3em;
-}
-
-.landing-map-button::after {
-  right: -3px;
-  border-top: 3px solid #e8ac42;
-  border-bottom: 3px solid #e8ac42;
-  border-right: 3px solid #e8ac42;
-  border-radius: 0 0.3em 0.3em 0;
-}
-
-.landing-map-button:hover::before,
-.landing-map-button:hover::after {
-  transform: scale(0);
-}
-
-.landing-map-button:hover {
-  border-color: #e8ac42;
-  box-shadow: inset 0px 0px 25px #e8ac42;
-}
-
-/* Keep the supplied hover state active while the map view is open. */
-.landing-map-button.is-map-active::before,
-.landing-map-button.is-map-active::after {
-  transform: scale(0);
-}
-
-.landing-map-button.is-map-active {
-  border-color: #e8ac42;
-  box-shadow: inset 0px 0px 25px #e8ac42;
 }
 
 /* Keep the city caption above the title and align it to the title block's left edge. */
