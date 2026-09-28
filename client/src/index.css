@@ -453,10 +453,29 @@
 }
 .pd-budget-breakdown-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   margin-top: 24px;
 }
+.pd-budget-detail-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 11px;
+  border: 1px dashed var(--pd-border-soft);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--pd-text-faint);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.pd-budget-detail-toggle:hover { color: #fff; border-color: var(--pd-accent-a); }
+.pd-budget-detail-toggle svg { transition: transform 0.15s ease; }
+.pd-budget-detail-toggle.is-open svg { transform: rotate(180deg); }
 .pd-budget-panel {
   display: flex;
   flex-direction: column;
