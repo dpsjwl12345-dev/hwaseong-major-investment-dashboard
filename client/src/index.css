@@ -2539,10 +2539,10 @@ html, body, #root,
 .ir-table th { color: var(--pd-text-faint); background: rgba(255,255,255,.04); font-size: 15.5px; font-weight: 800; white-space: nowrap; }
 .ir-table tbody tr.ir-row { cursor: pointer; transition: background .15s ease; }
 .ir-table tbody tr.ir-row:hover, .ir-table tbody tr.ir-row.is-open { background: rgba(255,190,61,.07); }
-.ir-project-name { color: #fff; font-weight: 700; min-width: 220px; }
+.ir-table td.ir-project-name { color: #fff; font-weight: 700; min-width: 160px; padding-right: 6px; }
 .ir-re-review-tag { display: inline-block; margin-left: 7px; padding: 2px 7px; border: 1px solid rgba(255,190,61,.4); border-radius: 999px; color: #ffd36b; background: rgba(255,190,61,.12); font-size: 10px; font-weight: 700; white-space: nowrap; }
-.ir-amount { color: #ffd36b; font-weight: 800; white-space: nowrap; text-align: right; }
-.ir-amount-head { text-align: right; }
+.ir-table td.ir-amount { color: #ffd36b; font-weight: 800; white-space: nowrap; text-align: right; }
+.ir-table th.ir-amount-head { text-align: right; }
 .ir-result-badge { display: inline-flex; align-items: center; padding: 4px 11px; border-radius: 999px; font-size: 13.5px; font-weight: 700; white-space: nowrap; }
 .ir-result-success { color: var(--pd-success); background: var(--pd-success-wash); }
 .ir-result-warning { color: var(--pd-warning); background: var(--pd-warning-wash); }
