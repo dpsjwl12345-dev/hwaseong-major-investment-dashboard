@@ -50,9 +50,21 @@ export async function saveProjectContentOverride(
   const client = getClient();
   if (!client) throw new Error("데이터베이스를 사용할 수 없습니다.");
 
+  // upsert는 payload 컬럼 전체를 새 값으로 갈아끼운다 - 인라인 에디터처럼 필드 하나만
+  // 담은 payload를 그대로 넣으면 그 사업에 이미 저장돼 있던 다른 필드의 override가
+  // 통째로 사라진다. 그래서 기존 payload를 먼저 읽어와 새 값 위에 병합한 뒤 저장한다.
+  const { data: existing, error: fetchError } = await client
+    .from(OVERRIDES_TABLE)
+    .select("payload")
+    .eq("project_id", projectId)
+    .maybeSingle();
+  if (fetchError) throw new Error(fetchError.message);
+
+  const mergedPayload = { ...(existing?.payload as ProjectContentPayload | undefined), ...payload };
+
   const { error: upsertError } = await client.from(OVERRIDES_TABLE).upsert({
     project_id: projectId,
-    payload,
+    payload: mergedPayload,
     updated_by: updatedBy,
     updated_at: new Date().toISOString(),
   });
@@ -60,7 +72,7 @@ export async function saveProjectContentOverride(
 
   const { error: revisionError } = await client.from(REVISIONS_TABLE).insert({
     project_id: projectId,
-    payload,
+    payload: mergedPayload,
     changed_by: updatedBy,
   });
   if (revisionError) {
@@ -68,7 +80,7 @@ export async function saveProjectContentOverride(
     console.error("[Supabase] Failed to record revision:", revisionError);
   }
 
-  return { projectId, payload };
+  return { projectId, payload: mergedPayload };
 }
 
 export async function getProjectContentRevisions(projectId: string) {

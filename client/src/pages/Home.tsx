@@ -459,7 +459,42 @@ function usageCostLabel(name: string) {
   return USAGE_COST_LABEL[name] ?? displayBreakdownName(name);
 }
 
-function UsageBreakdownChart({ rows, note, yearlyTotals }: { rows: BreakdownRow[]; note?: string; yearlyTotals: { invested: number; budget2026: number; budget2027: number; budget2028Plus: number } }) {
+// 진행사항 메모·성질별 예산 안내문구는 별도 "사업 정보 편집" 폼 없이, 박스를 직접
+// 클릭하면 그 자리에서 바로 고쳐 쓰고 저장할 수 있게 한다.
+function InlineNoteEditor({ projectId, fieldKey, value, placeholder, rows = 2, textClassName, emptyClassName, onSaved }: { projectId: string; fieldKey: "progress_notes" | "usage_breakdown_note"; value: string; placeholder: string; rows?: number; textClassName?: string; emptyClassName?: string; onSaved?: (patch: Partial<Project>) => void }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [draft, setDraft] = useState(value);
+  const saveMutation = trpc.projectContent.save.useMutation();
+  const utils = trpc.useUtils();
+  const hasValue = !!value.trim() && value.trim() !== "0";
+  const startEdit = () => { setDraft(value); setIsEditing(true); };
+  const commit = async () => {
+    const result = await saveMutation.mutateAsync({ projectId, payload: { [fieldKey]: draft } });
+    onSaved?.(result.payload as Partial<Project>);
+    await utils.projectContent.list.invalidate();
+    setIsEditing(false);
+  };
+  if (isEditing) {
+    return (
+      <div className="pd-inline-note is-editing">
+        <textarea autoFocus rows={rows} value={draft} onChange={(event) => setDraft(event.target.value)} />
+        <div className="pd-inline-note-actions">
+          <button type="button" className="pd-editor-cancel" onClick={() => setIsEditing(false)}>취소</button>
+          <button type="button" className="pd-editor-save" onClick={commit} disabled={saveMutation.isPending}><Save size={13} /> {saveMutation.isPending ? "저장 중…" : "저장"}</button>
+        </div>
+        {saveMutation.isError && <p className="pd-editor-error">저장하지 못했습니다. 서버 연결을 확인해 주세요.</p>}
+      </div>
+    );
+  }
+  return (
+    <p className={`${hasValue ? (textClassName ?? "") : (emptyClassName ?? textClassName ?? "")} pd-inline-note-view`} onClick={startEdit} role="button" tabIndex={0}>
+      {hasValue ? value : placeholder}
+      <Pencil size={12} className="pd-inline-note-pencil" />
+    </p>
+  );
+}
+
+function UsageBreakdownChart({ rows, note, yearlyTotals, projectId, onNoteSaved }: { rows: BreakdownRow[]; note?: string; yearlyTotals: { invested: number; budget2026: number; budget2027: number; budget2028Plus: number }; projectId: string; onNoteSaved?: (patch: Partial<Project>) => void }) {
   const years: { key: BudgetYearKey; label: string }[] = [
     { key: "budget_2026", label: "2026년" },
     { key: "budget_2027", label: "2027년" },
@@ -483,14 +518,14 @@ function UsageBreakdownChart({ rows, note, yearlyTotals }: { rows: BreakdownRow[
   const points = flowValues.map((value, index) => `${flowX(index)},${flowY(value)}`).join(" ");
   const usageRows = rows.map((row) => ({ row, value: (row[selectedYear] as number | null | undefined) ?? 0 })).sort((a, b) => b.value - a.value);
   const usageColorFor = (name: string) => usageColors[Math.max(0, usageColorNames.indexOf(name)) % usageColors.length];
-  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={LayersIcon} tone="budget" title="성질별 예산" /></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-pulse-content"><div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">{years.map((year) => <button key={year.key} type="button" className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>)}</div><div className="pd-pulse-summary"><div><span className="pd-pulse-eyebrow">{selectedLabel} 편성 예산</span><div className="pd-pulse-amount-row"><strong>{formatMillion(selectedTotal || null)}</strong>{usageRows.some(({ value }) => value > 0) && <span className="pd-pulse-detail">[{usageRows.filter(({ value }) => value > 0).map(({ row, value }) => `${usageCostLabel(row.name)} ${formatMillion(value)}`).join(" · ")}]</span>}</div><span className="pd-pulse-positive">전체 사업비의 {selectedShare.toFixed(1)}%</span></div></div><div className="pd-usage-split"><div className="pd-usage-left"><div className="pd-usage-progress-list">{usageRows.map(({ row, value }) => { const share = selectedTotal > 0 ? (value / selectedTotal) * 100 : 0; return <div className="pd-usage-progress-row" key={row.name}><div className="pd-usage-progress-label"><span>{displayBreakdownName(row.name)}</span><b>{formatMillion(value || null)}</b><strong>{share.toFixed(0)}%</strong></div><div className="pd-usage-progress-track"><span style={{ width: `${share}%`, background: usageColorFor(row.name) }} /></div></div>; })}</div><div className="pd-usage-legend pd-usage-legend-top">{usageColorNames.map((name, index) => <span key={name}><i style={{ background: usageColors[index] }} />{name}</span>)}</div></div><div className="pd-pulse-trend pd-usage-right"><div className="pd-pulse-section-label"><span className="pd-pulse-eyebrow">연도별 예산 흐름</span></div><svg viewBox="0 0 320 80" role="img" aria-label="연도별 예산 흐름"><polyline points={points} fill="none" stroke="var(--pd-accent-a)" strokeWidth="0.5" strokeDasharray="0.5 1.5" strokeLinecap="round" strokeLinejoin="round" />{flowValues.map((value, index) => <circle key={`flow-dot-${index}`} cx={flowX(index)} cy={flowY(value)} r="5" fill="var(--pd-accent-a)" />)}{flowValues.map((value, index) => <text key={`flow-num-${index}`} x={flowX(index)} y={flowY(value) - 9} textAnchor="middle" className="pd-pulse-flow-value">{formatMillion(value || null)}</text>)}{["기투자", "2026년", "2027년", "이후"].map((axisLabel, index) => <text key={axisLabel} x={flowX(index)} y="70" textAnchor="middle" className="pd-pulse-axis-label">{axisLabel}</text>)}</svg></div></div>{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}</div>}</div>;
+  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={LayersIcon} tone="budget" title="성질별 예산" /></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-pulse-content"><div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">{years.map((year) => <button key={year.key} type="button" className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>)}</div><div className="pd-pulse-summary"><div><span className="pd-pulse-eyebrow">{selectedLabel} 편성 예산</span><div className="pd-pulse-amount-row"><strong>{formatMillion(selectedTotal || null)}</strong>{usageRows.some(({ value }) => value > 0) && <span className="pd-pulse-detail">[{usageRows.filter(({ value }) => value > 0).map(({ row, value }) => `${usageCostLabel(row.name)} ${formatMillion(value)}`).join(" · ")}]</span>}</div><span className="pd-pulse-positive">전체 사업비의 {selectedShare.toFixed(1)}%</span></div></div><div className="pd-usage-split"><div className="pd-usage-left"><div className="pd-usage-progress-list">{usageRows.map(({ row, value }) => { const share = selectedTotal > 0 ? (value / selectedTotal) * 100 : 0; return <div className="pd-usage-progress-row" key={row.name}><div className="pd-usage-progress-label"><span>{displayBreakdownName(row.name)}</span><b>{formatMillion(value || null)}</b><strong>{share.toFixed(0)}%</strong></div><div className="pd-usage-progress-track"><span style={{ width: `${share}%`, background: usageColorFor(row.name) }} /></div></div>; })}</div><div className="pd-usage-legend pd-usage-legend-top">{usageColorNames.map((name, index) => <span key={name}><i style={{ background: usageColors[index] }} />{name}</span>)}</div></div><div className="pd-pulse-trend pd-usage-right"><div className="pd-pulse-section-label"><span className="pd-pulse-eyebrow">연도별 예산 흐름</span></div><svg viewBox="0 0 320 80" role="img" aria-label="연도별 예산 흐름"><polyline points={points} fill="none" stroke="var(--pd-accent-a)" strokeWidth="0.5" strokeDasharray="0.5 1.5" strokeLinecap="round" strokeLinejoin="round" />{flowValues.map((value, index) => <circle key={`flow-dot-${index}`} cx={flowX(index)} cy={flowY(value)} r="5" fill="var(--pd-accent-a)" />)}{flowValues.map((value, index) => <text key={`flow-num-${index}`} x={flowX(index)} y={flowY(value) - 9} textAnchor="middle" className="pd-pulse-flow-value">{formatMillion(value || null)}</text>)}{["기투자", "2026년", "2027년", "이후"].map((axisLabel, index) => <text key={axisLabel} x={flowX(index)} y="70" textAnchor="middle" className="pd-pulse-axis-label">{axisLabel}</text>)}</svg></div></div><InlineNoteEditor projectId={projectId} fieldKey="usage_breakdown_note" value={note ?? ""} placeholder="등록된 안내문구가 없습니다. 클릭해서 작성하세요." rows={2} textClassName="pd-note-box mt-3 !text-[12px]" onSaved={onNoteSaved} /></div>}</div>;
 }
 
 function formatMillion(value: number | null | undefined) {
   return value == null ? "-" : value.toLocaleString("ko-KR", { maximumFractionDigits: 2 });
 }
 
-function BudgetPanel({ project }: { project: Project }) {
+function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?: (patch: Partial<Project>) => void }) {
   // 재원별 표(국비/도비/시비...)와 연도별 집행률은 성질별 예산보다 한 단계 더 실무적인
   // 정보라 기본은 접어둔다 - 위 카드 5개 + 성질별(공사/설계/감리 등) 하나만 먼저 보여주고,
   // 필요한 사람만 "상세보기"로 펼쳐서 본다. 화면 하나에 표·도넛·막대·라인차트가 다 보여서
@@ -528,7 +563,7 @@ function BudgetPanel({ project }: { project: Project }) {
       <p className="pd-baseline-note">{BUDGET_BASELINE_LABEL}</p>
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid">
-        <UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} yearlyTotals={yearlyTotals} />
+        <UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} yearlyTotals={yearlyTotals} projectId={project.id} onNoteSaved={onNoteSaved} />
         <button type="button" className={`pd-budget-detail-toggle${showFundingDetail ? " is-open" : ""}`} onClick={() => setShowFundingDetail((open) => !open)}>
           재원별 예산·연도별 집행 현황 상세보기 <ChevronDown size={14} />
         </button>
@@ -539,7 +574,7 @@ function BudgetPanel({ project }: { project: Project }) {
   );
 }
 
-function ProgressPanel({ project }: { project: Project }) {
+function ProgressPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?: (patch: Partial<Project>) => void }) {
   const percent = progressPercent(project);
   const past = parseTimeline(project.progress_status);
   const upcoming = parseTimeline(project.future_plan);
@@ -566,15 +601,11 @@ function ProgressPanel({ project }: { project: Project }) {
           )) : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
           {/* 향후계획 박스는 왼쪽 추진경과보다 보통 짧아서 아래에 빈 공간이 남는다(그리드
               align-items:stretch로 두 박스 높이가 맞춰지기 때문) - 그 공간에 자유 메모(진행사항)
-              박스를 붙인다. 편집은 "사업 정보 편집" 폼의 progress_notes 칸에서 한다. */}
+              박스를 붙인다. 박스를 직접 클릭하면 바로 편집·저장된다(InlineNoteEditor). */}
           <div className="pd-progress-notes">
             <div className="pd-progress-notes-inner">
               <p className="pd-progress-notes-title">진행사항</p>
-              {project.progress_notes && project.progress_notes.trim() && project.progress_notes.trim() !== "0" ? (
-                <p className="pd-progress-notes-body">{project.progress_notes}</p>
-              ) : (
-                <p className="pd-progress-notes-empty">작성된 메모가 없습니다. "사업 정보 편집"에서 작성할 수 있습니다.</p>
-              )}
+              <InlineNoteEditor projectId={project.id} fieldKey="progress_notes" value={project.progress_notes ?? ""} placeholder="작성된 메모가 없습니다. 클릭해서 작성하세요." rows={3} textClassName="pd-progress-notes-body" emptyClassName="pd-progress-notes-empty" onSaved={onNoteSaved} />
             </div>
           </div>
         </section>
@@ -753,32 +784,9 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
 
 const TABS = ["사업개요·추진현황", "예산현황", "위치도"] as const;
 
-function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, isAdmin, onProjectUpdated }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; isAdmin?: boolean; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void }) {
+function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, onProjectUpdated }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
   const [selectedSubIndex, setSelectedSubIndex] = useState(0);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editDraft, setEditDraft] = useState<Partial<Project>>({});
-  const saveProjectContent = trpc.projectContent.save.useMutation();
-  const projectContentUtils = trpc.useUtils();
-  useEffect(() => { setEditDraft({}); setIsEditing(false); }, [project.id]);
-  const beginEdit = () => {
-    setEditDraft({
-      progress_notes: project.progress_notes, usage_breakdown_note: project.usage_breakdown_note ?? "",
-    });
-    setIsEditing(true);
-  };
-  const updateDraft = (key: keyof Project, value: string | number | null) => setEditDraft((draft) => ({ ...draft, [key]: value }));
-  const commitEdit = async () => {
-    // 저장은 병합이 아니라 덮어쓰기라서, 정적 데이터셋에 없는 "행 추가"로 만든 사업(id가
-    // custom-row- 로 시작)은 이 편집 폼에 없는 필드(부서·구분 등)까지 포함해 전체를 다시 보내야
-    // 한다 - editDraft만 보내면 그 필드들이 통째로 사라진다. 기존 사업은 정적 베이스가 있어서
-    // 지금처럼 editDraft(부분)만 보내도 안전하다.
-    const payload = isCustomRowId(project.id) ? { ...project, ...editDraft } : editDraft;
-    const result = await saveProjectContent.mutateAsync({ projectId: project.id, payload: payload as Record<string, unknown> });
-    onProjectUpdated?.(project.id, result.payload as Partial<Project>);
-    await projectContentUtils.projectContent.list.invalidate();
-    setIsEditing(false);
-  };
   const tabsRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLDivElement>(null);
 
@@ -840,24 +848,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             );
           })()}
           </h1>
-          {/* 로그인 자체는 헤더가 전역으로 담당한다(Home 컴포넌트, isAdmin 기준) - 여기서는 이미
-              로그인된 상태에서만 이 사업의 편집을 시작하는 버튼을 같은 슬롯에 포개 얹는다. */}
-          {isAdmin && !isEditing && typeof document !== "undefined" && document.getElementById("pd-admin-login-slot") && createPortal(
-            <button type="button" className="pd-edit-trigger" onClick={beginEdit}><Pencil size={14} /> 사업 정보 편집</button>,
-            document.getElementById("pd-admin-login-slot")!
-          )}
         </div>
-
-        {isAdmin && isEditing && (
-          <section className="pd-editor" aria-label="사업 정보 편집">
-            <div className="pd-editor-heading"><div><span className="pd-detail-eyebrow">ADMIN CONTENT EDITOR</span><strong>사업 정보 편집</strong></div><div className="pd-editor-actions"><button type="button" className="pd-editor-cancel" onClick={() => setIsEditing(false)}>취소</button><button type="button" className="pd-editor-save" onClick={commitEdit} disabled={saveProjectContent.isPending}><Save size={14} /> {saveProjectContent.isPending ? "저장 중…" : "저장"}</button></div></div>
-            <div className="pd-editor-grid">
-              <label className="pd-editor-wide"><span>진행사항 메모</span><textarea rows={3} value={String(editDraft.progress_notes ?? "")} onChange={(event) => updateDraft("progress_notes", event.target.value)} /></label>
-              <label className="pd-editor-wide"><span>성질별 예산 안내문구</span><textarea rows={2} value={String(editDraft.usage_breakdown_note ?? "")} onChange={(event) => updateDraft("usage_breakdown_note", event.target.value)} /></label>
-            </div>
-            {saveProjectContent.isError && <p className="pd-editor-error">저장하지 못했습니다. 서버 연결을 확인해 주세요.</p>}
-          </section>
-        )}
 
         {hasSubProjects && (() => {
           const subCount = project.sub_projects!.length;
@@ -969,12 +960,12 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           <>
             <OverviewPanel project={activeProject} />
             <div className="pd-detail-attached-group">
-              <ProgressPanel project={activeProject} />
+              <ProgressPanel project={activeProject} onNoteSaved={(patch) => onProjectUpdated?.(project.id, patch)} />
               <div className="pd-stacked-panel pd-attached-last"><AdminPanel project={activeProject} /></div>
             </div>
           </>
         )}
-        {activeTab === "예산현황" && <BudgetPanel project={activeProject} />}
+        {activeTab === "예산현황" && <BudgetPanel project={activeProject} onNoteSaved={(patch) => onProjectUpdated?.(project.id, patch)} />}
         {activeTab === "위치도" && (() => {
           const hasLocationMap = !!activeProject.location_map;
           const hasSpotMap = !!activeProject.overview_map;
@@ -1985,9 +1976,6 @@ export default function Home() {
             includeMapView={false}
           />
         </div>
-        {/* 로그인 없이 누구나 편집 가능해서 이 슬롯엔 더 이상 로그인 버튼이 없다 - 사업상세
-            화면의 "사업 정보 편집" 버튼이 포털로 얹히는 자리로만 남겨둔다. */}
-        <div id="pd-admin-login-slot" className="pd-admin-login-slot" />
         {/* 검색 기능은 유지하되, 당분간 화면에서는 노출하지 않음 */}
         {false && activeView !== "landing" && (
           <div className={`site-search ${isSearchFocused ? "is-open" : ""}`}>
@@ -2045,7 +2033,7 @@ export default function Home() {
             <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
-              <ProjectDetail project={selectedProject} isAdmin={isAdmin} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />
+              <ProjectDetail project={selectedProject} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />
             </div>
           ) : (
             <LandingPage />
