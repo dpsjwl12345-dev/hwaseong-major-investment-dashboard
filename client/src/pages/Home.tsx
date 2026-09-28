@@ -823,7 +823,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
       execution_rate: project.execution_rate, progress_rate: project.progress_rate, inspection: project.inspection,
       district: project.district, town: project.town, contact: project.contact,
       overview: project.overview, progress_status: project.progress_status, future_plan: project.future_plan,
-      progress_notes: project.progress_notes,
+      progress_notes: project.progress_notes, usage_breakdown_note: project.usage_breakdown_note ?? "",
       card_admin_procedures: project.card_admin_procedures, card_admin_status: { ...project.card_admin_status },
       funding_breakdown: project.funding_breakdown.map((row) => ({ ...row })),
       usage_breakdown: project.usage_breakdown.map((row) => ({ ...row })),
@@ -962,6 +962,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
               </div>
               {renderBreakdownEditor("funding_breakdown", "재원별 예산 (총계 / 기투자 / 2026년 / 2027년, 백만원)")}
               {renderBreakdownEditor("usage_breakdown", "성질별 예산 (총계 / 기투자 / 2026년 / 2027년, 백만원)")}
+              <label className="pd-editor-wide"><span>성질별 예산 안내문구</span><textarea rows={2} value={String(editDraft.usage_breakdown_note ?? "")} onChange={(event) => updateDraft("usage_breakdown_note", event.target.value)} /></label>
             </div>
             {saveProjectContent.isError && <p className="pd-editor-error">저장하지 못했습니다. 관리자 로그인 상태와 서버 연결을 확인해 주세요.</p>}
           </section>
