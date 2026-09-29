@@ -4546,9 +4546,9 @@
       "tf_badge": true,
       "department": "체육진흥과",
       "project_name": "권역별 체육센터 건립",
-      "overview": "○ 사업내용: 4개 권역에 체육센터 건립\n○ 시설구성(권역별)\n  - 1권역(만세구): 체육관 2,554㎡, 다목적실 1,386㎡, 체육회관 2,940㎡, 편의시설 40㎡, 공용공간 2,233㎡ → 연면적 9,153㎡ / 사업비 442억원\n  - 2권역(효행구): 수영장 5,332㎡, 체육관 1,200㎡, 다목적실 1,139㎡, 공용공간 3,349㎡ → 연면적 11,020㎡ / 사업비 514억원\n  - 3권역(병점구): 수영장 1,695㎡, 체육관 3,857㎡, 다목적실 1,540㎡, 편의시설 40㎡, 공용공간 1,856㎡ → 연면적 8,988㎡ / 사업비 435억원\n  - 4권역(동탄구): 체육관 4,984㎡, 다목적실 1,402㎡, 편의시설 40㎡, 공용공간 1,783㎡ → 연면적 8,209㎡ / 사업비 399억원\n○ 4개 권역 합계: 연면적 37,370㎡ / 사업비 1,790억원\n○ 층별 구성(권역별)\n  - 1권역: 3F 관람석 / 2F 배드민턴 체육관·종목별 연습장·관람석 / 1F 체육회관·기계실\n  - 2권역: 3F 관람석 / 2F 수영장 관람석·생활체육관 / 1F 수영경기장(공인경기장)·종목별 연습장·관람석 / B1 전기기계실\n  - 3권역: 2F 관람석 / 1F 구기 체육관·종목별 연습장 / B1 종목별 연습장·전기기계실\n  - 4권역: 2F 관람석 / 1F 생활 체육관·종목별 연습장 / B1 종목별 연습장·전기기계실",
-      "rendering_images": ["/renderings/sports-21/1gwon.png", "/renderings/sports-21/2gwon.png", "/renderings/sports-21/4gwon.png"],
-      "rendering_images_title": "권역별 단면 구성도",
+      "overview": "",
+      "rendering_images": [],
+      "rendering_images_title": "단면 구성도",
       "category": "체육시설",
       "current_stage": "사전단계",
       "funding_type": "",
@@ -4751,9 +4751,9 @@
       "sub_projects": [
         {
           "name": "만세구",
-          "overview": "○ 권    역: 만세구\n○ 특화개념: 지역 생활체육 + 체육단체 거점\n○ 수 영 장: 미포함\n○ 체 육 관: 배드민턴 중심\n○ 이용 핵심층: 지역체육회·동호회 중심\n○ 사업위치·규모·사업비: 미정",
+          "overview": "○ 권    역: 만세구\n○ 특화개념: 지역 생활체육 + 체육단체 거점\n○ 수 영 장: 미포함\n○ 체 육 관: 배드민턴 중심\n○ 이용 핵심층: 지역체육회·동호회 중심\n○ 시설구성: 체육관 2,554㎡, 다목적실 1,386㎡, 체육회관 2,940㎡, 편의시설 40㎡, 공용공간 2,233㎡\n○ 연면적: 9,153㎡\n○ 층별 구성: 3F 관람석 / 2F 배드민턴 체육관·종목별 연습장·관람석 / 1F 체육회관·기계실\n○ 사업위치·사업비: 위치 미정 / 사업비(개념) 442억원",
           "current_stage": "사전단계",
-          "total_cost_million_krw": null,
+          "total_cost_million_krw": 44200,
           "invested_to_2026_million_krw": null,
           "budget_2027_million_krw": null,
           "execution_rate": null,
@@ -4766,7 +4766,7 @@
           "delay_reason": "",
           "management_card_matched": false,
           "management_card_source": "",
-          "card_total_budget_million_krw": null,
+          "card_total_budget_million_krw": 44200,
           "card_invested_to_2026_million_krw": null,
           "card_budget_2027_million_krw": null,
           "card_budget_2027_base_million_krw": null,
@@ -4943,13 +4943,14 @@
           "card_budget_2028_plus_million_krw": null,
           "district": "",
           "town": "",
-          "contact": "만세구"
+          "contact": "만세구",
+          "rendering_images": ["/renderings/sports-21/1gwon.png"]
         },
         {
           "name": "효행구",
-          "overview": "○ 권    역: 효행구\n○ 특화개념: 대규모 수영 프로그램 중심 복합센터\n○ 수 영 장: 포함\n○ 체 육 관: 생활체육 중심\n○ 이용 핵심층: 중장년·가족 수영 수요층\n○ 사업위치·규모·사업비: 미정",
+          "overview": "○ 권    역: 효행구\n○ 특화개념: 대규모 수영 프로그램 중심 복합센터\n○ 수 영 장: 포함\n○ 체 육 관: 생활체육 중심\n○ 이용 핵심층: 중장년·가족 수영 수요층\n○ 시설구성: 수영장 5,332㎡, 체육관 1,200㎡, 다목적실 1,139㎡, 공용공간 3,349㎡\n○ 연면적: 11,020㎡\n○ 층별 구성: 3F 관람석 / 2F 수영장 관람석·생활체육관 / 1F 수영경기장(공인경기장)·종목별 연습장·관람석 / B1 전기기계실\n○ 사업위치·사업비: 위치 미정 / 사업비(개념) 514억원",
           "current_stage": "사전단계",
-          "total_cost_million_krw": null,
+          "total_cost_million_krw": 51400,
           "invested_to_2026_million_krw": null,
           "budget_2027_million_krw": null,
           "execution_rate": null,
@@ -4962,7 +4963,7 @@
           "delay_reason": "",
           "management_card_matched": false,
           "management_card_source": "",
-          "card_total_budget_million_krw": null,
+          "card_total_budget_million_krw": 51400,
           "card_invested_to_2026_million_krw": null,
           "card_budget_2027_million_krw": null,
           "card_budget_2027_base_million_krw": null,
@@ -5139,13 +5140,14 @@
           "card_budget_2028_plus_million_krw": null,
           "district": "",
           "town": "",
-          "contact": "효행구"
+          "contact": "효행구",
+          "rendering_images": ["/renderings/sports-21/2gwon.png"]
         },
         {
           "name": "병점구",
-          "overview": "○ 권    역: 병점구\n○ 특화개념: 실내구기종목 및 동호회 경기장 중심\n○ 수 영 장: 포함\n○ 체 육 관: 구기전문 체육관\n○ 이용 핵심층: 청·장년·동호회\n○ 사업위치·규모·사업비: 미정",
+          "overview": "○ 권    역: 병점구\n○ 특화개념: 실내구기종목 및 동호회 경기장 중심\n○ 수 영 장: 포함\n○ 체 육 관: 구기전문 체육관\n○ 이용 핵심층: 청·장년·동호회\n○ 시설구성: 수영장 1,695㎡, 체육관 3,857㎡, 다목적실 1,540㎡, 편의시설 40㎡, 공용공간 1,856㎡\n○ 연면적: 8,988㎡\n○ 층별 구성: 2F 관람석 / 1F 구기 체육관·종목별 연습장 / B1 종목별 연습장·전기기계실\n○ 사업위치·사업비: 위치 미정 / 사업비(개념) 435억원",
           "current_stage": "사전단계",
-          "total_cost_million_krw": null,
+          "total_cost_million_krw": 43500,
           "invested_to_2026_million_krw": null,
           "budget_2027_million_krw": null,
           "execution_rate": null,
@@ -5158,7 +5160,7 @@
           "delay_reason": "",
           "management_card_matched": false,
           "management_card_source": "",
-          "card_total_budget_million_krw": null,
+          "card_total_budget_million_krw": 43500,
           "card_invested_to_2026_million_krw": null,
           "card_budget_2027_million_krw": null,
           "card_budget_2027_base_million_krw": null,
@@ -5339,9 +5341,9 @@
         },
         {
           "name": "동탄구",
-          "overview": "○ 권    역: 동탄구\n○ 특화개념: 젊은층·가족형 다목적 스포츠 복합공간\n○ 수 영 장: 미포함\n○ 체 육 관: 생활체육 중심\n○ 이용 핵심층: 신도시·가족·청년\n○ 사업위치·규모·사업비: 미정",
+          "overview": "○ 권    역: 동탄구\n○ 특화개념: 젊은층·가족형 다목적 스포츠 복합공간\n○ 수 영 장: 미포함\n○ 체 육 관: 생활체육 중심\n○ 이용 핵심층: 신도시·가족·청년\n○ 시설구성: 체육관 4,984㎡, 다목적실 1,402㎡, 편의시설 40㎡, 공용공간 1,783㎡\n○ 연면적: 8,209㎡\n○ 층별 구성: 2F 관람석 / 1F 생활 체육관·종목별 연습장 / B1 종목별 연습장·전기기계실\n○ 사업위치·사업비: 위치 미정 / 사업비(개념) 399억원",
           "current_stage": "사전단계",
-          "total_cost_million_krw": null,
+          "total_cost_million_krw": 39900,
           "invested_to_2026_million_krw": null,
           "budget_2027_million_krw": null,
           "execution_rate": null,
@@ -5354,7 +5356,7 @@
           "delay_reason": "",
           "management_card_matched": false,
           "management_card_source": "",
-          "card_total_budget_million_krw": null,
+          "card_total_budget_million_krw": 39900,
           "card_invested_to_2026_million_krw": null,
           "card_budget_2027_million_krw": null,
           "card_budget_2027_base_million_krw": null,
@@ -5531,7 +5533,8 @@
           "card_budget_2028_plus_million_krw": null,
           "district": "",
           "town": "",
-          "contact": "동탄구"
+          "contact": "동탄구",
+          "rendering_images": ["/renderings/sports-21/4gwon.png"]
         }
       ]
     },
