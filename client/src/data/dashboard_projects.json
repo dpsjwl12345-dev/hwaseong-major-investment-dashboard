@@ -9699,13 +9699,15 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_procedures": "중기재정, 투·융자심사(2024.06.25.), 공유재산(2019.06.04.)",
       "card_admin_legal_basis": "■ 과학관의 설립ㆍ운영 및 육성에 관한 법률 ■ 정책사업",
       "card_admin_status": {
         "mid_term_fiscal": true,
         "investment_review": true,
         "public_property": true,
-        "none": false
+        "none": false,
+        "investment_review_date": "2024.06.25",
+        "public_property_date": "2019.06.04"
       },
       "card_invested_to_2025_million_krw": 15554,
       "card_budget_2026_million_krw": 120,
