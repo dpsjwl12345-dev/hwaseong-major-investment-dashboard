@@ -9120,13 +9120,15 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "중기재정, 투·융자심사, 공유재산",
+      "card_admin_procedures": "중기재정, 투·융자심사(도심사, 2024.06.26.), 공유재산(2023.09.25.)",
       "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
       "card_admin_status": {
         "mid_term_fiscal": true,
         "investment_review": true,
         "public_property": true,
-        "none": false
+        "none": false,
+        "investment_review_date": "2024.06.26",
+        "public_property_date": "2023.09.25"
       },
       "card_invested_to_2025_million_krw": 10285,
       "card_budget_2026_million_krw": 8214,
