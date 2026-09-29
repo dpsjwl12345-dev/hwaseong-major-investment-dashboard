@@ -831,7 +831,7 @@
 .pd-progress-notes-body {
   margin: 0;
   color: #e2e2e2;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.6;
   white-space: pre-wrap;
   word-break: keep-all;
@@ -4365,26 +4365,26 @@ main.app-main.app-main-flush .hero-panel {
 
 /* 예산현황 tab (BudgetPanel: exec cards, 재원별 예산 table, 성질별 예산 chart):
    bump every text size up a notch for readability. */
-.pd-budget-panel-heading h3 { font-size: 21px !important; }
-.pd-budget-panel-caption { font-size: 16px !important; }
-.pd-funding-table { font-size: 17px !important; }
-.pd-funding-table thead th { font-size: 17px !important; }
-.pd-funding-table tbody th { font-size: 18px !important; }
-.pd-funding-table tbody td { font-size: 18px !important; }
-.pd-year-switcher button { font-size: 18px !important; }
-.pd-pulse-eyebrow { font-size: 17px !important; }
-.pd-pulse-summary strong { font-size: 40px !important; }
-.pd-pulse-positive { font-size: 16px !important; }
-.pd-pulse-donut span { font-size: 26px !important; }
-.pd-pulse-donut small { font-size: 14px !important; }
-.pd-pulse-section-label { font-size: 16px !important; }
+.pd-budget-panel-heading h3 { font-size: 19px !important; }
+.pd-budget-panel-caption { font-size: 14px !important; }
+.pd-funding-table { font-size: 15px !important; }
+.pd-funding-table thead th { font-size: 15px !important; }
+.pd-funding-table tbody th { font-size: 16px !important; }
+.pd-funding-table tbody td { font-size: 16px !important; }
+.pd-year-switcher button { font-size: 16px !important; }
+.pd-pulse-eyebrow { font-size: 15px !important; }
+.pd-pulse-summary strong { font-size: 38px !important; }
+.pd-pulse-positive { font-size: 14px !important; }
+.pd-pulse-donut span { font-size: 24px !important; }
+.pd-pulse-donut small { font-size: 12px !important; }
+.pd-pulse-section-label { font-size: 14px !important; }
 /* "연도별 예산 흐름" heading only — shares .pd-pulse-eyebrow with the
-   "선택연도 편성 예산" eyebrow above, which should stay at 17px. */
-.pd-pulse-section-label .pd-pulse-eyebrow { font-size: 18px !important; }
-.pd-pulse-axis { font-size: 14px !important; }
-.pd-usage-progress-label { font-size: 17px !important; }
-.pd-usage-progress-label b { font-size: 16px !important; }
-.pd-usage-progress-label strong { font-size: 16px !important; }
+   "선택연도 편성 예산" eyebrow above, which should stay at 15px. */
+.pd-pulse-section-label .pd-pulse-eyebrow { font-size: 16px !important; }
+.pd-pulse-axis { font-size: 12px !important; }
+.pd-usage-progress-label { font-size: 15px !important; }
+.pd-usage-progress-label b { font-size: 14px !important; }
+.pd-usage-progress-label strong { font-size: 14px !important; }
 
 /* Final word on inner "box in a box" borders: match the outer .pd-card
    line exactly, no accent tint. Kept last in the cascade on purpose. */
@@ -4690,7 +4690,7 @@ main.app-main.app-main-flush .hero-panel {
 .pd-inline-note-view { cursor:pointer; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
 .pd-inline-note-view:hover { opacity:.85; }
 .pd-inline-note-pencil { flex:none; margin-top:2px; opacity:.45; }
-.pd-inline-note.is-editing textarea { width:100%; box-sizing:border-box; border:1px solid rgba(255,255,255,.13); border-radius:11px; outline:none; color:#4c7cff; background:rgba(4,8,14,.72); padding:10px 12px; font-family:"Pretendard","Noto Sans KR",sans-serif; font-size:15px; line-height:1.45; resize:vertical; }
+.pd-inline-note.is-editing textarea { width:100%; box-sizing:border-box; border:1px solid rgba(255,255,255,.13); border-radius:11px; outline:none; color:#4c7cff; background:rgba(4,8,14,.72); padding:10px 12px; font-family:"Pretendard","Noto Sans KR",sans-serif; font-size:17px; line-height:1.45; resize:vertical; }
 .pd-inline-note.is-editing textarea:focus { border-color:#5cd6e0; box-shadow:0 0 0 3px rgba(92,214,224,.12); }
 .pd-inline-note-actions { display:flex; gap:8px; margin-top:8px; }
 /* 직접 작성한 메모(진행사항, 성질별 예산 안내문구)는 저장된 뒤에도 작성 중과 같은
