@@ -4548,7 +4548,6 @@
       "project_name": "권역별 체육센터 건립",
       "overview": "",
       "rendering_images": [],
-      "rendering_images_title": "단면 구성도",
       "category": "체육시설",
       "current_stage": "사전단계",
       "funding_type": "",
@@ -4944,7 +4943,8 @@
           "district": "",
           "town": "",
           "contact": "만세구",
-          "rendering_images": ["/renderings/sports-21/1gwon.png"]
+          "overview_images": ["/renderings/sports-21/1gwon.png"],
+          "overview_images_title": "단면 구성도"
         },
         {
           "name": "효행구",
@@ -5141,7 +5141,8 @@
           "district": "",
           "town": "",
           "contact": "효행구",
-          "rendering_images": ["/renderings/sports-21/2gwon.png"]
+          "overview_images": ["/renderings/sports-21/2gwon.png"],
+          "overview_images_title": "단면 구성도"
         },
         {
           "name": "병점구",
@@ -5534,7 +5535,8 @@
           "district": "",
           "town": "",
           "contact": "동탄구",
-          "rendering_images": ["/renderings/sports-21/4gwon.png"]
+          "overview_images": ["/renderings/sports-21/4gwon.png"],
+          "overview_images_title": "단면 구성도"
         }
       ]
     },
