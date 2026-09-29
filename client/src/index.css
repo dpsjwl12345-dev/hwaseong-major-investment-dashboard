@@ -4690,9 +4690,13 @@ main.app-main.app-main-flush .hero-panel {
 .pd-inline-note-view { cursor:pointer; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
 .pd-inline-note-view:hover { opacity:.85; }
 .pd-inline-note-pencil { flex:none; margin-top:2px; opacity:.45; }
-.pd-inline-note.is-editing textarea { width:100%; box-sizing:border-box; border:1px solid rgba(255,255,255,.13); border-radius:11px; outline:none; color:#f4f3ee; background:rgba(4,8,14,.72); padding:10px 12px; font-family:"Pretendard","Noto Sans KR",sans-serif; font-size:13px; line-height:1.45; resize:vertical; }
+.pd-inline-note.is-editing textarea { width:100%; box-sizing:border-box; border:1px solid rgba(255,255,255,.13); border-radius:11px; outline:none; color:#4c7cff; background:rgba(4,8,14,.72); padding:10px 12px; font-family:"Pretendard","Noto Sans KR",sans-serif; font-size:13px; line-height:1.45; resize:vertical; }
 .pd-inline-note.is-editing textarea:focus { border-color:#5cd6e0; box-shadow:0 0 0 3px rgba(92,214,224,.12); }
 .pd-inline-note-actions { display:flex; gap:8px; margin-top:8px; }
+/* 직접 작성한 메모(진행사항, 성질별 예산 안내문구)는 저장된 뒤에도 작성 중과 같은
+   강조색으로 보여, 사업 데이터 원본 텍스트와 구분되게 한다. */
+.pd-progress-notes-body,
+.pd-note-box.pd-inline-note-view { color:#4c7cff; }
 
 .pd-admin-login-wrap { position:relative; display:inline-flex; }
 .pd-admin-login-form { display:inline-flex; align-items:center; gap:6px; padding:5px 5px 5px 12px; border:1px solid rgba(255,190,61,.45); border-radius:999px; background:rgba(255,190,61,.08); }
