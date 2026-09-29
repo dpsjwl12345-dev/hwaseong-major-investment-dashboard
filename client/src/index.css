@@ -577,7 +577,7 @@
 .pd-pulse-section-label small { color:var(--pd-text-faint); font-size:10px; font-weight:500; }
 .pd-pulse-trend svg { display:block; width:100%; aspect-ratio: 320 / 80; height:auto; margin-top:10px; overflow:visible; }
 .pd-pulse-axis-label { fill: var(--pd-text-faint); font-size: 7.5px; dominant-baseline: alphabetic; }
-.pd-pulse-flow-value { fill: var(--pd-text); font-size: 8px; font-weight: 600; font-variant-numeric: tabular-nums; pointer-events: none; }
+.pd-pulse-flow-value { fill: var(--pd-text); font-size: 7px; font-weight: 600; font-variant-numeric: tabular-nums; pointer-events: none; }
 .pd-usage-progress-list { display:grid; gap:11px; padding:18px 2px 4px; }
 .pd-usage-progress-row { min-width:0; }
 .pd-usage-progress-label { display:grid; grid-template-columns:minmax(42px,1fr) auto auto; align-items:center; gap:8px; color:var(--pd-text-muted); font-size:15px; }
@@ -4378,6 +4378,9 @@ main.app-main.app-main-flush .hero-panel {
 .pd-pulse-donut span { font-size: 24px !important; }
 .pd-pulse-donut small { font-size: 12px !important; }
 .pd-pulse-section-label { font-size: 14px !important; }
+/* "연도별 예산 흐름" heading only — shares .pd-pulse-eyebrow with the
+   "선택연도 편성 예산" eyebrow above, which should stay at 15px. */
+.pd-pulse-section-label .pd-pulse-eyebrow { font-size: 16px !important; }
 .pd-pulse-axis { font-size: 12px !important; }
 .pd-usage-progress-label { font-size: 15px !important; }
 .pd-usage-progress-label b { font-size: 14px !important; }
