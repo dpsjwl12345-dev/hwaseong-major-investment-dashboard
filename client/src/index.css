@@ -317,6 +317,19 @@
   color: var(--pd-text);
   white-space: pre-line;
 }
+/* 사업개요 카드(사업위치·사업규모·사업기간 등)만 라벨 옆에 아이콘을 붙이고
+   1px 키운다 — pd-kv-label/pd-kv-row는 "관련 이미지"·"거점 위치도"·사전절차
+   법적근거에서도 쓰여서, 이 카드에만 좁혀서 덮어쓴다. */
+.pd-kv-row-overview .pd-kv-label {
+  font-size: 16px !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pd-kv-row-overview .pd-kv-label svg {
+  flex-shrink: 0;
+  color: var(--pd-accent-a);
+}
 .pd-admin-check-date {
   display: block;
   margin-top: 4px;

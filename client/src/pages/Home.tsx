@@ -255,16 +255,37 @@ function Gauge({ percent }: { percent: number }) {
   );
 }
 
+// 사업개요 라벨은 원본 텍스트("○ 사업위치: ...")에서 그때그때 뽑혀 나와 종류가
+// 고정돼 있지 않다. 자주 나오는 라벨만 의미에 맞는 아이콘으로 매칭하고, 나머지는
+// LayersIcon(항목/세부내용을 뜻하는 기본 아이콘)으로 대체한다.
+const KV_LABEL_ICONS: Record<string, ComponentType<{ size?: number; strokeWidth?: number }>> = {
+  "사업위치": BuildingsIcon,
+  "사업기간": CalendarMarkIcon,
+  "사업내용": LayersIcon,
+  "사업규모": GraphUpIcon,
+  "사업량": GraphUpIcon,
+  "총사업비": WalletMoneyIcon,
+  "소요예산": WalletMoneyIcon,
+  "사업예산": WalletMoneyIcon,
+  "예상사업비": WalletMoneyIcon,
+  "사업목적": TagIcon,
+  "사업명": TagIcon,
+  "사업분야": TagIcon,
+  "현추진단계": ChartProgressIcon,
+};
 function KvCards({ pairs }: { pairs: KvPair[] }) {
   if (pairs.length === 0) return <p className="pd-empty text-[15px]">등록된 사업개요 정보가 없습니다.</p>;
   return (
-    <div className="pd-kv-row">
-      {pairs.map((pair) => (
-        <div key={pair.label} className="pd-kv">
-          <span className="pd-kv-label">{pair.label}</span>
-          <span className="pd-kv-value">{pair.value}</span>
-        </div>
-      ))}
+    <div className="pd-kv-row pd-kv-row-overview">
+      {pairs.map((pair) => {
+        const Icon = KV_LABEL_ICONS[pair.label] || LayersIcon;
+        return (
+          <div key={pair.label} className="pd-kv">
+            <span className="pd-kv-label"><Icon size={15} strokeWidth={2} />{pair.label}</span>
+            <span className="pd-kv-value">{pair.value}</span>
+          </div>
+        );
+      })}
     </div>
   );
 }
