@@ -614,15 +614,24 @@ function ProgressPanel({ project, onNoteSaved }: { project: Project; onNoteSaved
   );
 }
 
+// "선택된 절차" 문구(예: "중기재정(2025.09.30.), 투·융자심사(도심사, 2024.06.26.)")에
+// 항목별 날짜·메모가 구조화 필드보다 더 정확하게 들어있는 사업이 많아, 체크 박스 쪽으로
+// 그 내용을 그대로 옮겨온다. 괄호 안 내용이 없으면 구조화 필드(status.*_date)로 대체한다.
+function parseAdminProcedureDetail(procedures: string | null | undefined, label: string): string | null {
+  if (!procedures) return null;
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = procedures.match(new RegExp(`${escaped}\\(([^)]*)\\)`));
+  return match ? match[1].trim().replace(/\.$/, "") : null;
+}
 function AdminPanel({ project }: { project: Project }) {
   const status = project.card_admin_status || {};
   const checks = [
-    ["중기재정", status.mid_term_fiscal, status.mid_term_fiscal_date],
-    ["투·융자심사", status.investment_review, status.investment_review_date],
-    ["공유재산", status.public_property, status.public_property_date],
+    ["중기재정", status.mid_term_fiscal, parseAdminProcedureDetail(project.card_admin_procedures, "중기재정") || status.mid_term_fiscal_date],
+    ["투·융자심사", status.investment_review, parseAdminProcedureDetail(project.card_admin_procedures, "투·융자심사") || status.investment_review_date],
+    ["공유재산", status.public_property, parseAdminProcedureDetail(project.card_admin_procedures, "공유재산") || status.public_property_date],
     ["해당없음", status.none, undefined],
   ] as const;
-  return <div className="pd-card pd-admin-card"><div className="pd-card-title"><DetailSectionHeading icon={ShieldCheckIcon} tone="budget" title="사전절차 이행여부" /></div>{project.management_card_matched ? <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{checks.map(([label, checked, date]) => <div key={label} className={`rounded-xl border px-4 py-4 ${checked ? "border-white/25 bg-white/[0.06]" : "border-[var(--pd-border)] bg-white/[0.02]"}`}><span className={`text-[15px] font-medium ${checked ? "text-[var(--pd-text)]" : "text-[var(--pd-text-muted)]"}`}>{checked ? "■" : "□"} {label}</span>{checked && date && <span className="pd-admin-check-date">{formatDateText(date)}</span>}</div>)}</div><div className="mt-5 grid gap-4 sm:grid-cols-2"><div className="pd-kv"><span className="pd-kv-label">법적근거</span><span className="pd-kv-value">{project.card_admin_legal_basis || "-"}</span></div></div></> : <div className="pd-note-box">해당 사업의 사업별 관리카드가 검색되지 않았습니다.</div>}</div>;
+  return <div className="pd-card pd-admin-card"><div className="pd-card-title"><DetailSectionHeading icon={ShieldCheckIcon} tone="budget" title="사전절차 이행여부" /></div>{project.management_card_matched ? <><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">{checks.map(([label, checked, detail]) => { const year = detail ? detail.match(/(20\d{2})/)?.[1] : null; return <div key={label} className={`rounded-xl border px-4 py-4 ${checked ? "border-white/25 bg-white/[0.06]" : "border-[var(--pd-border)] bg-white/[0.02]"}`}><span className={`text-[15px] font-medium ${checked ? "text-[var(--pd-text)]" : "text-[var(--pd-text-muted)]"}`}>{checked ? "■" : "□"} {label}{year ? `(${year})` : ""}</span>{checked && detail && <span className="pd-admin-check-date">{formatDateText(detail)}</span>}</div>; })}</div><div className="mt-5 grid gap-4 sm:grid-cols-2"><div className="pd-kv"><span className="pd-kv-label">법적근거</span><span className="pd-kv-value">{project.card_admin_legal_basis || "-"}</span></div></div></> : <div className="pd-note-box">해당 사업의 사업별 관리카드가 검색되지 않았습니다.</div>}</div>;
 }
 
 // Real lon/lat for a project, derived only from our own offline boundary
