@@ -345,7 +345,7 @@
   gap: 6px;
 }
 .pd-exec-card .label {
-  font-size: 15px;
+  font-size: 17px;
   color: var(--pd-text-faint);
 }
 .pd-exec-card .num {
@@ -4669,7 +4669,7 @@ main.app-main.app-main-flush .hero-panel {
 .pd-summary-cell { min-height: 118px; padding: 20px 22px; gap: 12px; background: rgba(255,255,255,.025); }
 .pd-summary-cell + .pd-summary-cell { border-left: 1px solid rgba(255,255,255,.08); }
 .pd-summary-cell.hero { background: linear-gradient(145deg, rgba(47,184,196,.10), rgba(255,255,255,.025)); }
-.pd-summary-label { color: rgba(244,243,238,.62); font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 15px !important; font-weight: 650; letter-spacing: .015em; line-height: 1.35; text-transform: none; }
+.pd-summary-label { color: rgba(244,243,238,.62); font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 17px !important; font-weight: 650; letter-spacing: .015em; line-height: 1.35; text-transform: none; }
 .pd-summary-label svg { width: 16px; height: 16px; padding: 6px; border-radius: 10px; }
 .pd-summary-value.grad { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -.035em; line-height: 1; }
 .pd-summary-cell-date .pd-summary-value { font-size: 20px !important; font-weight: 750; letter-spacing: -.02em; }
