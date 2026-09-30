@@ -320,8 +320,14 @@
 .pd-admin-check-date {
   display: block;
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 15px;
   color: var(--pd-text-faint);
+}
+/* "사전절차 이행여부" 카드 안에서는 체크 라벨(15px)·날짜·법적근거 값까지
+   전부 같은 크기로 맞춘다 — pd-kv-value는 다른 카드(사업위치 등)에서
+   18px로 쓰이므로 여기서만 범위를 좁혀 덮어쓴다. */
+.pd-admin-card .pd-kv-value {
+  font-size: 15px !important;
 }
 .pd-empty {
   color: var(--pd-text-faint);
