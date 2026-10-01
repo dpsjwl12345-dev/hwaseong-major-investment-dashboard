@@ -1439,7 +1439,7 @@
           "budget_2026_additional": null
         }
       ],
-      "usage_breakdown_note": "* 서부권(1,990)+오산천(1,960) 소계이며, 매향리·개발제한구역은 세부 예산 미확정",
+      "usage_breakdown_note": "* 서부권(매향리)(1,990)+오산천(1,960) 소계이며, 남양·개발제한구역은 세부 예산 미확정",
       "card_admin_procedures": "",
       "card_admin_legal_basis": "",
       "card_admin_status": {
@@ -1458,7 +1458,7 @@
       "card_budget_2028_plus_million_krw": 250,
       "sub_projects": [
         {
-          "name": "서부권",
+          "name": "서부권(매향리)",
           "overview": "○ 사업위치: 화성시 우정읍 매향리 986번지 일원\n○ 사 업 량: 파크골프장(18홀), 사무실, 휴게시설, 편의시설등 조성면적 A=33,000㎡\n○ 사업기간: 2026. ~ 2027.02.\n○ 총사업비: 1,990백만원",
           "current_stage": "기타",
           "total_cost_million_krw": 1990,
@@ -1850,7 +1850,7 @@
           "contact": "동탄구"
         },
         {
-          "name": "매향리",
+          "name": "남양",
           "overview": "",
           "current_stage": "",
           "total_cost_million_krw": null,
