@@ -4162,9 +4162,10 @@ main.app-main.app-main-flush .hero-panel {
 .floating-nav-dropdown-projects-anchored button {
   min-width: 0;
   text-align: left;
-  padding: 9px 10px;
+  /* 글자를 13px→15px로 키운 만큼 위아래 패딩을 줄여 행 높이(=박스 높이)는 그대로 둔다 */
+  padding: 7.6px 10px;
   border-radius: 10px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   white-space: normal;
   line-height: 1.4;
