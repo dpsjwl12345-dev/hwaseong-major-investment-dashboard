@@ -1462,8 +1462,8 @@
           "overview": "○ 사업위치: 화성시 우정읍 매향리 986번지 일원\n○ 사 업 량: 파크골프장(18홀), 사무실, 휴게시설, 편의시설등 조성면적 A=33,000㎡\n○ 사업기간: 2026. ~ 2027.02.\n○ 총사업비: 1,990백만원",
           "current_stage": "기타",
           "total_cost_million_krw": 1990,
-          "invested_to_2026_million_krw": null,
-          "budget_2027_million_krw": 1790,
+          "invested_to_2026_million_krw": 1990,
+          "budget_2027_million_krw": 0,
           "execution_rate": 0,
           "progress_status": "○ 2026.04.  기본 및 실시설계용역, 공원조성계획 변경용역 착수",
           "progress_rate": 5,
@@ -1475,8 +1475,8 @@
           "management_card_matched": true,
           "management_card_source": "주요투자사업 관리카드 1.hwpx",
           "card_total_budget_million_krw": 1990,
-          "card_invested_to_2026_million_krw": null,
-          "card_budget_2027_million_krw": 1790,
+          "card_invested_to_2026_million_krw": 1990,
+          "card_budget_2027_million_krw": 0,
           "card_budget_2027_base_million_krw": null,
           "card_budget_2027_first_extra_million_krw": null,
           "card_budget_2027_additional_million_krw": null,
@@ -1763,6 +1763,19 @@
             }
           ],
           "usage_breakdown": [
+            {
+              "name": "사전 타당성 조사",
+              "total": 50,
+              "invested": null,
+              "budget_2026": 50,
+              "budget_2027": null,
+              "budget_2028_plus": null,
+              "budget_2026_base": null,
+              "budget_2026_first_extra": null,
+              "budget_2026_second_extra": null,
+              "budget_2026_third_extra": null,
+              "budget_2026_additional": null
+            },
             {
               "name": "설계",
               "total": 50,
@@ -2321,13 +2334,13 @@
           "name": "시비",
           "total": 4791,
           "invested": null,
-          "budget_2026": 1954,
+          "budget_2026": 0,
           "budget_2027": 2837,
           "budget_2028_plus": null,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": 1954,
+          "budget_2026_third_extra": 0,
           "budget_2026_additional": null
         },
         {
@@ -2388,13 +2401,13 @@
           "name": "공사",
           "total": 4791,
           "invested": null,
-          "budget_2026": 1954,
+          "budget_2026": 0,
           "budget_2027": 2837,
           "budget_2028_plus": null,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
-          "budget_2026_third_extra": 1954,
+          "budget_2026_third_extra": 0,
           "budget_2026_additional": null
         },
         {
@@ -2446,11 +2459,11 @@
         "none": false
       },
       "card_invested_to_2025_million_krw": null,
-      "card_budget_2026_million_krw": 1954,
+      "card_budget_2026_million_krw": 0,
       "card_budget_2026_base_million_krw": null,
       "card_budget_2026_first_extra_million_krw": null,
       "card_budget_2026_second_extra_million_krw": null,
-      "card_budget_2026_third_extra_million_krw": 1954,
+      "card_budget_2026_third_extra_million_krw": 0,
       "card_budget_2026_additional_million_krw": null,
       "card_budget_2028_plus_million_krw": 1954
     },
