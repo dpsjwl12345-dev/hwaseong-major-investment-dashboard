@@ -534,6 +534,7 @@
 .pd-section-heading-title { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; line-height:1.2; }
 .pd-section-heading-subtitle { margin:3px 0 0; color:var(--pd-text-faint); font-size:11px; line-height:1.25; }
 .pd-progress-heading .pd-section-heading { width:100%; }
+.pd-progress-heading .pd-section-heading-title { font-size:18px; }
 .pd-card-title .pd-section-heading-title { font-size:16px; }
 
 .pd-budget-panel-heading h3 { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; }
@@ -671,6 +672,7 @@
   margin-top: 3px !important;
   font-size: 20px !important;
   line-height: 1.2;
+  text-align: center;
 }
 .pd-progress-layout {
   display: grid;
@@ -751,14 +753,19 @@
 .pd-progress-vertical-list::-webkit-scrollbar {
   display: none;
 }
-.pd-progress-vertical-list::before {
+/* 연결선은 항목마다 그린다 — 리스트 하나에 절대배치한 선은 max-height 스크롤 영역에서
+   스크롤하면 보이는 높이까지만 남고 끊겼다. 각 항목이 자기 번호 아래에서 다음 항목까지 잇는다. */
+.pd-progress-vertical-item:not(:last-child)::after {
   content: "";
   position: absolute;
-  top: 44px;
-  bottom: 22px;
-  left: 28px;
+  top: 42px;
+  bottom: 0;
+  left: 21px;
   width: 1px;
-  background: linear-gradient(rgba(111,156,164,.55), #3c5b60 45%, #3b3b3b);
+  background: #3c5b60;
+}
+.pd-progress-vertical-item.is-active:not(:last-child)::after {
+  background: linear-gradient(rgba(111,156,164,.55), #3c5b60);
 }
 .pd-progress-vertical-item {
   position: relative;
@@ -811,7 +818,7 @@
 }
 .pd-progress-desc {
   color: #b7b7b7;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.55;
   word-break: keep-all;
   overflow-wrap: break-word;
@@ -899,14 +906,28 @@
 .pd-progress-horizontal-item.is-active:not(:last-child)::after {
   background: linear-gradient(90deg, rgba(111,156,164,.55), #3c5b60);
 }
+/* 줄이 바뀔 때도 끊기지 않게: 줄 끝 항목은 오른쪽으로 나가 아래 줄 사이 틈 중간까지 내려오고,
+   다음 줄 첫 항목은 그 틈 중간에서 줄 전체 폭만큼 가로선을 그어 왼쪽 끝으로 내려와 자기 번호에 닿는다. */
+.pd-progress-horizontal-track { --pd-cols: 7; --pd-col-gap: 10px; --pd-row-gap: 10px; }
+.pd-progress-horizontal-item:nth-child(7n):not(:last-child)::after {
+  right: -8px;
+  bottom: calc(var(--pd-row-gap) / -2);
+  height: auto;
+  background: none;
+  border-top: 1px solid #3c5b60;
+  border-right: 1px solid #3c5b60;
+}
 .pd-progress-horizontal-item:nth-child(7n+1):not(:first-child)::before {
   content: "";
   position: absolute;
-  top: 20px;
+  top: calc(var(--pd-row-gap) / -2);
   left: -8px;
-  width: 8px;
-  height: 1px;
-  background: #3c5b60;
+  width: calc(var(--pd-cols) * 100% + (var(--pd-cols) - 1) * var(--pd-col-gap) + 16px);
+  height: calc(20px + var(--pd-row-gap) / 2 + 1px);
+  border-top: 1px solid #3c5b60;
+  border-left: 1px solid #3c5b60;
+  background: linear-gradient(#3c5b60, #3c5b60) 0 calc(100% - 1px) / 8px 1px no-repeat;
+  pointer-events: none;
 }
 .pd-progress-horizontal-item {
   position: relative;
@@ -925,10 +946,22 @@
 }
 @media (max-width: 900px) {
   .pd-progress-layout { grid-template-columns: 1fr; }
-  .pd-progress-horizontal-track { grid-template-columns: repeat(4, minmax(0, 1fr)); min-height: 220px; gap: 12px 8px; }
+  .pd-progress-horizontal-track { grid-template-columns: repeat(4, minmax(0, 1fr)); min-height: 220px; gap: 12px 8px; --pd-cols: 4; --pd-col-gap: 8px; --pd-row-gap: 12px; }
   .pd-progress-horizontal-item:not(:last-child)::after { right: -8px; }
+  .pd-progress-horizontal-item:nth-child(7n):not(:last-child)::after { border: 0; bottom: auto; height: 1px; background: #3c5b60; }
   .pd-progress-horizontal-item:nth-child(7n+1):not(:first-child)::before { display: none; }
-  .pd-progress-horizontal-item:nth-child(4n+1):not(:first-child)::before { content: ""; display: block; position: absolute; top: 20px; left: -8px; width: 8px; height: 1px; background: #3c5b60; }
+  .pd-progress-horizontal-item:nth-child(4n):not(:last-child)::after {
+    right: -8px; bottom: calc(var(--pd-row-gap) / -2); height: auto; background: none;
+    border-top: 1px solid #3c5b60; border-right: 1px solid #3c5b60;
+  }
+  .pd-progress-horizontal-item:nth-child(4n+1):not(:first-child)::before {
+    content: ""; display: block; position: absolute;
+    top: calc(var(--pd-row-gap) / -2); left: -8px;
+    width: calc(var(--pd-cols) * 100% + (var(--pd-cols) - 1) * var(--pd-col-gap) + 16px);
+    height: calc(20px + var(--pd-row-gap) / 2 + 1px);
+    border-top: 1px solid #3c5b60; border-left: 1px solid #3c5b60;
+    background: linear-gradient(#3c5b60, #3c5b60) 0 calc(100% - 1px) / 8px 1px no-repeat;
+  }
 }
 @media (max-width: 560px) {
   .pd-progress-horizontal-track { grid-template-columns: repeat(2, minmax(0, 1fr)); min-height: 0; }
