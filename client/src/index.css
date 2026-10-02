@@ -4832,7 +4832,7 @@ main.app-main.app-main-flush .hero-panel {
    강조색은 예산 상세 탭 표시색(청록)과 맞춘다. */
 .bd-table.bd-grid { --bd-accent: #5cd6e0; border-collapse: separate; border-spacing: 0; }
 .bd-table.bd-grid th, .bd-table.bd-grid td { border: 0; border-bottom: 1px solid var(--pd-border-soft); padding: 12px 14px; }
-.bd-table.bd-grid thead th { background: transparent; color: var(--pd-text-faint); font-size: 14px; font-weight: 700; border-bottom: 1px solid var(--pd-border); padding-top: 4px; }
+.bd-table.bd-grid thead th { background: transparent; color: var(--pd-text-muted); font-size: 16px; font-weight: 700; border-bottom: 1px solid var(--pd-border); padding-top: 4px; }
 .bd-table.bd-grid thead th.bd-align-right { text-align: right; }
 .bd-table.bd-grid thead th.bd-align-left, .bd-table.bd-grid thead th:first-child { text-align: left; }
 .bd-table.bd-grid td.bd-label { background: transparent; text-align: left; color: var(--pd-text-muted); font-weight: 600; }
@@ -4846,7 +4846,14 @@ main.app-main.app-main-flush .hero-panel {
 .bd-table.bd-grid .bd-meta-row td.bd-label { color: var(--pd-text-faint); font-weight: 500; }
 .bd-table.bd-grid tbody tr:last-child td { border-bottom: 0; }
 .bd-table.bd-grid td.bd-align-left:not(.bd-label) { color: var(--pd-text-muted); font-size: 14px; }
+/* 연도×예산과목 표: 머리글 크게, 구분 칸은 왼쪽 정렬(맨 앞 예산과목 묶음 칸만 가운데). */
+.bd-table:not(.bd-grid) thead th { font-size: 17px; color: var(--pd-text); }
+.bd-table:not(.bd-grid) .bd-stage-row th { font-size: 15px; color: var(--pd-text-muted); }
+.bd-table:not(.bd-grid) td.bd-label { text-align: left; padding-left: 16px; }
+.bd-table:not(.bd-grid) td.bd-label.is-l1 { text-align: center; padding-left: 12px; }
+.bd-table:not(.bd-grid) thead tr:first-child th:nth-child(2) { text-align: left; padding-left: 16px; }
+.bd-table:not(.bd-grid) .bd-stage-row th:nth-child(2) { text-align: left; padding-left: 16px; }
 .bd-table.bd-grid.bd-compact { font-size: 14px; }
 .bd-table.bd-grid.bd-compact th, .bd-table.bd-grid.bd-compact td { padding: 10px 8px; }
-.bd-table.bd-grid.bd-compact thead th { white-space: normal; word-break: keep-all; line-height: 1.3; font-size: 13px; vertical-align: bottom; }
+.bd-table.bd-grid.bd-compact thead th { white-space: normal; word-break: keep-all; line-height: 1.3; font-size: 14px; vertical-align: bottom; }
 .bd-table.bd-grid.bd-compact .bd-total-row td { font-size: 15px; }

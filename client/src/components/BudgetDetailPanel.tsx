@@ -116,7 +116,7 @@ function SectionTable({ section }: { section: MatrixSection }) {
                     <td colSpan={3} className="bd-label">계</td>
                   ) : (
                     <>
-                      {l1Span > 0 && <td rowSpan={l1Span} className="bd-label">{row.l1}</td>}
+                      {l1Span > 0 && <td rowSpan={l1Span} className="bd-label is-l1">{row.l1}</td>}
                       {row.l3 ? (
                         <>
                           {row.l2 && <td rowSpan={l2Span} className="bd-label">{row.l2}</td>}
