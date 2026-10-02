@@ -62,9 +62,6 @@ function Cell({ value, highlighted }: { value: string; highlighted?: boolean }) 
   return <td className={`bd-num${value === "-" ? " is-dash" : ""}${highlighted ? " is-highlight" : ""}`}>{value}</td>;
 }
 
-// 표는 카드 너비에 꽉 차게 늘리고, 칸 너비는 원래 비율을 유지한다(좁은 화면에서는 원래 너비로 가로 스크롤).
-const pct = (width: number, total: number) => `${(width / total) * 100}%`;
-
 // 연도 칸은 모두 같은 너비, 비고·불용은 좁게. 표 전체 너비는 칸 너비의 합으로 고정한다.
 const LABEL_COLUMN_WIDTHS = [100, 110, 190];
 const TOTAL_COLUMN_WIDTH = 120;
@@ -80,17 +77,18 @@ function SectionTable({ section }: { section: MatrixSection }) {
     extraWidths.reduce((sum, width) => sum + width, 0);
   return (
     <div className="pd-card bd-card">
-      <div className="pd-card-title">
+      {/* 제목줄을 표 너비로 맞춰 단위가 표 오른쪽 끝에 붙게 한다 */}
+      <div className="pd-card-title" style={{ maxWidth: tableWidth }}>
         <span>{section.title}</span>
         <span className="bd-unit">[단위: {section.unit}]</span>
       </div>
       <div className="bd-scroll">
-        <table className="bd-table" style={{ width: "100%", minWidth: tableWidth }}>
+        <table className="bd-table" style={{ width: tableWidth }}>
           <colgroup>
-            {LABEL_COLUMN_WIDTHS.map((width, index) => <col key={`label-${index}`} style={{ width: pct(width, tableWidth) }} />)}
-            <col style={{ width: pct(TOTAL_COLUMN_WIDTH, tableWidth) }} />
-            {section.years.map((year) => <col key={year} style={{ width: pct(YEAR_COLUMN_WIDTH, tableWidth) }} />)}
-            {extraWidths.map((width, index) => <col key={`extra-${index}`} style={{ width: pct(width, tableWidth) }} />)}
+            {LABEL_COLUMN_WIDTHS.map((width, index) => <col key={`label-${index}`} style={{ width: width }} />)}
+            <col style={{ width: TOTAL_COLUMN_WIDTH }} />
+            {section.years.map((year) => <col key={year} style={{ width: YEAR_COLUMN_WIDTH }} />)}
+            {extraWidths.map((width, index) => <col key={`extra-${index}`} style={{ width: width }} />)}
           </colgroup>
           <thead>
             <tr>
@@ -149,14 +147,14 @@ function GridTable({ section }: { section: GridSection }) {
   const tableWidth = section.widths.reduce((sum, width) => sum + width, 0);
   return (
     <div className="pd-card bd-card">
-      <div className="pd-card-title">
+      <div className="pd-card-title" style={{ maxWidth: tableWidth }}>
         <span>{section.title}</span>
         {section.unit && <span className="bd-unit">[단위: {section.unit}]</span>}
       </div>
       <div className="bd-scroll">
-        <table className={`bd-table bd-grid${section.compact ? " bd-compact" : ""}`} style={{ width: "100%", minWidth: tableWidth }}>
+        <table className={`bd-table bd-grid${section.compact ? " bd-compact" : ""}`} style={{ width: tableWidth }}>
           <colgroup>
-            {section.widths.map((width, index) => <col key={index} style={{ width: pct(width, tableWidth) }} />)}
+            {section.widths.map((width, index) => <col key={index} style={{ width: width }} />)}
           </colgroup>
           <thead>
             <tr>

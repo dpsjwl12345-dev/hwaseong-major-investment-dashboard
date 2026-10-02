@@ -4857,3 +4857,7 @@ main.app-main.app-main-flush .hero-panel {
 .bd-table.bd-grid.bd-compact th, .bd-table.bd-grid.bd-compact td { padding: 10px 8px; }
 .bd-table.bd-grid.bd-compact thead th { white-space: normal; word-break: keep-all; line-height: 1.3; font-size: 14px; vertical-align: bottom; }
 .bd-table.bd-grid.bd-compact .bd-total-row td { font-size: 15px; }
+
+/* 머리글은 그 열 내용과 같은 쪽으로 정렬한다: 금액·연도 열은 오른쪽(구분 칸만 왼쪽/가운데). */
+.bd-table:not(.bd-grid) thead th:nth-child(n+3) { text-align: right; }
+.bd-table.bd-grid thead th.bd-align-center:not(:first-child) { text-align: center; }
