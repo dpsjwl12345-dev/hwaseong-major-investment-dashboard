@@ -50,6 +50,7 @@ import { HwaseongGLMap } from "../components/HwaseongGLMap";
 import { ProjectLocationMap, type ProjectLocationMapData } from "../components/ProjectLocationMap";
 import { InvestmentRealMap } from "../components/InvestmentRealMap";
 import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
+import { BudgetDetailPanel, hasBudgetDetail } from "../components/BudgetDetailPanel";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
 
@@ -812,7 +813,7 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
   );
 }
 
-const TABS = ["사업개요·추진현황", "예산현황", "위치도"] as const;
+const TABS = ["사업개요·추진현황", "예산현황", "위치도", "예산 상세"] as const;
 
 function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, onProjectUpdated }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
@@ -825,6 +826,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
     setSelectedSubIndex(0);
   }, [project.id]);
 
+  const visibleTabs = TABS.filter((tab) => tab !== "예산 상세" || hasBudgetDetail(project.id));
   const hasSubProjects = (project.sub_projects?.length ?? 0) > 1 || project.project_name === "서해안 관광벨트 주차장 및 도로 조성";
   const activeProject: Project = hasSubProjects ? { ...project, ...project.sub_projects![selectedSubIndex] } : project;
 
@@ -971,7 +973,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
       </section>
 
       <div ref={tabsRef} className="pill-radio-container pd-pill-tabs" role="tablist" aria-label="사업 상세 탭">
-        {TABS.map((tab, index) => {
+        {visibleTabs.map((tab, index) => {
           const inputId = `detail-tab-${project.id}-${index}`;
           return (
             <span key={tab} className="pill-tab-option">
@@ -996,6 +998,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           </>
         )}
         {activeTab === "예산현황" && <BudgetPanel project={activeProject} onNoteSaved={(patch) => onProjectUpdated?.(project.id, patch)} />}
+        {activeTab === "예산 상세" && <BudgetDetailPanel projectId={project.id} />}
         {activeTab === "위치도" && (() => {
           const hasLocationMap = !!activeProject.location_map;
           const hasSpotMap = !!activeProject.overview_map;
