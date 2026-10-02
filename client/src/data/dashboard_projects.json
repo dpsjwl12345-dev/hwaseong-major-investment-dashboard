@@ -8690,7 +8690,7 @@
       "progress_rate": 40,
       "expected_completion": "40%",
       "progress_notes": "0",
-      "future_plan": "○ 2026.04. ~ 2027.01. 건축설계 중간보고회 등 설계 진행\n○ 2027. 2. ~ 2029. 2.: 건축공사 진행\n○ 2029. 2. ~ 4.: 미술관 등록 및 개관",
+      "future_plan": "○ 2026.04. ~ 2027.01. 건축설계 중간보고회 등 설계 진행\n○ 2027. 7. ~ 2029. 2.: 건축공사 진행\n○ 2029. 2. ~ 4.: 미술관 등록 및 개관",
       "inspection": "2029.",
       "delay_reason": "양호",
       "administrative_procedures": "",
@@ -9289,8 +9289,8 @@
       "card_budget_2028_million_krw": null,
       "card_budget_2029_plus_million_krw": null,
       "card_execution_budget_million_krw": 15674,
-      "card_execution_amount_million_krw": 11754,
-      "card_execution_rate": 75,
+      "card_execution_amount_million_krw": 12509,
+      "card_execution_rate": 80,
       "card_inspection": "양호",
       "funding_breakdown": [
         {

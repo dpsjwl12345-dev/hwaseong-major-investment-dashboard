@@ -4725,8 +4725,9 @@ main.app-main.app-main-flush .hero-panel {
 .pd-summary-label { color: rgba(244,243,238,.62); font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 17px !important; font-weight: 650; letter-spacing: .015em; line-height: 1.35; text-transform: none; }
 .pd-summary-label svg { width: 16px; height: 16px; padding: 6px; border-radius: 10px; }
 .pd-summary-value.grad { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -.035em; line-height: 1; }
-.pd-summary-cell-date .pd-summary-value { font-size: 20px !important; font-weight: 750; letter-spacing: -.02em; }
+.pd-summary-cell-date .pd-summary-value { font-size: 22px !important; font-weight: 750; letter-spacing: -.02em; }
 .pd-pill { min-height: 29px; box-sizing: border-box; padding: 0 11px; border-radius: 999px; font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 700; letter-spacing: -.01em; line-height: 1; }
+.pd-summary-cell:first-child .pd-pill, .pd-summary-cell-location .pd-pill { font-size: 13px; }
 .pd-pill-new { border: 1px solid rgba(196,167,245,.16); background: rgba(196,167,245,.05); color: rgba(214,201,240,.8); }
 /* Election-district capsule deliberately matches the progress/status capsule. */
 .pd-summary-cell-location .pd-pill-status { background: rgba(111,156,164,.08); color: rgba(154,196,203,.85); border: 1px solid rgba(111,156,164,.22); }
