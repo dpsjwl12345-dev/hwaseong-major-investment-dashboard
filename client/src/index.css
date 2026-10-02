@@ -671,6 +671,7 @@
   margin-top: 3px !important;
   font-size: 20px !important;
   line-height: 1.2;
+  text-align: center;
 }
 .pd-progress-layout {
   display: grid;
