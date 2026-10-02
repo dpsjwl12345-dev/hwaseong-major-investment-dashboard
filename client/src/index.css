@@ -4827,3 +4827,22 @@ main.app-main.app-main-flush .hero-panel {
 .bd-table td.bd-align-center { text-align: center; }
 .bd-table td.bd-align-left { text-align: left; white-space: normal; word-break: keep-all; }
 .bd-table td.is-dash { color: var(--pd-text-faint); }
+
+/* 칸 그대로 옮긴 표: 세로선 없이 가로 구분선만, 합계 행과 기준 금액 열(총사업비 등)만 강조한다.
+   강조색은 예산 상세 탭 표시색(청록)과 맞춘다. */
+.bd-table.bd-grid { --bd-accent: #5cd6e0; border-collapse: separate; border-spacing: 0; }
+.bd-table.bd-grid th, .bd-table.bd-grid td { border: 0; border-bottom: 1px solid var(--pd-border-soft); padding: 12px 14px; }
+.bd-table.bd-grid thead th { background: transparent; color: var(--pd-text-faint); font-size: 14px; font-weight: 700; border-bottom: 1px solid var(--pd-border); padding-top: 4px; }
+.bd-table.bd-grid thead th.bd-align-right { text-align: right; }
+.bd-table.bd-grid thead th.bd-align-left, .bd-table.bd-grid thead th:first-child { text-align: left; }
+.bd-table.bd-grid td.bd-label { background: transparent; text-align: left; color: var(--pd-text-muted); font-weight: 600; }
+.bd-table.bd-grid tbody tr:not(.bd-total-row):not(.bd-meta-row):hover td { background: rgba(255, 255, 255, .03); }
+.bd-table.bd-grid .bd-total-row td { background: color-mix(in srgb, var(--bd-accent) 9%, var(--pd-surface)); color: var(--pd-text); font-weight: 800; font-size: 17px; border-bottom: 1px solid color-mix(in srgb, var(--bd-accent) 35%, transparent); }
+.bd-table.bd-grid .bd-total-row td.bd-label { color: var(--pd-text); box-shadow: inset 3px 0 0 var(--bd-accent); }
+.bd-table.bd-grid th.is-accent { color: var(--bd-accent); }
+.bd-table.bd-grid td.is-accent { color: var(--pd-text); font-weight: 700; background: color-mix(in srgb, var(--bd-accent) 6%, transparent); }
+.bd-table.bd-grid .bd-total-row td.is-accent { color: var(--bd-accent); background: color-mix(in srgb, var(--bd-accent) 16%, var(--pd-surface)); }
+.bd-table.bd-grid .bd-meta-row td { color: var(--pd-text-faint); font-size: 14px; padding-top: 8px; padding-bottom: 8px; border-bottom-style: dashed; }
+.bd-table.bd-grid .bd-meta-row td.bd-label { color: var(--pd-text-faint); font-weight: 500; }
+.bd-table.bd-grid tbody tr:last-child td { border-bottom: 0; }
+.bd-table.bd-grid td.bd-align-left:not(.bd-label) { color: var(--pd-text-muted); font-size: 14px; }

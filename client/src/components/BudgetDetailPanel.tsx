@@ -30,6 +30,10 @@ type GridSection = {
   widths: number[];
   align: ("left" | "center" | "right")[];
   boldRows?: number[];
+  // 개월·비율처럼 금액이 아닌 보조 행
+  metaRows?: number[];
+  // 표에서 기준이 되는 금액 열(예: 총사업비) 하나를 강조
+  accentColumn?: number;
   rows: string[][];
 };
 
@@ -145,21 +149,33 @@ function GridTable({ section }: { section: GridSection }) {
         {section.unit && <span className="bd-unit">[단위: {section.unit}]</span>}
       </div>
       <div className="bd-scroll">
-        <table className="bd-table" style={{ width: tableWidth }}>
+        <table className="bd-table bd-grid" style={{ width: tableWidth }}>
           <colgroup>
             {section.widths.map((width, index) => <col key={index} style={{ width }} />)}
           </colgroup>
           <thead>
-            <tr>{section.columns.map((column, index) => <th key={index}>{column}</th>)}</tr>
+            <tr>
+              {section.columns.map((column, index) => (
+                <th key={index} className={`bd-align-${section.align[index]}${index === section.accentColumn ? " is-accent" : ""}`}>{column}</th>
+              ))}
+            </tr>
           </thead>
           <tbody>
-            {section.rows.map((row, rowIndex) => (
-              <tr key={rowIndex} className={section.boldRows?.includes(rowIndex) ? "bd-total-row" : undefined}>
-                {row.map((value, columnIndex) => (
-                  <td key={columnIndex} className={`bd-align-${section.align[columnIndex]}${columnIndex === 0 ? " bd-label" : ""}${value === "-" ? " is-dash" : ""}`}>{value}</td>
-                ))}
-              </tr>
-            ))}
+            {section.rows.map((row, rowIndex) => {
+              const rowClass = section.boldRows?.includes(rowIndex) ? "bd-total-row" : section.metaRows?.includes(rowIndex) ? "bd-meta-row" : undefined;
+              return (
+                <tr key={rowIndex} className={rowClass}>
+                  {row.map((value, columnIndex) => (
+                    <td
+                      key={columnIndex}
+                      className={`bd-align-${section.align[columnIndex]}${columnIndex === 0 ? " bd-label" : ""}${value === "-" ? " is-dash" : ""}${columnIndex === section.accentColumn ? " is-accent" : ""}`}
+                    >
+                      {value}
+                    </td>
+                  ))}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
