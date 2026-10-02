@@ -5695,6 +5695,10 @@
       "serial": 8,
       "department": "관광진흥과",
       "project_name": "서해안 황금해안길 조성",
+      "rendering_images": [
+        "/renderings/tourism-3/1.webp",
+        "/renderings/tourism-3/2.webp"
+      ],
       "carryover_items": [
         {
           "label": "서해안 황금해안길 조성사업(자체)",
