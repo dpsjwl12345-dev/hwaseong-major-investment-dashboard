@@ -11,7 +11,8 @@ type DetailRow = {
   highlight?: number[];
 };
 
-type DetailSection = {
+type MatrixSection = {
+  kind?: "matrix";
   title: string;
   unit: string;
   years: string[];
@@ -19,6 +20,20 @@ type DetailSection = {
   extraColumns: string[];
   rows: DetailRow[];
 };
+
+// 연도×예산과목 모양이 아닌 표(계산표, 상세내역표 등)를 칸 그대로 옮기는 단순 표.
+type GridSection = {
+  kind: "grid";
+  title: string;
+  unit?: string;
+  columns: string[];
+  widths: number[];
+  align: ("left" | "center" | "right")[];
+  boldRows?: number[];
+  rows: string[][];
+};
+
+type DetailSection = MatrixSection | GridSection;
 
 const detailByProject = budgetDetailData as unknown as Record<string, { sections: DetailSection[] }>;
 
@@ -41,7 +56,19 @@ function Cell({ value, highlighted }: { value: string; highlighted?: boolean }) 
   return <td className={`bd-num${value === "-" ? " is-dash" : ""}${highlighted ? " is-highlight" : ""}`}>{value}</td>;
 }
 
-function SectionTable({ section }: { section: DetailSection }) {
+// 연도 칸은 모두 같은 너비, 비고·불용은 좁게. 표 전체 너비는 칸 너비의 합으로 고정한다.
+const LABEL_COLUMN_WIDTHS = [100, 110, 190];
+const TOTAL_COLUMN_WIDTH = 120;
+const YEAR_COLUMN_WIDTH = 150;
+const EXTRA_COLUMN_WIDTHS: Record<string, number> = { 비고: 64, 불용: 76 };
+
+function SectionTable({ section }: { section: MatrixSection }) {
+  const extraWidths = section.extraColumns.map((name) => EXTRA_COLUMN_WIDTHS[name] ?? 64);
+  const tableWidth =
+    LABEL_COLUMN_WIDTHS.reduce((sum, width) => sum + width, 0) +
+    TOTAL_COLUMN_WIDTH +
+    YEAR_COLUMN_WIDTH * section.years.length +
+    extraWidths.reduce((sum, width) => sum + width, 0);
   return (
     <div className="pd-card bd-card">
       <div className="pd-card-title">
@@ -49,7 +76,13 @@ function SectionTable({ section }: { section: DetailSection }) {
         <span className="bd-unit">[단위: {section.unit}]</span>
       </div>
       <div className="bd-scroll">
-        <table className="bd-table">
+        <table className="bd-table" style={{ width: tableWidth }}>
+          <colgroup>
+            {LABEL_COLUMN_WIDTHS.map((width, index) => <col key={`label-${index}`} style={{ width }} />)}
+            <col style={{ width: TOTAL_COLUMN_WIDTH }} />
+            {section.years.map((year) => <col key={year} style={{ width: YEAR_COLUMN_WIDTH }} />)}
+            {extraWidths.map((width, index) => <col key={`extra-${index}`} style={{ width }} />)}
+          </colgroup>
           <thead>
             <tr>
               <th>예산과목</th>
@@ -103,6 +136,37 @@ function SectionTable({ section }: { section: DetailSection }) {
   );
 }
 
+function GridTable({ section }: { section: GridSection }) {
+  const tableWidth = section.widths.reduce((sum, width) => sum + width, 0);
+  return (
+    <div className="pd-card bd-card">
+      <div className="pd-card-title">
+        <span>{section.title}</span>
+        {section.unit && <span className="bd-unit">[단위: {section.unit}]</span>}
+      </div>
+      <div className="bd-scroll">
+        <table className="bd-table" style={{ width: tableWidth }}>
+          <colgroup>
+            {section.widths.map((width, index) => <col key={index} style={{ width }} />)}
+          </colgroup>
+          <thead>
+            <tr>{section.columns.map((column, index) => <th key={index}>{column}</th>)}</tr>
+          </thead>
+          <tbody>
+            {section.rows.map((row, rowIndex) => (
+              <tr key={rowIndex} className={section.boldRows?.includes(rowIndex) ? "bd-total-row" : undefined}>
+                {row.map((value, columnIndex) => (
+                  <td key={columnIndex} className={`bd-align-${section.align[columnIndex]}${columnIndex === 0 ? " bd-label" : ""}${value === "-" ? " is-dash" : ""}`}>{value}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 export function BudgetDetailPanel({ projectId }: { projectId: string }) {
   const detail = detailByProject[projectId];
   if (!detail) return null;
@@ -110,7 +174,7 @@ export function BudgetDetailPanel({ projectId }: { projectId: string }) {
     <div className="pd-detail-attached-group">
       {detail.sections.map((section, index) => (
         <div key={section.title} className={`pd-stacked-panel${index === detail.sections.length - 1 ? " pd-attached-last" : ""}`}>
-          <SectionTable section={section} />
+          {section.kind === "grid" ? <GridTable section={section} /> : <SectionTable section={section} />}
         </div>
       ))}
     </div>

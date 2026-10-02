@@ -813,7 +813,7 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
   );
 }
 
-const TABS = ["사업개요·추진현황", "예산현황", "위치도", "예산 상세"] as const;
+const TABS = ["사업개요·추진현황", "예산현황", "예산 상세", "위치도"] as const;
 
 function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, onProjectUpdated }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
@@ -984,7 +984,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             </span>
           );
         })}
-        <div ref={indicatorRef} className="pill-indicator" aria-hidden="true" />
+        <div ref={indicatorRef} className={`pill-indicator${activeTab === "예산 상세" ? " is-budget-detail" : ""}`} aria-hidden="true" />
       </div>
 
       <div key={`${project.id}-${selectedSubIndex}-${activeTab}`} className="pd-panel-fade">

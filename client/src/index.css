@@ -4805,15 +4805,25 @@ main.app-main.app-main-flush .hero-panel {
 @media (max-width: 640px) { .plm { height: 380px; } }
 
 /* 예산 상세 탭: 엑셀 원본 표(예산현황/지출현황)를 그대로 옮긴 표. */
-.bd-unit { font-size: 13px; font-weight: 600; color: var(--pd-text-faint); }
+.bd-unit { font-size: 15px; font-weight: 600; color: var(--pd-text-faint); }
 .bd-scroll { overflow-x: auto; }
-.bd-table { width: 100%; min-width: 1180px; border-collapse: collapse; font-size: 13px; color: var(--pd-text); }
-.bd-table th, .bd-table td { padding: 8px 10px; border: 1px solid rgba(246, 246, 241, .14); white-space: nowrap; }
+.bd-table { table-layout: fixed; border-collapse: collapse; font-size: 16px; color: var(--pd-text); }
+.bd-table th, .bd-table td { padding: 10px 12px; border: 1px solid rgba(246, 246, 241, .14); white-space: nowrap; }
 .bd-table thead th { background: rgba(255, 255, 255, .06); text-align: center; font-weight: 700; color: var(--pd-text-muted); }
-.bd-table .bd-stage-row th { white-space: normal; min-width: 92px; font-size: 12px; font-weight: 600; line-height: 1.4; color: var(--pd-text-faint); background: rgba(255, 255, 255, .03); }
-.bd-table .bd-label { color: var(--pd-text); font-weight: 600; background: rgba(255, 255, 255, .025); }
+.bd-table .bd-stage-row th { white-space: pre-line; padding-left: 6px; padding-right: 6px; font-size: 15px; font-weight: 600; line-height: 1.45; color: var(--pd-text-muted); background: rgba(255, 255, 255, .03); }
+.bd-table .bd-label { color: var(--pd-text); font-weight: 600; background: rgba(255, 255, 255, .025); text-align: center; vertical-align: middle; white-space: normal; word-break: keep-all; }
 .bd-table .bd-num { text-align: right; font-variant-numeric: tabular-nums; }
 .bd-table .bd-num.is-dash { color: var(--pd-text-faint); }
 .bd-table .bd-num.is-highlight { background: rgba(250, 204, 21, .22); }
 .bd-table .bd-total-row td { background: rgba(255, 255, 255, .07); font-weight: 800; }
 .bd-table th.is-unused, .bd-table td.is-unused { color: var(--pd-critical); }
+
+/* 예산 상세 탭을 선택하면 선택 표시 색을 청록으로 바꾼다(다른 탭은 기존 금색). */
+.pd-pill-tabs .pill-indicator { transition: transform .4s cubic-bezier(.175,.885,.32,1.275), width .4s cubic-bezier(.175,.885,.32,1.275), background-color .3s ease; }
+.pd-pill-tabs .pill-indicator.is-budget-detail { background: #5cd6e0; }
+
+/* 예산 상세 일반 표(칸 그대로 옮긴 표)의 정렬. */
+.bd-table td.bd-align-right { text-align: right; font-variant-numeric: tabular-nums; }
+.bd-table td.bd-align-center { text-align: center; }
+.bd-table td.bd-align-left { text-align: left; white-space: normal; word-break: keep-all; }
+.bd-table td.is-dash { color: var(--pd-text-faint); }
