@@ -84,7 +84,7 @@ function StageGrid({ title, unit, columns, noteHeader, sum, rows, notes, selecte
             <th>연도</th>
             {noteHeader && <th>{noteHeader}</th>}
             <th className="sg-num">금액</th>
-            {columns.map((column) => <th key={column}>{column}</th>)}
+            {columns.map((column) => <th key={column} className="sg-num">{column}</th>)}
           </tr>
         </thead>
         <tbody>
@@ -340,6 +340,11 @@ function CostBreakdownView({ section }: { section: GridSection }) {
           </tr>
         </thead>
         <tbody>
+          <tr className="sg-sum">
+            <td>{subtotal[0]}</td>
+            {fields.map((field) => <td key={field.index} className="sg-num">{subtotal[field.index]}</td>)}
+            <td className="sg-num">{rowSum(subtotal).toLocaleString("ko-KR")}</td>
+          </tr>
           {bodyRows.map((row) => (
             <tr key={row[0]}>
               <td className="sg-year">{row[0]}</td>
@@ -353,11 +358,6 @@ function CostBreakdownView({ section }: { section: GridSection }) {
               <td className="sg-num">{rowSum(row).toLocaleString("ko-KR")}</td>
             </tr>
           ))}
-          <tr className="sg-sum">
-            <td>{subtotal[0]}</td>
-            {fields.map((field) => <td key={field.index} className="sg-num">{subtotal[field.index]}</td>)}
-            <td className="sg-num">{rowSum(subtotal).toLocaleString("ko-KR")}</td>
-          </tr>
         </tbody>
       </table>
     </>
