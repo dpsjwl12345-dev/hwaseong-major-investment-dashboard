@@ -843,7 +843,7 @@
 .pd-progress-notes-body {
   margin: 0;
   color: #e2e2e2;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.6;
   white-space: pre-wrap;
   word-break: keep-all;
@@ -851,7 +851,7 @@
 }
 .pd-progress-notes-empty {
   color: #6b6b6b;
-  font-size: 15px;
+  font-size: 14px;
 }
 .pd-progress-horizontal-group + .pd-progress-horizontal-group {
   margin-top: 18px;
@@ -4712,8 +4712,8 @@ main.app-main.app-main-flush .hero-panel {
 .pd-summary-label svg { width: 16px; height: 16px; padding: 6px; border-radius: 10px; }
 .pd-summary-value.grad { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -.035em; line-height: 1; }
 .pd-summary-cell-date .pd-summary-value { font-size: 22px !important; font-weight: 750; letter-spacing: -.02em; }
-.pd-pill { min-height: 29px; box-sizing: border-box; padding: 0 11px; border-radius: 999px; font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 700; letter-spacing: -.01em; line-height: 1; }
-.pd-summary-cell:first-child .pd-pill, .pd-summary-cell-location .pd-pill { font-size: 13px; }
+.pd-pill { min-height: 29px; box-sizing: border-box; padding: 0 11px; border-radius: 999px; font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 13px; font-weight: 700; letter-spacing: -.01em; line-height: 1; }
+.pd-summary-cell:first-child .pd-pill, .pd-summary-cell-location .pd-pill { font-size: 14px; }
 .pd-pill-new { border: 1px solid rgba(196,167,245,.16); background: rgba(196,167,245,.05); color: rgba(214,201,240,.8); }
 /* Election-district capsule deliberately matches the progress/status capsule. */
 .pd-summary-cell-location .pd-pill-status { background: rgba(111,156,164,.08); color: rgba(154,196,203,.85); border: 1px solid rgba(111,156,164,.22); }
@@ -5095,7 +5095,7 @@ main.app-main.app-main-flush .hero-panel {
 .pd-progress-notes-body {
   margin: 0;
   color: #e2e2e2;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.6;
   white-space: pre-wrap;
   word-break: keep-all;
@@ -5103,7 +5103,7 @@ main.app-main.app-main-flush .hero-panel {
 }
 .pd-progress-notes-empty {
   color: #6b6b6b;
-  font-size: 15px;
+  font-size: 14px;
 }
 .pd-progress-horizontal-group + .pd-progress-horizontal-group {
   margin-top: 18px;
@@ -8964,8 +8964,8 @@ main.app-main.app-main-flush .hero-panel {
 .pd-summary-label svg { width: 16px; height: 16px; padding: 6px; border-radius: 10px; }
 .pd-summary-value.grad { font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -.035em; line-height: 1; }
 .pd-summary-cell-date .pd-summary-value { font-size: 22px !important; font-weight: 750; letter-spacing: -.02em; }
-.pd-pill { min-height: 29px; box-sizing: border-box; padding: 0 11px; border-radius: 999px; font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 12px; font-weight: 700; letter-spacing: -.01em; line-height: 1; }
-.pd-summary-cell:first-child .pd-pill, .pd-summary-cell-location .pd-pill { font-size: 13px; }
+.pd-pill { min-height: 29px; box-sizing: border-box; padding: 0 11px; border-radius: 999px; font-family: "Pretendard", "Noto Sans KR", sans-serif; font-size: 13px; font-weight: 700; letter-spacing: -.01em; line-height: 1; }
+.pd-summary-cell:first-child .pd-pill, .pd-summary-cell-location .pd-pill { font-size: 14px; }
 .pd-pill-new { border: 1px solid rgba(196,167,245,.16); background: rgba(196,167,245,.05); color: rgba(214,201,240,.8); }
 /* Election-district capsule deliberately matches the progress/status capsule. */
 .pd-summary-cell-location .pd-pill-status { background: rgba(111,156,164,.08); color: rgba(154,196,203,.85); border: 1px solid rgba(111,156,164,.22); }
@@ -9122,3 +9122,7 @@ main.app-main.app-main-flush .hero-panel {
   .bd-with-aside { flex-direction: column; }
   .bd-with-aside .bd-aside-side { flex-basis: auto; }
 }
+
+/* 추진경과·향후계획을 같은 세로 타임라인으로 표시: 두 칸을 같은 폭으로 맞춘다 */
+.pd-progress-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 900px) { .pd-progress-layout { grid-template-columns: 1fr; } }

@@ -607,7 +607,7 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
 }
 
 // 추진경과 세로 타임라인(shadcn Timeline). 가장 최근 항목이 "현재" 단계고, 그 앞 단계는 채운 점으로 그려진다.
-// 향후계획은 오른쪽이 비어 보여 가로 진행선(pd-progress-horizontal-*)으로 표시한다.
+// 향후계획도 같은 타임라인(색상·모양 동일)으로 표시한다.
 function TimelineList({ items }: { items: TimelineEntry[] }) {
   return (
     <Timeline value={items.length} className="pd-timeline">
@@ -638,16 +638,16 @@ function ProgressPanel({ project, onNoteSaved }: { project: Project; onNoteSaved
       <div className="pd-progress-layout">
         <section className="pd-progress-section pd-progress-vertical">
           <div className="pd-progress-heading"><DetailSectionHeading icon={ChartProgressIcon} tone="budget" title="추진경과" /></div>
-          {past.length > 0 ? <TimelineList items={past} /> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
+          {past.length > 0 ? <div className="pd-progress-vertical-list"><TimelineList items={past} /></div> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
         </section>
         <section className="pd-progress-section pd-progress-horizontal">
           <div className="pd-progress-heading"><DetailSectionHeading icon={CalendarAddIcon} tone="budget" title="향후계획" /></div>
           {upcoming.length > 0 ? upcomingGroups.map((group, gi) => (
             <div className="pd-progress-horizontal-group" key={gi}>
               {group.label && <div className="pd-progress-group-label">{group.label}</div>}
-              <div className="pd-progress-horizontal-track" style={{ ["--pd-progress-cols" as string]: Math.min(group.items.length, 7) } as CSSProperties}>{group.items.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{highlightMilestones(item.desc)}</div></div></div>)}</div>
+              <TimelineList items={group.items} />
             </div>
-)) : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
+          )) : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
           {/* 향후계획 박스는 왼쪽 추진경과보다 보통 짧아서 아래에 빈 공간이 남는다(그리드
               align-items:stretch로 두 박스 높이가 맞춰지기 때문) - 그 공간에 자유 메모(진행사항)
               박스를 붙인다. 박스를 직접 클릭하면 바로 편집·저장된다(InlineNoteEditor). */}
