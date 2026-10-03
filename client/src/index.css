@@ -9195,19 +9195,14 @@ main.app-main.app-main-flush .hero-panel {
 .yb-legend i { width: 12px; height: 12px; border-radius: 3px; }
 /* 예산 흐름: 높이를 비율로 써서 카드 안(고정 높이)이든 표 옆(표 높이만큼)이든 맞게 그려진다 */
 .yb-flow-plot { position: relative; height: 176px; margin-top: 4px; }
-.yb-flow-plot.is-fill { height: 100%; min-height: 240px; margin-top: 0; }
 .yb-flow-plot svg { position: absolute; left: 0; width: 100%; overflow: visible; }
 .yb-flow-line { stroke: rgba(255, 255, 255, .26); }
 .yb-flow-label { top: auto; bottom: 8px; }
 .yb-flow-dot { background: #6b7280; box-shadow: 0 0 0 3px var(--yb-surface); }
 .yb-flow-col.is-active .yb-flow-dot { width: 14px; height: 14px; margin-top: -7px; background: var(--yb-data); }
-.pl-side { --yb-data: #3987e5; --yb-surface: #090909; }
 .fp-years { margin: 4px 0 18px; }
 
 /* ── 하단 연도별 사업비 계획: 연도별 한 줄, 단계·비목·금액 ── */
-.pl-wrap { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr); gap: 32px; align-items: stretch; }
-.pl-main, .pl-side { min-width: 0; display: flex; flex-direction: column; }
-.pl-side .yb-flow-plot { flex: 1; }
 .pl-table { width: 100%; table-layout: fixed; border-collapse: collapse; color: var(--pd-text); }
 .pl-table th { padding: 4px 12px 10px; border-bottom: 1px solid var(--pd-border); color: var(--pd-text-faint); font-size: 14px; font-weight: 600; text-align: left; }
 .pl-table td { padding: 12px; border-bottom: 1px solid rgba(255, 255, 255, .06); vertical-align: top; font-size: 15px; }
@@ -9225,11 +9220,8 @@ main.app-main.app-main-flush .hero-panel {
 .pl-sum .pl-item { color: var(--pd-text-muted); font-weight: 600; }
 .pl-empty { color: var(--pd-text-faint); font-size: 14px; }
 .pl-notes { margin: 10px 2px 0; color: var(--pd-text-faint); font-size: 13px; }
-@media (max-width: 1100px) { .pl-wrap { grid-template-columns: minmax(0, 1fr); } .pl-side .yb-flow-plot { min-height: 220px; } }
 @media (max-width: 760px) { .yb-donut-wrap { flex-direction: column; align-items: flex-start; } }
 
 /* 예산서 표를 연도별 한 줄로: 추진 단계 칸, 원본에서 노랗게 표시된 금액 */
 .pl-table .pl-stage-name { color: var(--pd-text-faint); font-size: 13px; line-height: 1.45; word-break: keep-all; }
 .pl-item.is-flag b { padding: 0 4px; border-radius: 3px; background: rgba(250, 204, 21, .22); }
-/* 표가 길면 그래프를 표 전체 높이로 늘리지 않고 적당한 높이로 두고, 스크롤해도 표 옆에 따라오게 한다 */
-.pl-side .yb-flow-plot { max-height: 480px; position: sticky; top: 96px; }

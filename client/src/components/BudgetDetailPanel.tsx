@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import budgetDetailData from "../data/budget_detail.json";
 
 type DetailRow = {
@@ -48,13 +47,6 @@ const detailByProject = budgetDetailData as unknown as Record<string, { sections
 
 export function hasBudgetDetail(projectId: string) {
   return projectId in detailByProject;
-}
-
-// 연도별로 읽는 표(사업비 계획, 예산서 표)인지 — 예산 흐름 그래프는 이 중 첫 표 오른쪽에 붙는다.
-const isYearSection = (section: DetailSection) => (section.kind === "grid" ? section.variant === "plan" : true);
-
-export function hasBudgetPlan(projectId: string) {
-  return !!detailByProject[projectId]?.sections.some(isYearSection);
 }
 
 export type PlanYearKey = "budget_2026" | "budget_2027" | "budget_2028_plus";
@@ -279,28 +271,9 @@ function PlanTable({ section, selectedYear }: { section: GridSection; selectedYe
   );
 }
 
-function YearCard({ children, aside }: { children: ReactNode; aside?: ReactNode }) {
-  return (
-    <div className="pd-card bd-card">
-      {aside ? (
-        <div className="pl-wrap">
-          <div className="pl-main">{children}</div>
-          <div className="pl-side">
-            <div className="pd-card-title"><span>연도별 예산 흐름</span><span className="bd-unit">[단위: 백만원]</span></div>
-            {aside}
-          </div>
-        </div>
-      ) : (
-        children
-      )}
-    </div>
-  );
-}
-
-export function BudgetDetailPanel({ projectId, flowAside, selectedYear }: { projectId: string; flowAside?: ReactNode; selectedYear?: PlanYearKey }) {
+export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: string; selectedYear?: PlanYearKey }) {
   const detail = detailByProject[projectId];
   if (!detail) return null;
-  const planIndex = detail.sections.findIndex(isYearSection);
   return (
     <div className="pd-detail-attached-group">
       {detail.sections.map((section, index) => (
@@ -308,9 +281,9 @@ export function BudgetDetailPanel({ projectId, flowAside, selectedYear }: { proj
           {section.kind === "grid" && section.variant !== "plan" ? (
             <GridTable section={section} />
           ) : (
-            <YearCard aside={index === planIndex ? flowAside : undefined}>
+            <div className="pd-card bd-card">
               {section.kind === "grid" ? <PlanTable section={section} selectedYear={selectedYear} /> : <MatrixYearTable section={section} selectedYear={selectedYear} />}
-            </YearCard>
+            </div>
           )}
         </div>
       ))}
