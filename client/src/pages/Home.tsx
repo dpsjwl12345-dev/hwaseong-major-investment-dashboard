@@ -50,7 +50,7 @@ import { ProjectLocationMap, type ProjectLocationMapData } from "../components/P
 import { InvestmentRealMap } from "../components/InvestmentRealMap";
 import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
 import { Timeline, TimelineContent, TimelineDate, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator } from "@/components/ui/timeline";
-import { BudgetDetailPanel, hasBudgetDetail } from "../components/BudgetDetailPanel";
+import { BudgetDetailPanel, hasBudgetDetail, hasBudgetPlan } from "../components/BudgetDetailPanel";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
 
@@ -492,46 +492,87 @@ function shareText(share: number) {
   return `${share > 0 && share < 1 ? share.toFixed(1) : share.toFixed(0)}%`;
 }
 
-// 선택한 연도의 성질별·재원별 구성을 같은 모양의 목록으로 나란히 보여준다.
-// 편성액이 없는 항목은 빼서, "시비 100%"처럼 그해 실제 구성만 남긴다.
-function YearBreakdownList({ title, rows, yearKey, nameOf }: { title: string; rows: BreakdownRow[]; yearKey: BudgetYearKey; nameOf: (name: string) => string }) {
+function yearItems(rows: BreakdownRow[], yearKey: BudgetYearKey, nameOf: (name: string) => string) {
   const items = rows
     .map((row) => ({ name: nameOf(row.name), value: (row[yearKey] as number | null | undefined) ?? 0 }))
     .filter((item) => item.value > 0)
     .sort((a, b) => b.value - a.value);
   const total = items.reduce((sum, item) => sum + item.value, 0);
+  return { items: items.map((item) => ({ ...item, share: total > 0 ? (item.value / total) * 100 : 0 })), total };
+}
+
+// 성질별: 그해 무엇에 얼마를 쓰는지 - 길이 비교라 가로 막대.
+function UsageBars({ rows, yearKey }: { rows: BreakdownRow[]; yearKey: BudgetYearKey }) {
+  const { items, total } = yearItems(rows, yearKey, usageCostLabel);
   return (
     <section className="yb-list">
-      <header className="yb-list-head">
-        <h4>{title}</h4>
-        <span>{formatMillion(total || null)}</span>
-      </header>
-      {items.length === 0 ? (
-        <p className="yb-empty">편성액 없음</p>
-      ) : (
-        <ul>
-          {items.map((item) => {
-            const share = total > 0 ? (item.value / total) * 100 : 0;
-            return (
-              <li key={item.name} className="yb-row">
-                <span className="yb-name">{item.name}</span>
-                <span className="yb-value">{formatMillion(item.value)}</span>
-                <span className="yb-share">{shareText(share)}</span>
-                <span className="yb-track" aria-hidden="true"><span style={{ width: `${share}%` }} /></span>
-              </li>
-            );
-          })}
+      <header className="yb-list-head"><h4>성질별 예산</h4><span>{formatMillion(total || null)}</span></header>
+      {items.length === 0 ? <p className="yb-empty">편성액 없음</p> : (
+        <ul className="yb-bars">
+          {items.map((item) => (
+            <li key={item.name} className="yb-row">
+              <span className="yb-name">{item.name}</span>
+              <span className="yb-value">{formatMillion(item.value)}</span>
+              <span className="yb-share">{shareText(item.share)}</span>
+              <span className="yb-track" aria-hidden="true"><span style={{ width: `${item.share}%` }} /></span>
+            </li>
+          ))}
         </ul>
       )}
     </section>
   );
 }
 
-// 기투자→2026→2027→이후 흐름. 선(svg)만 가로로 늘어나고 점·숫자·연도 글자는 html이라
-// 칸 폭이 바뀌어도 글자 크기가 표와 같은 체계로 고정된다. 연도 칸을 누르면 위 탭과 같이 바뀐다.
-const FLOW_TOP = 30;
-const FLOW_HEIGHT = 56;
-function BudgetFlowStrip({ flow, selected, onSelect }: { flow: FlowTotals; selected: BudgetYearKey; onSelect: (key: BudgetYearKey) => void }) {
+// 재원별: 그해 돈이 어디서 나오는지 - 전체 중 구성비라 도넛. 색은 재원마다 고정
+// (다크 배경에서 색각이상·명도 대비 검증을 통과한 순서), 성질별 막대·연도 탭 색과 겹치지 않는다.
+const FUNDING_COLORS: Record<string, string> = { 국비: "#d95926", 도비: "#199e70", 시비: "#9085e9", 특교: "#c98500", 특조: "#d55181", 지방채: "#008300" };
+const fundingColor = (name: string) => FUNDING_COLORS[name] ?? "#8b8f98";
+
+function FundingDonut({ rows, yearKey }: { rows: BreakdownRow[]; yearKey: BudgetYearKey }) {
+  const { items, total } = yearItems(rows, yearKey, displayFundingSourceName);
+  const radius = 44;
+  const circumference = 2 * Math.PI * radius;
+  const gap = items.length > 1 ? 2 : 0;
+  let offset = 0;
+  const lead = items[0];
+  return (
+    <section className="yb-list">
+      <header className="yb-list-head"><h4>재원별 예산</h4><span>{formatMillion(total || null)}</span></header>
+      {items.length === 0 ? <p className="yb-empty">편성액 없음</p> : (
+        <div className="yb-donut-wrap">
+          <div className="yb-donut">
+            <svg viewBox="0 0 112 112" role="img" aria-label={items.map((item) => `${item.name} ${shareText(item.share)}`).join(", ")}>
+              <circle cx="56" cy="56" r={radius} className="yb-donut-track" />
+              {items.map((item) => {
+                const length = Math.max((item.share / 100) * circumference - gap, 0.5);
+                const segment = <circle key={item.name} cx="56" cy="56" r={radius} className="yb-donut-seg" stroke={fundingColor(item.name)} strokeDasharray={`${length} ${circumference - length}`} strokeDashoffset={-offset} />;
+                offset += (item.share / 100) * circumference;
+                return segment;
+              })}
+            </svg>
+            <div className="yb-donut-center"><b>{shareText(lead.share)}</b><span>{lead.name}</span></div>
+          </div>
+          <ul className="yb-legend">
+            {items.map((item) => (
+              <li key={item.name}>
+                <i style={{ background: fundingColor(item.name) }} aria-hidden="true" />
+                <span className="yb-name">{item.name}</span>
+                <span className="yb-value">{formatMillion(item.value)}</span>
+                <span className="yb-share">{shareText(item.share)}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  );
+}
+
+// 기투자→2026→2027→이후 흐름. 선(svg)만 늘어나고 점·숫자·연도 글자는 html이라 칸 크기가 바뀌어도
+// 글자 크기가 표와 같은 체계로 고정된다. "fill"은 옆 표 높이에 맞춰 세로로 채운다. 연도 칸을 누르면 탭이 같이 바뀐다.
+const FLOW_PAD_TOP = 34;
+const FLOW_PAD_BOTTOM = 36;
+function BudgetFlowStrip({ flow, selected, onSelect, fill = false }: { flow: FlowTotals; selected: BudgetYearKey; onSelect: (key: BudgetYearKey) => void; fill?: boolean }) {
   const points: { key: BudgetYearKey | "invested"; label: string; value: number }[] = [
     { key: "invested", label: "기투자", value: flow.invested },
     { key: "budget_2026", label: "2026년", value: flow.budget2026 },
@@ -539,42 +580,43 @@ function BudgetFlowStrip({ flow, selected, onSelect }: { flow: FlowTotals; selec
     { key: "budget_2028_plus", label: "2028년 이후", value: flow.budget2028Plus },
   ];
   const max = Math.max(...points.map((point) => point.value), 1);
-  const y = (value: number) => FLOW_TOP + FLOW_HEIGHT - (value / max) * FLOW_HEIGHT;
+  const ratio = (value: number) => 1 - value / max;
+  const at = (value: number, shift = 0) => `calc(${FLOW_PAD_TOP + shift}px + (100% - ${FLOW_PAD_TOP + FLOW_PAD_BOTTOM}px) * ${ratio(value)})`;
   const x = (index: number) => (index + 0.5) * (100 / points.length);
-  const plotHeight = FLOW_TOP + FLOW_HEIGHT + 10;
+  const plot = (
+    <div className={`yb-flow-plot${fill ? " is-fill" : ""}`}>
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" style={{ top: FLOW_PAD_TOP, height: `calc(100% - ${FLOW_PAD_TOP + FLOW_PAD_BOTTOM}px)` }} aria-hidden="true">
+        <line x1="0" x2="100" y1="100" y2="100" className="yb-flow-base" vectorEffect="non-scaling-stroke" />
+        <polyline points={points.map((point, index) => `${x(index)},${ratio(point.value) * 100}`).join(" ")} className="yb-flow-line" vectorEffect="non-scaling-stroke" />
+      </svg>
+      {points.map((point, index) => {
+        const isActive = point.key === selected;
+        const content = (
+          <>
+            <span className="yb-flow-value" style={{ top: at(point.value, -28) }}>{formatMillion(point.value || null)}</span>
+            <span className="yb-flow-dot" style={{ top: at(point.value) }} />
+            <span className="yb-flow-label">{point.label}</span>
+          </>
+        );
+        const style = { left: `${index * (100 / points.length)}%`, width: `${100 / points.length}%` };
+        return point.key === "invested" ? (
+          <div key={point.key} className="yb-flow-col" style={style}>{content}</div>
+        ) : (
+          <button key={point.key} type="button" className={`yb-flow-col is-tab${isActive ? " is-active" : ""}`} style={style} aria-pressed={isActive} onClick={() => onSelect(point.key as BudgetYearKey)}>{content}</button>
+        );
+      })}
+    </div>
+  );
+  if (fill) return plot;
   return (
     <div className="yb-flow">
       <div className="yb-flow-head"><h4>연도별 예산 흐름</h4></div>
-      <div className="yb-flow-plot" style={{ height: plotHeight + 30 }}>
-        <svg viewBox={`0 0 100 ${plotHeight}`} preserveAspectRatio="none" style={{ height: plotHeight }} aria-hidden="true">
-          <line x1="0" x2="100" y1={FLOW_TOP + FLOW_HEIGHT} y2={FLOW_TOP + FLOW_HEIGHT} className="yb-flow-base" vectorEffect="non-scaling-stroke" />
-          <polyline points={points.map((point, index) => `${x(index)},${y(point.value)}`).join(" ")} className="yb-flow-line" vectorEffect="non-scaling-stroke" />
-        </svg>
-        {points.map((point, index) => {
-          const isActive = point.key === selected;
-          const content = (
-            <>
-              <span className="yb-flow-value" style={{ top: y(point.value) - 26 }}>{formatMillion(point.value || null)}</span>
-              <span className="yb-flow-dot" style={{ top: y(point.value) }} />
-              <span className="yb-flow-label" style={{ top: plotHeight + 6 }}>{point.label}</span>
-            </>
-          );
-          const style = { left: `${index * (100 / points.length)}%`, width: `${100 / points.length}%` };
-          return point.key === "invested" ? (
-            <div key={point.key} className="yb-flow-col" style={style}>{content}</div>
-          ) : (
-            <button key={point.key} type="button" className={`yb-flow-col is-tab${isActive ? " is-active" : ""}`} style={style} aria-pressed={isActive} onClick={() => onSelect(point.key as BudgetYearKey)}>{content}</button>
-          );
-        })}
-      </div>
+      {plot}
     </div>
   );
 }
 
-function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, note, projectId, onNoteSaved }: { usageRows: BreakdownRow[]; fundingRows: BreakdownRow[]; flow: FlowTotals; projectTotal: number; note?: string; projectId: string; onNoteSaved?: (patch: Partial<Project>) => void }) {
-  // 2027년 편성 계획이 있으면 2027년부터 보여주고, 없으면 2026년.
-  const has2027 = sumBreakdown(usageRows, "budget_2027") > 0 || sumBreakdown(fundingRows, "budget_2027") > 0 || flow.budget2027 > 0;
-  const [selectedYear, setSelectedYear] = useState<BudgetYearKey>(has2027 ? "budget_2027" : "budget_2026");
+function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, selectedYear, onSelectYear, showFlow, note, projectId, onNoteSaved }: { usageRows: BreakdownRow[]; fundingRows: BreakdownRow[]; flow: FlowTotals; projectTotal: number; selectedYear: BudgetYearKey; onSelectYear: (key: BudgetYearKey) => void; showFlow: boolean; note?: string; projectId: string; onNoteSaved?: (patch: Partial<Project>) => void }) {
   const selectedLabel = YEAR_TABS.find((year) => year.key === selectedYear)?.label ?? "";
   const yearTotal = selectedYear === "budget_2026" ? flow.budget2026 : selectedYear === "budget_2027" ? flow.budget2027 : flow.budget2028Plus;
   const share = projectTotal > 0 ? (yearTotal / projectTotal) * 100 : 0;
@@ -587,7 +629,7 @@ function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, note, pro
       <div className="yb-body">
         <div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">
           {YEAR_TABS.map((year) => (
-            <button key={year.key} type="button" role="tab" aria-selected={selectedYear === year.key} className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>
+            <button key={year.key} type="button" role="tab" aria-selected={selectedYear === year.key} className={selectedYear === year.key ? "is-active" : ""} onClick={() => onSelectYear(year.key)}>{year.label}</button>
           ))}
         </div>
         <div className="yb-summary">
@@ -596,10 +638,10 @@ function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, note, pro
           <span className="yb-summary-share">총사업비의 {share > 0 && share < 0.1 ? "0.1% 미만" : `${share.toFixed(1)}%`}</span>
         </div>
         <div className="yb-columns">
-          <YearBreakdownList title="성질별 예산" rows={usageRows} yearKey={selectedYear} nameOf={usageCostLabel} />
-          <YearBreakdownList title="재원별 예산" rows={fundingRows} yearKey={selectedYear} nameOf={displayFundingSourceName} />
+          <UsageBars rows={usageRows} yearKey={selectedYear} />
+          <FundingDonut rows={fundingRows} yearKey={selectedYear} />
         </div>
-        <BudgetFlowStrip flow={flow} selected={selectedYear} onSelect={setSelectedYear} />
+        {showFlow && <BudgetFlowStrip flow={flow} selected={selectedYear} onSelect={onSelectYear} />}
         <InlineNoteEditor projectId={projectId} fieldKey="usage_breakdown_note" value={note ?? ""} placeholder="등록된 안내문구가 없습니다. 클릭해서 작성하세요." rows={2} textClassName="pd-note-box mt-3 !text-[16px]" onSaved={onNoteSaved} />
       </div>
     </div>
@@ -624,6 +666,13 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
       : [];
   const carryoverTotal = carryoverItems.length ? carryoverItems.reduce((sum, item) => sum + item.amount_million_krw, 0) : null;
   const carryoverLabel = carryoverItems.length === 1 ? `이월액 · ${carryoverItems[0].type}` : "이월액";
+  const flow = { invested: budgetOf.invested, budget2026: budgetOf.budget2026, budget2027: budgetOf.budget2027, budget2028Plus: budgetOf.budget2028Plus };
+  // 연도 탭·예산 흐름 그래프·하단 연도별 계획 표가 같은 연도를 가리키도록 선택 상태를 여기 둔다.
+  // 2027년 편성 계획이 있으면 2027년부터, 없으면 2026년부터 보여준다.
+  const has2027 = sumBreakdown(project.usage_breakdown, "budget_2027") > 0 || sumBreakdown(project.funding_breakdown, "budget_2027") > 0 || flow.budget2027 > 0;
+  const [selectedYear, setSelectedYear] = useState<BudgetYearKey>(has2027 ? "budget_2027" : "budget_2026");
+  // 연도별 사업비 계획 표가 있는 사업은 예산 흐름 그래프를 그 표 오른쪽에, 없으면 연도별 예산 카드 안에 둔다.
+  const flowBesidePlan = hasBudgetPlan(project.id);
   const budgetCards = [
     { label: "총사업비", value: total, icon: WalletMoneyIcon, tone: "teal", carryoverItems: undefined },
     { label: "기투자액 (~2026)", value: invested, icon: GraphUpIcon, tone: "teal", carryoverItems: undefined },
@@ -639,13 +688,22 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
         <YearBudgetPanel
           usageRows={project.usage_breakdown}
           fundingRows={project.funding_breakdown}
-          flow={{ invested: budgetOf.invested, budget2026: budgetOf.budget2026, budget2027: budgetOf.budget2027, budget2028Plus: budgetOf.budget2028Plus }}
+          flow={flow}
           projectTotal={budgetOf.total}
+          selectedYear={selectedYear}
+          onSelectYear={setSelectedYear}
+          showFlow={!flowBesidePlan}
           note={project.usage_breakdown_note}
           projectId={project.id}
           onNoteSaved={onNoteSaved}
         />
-        {hasBudgetDetail(project.id) && <BudgetDetailPanel projectId={project.id} />}
+        {hasBudgetDetail(project.id) && (
+          <BudgetDetailPanel
+            projectId={project.id}
+            selectedYear={selectedYear}
+            flowAside={flowBesidePlan ? <BudgetFlowStrip flow={flow} selected={selectedYear} onSelect={setSelectedYear} fill /> : undefined}
+          />
+        )}
       </div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
     </div>
@@ -669,6 +727,38 @@ function TimelineList({ items }: { items: TimelineEntry[] }) {
   );
 }
 
+// 향후계획이 길면(6건 초과) 한 번에 다 펼치지 않고, 첫 연도 기준으로 연도 탭을 나눠 그해 일정만 보여준다.
+const FUTURE_PLAN_PAGE_LIMIT = 6;
+function futureYearOf(entry: TimelineEntry) {
+  const match = entry.date.match(/(\d{4})/);
+  return match ? match[1] : "기타";
+}
+
+function FuturePlanList({ groups }: { groups: TimelineGroup[] }) {
+  const total = groups.reduce((sum, group) => sum + group.items.length, 0);
+  const years = Array.from(new Set(groups.flatMap((group) => group.items.map(futureYearOf))));
+  const [year, setYear] = useState(years[0] ?? "");
+  const paged = total > FUTURE_PLAN_PAGE_LIMIT && years.length > 1;
+  const visible = paged ? groups.map((group) => ({ ...group, items: group.items.filter((item) => futureYearOf(item) === year) })).filter((group) => group.items.length > 0) : groups;
+  return (
+    <>
+      {paged && (
+        <div className="pd-year-switcher fp-years" role="tablist" aria-label="향후계획 연도 선택">
+          {years.map((entry) => (
+            <button key={entry} type="button" role="tab" aria-selected={entry === year} className={entry === year ? "is-active" : ""} onClick={() => setYear(entry)}>{entry === "기타" ? entry : `${entry}년`}</button>
+          ))}
+        </div>
+      )}
+      {visible.map((group, gi) => (
+        <div className="pd-progress-horizontal-group" key={`${year}-${gi}`}>
+          {group.label && <div className="pd-progress-group-label">{group.label}</div>}
+          <TimelineList items={group.items} />
+        </div>
+      ))}
+    </>
+  );
+}
+
 function ProgressPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?: (patch: Partial<Project>) => void }) {
   const percent = progressPercent(project);
   const past = parseTimeline(project.progress_status);
@@ -688,12 +778,7 @@ function ProgressPanel({ project, onNoteSaved }: { project: Project; onNoteSaved
         </section>
         <section className="pd-progress-section pd-progress-horizontal">
           <div className="pd-progress-heading"><DetailSectionHeading icon={CalendarAddIcon} tone="budget" title="향후계획" /></div>
-          {upcoming.length > 0 ? upcomingGroups.map((group, gi) => (
-            <div className="pd-progress-horizontal-group" key={gi}>
-              {group.label && <div className="pd-progress-group-label">{group.label}</div>}
-              <TimelineList items={group.items} />
-            </div>
-          )) : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
+          {upcoming.length > 0 ? <FuturePlanList key={project.id} groups={upcomingGroups} /> : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
           {/* 향후계획 박스는 왼쪽 추진경과보다 보통 짧아서 아래에 빈 공간이 남는다(그리드
               align-items:stretch로 두 박스 높이가 맞춰지기 때문) - 그 공간에 자유 메모(진행사항)
               박스를 붙인다. 박스를 직접 클릭하면 바로 편집·저장된다(InlineNoteEditor). */}
