@@ -843,7 +843,7 @@
 .pd-progress-notes-body {
   margin: 0;
   color: #e2e2e2;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.6;
   white-space: pre-wrap;
   word-break: keep-all;
@@ -851,7 +851,7 @@
 }
 .pd-progress-notes-empty {
   color: #6b6b6b;
-  font-size: 15px;
+  font-size: 14px;
 }
 .pd-progress-horizontal-group + .pd-progress-horizontal-group {
   margin-top: 18px;
@@ -5095,7 +5095,7 @@ main.app-main.app-main-flush .hero-panel {
 .pd-progress-notes-body {
   margin: 0;
   color: #e2e2e2;
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.6;
   white-space: pre-wrap;
   word-break: keep-all;
@@ -5103,7 +5103,7 @@ main.app-main.app-main-flush .hero-panel {
 }
 .pd-progress-notes-empty {
   color: #6b6b6b;
-  font-size: 15px;
+  font-size: 14px;
 }
 .pd-progress-horizontal-group + .pd-progress-horizontal-group {
   margin-top: 18px;
