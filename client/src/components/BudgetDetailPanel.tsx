@@ -50,109 +50,97 @@ export function hasBudgetDetail(projectId: string) {
   return projectId in detailByProject;
 }
 
+// 연도별로 읽는 표(사업비 계획, 예산서 표)인지 — 예산 흐름 그래프는 이 중 첫 표 오른쪽에 붙는다.
+const isYearSection = (section: DetailSection) => (section.kind === "grid" ? section.variant === "plan" : true);
+
 export function hasBudgetPlan(projectId: string) {
-  return !!detailByProject[projectId]?.sections.some((section) => section.kind === "grid" && section.variant === "plan");
+  return !!detailByProject[projectId]?.sections.some(isYearSection);
 }
 
 export type PlanYearKey = "budget_2026" | "budget_2027" | "budget_2028_plus";
 
-// 빈 칸은 위 행과 병합된 칸이다. l1/l2는 아래로 이어지는 행 수만큼 rowSpan을 준다.
-function rowSpanFor(rows: DetailRow[], index: number, key: "l1" | "l2") {
-  const isContinuation = (row: DetailRow) => (key === "l1" ? !row.l1 : !row.l2 && !!row.l3);
-  let span = 1;
-  for (let next = index + 1; next < rows.length; next++) {
-    if (rows[next].kind === "total" || !isContinuation(rows[next])) break;
-    span++;
-  }
-  return span;
-}
+// 예산서 모양(과목×연도) 표를 연도별 한 줄로 바꿔 보여준다: 그해 금액, 추진 단계, 과목별로 무엇에 얼마인지.
+// 금액은 예산서 원래 단위(천원)와 표기를 그대로 쓴다. 빈 과목 칸(병합)은 위 행 값을 이어받는다.
+const parseAmount = (value: string | undefined) => (value && value !== "-" ? Number(value.replace(/,/g, "")) : 0);
 
-function Cell({ value, highlighted, stickyLeft }: { value: string; highlighted?: boolean; stickyLeft?: number }) {
-  const sticky = stickyLeft != null;
-  return <td className={`bd-num${value === "-" ? " is-dash" : ""}${highlighted ? " is-highlight" : ""}${sticky ? " bd-sticky bd-sticky-edge" : ""}`} style={sticky ? { left: stickyLeft } : undefined}>{value}</td>;
-}
-
-// 연도 칸은 모두 같은 너비, 비고·불용은 좁게. 표 전체 너비는 칸 너비의 합으로 고정한다.
-const LABEL_COLUMN_WIDTHS = [96, 110, 170];
-const TOTAL_COLUMN_WIDTH = 124;
-const YEAR_COLUMN_WIDTH = 120;
-// 연도가 많아 옆으로 넘기는 표에서 과목·구분·계 칸은 왼쪽에 고정해, 어느 연도를 보든 행 이름이 보이게 한다.
-const STICKY_LEFT = [0, LABEL_COLUMN_WIDTHS[0], LABEL_COLUMN_WIDTHS[0] + LABEL_COLUMN_WIDTHS[1], LABEL_COLUMN_WIDTHS[0] + LABEL_COLUMN_WIDTHS[1] + LABEL_COLUMN_WIDTHS[2]];
-const stick = (index: number) => ({ style: { left: STICKY_LEFT[index] } });
-const EXTRA_COLUMN_WIDTHS: Record<string, number> = { 비고: 64, 불용: 76 };
-
-function SectionTable({ section }: { section: MatrixSection }) {
-  const extraWidths = section.extraColumns.map((name) => EXTRA_COLUMN_WIDTHS[name] ?? 64);
-  const tableWidth =
-    LABEL_COLUMN_WIDTHS.reduce((sum, width) => sum + width, 0) +
-    TOTAL_COLUMN_WIDTH +
-    YEAR_COLUMN_WIDTH * section.years.length +
-    extraWidths.reduce((sum, width) => sum + width, 0);
+function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; selectedYear?: PlanYearKey }) {
+  const totalRow = section.rows.find((row) => row.kind === "total");
+  const items: { group: string; name: string; total: string; values: string[]; flags: number[]; extra: string[] }[] = [];
+  let group = "";
+  let middle = "";
+  section.rows.forEach((row) => {
+    if (row.kind === "total") return;
+    if (row.l1) group = row.l1;
+    if (row.l2) middle = row.l2;
+    items.push({ group, name: row.l3 || row.l2 || middle, total: row.total, values: row.values, flags: row.highlight ?? [], extra: row.extra ?? [] });
+  });
+  const groups = Array.from(new Set(items.map((item) => item.group)));
+  const groupTotals = groups
+    .map((name) => ({ name, value: items.filter((item) => item.group === name).reduce((sum, item) => sum + parseAmount(item.total), 0) }))
+    .filter((entry) => entry.value > 0);
+  const extraNotes = section.extraColumns
+    .map((column, columnIndex) => ({ column, entries: items.filter((item) => item.extra[columnIndex]).map((item) => `${item.name} ${item.extra[columnIndex]}`) }))
+    .filter((note) => note.entries.length > 0);
   return (
-    <div className="pd-card bd-card">
-      {/* 제목줄을 표 너비로 맞춰 단위가 표 오른쪽 끝에 붙게 한다 */}
-      <div className="pd-card-title" style={{ maxWidth: tableWidth }}>
+    <>
+      <div className="pd-card-title">
         <span>{section.title}</span>
         <span className="bd-unit">[단위: {section.unit}]</span>
       </div>
-      <div className="bd-scroll">
-        <table className="bd-table" style={{ width: tableWidth }}>
-          <colgroup>
-            {LABEL_COLUMN_WIDTHS.map((width, index) => <col key={`label-${index}`} style={{ width: width }} />)}
-            <col style={{ width: TOTAL_COLUMN_WIDTH }} />
-            {section.years.map((year) => <col key={year} style={{ width: YEAR_COLUMN_WIDTH }} />)}
-            {extraWidths.map((width, index) => <col key={`extra-${index}`} style={{ width: width }} />)}
-          </colgroup>
-          <thead>
-            <tr>
-              <th className="bd-sticky" {...stick(0)}>예산과목</th>
-              <th colSpan={2} className="bd-sticky" {...stick(1)}>구 분</th>
-              <th className="bd-sticky bd-sticky-edge" {...stick(3)}>계</th>
-              {section.years.map((year) => <th key={year}>{year}</th>)}
-              {section.extraColumns.map((name) => <th key={name} className={name === "불용" ? "is-unused" : undefined}>{name}</th>)}
-            </tr>
-            <tr className="bd-stage-row">
-              <th className="bd-sticky" {...stick(0)}>통계목</th>
-              <th colSpan={2} className="bd-sticky" {...stick(1)}>연차별 계획공정</th>
-              <th className="bd-sticky bd-sticky-edge" {...stick(3)} />
-              {section.stages.map((stage, index) => <th key={index}>{stage}</th>)}
-              {section.extraColumns.map((name) => <th key={name} />)}
-            </tr>
-          </thead>
-          <tbody>
-            {section.rows.map((row, index) => {
-              const isTotal = row.kind === "total";
-              const l1Span = !isTotal && row.l1 ? rowSpanFor(section.rows, index, "l1") : 0;
-              const l2Span = !isTotal && row.l2 && row.l3 ? rowSpanFor(section.rows, index, "l2") : 0;
-              return (
-                <tr key={index} className={isTotal ? "bd-total-row" : undefined}>
-                  {isTotal ? (
-                    <td colSpan={3} className="bd-label bd-sticky" {...stick(0)}>계</td>
+      <table className="pl-table">
+        <colgroup>
+          <col style={{ width: 88 }} />
+          <col style={{ width: 150 }} />
+          <col style={{ width: 120 }} />
+          <col />
+        </colgroup>
+        <thead>
+          <tr><th>연도</th><th>추진 단계</th><th className="pl-num">금액</th><th>과목별 내역</th></tr>
+        </thead>
+        <tbody>
+          <tr className="pl-sum">
+            <td>합계</td>
+            <td />
+            <td className="pl-num">{totalRow?.total ?? "-"}</td>
+            <td>
+              <span className="pl-items">
+                {groupTotals.map((entry) => <span key={entry.name} className="pl-item">{entry.name} <b>{entry.value.toLocaleString("ko-KR")}</b></span>)}
+              </span>
+            </td>
+          </tr>
+          {section.years.map((year, yearIndex) => {
+            const amount = parseAmount(totalRow?.values[yearIndex]);
+            const byGroup = groups
+              .map((name) => ({ name, entries: items.filter((item) => item.group === name && parseAmount(item.values[yearIndex]) > 0) }))
+              .filter((entry) => entry.entries.length > 0);
+            return (
+              <tr key={year} className={yearBucket(year) === selectedYear ? "is-selected" : undefined}>
+                <td className="pl-year">{year}</td>
+                <td className="pl-stage-name">{section.stages[yearIndex]?.replace(/\n/g, " ")}</td>
+                <td className="pl-num">{amount > 0 ? totalRow?.values[yearIndex] : "-"}</td>
+                <td>
+                  {byGroup.length === 0 ? (
+                    <span className="pl-empty">편성 없음</span>
                   ) : (
-                    <>
-                      {l1Span > 0 && <td rowSpan={l1Span} className="bd-label is-l1 bd-sticky" {...stick(0)}>{row.l1}</td>}
-                      {row.l3 ? (
-                        <>
-                          {row.l2 && <td rowSpan={l2Span} className="bd-label bd-sticky" {...stick(1)}>{row.l2}</td>}
-                          <td className="bd-label bd-sticky" {...stick(2)}>{row.l3}</td>
-                        </>
-                      ) : (
-                        <td colSpan={2} className="bd-label bd-sticky" {...stick(1)}>{row.l2}</td>
-                      )}
-                    </>
+                    byGroup.map((entry) => (
+                      <div key={entry.name} className="pl-stage">
+                        <span className="pl-tag">{entry.name}</span>
+                        <span className="pl-items">
+                          {entry.entries.map((item) => (
+                            <span key={item.name} className={`pl-item${item.flags.includes(yearIndex) ? " is-flag" : ""}`}>{item.name} <b>{item.values[yearIndex]}</b></span>
+                          ))}
+                        </span>
+                      </div>
+                    ))
                   )}
-                  <Cell value={row.total} stickyLeft={STICKY_LEFT[3]} />
-                  {row.values.map((value, valueIndex) => <Cell key={valueIndex} value={value} highlighted={row.highlight?.includes(valueIndex)} />)}
-                  {section.extraColumns.map((name, extraIndex) => (
-                    <td key={name} className={`bd-num${name === "불용" ? " is-unused" : ""}`}>{row.extra?.[extraIndex] ?? ""}</td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      {extraNotes.length > 0 && <p className="pl-notes">※ {extraNotes.map((note) => `${note.column}: ${note.entries.join(", ")}`).join(" · ")}</p>}
+    </>
   );
 }
 
@@ -220,7 +208,9 @@ function yearBucket(label: string): PlanYearKey | null {
   const match = label.match(/(\d{4})/);
   if (!match) return null;
   const year = Number(match[1]);
-  return year <= 2026 ? "budget_2026" : year === 2027 ? "budget_2027" : "budget_2028_plus";
+  // 2026년 탭은 그해만(그 전 연도는 기투자). "~2026년"처럼 누적 칸은 2026년으로 본다.
+  if (year < 2026) return null;
+  return year === 2026 ? "budget_2026" : year === 2027 ? "budget_2027" : "budget_2028_plus";
 }
 
 function PlanTable({ section, selectedYear }: { section: GridSection; selectedYear?: PlanYearKey }) {
@@ -289,19 +279,19 @@ function PlanTable({ section, selectedYear }: { section: GridSection; selectedYe
   );
 }
 
-function PlanCard({ section, aside, selectedYear }: { section: GridSection; aside?: ReactNode; selectedYear?: PlanYearKey }) {
+function YearCard({ children, aside }: { children: ReactNode; aside?: ReactNode }) {
   return (
     <div className="pd-card bd-card">
       {aside ? (
         <div className="pl-wrap">
-          <div className="pl-main"><PlanTable section={section} selectedYear={selectedYear} /></div>
+          <div className="pl-main">{children}</div>
           <div className="pl-side">
             <div className="pd-card-title"><span>연도별 예산 흐름</span><span className="bd-unit">[단위: 백만원]</span></div>
             {aside}
           </div>
         </div>
       ) : (
-        <PlanTable section={section} selectedYear={selectedYear} />
+        children
       )}
     </div>
   );
@@ -310,17 +300,17 @@ function PlanCard({ section, aside, selectedYear }: { section: GridSection; asid
 export function BudgetDetailPanel({ projectId, flowAside, selectedYear }: { projectId: string; flowAside?: ReactNode; selectedYear?: PlanYearKey }) {
   const detail = detailByProject[projectId];
   if (!detail) return null;
-  const planIndex = detail.sections.findIndex((section) => section.kind === "grid" && section.variant === "plan");
+  const planIndex = detail.sections.findIndex(isYearSection);
   return (
     <div className="pd-detail-attached-group">
       {detail.sections.map((section, index) => (
         <div key={section.title} className={`pd-stacked-panel${index === detail.sections.length - 1 ? " pd-attached-last" : ""}`}>
-          {section.kind === "grid" && section.variant === "plan" ? (
-            <PlanCard section={section} aside={index === planIndex ? flowAside : undefined} selectedYear={selectedYear} />
-          ) : section.kind === "grid" ? (
+          {section.kind === "grid" && section.variant !== "plan" ? (
             <GridTable section={section} />
           ) : (
-            <SectionTable section={section} />
+            <YearCard aside={index === planIndex ? flowAside : undefined}>
+              {section.kind === "grid" ? <PlanTable section={section} selectedYear={selectedYear} /> : <MatrixYearTable section={section} selectedYear={selectedYear} />}
+            </YearCard>
           )}
         </div>
       ))}
