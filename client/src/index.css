@@ -8666,7 +8666,7 @@ main.app-main.app-main-flush .hero-panel {
 .pd-funding-table thead th { font-size: 15px !important; }
 .pd-funding-table tbody th { font-size: 16px !important; }
 .pd-funding-table tbody td { font-size: 16px !important; }
-.pd-year-switcher button { font-size: 16px !important; }
+.pd-year-switcher button { font-size: 17px !important; }
 .pd-pulse-eyebrow { font-size: 15px !important; }
 .pd-pulse-summary strong { font-size: 38px !important; }
 .pd-pulse-positive { font-size: 14px !important; }
@@ -9165,7 +9165,7 @@ main.app-main.app-main-flush .hero-panel {
 .yb-flow-value, .yb-flow-dot, .yb-flow-label { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; }
 .yb-flow-value { color: var(--pd-text-muted); font-size: 14px; font-weight: 600; line-height: 18px; font-variant-numeric: tabular-nums; }
 .yb-flow-dot { width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: #5d6b78; box-shadow: 0 0 0 2px var(--pd-surface); }
-.yb-flow-label { color: var(--pd-text-faint); font-size: 14px; font-weight: 600; line-height: 18px; }
+.yb-flow-label { color: var(--pd-text-faint); font-size: 15px; font-weight: 600; line-height: 18px; }
 .yb-flow-col.is-active .yb-flow-value { color: #fff; font-size: 15px; font-weight: 800; }
 .yb-flow-col.is-active .yb-flow-dot { width: 12px; height: 12px; margin-top: -6px; background: var(--yb-accent); }
 .yb-flow-col.is-active .yb-flow-label { color: var(--pd-text); }
