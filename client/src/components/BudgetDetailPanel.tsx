@@ -52,9 +52,10 @@ export function hasBudgetDetail(projectId: string) {
 export type PlanYearKey = "budget_2026" | "budget_2027" | "budget_2028_plus";
 
 // 예산서(과목×연도) 표: 연도를 머리글로(연도 아래에 그해 추진 단계를 작게), 행은 과목을 묶음(시설비·감리비…)별로.
-// 금액은 예산서 원래 단위(천원)·표기 그대로. 0("-")·빈 칸은 비워 두고, 원본의 노란 표시는 유지한다.
+// 사업비 계획 표와 같은 모양으로: 백만원 단위, 묶음마다 색 막대, 과목은 들여 쓴 숫자만. 원본 천원 금액은 칸 툴팁에 남긴다.
 const parseAmount = (value: string | undefined) => (value && value !== "-" ? Number(value.replace(/,/g, "")) : 0);
-const showAmount = (value: string | undefined) => (parseAmount(value) > 0 ? value : "");
+const GROUP_COLORS = ["#3987e5", "#199e70", "#9085e9", "#c98500", "#d55181", "#d95926"];
+const thousandText = (value: number) => `${value.toLocaleString("ko-KR")}천원`;
 
 function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; selectedYear?: PlanYearKey }) {
   const totalRow = section.rows.find((row) => row.kind === "total");
@@ -67,80 +68,79 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
     if (row.l2) middle = row.l2;
     items.push({ group, name: row.l3 || row.l2 || middle, total: row.total, values: row.values, flags: row.highlight ?? [], extra: row.extra ?? [] });
   });
-  const groups = Array.from(new Set(items.map((item) => item.group)));
+  const groups = Array.from(new Set(items.map((item) => item.group))).map((name, order) => ({ name, color: GROUP_COLORS[order % GROUP_COLORS.length], members: items.filter((item) => item.group === name) }));
   const sumOf = (list: typeof items, pick: (item: (typeof items)[number]) => string | undefined) => list.reduce((sum, item) => sum + parseAmount(pick(item)), 0);
-  const fmt = (value: number) => (value > 0 ? value.toLocaleString("ko-KR") : "");
   const isSelected = (year: string) => !!selectedYear && yearBucket(year) === selectedYear;
-  // 금액이 하나도 없는 연도는 열을 빼서 표를 좁히고 글씨를 키울 자리를 만든다(주석으로 남긴다).
+  // 금액이 하나도 없는 연도는 열을 빼서 표를 좁히고(주석으로 남긴다) 글씨를 키울 자리를 만든다.
   const yearIndexes = section.years.map((_, index) => index).filter((index) => parseAmount(totalRow?.values[index]) > 0 || items.some((item) => parseAmount(item.values[index]) > 0));
   const emptyYears = section.years.filter((_, index) => !yearIndexes.includes(index));
   const years = yearIndexes.map((index) => ({ year: section.years[index], index }));
+  const scale = Math.max(1, ...groups.flatMap((entry) => years.map(({ index }) => sumOf(entry.members, (item) => item.values[index]))));
   const extraNotes = section.extraColumns
     .map((column, columnIndex) => ({ column, entries: items.filter((item) => item.extra[columnIndex]).map((item) => `${item.name} ${item.extra[columnIndex]}`) }))
     .filter((note) => note.entries.length > 0)
     .map((note) => `${note.column}: ${note.entries.join(", ")}`);
-  const notes = [...extraNotes, ...(emptyYears.length ? [`${emptyYears.join("·")}: 편성 없음`] : [])].join(" · ");
+  const notes = [...extraNotes, ...(emptyYears.length ? [`${emptyYears.join("·")}: 편성 없음`] : []), ...(items.some((item) => item.flags.some((index) => parseAmount(item.values[index]) > 0)) ? ["노란 밑줄은 원본 예산서의 표시"] : [])].join(" · ");
+  const amountCell = (value: number, year: string, key: string, options: { color?: string; flag?: boolean } = {}) => (
+    <td key={key} className={`tl-cell${isSelected(year) ? " is-selected" : ""}${options.flag && value > 0 ? " is-flag" : ""}`} title={value > 0 ? `${year} ${thousandText(value)}` : undefined}>
+      {value > 0 && (
+        <>
+          <span className="tl-amount">{fmtMillion(value / 1000)}</span>
+          {options.color && <span className="tl-track"><span style={{ width: `${Math.max((value / scale) * 100, 3)}%`, background: options.color }} /></span>}
+        </>
+      )}
+    </td>
+  );
   return (
     <>
       <div className="pd-card-title">
         <span>{section.title}</span>
-        <span className="bd-unit">[단위: {section.unit}]</span>
+        <span className="bd-unit">[단위: 백만원]</span>
       </div>
       <div className="bd-scroll">
-        <table className="mx-table">
+        <table className="tl-table">
           <colgroup>
-            <col style={{ width: 200 }} />
-            <col style={{ width: 128 }} />
+            <col style={{ width: 250 }} />
+            <col style={{ width: 120 }} />
             {years.map(({ year }) => <col key={year} />)}
           </colgroup>
           <thead>
             <tr>
               <th>과목</th>
-              <th className="mx-num">계</th>
+              <th>계</th>
               {years.map(({ year, index }) => (
-                <th key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>
-                  <b>{year}</b>
-                  <small>{section.stages[index]?.replace(/\n/g, " ") || " "}</small>
+                <th key={year} className={isSelected(year) ? "is-selected" : undefined}>
+                  {year}
+                  {section.stages[index] && <small>{section.stages[index].replace(/\n/g, " ")}</small>}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            <tr className="mx-total">
-              <td>계</td>
-              <td className="mx-num">{totalRow?.total}</td>
-              {years.map(({ year, index }) => <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>{showAmount(totalRow?.values[index])}</td>)}
+            <tr className="tl-total">
+              <td>합계</td>
+              <td title={thousandText(parseAmount(totalRow?.total))}>{fmtMillion(parseAmount(totalRow?.total) / 1000)}</td>
+              {years.map(({ year, index }) => {
+                const value = parseAmount(totalRow?.values[index]);
+                return <td key={year} className={isSelected(year) ? "is-selected" : undefined} title={value > 0 ? `${year} ${thousandText(value)}` : undefined}>{value > 0 ? fmtMillion(value / 1000) : ""}</td>;
+              })}
             </tr>
-            {groups.map((name) => {
-              const members = items.filter((item) => item.group === name);
-              // 과목이 하나뿐인 묶음은 묶음 줄과 과목 줄이 똑같아지므로 한 줄로 합친다.
-              if (members.length === 1) {
-                const [item] = members;
-                return (
-                  <tr key={name} className="mx-group">
-                    <td>{name} <span className="mx-sub">· {item.name}</span></td>
-                    <td className="mx-num">{showAmount(item.total)}</td>
-                    {years.map(({ year, index }) => (
-                      <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}${item.flags.includes(index) && parseAmount(item.values[index]) > 0 ? " is-flag" : ""}`}>{showAmount(item.values[index])}</td>
-                    ))}
-                  </tr>
-                );
-              }
+            {groups.map(({ name, color, members }) => {
+              // 과목이 하나뿐인 묶음은 묶음 줄과 과목 줄이 같아지므로 한 줄로 합친다.
+              const single = members.length === 1 ? members[0] : null;
               return [
-                <tr key={`${name}-group`} className="mx-group">
-                  <td>{name}</td>
-                  <td className="mx-num">{fmt(sumOf(members, (item) => item.total))}</td>
-                  {years.map(({ year, index }) => <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>{fmt(sumOf(members, (item) => item.values[index]))}</td>)}
+                <tr key={`${name}-group`} className="tl-stage">
+                  <td><i style={{ background: color }} aria-hidden="true" />{name}{single && single.name !== name && <span className="tl-sub"> · {single.name}</span>}</td>
+                  <td>{fmtMillion(sumOf(members, (item) => item.total) / 1000)}</td>
+                  {years.map(({ year, index }) => amountCell(sumOf(members, (item) => item.values[index]), year, year, { color, flag: !!single && single.flags.includes(index) }))}
                 </tr>,
-                ...members.map((item) => (
-                  <tr key={`${name}-${item.name}`} className="mx-item">
+                ...(single ? [] : members.map((item) => (
+                  <tr key={`${name}-${item.name}`} className="tl-item">
                     <td>{item.name}</td>
-                    <td className="mx-num">{showAmount(item.total)}</td>
-                    {years.map(({ year, index }) => (
-                      <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}${item.flags.includes(index) && parseAmount(item.values[index]) > 0 ? " is-flag" : ""}`}>{showAmount(item.values[index])}</td>
-                    ))}
+                    <td>{parseAmount(item.total) > 0 ? fmtMillion(parseAmount(item.total) / 1000) : ""}</td>
+                    {years.map(({ year, index }) => amountCell(parseAmount(item.values[index]), year, year, { flag: item.flags.includes(index) }))}
                   </tr>
-                )),
+                ))),
               ];
             })}
           </tbody>
@@ -151,7 +151,7 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
   );
 }
 
-// 예산현황표와 지출현황표를 연도별로 맞대어: 그해 예산, 지출, 집행률. 계는 지출이 있을 수 있는 해(~2026)까지만 비교한다.
+// 예산현황표와 지출현황표를 연도별로 맞대어: 그해 예산, 지출, 집행률(막대). 계는 지출이 있을 수 있는 해(~2026)까지만 비교한다.
 function ExecutionSummary({ budget, spend, selectedYear }: { budget: MatrixSection; spend: MatrixSection; selectedYear?: PlanYearKey }) {
   const budgetTotal = budget.rows.find((row) => row.kind === "total");
   const spendTotal = spend.rows.find((row) => row.kind === "total");
@@ -166,57 +166,69 @@ function ExecutionSummary({ budget, spend, selectedYear }: { budget: MatrixSecti
   const past = years.filter((entry) => entry.spend !== null);
   const pastBudget = past.reduce((sum, entry) => sum + (entry.budget ?? 0), 0);
   const pastSpend = past.reduce((sum, entry) => sum + (entry.spend ?? 0), 0);
-  const fmt = (value: number | null) => (value === null ? "" : value > 0 ? value.toLocaleString("ko-KR") : "-");
+  const isSelected = (year: string) => !!selectedYear && yearBucket(year) === selectedYear;
+  const amount = (value: number | null, year: string) => (
+    <td key={year} className={isSelected(year) ? "is-selected" : undefined} title={value ? `${year} ${thousandText(value)}` : undefined}>
+      {value === null ? "" : value > 0 ? fmtMillion(value / 1000) : "-"}
+    </td>
+  );
   const rate = (spent: number | null, planned: number | null) => (spent === null || !planned ? null : (spent / planned) * 100);
-  const rateCell = (value: number | null) => value === null ? <span className="ex-none">-</span> : (
-    <span className={`ex-rate${value < 50 ? " is-low" : value > 100 ? " is-over" : ""}`}>{value.toFixed(value < 10 ? 1 : 0)}%</span>
+  const rateCell = (value: number | null, key: string, selected = false) => (
+    <td key={key} className={`tl-cell${selected ? " is-selected" : ""}`}>
+      {value === null ? <span className="ex-none">-</span> : (
+        <>
+          <span className={`ex-rate${value < 50 ? " is-low" : value > 100 ? " is-over" : ""}`}>{value.toFixed(value < 10 ? 1 : 0)}%</span>
+          <span className="tl-track"><span style={{ width: `${Math.max(Math.min(value, 100), 3)}%`, background: value < 50 ? "#fab219" : "#3987e5" }} /></span>
+        </>
+      )}
+    </td>
   );
   const lastPast = past.length ? past[past.length - 1].year : "";
   // 지출현황표의 계에는 불용액이 들어 있어 연도별 지출 합과 다를 수 있다 — 차이가 불용액과 같으면 그렇게 밝힌다.
   const unusedIndex = spend.extraColumns.indexOf("불용");
   const unused = unusedIndex >= 0 ? spend.rows.reduce((sum, row) => sum + parseAmount(row.extra?.[unusedIndex]), 0) : 0;
   const spendGap = parseAmount(spendTotal?.total) - spend.years.reduce((sum, year) => sum + (valueAt(spend, spendTotal, year) ?? 0), 0);
-  const gapNote = spendGap !== 0 ? ` 지출 계는 연도별 지출의 합으로, 지출현황표 계(${spendTotal?.total})보다 ${spendGap.toLocaleString("ko-KR")} 적음${unused === spendGap ? "(불용액)" : ""}.` : "";
+  const gapNote = spendGap !== 0 ? ` 지출 계는 연도별 지출의 합으로, 지출현황표 계보다 ${thousandText(spendGap)} 적음${unused === spendGap ? "(불용액)" : ""}.` : "";
   return (
     <>
       <div className="pd-card-title">
         <span>□ 연도별 예산 대비 지출</span>
-        <span className="bd-unit">[단위: {budget.unit}]</span>
+        <span className="bd-unit">[단위: 백만원]</span>
       </div>
       <div className="bd-scroll">
-        <table className="mx-table ex-table">
+        <table className="tl-table">
           <colgroup>
-            <col style={{ width: 200 }} />
-            <col style={{ width: 128 }} />
+            <col style={{ width: 250 }} />
+            <col style={{ width: 120 }} />
             {years.map(({ year }) => <col key={year} />)}
           </colgroup>
           <thead>
             <tr>
               <th>구분</th>
-              <th className="mx-num"><b>계</b><small>~{lastPast}</small></th>
-              {years.map(({ year }) => <th key={year} className={`mx-num${selectedYear && yearBucket(year) === selectedYear ? " is-selected" : ""}`}><b>{year}</b></th>)}
+              <th>계<small>~{lastPast}</small></th>
+              {years.map(({ year }) => <th key={year} className={isSelected(year) ? "is-selected" : undefined}>{year}</th>)}
             </tr>
           </thead>
           <tbody>
-            <tr className="mx-group">
+            <tr className="tl-stage">
               <td>예산</td>
-              <td className="mx-num">{fmt(pastBudget)}</td>
-              {years.map((entry) => <td key={entry.year} className={`mx-num${selectedYear && yearBucket(entry.year) === selectedYear ? " is-selected" : ""}`}>{fmt(entry.budget)}</td>)}
+              {amount(pastBudget, "계")}
+              {years.map((entry) => amount(entry.budget, entry.year))}
             </tr>
-            <tr className="mx-group">
+            <tr className="tl-stage">
               <td>지출</td>
-              <td className="mx-num">{fmt(pastSpend)}</td>
-              {years.map((entry) => <td key={entry.year} className={`mx-num${selectedYear && yearBucket(entry.year) === selectedYear ? " is-selected" : ""}`}>{fmt(entry.spend)}</td>)}
+              {amount(pastSpend, "계")}
+              {years.map((entry) => amount(entry.spend, entry.year))}
             </tr>
-            <tr className="ex-rate-row">
+            <tr className="tl-stage">
               <td>집행률</td>
-              <td className="mx-num">{rateCell(rate(pastSpend, pastBudget))}</td>
-              {years.map((entry) => <td key={entry.year} className={`mx-num${selectedYear && yearBucket(entry.year) === selectedYear ? " is-selected" : ""}`}>{rateCell(rate(entry.spend, entry.budget))}</td>)}
+              {rateCell(rate(pastSpend, pastBudget), "계")}
+              {years.map((entry) => rateCell(rate(entry.spend, entry.budget), entry.year, isSelected(entry.year)))}
             </tr>
           </tbody>
         </table>
       </div>
-      <p className="pl-notes">※ 집행률 = 지출 ÷ 그해 예산. 50% 미만은 주황, 100% 초과(이월분 집행 등)는 파랑. 지출 자료가 없는 연도는 비워 둠.{gapNote}</p>
+      <p className="pl-notes">※ 집행률 = 지출 ÷ 그해 예산(막대는 100%까지). 50% 미만은 주황, 100% 초과(이월분 집행 등)는 파랑. 지출 자료가 없는 연도는 비워 둠.{gapNote}</p>
     </>
   );
 }
