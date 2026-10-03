@@ -531,11 +531,9 @@
 .pd-summary-label-schedule svg { color:#f0c85a; stroke:#f0c85a; background:rgba(240,200,90,.1); }
 .pd-summary-label-location svg { color:#c4a7f5; stroke:#c4a7f5; background:rgba(196,167,245,.1); }
 .pd-summary-label-amount svg { color:#f1eee5; stroke:#f1eee5; background:transparent; }
-.pd-section-heading-title { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; line-height:1.2; }
+.pd-section-heading-title { margin:0; color:var(--pd-text); font-size:18px; font-weight:800; line-height:1.2; }
 .pd-section-heading-subtitle { margin:3px 0 0; color:var(--pd-text-faint); font-size:11px; line-height:1.25; }
 .pd-progress-heading .pd-section-heading { width:100%; }
-.pd-progress-heading .pd-section-heading-title { font-size:18px; }
-.pd-card-title .pd-section-heading-title { font-size:16px; }
 
 .pd-budget-panel-heading h3 { margin:0; color:var(--pd-text); font-size:16px; font-weight:800; }
 .pd-budget-panel-kicker { display:none; }
