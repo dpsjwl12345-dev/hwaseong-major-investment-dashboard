@@ -51,7 +51,7 @@ import { ProjectLocationMap, type ProjectLocationMapData } from "../components/P
 import { InvestmentRealMap } from "../components/InvestmentRealMap";
 import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
 import { Timeline, TimelineContent, TimelineDate, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator } from "@/components/ui/timeline";
-import { BudgetDetailPanel, hasBudgetDetail, hasBudgetDetailFlowSlot } from "../components/BudgetDetailPanel";
+import { BudgetDetailPanel, hasBudgetDetail } from "../components/BudgetDetailPanel";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
 
@@ -497,42 +497,7 @@ function InlineNoteEditor({ projectId, fieldKey, value, placeholder, rows = 2, t
   );
 }
 
-type YearlyTotals = { invested: number; budget2026: number; budget2027: number; budget2028Plus: number };
-
-// 기투자~2028년 이후 예산 흐름 그래프. 성질별/연도별 예산 카드 오른쪽에 있다가, 상세 표(시립미술관 예산)가
-// 있는 사업은 그 표 오른쪽으로 옮겨 보여준다.
-function YearlyFlowGraph({ yearlyTotals, className = "", detail = false }: { yearlyTotals: YearlyTotals; className?: string; detail?: boolean }) {
-  // 성질별(공사/감리/설계/부대/기타) 세부 항목 합계는 반올림·누락으로 공식 총액과
-  // 어긋날 수 있어, 흐름 그래프는 상단 카드·재원별 예산과 같은 공식 총액을 그대로 쓴다.
-  const flowValues = [yearlyTotals.invested, yearlyTotals.budget2026, yearlyTotals.budget2027, yearlyTotals.budget2028Plus];
-  const maxFlowValue = Math.max(...flowValues, 1);
-  const axisLabels = ["기투자", "2026년", "2027년", "이후"];
-  if (detail) {
-    // 상세보기 표 옆, 가로로 넓고 표와 높이가 비슷한 자리에 들어가는 그래프라
-    // 세로로 긴 비율이 아니라 가로로 넓은 비율을 쓴다. 표 제목줄과 같은 줄에 제목이 따로 붙는다.
-    const width = 300, height = 160, left = 36, right = 36, top = 34, bottom = 120;
-    const x = (index: number) => left + index * ((width - left - right) / (flowValues.length - 1));
-    const y = (value: number) => bottom - (value / maxFlowValue) * (bottom - top);
-    const points = flowValues.map((value, index) => `${x(index)},${y(value)}`).join(" ");
-    return (
-      <div className={`pd-flow-detail ${className}`}>
-        <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="연도별 예산 흐름">
-          {[0, 0.5, 1].map((ratio) => <line key={ratio} x1={left - 14} x2={width - right + 14} y1={bottom - ratio * (bottom - top)} y2={bottom - ratio * (bottom - top)} stroke="rgba(255,255,255,.08)" strokeWidth="1" />)}
-          <polyline points={points} fill="none" stroke="var(--pd-accent-a)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          {flowValues.map((value, index) => <circle key={`dot-${index}`} cx={x(index)} cy={y(value)} r="6" fill="var(--pd-accent-a)" />)}
-          {flowValues.map((value, index) => <text key={`num-${index}`} x={x(index)} y={y(value) - 14} textAnchor="middle" className="pd-flow-detail-value">{formatMillion(value || null)}</text>)}
-          {axisLabels.map((label, index) => <text key={label} x={x(index)} y={bottom + 34} textAnchor="middle" className="pd-flow-detail-axis">{label}</text>)}
-        </svg>
-      </div>
-    );
-  }
-  const flowX = (index: number) => 20 + index * (280 / (flowValues.length - 1));
-  const flowY = (value: number) => 46 - (value / maxFlowValue) * 30;
-  const points = flowValues.map((value, index) => `${flowX(index)},${flowY(value)}`).join(" ");
-  return <div className={`pd-pulse-trend ${className}`}><div className="pd-pulse-section-label"><span className="pd-pulse-eyebrow">연도별 예산 흐름</span></div><svg viewBox="0 0 320 80" role="img" aria-label="연도별 예산 흐름"><polyline points={points} fill="none" stroke="var(--pd-accent-a)" strokeWidth="0.5" strokeDasharray="0.5 1.5" strokeLinecap="round" strokeLinejoin="round" />{flowValues.map((value, index) => <circle key={`flow-dot-${index}`} cx={flowX(index)} cy={flowY(value)} r="5" fill="var(--pd-accent-a)" />)}{flowValues.map((value, index) => <text key={`flow-num-${index}`} x={flowX(index)} y={flowY(value) - 9} textAnchor="middle" className="pd-pulse-flow-value">{formatMillion(value || null)}</text>)}{["기투자", "2026년", "2027년", "이후"].map((axisLabel, index) => <text key={axisLabel} x={flowX(index)} y="70" textAnchor="middle" className="pd-pulse-axis-label">{axisLabel}</text>)}</svg></div>;
-}
-
-function UsageBreakdownChart({ rows, note, yearlyTotals, projectId, flowInDetail, onNoteSaved }: { rows: BreakdownRow[]; note?: string; yearlyTotals: YearlyTotals; projectId: string; flowInDetail: boolean; onNoteSaved?: (patch: Partial<Project>) => void }) {
+function UsageBreakdownChart({ rows, note, fundingRows, projectId, onNoteSaved }: { rows: BreakdownRow[]; note?: string; fundingRows: BreakdownRow[]; projectId: string; onNoteSaved?: (patch: Partial<Project>) => void }) {
   const years: { key: BudgetYearKey; label: string }[] = [
     { key: "budget_2026", label: "2026년" },
     { key: "budget_2027", label: "2027년" },
@@ -551,7 +516,7 @@ function UsageBreakdownChart({ rows, note, yearlyTotals, projectId, flowInDetail
   // 어긋날 수 있어, 흐름 그래프는 상단 카드·재원별 예산과 같은 공식 총액을 그대로 쓴다.
   const usageRows = rows.map((row) => ({ row, value: (row[selectedYear] as number | null | undefined) ?? 0 })).sort((a, b) => b.value - a.value);
   const usageColorFor = (name: string) => usageColors[Math.max(0, usageColorNames.indexOf(name)) % usageColors.length];
-  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={LayersIcon} tone="budget" title="연도별 예산" /></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-pulse-content"><div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">{years.map((year) => <button key={year.key} type="button" className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>)}</div><div className="pd-pulse-summary"><div><span className="pd-pulse-eyebrow">{selectedLabel} 편성 예산</span><div className="pd-pulse-amount-row"><strong>{formatMillion(selectedTotal || null)}</strong>{usageRows.some(({ value }) => value > 0) && <span className="pd-pulse-detail">[{usageRows.filter(({ value }) => value > 0).map(({ row, value }) => `${usageCostLabel(row.name)} ${formatMillion(value)}`).join(" · ")}]</span>}</div><span className="pd-pulse-positive">전체 사업비의 {selectedShare.toFixed(1)}%</span></div></div><div className="pd-usage-split"><div className="pd-usage-left"><div className="pd-usage-progress-list">{usageRows.map(({ row, value }) => { const share = selectedTotal > 0 ? (value / selectedTotal) * 100 : 0; return <div className="pd-usage-progress-row" key={row.name}><div className="pd-usage-progress-label"><span>{displayBreakdownName(row.name)}</span><b>{formatMillion(value || null)}</b><strong>{share.toFixed(0)}%</strong></div><div className="pd-usage-progress-track"><span style={{ width: `${share}%`, background: usageColorFor(row.name) }} /></div></div>; })}</div><div className="pd-usage-legend pd-usage-legend-top">{usageColorNames.map((name, index) => <span key={name}><i style={{ background: usageColors[index] }} />{name}</span>)}</div></div>{!flowInDetail && <YearlyFlowGraph yearlyTotals={yearlyTotals} className="pd-usage-right" />}</div><InlineNoteEditor projectId={projectId} fieldKey="usage_breakdown_note" value={note ?? ""} placeholder="등록된 안내문구가 없습니다. 클릭해서 작성하세요." rows={2} textClassName="pd-note-box mt-3 !text-[16px]" onSaved={onNoteSaved} /></div>}</div>;
+  return <div className="pd-budget-panel pd-usage-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={LayersIcon} tone="budget" title="연도별 예산" /></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-pulse-content"><div className="pd-year-switcher" role="tablist" aria-label="예산 연도 선택">{years.map((year) => <button key={year.key} type="button" className={selectedYear === year.key ? "is-active" : ""} onClick={() => setSelectedYear(year.key)}>{year.label}</button>)}</div><div className="pd-pulse-summary"><div><span className="pd-pulse-eyebrow">{selectedLabel} 편성 예산</span><div className="pd-pulse-amount-row"><strong>{formatMillion(selectedTotal || null)}</strong>{usageRows.some(({ value }) => value > 0) && <span className="pd-pulse-detail">[{usageRows.filter(({ value }) => value > 0).map(({ row, value }) => `${usageCostLabel(row.name)} ${formatMillion(value)}`).join(" · ")}]</span>}</div><span className="pd-pulse-positive">전체 사업비의 {selectedShare.toFixed(1)}%</span></div></div><div className="pd-usage-split"><div className="pd-usage-left"><div className="pd-usage-progress-list">{usageRows.map(({ row, value }) => { const share = selectedTotal > 0 ? (value / selectedTotal) * 100 : 0; return <div className="pd-usage-progress-row" key={row.name}><div className="pd-usage-progress-label"><span>{displayBreakdownName(row.name)}</span><b>{formatMillion(value || null)}</b><strong>{share.toFixed(0)}%</strong></div><div className="pd-usage-progress-track"><span style={{ width: `${share}%`, background: usageColorFor(row.name) }} /></div></div>; })}</div><div className="pd-usage-legend pd-usage-legend-top">{usageColorNames.map((name, index) => <span key={name}><i style={{ background: usageColors[index] }} />{name}</span>)}</div></div><div className="pd-usage-right"><FundingBreakdownCard rows={fundingRows} /></div></div><InlineNoteEditor projectId={projectId} fieldKey="usage_breakdown_note" value={note ?? ""} placeholder="등록된 안내문구가 없습니다. 클릭해서 작성하세요." rows={2} textClassName="pd-note-box mt-3 !text-[16px]" onSaved={onNoteSaved} /></div>}</div>;
 }
 
 function formatMillion(value: number | null | undefined) {
@@ -559,18 +524,12 @@ function formatMillion(value: number | null | undefined) {
 }
 
 function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?: (patch: Partial<Project>) => void }) {
-  // 상단 카드·연도별 막대·연도별 흐름 그래프가 모두 같은 계산을 쓴다.
+  // 상단 카드·연도별 막대가 모두 같은 계산을 쓴다.
   const budgetOf = pb(project);
   const total = budgetOf.total || null;
   const invested = budgetOf.investedThrough2026 || null;
   const budget = project.budget_2026_hide ? null : budgetOf.budget2027 || null;
   const executionAmount = project.card_execution_amount_million_krw;
-  const yearlyTotals = {
-    invested: budgetOf.invested,
-    budget2026: budgetOf.budget2026,
-    budget2027: budgetOf.budget2027,
-    budget2028Plus: budgetOf.budget2028Plus,
-  };
   const carryoverItems = project.carryover_items?.length
     ? project.carryover_items
     : project.carryover_million_krw != null
@@ -590,9 +549,8 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
       <p className="pd-baseline-note">{BUDGET_BASELINE_LABEL}</p>
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid">
-        <UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} yearlyTotals={yearlyTotals} projectId={project.id} flowInDetail={hasBudgetDetailFlowSlot(project.id)} onNoteSaved={onNoteSaved} />
-        <FundingBreakdownCard rows={project.funding_breakdown} />
-        {hasBudgetDetail(project.id) && <BudgetDetailPanel projectId={project.id} flowAside={<YearlyFlowGraph yearlyTotals={yearlyTotals} detail />} />}
+        <UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} fundingRows={project.funding_breakdown} projectId={project.id} onNoteSaved={onNoteSaved} />
+        {hasBudgetDetail(project.id) && <BudgetDetailPanel projectId={project.id} />}
       </div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
     </div>
