@@ -138,11 +138,15 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
   const sumOf = (list: typeof items, pick: (item: (typeof items)[number]) => string | undefined) => list.reduce((sum, item) => sum + parseAmount(pick(item)), 0);
   const fmt = (value: number) => (value > 0 ? value.toLocaleString("ko-KR") : "");
   const isSelected = (year: string) => !!selectedYear && yearBucket(year) === selectedYear;
-  const notes = section.extraColumns
+  // 금액이 하나도 없는 연도는 열을 빼서 표를 좁히고 글씨를 키울 자리를 만든다(주석으로 남긴다).
+  const yearIndexes = section.years.map((_, index) => index).filter((index) => parseAmount(totalRow?.values[index]) > 0 || items.some((item) => parseAmount(item.values[index]) > 0));
+  const emptyYears = section.years.filter((_, index) => !yearIndexes.includes(index));
+  const years = yearIndexes.map((index) => ({ year: section.years[index], index }));
+  const extraNotes = section.extraColumns
     .map((column, columnIndex) => ({ column, entries: items.filter((item) => item.extra[columnIndex]).map((item) => `${item.name} ${item.extra[columnIndex]}`) }))
     .filter((note) => note.entries.length > 0)
-    .map((note) => `${note.column}: ${note.entries.join(", ")}`)
-    .join(" · ");
+    .map((note) => `${note.column}: ${note.entries.join(", ")}`);
+  const notes = [...extraNotes, ...(emptyYears.length ? [`${emptyYears.join("·")}: 편성 없음`] : [])].join(" · ");
   return (
     <>
       <div className="pd-card-title">
@@ -152,15 +156,15 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
       <div className="bd-scroll">
         <table className="mx-table">
           <colgroup>
-            <col style={{ width: 190 }} />
-            <col style={{ width: 108 }} />
-            {section.years.map((year) => <col key={year} />)}
+            <col style={{ width: 200 }} />
+            <col style={{ width: 128 }} />
+            {years.map(({ year }) => <col key={year} />)}
           </colgroup>
           <thead>
             <tr>
               <th>과목</th>
               <th className="mx-num">계</th>
-              {section.years.map((year, index) => (
+              {years.map(({ year, index }) => (
                 <th key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>
                   <b>{year}</b>
                   <small>{section.stages[index]?.replace(/\n/g, " ") || " "}</small>
@@ -172,7 +176,7 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
             <tr className="mx-total">
               <td>계</td>
               <td className="mx-num">{totalRow?.total}</td>
-              {section.years.map((year, index) => <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>{showAmount(totalRow?.values[index])}</td>)}
+              {years.map(({ year, index }) => <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>{showAmount(totalRow?.values[index])}</td>)}
             </tr>
             {groups.map((name) => {
               const members = items.filter((item) => item.group === name);
@@ -183,7 +187,7 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
                   <tr key={name} className="mx-group">
                     <td>{name} <span className="mx-sub">· {item.name}</span></td>
                     <td className="mx-num">{showAmount(item.total)}</td>
-                    {section.years.map((year, index) => (
+                    {years.map(({ year, index }) => (
                       <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}${item.flags.includes(index) && parseAmount(item.values[index]) > 0 ? " is-flag" : ""}`}>{showAmount(item.values[index])}</td>
                     ))}
                   </tr>
@@ -193,13 +197,13 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
                 <tr key={`${name}-group`} className="mx-group">
                   <td>{name}</td>
                   <td className="mx-num">{fmt(sumOf(members, (item) => item.total))}</td>
-                  {section.years.map((year, index) => <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>{fmt(sumOf(members, (item) => item.values[index]))}</td>)}
+                  {years.map(({ year, index }) => <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>{fmt(sumOf(members, (item) => item.values[index]))}</td>)}
                 </tr>,
                 ...members.map((item) => (
                   <tr key={`${name}-${item.name}`} className="mx-item">
                     <td>{item.name}</td>
                     <td className="mx-num">{showAmount(item.total)}</td>
-                    {section.years.map((year, index) => (
+                    {years.map(({ year, index }) => (
                       <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}${item.flags.includes(index) && parseAmount(item.values[index]) > 0 ? " is-flag" : ""}`}>{showAmount(item.values[index])}</td>
                     ))}
                   </tr>
@@ -210,6 +214,76 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
         </table>
       </div>
       {notes && <p className="pl-notes">※ {notes}</p>}
+    </>
+  );
+}
+
+// 예산현황표와 지출현황표를 연도별로 맞대어: 그해 예산, 지출, 집행률. 계는 지출이 있을 수 있는 해(~2026)까지만 비교한다.
+function ExecutionSummary({ budget, spend, selectedYear }: { budget: MatrixSection; spend: MatrixSection; selectedYear?: PlanYearKey }) {
+  const budgetTotal = budget.rows.find((row) => row.kind === "total");
+  const spendTotal = spend.rows.find((row) => row.kind === "total");
+  const valueAt = (section: MatrixSection, total: DetailRow | undefined, year: string) => {
+    const index = section.years.indexOf(year);
+    return index >= 0 ? parseAmount(total?.values[index]) : null;
+  };
+  const allYears = Array.from(new Set([...budget.years, ...spend.years]));
+  const years = allYears
+    .map((year) => ({ year, budget: valueAt(budget, budgetTotal, year), spend: valueAt(spend, spendTotal, year) }))
+    .filter((entry) => (entry.budget ?? 0) > 0 || (entry.spend ?? 0) > 0);
+  const past = years.filter((entry) => entry.spend !== null);
+  const pastBudget = past.reduce((sum, entry) => sum + (entry.budget ?? 0), 0);
+  const pastSpend = past.reduce((sum, entry) => sum + (entry.spend ?? 0), 0);
+  const fmt = (value: number | null) => (value === null ? "" : value > 0 ? value.toLocaleString("ko-KR") : "-");
+  const rate = (spent: number | null, planned: number | null) => (spent === null || !planned ? null : (spent / planned) * 100);
+  const rateCell = (value: number | null) => value === null ? <span className="ex-none">-</span> : (
+    <span className={`ex-rate${value < 50 ? " is-low" : value > 100 ? " is-over" : ""}`}>{value.toFixed(value < 10 ? 1 : 0)}%</span>
+  );
+  const lastPast = past.length ? past[past.length - 1].year : "";
+  // 지출현황표의 계에는 불용액이 들어 있어 연도별 지출 합과 다를 수 있다 — 차이가 불용액과 같으면 그렇게 밝힌다.
+  const unusedIndex = spend.extraColumns.indexOf("불용");
+  const unused = unusedIndex >= 0 ? spend.rows.reduce((sum, row) => sum + parseAmount(row.extra?.[unusedIndex]), 0) : 0;
+  const spendGap = parseAmount(spendTotal?.total) - spend.years.reduce((sum, year) => sum + (valueAt(spend, spendTotal, year) ?? 0), 0);
+  const gapNote = spendGap !== 0 ? ` 지출 계는 연도별 지출의 합으로, 지출현황표 계(${spendTotal?.total})보다 ${spendGap.toLocaleString("ko-KR")} 적음${unused === spendGap ? "(불용액)" : ""}.` : "";
+  return (
+    <>
+      <div className="pd-card-title">
+        <span>□ 연도별 예산 대비 지출</span>
+        <span className="bd-unit">[단위: {budget.unit}]</span>
+      </div>
+      <div className="bd-scroll">
+        <table className="mx-table ex-table">
+          <colgroup>
+            <col style={{ width: 200 }} />
+            <col style={{ width: 128 }} />
+            {years.map(({ year }) => <col key={year} />)}
+          </colgroup>
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th className="mx-num"><b>계</b><small>~{lastPast}</small></th>
+              {years.map(({ year }) => <th key={year} className={`mx-num${selectedYear && yearBucket(year) === selectedYear ? " is-selected" : ""}`}><b>{year}</b></th>)}
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="mx-group">
+              <td>예산</td>
+              <td className="mx-num">{fmt(pastBudget)}</td>
+              {years.map((entry) => <td key={entry.year} className={`mx-num${selectedYear && yearBucket(entry.year) === selectedYear ? " is-selected" : ""}`}>{fmt(entry.budget)}</td>)}
+            </tr>
+            <tr className="mx-group">
+              <td>지출</td>
+              <td className="mx-num">{fmt(pastSpend)}</td>
+              {years.map((entry) => <td key={entry.year} className={`mx-num${selectedYear && yearBucket(entry.year) === selectedYear ? " is-selected" : ""}`}>{fmt(entry.spend)}</td>)}
+            </tr>
+            <tr className="ex-rate-row">
+              <td>집행률</td>
+              <td className="mx-num">{rateCell(rate(pastSpend, pastBudget))}</td>
+              {years.map((entry) => <td key={entry.year} className={`mx-num${selectedYear && yearBucket(entry.year) === selectedYear ? " is-selected" : ""}`}>{rateCell(rate(entry.spend, entry.budget))}</td>)}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="pl-notes">※ 집행률 = 지출 ÷ 그해 예산. 50% 미만은 주황, 100% 초과(이월분 집행 등)는 파랑. 지출 자료가 없는 연도는 비워 둠.{gapNote}</p>
     </>
   );
 }
@@ -428,8 +502,16 @@ function CostBreakdownView({ section }: { section: GridSection }) {
 export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: string; selectedYear?: PlanYearKey }) {
   const detail = detailByProject[projectId];
   if (!detail) return null;
+  const matrices = detail.sections.filter((section): section is MatrixSection => section.kind !== "grid");
+  const budgetMatrix = matrices.find((section) => section.title.includes("예산현황"));
+  const spendMatrix = matrices.find((section) => section.title.includes("지출현황"));
   return (
     <div className="pd-detail-attached-group">
+      {budgetMatrix && spendMatrix && (
+        <div className="pd-stacked-panel">
+          <div className="pd-card bd-card"><ExecutionSummary budget={budgetMatrix} spend={spendMatrix} selectedYear={selectedYear} /></div>
+        </div>
+      )}
       {detail.sections.map((section, index) => (
         <div key={section.title} className={`pd-stacked-panel${index === detail.sections.length - 1 ? " pd-attached-last" : ""}`}>
           {section.kind === "grid" && section.variant === "cost-schedule" ? (
