@@ -333,9 +333,9 @@ function PlanTable({ section, selectedYear }: { section: GridSection; selectedYe
           </colgroup>
           <thead>
             <tr>
-              <th>단계 · 비목</th>
-              <th className="tl-num">총사업비</th>
-              {yearIndexes.map((column) => <th key={column} className={`tl-num${isSelected(column) ? " is-selected" : ""}`}>{section.columns[column]}</th>)}
+              <th>단계</th>
+              <th>총사업비</th>
+              {yearIndexes.map((column) => <th key={column} className={isSelected(column) ? "is-selected" : undefined}>{section.columns[column]}</th>)}
             </tr>
           </thead>
           <tbody>
@@ -347,25 +347,17 @@ function PlanTable({ section, selectedYear }: { section: GridSection; selectedYe
                 return <td key={column} className={`tl-num${isSelected(column) ? " is-selected" : ""}`}>{value > 0 ? fmtMillion(value) : ""}</td>;
               })}
             </tr>
-            {stages.map((group) => {
-              const single = group.rows.length === 1 && group.rows[0][0] === group.stage;
-              return [
-                <tr key={group.stage} className="tl-stage">
-                  <td><i style={{ background: group.color }} aria-hidden="true" />{group.stage}{group.rows.length === 1 && !single && <span className="tl-sub"> · {group.rows[0][0]}</span>}</td>
-                  <td className="tl-num">{fmtMillion(stageSum(group.rows, 1))}</td>
-                  {yearIndexes.map((column) => cell(stageSum(group.rows, column), group.color, `${section.columns[column]} · ${group.stage} ${fmtMillion(stageSum(group.rows, column))}`, column))}
-                </tr>,
-                ...(group.rows.length > 1
-                  ? group.rows.map((row) => (
-                      <tr key={`${group.stage}-${row[0]}`} className="tl-item">
-                        <td>{row[0]}</td>
-                        <td className="tl-num">{fmtMillion(toMillion(row[1]))}</td>
-                        {yearIndexes.map((column) => cell(toMillion(row[column]), group.color, `${section.columns[column]} · ${row[0]} ${fmtMillion(toMillion(row[column]))}`, column, true))}
-                      </tr>
-                    ))
-                  : []),
-              ];
-            })}
+            {/* 표에는 단계만 두고, 비목별 금액은 칸에 마우스를 올리면 보이게 한다. */}
+            {stages.map((group) => (
+              <tr key={group.stage} className="tl-stage">
+                <td><i style={{ background: group.color }} aria-hidden="true" />{group.stage}</td>
+                <td className="tl-num">{fmtMillion(stageSum(group.rows, 1))}</td>
+                {yearIndexes.map((column) => {
+                  const detail = group.rows.filter((row) => toMillion(row[column]) > 0).map((row) => `${row[0]} ${fmtMillion(toMillion(row[column]))}`).join(", ");
+                  return cell(stageSum(group.rows, column), group.color, `${section.columns[column]} · ${group.stage} ${fmtMillion(stageSum(group.rows, column))} (${detail})`, column);
+                })}
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
