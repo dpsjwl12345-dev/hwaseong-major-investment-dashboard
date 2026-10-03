@@ -9343,5 +9343,7 @@ main.app-main.app-main-flush .hero-panel {
 .tl-table .tl-item .tl-amount { color: var(--pd-text); }
 .tl-table td.is-flag .tl-amount { box-shadow: inset 0 -2px 0 rgba(250, 204, 21, .9); display: inline-block; }
 .tl-table .ex-rate { min-width: 0; }
-.tl-table .tl-stage-note th { padding: 8px 12px; background: rgba(255, 255, 255, .03); border-top: 2px solid #3987e5; border-bottom: 1px solid var(--pd-border); border-radius: 0; color: var(--pd-text-muted); font-size: 13px; font-weight: 500; line-height: 1.4; white-space: normal; }
+.tl-table .tl-stage-note th { padding: 8px 12px; background: rgba(255, 255, 255, .03); border-top: 2px solid #3987e5; border-bottom: 1px solid var(--pd-border); border-radius: 0; color: var(--pd-text-muted); font-size: 13px; font-weight: 500; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -.02em; }
 .tl-table .tl-stage-note th.is-selected { background: rgba(57, 135, 229, .12); }
+.tl-stage-line { margin: 0 0 10px; color: var(--pd-text-muted); font-size: 14px; line-height: 1.5; }
+.tl-stage-line b { margin-right: 10px; padding: 2px 8px; border-radius: 4px; background: rgba(57, 135, 229, .16); color: #e6efff; font-size: 13px; font-weight: 700; }

@@ -80,7 +80,8 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
     .map((column, columnIndex) => ({ column, entries: items.filter((item) => item.extra[columnIndex]).map((item) => `${item.name} ${item.extra[columnIndex]}`) }))
     .filter((note) => note.entries.length > 0)
     .map((note) => `${note.column}: ${note.entries.join(", ")}`);
-  const notes = [...extraNotes, ...(emptyYears.length ? [`${emptyYears.join("·")}: 편성 없음`] : []), ...(items.some((item) => item.flags.some((index) => parseAmount(item.values[index]) > 0)) ? ["노란 밑줄은 원본 예산서의 표시"] : [])].join(" · ");
+  const stageLine = years.filter(({ index }) => section.stages[index]).map(({ year, index }) => `${year} ${section.stages[index].replace(/\n/g, " ")}`).join(" · ");
+  const notes = [...extraNotes,...(emptyYears.length ? [`${emptyYears.join("·")}: 편성 없음`] : []), ...(items.some((item) => item.flags.some((index) => parseAmount(item.values[index]) > 0)) ? ["노란 밑줄은 원본 예산서의 표시"] : [])].join(" · ");
   const amountCell = (value: number, year: string, key: string, options: { color?: string; flag?: boolean } = {}) => (
     <td key={key} className={`tl-cell${isSelected(year) ? " is-selected" : ""}${options.flag && value > 0 ? " is-flag" : ""}`} title={value > 0 ? `${year} ${thousandText(value)}` : undefined}>
       {value > 0 && (
@@ -97,6 +98,8 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
         <span>{section.title}</span>
         <span className="bd-unit">[단위: 백만원]</span>
       </div>
+      {/* 그해 추진 내용은 표 칸에 넣지 않고 표 위 한 줄로: "2020년 토지보상 · 2021년 …" */}
+      {stageLine && <p className="tl-stage-line"><b>추진 내용</b>{stageLine}</p>}
       <div className="bd-scroll">
         <table className="tl-table">
           <colgroup>
@@ -110,14 +113,6 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
               <th>계</th>
               {years.map(({ year }) => <th key={year} className={isSelected(year) ? "is-selected" : undefined}>{year}</th>)}
             </tr>
-            {/* 그해 추진 내용은 연도 머리글과 섞지 않고 바로 아래 한 줄로 따로 둔다. */}
-            {years.some(({ index }) => section.stages[index]) && (
-              <tr className="tl-stage-note">
-                <th>추진 내용</th>
-                <th />
-                {years.map(({ year, index }) => <th key={year} className={isSelected(year) ? "is-selected" : undefined}>{section.stages[index]?.replace(/\n/g, " ") ?? ""}</th>)}
-              </tr>
-            )}
           </thead>
           <tbody>
             <tr className="tl-total">
