@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import budgetDetailData from "../data/budget_detail.json";
 
 type DetailRow = {
@@ -17,6 +18,8 @@ type MatrixSection = {
   unit: string;
   years: string[];
   stages: string[];
+  // 연도별 추진 내용(있으면 표 머리글 아래 "추진 내용" 줄로 보여준다)
+  stageNotes?: string[];
   extraColumns: string[];
   rows: DetailRow[];
 };
@@ -42,6 +45,9 @@ type GridSection = {
 };
 
 type DetailSection = MatrixSection | GridSection;
+
+// 연도별 예산현황 표를 맨 위에 두고, 글씨를 1pt 키우고 표 안에 얇은 세로선을 넣는 사업.
+const BUDGET_FIRST_PROJECTS = new Set(["총괄데이터_5.xlsx:문화예술과:6"]);
 
 const detailByProject = budgetDetailData as unknown as Record<string, { sections: DetailSection[] }>;
 
@@ -80,8 +86,10 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
     .map((column, columnIndex) => ({ column, entries: items.filter((item) => item.extra[columnIndex]).map((item) => `${item.name} ${item.extra[columnIndex]}`) }))
     .filter((note) => note.entries.length > 0)
     .map((note) => `${note.column}: ${note.entries.join(", ")}`);
-  const stageLine = years.filter(({ index }) => section.stages[index]).map(({ year, index }) => `${year} ${section.stages[index].replace(/\n/g, " ")}`).join(" · ");
-  const notes = [...extraNotes,...(emptyYears.length ? [`${emptyYears.join("·")}: 편성 없음`] : []), ...(items.some((item) => item.flags.some((index) => parseAmount(item.values[index]) > 0)) ? ["노란 밑줄은 원본 예산서의 표시"] : [])].join(" · ");
+  const hasNotes = !!section.stageNotes?.some((note) => note);
+  const stageLine = hasNotes ? "" : years.filter(({ index }) => section.stages[index]).map(({ year, index }) => `${year} ${section.stages[index].replace(/\n/g, " ")}`).join(" · ");
+  const emptyYearNote = (year: string) => { const note = section.stageNotes?.[section.years.indexOf(year)]?.replace(/\n/g, " "); return note ? `${year}(${note})` : year; };
+  const notes = [...extraNotes,...(emptyYears.length ? [`${emptyYears.map(emptyYearNote).join("·")}: 편성 없음`] : []), ...(items.some((item) => item.flags.some((index) => parseAmount(item.values[index]) > 0)) ? ["노란 밑줄은 원본 예산서의 표시"] : [])].join(" · ");
   const amountCell = (value: number, year: string, key: string, options: { color?: string; flag?: boolean } = {}) => (
     <td key={key} className={`tl-cell${isSelected(year) ? " is-selected" : ""}${options.flag && value > 0 ? " is-flag" : ""}`} title={value > 0 ? `${year} ${thousandText(value)}` : undefined}>
       {value > 0 && (
@@ -115,6 +123,13 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
             </tr>
           </thead>
           <tbody>
+            {hasNotes && (
+              <tr className="tl-notes">
+                <td>추진 내용</td>
+                <td />
+                {years.map(({ year, index }) => <td key={year} className={isSelected(year) ? "is-selected" : undefined}>{section.stageNotes?.[index]}</td>)}
+              </tr>
+            )}
             <tr className="tl-total">
               <td>합계</td>
               <td title={thousandText(parseAmount(totalRow?.total))}>{fmtMillion(parseAmount(totalRow?.total) / 1000)}</td>
@@ -500,15 +515,21 @@ export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: stri
   const matrices = detail.sections.filter((section): section is MatrixSection => section.kind !== "grid");
   const budgetMatrix = matrices.find((section) => section.title.includes("예산현황"));
   const spendMatrix = matrices.find((section) => section.title.includes("지출현황"));
+  // 연도별 예산현황 표를 먼저 보여주는 사업(어린이 과학관): 예산현황 → 예산 대비 지출 → 나머지 순.
+  const budgetFirst = BUDGET_FIRST_PROJECTS.has(projectId) && !!budgetMatrix;
+  const orderedSections = budgetFirst ? [budgetMatrix, ...detail.sections.filter((section) => section !== budgetMatrix)] : detail.sections;
+  const executionPanel = budgetMatrix && spendMatrix && (
+    <div className="pd-stacked-panel">
+      <div className="pd-card bd-card"><ExecutionSummary budget={budgetMatrix} spend={spendMatrix} selectedYear={selectedYear} /></div>
+    </div>
+  );
   return (
-    <div className="pd-detail-attached-group">
-      {budgetMatrix && spendMatrix && (
-        <div className="pd-stacked-panel">
-          <div className="pd-card bd-card"><ExecutionSummary budget={budgetMatrix} spend={spendMatrix} selectedYear={selectedYear} /></div>
-        </div>
-      )}
-      {detail.sections.map((section, index) => (
-        <div key={section.title} className={`pd-stacked-panel${index === detail.sections.length - 1 ? " pd-attached-last" : ""}`}>
+    <div className={`pd-detail-attached-group${BUDGET_FIRST_PROJECTS.has(projectId) ? " bd-large-lined" : ""}`}>
+      {!budgetFirst && executionPanel}
+      {orderedSections.map((section, index) => (
+        <Fragment key={section.title}>
+        {budgetFirst && index === 1 && executionPanel}
+        <div className={`pd-stacked-panel${index === orderedSections.length - 1 ? " pd-attached-last" : ""}`}>
           {section.kind === "grid" && section.variant === "cost-schedule" ? (
             <div className="pd-card bd-card"><CostScheduleView section={section} /></div>
           ) : section.kind === "grid" && section.variant === "cost-breakdown" ? (
@@ -521,6 +542,7 @@ export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: stri
             </div>
           )}
         </div>
+        </Fragment>
       ))}
     </div>
   );

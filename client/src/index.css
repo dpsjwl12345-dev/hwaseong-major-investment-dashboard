@@ -9351,3 +9351,15 @@ main.app-main.app-main-flush .hero-panel {
 .tl-table .tl-group td { background: rgba(255, 255, 255, .045); }
 .tl-table .tl-group td.is-selected { background: rgba(57, 135, 229, .16); }
 .tl-table .tl-sub-line { display: block; margin: 2px 0 0 18px; }
+
+/* ── 어린이 과학관 예산현황: 표 글자 1pt 확대 + 표 안 아주 얇은 세로선 + 연도별 추진 내용 줄 ── */
+.bd-large-lined .tl-table, .bd-large-lined .tl-table th { font-size: calc(15px + 1pt); }
+.bd-large-lined .tl-table .tl-total td, .bd-large-lined .tl-table .tl-stage td { font-size: calc(16px + 1pt); }
+.bd-large-lined .tl-table .tl-item td { font-size: calc(14px + 2pt); }
+.bd-large-lined .tl-table .tl-sub { font-size: calc(14px + 1pt); }
+.bd-large-lined .tl-table th small { font-size: calc(12px + 1pt); }
+.bd-large-lined .pl-notes { font-size: calc(1em + 1pt); }
+.bd-large-lined .tl-table th + th, .bd-large-lined .tl-table td + td { border-left: 1px solid rgba(255, 255, 255, .07); }
+.bd-large-lined .tl-table .tl-notes td { padding: 10px 10px; background: rgba(255, 255, 255, .03); border-bottom: 1px solid var(--pd-border); color: var(--pd-text-muted); font-size: calc(13px + 1pt); font-weight: 500; line-height: 1.45; text-align: center; vertical-align: top; white-space: pre-line; }
+.bd-large-lined .tl-table .tl-notes td:first-child { color: #e6efff; font-weight: 700; text-align: left; vertical-align: middle; padding-left: 18px; }
+.bd-large-lined .tl-table .tl-notes td.is-selected { background: rgba(57, 135, 229, .12); }
