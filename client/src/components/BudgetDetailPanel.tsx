@@ -108,13 +108,16 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
             <tr>
               <th>과목</th>
               <th>계</th>
-              {years.map(({ year, index }) => (
-                <th key={year} className={isSelected(year) ? "is-selected" : undefined}>
-                  {year}
-                  {section.stages[index] && <small>{section.stages[index].replace(/\n/g, " ")}</small>}
-                </th>
-              ))}
+              {years.map(({ year }) => <th key={year} className={isSelected(year) ? "is-selected" : undefined}>{year}</th>)}
             </tr>
+            {/* 그해 추진 내용은 연도 머리글과 섞지 않고 바로 아래 한 줄로 따로 둔다. */}
+            {years.some(({ index }) => section.stages[index]) && (
+              <tr className="tl-stage-note">
+                <th>추진 내용</th>
+                <th />
+                {years.map(({ year, index }) => <th key={year} className={isSelected(year) ? "is-selected" : undefined}>{section.stages[index]?.replace(/\n/g, " ") ?? ""}</th>)}
+              </tr>
+            )}
           </thead>
           <tbody>
             <tr className="tl-total">
