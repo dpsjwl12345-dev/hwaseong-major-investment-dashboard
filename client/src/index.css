@@ -9130,3 +9130,58 @@ main.app-main.app-main-flush .hero-panel {
 /* 추진경과·향후계획을 같은 세로 타임라인으로 표시: 두 칸을 같은 폭으로 맞춘다 */
 .pd-progress-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 900px) { .pd-progress-layout { grid-template-columns: 1fr; } }
+
+/* 연도별 예산: 연도 탭 하나가 성질별·재원별 목록과 예산 흐름을 같이 바꾼다 */
+.yb-panel { --yb-accent: #6f9ca4; }
+.yb-body { padding: 16px 18px 18px; }
+.yb-summary { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; padding: 22px 4px 18px; }
+.yb-summary-label { color: var(--pd-text-muted); font-size: 15px; font-weight: 600; }
+.yb-summary strong { color: #fff; font-size: 32px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
+.yb-summary-share { color: var(--pd-text-faint); font-size: 14px; font-weight: 600; }
+.yb-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 1px solid var(--pd-border-soft); }
+.yb-list { min-width: 0; padding: 18px 28px 6px 4px; }
+.yb-list + .yb-list { padding: 18px 4px 6px 28px; border-left: 1px solid var(--pd-border-soft); }
+.yb-list-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.yb-list-head h4 { margin: 0; color: var(--pd-text); font-size: 16px; font-weight: 700; }
+.yb-list-head span { color: var(--pd-text-muted); font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.yb-list ul { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.yb-row { display: grid; grid-template-columns: minmax(0, 1fr) auto 56px; align-items: baseline; gap: 6px 12px; }
+.yb-name { color: var(--pd-text-muted); font-size: 15px; font-weight: 600; }
+.yb-value { color: var(--pd-text); font-size: 15px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.yb-share { color: var(--pd-text-faint); font-size: 14px; text-align: right; font-variant-numeric: tabular-nums; }
+.yb-track { grid-column: 1 / -1; height: 6px; overflow: hidden; border-radius: 999px; background: rgba(255, 255, 255, .08); }
+.yb-track span { display: block; height: 100%; border-radius: inherit; background: var(--yb-accent); transition: width .25s ease; }
+.yb-empty { margin: 4px 0 0; color: var(--pd-text-faint); font-size: 15px; }
+.yb-flow { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--pd-border-soft); }
+.yb-flow-head h4 { margin: 0; color: var(--pd-text); font-size: 16px; font-weight: 700; }
+.yb-flow-plot { position: relative; margin-top: 4px; }
+.yb-flow-plot svg { position: absolute; top: 0; left: 0; width: 100%; overflow: visible; }
+.yb-flow-base { stroke: rgba(255, 255, 255, .1); stroke-width: 1; }
+.yb-flow-line { fill: none; stroke: rgba(255, 255, 255, .3); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.yb-flow-col { position: absolute; top: 0; bottom: 0; padding: 0; border: 0; border-radius: 10px; background: transparent; color: inherit; font: inherit; }
+.yb-flow-col.is-tab { cursor: pointer; }
+.yb-flow-col.is-tab:hover { background: rgba(255, 255, 255, .03); }
+.yb-flow-col.is-tab:focus-visible { outline: 2px solid var(--yb-accent); outline-offset: -2px; }
+.yb-flow-value, .yb-flow-dot, .yb-flow-label { position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+.yb-flow-value { color: var(--pd-text-muted); font-size: 14px; font-weight: 600; line-height: 18px; font-variant-numeric: tabular-nums; }
+.yb-flow-dot { width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: #5d6b78; box-shadow: 0 0 0 2px var(--pd-surface); }
+.yb-flow-label { color: var(--pd-text-faint); font-size: 14px; font-weight: 600; line-height: 18px; }
+.yb-flow-col.is-active .yb-flow-value { color: #fff; font-size: 15px; font-weight: 800; }
+.yb-flow-col.is-active .yb-flow-dot { width: 12px; height: 12px; margin-top: -6px; background: var(--yb-accent); }
+.yb-flow-col.is-active .yb-flow-label { color: var(--pd-text); }
+@media (max-width: 760px) {
+  .yb-columns { grid-template-columns: minmax(0, 1fr); }
+  .yb-list, .yb-list + .yb-list { padding: 18px 4px 6px; border-left: 0; }
+  .yb-list + .yb-list { border-top: 1px solid var(--pd-border-soft); }
+}
+/* 합계행 숫자가 칸에 꽉 차지 않도록 본문과 같은 크기로 */
+.bd-table.bd-grid .bd-total-row td { font-size: 16px; }
+/* 연도 많은 상세 표: 왼쪽 과목·구분·계 칸 고정 (배경은 카드색 위 반투명 칸색을 불투명으로 환산) */
+.bd-table tr > .bd-sticky { --bd-sticky-bg: #090909; position: sticky; z-index: 2; background: var(--bd-sticky-bg); }
+.bd-table thead tr > .bd-sticky, .bd-table tr > .bd-label.bd-sticky, .bd-table .bd-total-row > .bd-sticky { --bd-sticky-bg: #191919; }
+/* 마지막 고정 칸(계)엔 경계선+그림자 */
+.bd-table tr > .bd-sticky-edge { box-shadow: 1px 0 0 rgba(246, 246, 241, .14), 8px 0 10px -6px rgba(0, 0, 0, .7); }
+.bd-table .bd-stage-row th { font-size: 13px; padding-left: 4px; padding-right: 4px; }
+/* 고정 칸과 겹칠 때 collapse 테두리 잔선이 비치지 않도록, 연도 상세 표는 칸마다 오른쪽·아래 테두리만 직접 그린다 */
+.bd-table:not(.bd-grid) { border-collapse: separate; border-spacing: 0; border-top: 1px solid rgba(246, 246, 241, .14); border-left: 1px solid rgba(246, 246, 241, .14); }
+.bd-table:not(.bd-grid) th, .bd-table:not(.bd-grid) td { border: 0; border-right: 1px solid rgba(246, 246, 241, .14); border-bottom: 1px solid rgba(246, 246, 241, .14); }
