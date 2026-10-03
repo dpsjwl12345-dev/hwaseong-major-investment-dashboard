@@ -441,27 +441,7 @@ function executionRate(project: Project) {
   return Math.min(100, Math.max(0, Math.round((executed / base) * 100)));
 }
 
-type YearlyAllocationEntry = { key: string; label: string; rate: number; amount: number };
-
-// 이 막대는 "그해 예산현액(편성액+이월액) 대비 얼마나 집행했는가"를 보여준다. 실제 집행액은
-// 진행 중인 2026년에만 있고, 아직 시작하지 않은 2027년·2028년 이후는 집행액이 0이라
-// 예산현액이 얼마든 0%로 나온다 — 이는 데이터 오류가 아니라 아직 집행할 수 없기 때문이다.
-function buildYearlyExecution(project: Project): YearlyAllocationEntry[] {
-  const entries: { key: string; label: string; executed: number; budget: number }[] = [
-    { key: "2026", label: "2026년", executed: project.card_execution_amount_million_krw ?? 0, budget: currentBudget(project) },
-    { key: "2027", label: "2027년", executed: 0, budget: pb(project).budget2027 },
-    { key: "2028+", label: "2028년 이후", executed: 0, budget: pb(project).budget2028Plus },
-  ];
-
-  return entries.map(({ key, label, executed, budget }) => ({
-    key,
-    label,
-    amount: executed,
-    rate: budget > 0 ? Math.min(100, Math.max(0, Math.round((executed / budget) * 100))) : 0,
-  }));
-}
-
-function FundingBreakdownCard({ rows, note, yearlyAllocation, projectId }: { rows: BreakdownRow[]; note?: string; yearlyAllocation: YearlyAllocationEntry[]; projectId: string }) {
+function FundingBreakdownCard({ rows, note }: { rows: BreakdownRow[]; note?: string }) {
   const columns: { key: keyof BreakdownRow; label: string }[] = [
     { key: "total", label: "재원별 총예산" },
     { key: "invested", label: "기투자" },
@@ -469,7 +449,7 @@ function FundingBreakdownCard({ rows, note, yearlyAllocation, projectId }: { row
     { key: "budget_2027", label: "2027년" },
     { key: "budget_2028_plus", label: "이후" },
   ];
-  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={SafeIcon} tone="budget" title="재원별 예산" /><span className="pd-budget-panel-caption">(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayFundingSourceName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}<div className="pd-budget-panel-heading pd-exec-rate-heading"><DetailSectionHeading icon={CardSendIcon} tone="budget" title="연도별 집행 현황" /></div><div className="pd-yearly-exec">{yearlyAllocation.map(({ key, label, rate }) => <div className="pd-yearly-exec-col" key={`${projectId}-${key}`}><span className="pd-yearly-exec-value">{rate}%</span><div className="pd-yearly-exec-bar"><div className={`pd-yearly-exec-bar-fill ${key === "2026" ? "is-current" : "is-future"}`} style={{ height: `${rate}%` }} /></div><span className="pd-yearly-exec-label">{label}</span></div>)}</div></div>;
+  return <div className="pd-budget-panel"><div className="pd-budget-panel-heading"><DetailSectionHeading icon={SafeIcon} tone="budget" title="재원별 예산" /><span className="pd-budget-panel-caption">(단위:백만원)</span></div>{rows.length === 0 ? <div className="pd-note-box">등록된 세부 예산표가 없습니다.</div> : <div className="pd-funding-table-wrap"><table className="pd-funding-table"><thead><tr><th>구분</th>{columns.map((column) => <th key={String(column.key)}>{column.label}</th>)}</tr></thead><tbody><tr className="is-total"><th>총사업비</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(sumBreakdown(rows, column.key))}</td>)}</tr>{rows.map((row) => <tr key={row.name}><th>{displayFundingSourceName(row.name)}</th>{columns.map((column) => <td key={String(column.key)}>{formatMillion(row[column.key] as number | null | undefined)}</td>)}</tr>)}</tbody></table></div>}{note && <p className="pd-note-box mt-3 !text-[12px]">{note}</p>}</div>;
 }
 
 const usageColors = ["#5b7fbd", "#58c7b1", "#e8b84a", "#c9915a", "#8a8378"];
@@ -549,7 +529,7 @@ function formatMillion(value: number | null | undefined) {
 }
 
 function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?: (patch: Partial<Project>) => void }) {
-  // 재원별 표(국비/도비/시비...)와 연도별 집행률은 성질별 예산보다 한 단계 더 실무적인
+  // 재원별 표(국비/도비/시비...)는 성질별 예산보다 한 단계 더 실무적인
   // 정보라 기본은 접어둔다 - 위 카드 5개 + 성질별(공사/설계/감리 등) 하나만 먼저 보여주고,
   // 필요한 사람만 "상세보기"로 펼쳐서 본다. 화면 하나에 표·도넛·막대·라인차트가 다 보여서
   // 한눈에 안 읽힌다는 지적을 반영했다.
@@ -560,7 +540,6 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
   const invested = budgetOf.investedThrough2026 || null;
   const budget = project.budget_2026_hide ? null : budgetOf.budget2027 || null;
   const executionAmount = project.card_execution_amount_million_krw;
-  const yearlyAllocation = buildYearlyExecution(project);
   const yearlyTotals = {
     invested: budgetOf.invested,
     budget2026: budgetOf.budget2026,
@@ -588,9 +567,9 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
       <div className="pd-budget-breakdown-grid">
         <UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} yearlyTotals={yearlyTotals} projectId={project.id} onNoteSaved={onNoteSaved} />
         <button type="button" className={`pd-budget-detail-toggle${showFundingDetail ? " is-open" : ""}`} onClick={() => setShowFundingDetail((open) => !open)}>
-          재원별 예산·연도별 집행 현황 상세보기 <ChevronDown size={14} />
+          재원별 예산 상세보기 <ChevronDown size={14} />
         </button>
-        {showFundingDetail && <FundingBreakdownCard rows={project.funding_breakdown} yearlyAllocation={yearlyAllocation} projectId={project.id} />}
+        {showFundingDetail && <FundingBreakdownCard rows={project.funding_breakdown} />}
         {showFundingDetail && hasBudgetDetail(project.id) && <BudgetDetailPanel projectId={project.id} />}
       </div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}

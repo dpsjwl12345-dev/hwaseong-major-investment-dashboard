@@ -544,18 +544,6 @@
 /* 모든 금액이 어느 시점 기준인지 화면에서 바로 알 수 있게 하는 표기. */
 .pd-baseline-note, .dept-baseline-note { margin: 0 0 10px; color: var(--pd-text-faint); font-size: 12px; letter-spacing: 0.02em; }
 .pd-baseline-note { text-align: right; }
-.pd-exec-rate-heading { flex: none; margin-top: 40px; padding-top: 18px; border-bottom: none; }
-.pd-yearly-exec { display: flex; align-items: stretch; flex: 1 1 auto; min-height: 148px; gap: 20px; padding: 20px 4px 20px; }
-.pd-yearly-exec-col { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1 1 0; min-width: 0; }
-.pd-yearly-exec-value { flex: none; font-size: 13px; font-weight: 800; color: var(--pd-text); font-variant-numeric: tabular-nums; }
-.pd-yearly-exec-bar { display: flex; align-items: flex-end; flex: 1 1 auto; min-height: 0; width: 100%; max-width: 120px; border-radius: 8px; background: rgba(255,255,255,.06); overflow: hidden; }
-.pd-yearly-exec-bar-fill { width: 100%; min-height: 3px; border-radius: 8px 8px 0 0; transition: height .5s cubic-bezier(.23,1,.32,1); }
-.pd-yearly-exec-bar-fill.is-current { background: #e5542d; }
-.pd-yearly-exec-bar-fill.is-future { background: var(--pd-accent-a); opacity: .55; }
-.pd-yearly-exec-label { flex: none; margin-top: 2px; font-size: 13px; font-weight: 700; color: var(--pd-text-muted); }
-@media (prefers-reduced-motion: reduce) {
-  .pd-yearly-exec-bar-fill { transition: none; }
-}
 .pd-funding-table-wrap { flex: none; padding: 4px 14px 14px; overflow-x:auto; }
 .pd-funding-table { width:100%; min-width:560px; border-collapse:collapse; font-size:13px; table-layout:fixed; }
 .pd-funding-table th:first-child, .pd-funding-table td:first-child { width: 13%; padding-left: 4px; }
