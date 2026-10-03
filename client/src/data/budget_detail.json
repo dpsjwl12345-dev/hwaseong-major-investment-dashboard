@@ -587,7 +587,8 @@
           1,
           2,
           5
-        ]
+        ],
+        "variant": "cost-schedule"
       },
       {
         "kind": "grid",
@@ -706,7 +707,8 @@
             "1,070,000",
             ""
           ]
-        ]
+        ],
+        "variant": "cost-breakdown"
       }
     ]
   },

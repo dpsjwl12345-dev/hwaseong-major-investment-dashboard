@@ -9225,3 +9225,57 @@ main.app-main.app-main-flush .hero-panel {
 /* 예산서 표를 연도별 한 줄로: 추진 단계 칸, 원본에서 노랗게 표시된 금액 */
 .pl-table .pl-stage-name { color: var(--pd-text-faint); font-size: 13px; line-height: 1.45; word-break: keep-all; }
 .pl-item.is-flag b { padding: 0 4px; border-radius: 3px; background: rgba(250, 204, 21, .22); }
+
+/* ── 연도별 표(사업비 계획·예산서): 행=연도, 열=단계/과목, 칸 안에 비목·금액을 줄로 ── */
+.sg-table { width: 100%; table-layout: fixed; border-collapse: collapse; color: var(--pd-text); }
+/* 머리글은 본문과 확실히 다르게: 채운 띠 + 밝은 글자 + 한 단계 큰 굵은 글씨 */
+.sg-table th { padding: 12px 14px; background: rgba(57, 135, 229, .16); border-bottom: 2px solid #3987e5; color: #e6efff; font-size: 15px; font-weight: 800; letter-spacing: -.01em; text-align: left; white-space: nowrap; }
+.sg-table th:first-child { border-top-left-radius: 8px; }
+.sg-table th:last-child { border-top-right-radius: 8px; }
+.sg-table td { padding: 11px 14px; border-bottom: 1px solid rgba(255, 255, 255, .06); vertical-align: top; font-size: 15px; }
+.sg-table td + td, .sg-table th + th { border-left: 1px solid rgba(255, 255, 255, .05); }
+.sg-table tbody tr:last-child td { border-bottom: 0; }
+.sg-table .sg-num { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sg-table .sg-year { color: var(--pd-text-muted); font-weight: 600; white-space: nowrap; }
+.sg-table .sg-note { color: var(--pd-text-faint); font-size: 13px; line-height: 1.45; word-break: keep-all; }
+.sg-table .sg-sum td { background: rgba(255, 255, 255, .04); font-weight: 700; border-bottom: 1px solid var(--pd-border); }
+.sg-table .sg-sum td.sg-num { color: var(--pd-text); }
+.sg-table tr.is-selected td { background: rgba(57, 135, 229, .10); }
+.sg-table tr.is-selected td:first-child { box-shadow: inset 3px 0 0 #3987e5; color: var(--pd-text); }
+.sg-item { display: flex; justify-content: space-between; gap: 10px; line-height: 1.5; }
+.sg-item + .sg-item { margin-top: 4px; }
+.sg-item span { min-width: 0; color: var(--pd-text-muted); font-size: 14px; word-break: keep-all; }
+.sg-item b { margin-left: auto; color: var(--pd-text); font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sg-item.is-flag b { padding: 0 4px; border-radius: 3px; background: rgba(250, 204, 21, .22); }
+
+/* ── 연도별 공사비: 연도 칸마다 기간·비율, 공사비, 구성 ── */
+.cs-grid { display: grid; gap: 14px; }
+.cs-year { padding: 16px 18px; border: 1px solid rgba(255, 255, 255, .08); border-radius: 12px; background: rgba(255, 255, 255, .025); }
+.cs-year header { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255, 255, 255, .08); }
+.cs-year header b { color: var(--pd-text); font-size: 17px; font-weight: 800; }
+.cs-year header span { color: var(--pd-text-faint); font-size: 13px; font-weight: 600; }
+.cs-total { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 12px 0 10px; }
+.cs-total strong { color: #fff; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.cs-total span { color: #8fc1ff; font-size: 13px; font-weight: 700; }
+.cs-year dl { display: grid; gap: 6px; margin: 0; }
+.cs-year dl div { display: flex; justify-content: space-between; gap: 10px; }
+.cs-year dt { color: var(--pd-text-muted); font-size: 14px; }
+.cs-year dd { margin: 0; color: var(--pd-text); font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) { .cs-grid { grid-template-columns: minmax(0, 1fr) !important; } }
+
+/* ── 공사비 상세내역: 구성 막대 + 공종별 표 ── */
+.cb-summary { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 12px 24px; align-items: center; margin-bottom: 18px; }
+.cb-total span { display: block; color: var(--pd-text-faint); font-size: 13px; font-weight: 600; }
+.cb-total strong { color: #fff; font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.cb-bar { display: flex; gap: 2px; height: 18px; overflow: hidden; border-radius: 4px; background: rgba(255, 255, 255, .06); }
+.cb-bar span { min-width: 3px; }
+.cb-legend { grid-column: 2; display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0; padding: 0; list-style: none; }
+.cb-legend li { display: inline-flex; align-items: baseline; gap: 6px; font-size: 14px; }
+.cb-legend i { width: 10px; height: 10px; border-radius: 2px; align-self: center; }
+.cb-legend span { color: var(--pd-text-muted); }
+.cb-legend b { color: var(--pd-text); font-weight: 600; font-variant-numeric: tabular-nums; }
+.cb-legend em { color: var(--pd-text-faint); font-style: normal; font-size: 13px; }
+.cb-table td small { display: block; margin-top: 2px; font-weight: 500; font-size: 12px; white-space: normal; }
+.cb-table .cb-ratio { color: var(--pd-text-faint); }
+.cb-table .cb-text { color: var(--pd-text-muted); text-align: right; word-break: keep-all; }
+@media (max-width: 760px) { .cb-summary { grid-template-columns: minmax(0, 1fr); } .cb-legend { grid-column: 1; } }
