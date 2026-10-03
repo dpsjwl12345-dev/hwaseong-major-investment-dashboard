@@ -152,19 +152,21 @@ function SectionTable({ section }: { section: MatrixSection }) {
 }
 
 function GridTable({ section, aside }: { section: GridSection; aside?: ReactNode }) {
-  // 그래프를 옆에 붙이면 표 너비가 줄어드니, 구분·비고 칸을 줄여 금액 칸이 비좁아지지 않게 한다
+  // 그래프를 옆에 붙이면 구분·비고 칸을 줄여 금액 칸이 비좁아지지 않게 한다. 표 자체는
+  // 옆에 그래프가 있어도 칸 너비 합만큼만 차지한다 - 전에는 남는 flex 공간까지 100%로
+  // 늘려서, 숫자 몇 자리 들어갈 칸이 쓸데없이 넓어지고 표가 길쭉해 보였다.
   const widths = aside ? section.widths.map((width, index) => (index === 0 ? 120 : index === section.widths.length - 1 ? 190 : width)) : section.widths;
   const tableWidth = widths.reduce((sum, width) => sum + width, 0);
   const table = (
     <>
-      <div className="pd-card-title" style={aside ? undefined : { maxWidth: tableWidth }}>
+      <div className="pd-card-title" style={{ maxWidth: tableWidth }}>
         <span>{section.title}</span>
         {section.unit && <span className="bd-unit">[단위: {section.unit}]</span>}
       </div>
       <div className="bd-scroll">
-        <table className={`bd-table bd-grid${section.compact ? " bd-compact" : ""}`} style={{ width: aside ? "100%" : tableWidth }}>
+        <table className={`bd-table bd-grid${section.compact ? " bd-compact" : ""}`} style={{ width: tableWidth }}>
           <colgroup>
-            {widths.map((width, index) => <col key={index} style={{ width: aside ? `${(width / tableWidth) * 100}%` : width }} />)}
+            {widths.map((width, index) => <col key={index} style={{ width: width }} />)}
           </colgroup>
           <thead>
             <tr>

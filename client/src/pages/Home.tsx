@@ -558,11 +558,6 @@ function formatMillion(value: number | null | undefined) {
 }
 
 function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?: (patch: Partial<Project>) => void }) {
-  // 재원별 표(국비/도비/시비...)는 성질별 예산보다 한 단계 더 실무적인
-  // 정보라 기본은 접어둔다 - 위 카드 5개 + 성질별(공사/설계/감리 등) 하나만 먼저 보여주고,
-  // 필요한 사람만 "상세보기"로 펼쳐서 본다. 화면 하나에 표·도넛·막대·라인차트가 다 보여서
-  // 한눈에 안 읽힌다는 지적을 반영했다.
-  const [showFundingDetail, setShowFundingDetail] = useState(false);
   // 상단 카드·연도별 막대·연도별 흐름 그래프가 모두 같은 계산을 쓴다.
   const budgetOf = pb(project);
   const total = budgetOf.total || null;
@@ -595,11 +590,8 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid">
         <UsageBreakdownChart rows={project.usage_breakdown} note={project.usage_breakdown_note} yearlyTotals={yearlyTotals} projectId={project.id} flowInDetail={hasBudgetDetailFlowSlot(project.id)} onNoteSaved={onNoteSaved} />
-        <button type="button" className={`pd-budget-detail-toggle${showFundingDetail ? " is-open" : ""}`} onClick={() => setShowFundingDetail((open) => !open)}>
-          재원별 예산 상세보기 <ChevronDown size={14} />
-        </button>
-        {showFundingDetail && <FundingBreakdownCard rows={project.funding_breakdown} />}
-        {showFundingDetail && hasBudgetDetail(project.id) && <BudgetDetailPanel projectId={project.id} flowAside={<YearlyFlowGraph yearlyTotals={yearlyTotals} detail />} />}
+        <FundingBreakdownCard rows={project.funding_breakdown} />
+        {hasBudgetDetail(project.id) && <BudgetDetailPanel projectId={project.id} flowAside={<YearlyFlowGraph yearlyTotals={yearlyTotals} detail />} />}
       </div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
     </div>

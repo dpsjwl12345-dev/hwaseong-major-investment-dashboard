@@ -4862,9 +4862,9 @@ main.app-main.app-main-flush .hero-panel {
 
 /* 연도별 예산 표 + 오른쪽 예산 흐름 그래프를 한 줄에 */
 .bd-with-aside { display: flex; align-items: stretch; gap: 20px; }
-.bd-with-aside .bd-aside-main { flex: 1 1 0; min-width: 0; }
+.bd-with-aside .bd-aside-main { flex: 0 0 auto; min-width: 0; }
 .bd-with-aside .bd-table.bd-grid th, .bd-with-aside .bd-table.bd-grid td { padding-left: 8px; padding-right: 8px; font-size: 15px; }
-.bd-with-aside .bd-aside-side { flex: 0 0 280px; display: flex; flex-direction: column; }
+.bd-with-aside .bd-aside-side { flex: 1 1 280px; min-width: 280px; display: flex; flex-direction: column; }
 /* 표의 제목줄(.pd-card-title)과 높이를 맞춰, 그래프 상자가 표 머리글 줄과 같은 높이에서 시작하고 표 끝까지 이어지게 한다 */
 .bd-with-aside .bd-aside-side .pd-card-title { margin-bottom: 0; }
 .pd-flow-detail { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; margin-top: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; background: rgba(255,255,255,.025); padding: 8px; }
@@ -9114,9 +9114,9 @@ main.app-main.app-main-flush .hero-panel {
 
 /* 연도별 예산 표 + 오른쪽 예산 흐름 그래프를 한 줄에 */
 .bd-with-aside { display: flex; align-items: stretch; gap: 20px; }
-.bd-with-aside .bd-aside-main { flex: 1 1 0; min-width: 0; }
+.bd-with-aside .bd-aside-main { flex: 0 0 auto; min-width: 0; }
 .bd-with-aside .bd-table.bd-grid th, .bd-with-aside .bd-table.bd-grid td { padding-left: 8px; padding-right: 8px; font-size: 15px; }
-.bd-with-aside .bd-aside-side { flex: 0 0 280px; display: flex; }
+.bd-with-aside .bd-aside-side { flex: 1 1 280px; min-width: 280px; display: flex; }
 .bd-with-aside .bd-aside-side .pd-pulse-trend { margin-top: 0; width: 100%; display: flex; flex-direction: column; justify-content: center; }
 @media (max-width: 1100px) {
   .bd-with-aside { flex-direction: column; }
