@@ -118,9 +118,10 @@ function StageGrid({ title, unit, columns, noteHeader, sum, rows, notes, selecte
   );
 }
 
-// 예산서(과목×연도) 표: 열=과목(시설비·감리비…), 금액은 예산서 원래 단위(천원)·표기 그대로.
-// 빈 과목 칸(병합)은 위 행 값을 이어받는다.
+// 예산서(과목×연도) 표: 연도를 머리글로(연도 아래에 그해 추진 단계를 작게), 행은 과목을 묶음(시설비·감리비…)별로.
+// 금액은 예산서 원래 단위(천원)·표기 그대로. 0("-")·빈 칸은 비워 두고, 원본의 노란 표시는 유지한다.
 const parseAmount = (value: string | undefined) => (value && value !== "-" ? Number(value.replace(/,/g, "")) : 0);
+const showAmount = (value: string | undefined) => (parseAmount(value) > 0 ? value : "");
 
 function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; selectedYear?: PlanYearKey }) {
   const totalRow = section.rows.find((row) => row.kind === "total");
@@ -134,23 +135,83 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
     items.push({ group, name: row.l3 || row.l2 || middle, total: row.total, values: row.values, flags: row.highlight ?? [], extra: row.extra ?? [] });
   });
   const groups = Array.from(new Set(items.map((item) => item.group)));
-  const sumCells = Object.fromEntries(groups.map((name) => [name, items.filter((item) => item.group === name).reduce((sum, item) => sum + parseAmount(item.total), 0).toLocaleString("ko-KR")]));
-  const rows: StageRow[] = section.years.map((year, yearIndex) => ({
-    label: year,
-    bucket: yearBucket(year),
-    note: section.stages[yearIndex]?.replace(/\n/g, " "),
-    amount: parseAmount(totalRow?.values[yearIndex]) > 0 ? totalRow!.values[yearIndex] : "-",
-    cells: Object.fromEntries(groups.map((name) => [
-      name,
-      items.filter((item) => item.group === name && parseAmount(item.values[yearIndex]) > 0).map((item) => ({ name: item.name, amount: item.values[yearIndex], flag: item.flags.includes(yearIndex) })),
-    ])),
-  }));
+  const sumOf = (list: typeof items, pick: (item: (typeof items)[number]) => string | undefined) => list.reduce((sum, item) => sum + parseAmount(pick(item)), 0);
+  const fmt = (value: number) => (value > 0 ? value.toLocaleString("ko-KR") : "");
+  const isSelected = (year: string) => !!selectedYear && yearBucket(year) === selectedYear;
   const notes = section.extraColumns
     .map((column, columnIndex) => ({ column, entries: items.filter((item) => item.extra[columnIndex]).map((item) => `${item.name} ${item.extra[columnIndex]}`) }))
     .filter((note) => note.entries.length > 0)
     .map((note) => `${note.column}: ${note.entries.join(", ")}`)
     .join(" · ");
-  return <StageGrid title={section.title} unit={section.unit} columns={groups} noteHeader="추진 단계" sum={{ amount: totalRow?.total ?? "-", cells: sumCells }} rows={rows} notes={notes || undefined} selectedYear={selectedYear} />;
+  return (
+    <>
+      <div className="pd-card-title">
+        <span>{section.title}</span>
+        <span className="bd-unit">[단위: {section.unit}]</span>
+      </div>
+      <div className="bd-scroll">
+        <table className="mx-table">
+          <colgroup>
+            <col style={{ width: 190 }} />
+            <col style={{ width: 108 }} />
+            {section.years.map((year) => <col key={year} />)}
+          </colgroup>
+          <thead>
+            <tr>
+              <th>과목</th>
+              <th className="mx-num">계</th>
+              {section.years.map((year, index) => (
+                <th key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>
+                  <b>{year}</b>
+                  <small>{section.stages[index]?.replace(/\n/g, " ") || " "}</small>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="mx-total">
+              <td>계</td>
+              <td className="mx-num">{totalRow?.total}</td>
+              {section.years.map((year, index) => <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>{showAmount(totalRow?.values[index])}</td>)}
+            </tr>
+            {groups.map((name) => {
+              const members = items.filter((item) => item.group === name);
+              // 과목이 하나뿐인 묶음은 묶음 줄과 과목 줄이 똑같아지므로 한 줄로 합친다.
+              if (members.length === 1) {
+                const [item] = members;
+                return (
+                  <tr key={name} className="mx-group">
+                    <td>{name} <span className="mx-sub">· {item.name}</span></td>
+                    <td className="mx-num">{showAmount(item.total)}</td>
+                    {section.years.map((year, index) => (
+                      <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}${item.flags.includes(index) && parseAmount(item.values[index]) > 0 ? " is-flag" : ""}`}>{showAmount(item.values[index])}</td>
+                    ))}
+                  </tr>
+                );
+              }
+              return [
+                <tr key={`${name}-group`} className="mx-group">
+                  <td>{name}</td>
+                  <td className="mx-num">{fmt(sumOf(members, (item) => item.total))}</td>
+                  {section.years.map((year, index) => <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}`}>{fmt(sumOf(members, (item) => item.values[index]))}</td>)}
+                </tr>,
+                ...members.map((item) => (
+                  <tr key={`${name}-${item.name}`} className="mx-item">
+                    <td>{item.name}</td>
+                    <td className="mx-num">{showAmount(item.total)}</td>
+                    {section.years.map((year, index) => (
+                      <td key={year} className={`mx-num${isSelected(year) ? " is-selected" : ""}${item.flags.includes(index) && parseAmount(item.values[index]) > 0 ? " is-flag" : ""}`}>{showAmount(item.values[index])}</td>
+                    ))}
+                  </tr>
+                )),
+              ];
+            })}
+          </tbody>
+        </table>
+      </div>
+      {notes && <p className="pl-notes">※ {notes}</p>}
+    </>
+  );
 }
 
 function GridTable({ section }: { section: GridSection }) {
