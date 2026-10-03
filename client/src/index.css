@@ -9122,3 +9122,7 @@ main.app-main.app-main-flush .hero-panel {
   .bd-with-aside { flex-direction: column; }
   .bd-with-aside .bd-aside-side { flex-basis: auto; }
 }
+
+/* 추진경과·향후계획을 같은 세로 타임라인으로 표시: 두 칸을 같은 폭으로 맞춘다 */
+.pd-progress-layout { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 900px) { .pd-progress-layout { grid-template-columns: 1fr; } }
