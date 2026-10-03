@@ -4861,3 +4861,15 @@ main.app-main.app-main-flush .hero-panel {
 /* 머리글은 그 열 내용과 같은 쪽으로 정렬한다: 금액·연도 열은 오른쪽(구분 칸만 왼쪽/가운데). */
 .bd-table:not(.bd-grid) thead th:nth-child(n+3) { text-align: right; }
 .bd-table.bd-grid thead th.bd-align-center:not(:first-child) { text-align: center; }
+
+/* 추진경과·향후계획 타임라인(ui/timeline.tsx): 어두운 카드 위에서 보이도록 이 영역만 색을 덮어쓴다 */
+.pd-timeline {
+  --primary: oklch(0.6 0.2 250);
+  --primary-foreground: oklch(1 0 0);
+  --border: oklch(1 0 0 / 16%);
+  --muted: oklch(0.3 0.005 286);
+  --foreground: #e6e6e6;
+  position: relative;
+  z-index: 1;
+  padding-top: 4px;
+}
