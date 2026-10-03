@@ -51,73 +51,6 @@ export function hasBudgetDetail(projectId: string) {
 
 export type PlanYearKey = "budget_2026" | "budget_2027" | "budget_2028_plus";
 
-// 연도별로 읽는 표의 공통 모양: 행=연도, 열=단계(또는 과목). 칸마다 그 단계의 비목과 금액을 줄로 쌓아
-// 카드 폭을 고르게 쓰고, 같은 단계는 위아래로 바로 비교된다.
-type StageItem = { name: string; amount: string; flag?: boolean };
-type StageRow = { label: string; bucket: PlanYearKey | null; note?: string; amount: string; cells: Record<string, StageItem[]> };
-
-function StageGrid({ title, unit, columns, noteHeader, sum, rows, notes, selectedYear }: {
-  title: string;
-  unit: string;
-  columns: string[];
-  noteHeader?: string;
-  sum: { amount: string; cells: Record<string, string> };
-  rows: StageRow[];
-  notes?: string;
-  selectedYear?: PlanYearKey;
-}) {
-  return (
-    <>
-      <div className="pd-card-title">
-        <span>{title}</span>
-        <span className="bd-unit">[단위: {unit}]</span>
-      </div>
-      <table className="sg-table">
-        <colgroup>
-          <col style={{ width: 96 }} />
-          {noteHeader && <col style={{ width: 140 }} />}
-          <col style={{ width: 120 }} />
-          {columns.map((column) => <col key={column} />)}
-        </colgroup>
-        <thead>
-          <tr>
-            <th>연도</th>
-            {noteHeader && <th>{noteHeader}</th>}
-            <th className="sg-num">금액</th>
-            {columns.map((column) => <th key={column} className="sg-num">{column}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="sg-sum">
-            <td>합계</td>
-            {noteHeader && <td />}
-            <td className="sg-num">{sum.amount}</td>
-            {columns.map((column) => <td key={column} className="sg-num">{sum.cells[column] ?? ""}</td>)}
-          </tr>
-          {rows.map((row) => (
-            <tr key={row.label} className={row.bucket && row.bucket === selectedYear ? "is-selected" : undefined}>
-              <td className="sg-year">{row.label}</td>
-              {noteHeader && <td className="sg-note">{row.note}</td>}
-              <td className="sg-num">{row.amount}</td>
-              {columns.map((column) => (
-                <td key={column}>
-                  {(row.cells[column] ?? []).map((item) => (
-                    <div key={item.name} className={`sg-item${item.flag ? " is-flag" : ""}`}>
-                      {item.name !== column && <span>{item.name}</span>}
-                      <b>{item.amount}</b>
-                    </div>
-                  ))}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      {notes && <p className="pl-notes">※ {notes}</p>}
-    </>
-  );
-}
-
 // 예산서(과목×연도) 표: 연도를 머리글로(연도 아래에 그해 추진 단계를 작게), 행은 과목을 묶음(시설비·감리비…)별로.
 // 금액은 예산서 원래 단위(천원)·표기 그대로. 0("-")·빈 칸은 비워 두고, 원본의 노란 표시는 유지한다.
 const parseAmount = (value: string | undefined) => (value && value !== "-" ? Number(value.replace(/,/g, "")) : 0);
@@ -357,29 +290,88 @@ function yearBucket(label: string): PlanYearKey | null {
   return year === 2026 ? "budget_2026" : year === 2027 ? "budget_2027" : "budget_2028_plus";
 }
 
-// 사업비 계획(비목×연도): 열=사업 단계, 원본 천원을 위 카드와 같은 백만원으로.
+// 사업비 계획(비목×연도)을 간트형 표로: 행=단계(색)와 그 아래 비목, 열=연도. 칸마다 금액과 그 크기 막대를 두어
+// 어느 해에 어느 단계가 얼마나 진행되는지 한눈에 보이게 한다. 원본 천원을 위 카드와 같은 백만원으로.
+// 단계 색은 다크 배경에서 색각이상·대비 검증을 통과한 순서로 단계마다 고정한다.
+const STAGE_COLORS: Record<string, string> = { 사전절차: "#d95926", "부지·보상": "#199e70", 설계: "#9085e9", "공사·감리": "#c98500", "부대·기타": "#d55181", 예비비: "#008300" };
+
 function PlanTable({ section, selectedYear }: { section: GridSection; selectedYear?: PlanYearKey }) {
   const noteIndex = section.columns.indexOf("비고");
   const yearIndexes = section.columns.map((_, index) => index).filter((index) => index >= 2 && index !== noteIndex);
   const totalRow = section.rows[0];
-  const itemRows = section.rows.slice(1);
-  const stages = STAGE_ORDER.filter((stage) => itemRows.some((row) => stageOf(row[0]) === stage && toMillion(row[1]) > 0));
-  const sumCells = Object.fromEntries(stages.map((stage) => [stage, fmtMillion(itemRows.filter((row) => stageOf(row[0]) === stage).reduce((sum, row) => sum + toMillion(row[1]), 0))]));
-  const rows: StageRow[] = yearIndexes.map((columnIndex) => {
-    const label = section.columns[columnIndex];
-    const total = toMillion(totalRow[columnIndex]) || itemRows.reduce((sum, row) => sum + toMillion(row[columnIndex]), 0);
-    return {
-      label,
-      bucket: yearBucket(label),
-      amount: total > 0 ? fmtMillion(total) : "-",
-      cells: Object.fromEntries(stages.map((stage) => [
-        stage,
-        itemRows.filter((row) => stageOf(row[0]) === stage && toMillion(row[columnIndex]) > 0).map((row) => ({ name: row[0], amount: fmtMillion(toMillion(row[columnIndex])) })),
-      ])),
-    };
-  });
-  const notes = noteIndex >= 0 ? itemRows.filter((row) => row[noteIndex]).map((row) => `${row[0]}: ${row[noteIndex]}`).join(" · ") : "";
-  return <StageGrid title={section.title} unit="백만원" columns={stages} sum={{ amount: fmtMillion(toMillion(totalRow[1])), cells: sumCells }} rows={rows} notes={notes || undefined} selectedYear={selectedYear} />;
+  const itemRows = section.rows.slice(1).filter((row) => toMillion(row[1]) > 0);
+  const stages = STAGE_ORDER
+    .map((stage) => ({ stage, color: STAGE_COLORS[stage], rows: itemRows.filter((row) => stageOf(row[0]) === stage) }))
+    .filter((group) => group.rows.length > 0);
+  const stageSum = (rows: string[][], column: number) => rows.reduce((sum, row) => sum + toMillion(row[column]), 0);
+  // 막대 길이는 표 전체에서 한 가지 기준(단계별 연도 금액의 최댓값)으로 잰다.
+  const scale = Math.max(1, ...stages.flatMap((group) => yearIndexes.map((column) => stageSum(group.rows, column))));
+  const isSelected = (column: number) => !!selectedYear && yearBucket(section.columns[column]) === selectedYear;
+  const cell = (value: number, color: string, title: string, column: number, faint = false) => (
+    <td key={column} className={`tl-cell${isSelected(column) ? " is-selected" : ""}`} title={value > 0 ? title : undefined}>
+      {value > 0 && (
+        <>
+          <span className="tl-amount">{fmtMillion(value)}</span>
+          <span className="tl-track"><span style={{ width: `${Math.max((value / scale) * 100, 3)}%`, background: color, opacity: faint ? 0.55 : 1 }} /></span>
+        </>
+      )}
+    </td>
+  );
+  const notes = noteIndex >= 0 ? section.rows.slice(1).filter((row) => row[noteIndex]).map((row) => `${row[0]}: ${row[noteIndex]}`).join(" · ") : "";
+  return (
+    <>
+      <div className="pd-card-title">
+        <span>{section.title}</span>
+        <span className="bd-unit">[단위: 백만원]</span>
+      </div>
+      <div className="bd-scroll">
+        <table className="tl-table">
+          <colgroup>
+            <col style={{ width: 200 }} />
+            <col style={{ width: 120 }} />
+            {yearIndexes.map((column) => <col key={column} />)}
+          </colgroup>
+          <thead>
+            <tr>
+              <th>단계 · 비목</th>
+              <th className="tl-num">총사업비</th>
+              {yearIndexes.map((column) => <th key={column} className={`tl-num${isSelected(column) ? " is-selected" : ""}`}>{section.columns[column]}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="tl-total">
+              <td>합계</td>
+              <td className="tl-num">{fmtMillion(toMillion(totalRow[1]))}</td>
+              {yearIndexes.map((column) => {
+                const value = toMillion(totalRow[column]) || stageSum(itemRows, column);
+                return <td key={column} className={`tl-num${isSelected(column) ? " is-selected" : ""}`}>{value > 0 ? fmtMillion(value) : ""}</td>;
+              })}
+            </tr>
+            {stages.map((group) => {
+              const single = group.rows.length === 1 && group.rows[0][0] === group.stage;
+              return [
+                <tr key={group.stage} className="tl-stage">
+                  <td><i style={{ background: group.color }} aria-hidden="true" />{group.stage}{group.rows.length === 1 && !single && <span className="tl-sub"> · {group.rows[0][0]}</span>}</td>
+                  <td className="tl-num">{fmtMillion(stageSum(group.rows, 1))}</td>
+                  {yearIndexes.map((column) => cell(stageSum(group.rows, column), group.color, `${section.columns[column]} · ${group.stage} ${fmtMillion(stageSum(group.rows, column))}`, column))}
+                </tr>,
+                ...(group.rows.length > 1
+                  ? group.rows.map((row) => (
+                      <tr key={`${group.stage}-${row[0]}`} className="tl-item">
+                        <td>{row[0]}</td>
+                        <td className="tl-num">{fmtMillion(toMillion(row[1]))}</td>
+                        {yearIndexes.map((column) => cell(toMillion(row[column]), group.color, `${section.columns[column]} · ${row[0]} ${fmtMillion(toMillion(row[column]))}`, column, true))}
+                      </tr>
+                    ))
+                  : []),
+              ];
+            })}
+          </tbody>
+        </table>
+      </div>
+      {notes && <p className="pl-notes">※ {notes}</p>}
+    </>
+  );
 }
 
 // 연도별 공사비(산정표): 연도마다 공사기간·비율, 그해 공사비와 그 구성(선금 + 공정 비율분)을 한 칸에.

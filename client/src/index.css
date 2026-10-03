@@ -9318,3 +9318,27 @@ main.app-main.app-main-flush .hero-panel {
 .ex-rate.is-low { background: rgba(250, 178, 25, .18); color: #fab219; }
 .ex-rate.is-over { background: rgba(57, 135, 229, .2); color: #8fc1ff; }
 .ex-none { color: var(--pd-text-faint); }
+
+/* ── 연도별 사업비 계획: 간트형 표(단계 색 + 금액 막대) ── */
+.tl-table { width: 100%; min-width: 900px; table-layout: fixed; border-collapse: collapse; color: var(--pd-text); font-size: 15px; }
+.tl-table th { padding: 12px 12px; background: rgba(57, 135, 229, .16); border-bottom: 2px solid #3987e5; color: #e6efff; font-size: 15px; font-weight: 800; text-align: left; white-space: nowrap; }
+.tl-table th:first-child { border-top-left-radius: 8px; }
+.tl-table th:last-child { border-top-right-radius: 8px; }
+.tl-table .tl-num { text-align: right; font-variant-numeric: tabular-nums; }
+.tl-table th.tl-num { text-align: right; }
+.tl-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255, 255, 255, .06); vertical-align: top; }
+.tl-table .tl-total td { background: rgba(255, 255, 255, .06); font-size: 16px; font-weight: 800; border-bottom: 1px solid var(--pd-border); }
+.tl-table .tl-stage td { padding-top: 13px; border-top: 1px solid rgba(255, 255, 255, .1); font-size: 16px; font-weight: 700; }
+.tl-table .tl-stage td:first-child i { display: inline-block; width: 10px; height: 10px; margin-right: 8px; border-radius: 3px; vertical-align: 1px; }
+.tl-table .tl-sub { color: var(--pd-text-muted); font-weight: 500; font-size: 14px; }
+.tl-table .tl-item td { color: var(--pd-text-muted); font-size: 14px; border-bottom-color: rgba(255, 255, 255, .03); }
+.tl-table .tl-item td:first-child { padding-left: 30px; }
+.tl-table .tl-item td.tl-num, .tl-table .tl-item .tl-amount { color: var(--pd-text); }
+.tl-table tbody tr:hover td { background: rgba(255, 255, 255, .04); }
+.tl-table .tl-cell { text-align: right; }
+.tl-amount { display: block; font-variant-numeric: tabular-nums; line-height: 1.3; }
+.tl-track { display: block; height: 6px; margin-top: 6px; overflow: hidden; border-radius: 3px; background: rgba(255, 255, 255, .05); }
+.tl-track span { display: block; height: 100%; margin-left: auto; border-radius: 3px 0 0 3px; }
+.tl-item .tl-track { height: 4px; }
+.tl-table td.is-selected, .tl-table th.is-selected { background: rgba(57, 135, 229, .12); }
+.tl-table th.is-selected { background: rgba(57, 135, 229, .32); }
