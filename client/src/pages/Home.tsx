@@ -632,9 +632,9 @@ function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, selectedY
           ))}
         </div>
         <div className="yb-summary">
-          <span className="yb-summary-label">{selectedLabel} 예산</span>
-          <strong>{formatMillion(yearTotal || null)}</strong>
-          <span className="yb-summary-share">총사업비의 {share > 0 && share < 0.1 ? "0.1% 미만" : `${share.toFixed(1)}%`}</span>
+          <span className="yb-summary-label">{selectedLabel}</span>
+          <strong>{formatMillion(yearTotal || null)}{yearTotal ? "백만원" : ""}</strong>
+          <span className="yb-summary-share">({share > 0 && share < 0.1 ? "0.1% 미만" : `${share.toFixed(1)}%`})</span>
         </div>
         <div className="yb-columns">
           <UsageBars rows={usageRows} yearKey={selectedYear} />

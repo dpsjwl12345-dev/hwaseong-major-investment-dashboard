@@ -9135,9 +9135,9 @@ main.app-main.app-main-flush .hero-panel {
 .yb-panel { --yb-accent: #6f9ca4; }
 .yb-body { padding: 16px 18px 18px; }
 .yb-summary { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; padding: 22px 4px 18px; }
-.yb-summary-label { color: var(--pd-text-muted); font-size: 15px; font-weight: 600; }
+.yb-summary-label { color: var(--pd-text-muted); font-size: 32px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
 .yb-summary strong { color: #fff; font-size: 32px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
-.yb-summary-share { color: var(--pd-text-faint); font-size: 14px; font-weight: 600; }
+.yb-summary-share { color: var(--pd-text-faint); font-size: 32px; font-weight: 800; letter-spacing: -.03em; line-height: 1.1; }
 .yb-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 1px solid var(--pd-border-soft); }
 .yb-list { min-width: 0; padding: 18px 28px 6px 4px; }
 .yb-list + .yb-list { padding: 18px 4px 6px 28px; border-left: 1px solid var(--pd-border-soft); }
