@@ -127,8 +127,9 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
               // 과목이 하나뿐인 묶음은 묶음 줄과 과목 줄이 같아지므로 한 줄로 합친다.
               const single = members.length === 1 ? members[0] : null;
               return [
-                <tr key={`${name}-group`} className="tl-stage">
-                  <td><i style={{ background: color }} aria-hidden="true" />{name}{single && single.name !== name && <span className="tl-sub"> · {single.name}</span>}</td>
+                <tr key={`${name}-group`} className="tl-stage tl-group">
+                  {/* 부연 설명은 감리비(건설사업관리 등)만 이름 아래 줄에 둔다. */}
+                  <td><i style={{ background: color }} aria-hidden="true" />{name}{single && single.name !== name && name === "감리비" && <span className="tl-sub tl-sub-line">{single.name}</span>}</td>
                   <td>{fmtMillion(sumOf(members, (item) => item.total) / 1000)}</td>
                   {years.map(({ year, index }) => amountCell(sumOf(members, (item) => item.values[index]), year, year, { color, flag: !!single && single.flags.includes(index) }))}
                 </tr>,
