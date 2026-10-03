@@ -4859,3 +4859,14 @@ main.app-main.app-main-flush .hero-panel {
   z-index: 1;
   padding-top: 4px;
 }
+
+/* 연도별 예산 표 + 오른쪽 예산 흐름 그래프를 한 줄에 */
+.bd-with-aside { display: flex; align-items: stretch; gap: 20px; }
+.bd-with-aside .bd-aside-main { flex: 1 1 0; min-width: 0; }
+.bd-with-aside .bd-table.bd-grid th, .bd-with-aside .bd-table.bd-grid td { padding-left: 8px; padding-right: 8px; font-size: 15px; }
+.bd-with-aside .bd-aside-side { flex: 0 0 280px; display: flex; }
+.bd-with-aside .bd-aside-side .pd-pulse-trend { margin-top: 0; width: 100%; display: flex; flex-direction: column; justify-content: center; }
+@media (max-width: 1100px) {
+  .bd-with-aside { flex-direction: column; }
+  .bd-with-aside .bd-aside-side { flex-basis: auto; }
+}
