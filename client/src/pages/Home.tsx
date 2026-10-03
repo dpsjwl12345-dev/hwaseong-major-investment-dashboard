@@ -501,11 +501,30 @@ type YearlyTotals = { invested: number; budget2026: number; budget2027: number; 
 
 // 기투자~2028년 이후 예산 흐름 그래프. 성질별/연도별 예산 카드 오른쪽에 있다가, 상세 표(시립미술관 예산)가
 // 있는 사업은 그 표 오른쪽으로 옮겨 보여준다.
-function YearlyFlowGraph({ yearlyTotals, className = "" }: { yearlyTotals: YearlyTotals; className?: string }) {
+function YearlyFlowGraph({ yearlyTotals, className = "", detail = false }: { yearlyTotals: YearlyTotals; className?: string; detail?: boolean }) {
   // 성질별(공사/감리/설계/부대/기타) 세부 항목 합계는 반올림·누락으로 공식 총액과
   // 어긋날 수 있어, 흐름 그래프는 상단 카드·재원별 예산과 같은 공식 총액을 그대로 쓴다.
   const flowValues = [yearlyTotals.invested, yearlyTotals.budget2026, yearlyTotals.budget2027, yearlyTotals.budget2028Plus];
   const maxFlowValue = Math.max(...flowValues, 1);
+  const axisLabels = ["기투자", "2026년", "2027년", "이후"];
+  if (detail) {
+    // 상세보기 표 옆에서는 표 높이만큼 세로로 넉넉히 쓰는 큰 그래프. 표 제목줄과 같은 줄에 제목이 따로 붙는다.
+    const width = 260, height = 300, left = 34, right = 34, top = 56, bottom = 228;
+    const x = (index: number) => left + index * ((width - left - right) / (flowValues.length - 1));
+    const y = (value: number) => bottom - (value / maxFlowValue) * (bottom - top);
+    const points = flowValues.map((value, index) => `${x(index)},${y(value)}`).join(" ");
+    return (
+      <div className={`pd-flow-detail ${className}`}>
+        <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="연도별 예산 흐름">
+          {[0, 0.5, 1].map((ratio) => <line key={ratio} x1={left - 14} x2={width - right + 14} y1={bottom - ratio * (bottom - top)} y2={bottom - ratio * (bottom - top)} stroke="rgba(255,255,255,.08)" strokeWidth="1" />)}
+          <polyline points={points} fill="none" stroke="var(--pd-accent-a)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          {flowValues.map((value, index) => <circle key={`dot-${index}`} cx={x(index)} cy={y(value)} r="6" fill="var(--pd-accent-a)" />)}
+          {flowValues.map((value, index) => <text key={`num-${index}`} x={x(index)} y={y(value) - 14} textAnchor="middle" className="pd-flow-detail-value">{formatMillion(value || null)}</text>)}
+          {axisLabels.map((label, index) => <text key={label} x={x(index)} y={bottom + 34} textAnchor="middle" className="pd-flow-detail-axis">{label}</text>)}
+        </svg>
+      </div>
+    );
+  }
   const flowX = (index: number) => 20 + index * (280 / (flowValues.length - 1));
   const flowY = (value: number) => 46 - (value / maxFlowValue) * 30;
   const points = flowValues.map((value, index) => `${flowX(index)},${flowY(value)}`).join(" ");
@@ -580,23 +599,23 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
           재원별 예산 상세보기 <ChevronDown size={14} />
         </button>
         {showFundingDetail && <FundingBreakdownCard rows={project.funding_breakdown} />}
-        {showFundingDetail && hasBudgetDetail(project.id) && <BudgetDetailPanel projectId={project.id} flowAside={<YearlyFlowGraph yearlyTotals={yearlyTotals} />} />}
+        {showFundingDetail && hasBudgetDetail(project.id) && <BudgetDetailPanel projectId={project.id} flowAside={<YearlyFlowGraph yearlyTotals={yearlyTotals} detail />} />}
       </div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
     </div>
   );
 }
 
-// 추진경과·향후계획 공통 세로 타임라인(shadcn Timeline). 추진경과는 가장 최근 항목이, 향후계획은 다음 예정
-// 항목이 "현재" 단계다. 현재보다 앞선 단계는 채운 점, 뒤따르는 단계는 회색 점으로 그려진다.
-function TimelineList({ items, variant }: { items: TimelineEntry[]; variant: "past" | "future" }) {
+// 추진경과 세로 타임라인(shadcn Timeline). 가장 최근 항목이 "현재" 단계고, 그 앞 단계는 채운 점으로 그려진다.
+// 향후계획은 오른쪽이 비어 보여 가로 진행선(pd-progress-horizontal-*)으로 표시한다.
+function TimelineList({ items }: { items: TimelineEntry[] }) {
   return (
-    <Timeline value={variant === "past" ? items.length : 1} className="pd-timeline">
+    <Timeline value={items.length} className="pd-timeline">
       {items.map((item, index) => (
         <TimelineItem key={index} step={index + 1} className="not-last:pb-8">
           <TimelineIndicator />
           <TimelineSeparator />
-          <TimelineHeader>{item.date && <TimelineDate>{item.date}</TimelineDate>}</TimelineHeader>
+          <TimelineHeader>{item.date && <TimelineDate className="text-[13px]">{item.date}</TimelineDate>}</TimelineHeader>
           <TimelineContent className="text-base text-foreground">{highlightMilestones(item.desc)}</TimelineContent>
         </TimelineItem>
       ))}
@@ -619,14 +638,14 @@ function ProgressPanel({ project, onNoteSaved }: { project: Project; onNoteSaved
       <div className="pd-progress-layout">
         <section className="pd-progress-section pd-progress-vertical">
           <div className="pd-progress-heading"><DetailSectionHeading icon={ChartProgressIcon} tone="budget" title="추진경과" /></div>
-          {past.length > 0 ? <TimelineList items={past} variant="past" /> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
+          {past.length > 0 ? <TimelineList items={past} /> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
         </section>
         <section className="pd-progress-section pd-progress-horizontal">
           <div className="pd-progress-heading"><DetailSectionHeading icon={CalendarAddIcon} tone="budget" title="향후계획" /></div>
           {upcoming.length > 0 ? upcomingGroups.map((group, gi) => (
             <div className="pd-progress-horizontal-group" key={gi}>
               {group.label && <div className="pd-progress-group-label">{group.label}</div>}
-              <TimelineList items={group.items} variant="future" />
+              <div className="pd-progress-horizontal-track" style={{ ["--pd-progress-cols" as string]: Math.min(group.items.length, 7) } as CSSProperties}>{group.items.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{highlightMilestones(item.desc)}</div></div></div>)}</div>
             </div>
 )) : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
           {/* 향후계획 박스는 왼쪽 추진경과보다 보통 짧아서 아래에 빈 공간이 남는다(그리드

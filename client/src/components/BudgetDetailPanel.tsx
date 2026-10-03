@@ -196,7 +196,7 @@ function GridTable({ section, aside }: { section: GridSection; aside?: ReactNode
   );
   return (
     <div className="pd-card bd-card">
-      {aside ? <div className="bd-with-aside"><div className="bd-aside-main">{table}</div><div className="bd-aside-side">{aside}</div></div> : table}
+      {aside ? <div className="bd-with-aside"><div className="bd-aside-main">{table}</div><div className="bd-aside-side"><div className="pd-card-title"><span>연도별 예산 흐름</span><span className="bd-unit">[단위: 백만원]</span></div>{aside}</div></div> : table}
     </div>
   );
 }
