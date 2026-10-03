@@ -508,8 +508,9 @@ function YearlyFlowGraph({ yearlyTotals, className = "", detail = false }: { yea
   const maxFlowValue = Math.max(...flowValues, 1);
   const axisLabels = ["기투자", "2026년", "2027년", "이후"];
   if (detail) {
-    // 상세보기 표 옆에서는 표 높이만큼 세로로 넉넉히 쓰는 큰 그래프. 표 제목줄과 같은 줄에 제목이 따로 붙는다.
-    const width = 260, height = 300, left = 34, right = 34, top = 56, bottom = 228;
+    // 상세보기 표 옆, 가로로 넓고 표와 높이가 비슷한 자리에 들어가는 그래프라
+    // 세로로 긴 비율이 아니라 가로로 넓은 비율을 쓴다. 표 제목줄과 같은 줄에 제목이 따로 붙는다.
+    const width = 300, height = 160, left = 36, right = 36, top = 34, bottom = 120;
     const x = (index: number) => left + index * ((width - left - right) / (flowValues.length - 1));
     const y = (value: number) => bottom - (value / maxFlowValue) * (bottom - top);
     const points = flowValues.map((value, index) => `${x(index)},${y(value)}`).join(" ");

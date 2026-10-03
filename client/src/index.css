@@ -4867,8 +4867,12 @@ main.app-main.app-main-flush .hero-panel {
 .bd-with-aside .bd-aside-side { flex: 1 1 280px; min-width: 280px; display: flex; flex-direction: column; }
 /* 표의 제목줄(.pd-card-title)과 높이를 맞춰, 그래프 상자가 표 머리글 줄과 같은 높이에서 시작하고 표 끝까지 이어지게 한다 */
 .bd-with-aside .bd-aside-side .pd-card-title { margin-bottom: 0; }
-.pd-flow-detail { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; margin-top: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; background: rgba(255,255,255,.025); padding: 8px; }
-.pd-flow-detail svg { display: block; width: 100%; height: auto; max-height: 100%; }
+.pd-flow-detail { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; margin-top: 8px; border: 1px solid rgba(255,255,255,.1); border-radius: 14px; background: rgba(255,255,255,.025); padding: 8px; min-height: 0; }
+/* width:100%+height:auto let the svg's own (portrait) viewBox dictate height, ignoring the
+   box the flex row actually gave it — it grew taller than the table next to it and the text
+   scaled up with it. width+height:100% with the default preserveAspectRatio instead fits the
+   svg inside whatever box it's given, matching the table's height. */
+.pd-flow-detail svg { display: block; width: 100%; height: 100%; }
 .pd-flow-detail-value { fill: var(--pd-text); font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .pd-flow-detail-axis { fill: var(--pd-text-faint); font-size: 13px; font-weight: 600; }
 @media (max-width: 1100px) { .pd-budget-breakdown-grid { grid-template-columns:1fr; } }
