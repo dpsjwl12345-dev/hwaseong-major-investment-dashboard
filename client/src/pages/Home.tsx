@@ -638,7 +638,7 @@ function ProgressPanel({ project, onNoteSaved }: { project: Project; onNoteSaved
       <div className="pd-progress-layout">
         <section className="pd-progress-section pd-progress-vertical">
           <div className="pd-progress-heading"><DetailSectionHeading icon={ChartProgressIcon} tone="budget" title="추진경과" /></div>
-          {past.length > 0 ? <TimelineList items={past} /> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
+          {past.length > 0 ? <div className="pd-progress-vertical-list"><TimelineList items={past} /></div> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
         </section>
         <section className="pd-progress-section pd-progress-horizontal">
           <div className="pd-progress-heading"><DetailSectionHeading icon={CalendarAddIcon} tone="budget" title="향후계획" /></div>
