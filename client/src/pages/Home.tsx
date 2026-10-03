@@ -50,6 +50,7 @@ import { HwaseongGLMap } from "../components/HwaseongGLMap";
 import { ProjectLocationMap, type ProjectLocationMapData } from "../components/ProjectLocationMap";
 import { InvestmentRealMap } from "../components/InvestmentRealMap";
 import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
+import { Timeline, TimelineContent, TimelineDate, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator } from "@/components/ui/timeline";
 import { BudgetDetailPanel, hasBudgetDetail } from "../components/BudgetDetailPanel";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
@@ -590,9 +591,27 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
           재원별 예산·연도별 집행 현황 상세보기 <ChevronDown size={14} />
         </button>
         {showFundingDetail && <FundingBreakdownCard rows={project.funding_breakdown} yearlyAllocation={yearlyAllocation} projectId={project.id} />}
+        {showFundingDetail && hasBudgetDetail(project.id) && <BudgetDetailPanel projectId={project.id} />}
       </div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
     </div>
+  );
+}
+
+// 추진경과·향후계획 공통 세로 타임라인(shadcn Timeline). 추진경과는 가장 최근 항목이, 향후계획은 다음 예정
+// 항목이 "현재" 단계다. 현재보다 앞선 단계는 채운 점, 뒤따르는 단계는 회색 점으로 그려진다.
+function TimelineList({ items, variant }: { items: TimelineEntry[]; variant: "past" | "future" }) {
+  return (
+    <Timeline value={variant === "past" ? items.length : 1} className="pd-timeline">
+      {items.map((item, index) => (
+        <TimelineItem key={index} step={index + 1} className="not-last:pb-8">
+          <TimelineIndicator />
+          <TimelineSeparator />
+          <TimelineHeader>{item.date && <TimelineDate>{item.date}</TimelineDate>}</TimelineHeader>
+          <TimelineContent className="text-base text-foreground">{highlightMilestones(item.desc)}</TimelineContent>
+        </TimelineItem>
+      ))}
+    </Timeline>
   );
 }
 
@@ -611,16 +630,16 @@ function ProgressPanel({ project, onNoteSaved }: { project: Project; onNoteSaved
       <div className="pd-progress-layout">
         <section className="pd-progress-section pd-progress-vertical">
           <div className="pd-progress-heading"><DetailSectionHeading icon={ChartProgressIcon} tone="budget" title="추진경과" /></div>
-          {past.length > 0 ? <div className="pd-progress-vertical-list">{past.map((item, index) => <div key={index} className={`pd-progress-vertical-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{item.desc}</div></div></div>)}</div> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
+          {past.length > 0 ? <TimelineList items={past} variant="past" /> : <div className="pd-note-box">등록된 추진현황이 없습니다.</div>}
         </section>
         <section className="pd-progress-section pd-progress-horizontal">
           <div className="pd-progress-heading"><DetailSectionHeading icon={CalendarAddIcon} tone="budget" title="향후계획" /></div>
           {upcoming.length > 0 ? upcomingGroups.map((group, gi) => (
             <div className="pd-progress-horizontal-group" key={gi}>
               {group.label && <div className="pd-progress-group-label">{group.label}</div>}
-              <div className="pd-progress-horizontal-track" style={{ ["--pd-progress-cols" as string]: Math.min(group.items.length, 7) } as CSSProperties}>{group.items.map((item, index) => <div key={index} className={`pd-progress-horizontal-item ${index === 0 ? "is-active" : ""}`}><div className="pd-progress-node">{String(index + 1).padStart(2, "0")}</div><div className="pd-progress-copy"><div className="pd-progress-date">{item.date || "-"}</div><div className="pd-progress-desc">{highlightMilestones(item.desc)}</div></div></div>)}</div>
+              <TimelineList items={group.items} variant="future" />
             </div>
-          )) : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
+)) : <div className="pd-note-box">등록된 향후 추진계획 정보가 없습니다.</div>}
           {/* 향후계획 박스는 왼쪽 추진경과보다 보통 짧아서 아래에 빈 공간이 남는다(그리드
               align-items:stretch로 두 박스 높이가 맞춰지기 때문) - 그 공간에 자유 메모(진행사항)
               박스를 붙인다. 박스를 직접 클릭하면 바로 편집·저장된다(InlineNoteEditor). */}
@@ -813,7 +832,7 @@ function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnloc
   );
 }
 
-const TABS = ["사업개요·추진현황", "예산현황", "예산 상세", "위치도"] as const;
+const TABS = ["사업개요·추진현황", "예산현황", "위치도"] as const;
 
 function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProjects, onSelectProject, onProjectUpdated }: { project: Project; lock?: { isUnlocked: boolean; onLock: () => void; onRequestUnlock: () => void }; searchValue: string; onSearchChange: (value: string) => void; searchProjects: Project[]; onSelectProject: (project: Project) => void; onProjectUpdated?: (projectId: string, patch: Partial<Project>) => void }) {
   const [activeTab, setActiveTab] = useState<(typeof TABS)[number]>("사업개요·추진현황");
@@ -826,7 +845,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
     setSelectedSubIndex(0);
   }, [project.id]);
 
-  const visibleTabs = TABS.filter((tab) => tab !== "예산 상세" || hasBudgetDetail(project.id));
+  const visibleTabs = TABS;
   const hasSubProjects = (project.sub_projects?.length ?? 0) > 1 || project.project_name === "서해안 관광벨트 주차장 및 도로 조성";
   const activeProject: Project = hasSubProjects ? { ...project, ...project.sub_projects![selectedSubIndex] } : project;
 
@@ -984,7 +1003,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             </span>
           );
         })}
-        <div ref={indicatorRef} className={`pill-indicator${activeTab === "예산 상세" ? " is-budget-detail" : ""}`} aria-hidden="true" />
+        <div ref={indicatorRef} className="pill-indicator" aria-hidden="true" />
       </div>
 
       <div key={`${project.id}-${selectedSubIndex}-${activeTab}`} className="pd-panel-fade">
@@ -998,7 +1017,6 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           </>
         )}
         {activeTab === "예산현황" && <BudgetPanel project={activeProject} onNoteSaved={(patch) => onProjectUpdated?.(project.id, patch)} />}
-        {activeTab === "예산 상세" && <BudgetDetailPanel projectId={project.id} />}
         {activeTab === "위치도" && (() => {
           const hasLocationMap = !!activeProject.location_map;
           const hasSpotMap = !!activeProject.overview_map;
