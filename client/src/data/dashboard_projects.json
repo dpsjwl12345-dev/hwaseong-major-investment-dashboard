@@ -11,6 +11,7 @@
       "rendering_images": [
         "/renderings/heritage-1/1.png"
       ],
+      "rendering_image_types": ["위치도"],
       "overview_images_title": "위치도",
       "overview": "○ 사업위치: 화성시 효행구 봉담읍 수영리3-6, 효행택지개발지구 내\n○ 사업규모: 부지면적 8,500㎡, 연면적 10,050㎡(지하1층~지상4층)\n○ 사업기간: 2022.07. ~ 2030.12.\n○ 사업내용: 화성시 역사박물관 확충",
       "category": "문화관광시설",
@@ -221,6 +222,7 @@
         "/renderings/heritage-2/1.webp",
         "/renderings/heritage-2/2.png"
       ],
+      "rendering_image_types": ["조감도", "위치도"],
       "category": "문화관광시설",
       "current_stage": "설계",
       "funding_type": "소계",
@@ -300,6 +302,7 @@
       "department": "체육진흥과",
       "project_name": "비봉체육공원 실내야구연습장 개축",
       "rendering_images": ["/renderings/sports-1/location.png"],
+      "rendering_image_types": ["위치도"],
       "overview": "○ 사업위치: 화성시 만세구 새솔동 167번지\n○ 사업규모: 가설건축물(1층, 2,085㎡) 철거 후 정식건축물(1층, 2,085㎡) 신축\n○ 사업기간: 2026.01. ~ 2027.06.\n○ 사업내용: 가설건축물 철거 후 정식건축물 신축",
       "category": "체육시설",
       "current_stage": "사전 행정절차",
@@ -509,6 +512,7 @@
       "department": "체육진흥과",
       "project_name": "비봉체육공원 야구장 개선",
       "rendering_images": ["/renderings/sports-2/location.png"],
+      "rendering_image_types": ["위치도"],
       "overview": "○ 사업위치: 화성시 만세구 새솔동 167번지(야구1구장, 야구2구장)\n○ 사업규모: 야구1,2구장\n○ 사업기간: 2025.01. ~ 2026.12.\n○ 사업내용: 인조잔디 교체, 조명 설치(야구1구장), 방송설비 장비(야구2구장)",
       "category": "체육시설",
       "current_stage": "발주 및 계약체결",
@@ -1986,6 +1990,7 @@
       "rendering_images": [
         "/renderings/sports-15/1.png"
       ],
+      "rendering_image_types": ["위치도"],
       "overview": "○ 사업위치: 화성시 만세구 향남읍,남양읍,팔탄면 일원\n○ 사업규모:\n○ 사업기간: 2026.09. ~ 2027.09.\n○ 사업내용: 서해선 교량하부 유휴부지 내 체육시설 조성",
       "category": "체육시설",
       "current_stage": "설계",
@@ -2197,6 +2202,7 @@
       "rendering_images": [
         "/renderings/sports-6/1.png"
       ],
+      "rendering_image_types": ["조감도"],
       "carryover_items": [
         {
           "label": "장안 다목적복합센터 건립",
@@ -2415,6 +2421,7 @@
       "rendering_images": [
         "/renderings/sports-16/1.png"
       ],
+      "rendering_image_types": ["위치도"],
       "overview": "○ 사업위치: 화성시 효행구 비봉면 삼화리 1842번지\n○ 사업규모: 연면적 2,500㎡(지상 1층 ~ 지상 3층) 시니어친화형 국민체육센터\n○ 사업기간: 2025.07. ~ 2030.01.\n○ 사업내용: ",
       "category": "체육시설",
       "current_stage": "사전 행정절차",
@@ -2626,6 +2633,7 @@
       "rendering_images": [
         "/renderings/sports-8/1.png"
       ],
+      "rendering_image_types": ["조감도"],
       "carryover_items": [
         {
           "label": "남양 체육복합센터 조성",
@@ -3050,6 +3058,7 @@
       "department": "체육진흥과",
       "project_name": "화성 동부 반다비체육센터 건립",
       "rendering_images": ["/renderings/sports-10/location.png"],
+      "rendering_image_types": ["위치도"],
       "carryover_items": [
         {
           "label": "화성 동부 반다비체육센터 건립",
@@ -3818,6 +3827,7 @@
       "project_name": "축구전용경기장 건립(동탄여울공원)",
       "overview": "○ 사업위치: 화성시 동탄구 여울동 1060번지(동탄여울공원)\n○ 사업내용: 15,000석 규모의 축구전용구장 조성\n○ 사업기간: 2027. ~ 2032.\n○ 총사업비: 195,000백만원",
       "rendering_images": ["/renderings/sports-13/location.png", "/renderings/sports-13/1.png"],
+      "rendering_image_types": ["위치도", "조감도"],
       "category": "체육시설",
       "current_stage": "사전 행정절차",
       "funding_type": "",
@@ -4029,6 +4039,7 @@
       "project_name": "스포츠컴플렉스 조성",
       "overview": "○ 사업위치: 화성시 효행구 비봉면 구포리 산6-19 (개발제한구역)\n○ 사업규모: 대지면적 270,000㎡, 건축면적 각 3,000㎡\n○ 사업내용: 파크골프장 54홀, 축구장 2면, 실외 테니스장 12면, 실내 테니스장 4면, 실내 배드민턴장 16면, 맨발숲길 조성\n○ 사업기간: 2027. ~ (2030년부터 설계완료 및 공사 추진)\n○ 총사업비: 84,300백만원",
       "rendering_images": ["/renderings/sports-20/location.webp", "/renderings/sports-20/1.webp"],
+      "rendering_image_types": ["위치도", "조감도"],
       "location_map": {
         "center": [
           126.8789,
@@ -5493,6 +5504,7 @@
       "rendering_images": [
         "/renderings/tourism-2/1.png"
       ],
+      "rendering_image_types": ["조감도"],
       "category": "문화관광시설",
       "current_stage": "공사착공",
       "funding_type": "소계",
@@ -5699,6 +5711,7 @@
         "/renderings/tourism-3/1.webp",
         "/renderings/tourism-3/2.webp"
       ],
+      "rendering_image_types": ["위치도", "위치도"],
       "carryover_items": [
         {
           "label": "서해안 황금해안길 조성사업(자체)",
@@ -5918,6 +5931,7 @@
         "/renderings/tourism-4/1.png",
         "/renderings/tourism-4/2.png"
       ],
+      "rendering_image_types": ["위치도", "조감도"],
       "carryover_items": [
         {
           "label": "고렴산 해상공원 조성",
@@ -6142,6 +6156,7 @@
         "/renderings/tourism-12/2.png",
         "/renderings/tourism-12/3.webp"
       ],
+      "rendering_image_types": ["위치도", "조감도", "조감도"],
       "category": "문화관광시설",
       "current_stage": "설계",
       "funding_type": "소계",
@@ -6348,6 +6363,7 @@
       "rendering_images": [
         "/renderings/tourism-8/1.png"
       ],
+      "rendering_image_types": ["위치도"],
       "category": "문화관광시설",
       "current_stage": "",
       "funding_type": "소계",
@@ -7157,6 +7173,7 @@
         "/renderings/tourism-6/3.png",
         "/renderings/tourism-6/4.webp"
       ],
+      "rendering_image_types": ["위치도", "조감도", "조감도", "조감도"],
       "carryover_items": [
         {
           "label": "궁평 종합관광지 조성",
@@ -7371,6 +7388,7 @@
         "/renderings/tourism-10/1.png",
         "/renderings/tourism-10/2.webp"
       ],
+      "rendering_image_types": ["위치도", "위치도"],
       "carryover_items": [
         {
           "label": "제부도 도시계획도로 소로2-10호선 개설공사",
@@ -7588,6 +7606,7 @@
       "department": "전국체전추진단",
       "project_name": "롤러스포츠 경기장 건립공사",
       "rendering_images": ["/renderings/sports-17/location.png"],
+      "rendering_image_types": ["위치도"],
       "carryover_items": [
         {
           "label": "롤러스포츠 경기장 건립",
@@ -7804,6 +7823,7 @@
       "department": "전국체전추진단",
       "project_name": "석우동 축구장 건립공사",
       "rendering_images": ["/renderings/sports-18/location.jpg"],
+      "rendering_image_types": ["위치도"],
       "carryover_items": [
         {
           "label": "석우동 축구장 건립",
@@ -8020,6 +8040,7 @@
       "department": "전국체전추진단",
       "project_name": "2027년 전국체육대회 경기장 개보수",
       "rendering_images": ["/renderings/sports-19/location.jpg"],
+      "rendering_image_types": ["위치도"],
       "carryover_items": [
         {
           "label": "2027년 전국체육대회 경기장 개보수",
@@ -8241,6 +8262,7 @@
         "/renderings/culture-1/3.png",
         "/renderings/culture-1/4.png"
       ],
+      "rendering_image_types": ["조감도", "조감도", "조감도", "조감도"],
       "overview": "○ 사업위치: 화성시 동탄구 노작로 134\n○ 사업규모: 연면적 5,695㎡(지하1층 ∼ 지상3층)\n○ 사업기간: 2025. ~ 2028.\n○ 사업내용: 센터내 문화동, 도서관동 리모델링",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
@@ -8453,6 +8475,7 @@
       "rendering_images": [
         "/renderings/culture-2/1.png"
       ],
+      "rendering_image_types": ["조감도"],
       "overview": "○ 사업위치: 화성시 동탄구 노작로 11-1 지하1층\n○ 사업규모: 좌석수 210석 (블랙박스형 공연장)\n○ 사업기간: 2024. ~ 2027.\n○ 사업내용: 지하 1층 일부 공간을 소공연장으로 조성",
       "category": "문화관광시설",
       "current_stage": "공사착공",
@@ -8669,6 +8692,7 @@
         "/renderings/culture-3/1.png",
         "/renderings/culture-3/2.jpg"
       ],
+      "rendering_image_types": ["위치도", "조감도", "조감도"],
       "gallery_images": [
         {
           "src": "/site-photos/culture-3/1.png",
@@ -8892,6 +8916,7 @@
       "rendering_images": [
         "/renderings/culture-5/1.png"
       ],
+      "rendering_image_types": ["조감도"],
       "overview": "○ 사업위치: 화성시 남양읍 홍난파길 32일원\n○ 사업규모: 부지 48,364㎡/ 건축연면적 1,657.8㎡(지상2층,지하1층)\n○ 사업기간: 2023. ~ 2030.06.\n○ 사업내용: 전시실, 다목적강좌, 작은도서관, 홍난파전시관 등 조성",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
@@ -9103,6 +9128,7 @@
       "rendering_images": [
         "/renderings/culture-8/1.png"
       ],
+      "rendering_image_types": ["위치도"],
       "overview": "○ 사업위치: 화성시 효행구 봉담읍 동화리 11-1번지\n○ 사업기간: 2027. ~ 2032.\n○ 사업내용: (구)농수산대학 유휴부지 활용 대공연장 건립",
       "category": "문화관광시설",
       "current_stage": "",
@@ -9178,6 +9204,7 @@
       "rendering_images": [
         "/renderings/culture-10/1.jpg"
       ],
+      "rendering_image_types": ["위치도"],
       "overview": "○ 사업위치: 화성시 정남면 발산리 405-6번지 일원(現 정남도서관 부지)\n○ 사업기간: 2027.01. ~ 2030.09.\n○ 사업내용: 구 정남면 청사부지 활용 복합문화센터 건립\n○ 총사업비: 건축기획 용역 추진에 따라 결정 예정",
       "category": "",
       "current_stage": "사전 행정절차",
@@ -9254,6 +9281,7 @@
         "/renderings/culture-6/location.webp",
         "/renderings/culture-6/1.png"
       ],
+      "rendering_image_types": ["위치도", "조감도"],
       "overview": "○ 사업위치: 화성시 병점복합타운 도시개발사업구역 업무시설7(병점동 899번지)\n○ 사업규모: 부지면적 4,251.2㎡, 연면적 9,000㎡, 지하1층/지상4층, 주차대수: 84대\n○ 사업기간: 2019.04. ~ 2028.12.\n○ 투심 결과: 56,300백만원 조건부\n○ 사업내용: ",
       "category": "문화관광시설",
       "current_stage": "설계",
@@ -9469,6 +9497,7 @@
       "rendering_images": [
         "/renderings/culture-7/1.png"
       ],
+      "rendering_image_types": ["조감도"],
       "overview": "○ 사업위치: 화성시 만세구 송산면 고정리 공룡알화석산지 내(송산그린시티 역사공원1)\n○ 사업규모: 부지면적 42,760㎡, 연면적 8,145.27㎡, 지하1층/지상2층\n○ 사업기간: 2013.03. ~ 2029.07.\n○ 사업내용: 자연과학 체험시설물 설치",
       "category": "문화관광시설",
       "current_stage": "설계",
@@ -9892,6 +9921,7 @@
         "/renderings/culture-9/1.png",
         "/renderings/culture-9/2.png"
       ],
+      "rendering_image_types": ["조감도", "위치도"],
       "overview": "○ 사업위치: 화성시 동탄구 석우동 51번지\n○ 사업규모: 연면적 4,900㎡(지하2층/지상4층), 주차대수 40대\n○ 사업기간: 2023.10. ~ 2030.10.\n○ 사업내용: 유휴부지 활용한 복합문화시설 개발",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
@@ -10519,6 +10549,7 @@
       "rendering_images": [
         "/renderings/library-2/1.png"
       ],
+      "rendering_image_types": ["조감도"],
       "carryover_items": [
         {
           "label": "(가칭)반월도서관 건립",
@@ -10737,6 +10768,7 @@
       "rendering_images": [
         "/renderings/library-3/1.png"
       ],
+      "rendering_image_types": ["조감도"],
       "carryover_items": [
         {
           "label": "(가칭)화성시 독서문화공간 조성",
@@ -11163,6 +11195,7 @@
       "rendering_images": [
         "/renderings/independence-1/1.png"
       ],
+      "rendering_image_types": ["조감도"],
       "overview": "○ 사업위치: 화성시 향남읍 제안리 21번지 일원\n○ 사업기간: 2016.4. ~ 2027.6.\n○ 사업내용: 독립운동문화공원 및 기념관 건립",
       "category": "문화관광시설",
       "current_stage": "보상 진행 중",
