@@ -77,7 +77,7 @@ export function InteractiveSelector({ options, onActiveClick, className = "", mi
             }}
           >
             {inset ? (
-              <img src={option.image} alt="" className="pointer-events-none absolute left-0 right-0 top-0 h-[68%] w-full object-contain object-top" />
+              <img src={option.image} alt="" className="pointer-events-none absolute left-0 right-0 top-0 h-[78%] w-full object-contain object-top" />
             ) : (
               <img src={option.image} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center" />
             )}
