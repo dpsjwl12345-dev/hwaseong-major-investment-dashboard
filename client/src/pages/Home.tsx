@@ -833,6 +833,8 @@ const SELECTOR_LOCATION_PROJECTS = new Set(["총괄데이터_5.xlsx:문화예술
 function LocationPanel({ project }: { project: Project }) {
   const renderings = project.rendering_images ?? [];
   const imagesTitle = project.rendering_images_title || "조감도";
+  // 펼침형 선택기를 쓰는 사업은 위치도와 조감도가 한 카드에 같이 있으므로 제목도 함께 쓴다.
+  const cardTitle = SELECTOR_LOCATION_PROJECTS.has(project.id) && (project.rendering_images?.length ?? 0) > 1 ? "위치도·조감도" : imagesTitle;
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   if (renderings.length === 0) return null;
   // 위치도 이미지 위에 쓰는 주소: 개요의 "사업위치"
@@ -840,7 +842,7 @@ function LocationPanel({ project }: { project: Project }) {
 
   return (
     <div className="pd-card">
-      <div className="pd-card-title"><DetailSectionHeading icon={GalleryIcon} title={imagesTitle} /></div>
+      <div className="pd-card-title"><DetailSectionHeading icon={GalleryIcon} title={cardTitle} /></div>
       {SELECTOR_LOCATION_PROJECTS.has(project.id) && renderings.length > 1 ? (
         // 이미지가 여러 장이면 누른 이미지만 크게 펼쳐 보이는 선택형으로(펼쳐진 이미지를 다시 누르면 확대 보기).
         <InteractiveSelector
