@@ -827,37 +827,33 @@ function realCoordsFor(project: Project): [number, number] | null {
   return [avgLon, avgLat];
 }
 
-// 위치도 탭의 이미지를 펼침형 선택기로 보여주는 사업(어린이 과학관).
-const SELECTOR_LOCATION_PROJECTS = new Set(["총괄데이터_5.xlsx:문화예술과:6"]);
+// 위치도 탭의 이미지는 누른 이미지만 크게 펼쳐 보이는 선택형으로 보여준다(이미지가 한 장이어도 같은 모양).
+// 파일 이름에 location이 들어가면 위치도(주소 표시), 나머지는 조감도로 본다.
+const isLocationImage = (src: string) => /location/i.test(src);
 
 function LocationPanel({ project }: { project: Project }) {
   const renderings = project.rendering_images ?? [];
   const imagesTitle = project.rendering_images_title || "조감도";
-  // 펼침형 선택기를 쓰는 사업은 위치도와 조감도가 한 카드에 같이 있으므로 제목도 함께 쓴다.
-  const cardTitle = SELECTOR_LOCATION_PROJECTS.has(project.id) && (project.rendering_images?.length ?? 0) > 1 ? "위치도·조감도" : imagesTitle;
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   if (renderings.length === 0) return null;
   // 위치도 이미지 위에 쓰는 주소: 개요의 "사업위치"
-  const locationAddress = parseKvPairs(project.overview).find((pair) => pair.label === "사업위치")?.value ?? project.project_name;
+  const locationAddress = parseKvPairs(project.overview).find((pair) => pair.label === "사업위치" || pair.label === "위치")?.value ?? project.project_name;
+  const hasLocation = renderings.some(isLocationImage);
+  const otherCount = renderings.filter((src) => !isLocationImage(src)).length;
+  // 위치도와 조감도가 한 카드에 같이 있으면 제목도 함께 쓴다.
+  const cardTitle = hasLocation ? (otherCount > 0 ? `위치도·${imagesTitle}` : "위치도") : imagesTitle;
+  let otherIndex = 0;
+  const options = renderings.map((src) => {
+    if (isLocationImage(src)) return { image: src, title: "위치도", description: locationAddress, icon: <MapPin size={22} className="text-white" /> };
+    otherIndex += 1;
+    return { image: src, title: otherCount > 1 ? `${imagesTitle} ${otherIndex}` : imagesTitle, description: project.project_name, icon: <Image size={22} className="text-white" /> };
+  });
 
   return (
     <div className="pd-card">
       <div className="pd-card-title"><DetailSectionHeading icon={GalleryIcon} title={cardTitle} /></div>
-      {SELECTOR_LOCATION_PROJECTS.has(project.id) && renderings.length > 1 ? (
-        // 이미지가 여러 장이면 누른 이미지만 크게 펼쳐 보이는 선택형으로(펼쳐진 이미지를 다시 누르면 확대 보기).
-        <InteractiveSelector
-          options={renderings.map((src, index) => ({ image: src, title: /location/i.test(src) ? "위치도" : renderings.length > 2 ? `${imagesTitle} ${index}` : imagesTitle, description: /location/i.test(src) ? locationAddress : project.project_name, icon: /location/i.test(src) ? <MapPin size={22} className="text-white" /> : <Image size={22} className="text-white" /> }))}
-          onActiveClick={setLightboxIndex}
-        />
-      ) : (
-      <div className="pd-rendering-grid" data-count={Math.min(renderings.length, 4)}>
-        {renderings.map((src, index) => (
-          <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} ${imagesTitle} ${index + 1} 확대 보기`}>
-            <img src={src} alt={`${project.project_name} ${imagesTitle} ${index + 1}`} />
-          </button>
-        ))}
-      </div>
-      )}
+      {/* 펼쳐진 이미지를 다시 누르면 확대 보기 */}
+      <InteractiveSelector options={options} onActiveClick={setLightboxIndex} />
       {lightboxIndex !== null && (
         <RenderingLightbox
           images={renderings}
