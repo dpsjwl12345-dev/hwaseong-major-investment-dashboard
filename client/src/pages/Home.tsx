@@ -838,10 +838,9 @@ function LocationPanel({ project }: { project: Project }) {
   if (renderings.length === 0) return null;
   // 위치도 이미지 위에 쓰는 주소: 개요의 "사업위치"
   const locationAddress = parseKvPairs(project.overview).find((pair) => pair.label === "사업위치" || pair.label === "위치")?.value ?? project.project_name;
-  const hasLocation = renderings.some(isLocationImage);
   const otherCount = renderings.filter((src) => !isLocationImage(src)).length;
-  // 위치도와 조감도가 한 카드에 같이 있으면 제목도 함께 쓴다.
-  const cardTitle = hasLocation ? (otherCount > 0 ? `위치도·${imagesTitle}` : "위치도") : imagesTitle;
+  // 이 탭의 카드 제목은 이미지 종류와 관계없이 모든 사업이 "위치도·조감도"로 같다.
+  const cardTitle = `위치도·${imagesTitle}`;
   let otherIndex = 0;
   const options = renderings.map((src) => {
     if (isLocationImage(src)) return { image: src, title: "위치도", description: locationAddress, icon: <MapPin size={22} className="text-white" /> };
