@@ -46,8 +46,9 @@ export function InteractiveSelector({ options, onActiveClick, className = "", mi
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, [options.length]);
 
+  // 가로가 아주 넓은 카드 안에서도 이미지가 늘어나 깨져 보이지 않도록 폭을 제한하고, 높이는 폭에 비례(약 2.2:1)하게 둔다.
   return (
-    <div className={`interactive-selector flex h-[320px] w-full items-stretch overflow-hidden md:h-[420px] ${className}`}>
+    <div className={`interactive-selector mx-auto flex aspect-[2.2/1] min-h-[260px] w-full max-w-[960px] items-stretch overflow-hidden ${className}`}>
       {options.map((option, index) => {
         const isActive = activeIndex === index;
         const isShown = animatedOptions.includes(index);
@@ -62,12 +63,12 @@ export function InteractiveSelector({ options, onActiveClick, className = "", mi
             className="relative flex flex-col justify-end overflow-hidden text-left transition-all duration-700 ease-in-out"
             style={{
               ...(inset
-                ? { background: "linear-gradient(180deg, #5b5b5b 0%, #2b2b2b 100%)" }
-                : { backgroundImage: `url('${option.image}')`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#18181b" }),
+                ? { background: "linear-gradient(180deg, var(--pd-surface-raised, #1b2340) 0%, var(--pd-surface-sunken, #0f1424) 100%)" }
+                : { backgroundColor: "var(--pd-surface-sunken, #0f1424)" }),
               opacity: isShown ? 1 : 0,
               transform: isShown ? "translateX(0)" : "translateX(-60px)",
               minWidth: 60,
-              border: `2px solid ${isActive ? "#fff" : "#292929"}`,
+              border: `2px solid ${isActive ? "var(--pd-text-muted, #a8afd1)" : "var(--pd-border, #262e4d)"}`,
               boxShadow: isActive ? "0 20px 60px rgba(0,0,0,.5)" : "0 10px 30px rgba(0,0,0,.3)",
               flex: isActive ? "7 1 0%" : "1 1 0%",
               zIndex: isActive ? 10 : 1,
@@ -75,18 +76,22 @@ export function InteractiveSelector({ options, onActiveClick, className = "", mi
               willChange: "flex-grow, box-shadow, background-size",
             }}
           >
-            {inset && <img src={option.image} alt="" className="pointer-events-none absolute left-0 right-0 top-0 h-[68%] w-full object-contain object-top" />}
+            {inset ? (
+              <img src={option.image} alt="" className="pointer-events-none absolute left-0 right-0 top-0 h-[68%] w-full object-contain object-top" />
+            ) : (
+              <img src={option.image} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center" />
+            )}
             <div
               className="pointer-events-none absolute left-0 right-0 transition-all duration-700 ease-in-out"
               style={{
                 bottom: isActive ? 0 : -40,
                 height: 120,
-                boxShadow: isActive ? "inset 0 -120px 120px -120px #000, inset 0 -120px 120px -80px #000" : "inset 0 -120px 0 -120px #000, inset 0 -120px 0 -80px #000",
+                boxShadow: isActive ? "inset 0 -120px 120px -120px #0a0e1a, inset 0 -120px 120px -80px #0a0e1a" : "inset 0 -120px 0 -120px #0a0e1a, inset 0 -120px 0 -80px #0a0e1a",
               }}
             />
             <div className="pointer-events-none absolute bottom-5 left-0 right-0 z-[2] flex min-h-12 w-full items-center justify-start gap-3 px-4">
               {option.icon && (
-                <div className="flex h-[44px] min-w-[44px] max-w-[44px] flex-none items-center justify-center rounded-full border-2 border-[#444] bg-[rgba(32,32,32,.85)] shadow-[0_1px_4px_rgba(0,0,0,.18)] backdrop-blur-[10px]">
+                <div className="flex h-[44px] min-w-[44px] max-w-[44px] flex-none items-center justify-center rounded-full border-2 border-[var(--pd-border)] bg-[rgba(15,20,36,.85)] shadow-[0_1px_4px_rgba(0,0,0,.18)] backdrop-blur-[10px]">
                   {option.icon}
                 </div>
               )}
