@@ -17,6 +17,8 @@ type MatrixSection = {
   unit: string;
   years: string[];
   stages: string[];
+  // 연도별 추진 내용(있으면 표 머리글 아래 "추진 내용" 줄로 보여준다)
+  stageNotes?: string[];
   extraColumns: string[];
   rows: DetailRow[];
 };
@@ -42,6 +44,9 @@ type GridSection = {
 };
 
 type DetailSection = MatrixSection | GridSection;
+
+// 연도별 예산현황 표를 맨 위에 두고, 글씨를 1pt 키우고 표 안에 얇은 세로선을 넣는 사업.
+const BUDGET_FIRST_PROJECTS = new Set(["총괄데이터_5.xlsx:문화예술과:6"]);
 
 const detailByProject = budgetDetailData as unknown as Record<string, { sections: DetailSection[] }>;
 
@@ -80,8 +85,10 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
     .map((column, columnIndex) => ({ column, entries: items.filter((item) => item.extra[columnIndex]).map((item) => `${item.name} ${item.extra[columnIndex]}`) }))
     .filter((note) => note.entries.length > 0)
     .map((note) => `${note.column}: ${note.entries.join(", ")}`);
-  const stageLine = years.filter(({ index }) => section.stages[index]).map(({ year, index }) => `${year} ${section.stages[index].replace(/\n/g, " ")}`).join(" · ");
-  const notes = [...extraNotes,...(emptyYears.length ? [`${emptyYears.join("·")}: 편성 없음`] : []), ...(items.some((item) => item.flags.some((index) => parseAmount(item.values[index]) > 0)) ? ["노란 밑줄은 원본 예산서의 표시"] : [])].join(" · ");
+  const hasNotes = !!section.stageNotes?.some((note) => note);
+  const stageLine = hasNotes ? "" : years.filter(({ index }) => section.stages[index]).map(({ year, index }) => `${year} ${section.stages[index].replace(/\n/g, " ")}`).join(" · ");
+  const emptyYearNote = (year: string) => { const note = section.stageNotes?.[section.years.indexOf(year)]?.replace(/\n/g, " "); return note ? `${year}(${note})` : year; };
+  const notes = [...extraNotes,...(emptyYears.length ? [`${emptyYears.map(emptyYearNote).join("·")}: 편성 없음`] : []), ...(items.some((item) => item.flags.some((index) => parseAmount(item.values[index]) > 0)) ? ["노란 밑줄은 원본 예산서의 표시"] : [])].join(" · ");
   const amountCell = (value: number, year: string, key: string, options: { color?: string; flag?: boolean } = {}) => (
     <td key={key} className={`tl-cell${isSelected(year) ? " is-selected" : ""}${options.flag && value > 0 ? " is-flag" : ""}`} title={value > 0 ? `${year} ${thousandText(value)}` : undefined}>
       {value > 0 && (
@@ -115,6 +122,13 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
             </tr>
           </thead>
           <tbody>
+            {hasNotes && (
+              <tr className="tl-notes">
+                <td>추진 내용</td>
+                <td />
+                {years.map(({ year, index }) => <td key={year} className={isSelected(year) ? "is-selected" : undefined}>{section.stageNotes?.[index]}</td>)}
+              </tr>
+            )}
             <tr className="tl-total">
               <td>합계</td>
               <td title={thousandText(parseAmount(totalRow?.total))}>{fmtMillion(parseAmount(totalRow?.total) / 1000)}</td>
@@ -151,7 +165,8 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
 }
 
 // 예산현황표와 지출현황표를 연도별로 맞대어: 그해 예산, 지출, 집행률(막대). 계는 지출이 있을 수 있는 해(~2026)까지만 비교한다.
-function ExecutionSummary({ budget, spend, selectedYear }: { budget: MatrixSection; spend: MatrixSection; selectedYear?: PlanYearKey }) {
+// spendDetail: 지출현황표(과목×연도)를 이 표 아래쪽 "과목별 지출" 줄로 합쳐, 합계 지출 줄과 지출현황표가 겹치지 않게 한다.
+function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false }: { budget: MatrixSection; spend: MatrixSection; selectedYear?: PlanYearKey; spendDetail?: boolean }) {
   const budgetTotal = budget.rows.find((row) => row.kind === "total");
   const spendTotal = spend.rows.find((row) => row.kind === "total");
   const valueAt = (section: MatrixSection, total: DetailRow | undefined, year: string) => {
@@ -187,6 +202,26 @@ function ExecutionSummary({ budget, spend, selectedYear }: { budget: MatrixSecti
   const unusedIndex = spend.extraColumns.indexOf("불용");
   const unused = unusedIndex >= 0 ? spend.rows.reduce((sum, row) => sum + parseAmount(row.extra?.[unusedIndex]), 0) : 0;
   const spendGap = parseAmount(spendTotal?.total) - spend.years.reduce((sum, year) => sum + (valueAt(spend, spendTotal, year) ?? 0), 0);
+  const spendItems: { group: string; name: string; total: string; values: string[]; extra: string[] }[] = [];
+  let spendGroup = "";
+  let spendMiddle = "";
+  spend.rows.forEach((row) => {
+    if (row.kind === "total") return;
+    if (row.l1) spendGroup = row.l1;
+    if (row.l2) spendMiddle = row.l2;
+    spendItems.push({ group: spendGroup, name: row.l3 || row.l2 || spendMiddle, total: row.total, values: row.values, extra: row.extra ?? [] });
+  });
+  const spendGroups = Array.from(new Set(spendItems.map((item) => item.group))).map((name, order) => ({ name, color: GROUP_COLORS[order % GROUP_COLORS.length], members: spendItems.filter((item) => item.group === name) }));
+  const spendAt = (list: typeof spendItems, year: string) => {
+    const index = spend.years.indexOf(year);
+    return index >= 0 ? list.reduce((sum, item) => sum + parseAmount(item.values[index]), 0) : null;
+  };
+  const spendExtraNotes = spendDetail
+    ? spend.extraColumns
+        .map((column, columnIndex) => ({ column, entries: spendItems.filter((item) => item.extra[columnIndex]).map((item) => `${item.name} ${item.extra[columnIndex]}${column === "불용" ? "천원" : ""}`) }))
+        .filter((note) => note.entries.length > 0)
+        .map((note) => `${note.column}: ${note.entries.join(", ")}`)
+    : [];
   const gapNote = spendGap !== 0 ? ` 지출 계는 연도별 지출의 합으로, 지출현황표 계보다 ${thousandText(spendGap)} 적음${unused === spendGap ? "(불용액)" : ""}.` : "";
   return (
     <>
@@ -224,10 +259,32 @@ function ExecutionSummary({ budget, spend, selectedYear }: { budget: MatrixSecti
               {rateCell(rate(pastSpend, pastBudget), "계")}
               {years.map((entry) => rateCell(rate(entry.spend, entry.budget), entry.year, isSelected(entry.year)))}
             </tr>
+            {spendDetail && (
+              <>
+                <tr className="tl-subhead"><td colSpan={years.length + 2}>과목별 지출</td></tr>
+                {spendGroups.map(({ name, color, members }) => {
+                  const single = members.length === 1 ? members[0] : null;
+                  return [
+                    <tr key={`${name}-group`} className="tl-stage tl-group">
+                      <td><i style={{ background: color }} aria-hidden="true" />{name}</td>
+                      {amount(members.reduce((sum, item) => sum + parseAmount(item.total), 0), "계")}
+                      {years.map(({ year }) => amount(spendAt(members, year), year))}
+                    </tr>,
+                    ...(single ? [] : members.map((item) => (
+                      <tr key={`${name}-${item.name}`} className="tl-item">
+                        <td>{item.name}</td>
+                        {amount(parseAmount(item.total), "계")}
+                        {years.map(({ year }) => amount(spendAt([item], year), year))}
+                      </tr>
+                    ))),
+                  ];
+                })}
+              </>
+            )}
           </tbody>
         </table>
       </div>
-      <p className="pl-notes">※ 집행률 = 지출 ÷ 그해 예산(막대는 100%까지). 50% 미만은 주황, 100% 초과(이월분 집행 등)는 파랑. 지출 자료가 없는 연도는 비워 둠.{gapNote}</p>
+      <p className="pl-notes">※ 집행률 = 지출 ÷ 그해 예산(막대는 100%까지). 50% 미만은 주황, 100% 초과(이월분 집행 등)는 파랑. 지출 자료가 없는 연도는 비워 둠.{gapNote}{spendExtraNotes.length > 0 && ` ${spendExtraNotes.join(" · ")}`}</p>
     </>
   );
 }
@@ -500,28 +557,42 @@ export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: stri
   const matrices = detail.sections.filter((section): section is MatrixSection => section.kind !== "grid");
   const budgetMatrix = matrices.find((section) => section.title.includes("예산현황"));
   const spendMatrix = matrices.find((section) => section.title.includes("지출현황"));
-  return (
-    <div className="pd-detail-attached-group">
-      {budgetMatrix && spendMatrix && (
-        <div className="pd-stacked-panel">
-          <div className="pd-card bd-card"><ExecutionSummary budget={budgetMatrix} spend={spendMatrix} selectedYear={selectedYear} /></div>
+  const renderSection = (section: DetailSection, isLast: boolean) => (
+    <div key={section.title} className={`pd-stacked-panel${isLast ? " pd-attached-last" : ""}`}>
+      {section.kind === "grid" && section.variant === "cost-schedule" ? (
+        <div className="pd-card bd-card"><CostScheduleView section={section} /></div>
+      ) : section.kind === "grid" && section.variant === "cost-breakdown" ? (
+        <div className="pd-card bd-card"><CostBreakdownView section={section} /></div>
+      ) : section.kind === "grid" && section.variant !== "plan" ? (
+        <GridTable section={section} />
+      ) : (
+        <div className="pd-card bd-card">
+          {section.kind === "grid" ? <PlanTable section={section} selectedYear={selectedYear} /> : <MatrixYearTable section={section} selectedYear={selectedYear} />}
         </div>
       )}
-      {detail.sections.map((section, index) => (
-        <div key={section.title} className={`pd-stacked-panel${index === detail.sections.length - 1 ? " pd-attached-last" : ""}`}>
-          {section.kind === "grid" && section.variant === "cost-schedule" ? (
-            <div className="pd-card bd-card"><CostScheduleView section={section} /></div>
-          ) : section.kind === "grid" && section.variant === "cost-breakdown" ? (
-            <div className="pd-card bd-card"><CostBreakdownView section={section} /></div>
-          ) : section.kind === "grid" && section.variant !== "plan" ? (
-            <GridTable section={section} />
-          ) : (
-            <div className="pd-card bd-card">
-              {section.kind === "grid" ? <PlanTable section={section} selectedYear={selectedYear} /> : <MatrixYearTable section={section} selectedYear={selectedYear} />}
-            </div>
-          )}
-        </div>
-      ))}
+    </div>
+  );
+  const executionPanel = (isLast: boolean, spendDetail: boolean) => budgetMatrix && spendMatrix && (
+    <div key="execution" className={`pd-stacked-panel${isLast ? " pd-attached-last" : ""}`}>
+      <div className="pd-card bd-card"><ExecutionSummary budget={budgetMatrix} spend={spendMatrix} selectedYear={selectedYear} spendDetail={spendDetail} /></div>
+    </div>
+  );
+  // 연도별 예산현황 표를 먼저 보여주는 사업(어린이 과학관): 예산현황 → 예산 대비 지출(지출현황표를 한 표로 합침) → 나머지.
+  // 합계 지출 줄과 지출현황표 합계가 같은 내용이라 두 표를 하나로 정리한다.
+  if (BUDGET_FIRST_PROJECTS.has(projectId) && budgetMatrix && spendMatrix) {
+    const rest = detail.sections.filter((section) => section !== budgetMatrix && section !== spendMatrix);
+    return (
+      <div className="pd-detail-attached-group bd-large-lined">
+        {renderSection(budgetMatrix, false)}
+        {executionPanel(rest.length === 0, true)}
+        {rest.map((section, index) => renderSection(section, index === rest.length - 1))}
+      </div>
+    );
+  }
+  return (
+    <div className="pd-detail-attached-group">
+      {executionPanel(false, false)}
+      {detail.sections.map((section, index) => renderSection(section, index === detail.sections.length - 1))}
     </div>
   );
 }
