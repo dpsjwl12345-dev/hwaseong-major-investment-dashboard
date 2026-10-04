@@ -835,6 +835,8 @@ function LocationPanel({ project }: { project: Project }) {
   const imagesTitle = project.rendering_images_title || "조감도";
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   if (renderings.length === 0) return null;
+  // 위치도 이미지 위에 쓰는 주소: 개요의 "사업위치"
+  const locationAddress = parseKvPairs(project.overview).find((pair) => pair.label === "사업위치")?.value ?? project.project_name;
 
   return (
     <div className="pd-card">
@@ -842,7 +844,7 @@ function LocationPanel({ project }: { project: Project }) {
       {SELECTOR_LOCATION_PROJECTS.has(project.id) && renderings.length > 1 ? (
         // 이미지가 여러 장이면 누른 이미지만 크게 펼쳐 보이는 선택형으로(펼쳐진 이미지를 다시 누르면 확대 보기).
         <InteractiveSelector
-          options={renderings.map((src, index) => ({ image: src, title: /location/i.test(src) ? "위치도" : `${imagesTitle} ${index}`, description: project.project_name, icon: /location/i.test(src) ? <MapPin size={22} className="text-white" /> : <Image size={22} className="text-white" /> }))}
+          options={renderings.map((src, index) => ({ image: src, title: /location/i.test(src) ? "위치도" : renderings.length > 2 ? `${imagesTitle} ${index}` : imagesTitle, description: /location/i.test(src) ? locationAddress : project.project_name, icon: /location/i.test(src) ? <MapPin size={22} className="text-white" /> : <Image size={22} className="text-white" /> }))}
           onActiveClick={setLightboxIndex}
         />
       ) : (
