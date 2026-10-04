@@ -9364,3 +9364,5 @@ main.app-main.app-main-flush .hero-panel {
 .bd-large-lined .tl-table .tl-notes td:first-child { color: #e6efff; font-weight: 700; text-align: left; vertical-align: middle; padding-left: 18px; }
 .bd-large-lined .tl-table .tl-notes td.is-selected { background: rgba(57, 135, 229, .12); }
 .bd-large-lined .tl-table .tl-subhead td { padding: 10px 18px; background: rgba(57, 135, 229, .16); border-bottom: 1px solid #3987e5; color: #e6efff; font-size: calc(15px + 1pt); font-weight: 800; text-align: left; }
+/* 어린이 과학관: 감리비 부연 설명(건설사업관리(CM))을 아래 줄이 아니라 같은 줄에 */
+.bd-large-lined .tl-table .tl-sub-line { display: inline; margin: 0 0 0 8px; white-space: nowrap; }
