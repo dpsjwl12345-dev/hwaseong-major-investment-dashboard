@@ -46,9 +46,9 @@ export function InteractiveSelector({ options, onActiveClick, className = "", mi
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, [options.length]);
 
-  // 가로가 아주 넓은 카드 안에서도 이미지가 늘어나 깨져 보이지 않도록 폭을 제한하고, 높이는 폭에 비례(약 2.2:1)하게 둔다.
+  // 가로가 아주 넓은 카드 안에서도 이미지가 늘어나 깨져 보이지 않도록 폭을 제한(최대 1100px)하고, 높이는 폭에 비례(약 2.2:1)하게 둔다.
   return (
-    <div className={`interactive-selector mx-auto flex aspect-[2.2/1] min-h-[260px] w-full max-w-[960px] items-stretch overflow-hidden ${className}`}>
+    <div className={`interactive-selector mx-auto flex aspect-[2.2/1] min-h-[260px] w-full max-w-[1100px] items-stretch overflow-hidden ${className}`}>
       {options.map((option, index) => {
         const isActive = activeIndex === index;
         const isShown = animatedOptions.includes(index);
