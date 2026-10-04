@@ -46,8 +46,9 @@ export function InteractiveSelector({ options, onActiveClick, className = "", mi
     return () => timers.forEach((timer) => clearTimeout(timer));
   }, [options.length]);
 
+  // 가로가 아주 넓은 카드 안에서도 이미지가 늘어나 깨져 보이지 않도록 폭을 제한하고, 높이는 폭에 비례(약 2.2:1)하게 둔다.
   return (
-    <div className={`interactive-selector flex h-[320px] w-full items-stretch overflow-hidden md:h-[420px] ${className}`}>
+    <div className={`interactive-selector mx-auto flex aspect-[2.2/1] min-h-[260px] w-full max-w-[960px] items-stretch overflow-hidden ${className}`}>
       {options.map((option, index) => {
         const isActive = activeIndex === index;
         const isShown = animatedOptions.includes(index);
@@ -63,7 +64,7 @@ export function InteractiveSelector({ options, onActiveClick, className = "", mi
             style={{
               ...(inset
                 ? { background: "linear-gradient(180deg, #5b5b5b 0%, #2b2b2b 100%)" }
-                : { backgroundImage: `url('${option.image}')`, backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center", backgroundColor: "#18181b" }),
+                : { backgroundColor: "#18181b" }),
               opacity: isShown ? 1 : 0,
               transform: isShown ? "translateX(0)" : "translateX(-60px)",
               minWidth: 60,
@@ -75,7 +76,11 @@ export function InteractiveSelector({ options, onActiveClick, className = "", mi
               willChange: "flex-grow, box-shadow, background-size",
             }}
           >
-            {inset && <img src={option.image} alt="" className="pointer-events-none absolute left-0 right-0 top-0 h-[68%] w-full object-contain object-top" />}
+            {inset ? (
+              <img src={option.image} alt="" className="pointer-events-none absolute left-0 right-0 top-0 h-[68%] w-full object-contain object-top" />
+            ) : (
+              <img src={option.image} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center" />
+            )}
             <div
               className="pointer-events-none absolute left-0 right-0 transition-all duration-700 ease-in-out"
               style={{
