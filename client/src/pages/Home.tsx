@@ -96,6 +96,8 @@ type Project = {
   management_card_source: string;
   gallery_images?: { src: string; alt?: string; caption?: string }[];
   rendering_images?: string[];
+  // rendering_images와 같은 순서로 각 이미지의 종류(위치도/조감도). 없으면 파일명에 location이 들어가면 위치도.
+  rendering_image_types?: ("위치도" | "조감도")[];
   overview_images?: string[];
   overview_images_title?: string;
   // 이미지 묶음 제목(기본 "조감도"). 위치도만 있는 사업은 "위치도"로 바꿔 쓴다.
@@ -838,22 +840,31 @@ function LocationPanel({ project }: { project: Project }) {
   if (renderings.length === 0) return null;
   // 위치도 이미지 위에 쓰는 주소: 개요의 "사업위치"
   const locationAddress = parseKvPairs(project.overview).find((pair) => pair.label === "사업위치" || pair.label === "위치")?.value ?? project.project_name;
-  const hasLocation = renderings.some(isLocationImage);
-  const otherCount = renderings.filter((src) => !isLocationImage(src)).length;
-  // 위치도와 조감도가 한 카드에 같이 있으면 제목도 함께 쓴다.
-  const cardTitle = hasLocation ? (otherCount > 0 ? `위치도·${imagesTitle}` : "위치도") : imagesTitle;
-  let otherIndex = 0;
-  const options = renderings.map((src) => {
-    if (isLocationImage(src)) return { image: src, title: "위치도", description: locationAddress, icon: <MapPin size={22} className="text-white" /> };
-    otherIndex += 1;
-    return { image: src, title: otherCount > 1 ? `${imagesTitle} ${otherIndex}` : imagesTitle, description: project.project_name, icon: <Image size={22} className="text-white" /> };
+  // 이 탭의 카드 제목은 이미지 종류와 관계없이 모든 사업이 "위치도·조감도"로 같다.
+  const cardTitle = `위치도·${imagesTitle}`;
+  // 이미지마다 종류(위치도/조감도)를 붙이고, 위치도를 먼저 → 조감도 순으로 보여준다(같은 종류끼리는 원래 순서).
+  const typeOf = (src: string, index: number) => project.rendering_image_types?.[index] ?? (isLocationImage(src) ? "위치도" : "조감도");
+  const entries = renderings
+    .map((src, index) => ({ src, index, type: typeOf(src, index) }))
+    .sort((a, b) => (a.type === b.type ? a.index - b.index : a.type === "위치도" ? -1 : 1));
+  const countOf = (type: string) => entries.filter((entry) => entry.type === type).length;
+  const seen: Record<string, number> = {};
+  const options = entries.map((entry) => {
+    seen[entry.type] = (seen[entry.type] ?? 0) + 1;
+    const label = entry.type === "위치도" ? "위치도" : imagesTitle;
+    return {
+      image: entry.src,
+      title: countOf(entry.type) > 1 ? `${label} ${seen[entry.type]}` : label,
+      description: entry.type === "위치도" ? locationAddress : project.project_name,
+      icon: entry.type === "위치도" ? <MapPin size={22} className="text-white" /> : <Image size={22} className="text-white" />,
+    };
   });
 
   return (
     <div className="pd-card">
       <div className="pd-card-title"><DetailSectionHeading icon={GalleryIcon} title={cardTitle} /></div>
-      {/* 펼쳐진 이미지를 다시 누르면 확대 보기 */}
-      <InteractiveSelector options={options} onActiveClick={setLightboxIndex} />
+      {/* 펼쳐진 이미지를 다시 누르면 확대 보기(확대 보기는 원래 이미지 순서 기준) */}
+      <InteractiveSelector options={options} onActiveClick={(index) => setLightboxIndex(entries[index].index)} />
       {lightboxIndex !== null && (
         <RenderingLightbox
           images={renderings}
