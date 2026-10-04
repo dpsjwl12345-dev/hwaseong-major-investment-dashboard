@@ -23,6 +23,7 @@ import {
   Save,
   Plus,
   ChevronUp,
+  Image,
 } from "lucide-react";
 import {
   TagIcon,
@@ -50,6 +51,7 @@ import { ProjectLocationMap, type ProjectLocationMapData } from "../components/P
 import { InvestmentRealMap } from "../components/InvestmentRealMap";
 import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
 import { Timeline, TimelineContent, TimelineDate, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator } from "@/components/ui/timeline";
+import { InteractiveSelector } from "@/components/ui/interactive-selector";
 import { BudgetDetailPanel, hasBudgetDetail } from "../components/BudgetDetailPanel";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
@@ -825,6 +827,9 @@ function realCoordsFor(project: Project): [number, number] | null {
   return [avgLon, avgLat];
 }
 
+// 위치도 탭의 이미지를 펼침형 선택기로 보여주는 사업(어린이 과학관).
+const SELECTOR_LOCATION_PROJECTS = new Set(["총괄데이터_5.xlsx:문화예술과:6"]);
+
 function LocationPanel({ project }: { project: Project }) {
   const renderings = project.rendering_images ?? [];
   const imagesTitle = project.rendering_images_title || "조감도";
@@ -834,6 +839,13 @@ function LocationPanel({ project }: { project: Project }) {
   return (
     <div className="pd-card">
       <div className="pd-card-title"><DetailSectionHeading icon={GalleryIcon} title={imagesTitle} /></div>
+      {SELECTOR_LOCATION_PROJECTS.has(project.id) && renderings.length > 1 ? (
+        // 이미지가 여러 장이면 누른 이미지만 크게 펼쳐 보이는 선택형으로(펼쳐진 이미지를 다시 누르면 확대 보기).
+        <InteractiveSelector
+          options={renderings.map((src, index) => ({ image: src, title: /location/i.test(src) ? "위치도" : `${imagesTitle} ${index}`, description: project.project_name, icon: /location/i.test(src) ? <MapPin size={22} className="text-white" /> : <Image size={22} className="text-white" /> }))}
+          onActiveClick={setLightboxIndex}
+        />
+      ) : (
       <div className="pd-rendering-grid" data-count={Math.min(renderings.length, 4)}>
         {renderings.map((src, index) => (
           <button type="button" key={src} className="pd-rendering-thumb" onClick={() => setLightboxIndex(index)} aria-label={`${project.project_name} ${imagesTitle} ${index + 1} 확대 보기`}>
@@ -841,6 +853,7 @@ function LocationPanel({ project }: { project: Project }) {
           </button>
         ))}
       </div>
+      )}
       {lightboxIndex !== null && (
         <RenderingLightbox
           images={renderings}
