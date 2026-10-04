@@ -9363,3 +9363,4 @@ main.app-main.app-main-flush .hero-panel {
 .bd-large-lined .tl-table .tl-notes td { padding: 10px 10px; background: rgba(255, 255, 255, .03); border-bottom: 1px solid var(--pd-border); color: var(--pd-text-muted); font-size: calc(13px + 1pt); font-weight: 500; line-height: 1.45; text-align: center; vertical-align: top; white-space: pre-line; }
 .bd-large-lined .tl-table .tl-notes td:first-child { color: #e6efff; font-weight: 700; text-align: left; vertical-align: middle; padding-left: 18px; }
 .bd-large-lined .tl-table .tl-notes td.is-selected { background: rgba(57, 135, 229, .12); }
+.bd-large-lined .tl-table .tl-subhead td { padding: 10px 18px; background: rgba(57, 135, 229, .16); border-bottom: 1px solid #3987e5; color: #e6efff; font-size: calc(15px + 1pt); font-weight: 800; text-align: left; }
