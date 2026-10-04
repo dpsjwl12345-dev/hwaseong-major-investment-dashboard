@@ -16,22 +16,26 @@ type InteractiveSelectorProps = {
   className?: string;
   /** mode가 없을 때 이 가로 픽셀 미만이면 작은 이미지(inset)로 본다. */
   minFullWidth?: number;
+  /** mode가 없을 때, 이미지 비율이 패널 비율(가로/세로)에서 이 비율 넘게 어긋나면 잘리므로 inset으로 본다. */
+  maxRatioGap?: number;
 };
+
+const PANEL_RATIO = 2.2;
 
 // 이미지 여러 장을 가로로 나열하고, 누른 패널만 크게 펼쳐 보여주는 선택기.
 // 원본(21st.dev)은 Next 전용 <style jsx>와 react-icons를 썼으나, 이 프로젝트(Vite + Tailwind)에 맞게
 // 일반 <style>·props 기반으로 바꾸고 아이콘은 호출하는 쪽에서 받는다.
-export function InteractiveSelector({ options, onActiveClick, className = "", minFullWidth = 1000 }: InteractiveSelectorProps) {
+export function InteractiveSelector({ options, onActiveClick, className = "", minFullWidth = 1000, maxRatioGap = 0.2 }: InteractiveSelectorProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animatedOptions, setAnimatedOptions] = useState<number[]>([]);
-  const [naturalWidths, setNaturalWidths] = useState<Record<string, number>>({});
+  const [naturalSizes, setNaturalSizes] = useState<Record<string, { w: number; h: number }>>({});
 
   // 이미지 원본 가로 크기를 미리 읽어, 작은 이미지는 늘리지 않고 위쪽에 얹어 보여준다.
   useEffect(() => {
     options.forEach((option) => {
       if (option.mode) return;
       const probe = new window.Image();
-      probe.onload = () => setNaturalWidths((prev) => ({ ...prev, [option.image]: probe.naturalWidth }));
+      probe.onload = () => setNaturalSizes((prev) => ({ ...prev, [option.image]: { w: probe.naturalWidth, h: probe.naturalHeight } }));
       probe.src = option.image;
     });
   }, [options]);
@@ -52,7 +56,10 @@ export function InteractiveSelector({ options, onActiveClick, className = "", mi
       {options.map((option, index) => {
         const isActive = activeIndex === index;
         const isShown = animatedOptions.includes(index);
-        const inset = (option.mode ?? ((naturalWidths[option.image] ?? Infinity) < minFullWidth ? "inset" : "full")) === "inset";
+        const size = naturalSizes[option.image];
+        // 충분히 크고 패널 비율(2.2:1)에 가까운 이미지만 꽉 채우고, 나머지는 위쪽에 원본 비율로 얹는다.
+        const autoMode = !size || size.w < minFullWidth || Math.abs(size.w / size.h / PANEL_RATIO - 1) > maxRatioGap ? "inset" : "full";
+        const inset = (option.mode ?? autoMode) === "inset";
         return (
           <button
             type="button"
