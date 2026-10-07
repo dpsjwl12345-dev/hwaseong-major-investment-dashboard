@@ -19,6 +19,7 @@ type MatrixSection = {
   stages: string[];
   // 연도별 추진 내용(있으면 표 머리글 아래 "추진 내용" 줄로 보여준다)
   stageNotes?: string[];
+  notes?: string[];
   extraColumns: string[];
   rows: DetailRow[];
 };
@@ -46,7 +47,7 @@ type GridSection = {
 type DetailSection = MatrixSection | GridSection;
 
 // 연도별 예산현황 표를 맨 위에 두고, 글씨를 1pt 키우고 표 안에 얇은 세로선을 넣는 사업.
-const BUDGET_FIRST_PROJECTS = new Set(["총괄데이터_5.xlsx:문화예술과:6"]);
+const BUDGET_FIRST_PROJECTS = new Set(["총괄데이터_5.xlsx:문화예술과:6", "총괄데이터_5.xlsx:문화예술과:7"]);
 
 const detailByProject = budgetDetailData as unknown as Record<string, { sections: DetailSection[] }>;
 
@@ -88,7 +89,7 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
   const hasNotes = !!section.stageNotes?.some((note) => note);
   const stageLine = hasNotes ? "" : years.filter(({ index }) => section.stages[index]).map(({ year, index }) => `${year} ${section.stages[index].replace(/\n/g, " ")}`).join(" · ");
   const emptyYearNote = (year: string) => { const note = section.stageNotes?.[section.years.indexOf(year)]?.replace(/\n/g, " "); return note ? `${year}(${note})` : year; };
-  const notes = [...extraNotes,...(emptyYears.length ? [`${emptyYears.map(emptyYearNote).join("·")}: 편성 없음`] : []), ...(items.some((item) => item.flags.some((index) => parseAmount(item.values[index]) > 0)) ? ["노란 밑줄은 원본 예산서의 표시"] : [])].join(" · ");
+  const notes = [...(section.notes ?? []), ...extraNotes,...(emptyYears.length ? [`${emptyYears.map(emptyYearNote).join("·")}: 편성 없음`] : []), ...(items.some((item) => item.flags.some((index) => parseAmount(item.values[index]) > 0)) ? ["노란 밑줄은 원본 예산서의 표시"] : [])].join(" · ");
   const amountCell = (value: number, year: string, key: string, options: { color?: string; flag?: boolean } = {}) => (
     <td key={key} className={`tl-cell${isSelected(year) ? " is-selected" : ""}${options.flag && value > 0 ? " is-flag" : ""}`} title={value > 0 ? `${year} ${thousandText(value)}` : undefined}>
       {value > 0 && (
@@ -584,6 +585,7 @@ export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: stri
     return (
       <div className="pd-detail-attached-group bd-large-lined">
         {renderSection(budgetMatrix, false)}
+        {spendMatrix.notes?.map((note) => <p key={note} className="pl-notes">※ {note}</p>)}
         {executionPanel(rest.length === 0, true)}
         {rest.map((section, index) => renderSection(section, index === rest.length - 1))}
       </div>
