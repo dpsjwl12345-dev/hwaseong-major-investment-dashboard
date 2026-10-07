@@ -671,9 +671,15 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
   const carryoverLabel = carryoverItems.length === 1 ? `이월액 · ${carryoverItems[0].type}` : "이월액";
   const flow = { invested: budgetOf.invested, budget2026: budgetOf.budget2026, budget2027: budgetOf.budget2027, budget2028Plus: budgetOf.budget2028Plus };
   // 연도 탭·예산 흐름 그래프·하단 연도별 계획 표가 같은 연도를 가리키도록 선택 상태를 여기 둔다.
-  // 2027년 편성 계획이 있으면 2027년부터, 없으면 2026년부터 보여준다.
+  // 일반 사업은 2027년 편성계획이 있으면 2027년부터 보여주되, 관광진흥과는 최신 주요투자사업 자료가
+  // 2026년 예산·이월·집행 현황 중심이므로 2026년을 기본으로 연다. 그래야 성질별 예산이
+  // 2027년 공사비 한 항목만 남아 100%처럼 보이는 오해를 막을 수 있다.
   const has2027 = sumBreakdown(project.usage_breakdown, "budget_2027") > 0 || sumBreakdown(project.funding_breakdown, "budget_2027") > 0 || flow.budget2027 > 0;
-  const [selectedYear, setSelectedYear] = useState<BudgetYearKey>(has2027 ? "budget_2027" : "budget_2026");
+  const defaultBudgetYear: BudgetYearKey = project.department === "관광진흥과" ? "budget_2026" : (has2027 ? "budget_2027" : "budget_2026");
+  const [selectedYear, setSelectedYear] = useState<BudgetYearKey>(defaultBudgetYear);
+  useEffect(() => {
+    setSelectedYear(defaultBudgetYear);
+  }, [project.id, defaultBudgetYear]);
   const budgetCards = [
     { label: "총사업비", value: total, icon: WalletMoneyIcon, tone: "teal", carryoverItems: undefined },
     { label: "기투자액 (~2026)", value: invested, icon: GraphUpIcon, tone: "teal", carryoverItems: undefined },
