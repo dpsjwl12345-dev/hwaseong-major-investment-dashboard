@@ -11,7 +11,9 @@
       "rendering_images": [
         "/renderings/heritage-1/1.png"
       ],
-      "rendering_image_types": ["위치도"],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "overview_images_title": "위치도",
       "overview": "○ 사업위치: 화성시 효행구 봉담읍 수영리3-6, 효행택지개발지구 내\n○ 사업규모: 부지면적 8,500㎡, 연면적 10,050㎡(지하1층~지상4층)\n○ 사업기간: 2022.07. ~ 2030.12.\n○ 사업내용: 화성시 역사박물관 확충",
       "category": "문화관광시설",
@@ -20,7 +22,7 @@
       "total_cost_million_krw": 77498,
       "invested_to_2026_million_krw": 177,
       "budget_2027_million_krw": 274,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2023.06. 박물관 건립 타당성 조사 용역 시행\n○ 2024.11. 박물관 건립 타당성조사 용역 완료\n○ 2025.11. 박물관 건립 운영계획 용역 완료\n○ 2025.12. 박물관 건립 교통영향평가 용역 완료\n○ 2026.07. ~ 12. 박물관 설립타당성 설립협의 및 사전평가(문체부,道)",
       "progress_rate": 10,
       "expected_completion": "10%",
@@ -222,14 +224,17 @@
         "/renderings/heritage-2/1.webp",
         "/renderings/heritage-2/2.png"
       ],
-      "rendering_image_types": ["조감도", "위치도"],
+      "rendering_image_types": [
+        "조감도",
+        "위치도"
+      ],
       "category": "문화관광시설",
       "current_stage": "설계",
       "funding_type": "소계",
       "total_cost_million_krw": 17089,
       "invested_to_2026_million_krw": 1621,
       "budget_2027_million_krw": 11384,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2022.11. 담수 타당성 용역 착수\n○ 2023.04. 시설결정 용역 착수\n○ 2023.08. 담수 타당성 용역 준공 [결과: 비담수 및 영상아트로 대체]\n○ 2025.01. 공원조성계획 고시\n○ 2025.04. 만년제 역사공원 기본 및 실시설계 착수\n○ 2025.11. 만년제 역사공원 BF 예비인증 신청\n○ 2026.01. 역사공원 내 홍보관 건축기획 용역 준공\n○ 2026.03. 실시계획인가 신청 및 사업인정(의제)사업 협의 요청\n○ 2026.04. 사업인정에 관한 주민 열람 공고\n○ 2026.06. 만년제 역사공원 기본 및 실시설계 설계변경\n○ 2026.08. 역사공원 기본 및 실시설계 준공\n○ 2026.08. 사업인정고시",
       "progress_rate": 10,
       "expected_completion": "10%",
@@ -259,19 +264,151 @@
       "card_execution_rate": null,
       "card_inspection": "양호",
       "funding_breakdown": [
-        { "name": "국비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "도비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "시비", "total": 17089, "invested": 1621, "budget_2026": 0, "budget_2027": 11384, "budget_2028_plus": 4084, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": 0, "budget_2026_additional": null },
-        { "name": "특교", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "특조", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "기타", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "시비",
+          "total": 17089,
+          "invested": 1621,
+          "budget_2026": 0,
+          "budget_2027": 11384,
+          "budget_2028_plus": 4084,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": 0,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        }
       ],
       "usage_breakdown": [
-        { "name": "설계", "total": 664, "invested": 520, "budget_2026": null, "budget_2027": 144, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "부대", "total": 240, "invested": null, "budget_2026": null, "budget_2027": 240, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "보상", "total": 8000, "invested": null, "budget_2026": null, "budget_2027": 8000, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "부지", "total": 1101, "invested": 1101, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "공사비", "total": 7084, "invested": null, "budget_2026": null, "budget_2027": 3000, "budget_2028_plus": 4084, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+        {
+          "name": "설계",
+          "total": 664,
+          "invested": 520,
+          "budget_2026": null,
+          "budget_2027": 144,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "부대",
+          "total": 240,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": 240,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "보상",
+          "total": 8000,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": 8000,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "부지",
+          "total": 1101,
+          "invested": 1101,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "공사비",
+          "total": 7084,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": 3000,
+          "budget_2028_plus": 4084,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        }
       ],
       "card_admin_procedures": "중기재정(2024.10.29.), 투·융자심사(2024.10.24.)",
       "card_admin_legal_basis": "",
@@ -290,7 +427,11 @@
       "card_budget_2026_additional_million_krw": null,
       "card_budget_2028_plus_million_krw": 4084,
       "carryover_items": [
-        { "label": "주변 정비", "type": "이월", "amount_million_krw": 100 }
+        {
+          "label": "주변 정비",
+          "type": "이월",
+          "amount_million_krw": 100
+        }
       ]
     },
     {
@@ -301,8 +442,12 @@
       "serial": 7,
       "department": "체육진흥과",
       "project_name": "비봉체육공원 실내야구연습장 개축",
-      "rendering_images": ["/renderings/sports-1/location.png"],
-      "rendering_image_types": ["위치도"],
+      "rendering_images": [
+        "/renderings/sports-1/location.png"
+      ],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "overview": "○ 사업위치: 화성시 만세구 새솔동 167번지\n○ 사업규모: 가설건축물(1층, 2,085㎡) 철거 후 정식건축물(1층, 2,085㎡) 신축\n○ 사업기간: 2026.01. ~ 2027.06.\n○ 사업내용: 가설건축물 철거 후 정식건축물 신축",
       "category": "체육시설",
       "current_stage": "사전 행정절차",
@@ -310,7 +455,7 @@
       "total_cost_million_krw": 1900,
       "invested_to_2026_million_krw": null,
       "budget_2027_million_krw": 1900,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "",
       "progress_rate": 0,
       "expected_completion": "0%",
@@ -511,8 +656,12 @@
       "serial": 5,
       "department": "체육진흥과",
       "project_name": "비봉체육공원 야구장 개선",
-      "rendering_images": ["/renderings/sports-2/location.png"],
-      "rendering_image_types": ["위치도"],
+      "rendering_images": [
+        "/renderings/sports-2/location.png"
+      ],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "overview": "○ 사업위치: 화성시 만세구 새솔동 167번지(야구1구장, 야구2구장)\n○ 사업규모: 야구1,2구장\n○ 사업기간: 2025.01. ~ 2026.12.\n○ 사업내용: 인조잔디 교체, 조명 설치(야구1구장), 방송설비 장비(야구2구장)",
       "category": "체육시설",
       "current_stage": "발주 및 계약체결",
@@ -520,7 +669,7 @@
       "total_cost_million_krw": 1450,
       "invested_to_2026_million_krw": 100,
       "budget_2027_million_krw": null,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.09. 착공(야구 1구장 , 야구2구장)\n ○ 2026.11.준공(야구 1구장, 야구2구장)",
       "progress_rate": 30,
       "expected_completion": "30%",
@@ -740,7 +889,7 @@
       "total_cost_million_krw": 1900,
       "invested_to_2026_million_krw": 1900,
       "budget_2027_million_krw": null,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.08. 준공",
       "progress_rate": 70,
       "expected_completion": "70%",
@@ -957,7 +1106,7 @@
           {
             "label": "오산천 파크골프장",
             "x": 91.5,
-            "y": 49.0,
+            "y": 49,
             "zoomImage": "/renderings/sports-4/zoom-osancheon.png",
             "tracked": true,
             "detail": "방교동 82-192 (27홀, 25,810㎡)"
@@ -972,7 +1121,7 @@
           },
           {
             "label": "남양 하수처리장 파크골프장",
-            "x": 46.0,
+            "x": 46,
             "y": 32.5,
             "zoomImage": "/renderings/sports-4/zoom-namyang.png",
             "tracked": true,
@@ -1990,7 +2139,9 @@
       "rendering_images": [
         "/renderings/sports-15/1.png"
       ],
-      "rendering_image_types": ["위치도"],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "overview": "○ 사업위치: 화성시 만세구 향남읍,남양읍,팔탄면 일원\n○ 사업규모:\n○ 사업기간: 2026.09. ~ 2027.09.\n○ 사업내용: 서해선 교량하부 유휴부지 내 체육시설 조성",
       "category": "체육시설",
       "current_stage": "설계",
@@ -1998,7 +2149,7 @@
       "total_cost_million_krw": 4791,
       "invested_to_2026_million_krw": null,
       "budget_2027_million_krw": 2837,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2024.01.11. 철도전략과 실시설계 실시",
       "progress_rate": 0,
       "expected_completion": "0%",
@@ -2202,7 +2353,9 @@
       "rendering_images": [
         "/renderings/sports-6/1.png"
       ],
-      "rendering_image_types": ["조감도"],
+      "rendering_image_types": [
+        "조감도"
+      ],
       "carryover_items": [
         {
           "label": "장안 다목적복합센터 건립",
@@ -2217,7 +2370,7 @@
       "total_cost_million_krw": 7136,
       "invested_to_2026_million_krw": 4180,
       "budget_2027_million_krw": 0,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.12. 준공",
       "progress_rate": 47,
       "expected_completion": "47%",
@@ -2421,7 +2574,9 @@
       "rendering_images": [
         "/renderings/sports-16/1.png"
       ],
-      "rendering_image_types": ["위치도"],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "overview": "○ 사업위치: 화성시 효행구 비봉면 삼화리 1842번지\n○ 사업규모: 연면적 2,500㎡(지상 1층 ~ 지상 3층) 시니어친화형 국민체육센터\n○ 사업기간: 2025.07. ~ 2030.01.\n○ 사업내용: ",
       "category": "체육시설",
       "current_stage": "사전 행정절차",
@@ -2429,7 +2584,7 @@
       "total_cost_million_krw": 14000,
       "invested_to_2026_million_krw": 300,
       "budget_2027_million_krw": 300,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2025.07. 기본계획 수립\n○ 2025.07. 문화체육관광부 생활체육시설 확충 지원사업 공모 신청\n○ 2025.09. 문화체육관광부 생활체육시설 확충 지원사업 공모 선정\n○ 2026.04. 2026년 화성시 수시2차 지방재정투자심사 조건부 승인\n○ 2026.06. 공유재산 심의회 완료\n○ 2026.09. 중기지방재정계획 반영",
       "progress_rate": 0,
       "expected_completion": "0%",
@@ -2633,7 +2788,9 @@
       "rendering_images": [
         "/renderings/sports-8/1.png"
       ],
-      "rendering_image_types": ["조감도"],
+      "rendering_image_types": [
+        "조감도"
+      ],
       "carryover_items": [
         {
           "label": "남양 체육복합센터 조성",
@@ -2648,7 +2805,7 @@
       "total_cost_million_krw": 8724,
       "invested_to_2026_million_krw": 5655,
       "budget_2027_million_krw": null,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.10. 공사 준공",
       "progress_rate": 30,
       "expected_completion": "30%",
@@ -2856,7 +3013,7 @@
       "total_cost_million_krw": 1684,
       "invested_to_2026_million_krw": null,
       "budget_2027_million_krw": 1684,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "",
       "progress_rate": 0,
       "expected_completion": "0%",
@@ -3057,8 +3214,12 @@
       "serial": 1,
       "department": "체육진흥과",
       "project_name": "화성 동부 반다비체육센터 건립",
-      "rendering_images": ["/renderings/sports-10/location.png"],
-      "rendering_image_types": ["위치도"],
+      "rendering_images": [
+        "/renderings/sports-10/location.png"
+      ],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "carryover_items": [
         {
           "label": "화성 동부 반다비체육센터 건립",
@@ -3073,7 +3234,7 @@
       "total_cost_million_krw": 19000,
       "invested_to_2026_million_krw": 965,
       "budget_2027_million_krw": 5084,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.02.: 주민설명회 개최 및 건축기획용역 준공\n○ 2026.03.: 공공건축 사전검토\n○ 2026.08.: 설계공모\n○ 2026.09.: 기본 및 실시설계 용역 착수",
       "progress_rate": 5,
       "expected_completion": "5%",
@@ -3826,8 +3987,14 @@
       "department": "체육진흥과",
       "project_name": "축구전용경기장 건립(동탄여울공원)",
       "overview": "○ 사업위치: 화성시 동탄구 여울동 1060번지(동탄여울공원)\n○ 사업내용: 15,000석 규모의 축구전용구장 조성\n○ 사업기간: 2027. ~ 2032.\n○ 총사업비: 195,000백만원",
-      "rendering_images": ["/renderings/sports-13/location.png", "/renderings/sports-13/1.png"],
-      "rendering_image_types": ["위치도", "조감도"],
+      "rendering_images": [
+        "/renderings/sports-13/location.png",
+        "/renderings/sports-13/1.png"
+      ],
+      "rendering_image_types": [
+        "위치도",
+        "조감도"
+      ],
       "category": "체육시설",
       "current_stage": "사전 행정절차",
       "funding_type": "",
@@ -4038,8 +4205,14 @@
       "department": "체육진흥과",
       "project_name": "스포츠컴플렉스 조성",
       "overview": "○ 사업위치: 화성시 효행구 비봉면 구포리 산6-19 (개발제한구역)\n○ 사업규모: 대지면적 270,000㎡, 건축면적 각 3,000㎡\n○ 사업내용: 파크골프장 54홀, 축구장 2면, 실외 테니스장 12면, 실내 테니스장 4면, 실내 배드민턴장 16면, 맨발숲길 조성\n○ 사업기간: 2027. ~ (2030년부터 설계완료 및 공사 추진)\n○ 총사업비: 84,300백만원",
-      "rendering_images": ["/renderings/sports-20/location.webp", "/renderings/sports-20/1.webp"],
-      "rendering_image_types": ["위치도", "조감도"],
+      "rendering_images": [
+        "/renderings/sports-20/location.webp",
+        "/renderings/sports-20/1.webp"
+      ],
+      "rendering_image_types": [
+        "위치도",
+        "조감도"
+      ],
       "location_map": {
         "center": [
           126.8789,
@@ -5304,7 +5477,7 @@
       "total_cost_million_krw": 1200,
       "invested_to_2026_million_krw": 1200,
       "budget_2027_million_krw": null,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "사업기본계획 변경(2026.04.)\n○ 2026.07. : 국화도 레저접안시설 설치공사 착공\n○ 2026.07. : 입파도 레저접안시설 설치공사 착공",
       "progress_rate": 30,
       "expected_completion": "30%",
@@ -5504,14 +5677,16 @@
       "rendering_images": [
         "/renderings/tourism-2/1.png"
       ],
-      "rendering_image_types": ["조감도"],
+      "rendering_image_types": [
+        "조감도"
+      ],
       "category": "문화관광시설",
       "current_stage": "공사착공",
       "funding_type": "소계",
       "total_cost_million_krw": 1460,
       "invested_to_2026_million_krw": 1436,
       "budget_2027_million_krw": null,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.07. : 제부도 관광휴게시설 준공\n ○ 2026.08. : 제부도 관광휴게시설 운영",
       "progress_rate": 80,
       "expected_completion": "80%",
@@ -5711,7 +5886,10 @@
         "/renderings/tourism-3/1.webp",
         "/renderings/tourism-3/2.webp"
       ],
-      "rendering_image_types": ["위치도", "위치도"],
+      "rendering_image_types": [
+        "위치도",
+        "위치도"
+      ],
       "carryover_items": [
         {
           "label": "서해안 황금해안길 조성사업(자체)",
@@ -5731,7 +5909,7 @@
       "total_cost_million_krw": 49000,
       "invested_to_2026_million_krw": 42220,
       "budget_2027_million_krw": null,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.10.: 황금해안길 17km 걷기축제 개최 (예정)",
       "progress_rate": 99,
       "expected_completion": "99%",
@@ -5931,7 +6109,10 @@
         "/renderings/tourism-4/1.png",
         "/renderings/tourism-4/2.png"
       ],
-      "rendering_image_types": ["위치도", "조감도"],
+      "rendering_image_types": [
+        "위치도",
+        "조감도"
+      ],
       "carryover_items": [
         {
           "label": "고렴산 해상공원 조성",
@@ -5946,7 +6127,7 @@
       "total_cost_million_krw": 43300,
       "invested_to_2026_million_krw": 32750,
       "budget_2027_million_krw": 6050,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2023. 1.: 도시계획시설(공원) 실시계획인가\n○ 2024. 12.: 고렴산 해상공원 조성사업 착공, 건설사업관리용역 착수\n○ 2026. 7.: 사업계획 변경 보고\n○ 2026. 8.: 명도소송 본안 소송 종결",
       "progress_rate": 70,
       "expected_completion": "70%",
@@ -6156,14 +6337,18 @@
         "/renderings/tourism-12/2.png",
         "/renderings/tourism-12/3.webp"
       ],
-      "rendering_image_types": ["위치도", "조감도", "조감도"],
+      "rendering_image_types": [
+        "위치도",
+        "조감도",
+        "조감도"
+      ],
       "category": "문화관광시설",
       "current_stage": "설계",
       "funding_type": "소계",
       "total_cost_million_krw": 6800,
       "invested_to_2026_million_krw": 615,
       "budget_2027_million_krw": 6085,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2025.11.19.: 중기재정계획 반영\n○ 2025.11.19.: 투자심사 통과\n○ 설계 중",
       "progress_rate": 10,
       "expected_completion": "10%",
@@ -6341,7 +6526,12 @@
       ],
       "card_admin_procedures": "중기재정(2025.11.19.), 투·융자심사(2025.11.19.)",
       "card_admin_legal_basis": "",
-      "card_admin_status": { "mid_term_fiscal": true, "investment_review": true, "public_property": false, "none": false },
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      },
       "card_invested_to_2025_million_krw": 615,
       "card_budget_2026_million_krw": 100,
       "card_budget_2026_base_million_krw": null,
@@ -6363,7 +6553,9 @@
       "rendering_images": [
         "/renderings/tourism-8/1.png"
       ],
-      "rendering_image_types": ["위치도"],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "category": "문화관광시설",
       "current_stage": "",
       "funding_type": "소계",
@@ -6759,7 +6951,13 @@
           "card_budget_2026_second_extra_million_krw": null,
           "card_budget_2026_third_extra_million_krw": 250,
           "card_budget_2026_additional_million_krw": null,
-          "card_budget_2028_plus_million_krw": null
+          "card_budget_2028_plus_million_krw": null,
+          "rendering_images": [
+            "/renderings/tourism-8/1.png"
+          ],
+          "rendering_image_types": [
+            "위치도"
+          ]
         },
         {
           "name": "궁평주차장",
@@ -6957,7 +7155,13 @@
           "card_budget_2026_second_extra_million_krw": null,
           "card_budget_2026_third_extra_million_krw": 115,
           "card_budget_2026_additional_million_krw": null,
-          "card_budget_2028_plus_million_krw": null
+          "card_budget_2028_plus_million_krw": null,
+          "rendering_images": [
+            "/renderings/tourism-8/gungpyeong-change.webp"
+          ],
+          "rendering_image_types": [
+            "위치도"
+          ]
         },
         {
           "name": "서해안 관광지 주차장",
@@ -7155,7 +7359,13 @@
           "card_budget_2026_second_extra_million_krw": null,
           "card_budget_2026_third_extra_million_krw": 50,
           "card_budget_2026_additional_million_krw": null,
-          "card_budget_2028_plus_million_krw": null
+          "card_budget_2028_plus_million_krw": null,
+          "rendering_images": [
+            "/renderings/tourism-8/west-coast.webp"
+          ],
+          "rendering_image_types": [
+            "위치도"
+          ]
         }
       ]
     },
@@ -7173,7 +7383,12 @@
         "/renderings/tourism-6/3.png",
         "/renderings/tourism-6/4.webp"
       ],
-      "rendering_image_types": ["위치도", "조감도", "조감도", "조감도"],
+      "rendering_image_types": [
+        "위치도",
+        "조감도",
+        "조감도",
+        "조감도"
+      ],
       "carryover_items": [
         {
           "label": "궁평 종합관광지 조성",
@@ -7188,7 +7403,7 @@
       "total_cost_million_krw": 79525,
       "invested_to_2026_million_krw": 78898,
       "budget_2027_million_krw": 185,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "궁평관광지 남측부지 및 북측부지 조성공사 준공, 캠핑장 조성 공사 준공, 힐링푸드샵 조성 공사 및 주차장 포장 공사 착공\n○ 2025.05. ~ 2026.02.: 궁평관광지 캠핑장 조성공사 착공 및 준공\n○ 2025.07.: 궁평관광지 조성계획(변경) 신청\n○ 2026.01. ~ 03.: 궁평관광지 캠핑장 및 임시주차장 통신공사 착공 및 준공\n○ 2026.07.: 궁평관광지 캠핑장 및 힐링푸드샵 운영\n○ 2026.07.: 궁평관광지 주차장 유료화 운영",
       "progress_rate": 90,
       "expected_completion": "90%",
@@ -7388,7 +7603,10 @@
         "/renderings/tourism-10/1.png",
         "/renderings/tourism-10/2.webp"
       ],
-      "rendering_image_types": ["위치도", "위치도"],
+      "rendering_image_types": [
+        "위치도",
+        "위치도"
+      ],
       "carryover_items": [
         {
           "label": "제부도 도시계획도로 소로2-10호선 개설공사",
@@ -7408,7 +7626,7 @@
       "total_cost_million_krw": 26848,
       "invested_to_2026_million_krw": 3253,
       "budget_2027_million_krw": 8950,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2024. 8. 30.: 실시계획인가 최초고시(중로1-1호선 외 2개소)\n○ 2024. 9. 30.: 실시계획인가 최초고시(소로1-8호선 외 1개소)\n○ 2025. 7. 23.: 실시계획인가 변경신청(소로1-8호선 외 1개소)(분할측량에 따른 면적정정 등)\n○ 2025. 8.: 지구단위계획 변경 고시(중로2-3호선 외 2개소 도시계획시설 결정선 산입)\n○ 2025. 12. 29.: 실시계획인가 변경고시(소로1-8호선 외 1개소)\n○ 2026. 2. 25.: 실시계획인가 변경신청(중로1-1호선 외 2개소)\n○ 2026. 5. 28.: 수용재결 신청(구x자, 최x순 중로)(중로 1차)\n○ 2026. 5. 28.: 실시계획인가 변경고시(중로2-3호선 외 2개소)",
       "progress_rate": 30,
       "expected_completion": "30%",
@@ -7587,7 +7805,12 @@
       ],
       "card_admin_procedures": "중기재정(2022.11.09.), 투·융자심사(2022.11.09.)",
       "card_admin_legal_basis": "",
-      "card_admin_status": { "mid_term_fiscal": true, "investment_review": true, "public_property": false, "none": false },
+      "card_admin_status": {
+        "mid_term_fiscal": true,
+        "investment_review": true,
+        "public_property": false,
+        "none": false
+      },
       "card_invested_to_2025_million_krw": 3253,
       "card_budget_2026_million_krw": 14645,
       "card_budget_2026_base_million_krw": 3000,
@@ -7605,8 +7828,12 @@
       "serial": 1,
       "department": "전국체전추진단",
       "project_name": "롤러스포츠 경기장 건립공사",
-      "rendering_images": ["/renderings/sports-17/location.png"],
-      "rendering_image_types": ["위치도"],
+      "rendering_images": [
+        "/renderings/sports-17/location.png"
+      ],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "carryover_items": [
         {
           "label": "롤러스포츠 경기장 건립",
@@ -7822,8 +8049,12 @@
       "serial": 2,
       "department": "전국체전추진단",
       "project_name": "석우동 축구장 건립공사",
-      "rendering_images": ["/renderings/sports-18/location.jpg"],
-      "rendering_image_types": ["위치도"],
+      "rendering_images": [
+        "/renderings/sports-18/location.jpg"
+      ],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "carryover_items": [
         {
           "label": "석우동 축구장 건립",
@@ -8039,8 +8270,12 @@
       "serial": 3,
       "department": "전국체전추진단",
       "project_name": "2027년 전국체육대회 경기장 개보수",
-      "rendering_images": ["/renderings/sports-19/location.jpg"],
-      "rendering_image_types": ["위치도"],
+      "rendering_images": [
+        "/renderings/sports-19/location.jpg"
+      ],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "carryover_items": [
         {
           "label": "2027년 전국체육대회 경기장 개보수",
@@ -8055,7 +8290,7 @@
       "total_cost_million_krw": 17194,
       "invested_to_2026_million_krw": 5280,
       "budget_2027_million_krw": 3670,
-      "execution_rate": 4.0,
+      "execution_rate": 4,
       "progress_status": "○ 2024.05.: 2027년 제108회 전국체육대회 추진계획 수립(안)\n○ 2025.04.~06.: 실시설계용역 착수, 준공\n○ 2026.08.: 진출로 개설공사 준공\n○ 2026.10.: 경기장 개보수 단계별 착공\n○ 2027.05.: 개보수 완료",
       "progress_rate": 1,
       "expected_completion": "1%",
@@ -8262,7 +8497,12 @@
         "/renderings/culture-1/3.png",
         "/renderings/culture-1/4.png"
       ],
-      "rendering_image_types": ["조감도", "조감도", "조감도", "조감도"],
+      "rendering_image_types": [
+        "조감도",
+        "조감도",
+        "조감도",
+        "조감도"
+      ],
       "overview": "○ 사업위치: 화성시 동탄구 노작로 134\n○ 사업규모: 연면적 5,695㎡(지하1층 ∼ 지상3층)\n○ 사업기간: 2025. ~ 2028.\n○ 사업내용: 센터내 문화동, 도서관동 리모델링",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
@@ -8270,7 +8510,7 @@
       "total_cost_million_krw": 9041,
       "invested_to_2026_million_krw": 55,
       "budget_2027_million_krw": 1340,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2025.06. ~ 12. 공간개선 타당성 조사 및 기본계획 수립 연구용역 실시\n○ 2026.01. ~ 03. 경기 생활쏙(SOC) 환원사업 공모 참여 (최종 미선정)",
       "progress_rate": 0,
       "expected_completion": "0%",
@@ -8475,7 +8715,9 @@
       "rendering_images": [
         "/renderings/culture-2/1.png"
       ],
-      "rendering_image_types": ["조감도"],
+      "rendering_image_types": [
+        "조감도"
+      ],
       "overview": "○ 사업위치: 화성시 동탄구 노작로 11-1 지하1층\n○ 사업규모: 좌석수 210석 (블랙박스형 공연장)\n○ 사업기간: 2024. ~ 2027.\n○ 사업내용: 지하 1층 일부 공간을 소공연장으로 조성",
       "category": "문화관광시설",
       "current_stage": "공사착공",
@@ -8485,7 +8727,7 @@
       "carryover_million_krw": 946,
       "carryover_type": "명시이월",
       "budget_2027_million_krw": null,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2024.02. 공연장 운영 활성화 방안 연구\n○ 2024.09. 지방재정 중앙 투자심사 통과\n○ 2025.02. ~ 07. 소공연장 조성 사전 행정절차 (건축기획 용역)\n○ 2025.11. 소공연장 조성 사전 행정절차 (설계공모)\n○ 2025.12. 설계용역 착수 ( ~ 2026.05.23.) ※ 용역사: ㈜제이유건축사사무소\n○ 2026.01. ~ 05. 소공연장 설계용역 보고회(착수, 중간, 최종) 및 용역 준공\n○ 2026.06. 계약심사 완료\n○ 2026.07. 소공연장 착공",
       "progress_rate": 50,
       "expected_completion": "50%",
@@ -8692,7 +8934,11 @@
         "/renderings/culture-3/1.png",
         "/renderings/culture-3/2.jpg"
       ],
-      "rendering_image_types": ["위치도", "조감도", "조감도"],
+      "rendering_image_types": [
+        "위치도",
+        "조감도",
+        "조감도"
+      ],
       "gallery_images": [
         {
           "src": "/site-photos/culture-3/1.png",
@@ -8709,7 +8955,7 @@
       "carryover_million_krw": 2816,
       "carryover_type": "계속비이월",
       "budget_2027_million_krw": 16680,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2022.06.02. 시립미술관 건립 타당성조사 및 기본계획수립 용역 준공\n○ 2024.06.25. 투자심사 완료 (조건부, 464억 승인)\n○ 2024.10.14. 토지매입 계약 (2025.02.21. LH 토지사용승낙)\n○ 2025.03.10. 건축기획용역 완료\n○ 2025.11.24. 국제설계공모 공고\n○ 2026.02.25. 작품심사 및 선정\n○ 2026.04.27. 설계착수",
       "progress_rate": 40,
       "expected_completion": "40%",
@@ -8916,7 +9162,9 @@
       "rendering_images": [
         "/renderings/culture-5/1.png"
       ],
-      "rendering_image_types": ["조감도"],
+      "rendering_image_types": [
+        "조감도"
+      ],
       "overview": "○ 사업위치: 화성시 남양읍 홍난파길 32일원\n○ 사업규모: 부지 48,364㎡/ 건축연면적 1,657.8㎡(지상2층,지하1층)\n○ 사업기간: 2023. ~ 2030.06.\n○ 사업내용: 전시실, 다목적강좌, 작은도서관, 홍난파전시관 등 조성",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
@@ -8924,7 +9172,7 @@
       "total_cost_million_krw": 17657,
       "invested_to_2026_million_krw": 3431,
       "budget_2027_million_krw": 1910,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2003.03. 주민여론 수렴 및 사업추진 개시\n○ 2006.04. 공유재산관리계획 승인 / 2006~2010 중기지방재정계획 수립\n○ 2008.05. 경기도 투융자심사 (조건부 승인 / 도비 미지원 시 자체재원 추진)\n○ 2025.03. 공공갈등조정협의체 합의 (업적과 친일 함께 전시)\n○ 2025.12. 기본구상 및 타당성 조사 용역 완료\n○ 2026.06. 공유재산변경심의 완료\n○ 2026.07. 경기도 지방재정투자심사 통과",
       "progress_rate": 10,
       "expected_completion": "10%",
@@ -9128,7 +9376,9 @@
       "rendering_images": [
         "/renderings/culture-8/1.png"
       ],
-      "rendering_image_types": ["위치도"],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "overview": "○ 사업위치: 화성시 효행구 봉담읍 동화리 11-1번지\n○ 사업기간: 2027. ~ 2032.\n○ 사업내용: (구)농수산대학 유휴부지 활용 대공연장 건립",
       "category": "문화관광시설",
       "current_stage": "",
@@ -9166,24 +9416,161 @@
       "card_execution_rate": null,
       "card_inspection": "",
       "funding_breakdown": [
-        { "name": "국비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "도비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "시비", "total": 772710, "invested": 0, "budget_2026": null, "budget_2027": 212, "budget_2028_plus": 772498, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "특교", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "특조", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "기타", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "시비",
+          "total": 772710,
+          "invested": 0,
+          "budget_2026": null,
+          "budget_2027": 212,
+          "budget_2028_plus": 772498,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        }
       ],
       "usage_breakdown": [
-        { "name": "설계", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "공사", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "감리", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "부대", "total": 162, "invested": null, "budget_2026": null, "budget_2027": 162, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "기타", "total": 50, "invested": null, "budget_2026": null, "budget_2027": 50, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+        {
+          "name": "설계",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "부대",
+          "total": 162,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": 162,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "기타",
+          "total": 50,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": 50,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        }
       ],
       "usage_breakdown_note": "* 공사비 등 나머지 772,498백만원(2028년 이후)은 기본구상·타당성조사 이후 세부 산출내역 확정 예정으로 항목 미반영",
       "card_admin_procedures": "",
       "card_admin_legal_basis": "■ 문화예술진흥법 제5조 ■ 정책사업",
-      "card_admin_status": { "mid_term_fiscal": false, "investment_review": false, "public_property": false, "none": false },
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": false
+      },
       "card_invested_to_2025_million_krw": null,
       "card_budget_2026_million_krw": null,
       "card_budget_2026_base_million_krw": null,
@@ -9204,7 +9591,9 @@
       "rendering_images": [
         "/renderings/culture-10/1.jpg"
       ],
-      "rendering_image_types": ["위치도"],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "overview": "○ 사업위치: 화성시 정남면 발산리 405-6번지 일원(現 정남도서관 부지)\n○ 사업기간: 2027.01. ~ 2030.09.\n○ 사업내용: 구 정남면 청사부지 활용 복합문화센터 건립\n○ 총사업비: 건축기획 용역 추진에 따라 결정 예정",
       "category": "",
       "current_stage": "사전 행정절차",
@@ -9242,24 +9631,161 @@
       "card_execution_rate": null,
       "card_inspection": "",
       "funding_breakdown": [
-        { "name": "국비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "도비", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "시비", "total": 22, "invested": null, "budget_2026": null, "budget_2027": 22, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "특교", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "특조", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "기타", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+        {
+          "name": "국비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "도비",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "시비",
+          "total": 22,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": 22,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "특교",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "특조",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        }
       ],
       "usage_breakdown": [
-        { "name": "설계", "total": 22, "invested": null, "budget_2026": null, "budget_2027": 22, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "공사", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "감리", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "부대", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null },
-        { "name": "기타", "total": null, "invested": null, "budget_2026": null, "budget_2027": null, "budget_2028_plus": null, "budget_2026_base": null, "budget_2026_first_extra": null, "budget_2026_second_extra": null, "budget_2026_third_extra": null, "budget_2026_additional": null }
+        {
+          "name": "설계",
+          "total": 22,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": 22,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "공사",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "감리",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "부대",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        },
+        {
+          "name": "기타",
+          "total": null,
+          "invested": null,
+          "budget_2026": null,
+          "budget_2027": null,
+          "budget_2028_plus": null,
+          "budget_2026_base": null,
+          "budget_2026_first_extra": null,
+          "budget_2026_second_extra": null,
+          "budget_2026_third_extra": null,
+          "budget_2026_additional": null
+        }
       ],
       "usage_breakdown_note": "",
       "card_admin_procedures": "",
       "card_admin_legal_basis": "「문화예술진흥법」 제5조(문화예술 공간의 설치 권장)",
-      "card_admin_status": { "mid_term_fiscal": false, "investment_review": false, "public_property": false, "none": false },
+      "card_admin_status": {
+        "mid_term_fiscal": false,
+        "investment_review": false,
+        "public_property": false,
+        "none": false
+      },
       "card_invested_to_2025_million_krw": null,
       "card_budget_2026_million_krw": null,
       "card_budget_2026_base_million_krw": null,
@@ -9281,7 +9807,10 @@
         "/renderings/culture-6/location.webp",
         "/renderings/culture-6/1.png"
       ],
-      "rendering_image_types": ["위치도", "조감도"],
+      "rendering_image_types": [
+        "위치도",
+        "조감도"
+      ],
       "overview": "○ 사업위치: 화성시 병점복합타운 도시개발사업구역 업무시설7(병점동 899번지)\n○ 사업규모: 부지면적 4,251.2㎡, 연면적 9,000㎡, 지하1층/지상4층, 주차대수: 84대\n○ 사업기간: 2019.04. ~ 2028.12.\n○ 투심 결과: 56,300백만원 조건부\n○ 사업내용: ",
       "category": "문화관광시설",
       "current_stage": "설계",
@@ -9291,7 +9820,7 @@
       "carryover_million_krw": 4125,
       "carryover_type": "계속비이월",
       "budget_2027_million_krw": 22426,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2019.05. ~ 2020.03.: 과학관 건립 타당성 조사용역\n○ 2021.08.: 전시콘텐츠 기본구상(안) 완료\n○ 2022.06.: 화성시 테마(어린이)과학관 건축설계용역 및 전시콘텐츠 제작·설치 발주계획(안)\n○ 2023.07.: 화성시 테마(어린이)과학관 건립 사업계획 변경 보고\n○ 2024.03.: 건축기획 용역 준공\n○ 2024.07.: 건립사업 위·수탁 협약 해제 통보(화성시 → 화성도시공사)\n○ 2025.07.: 기본 및 실시설계 용역 착수\n○ 2026.06.02.: 맹꽁이 포획·이주 허가 신청(한강유역환경청)\n○ 2026.07.: 맹꽁이 포획·이주 허가 재신청(한강유역환경청)",
       "progress_rate": 25,
       "expected_completion": "25%",
@@ -9497,7 +10026,9 @@
       "rendering_images": [
         "/renderings/culture-7/1.png"
       ],
-      "rendering_image_types": ["조감도"],
+      "rendering_image_types": [
+        "조감도"
+      ],
       "overview": "○ 사업위치: 화성시 만세구 송산면 고정리 공룡알화석산지 내(송산그린시티 역사공원1)\n○ 사업규모: 부지면적 42,760㎡, 연면적 8,145.27㎡, 지하1층/지상2층\n○ 사업기간: 2013.03. ~ 2029.07.\n○ 사업내용: 자연과학 체험시설물 설치",
       "category": "문화관광시설",
       "current_stage": "설계",
@@ -9508,7 +10039,7 @@
       "carryover_million_krw": 6390,
       "carryover_type": "계속비이월",
       "budget_2027_million_krw": 13165,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2013.01. 공룡박물관 건립계획 수립\n○ 2017.07. 시화지구(송산그린시티) 개발계획 변경(국토부 제2017-458호, 역사공원 반영)\n○ 2019.06. ~ 2020.02. 공룡자연과학센터 기본계획 용역 완료\n○ 2023.08.07. 화성시 공룡(자연) 과학센터 건립 사업계획 변경 보고(방문자센터 철거 및 6,835㎡ 규모로 연면적 확대)\n○ 2024.04. 기본 및 실시계획 준공\n○ 2024.09. 건축기획 용역 완료\n○ 2026.04. 공원조성계획 수립 및 작성 용역 준공",
       "progress_rate": 25,
       "expected_completion": "25%",
@@ -9716,7 +10247,7 @@
       "total_cost_million_krw": 1005,
       "invested_to_2026_million_krw": 1005,
       "budget_2027_million_krw": null,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.06.26 : 건축기계, 통신, 소방공사 준공 \n○ 2026.07.15 : 전기공사 준공(전기안전점검으로 인해 준공일자 지연)\n○ 2026.08. 말 : 개관(예정)",
       "progress_rate": 40,
       "expected_completion": "40%",
@@ -9921,7 +10452,10 @@
         "/renderings/culture-9/1.png",
         "/renderings/culture-9/2.png"
       ],
-      "rendering_image_types": ["조감도", "위치도"],
+      "rendering_image_types": [
+        "조감도",
+        "위치도"
+      ],
       "overview": "○ 사업위치: 화성시 동탄구 석우동 51번지\n○ 사업규모: 연면적 4,900㎡(지하2층/지상4층), 주차대수 40대\n○ 사업기간: 2023.10. ~ 2030.10.\n○ 사업내용: 유휴부지 활용한 복합문화시설 개발",
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
@@ -9929,7 +10463,7 @@
       "total_cost_million_krw": 28131,
       "invested_to_2026_million_krw": 57,
       "budget_2027_million_krw": 1719,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2024.04. ~ 12.: 기본구상 및 타당성조사 착수~준공\n○ 2026.03. ~ 05.: 공공건축 기획용역 시행\n○ 2026.06. ~ 07.: 공공건축 사업계획 사전검토(경기도 공공건설 지원센터)",
       "progress_rate": 10,
       "expected_completion": "10%",
@@ -10137,7 +10671,7 @@
       "total_cost_million_krw": 9192,
       "invested_to_2026_million_krw": 50,
       "budget_2027_million_krw": null,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.02. ~ 2026.05. 기본계획 및 타당성 조사 용역 진행",
       "progress_rate": 1,
       "expected_completion": "1%",
@@ -10345,7 +10879,7 @@
       "total_cost_million_krw": 15000,
       "invested_to_2026_million_krw": null,
       "budget_2027_million_krw": 2000,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.01. 동탄2지구 신주거문화타운 內 공공도서관 건립 기본계획 수립\n○ 2026.04. 기본계획 수립 및 타당성 조사 용역 착수\n○ 2026.07. 공공도서관 설립타당성 사전평가(경기도, 문체부)",
       "progress_rate": 2,
       "expected_completion": "2%",
@@ -10549,7 +11083,9 @@
       "rendering_images": [
         "/renderings/library-2/1.png"
       ],
-      "rendering_image_types": ["조감도"],
+      "rendering_image_types": [
+        "조감도"
+      ],
       "carryover_items": [
         {
           "label": "(가칭)반월도서관 건립",
@@ -10564,7 +11100,7 @@
       "total_cost_million_krw": 23794,
       "invested_to_2026_million_krw": 18490,
       "budget_2027_million_krw": 5304,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2019.06. 반월도서관 건립 기본계획 수립\n○ 2020.03. 주민참여 반월도서관 건립계획 수립\n○ 2020.12. 기본계획 및 타당성 용역 완료\n○ 2023.04. 사업계획 변경(도서관 규모 증가에 따른 변경)\n○ 2023.05. 기본 및 실시설계 준공\n○ 2023.10. 공사 착공\n○ 2024.08.28. 공사중지\n○ 2024.12.12. 최초 시공사 계약해지(인천지방조달청▶(주)보보스건설)\n○ 2025.01. 계약해지 타절 준공검사\n○ 2026.03. 공사 재착수(6월 현재 공정률 26%)",
       "progress_rate": 26,
       "expected_completion": "26%",
@@ -10768,7 +11304,9 @@
       "rendering_images": [
         "/renderings/library-3/1.png"
       ],
-      "rendering_image_types": ["조감도"],
+      "rendering_image_types": [
+        "조감도"
+      ],
       "carryover_items": [
         {
           "label": "(가칭)화성시 독서문화공간 조성",
@@ -10783,7 +11321,7 @@
       "total_cost_million_krw": 23700,
       "invested_to_2026_million_krw": 12350,
       "budget_2027_million_krw": 5323,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2020.12. (구)농수산대학 기본구상 용역 완료(전략사업담당관)\n○ 2022.11. 건축기획 용역 준공\n○ 2022.12. 설계공모\n○ 2024.12. 기본 및 실시설계 용역 준공, 공사업무 이관(공공건축과)\n○ 2025.07. 공사 착공\n○ 2026.06. 내부공간 디자인 기본계획 용역 발주\n○ 2026.06. 연결회랑, E/V 철근콘크리트 공사(공사 공정률 41%)",
       "progress_rate": 41,
       "expected_completion": "41%",
@@ -10991,7 +11529,7 @@
       "total_cost_million_krw": 4632,
       "invested_to_2026_million_krw": null,
       "budget_2027_million_krw": 823,
-      "execution_rate": 0.0,
+      "execution_rate": 0,
       "progress_status": "○ 2026.03. 리모델링 기본계획 수립 및 타당성 조사 용역 발주\n○ 2026.04. 리모델링 정밀안전진단용역 발주",
       "progress_rate": 5,
       "expected_completion": "5%",
@@ -11195,7 +11733,9 @@
       "rendering_images": [
         "/renderings/independence-1/1.png"
       ],
-      "rendering_image_types": ["조감도"],
+      "rendering_image_types": [
+        "조감도"
+      ],
       "overview": "○ 사업위치: 화성시 향남읍 제안리 21번지 일원\n○ 사업기간: 2016.4. ~ 2027.6.\n○ 사업내용: 독립운동문화공원 및 기념관 건립",
       "category": "문화관광시설",
       "current_stage": "보상 진행 중",
