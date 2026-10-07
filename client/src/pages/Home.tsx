@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ComponentType, type CSSProperties, type FormEvent as ReactFormEvent, type MouseEvent as ReactMouseEvent, type ReactNode } from "react";
 import { createPortal } from "react-dom";
+import RouteBudgetTable, { type RouteBudgetRow } from "@/components/RouteBudgetTable";
 import { trpc } from "@/lib/trpc";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -124,6 +125,7 @@ type Project = {
   usage_breakdown: { name: string; total: number | null; invested: number | null; budget_2026: number | null; budget_2027: number | null; budget_2028_plus: number | null; budget_2026_base?: number | null; budget_2026_first_extra?: number | null; budget_2026_second_extra?: number | null; budget_2026_third_extra?: number | null; budget_2026_additional?: number | null }[];
   usage_breakdown_note?: string;
   funding_breakdown_note?: string;
+  route_budget_rows?: RouteBudgetRow[];
   card_admin_procedures: string;
   card_admin_legal_basis: string;
   card_admin_status: { mid_term_fiscal?: boolean; investment_review?: boolean; public_property?: boolean; none?: boolean; mid_term_fiscal_date?: string; investment_review_date?: string; public_property_date?: string };
@@ -708,6 +710,7 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
         )}
       </div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
+      {project.route_budget_rows?.length ? <RouteBudgetTable rows={project.route_budget_rows} /> : null}
     </div>
   );
 }
