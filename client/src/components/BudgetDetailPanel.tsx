@@ -41,7 +41,7 @@ type GridSection = {
   // 열이 많은 표를 가로 스크롤 없이 한 줄에 맞추기 위해 글씨·여백을 줄인다
   compact?: boolean;
   // "plan": 비목×연도 표를 연도별 한 줄(그해 단계·비목·금액)로 바꿔 보여준다. 데이터는 원본 그대로 둔다.
-  variant?: "plan" | "cost-schedule" | "cost-breakdown";
+  variant?: "plan" | "cost-schedule" | "cost-breakdown" | "location-cost";
   rows: string[][];
 };
 
@@ -301,7 +301,7 @@ function GridTable({ section }: { section: GridSection }) {
         {section.unit && <span className="bd-unit">[단위: {section.unit}]</span>}
       </div>
       <div className="bd-scroll">
-        <table className={`bd-table bd-grid${section.compact ? " bd-compact" : ""}`} style={{ width: tableWidth }}>
+        <table className={`bd-table bd-grid${section.variant === "location-cost" ? " bd-location-cost" : ""}${section.compact ? " bd-compact" : ""}`} style={{ width: tableWidth }}>
           <colgroup>
             {section.widths.map((width, index) => <col key={index} style={{ width: width }} />)}
           </colgroup>
