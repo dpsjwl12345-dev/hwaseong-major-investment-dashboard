@@ -7384,9 +7384,15 @@
           "card_budget_2026_additional_million_krw": null,
           "card_budget_2028_plus_million_krw": null,
           "rendering_images": [
-            "/renderings/tourism-8/gungpyeong-change.webp"
+            "/renderings/tourism-8/gungpyeong-change.webp",
+            "/renderings/tourism-8/gungpyeong-parking-plan.svg",
+            "/renderings/tourism-8/gungpyeong-location-original.svg",
+            "/renderings/tourism-8/gungpyeong-location-change.svg"
           ],
           "rendering_image_types": [
+            "위치도",
+            "위치도",
+            "위치도",
             "위치도"
           ]
         },
@@ -7588,9 +7594,11 @@
           "card_budget_2026_additional_million_krw": null,
           "card_budget_2028_plus_million_krw": null,
           "rendering_images": [
-            "/renderings/tourism-8/west-coast-407.webp"
+            "/renderings/tourism-8/west-coast-407.webp",
+            "/renderings/tourism-8/location-parking-layout.svg"
           ],
           "rendering_image_types": [
+            "위치도",
             "위치도"
           ]
         }
