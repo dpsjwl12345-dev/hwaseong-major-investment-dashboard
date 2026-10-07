@@ -6554,10 +6554,14 @@
       "rendering_images": [
         "/renderings/tourism-12/1.png",
         "/renderings/tourism-12/2.png",
-        "/renderings/tourism-12/3.webp"
+        "/renderings/tourism-12/3.webp",
+        "/renderings/tourism-12/deck-c.svg",
+        "/renderings/tourism-12/deck-d.svg"
       ],
       "rendering_image_types": [
         "위치도",
+        "조감도",
+        "조감도",
         "조감도",
         "조감도"
       ],
@@ -7172,15 +7176,15 @@
           "card_budget_2026_additional_million_krw": null,
           "card_budget_2028_plus_million_krw": null,
           "rendering_images": [
-        "/renderings/tourism-8/1.png",
-        "/renderings/tourism-8/songgyo-location.webp",
-        "/renderings/tourism-8/songgyo-parking1-plan.webp"
-      ],
+            "/renderings/tourism-8/1.png",
+            "/renderings/tourism-8/songgyo-location.webp",
+            "/renderings/tourism-8/songgyo-parking1-plan.webp"
+          ],
           "rendering_image_types": [
-        "위치도",
-        "위치도",
-        "위치도"
-      ]
+            "위치도",
+            "위치도",
+            "위치도"
+          ]
         },
         {
           "name": "궁평주차장",
