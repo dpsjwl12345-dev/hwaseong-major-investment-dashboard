@@ -172,9 +172,10 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false }: 
   const spendTotal = spend.rows.find((row) => row.kind === "total");
   const valueAt = (section: MatrixSection, total: DetailRow | undefined, year: string) => {
     const index = section.years.indexOf(year);
-    return index >= 0 ? parseAmount(total?.values[index]) : null;
+    const raw = index >= 0 ? total?.values[index] : undefined;
+    return raw === undefined || raw.trim() === "" ? null : parseAmount(raw);
   };
-  const allYears = Array.from(new Set([...budget.years, ...spend.years]));
+  const allYears = Array.from(new Set([...budget.years, ...spend.years])).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
   const years = allYears
     .map((year) => ({ year, budget: valueAt(budget, budgetTotal, year), spend: valueAt(spend, spendTotal, year) }))
     .filter((entry) => (entry.budget ?? 0) > 0 || (entry.spend ?? 0) > 0);
@@ -202,7 +203,7 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false }: 
   // 지출현황표의 계에는 불용액이 들어 있어 연도별 지출 합과 다를 수 있다 — 차이가 불용액과 같으면 그렇게 밝힌다.
   const unusedIndex = spend.extraColumns.indexOf("불용");
   const unused = unusedIndex >= 0 ? spend.rows.reduce((sum, row) => sum + parseAmount(row.extra?.[unusedIndex]), 0) : 0;
-  const spendGap = parseAmount(spendTotal?.total) - spend.years.reduce((sum, year) => sum + (valueAt(spend, spendTotal, year) ?? 0), 0);
+  const spendGap = Math.round((parseAmount(spendTotal?.total) - spend.years.reduce((sum, year) => sum + (valueAt(spend, spendTotal, year) ?? 0), 0)) * 100) / 100;
   const spendItems: { group: string; name: string; total: string; values: string[]; extra: string[] }[] = [];
   let spendGroup = "";
   let spendMiddle = "";
