@@ -9366,3 +9366,12 @@ main.app-main.app-main-flush .hero-panel {
 .bd-large-lined .tl-table .tl-subhead td { padding: 10px 18px; background: rgba(57, 135, 229, .16); border-bottom: 1px solid #3987e5; color: #e6efff; font-size: calc(15px + 1pt); font-weight: 800; text-align: left; }
 /* 어린이 과학관: 감리비 부연 설명(건설사업관리(CM))을 아래 줄이 아니라 같은 줄에 */
 .bd-large-lined .tl-table .tl-sub-line { display: inline; margin: 0 0 0 8px; white-space: nowrap; }
+
+/* Bridge location cost table: readable labels and aligned numeric columns. */
+.bd-table.bd-grid.bd-location-cost { width: 100% !important; min-width: 1090px; table-layout: fixed; }
+.bd-table.bd-grid.bd-location-cost th, .bd-table.bd-grid.bd-location-cost td { padding: 16px 14px; font-size: 16px; line-height: 1.6; vertical-align: middle; }
+.bd-table.bd-grid.bd-location-cost thead th { color: var(--pd-text); background: rgba(57,135,229,.12); font-size: 16px; }
+.bd-table.bd-grid.bd-location-cost td.bd-align-left:not(.bd-label) { color: var(--pd-text); font-size: 16px; white-space: pre-line; word-break: keep-all; }
+.bd-table.bd-grid.bd-location-cost th:first-child, .bd-table.bd-grid.bd-location-cost td.bd-label { text-align: center; color: var(--pd-text); white-space: nowrap; }
+.bd-table.bd-grid.bd-location-cost td.bd-align-right { white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums; }
+.bd-table.bd-grid.bd-location-cost .bd-total-row td { font-size: 17px; }
