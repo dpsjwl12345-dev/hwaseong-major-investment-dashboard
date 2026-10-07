@@ -444,8 +444,12 @@
       "department": "문화유산과",
       "project_name": "화성시 무형유산 전수교육관 건립",
       "overview": "○ 사업위치: 화성시 팔탄면 구장리 산81 외 4필지(담봉근린공원 내)\n○ 사업기간: 2027.01. ~ 2029.12.\n○ 사업내용: 연면적 3,080㎡ 지상2층 1개동(1층 전수교육실·체험실, 2층 공연장·전시실), 야외공연장 1,080㎡·논밭체험장\n○ 총사업비: 14,130백만원(국비 5,000·시비 9,130)",
-      "rendering_images": [],
-      "rendering_image_types": [],
+      "rendering_images": [
+        "/renderings/heritage-3/location.webp"
+      ],
+      "rendering_image_types": [
+        "위치도"
+      ],
       "category": "문화관광시설",
       "current_stage": "사전 행정절차",
       "funding_type": "소계",
