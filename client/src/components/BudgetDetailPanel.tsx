@@ -30,6 +30,7 @@ type GridSection = {
   title: string;
   unit?: string;
   columns: string[];
+  notes?: string[];
   widths: number[];
   align: ("left" | "center" | "right")[];
   boldRows?: number[];
@@ -330,6 +331,7 @@ function GridTable({ section }: { section: GridSection }) {
           </tbody>
         </table>
       </div>
+      {section.notes?.map((note) => <p key={note} className="pl-notes">※ {note}</p>)}
     </div>
   );
 }
