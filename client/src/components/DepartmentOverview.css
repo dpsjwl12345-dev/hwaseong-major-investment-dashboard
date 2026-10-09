@@ -98,3 +98,6 @@ body:has(.do-overview) .site-logo-mark-tagline { color: #50647b; }
 .dept-dashboard:has(.do-overview) .dept-reorder-col button { color: #35516c; border-color: #c3d3e0; background: #fff; }
 .dept-dashboard:has(.do-overview) .dept-new-row input,
 .dept-dashboard:has(.do-overview) .dept-new-row select { color: #17334f; background: #fff; border-color: #c3d3e0; }
+
+.dept-dashboard:has(.do-overview) .dept-project-table .dept-amount-cell { color: #263f58 !important; }
+.dept-dashboard:has(.do-overview) .dept-project-table .dept-total-row .dept-amount-cell { color: #075d56 !important; }
