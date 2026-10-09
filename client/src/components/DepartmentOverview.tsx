@@ -19,8 +19,8 @@ export function DepartmentOverview({ projects, stage, onStageChange }: {
   const cards = [
     ["총사업비", totals.total, "전체 사업의 계획 규모"],
     ["누적 투자예산", totals.invested, "2026년까지 · 실제 집행액과 구분"],
-    ["2027년 예산 요구액", totals.request, "본예산 요구 기준"],
-    ["2028년 이후 계획액", totals.future, "향후 연도별 투자 계획"],
+    ["2027년 요구액", totals.request, "2027년 본예산 요구 기준"],
+    ["향후 계획액", totals.future, "2028년 이후 투자 계획"],
   ] as const;
   return <div className="do-overview">
     <div className="do-budget-grid">{cards.map(([label, value, note], index) => <div key={label} className={index === 2 ? "do-budget-card is-request" : "do-budget-card"}>
