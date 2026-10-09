@@ -49,3 +49,8 @@
 @media(max-width:800px){.cs-summary .cs-intro{grid-template-columns:1fr}.cs-summary .cs-stage-metrics{gap:12px}.cs-summary .cs-stage-metrics>span{padding:14px}.cs-summary .cs-dates{gap:16px}.cs-summary .cs-intro img{height:auto;max-height:340px}}
 @media(max-width:560px){.cs-summary .cs-facts>div{grid-template-columns:92px minmax(0,1fr);gap:12px}.cs-summary .cs-stage-metrics,.cs-summary .cs-dates{grid-template-columns:1fr}.cs-summary .cs-dates>span{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline}.cs-budget .cs-budget-periods>div{grid-template-rows:auto auto auto}}
 .cs-summary .cs-stage .cs-stage-heading h3,.cs-budget header h3{font-family:"Pretendard","Noto Sans KR",sans-serif !important}
+
+.cs-summary .cs-stage-heading h3{display:flex;align-items:center;gap:16px}.cs-summary .cs-stage-heading h3 strong{font-size:17px;font-weight:650;padding:6px 12px;border-radius:8px;background:rgba(74,189,187,.12);border:1px solid #428b8c;line-height:1.4}
+.pd-detail-page:has(> .cs-summary) .pd-detail-title-block>h1:not(.cs-project-title){display:none}
+.pd-detail-page .cs-project-title{font-family:"Pretendard","Noto Sans KR",sans-serif;font-size:36px;font-weight:750;line-height:1.25;letter-spacing:-.035em;margin:0;color:#f4f5fc}
+@media(max-width:800px){.pd-detail-page .cs-project-title{font-size:28px}}

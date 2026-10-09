@@ -1,5 +1,7 @@
 import { deriveProjectBudget, type ProjectBudget } from "../lib/projectBudget";
 import dataset from "../data/dashboard_projects.json";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import "./ChildrenScienceSummary.css";
 
 export const CHILDREN_SCIENCE_ID = "총괄데이터_5.xlsx:문화예술과:6";
@@ -12,6 +14,11 @@ const sourceExecution = source.card_execution_amount_million_krw != null && sour
 const won = (million: number) => `${(million / 100).toLocaleString("ko-KR", { maximumFractionDigits: 1 })}억 원`;
 
 export function ChildrenScienceSummary({ stage, image }: { stage: string; image?: string }) {
+  const summaryRef = useRef<HTMLElement>(null);
+  const [titleContainer, setTitleContainer] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    setTitleContainer(summaryRef.current?.closest(".pd-detail-page")?.querySelector<HTMLElement>(".pd-detail-title-block") ?? null);
+  }, []);
   const total = sourceBudget.total;
   const progress = source.progress_rate;
   const execution = sourceExecution;
@@ -20,7 +27,9 @@ export function ChildrenScienceSummary({ stage, image }: { stage: string; image?
   const steps = ["기획·부지 확보", "설계", "건축 공사", "전시 설치", "개관"];
   const current = stage.includes("설계") ? 1 : stage.includes("공사") ? 2 : stage.includes("전시") ? 3 : stage.includes("개관") ? 4 : 0;
   return (
-    <section className="cs-summary" aria-label="어린이 과학관 한눈에 보기">
+    <>
+    {titleContainer && createPortal(<h1 className="cs-project-title">화성시 어린이 테마 과학관 건립</h1>, titleContainer)}
+    <section ref={summaryRef} className="cs-summary" aria-label="어린이 과학관 한눈에 보기">
       <div className="cs-intro">
         <div>
           <dl className="cs-facts">
@@ -35,15 +44,16 @@ export function ChildrenScienceSummary({ stage, image }: { stage: string; image?
         {image && <figure><img src={image} alt="어린이 과학관 건립 예정 조감도" /><figcaption>완공 후 모습 · 조감도(계획)</figcaption></figure>}
       </div>
       <div className="cs-stage">
-        <div className="cs-stage-heading"><h3>현재는 <strong>{stage}</strong> 단계입니다.</h3><span>자료 기준 2026.9.</span></div>
+        <div className="cs-stage-heading"><h3>추진 현황 <strong>{stage} 단계</strong></h3><span>자료 기준 2026.9.</span></div>
         <div className="cs-stage-metrics"><span>전체 사업 진척도 <b>{progress == null ? "자료 없음" : `${progress}%`}</b></span><span>누적 예산 집행률 <b>{execution}%</b><small>누적 지출 ÷ 누적 예산 · ~2026년</small></span></div>
         <ol className="cs-steps" aria-label="사업 추진 단계">
           {steps.map((step, index) => <li key={step} className={index === current ? "is-current" : index < current ? "is-past" : ""} aria-current={index === current ? "step" : undefined}><span>{index < current ? "✓" : index + 1}</span><b>{step}</b><small>{index === current ? "현재 단계" : index < current ? "이전 단계" : "예정"}</small></li>)}
         </ol>
-        <p className="cs-stage-note">설계는 건물의 구조와 시설 배치를 정하는 과정입니다. 자료상 건축 공사 착공 전이며, 진척도 25%는 전체 사업 추진 정도를 나타냅니다.</p>
+        <p className="cs-stage-note">자료 기준 건축 공사 착공 전 · 진척도는 전체 사업 추진 기준</p>
         <div className="cs-dates"><span><b>착공 예정</b>2027.3.</span><span><b>건물 준공 예정</b>2028.10.</span><span><b>전시 설치·개관 예정</b>2028.12.</span></div>
       </div>
     </section>
+    </>
   );
 }
 
