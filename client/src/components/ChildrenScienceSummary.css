@@ -15,3 +15,18 @@
 .cs-spent{display:grid;grid-template-columns:1fr 1.5fr;gap:24px;align-items:center;padding:18px 20px;margin:24px 0 14px;border-radius:14px;background:rgba(116,160,177,.09)}.cs-spent>div{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px}.cs-spent span{font-size:13px;font-weight:650}.cs-spent strong{font-size:24px;color:#a7e3de}.cs-spent small{width:100%;font-size:11px;color:var(--pd-text-muted,#aeb5c3)}.cs-spent p{font-size:12px;line-height:1.8;color:var(--pd-text-muted,#aeb5c3);margin:0}
 @media(max-width:800px){.cs-intro{grid-template-columns:1fr;padding:20px;gap:20px}.cs-intro img{height:220px}.cs-stage{padding:20px}.cs-steps{gap:5px}.cs-steps li{display:flex;flex-direction:column;text-align:center;padding:10px 4px}.cs-steps b{font-size:11px}.cs-stage-heading{align-items:flex-start}.cs-budget{padding:20px}.cs-budget header{align-items:flex-start;flex-direction:column;gap:4px}.cs-spent{grid-template-columns:1fr;gap:12px}.cs-budget-periods{gap:10px}.cs-budget-periods>div{padding-left:8px}.cs-budget-periods strong{font-size:21px}.cs-budget-periods small{font-size:11px}}
 @media(max-width:480px){.cs-intro h2{font-size:20px}.cs-budget-periods{grid-template-columns:1fr;gap:20px}.cs-budget-periods p{flex-direction:row;align-items:baseline;gap:8px}.cs-steps b{font-size:10px}.cs-stage-heading h3{font-size:16px}}
+/* 기본 KPI 정보를 두 영역에 통합하고, 본문과 보조정보의 최소 글자 크기를 보장한다. */
+.cs-intro{grid-template-columns:minmax(0,1.2fr) minmax(280px,1fr);align-items:center}
+.cs-facts{font-size:17px;gap:14px;margin:0;line-height:1.65}
+.cs-facts dt{min-width:100px;color:#c5cce1}.cs-facts dd{color:#f4f5fc}
+.cs-facts .cs-total{font-size:30px;color:#a7e3de;font-weight:800;line-height:1.3}.cs-total small{display:block;font-size:15px;color:#c5cce1;font-weight:500;margin-top:4px}
+.cs-intro img{height:280px}.cs-intro figcaption{font-size:14px;color:#c5cce1}
+.cs-stage-heading h3{font-size:24px}.cs-stage-heading>span,.cs-budget header>span{font-size:14px;color:#c5cce1}
+.cs-stage-metrics{display:flex;flex-wrap:wrap;gap:20px 40px;margin:20px 0;font-size:17px;color:#dce2f0}.cs-stage-metrics>span{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}.cs-stage-metrics b{font-size:28px;color:#a7e3de}.cs-stage-metrics small{font-size:14px;color:#c5cce1}
+.cs-steps b{font-size:17px}.cs-steps small{font-size:14px}.cs-steps li>span{font-size:14px;width:30px;height:30px}.cs-steps li{grid-template-columns:30px 1fr;padding:16px 12px}
+.cs-stage-note,.cs-budget-note,.cs-spent p{font-size:16px;line-height:1.85;color:#d1d8e8}.cs-dates{font-size:17px;gap:16px 28px}.cs-dates b{color:#c5cce1}
+.cs-eyebrow{font-size:16px}.cs-description{font-size:17px;color:#d1d8e8}.cs-budget h3{font-size:26px}.cs-budget-periods p{font-size:19px}.cs-budget-periods p span{font-size:15px;color:#c5cce1}.cs-budget-periods strong{font-size:32px}.cs-budget-periods small{font-size:16px;color:#d1d8e8}.cs-spent span{font-size:17px}.cs-spent strong{font-size:30px}.cs-spent small{font-size:14px;color:#c5cce1}
+@media(max-width:800px){.cs-intro{grid-template-columns:1fr}.cs-steps b{font-size:15px}.cs-steps li{padding:12px 4px}.cs-steps small{font-size:14px}.cs-budget-periods strong{font-size:27px}}
+@media(max-width:480px){.cs-facts{font-size:16px}.cs-facts dt{min-width:85px}.cs-facts .cs-total{font-size:28px}.cs-steps{grid-template-columns:1fr}.cs-steps li{display:grid;grid-template-columns:30px 1fr;gap:4px 12px;text-align:left;padding:12px 14px}.cs-steps li>span{grid-row:span 2}.cs-steps b{font-size:17px}.cs-stage-heading{flex-direction:column;gap:8px}.cs-stage-heading h3{font-size:22px}.cs-dates{flex-direction:column}.cs-budget h3{font-size:23px}}
+/* 통합 요약이 있는 어린이 과학관에서만 중복 KPI 줄을 숨긴다. */
+.cs-summary + .pd-summary{display:none}
