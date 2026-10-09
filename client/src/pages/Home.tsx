@@ -58,6 +58,8 @@ import { CHILDREN_SCIENCE_ID, ChildrenScienceSummary, ChildrenScienceBudgetSumma
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
 
+import { DepartmentOverview } from "../components/DepartmentOverview";
+
 const pb = deriveProjectBudget;
 
 type Project = {
@@ -941,69 +943,7 @@ function RenderingLightbox({
     document.body,
   );
 }
-const SITE_PASSWORD = "51897225";
 const SITE_UNLOCK_STORAGE_KEY = "hib-site-unlocked";
-
-function SitePasswordButton({ unlocked, onUnlock }: { unlocked: boolean; onUnlock: () => void }) {
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
-  const [error, setError] = useState(false);
-
-  const submit = (event: ReactFormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!value.trim()) return;
-    if (value === SITE_PASSWORD) {
-      localStorage.setItem(SITE_UNLOCK_STORAGE_KEY, "1");
-      onUnlock();
-      setValue("");
-      setError(false);
-    } else {
-      setError(true);
-    }
-  };
-
-  if (unlocked) {
-    return (
-      <button
-        type="button"
-        className="styled-button-circle"
-        aria-label="다시 잠그기"
-        title="다시 잠그기"
-        onClick={() => { localStorage.removeItem(SITE_UNLOCK_STORAGE_KEY); onUnlock(); }}
-      >
-        <Lock className="icon" />
-      </button>
-    );
-  }
-
-  return (
-    <div className="site-password-hover">
-      {open ? (
-        <form className="styled-button-pill" onSubmit={submit}>
-          <input
-            type="text"
-            value={value}
-            onChange={(event) => { setValue(event.target.value); setError(false); }}
-            placeholder="비밀번호"
-            className={`styled-button-input ${error ? "is-error" : ""}`}
-          />
-          <button
-            type={value.trim() ? "submit" : "button"}
-            className="inner-button"
-            aria-label={value.trim() ? "입장" : "비밀번호 입력창 닫기"}
-            onClick={() => { if (!value.trim()) { setOpen(false); setError(false); } }}
-          >
-            <ArrowRight className="icon" />
-          </button>
-        </form>
-      ) : (
-        <button type="button" className="styled-button-circle" aria-label="비밀번호 입력창 열기" title="비밀번호" onClick={() => setOpen(true)}>
-          <ArrowRight className="icon" />
-        </button>
-      )}
-    </div>
-  );
-}
 
 const TABS = ["사업개요·추진현황", "예산현황", "위치도"] as const;
 
@@ -1449,7 +1389,7 @@ function DepartmentDashboard({
       if (!normalizedSearch) return true;
       return `${project.project_name} ${project.department} ${project.category} ${project.project_type} ${project.region} ${project.district} ${project.town}`.toLowerCase().includes(normalizedSearch);
     })
-    .filter((project) => stageFilter === "전체" || project.current_stage === stageFilter)
+    .filter((project) => stageFilter === "전체" || (project.current_stage || "미등록") === stageFilter)
     .filter((project) => divisionFilter === "전체" || project.region === divisionFilter)
     .filter((project) => inRange(pb(project).total, totalCostMin, totalCostMax))
     .filter((project) => inRange(pb(project).budget2027, budget2027Min, budget2027Max))
@@ -1504,12 +1444,7 @@ function DepartmentDashboard({
       </div>
 
       <p className="dept-baseline-note">{BUDGET_BASELINE_LABEL}</p>
-      <div className="dept-kpi-grid dept-kpi-grid-selected">
-        <div className="dept-kpi"><span>총사업비</span><strong>{formatDepartmentAmount(totalCost)}</strong></div>
-        <div className="dept-kpi"><span>기투자액</span><strong>{formatDepartmentAmount(investedAmount)}</strong><small>2026년까지 누적 투자</small></div>
-        <div className="dept-kpi dept-kpi-accent"><span>2027년 편성예정액</span><strong>{formatDepartmentAmount(budget2027)}</strong></div>
-        <div className="dept-kpi"><span>향후 계획예산액</span><strong>{formatDepartmentAmount(futurePlanBudget)}</strong><small>2028년 이후 계획액</small></div>
-      </div>
+      <DepartmentOverview projects={departmentProjects} stage={stageFilter} onStageChange={setStageFilter} />
 
       <div className="dept-panel dept-panel-projects dept-panel-selected">
         <div className="dept-filter-row dept-budget-filter-row">
@@ -1560,7 +1495,7 @@ function DepartmentDashboard({
             </th>
             <th>기투자액</th>
             <th className="dept-filter-accordion dept-filter-accordion-amount">
-              <button type="button" className={`dept-filter-accordion-toggle ${isBudget2027Open ? "is-open" : ""}`} onClick={() => setIsBudget2027Open((open) => !open)}>2027년 예산액{(budget2027Min || budget2027Max) ? " •" : ""} <ChevronDown size={13} /></button>
+              <button type="button" className={`dept-filter-accordion-toggle ${isBudget2027Open ? "is-open" : ""}`} onClick={() => setIsBudget2027Open((open) => !open)}>2027년 요구액{(budget2027Min || budget2027Max) ? " •" : ""} <ChevronDown size={13} /></button>
               {isBudget2027Open && (
                 <div className="dept-filter-accordion-panel dept-filter-range-panel">
                   <button type="button" className={sortColumn === "budget_2027" && sortDir === "desc" ? "is-active" : ""} onClick={() => { setSortColumn("budget_2027"); setSortDir("desc"); }}>큰 금액순</button>
@@ -1575,7 +1510,7 @@ function DepartmentDashboard({
                 </div>
               )}
             </th>
-            <th>향후 계획예산액</th><th>예산집행률</th>
+            <th>향후 계획예산액</th><th>사업 진척도</th>
             {isAdmin && <th className="dept-reorder-col">순서</th>}
           </tr></thead><tbody>
             {filteredProjects.length > 0 && <tr className="dept-total-row">

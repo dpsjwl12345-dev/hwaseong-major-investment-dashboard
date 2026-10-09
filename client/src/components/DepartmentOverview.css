@@ -1,0 +1,31 @@
+.do-overview { margin: 20px 0 0; font-family: "Pretendard", sans-serif; color: #edf1f7; }
+.do-stage-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 14px; }
+.do-stage-header h2 { margin: 0; font-size: 23px; font-weight: 750; }
+.do-stage-header > span { color: #cbd3df; font-size: 17px; }
+.do-stage-list { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+.do-stage-list button { display: flex; align-items: center; gap: 22px; padding: 13px 20px; border-radius: 12px; border: 1px solid #3b4352; background: #151b27; color: #e4eaf4; font-size: 17px; cursor: pointer; }
+.do-stage-list button[aria-pressed="true"] { border-color: #e9b34b; background: #30291c; color: #ffda86; }
+.do-stage-list strong { font-size: 24px; font-variant-numeric: tabular-nums; }
+.do-stage-list small { font-size: 14px; margin-left: 4px; font-weight: 500; }
+.do-budget-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; }
+.do-budget-card { padding: 22px 20px; border: 1px solid #333b49; border-radius: 16px; background: #141a25; }
+.do-budget-card > span { font-size: 17px; font-weight: 600; color: #d9e1ed; }
+.do-budget-card > strong { display: block; margin-top: 14px; font-size: clamp(26px,2.5vw,36px); line-height: 1.4; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.do-budget-card strong small { font-size: 17px; margin-left: 7px; font-weight: 500; }
+.do-budget-card p { font-size: 15px; line-height: 1.5; color: #c1cad9; margin: 10px 0 0; }
+.do-budget-card.is-request { border-color: #806633; background: #242117; }
+.do-budget-card.is-request > strong { color: #ffd778; }
+.do-table-guide { margin: 28px 0 14px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.do-table-guide > span { font-size: 21px; font-weight: 700; }
+.do-table-guide p { font-size: 15px; line-height: 1.6; color: #c1cad9; margin: 0; }
+.dept-dashboard:not(.ir-board) .dept-baseline-note { font-size: 16px; color: #c3ccda; }
+.dept-project-table { font-size: 17px; line-height: 1.65; min-width: 1120px; }
+.dept-project-table th { color: #dce3ee; font-size: 16px; }
+.dept-project-table td { padding-top: 18px; padding-bottom: 18px; }
+.dept-project-table td:nth-child(2) { min-width: 240px; width: 27%; word-break: keep-all; }
+.dept-project-table td:nth-child(2) strong { font-size: 18px; font-weight: 650; }
+.dept-project-table .dept-stage-chip { font-size: 15px; color: #dbe7fa; border-color: #4c607c; background: #202c40; word-break: keep-all; }
+.dept-project-table .dept-amount-cell { font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
+.dept-project-table tbody tr:not(.dept-total-row):hover { background: #202a3b; }
+@media(max-width:1000px) { .do-budget-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .do-stage-header,.do-table-guide { align-items: flex-start; flex-direction: column; } }
+@media(max-width:600px) { .do-budget-card { padding: 17px 14px; } .do-budget-card > span { font-size: 15px; } .do-budget-card > strong { font-size: 25px; } .do-stage-list button { padding: 10px 14px; gap: 12px; } }
