@@ -107,3 +107,6 @@
 .ir-board .ir-result-legend-desc { color: #c9d1df; }
 .ir-board .ir-result-legend .ir-result-badge { background: transparent; padding: 3px 0; font-size: 15px; }
 
+
+/* Search removal applies to every dashboard screen, including closed icons. */
+.site-search, .pd-detail-search, .dept-dashboard-search { display: none !important; }
