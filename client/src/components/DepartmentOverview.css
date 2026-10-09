@@ -42,3 +42,59 @@
 .do-budget-card strong small { font-size: 20px; }
 .do-budget-card p { grid-column: 1 / -1; grid-row: 2; font-size: 16px; line-height: 24px; }
 .do-budget-card.is-request { border-color: #806633; background: #242117; }
+
+/* Department visual system: navy ink, teal state, light paper surfaces. */
+body:has(.do-overview) { background: #eef2f6; }
+body:has(.do-overview) #root { --pd-ground: #eef2f6; --pd-text: #172b43; --pd-text-muted: #50647b; --pd-text-faint: #50647b; --pd-border: #d9e2eb; }
+body:has(.do-overview) main { background: #eef2f6 !important; }
+body:has(.do-overview) .site-header-sticky { background: #eef2f6; }
+body:has(.do-overview) .floating-nav { background: #fff; border-color: #d9e2eb; box-shadow: 0 6px 20px -14px #1a3650; }
+body:has(.do-overview) .site-header-sticky .floating-nav-link,
+body:has(.do-overview) .site-header-sticky .floating-nav-dropdown-row-static button { color: #203c59; }
+body:has(.do-overview) .floating-nav-link:hover,
+body:has(.do-overview) .floating-nav-dropdown-row-static button:hover,
+body:has(.do-overview) .floating-nav-dropdown-row-static button.is-active { background: #e6f3f1; color: #0b655e; }
+body:has(.do-overview) .site-logo-mark { color: #173d5b !important; }
+body:has(.do-overview) .site-logo-mark-tagline { color: #50647b; }
+.dept-dashboard:has(.do-overview) { color: #172b43; background: #eef2f6; }
+.dept-dashboard:has(.do-overview) h1 { color: #17334f !important; }
+.dept-dashboard:has(.do-overview) .dept-baseline-note { color: #52667c; }
+.do-overview { color: #17334f; }
+.do-budget-card { background: #fff; border-color: #d4dfe9; }
+.do-budget-card + .do-budget-card { border-color: #d4dfe9; }
+.do-budget-card > span { color: #35516c; }
+.do-budget-card > strong { color: #17334f; }
+.do-budget-card p { color: #52667c; }
+.do-budget-card.is-request { background: #e6f3f1; border-color: #80b9b2; }
+.do-budget-card.is-request > strong { color: #08675f; }
+.do-stage-header > span, .do-table-guide p { color: #52667c; }
+.do-stage-list { border-color: #d2dee8; }
+.do-stage-list button { color: #35516c; }
+.do-stage-list button:hover { background: #e0eaf2; }
+.do-stage-list button[aria-pressed="true"] { color: #075d56; background: #d8eeea; border-color: #80b9b2; }
+.do-stage-list button:focus-visible { outline-color: #08786d; }
+.do-table-guide > span { color: #35516c; }
+.dept-dashboard:has(.do-overview) .dept-panel { background: #fff; border-color: #d4dfe9; }
+.dept-dashboard:has(.do-overview) .dept-filter-row { color: #52667c; border-color: #d4dfe9; background: #fff; }
+.dept-dashboard:has(.do-overview) .dept-table-export { color: #254a68; background: #f4f8fb; border-color: #cbd9e5; }
+.dept-dashboard:has(.do-overview) .dept-project-table th { color: #35516c; background: #e9f0f6; border-color: #d4dfe9; }
+.dept-dashboard:has(.do-overview) .dept-project-table td { color: #263f58; border-color: #e1e8ef; background: transparent; }
+.dept-dashboard:has(.do-overview) .dept-project-table td strong { color: #183d5a; }
+.dept-dashboard:has(.do-overview) .dept-project-table tbody tr:not(.dept-total-row):nth-child(odd) { background: #f7fafc; }
+.dept-dashboard:has(.do-overview) .dept-project-table tbody tr:not(.dept-total-row):hover { background: #e8f5f2; }
+.dept-dashboard:has(.do-overview) .dept-total-row td { background: #dfeeea !important; color: #075d56 !important; }
+.dept-dashboard:has(.do-overview) .dept-total-row td strong,
+.dept-dashboard:has(.do-overview) .dept-total-row .dept-amount-cell { color: #075d56 !important; }
+.dept-dashboard:has(.do-overview) .dept-filter-accordion-toggle { background: #fff; border-color: #c3d3e0; color: #35516c; }
+.dept-dashboard:has(.do-overview) .dept-filter-accordion-panel { background: #fff; border-color: #c3d3e0; }
+.dept-dashboard:has(.do-overview) .dept-filter-accordion-panel button { color: #35516c; }
+.dept-dashboard:has(.do-overview) .dept-filter-accordion-panel button:hover { background: #e7f2ef; }
+.dept-dashboard:has(.do-overview) .dept-project-table .dept-stage-chip { color: #23536f; background: #e4eef6; border-color: #bacedd; }
+.dept-dashboard:has(.do-overview) .dept-project-type { color: #35516c; background: #edf3f8; border-color: #c4d4e1; }
+.dept-dashboard:has(.do-overview) .dept-project-type.is-new { color: #08675f; background: #e1f2ed; }
+.dept-dashboard:has(.do-overview) .dept-progress b { color: #075d56; }
+.dept-dashboard:has(.do-overview) .dept-progress > span { background: #d9e5ed; }
+.dept-dashboard:has(.do-overview) .dept-progress em { background: #218d82; }
+.dept-dashboard:has(.do-overview) .dept-reorder-col button { color: #35516c; border-color: #c3d3e0; background: #fff; }
+.dept-dashboard:has(.do-overview) .dept-new-row input,
+.dept-dashboard:has(.do-overview) .dept-new-row select { color: #17334f; background: #fff; border-color: #c3d3e0; }
