@@ -54,6 +54,7 @@ import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
 import { Timeline, TimelineContent, TimelineDate, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator } from "@/components/ui/timeline";
 import { InteractiveSelector } from "@/components/ui/interactive-selector";
 import { BudgetDetailPanel, hasBudgetDetail } from "../components/BudgetDetailPanel";
+import { CHILDREN_SCIENCE_ID, ChildrenScienceSummary, ChildrenScienceBudgetSummary } from "../components/ChildrenScienceSummary";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
 
@@ -441,6 +442,13 @@ function currentBudget(project: Project) {
 
 function executionRate(project: Project) {
   const executed = project.card_execution_amount_million_krw;
+  // 어린이 과학관 관리카드의 집행액은 누적액이므로 같은 기간의 누적 예산과 비교한다.
+  if (project.id === CHILDREN_SCIENCE_ID) {
+    const cumulativeBudget = project.card_execution_budget_million_krw;
+    return executed != null && cumulativeBudget != null && cumulativeBudget > 0
+      ? Math.round((executed / cumulativeBudget) * 100)
+      : project.card_execution_rate ?? project.execution_rate ?? 0;
+  }
   const base = currentBudget(project);
   if (executed == null || base <= 0) return project.execution_rate ?? 0;
   return Math.min(100, Math.max(0, Math.round((executed / base) * 100)));
@@ -684,14 +692,15 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
   }, [project.id, defaultBudgetYear]);
   const budgetCards = [
     { label: "총사업비", value: total, icon: WalletMoneyIcon, tone: "teal", carryoverItems: undefined },
-    { label: "기투자액 (~2026)", value: invested, icon: GraphUpIcon, tone: "teal", carryoverItems: undefined },
-    { label: "2027년 예산액", value: budget, icon: CalendarAddIcon, tone: "teal", carryoverItems: undefined },
+    { label: project.id === CHILDREN_SCIENCE_ID ? "누적 편성액 (~2026)" : "기투자액 (~2026)", value: invested, icon: GraphUpIcon, tone: "teal", carryoverItems: undefined },
+    { label: project.id === CHILDREN_SCIENCE_ID ? "2027년 본예산 요구액" : "2027년 예산액", value: budget, icon: CalendarAddIcon, tone: "teal", carryoverItems: undefined },
     { label: carryoverLabel, value: carryoverTotal, icon: RefreshCircleIcon, tone: "teal", carryoverItems },
-    { label: "집행액", value: executionAmount, icon: CardSendIcon, tone: "teal", carryoverItems: undefined },
+    { label: project.id === CHILDREN_SCIENCE_ID ? "누적 지출액 (~2026)" : "집행액", value: executionAmount, icon: CardSendIcon, tone: "teal", carryoverItems: undefined },
   ] as const;
   return (
     <div className="pd-card">
       <p className="pd-baseline-note">{BUDGET_BASELINE_LABEL}</p>
+      {project.id === CHILDREN_SCIENCE_ID && <ChildrenScienceBudgetSummary budget={budgetOf} spent={executionAmount} />}
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid">
         <YearBudgetPanel
@@ -1089,6 +1098,8 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
         <div className="pd-detail-search"><PodaSearch value={searchValue} onChange={onSearchChange} projects={searchProjects} onSelectProject={onSelectProject} /></div>
       </div>
 
+      {activeProject.id === CHILDREN_SCIENCE_ID && <ChildrenScienceSummary stage={activeProject.current_stage} image={activeProject.rendering_images?.find((_, index) => activeProject.rendering_image_types?.[index] === "조감도")} />}
+
       <section className="pd-summary mt-8" aria-label="사업 요약">
         <div className="pd-summary-cell">
           <span className="pd-summary-label"><TagIcon /> 사업 성격 · 추진 단계</span>
@@ -1112,15 +1123,15 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
           </div>
         </div>
         <div className="pd-summary-cell hero">
-          <span className="pd-summary-label pd-summary-label-execution"><CardSendIcon /> 예산 집행 현황</span>
-          <span className="pd-summary-formula">집행액 / 예산현액(편성액+이월액)</span>
+          <span className="pd-summary-label pd-summary-label-execution"><CardSendIcon /> {activeProject.id === CHILDREN_SCIENCE_ID ? "누적 예산 집행률" : "예산 집행 현황"}</span>
+          <span className="pd-summary-formula">{activeProject.id === CHILDREN_SCIENCE_ID ? "누적 지출 / 누적 예산 · ~2026년" : "집행액 / 예산현액(편성액+이월액)"}</span>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <Gauge key={`${project.id}-${selectedSubIndex}-exec`} percent={executionRate(activeProject)} />
             <span className="pd-summary-value grad">{executionRate(activeProject)}<small style={{ fontSize: 16, fontWeight: 700, color: "var(--pd-text-muted)" }}>%</small></span>
           </div>
         </div>
         <div className="pd-summary-cell pd-summary-cell-date">
-          <span className="pd-summary-label pd-summary-label-schedule"><CalendarMarkIcon /> 준공 목표</span>
+          <span className="pd-summary-label pd-summary-label-schedule"><CalendarMarkIcon /> {activeProject.id === CHILDREN_SCIENCE_ID ? "개관 목표" : "준공 목표"}</span>
           <span className="pd-summary-value" style={{ fontSize: 18 }}>{formatDateText(activeProject.inspection || "-")}</span>
         </div>
         <div className="pd-summary-cell pd-summary-cell-location">
