@@ -97,3 +97,5 @@
   .ir-board .dept-dashboard-header h1 { font-size: 30px; }
   .ir-board .dept-filter-row { gap: 12px; flex-wrap: wrap; }
 }
+.ir-board .ir-table th, .ir-board .ir-table td, .ir-board .ir-result-legend-desc { word-break: keep-all; overflow-wrap: normal; }
+.ir-board .ir-table td:first-child, .ir-board .ir-table td:nth-child(2), .ir-board .ir-table td:nth-child(6) { white-space: nowrap; }
