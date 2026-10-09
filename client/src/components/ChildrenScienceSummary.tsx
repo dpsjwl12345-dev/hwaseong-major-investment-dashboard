@@ -24,7 +24,7 @@ export function ChildrenScienceSummary({ stage, image }: { stage: string; image?
       <div className="cs-intro">
         <div>
           <dl className="cs-facts">
-            <div><dt>총사업비</dt><dd className="cs-total">{won(total)} <small>{total.toLocaleString("ko-KR")}백만원</small></dd></div>
+            <div><dt>총사업비</dt><dd className="cs-summary-total">{won(total)} <small>{total.toLocaleString("ko-KR")}백만원</small></dd></div>
             <div><dt>사업 구분</dt><dd>{kind}</dd></div>
             <div><dt>위치</dt><dd>병점동 899번지 · 병점복합타운</dd></div>
             <div><dt>지역·선거구</dt><dd>{location}</dd></div>
