@@ -12,9 +12,6 @@ export function ChildrenScienceSummary({ stage, image }: { stage: string; image?
     <section className="cs-summary" aria-label="어린이 과학관 한눈에 보기">
       <div className="cs-intro">
         <div>
-          <p className="cs-eyebrow">어떤 사업인가요?</p>
-          <h2>병점에 어린이를 위한 과학관을 짓는 사업입니다.</h2>
-          <p className="cs-description">병점복합타운에 과학 전시시설을 갖춘 어린이 과학관을 조성합니다. 건물을 짓고 전시콘텐츠를 제작·설치한 뒤, 2028년 12월 개관을 목표로 추진합니다.</p>
           <dl className="cs-facts">
             <div><dt>위치</dt><dd>병점동 899번지 · 병점복합타운</dd></div>
             <div><dt>시설 규모</dt><dd>지하 1층~지상 4층 · 연면적 9,000㎡</dd></div>
