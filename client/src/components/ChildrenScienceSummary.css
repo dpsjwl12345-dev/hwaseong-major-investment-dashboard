@@ -65,3 +65,35 @@
 .pd-detail-page:has(> .cs-summary) .pd-detail-search{display:none}
 @media(max-width:1100px){.site-header-sticky{min-height:190px}.site-header-sticky .floating-nav-row{left:24px;right:150px}.site-header-sticky .site-logo-mark{right:24px}}
 @media(max-width:600px){.site-header-sticky{min-height:260px}.site-header-sticky .floating-nav-row{left:16px;right:116px;top:24px}.site-header-sticky .site-logo-mark{right:16px;top:24px}.site-header-sticky .site-logo-mark-word{font-size:36px}.site-header-sticky .floating-nav-link,.site-header-sticky .floating-nav-dropdown-row-static button{font-size:17px}}
+
+/* Investment review: readable typography within the existing board. */
+.ir-board { color: #edf0f6; font-family: "Pretendard", sans-serif; }
+.ir-board .dept-dashboard-header { flex-direction: column; gap: 22px; }
+.ir-board .dept-dashboard-header > div:first-child { width: 100%; min-width: 0; }
+.ir-board .dept-dashboard-header h1 { font-size: 36px; line-height: 1.35; word-break: keep-all; }
+.ir-board .dept-dashboard-eyebrow { color: #c4cbd8; font-size: 14px; }
+.ir-board .ir-result-legend { width: 100%; max-width: 100%; box-sizing: border-box; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 10px 24px; padding: 20px; }
+.ir-board .ir-result-legend-title { color: #ffd36b !important; font-size: 18px; letter-spacing: 0; }
+.ir-board .ir-result-legend-row { align-items: flex-start; }
+.ir-board .ir-result-legend-desc { color: #dde3ed; font-size: 17px; line-height: 1.65; white-space: normal; }
+.ir-board .ir-tabs button { font-family: "Pretendard", sans-serif; font-size: 18px; color: #d8deea; padding: 10px 24px; }
+.ir-board .ir-tabs button.is-active { color: #10131f; }
+.ir-board .dept-filter-row label, .ir-board .dept-filter-row select, .ir-board .ir-count { font-size: 16px; color: #d8deea; line-height: 1.5; }
+.ir-board .ir-table { font-size: 18px; line-height: 1.6; min-width: 1120px; }
+.ir-board .ir-table th { font-size: 17px; color: #e1e6f0; background: #242a37; }
+.ir-board .ir-table td { color: #edf0f6; padding: 17px 12px; }
+.ir-board .ir-table td.ir-project-name { color: #fff; }
+.ir-board .ir-table td.ir-amount { color: #ffd36b; font-size: 19px; }
+.ir-board .ir-result-badge { font-size: 16px; }
+.ir-board .ir-result-success { color: #70e0bd; }
+.ir-board .ir-result-warning { color: #ffd36b; }
+.ir-board .ir-result-critical { color: #ffaca5; }
+.ir-board .ir-re-review-tag { font-size: 13px; }
+.ir-board .ir-detail-block span { font-size: 16px; }
+.ir-board .ir-detail-block p { font-size: 18px; color: #e1e6f0; line-height: 1.8; }
+.ir-board .ir-row-actions button { width: 32px; height: 32px; color: #d8deea; }
+@media (max-width: 900px) {
+  .ir-board .ir-result-legend { display: grid; grid-template-columns: 1fr; }
+  .ir-board .dept-dashboard-header h1 { font-size: 30px; }
+  .ir-board .dept-filter-row { gap: 12px; flex-wrap: wrap; }
+}
