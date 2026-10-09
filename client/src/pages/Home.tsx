@@ -54,6 +54,7 @@ import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
 import { Timeline, TimelineContent, TimelineDate, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator } from "@/components/ui/timeline";
 import { InteractiveSelector } from "@/components/ui/interactive-selector";
 import { BudgetDetailPanel, hasBudgetDetail } from "../components/BudgetDetailPanel";
+import { ChildrenScienceBudgetReview } from "../components/ChildrenScienceBudgetReview";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
 
@@ -689,7 +690,7 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
     { label: carryoverLabel, value: carryoverTotal, icon: RefreshCircleIcon, tone: "teal", carryoverItems },
     { label: "집행액", value: executionAmount, icon: CardSendIcon, tone: "teal", carryoverItems: undefined },
   ] as const;
-  return (
+  const legacyBudgetView = (
     <div className="pd-card">
       <p className="pd-baseline-note">{BUDGET_BASELINE_LABEL}</p>
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
@@ -713,6 +714,9 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
       {project.route_budget_rows?.length ? <RouteBudgetTable rows={project.route_budget_rows} /> : null}
     </div>
   );
+  return project.id === "총괄데이터_5.xlsx:문화예술과:6"
+    ? <ChildrenScienceBudgetReview project={project}>{legacyBudgetView}</ChildrenScienceBudgetReview>
+    : legacyBudgetView;
 }
 
 // 추진경과 세로 타임라인(shadcn Timeline). 가장 최근 항목이 "현재" 단계고, 그 앞 단계는 채운 점으로 그려진다.
