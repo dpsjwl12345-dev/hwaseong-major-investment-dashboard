@@ -48,3 +48,4 @@
 .cs-budget .cs-budget-periods>div{display:grid;grid-template-rows:58px auto 1fr;gap:12px}.cs-budget .cs-budget-periods p,.cs-budget .cs-budget-periods small{margin:0}.cs-budget .cs-budget-periods strong{line-height:1.3}
 @media(max-width:800px){.cs-summary .cs-intro{grid-template-columns:1fr}.cs-summary .cs-stage-metrics{gap:12px}.cs-summary .cs-stage-metrics>span{padding:14px}.cs-summary .cs-dates{gap:16px}.cs-summary .cs-intro img{height:auto;max-height:340px}}
 @media(max-width:560px){.cs-summary .cs-facts>div{grid-template-columns:92px minmax(0,1fr);gap:12px}.cs-summary .cs-stage-metrics,.cs-summary .cs-dates{grid-template-columns:1fr}.cs-summary .cs-dates>span{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline}.cs-budget .cs-budget-periods>div{grid-template-rows:auto auto auto}}
+.cs-summary .cs-stage .cs-stage-heading h3,.cs-budget header h3{font-family:"Pretendard","Noto Sans KR",sans-serif !important}
