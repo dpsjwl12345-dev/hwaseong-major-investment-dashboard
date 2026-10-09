@@ -99,3 +99,11 @@
 }
 .ir-board .ir-table th, .ir-board .ir-table td, .ir-board .ir-result-legend-desc { word-break: keep-all; overflow-wrap: normal; }
 .ir-board .ir-table td:first-child, .ir-board .ir-table td:nth-child(2), .ir-board .ir-table td:nth-child(6) { white-space: nowrap; }
+
+/* Make the page title the primary visual anchor. */
+.ir-board .dept-dashboard-header h1 { font-size: clamp(28px, 3.2vw, 46px); font-weight: 800; line-height: 1.3; margin-bottom: 8px; }
+.ir-board .ir-result-legend { background: transparent; border-color: rgba(255,255,255,.08); padding: 14px 18px; gap: 5px 24px; }
+.ir-board .ir-result-legend-title { color: #c9d1df !important; font-size: 16px; font-weight: 600; }
+.ir-board .ir-result-legend-desc { color: #c9d1df; }
+.ir-board .ir-result-legend .ir-result-badge { background: transparent; padding: 3px 0; font-size: 15px; }
+
