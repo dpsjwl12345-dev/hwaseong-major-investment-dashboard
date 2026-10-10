@@ -9387,3 +9387,8 @@ main.app-main.app-main-flush .hero-panel {
 .bd-table.bd-grid.bd-location-cost th:first-child, .bd-table.bd-grid.bd-location-cost td.bd-label { text-align: center; color: var(--pd-text); white-space: nowrap; }
 .bd-table.bd-grid.bd-location-cost td.bd-align-right { white-space: nowrap; font-weight: 600; font-variant-numeric: tabular-nums; }
 .bd-table.bd-grid.bd-location-cost .bd-total-row td { font-size: 17px; }
+.yb-summary .yb-summary-share{font-size:20px !important;font-weight:600 !important}
+.yb-columns .yb-name,.yb-columns .yb-value{font-size:18px !important}.yb-columns .yb-share{font-size:16px !important}.yb-columns h4{font-size:18px !important}.yb-columns h4+span,.yb-columns header span{font-size:17px !important}
+.tl-table th .tl-stage-keyword{display:block;margin-top:4px;font-size:14px;font-weight:600;color:#a7e3de;white-space:nowrap;letter-spacing:-.01em}.tl-table th.is-selected .tl-stage-keyword{color:#ffd67e}
+.tl-table tr.tl-subhead td{background:#1d2a3d !important;color:#d6e2f2 !important;font-weight:700 !important;border-top:1px solid #34486a;border-bottom:1px solid #34486a}
+.tl-table tr.tl-subhead td{background:#16302e !important;color:#a7e3de !important;border-top:1px solid #2c5551;border-bottom:1px solid #2c5551}

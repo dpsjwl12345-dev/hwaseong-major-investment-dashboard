@@ -19,6 +19,8 @@ type MatrixSection = {
   stages: string[];
   // 연도별 추진 내용(있으면 표 머리글 아래 "추진 내용" 줄로 보여준다)
   stageNotes?: string[];
+  // 연도 머리글 아래 한 단어로 보여줄 그해 추진 내용(긴 문장은 툴팁으로).
+  stageKeywords?: string[];
   notes?: string[];
   extraColumns: string[];
   rows: DetailRow[];
@@ -112,19 +114,19 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
       <div className="bd-scroll">
         <table className="tl-table">
           <colgroup>
-            <col style={{ width: 250 }} />
+            <col style={{ width: 160 }} />
             <col style={{ width: 120 }} />
             {years.map(({ year }) => <col key={year} />)}
           </colgroup>
           <thead>
             <tr>
-              <th>과목</th>
+              <th>구분</th>
               <th>계</th>
-              {years.map(({ year }) => <th key={year} className={isSelected(year) ? "is-selected" : undefined}>{year}</th>)}
+              {years.map(({ year, index }) => <th key={year} className={isSelected(year) ? "is-selected" : undefined} title={section.stageKeywords ? section.stageNotes?.[index]?.replace(/\n/g, " ") : undefined}>{year}{section.stageKeywords?.[index] && <small className="tl-stage-keyword">{section.stageKeywords[index]}</small>}</th>)}
             </tr>
           </thead>
           <tbody>
-            {hasNotes && (
+            {hasNotes && !section.stageKeywords && (
               <tr className="tl-notes">
                 <td>추진 내용</td>
                 <td />
@@ -179,7 +181,9 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false }: 
   const allYears = Array.from(new Set([...budget.years, ...spend.years])).sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
   const years = allYears
     .map((year) => ({ year, budget: valueAt(budget, budgetTotal, year), spend: valueAt(spend, spendTotal, year) }))
-    .filter((entry) => (entry.budget ?? 0) > 0 || (entry.spend ?? 0) > 0);
+    .filter((entry) => (entry.budget ?? 0) > 0 || (entry.spend ?? 0) > 0)
+    // 집행현황은 이미 편성된 예산만 본다 — 올해 이후(요구액·계획액) 열은 뺀다.
+    .filter((entry) => parseInt(entry.year, 10) <= new Date().getFullYear());
   const past = years.filter((entry) => entry.spend !== null);
   const pastBudget = past.reduce((sum, entry) => sum + (entry.budget ?? 0), 0);
   const pastSpend = past.reduce((sum, entry) => sum + (entry.spend ?? 0), 0);
@@ -229,7 +233,7 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false }: 
   return (
     <>
       <div className="pd-card-title">
-        <span>□ 연도별 예산 대비 지출</span>
+        <span>□ 연도별 예산 지출</span>
         <span className="bd-unit">[단위: 백만원]</span>
       </div>
       <div className="bd-scroll">
@@ -287,7 +291,6 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false }: 
           </tbody>
         </table>
       </div>
-      <p className="pl-notes">※ 집행률 = 지출 ÷ 그해 예산(막대는 100%까지). 50% 미만은 주황, 100% 초과(이월분 집행 등)는 파랑. 지출 자료가 없는 연도는 비워 둠.{gapNote}{spendExtraNotes.length > 0 && ` ${spendExtraNotes.join(" · ")}`}</p>
     </>
   );
 }
@@ -351,7 +354,7 @@ const stageOf = (name: string) => STAGE_OF[name] ?? "부대·기타";
 
 // 원본은 천원. 위 카드와 같은 백만원으로 보여준다(천원 아래 자리는 소수 한 자리로 살린다).
 const toMillion = (value: string) => (value ? Number(value.replace(/,/g, "")) / 1000 : 0);
-const fmtMillion = (value: number) => value.toLocaleString("ko-KR", { maximumFractionDigits: 1 });
+const fmtMillion = (value: number) => value.toLocaleString("ko-KR", { maximumFractionDigits: 0 });
 
 function yearBucket(label: string): PlanYearKey | null {
   const match = label.match(/(\d{4})/);

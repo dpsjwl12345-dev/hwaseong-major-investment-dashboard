@@ -648,7 +648,6 @@ function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, selectedY
           ))}
         </div>
         <div className="yb-summary">
-          <span className="yb-summary-label">{selectedLabel}</span>
           <strong>{formatMillion(yearTotal || null)}{yearTotal ? "백만원" : ""}</strong>
           <span className="yb-summary-share">({share > 0 && share < 0.1 ? "0.1% 미만" : `${share.toFixed(1)}%`})</span>
         </div>
@@ -702,7 +701,7 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
   return (
     <div className="pd-card">
       <p className="pd-baseline-note">{BUDGET_BASELINE_LABEL}</p>
-      {project.id === CHILDREN_SCIENCE_ID && <ChildrenScienceBudgetSummary budget={budgetOf} spent={executionAmount} />}
+      {project.id === CHILDREN_SCIENCE_ID && <ChildrenScienceBudgetSummary budget={budgetOf} spent={executionAmount} carryover={carryoverTotal} carryoverType={carryoverItems.length === 1 ? carryoverItems[0].type : undefined} />}
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid">
         <YearBudgetPanel
@@ -1113,7 +1112,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             <span key={tab} className="pill-tab-option">
               <input id={inputId} name={`detail-tab-${project.id}`} type="radio" checked={activeTab === tab} onChange={() => setActiveTab(tab)} />
               <label htmlFor={inputId} role="tab" aria-selected={activeTab === tab}>
-                {tab}
+                {project.id === CHILDREN_SCIENCE_ID && tab === "사업개요·추진현황" ? "추진경과·계획" : tab}
               </label>
             </span>
           );
@@ -1436,7 +1435,7 @@ function DepartmentDashboard({
       <div className="dept-dashboard-header">
         <div>
           <p className="dept-dashboard-eyebrow">DEPARTMENT INVESTMENT CONTROL</p>
-          <h1>{initialDepartment} 추진현황</h1>
+          <h1>{initialDepartment} 주요투자사업</h1>
         </div>
         <div className="dept-dashboard-search">
           <PodaSearch value={projectSearch} onChange={setProjectSearch} projects={departmentProjects} onSelectProject={onSelectProject} />

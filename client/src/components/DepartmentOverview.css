@@ -171,11 +171,11 @@
 /* Table readability: one typeface, consistent header scale, brighter figures */
 .dept-dashboard:has(.do-overview) .dept-project-table,
 .dept-dashboard:has(.do-overview) .dept-project-table * { font-family: "Pretendard", "Noto Sans KR", sans-serif !important; }
-.dept-dashboard:has(.do-overview) .dept-project-table th { font-size: 16px !important; font-weight: 700 !important; color: #dfe6f1 !important; letter-spacing: 0 !important; }
-.dept-dashboard:has(.do-overview) .dept-project-table th button { font-size: 15px !important; font-weight: 700 !important; color: #dfe6f1 !important; letter-spacing: 0 !important; }
-.dept-dashboard:has(.do-overview) .dept-project-table td { font-size: 17px !important; font-weight: 500 !important; color: #e4e9f1 !important; letter-spacing: -.005em !important; }
-.dept-dashboard:has(.do-overview) .dept-project-table td:nth-child(2) strong { font-size: 17px !important; font-weight: 600 !important; color: #f5f7fb !important; letter-spacing: -.01em !important; }
+.dept-dashboard:has(.do-overview) .dept-project-table th { font-size: 17px !important; font-weight: 700 !important; color: #dfe6f1 !important; letter-spacing: 0 !important; }
+.dept-dashboard:has(.do-overview) .dept-project-table th button { font-size: 16px !important; font-weight: 700 !important; color: #dfe6f1 !important; letter-spacing: 0 !important; }
+.dept-dashboard:has(.do-overview) .dept-project-table td { font-size: 18px !important; font-weight: 500 !important; color: #e4e9f1 !important; letter-spacing: -.005em !important; }
+.dept-dashboard:has(.do-overview) .dept-project-table td:nth-child(2) strong { font-size: 18px !important; font-weight: 600 !important; color: #f5f7fb !important; letter-spacing: -.01em !important; }
 .dept-dashboard:has(.do-overview) .dept-project-table .dept-amount-cell { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
-.dept-dashboard:has(.do-overview) .dept-project-table .dept-stage-chip { font-size: 14px !important; font-weight: 500 !important; }
+.dept-dashboard:has(.do-overview) .dept-project-table .dept-stage-chip { font-size: 15px !important; font-weight: 500 !important; }
 .dept-dashboard:has(.do-overview) .dept-project-table .dept-total-row td,
 .dept-dashboard:has(.do-overview) .dept-project-table .dept-total-row td * { color: #ffd67e !important; font-weight: 700 !important; }

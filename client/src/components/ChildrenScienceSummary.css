@@ -110,3 +110,461 @@
 
 /* Search removal applies to every dashboard screen, including closed icons. */
 .site-search, .pd-detail-search, .dept-dashboard-search { display: none !important; }
+/* Photo first, overview beside it */
+.cs-summary .cs-intro{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:36px;align-items:stretch}
+.cs-summary .cs-intro figure{margin:0;display:flex;flex-direction:column}
+.cs-summary .cs-intro img{width:100%;height:100%;min-height:360px;max-height:440px;object-fit:cover;border-radius:16px}
+.cs-summary .cs-overview{display:flex;flex-direction:column;gap:18px;min-width:0}
+.cs-summary .cs-overview-eyebrow{margin:0;font-size:14px;font-weight:700;letter-spacing:.08em;color:#a7e3de}
+.cs-summary .cs-overview-lead{margin:0;padding-bottom:18px;border-bottom:1px solid var(--pd-border,rgba(255,255,255,.12));font-size:20px;line-height:1.7;font-weight:500;color:#e9edf6;word-break:keep-all}
+.cs-summary .cs-overview-lead strong{color:#fff;font-weight:700}
+.cs-summary .cs-overview .cs-facts{gap:10px}
+@media(max-width:800px){.cs-summary .cs-intro img{min-height:240px}.cs-summary .cs-overview-lead{font-size:18px}}
+.cs-summary .cs-overview{justify-content:center}
+.cs-summary .cs-overview-lead{font-size:21px;line-height:1.75}
+.cs-summary .cs-keyfacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0;padding:0;list-style:none}
+.cs-summary .cs-keyfacts li{display:flex;flex-direction:column;gap:6px;padding:14px 18px;border:1px solid var(--pd-border,rgba(255,255,255,.12));border-radius:12px;background:rgba(255,255,255,.03)}
+.cs-summary .cs-keyfacts span{font-size:14px;color:#aeb8c9}
+.cs-summary .cs-keyfacts b{font-size:22px;font-weight:700;color:#f4f6fb;letter-spacing:-.01em}
+.cs-summary .cs-keyfacts li:first-child b{color:#a7e3de}
+.cs-summary .cs-overview-meta{margin:0;font-size:15px;color:#aeb8c9}
+.cs-summary .cs-overview-lead{padding-bottom:0;border-bottom:0;font-size:26px;line-height:1.5;font-weight:700;color:#fff}
+.cs-summary .cs-overview-lead strong{color:#a7e3de}
+.cs-summary .cs-overview-body{margin:0;font-size:19px;line-height:1.8;color:#d9dfea;word-break:keep-all}
+.cs-summary .cs-overview-body strong{color:#fff;font-weight:700}
+/* Editorial overview (minimalist-ui / redesign skill): hierarchy by type, hairline rows, no boxes */
+.cs-summary .cs-overview{justify-content:flex-start;gap:0;max-width:640px}
+.cs-summary .cs-overview-eyebrow{margin:0 0 14px;font-size:14px;font-weight:600;letter-spacing:.06em;color:#8fa3bf}
+.cs-summary .cs-overview-lead{margin:0;padding:0;border:0;font-size:34px;line-height:1.28;font-weight:600;letter-spacing:-.03em;color:#e8ecf3;text-wrap:balance}
+.cs-summary .cs-overview-lead strong{display:inline;color:#a7e3de;font-weight:800}
+.cs-summary .cs-overview-body{margin:18px 0 0;font-size:18px;line-height:1.75;color:#c3cbd8;max-width:36em;text-wrap:pretty}
+.cs-summary .cs-overview-list{margin:28px 0 0;padding:0;border-top:1px solid rgba(255,255,255,.1)}
+.cs-summary .cs-overview-list>div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:20px;padding:15px 0;border-bottom:1px solid rgba(255,255,255,.07);align-items:baseline}
+.cs-summary .cs-overview-list dt{font-size:15px;font-weight:500;color:#8fa3bf}
+.cs-summary .cs-overview-list dd{margin:0;display:flex;flex-direction:column;gap:3px;min-width:0}
+.cs-summary .cs-overview-list b{font-size:18px;font-weight:600;color:#f1f4f9;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.cs-summary .cs-overview-list b.is-accent{font-size:24px;font-weight:700;color:#a7e3de}
+.cs-summary .cs-overview-list span{font-size:14px;color:#98a4b6;line-height:1.5}
+.cs-summary .cs-overview-meta{display:none}
+@media(max-width:800px){.cs-summary .cs-overview-lead{font-size:28px}.cs-summary .cs-overview-list>div{grid-template-columns:80px minmax(0,1fr);gap:14px}}
+.cs-summary .cs-intro{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:44px;align-items:center}
+.cs-summary .cs-intro img{min-height:0;height:auto;aspect-ratio:4/3;max-height:380px}
+.cs-summary .cs-intro figure{align-self:center}
+.cs-summary .cs-overview-lead{font-size:24px;line-height:1.45;font-weight:600;color:#eef2f8;margin:0 0 4px}
+.cs-summary .cs-overview-list{margin-top:14px}
+.cs-summary .cs-overview-list b{line-height:1.55;word-break:keep-all}
+/* Larger overview type */
+.cs-summary .cs-overview-eyebrow{font-size:17px}
+.cs-summary .cs-overview-lead{font-size:27px}
+.cs-summary .cs-overview-list>div{grid-template-columns:110px minmax(0,1fr);padding:18px 0}
+.cs-summary .cs-overview-list dt{font-size:18px}
+.cs-summary .cs-overview-list b{font-size:21px}
+.cs-summary .cs-overview-list b.is-accent{font-size:28px}
+.cs-summary .cs-overview-list span{font-size:16px}
+/* Animated progress meters */
+.cs-summary .cs-stage-metrics{gap:48px}
+.cs-summary .cs-meter{display:flex;flex-direction:column;gap:12px;min-width:0}
+.cs-summary .cs-meter-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.cs-summary .cs-meter-head span{font-size:18px;color:#d3dae6}
+.cs-summary .cs-meter-head b{font-size:40px;font-weight:700;line-height:1;color:#a7e3de;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.cs-summary .cs-meter-head b small{font-size:20px;margin-left:2px;font-weight:600}
+.cs-summary .cs-meter-track{position:relative;height:8px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden}
+.cs-summary .cs-meter-track i{position:absolute;inset:0 auto 0 0;width:var(--to);border-radius:inherit;background:linear-gradient(90deg,#5fb8b0,#a7e3de);transform:scaleX(0);transform-origin:left center;transition:transform 1.4s cubic-bezier(.16,1,.3,1)}
+.cs-summary .cs-meter.is-visible .cs-meter-track i{transform:scaleX(1)}
+.cs-summary .cs-meter-track i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:translateX(-100%);animation:cs-meter-sheen 2.4s 1.4s ease-in-out infinite}
+.cs-summary .cs-meter-note{font-size:14px;color:#98a4b6}
+/* current step: soft pulse */
+.cs-summary .cs-steps li.is-current>span{position:relative}
+.cs-summary .cs-steps li.is-current>span::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(167,227,222,.55);animation:cs-step-pulse 1.8s ease-out infinite}
+@keyframes cs-meter-sheen{to{transform:translateX(100%)}}
+@keyframes cs-step-pulse{0%{transform:scale(.9);opacity:.9}100%{transform:scale(1.5);opacity:0}}
+@media (prefers-reduced-motion: reduce){.cs-summary .cs-meter-track i{transition:none}.cs-summary .cs-meter-track i::after,.cs-summary .cs-steps li.is-current>span::after{animation:none;display:none}}
+.cs-summary .cs-meter-track i{overflow:hidden}
+/* Stage tag: plain text with live dot instead of a boxed badge */
+.cs-summary .cs-stage-heading h3{gap:18px;align-items:baseline}
+.cs-summary .cs-stage-heading h3 strong{display:inline-flex;align-items:center;gap:10px;padding:0;border:0;border-radius:0;background:none;color:#a7e3de;font-size:18px;font-weight:600;letter-spacing:-.01em}
+.cs-summary .cs-stage-heading h3 strong::before{content:"";width:8px;height:8px;border-radius:50%;background:#a7e3de;box-shadow:0 0 0 0 rgba(167,227,222,.6);animation:cs-live-dot 1.8s ease-out infinite}
+.cs-summary .cs-stage-heading h3 strong::after{content:"진행 중";margin-left:2px;font-size:15px;font-weight:500;color:#8fa3bf}
+@keyframes cs-live-dot{0%{box-shadow:0 0 0 0 rgba(167,227,222,.55)}100%{box-shadow:0 0 0 9px rgba(167,227,222,0)}}
+@media (prefers-reduced-motion: reduce){.cs-summary .cs-stage-heading h3 strong::before{animation:none}}
+/* Steps: horizontal timeline (no boxes) — dots on a line, line filled up to current step */
+.cs-summary .cs-steps{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin:36px 0 28px;padding:0}
+.cs-summary .cs-steps::before{content:"";position:absolute;left:10%;right:10%;top:15px;height:2px;background:rgba(255,255,255,.1)}
+.cs-summary .cs-steps li{position:relative;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 6px;border:0;border-radius:0;background:none;box-shadow:none;text-align:center}
+.cs-summary .cs-steps li::before{content:"";position:absolute;top:15px;left:-50%;width:100%;height:2px;background:#5fb8b0;transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.cs-summary .cs-steps li:first-child::before{display:none}
+.cs-summary .cs-steps li.is-past::before,.cs-summary .cs-steps li.is-current::before{transform:scaleX(1)}
+.cs-summary .cs-steps li>span{position:relative;z-index:1;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;border:2px solid rgba(255,255,255,.18);background:#141a25;color:#8fa3bf;font-size:14px;font-weight:700}
+.cs-summary .cs-steps li.is-past>span{border-color:#5fb8b0;background:#5fb8b0;color:#0f1726}
+.cs-summary .cs-steps li.is-current>span{border-color:#a7e3de;background:#a7e3de;color:#0f1726;width:36px;height:36px;margin-top:-2px}
+.cs-summary .cs-steps b{font-size:18px;font-weight:600;color:#c3cbd8;line-height:1.4}
+.cs-summary .cs-steps li.is-past b{color:#d9dfea}
+.cs-summary .cs-steps li.is-current b{color:#fff;font-weight:700}
+.cs-summary .cs-steps small{font-size:14px;color:#7f8b9e}
+.cs-summary .cs-steps li.is-current small{color:#a7e3de;font-weight:600}
+@media(max-width:560px){.cs-summary .cs-steps b{font-size:14px}.cs-summary .cs-steps small{font-size:12px}}
+.cs-summary .cs-stage-heading h3 strong{color:#ffd67e}
+.cs-summary .cs-stage-heading h3 strong::before{background:#ffd67e;animation-name:cs-live-dot-gold}
+@keyframes cs-live-dot-gold{0%{box-shadow:0 0 0 0 rgba(255,214,126,.55)}100%{box-shadow:0 0 0 9px rgba(255,214,126,0)}}
+/* Key dates inline on the heading row */
+.cs-summary .cs-stage-heading{display:flex;align-items:center;flex-wrap:wrap;gap:12px 32px}
+.cs-summary .cs-stage-heading .cs-dates{display:flex;gap:36px;margin:0 0 0 auto;padding:0}
+.cs-summary .cs-stage-heading .cs-dates>span{display:flex;flex-direction:row;align-items:baseline;gap:10px;font-size:22px;font-weight:700;color:#f1f4f9;line-height:1.3;font-variant-numeric:tabular-nums}
+.cs-summary .cs-stage-heading .cs-dates b{font-size:16px;font-weight:500;color:#8fa3bf}
+.cs-summary .cs-stage-heading .cs-stage-basis{flex-basis:100%;text-align:right;font-size:13px;color:#7f8b9e;margin-top:-6px}
+@media(max-width:900px){.cs-summary .cs-stage-heading .cs-dates{margin-left:0;gap:20px;flex-wrap:wrap}.cs-summary .cs-stage-heading .cs-stage-basis{text-align:left}}
+.cs-summary .cs-overview-eyebrow{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.cs-summary .cs-overview-basis{font-size:14px;font-weight:500;letter-spacing:0;color:#7f8b9e}
+/* Key dates: milestone strip — label over date, dashed connectors, goal date in gold */
+.cs-summary .cs-stage-heading .cs-dates{gap:0;align-items:flex-end}
+.cs-summary .cs-stage-heading .cs-dates>span{position:relative;flex-direction:column;align-items:flex-start;gap:4px;padding-left:56px;font-size:24px;font-weight:700;letter-spacing:-.01em}
+.cs-summary .cs-stage-heading .cs-dates>span:first-child{padding-left:0}
+.cs-summary .cs-stage-heading .cs-dates>span+span::before{content:"";position:absolute;left:14px;bottom:13px;width:28px;border-top:2px dashed rgba(255,255,255,.22)}
+.cs-summary .cs-stage-heading .cs-dates>span+span::after{content:"";position:absolute;left:38px;bottom:9px;width:7px;height:7px;border-top:2px solid rgba(255,255,255,.35);border-right:2px solid rgba(255,255,255,.35);transform:rotate(45deg)}
+.cs-summary .cs-stage-heading .cs-dates b{font-size:14px;font-weight:500;color:#8fa3bf;letter-spacing:0}
+.cs-summary .cs-stage-heading .cs-dates>span:last-child{color:#ffd67e}
+.cs-summary .cs-stage-heading .cs-dates>span:last-child b{color:#e4c27a}
+@media(max-width:900px){.cs-summary .cs-stage-heading .cs-dates>span{padding-left:40px;font-size:20px}.cs-summary .cs-stage-heading .cs-dates>span+span::before{left:8px;width:20px}.cs-summary .cs-stage-heading .cs-dates>span+span::after{left:26px}}
+/* Key dates v2: milestone rail with nodes */
+.cs-summary .cs-stage-heading{align-items:flex-start}
+.cs-summary .cs-stage-heading .cs-dates{position:relative;display:grid;grid-template-columns:repeat(3,minmax(120px,auto));column-gap:44px;padding-top:22px;align-items:start}
+.cs-summary .cs-stage-heading .cs-dates::before{content:"";position:absolute;top:5px;left:5px;right:5px;height:2px;background:linear-gradient(90deg,rgba(167,227,222,.45),rgba(255,214,126,.6))}
+.cs-summary .cs-stage-heading .cs-dates>span,.cs-summary .cs-stage-heading .cs-dates>span:first-child{padding-left:0;gap:2px;font-size:24px}
+.cs-summary .cs-stage-heading .cs-dates>span+span::before,.cs-summary .cs-stage-heading .cs-dates>span+span::after{display:none}
+.cs-summary .cs-stage-heading .cs-dates>span>b{order:-1}
+.cs-summary .cs-stage-heading .cs-dates>span::before,.cs-summary .cs-stage-heading .cs-dates>span:first-child::before{content:"";display:block;position:absolute;top:-22px;left:0;width:12px;height:12px;border-radius:50%;background:#141a25;border:2px solid #a7e3de;box-sizing:border-box}
+.cs-summary .cs-stage-heading .cs-dates>span:last-child::before{width:14px;height:14px;top:-23px;background:#ffd67e;border-color:#ffd67e;box-shadow:0 0 0 4px rgba(255,214,126,.18)}
+.cs-summary .cs-stage-heading .cs-dates em{font-style:normal;font-size:13px;font-weight:600;color:#c9a75c;letter-spacing:0;margin-top:2px}
+.cs-summary .cs-stage-heading .cs-dates em:empty{display:none}
+.cs-summary .cs-stage-heading .cs-dates>span+span::before{content:"";display:block;position:absolute;top:-22px;left:0;width:12px;height:12px;border-radius:50%;background:#141a25;border:2px solid #a7e3de;box-sizing:border-box}
+.cs-summary .cs-stage-heading .cs-dates>span+span:last-child::before{width:14px;height:14px;top:-23px;background:#ffd67e;border-color:#ffd67e;box-shadow:0 0 0 4px rgba(255,214,126,.18)}
+.cs-summary .cs-stage-heading .cs-dates>span{position:relative}
+/* Key dates v3: no rail — stacked label/date with thin vertical dividers */
+.cs-summary .cs-stage-heading .cs-dates{padding-top:0;column-gap:0;grid-template-columns:repeat(3,auto)}
+.cs-summary .cs-stage-heading .cs-dates::before,
+.cs-summary .cs-stage-heading .cs-dates>span::before,
+.cs-summary .cs-stage-heading .cs-dates>span+span::before,
+.cs-summary .cs-stage-heading .cs-dates>span+span:last-child::before{display:none}
+.cs-summary .cs-stage-heading .cs-dates>span,.cs-summary .cs-stage-heading .cs-dates>span:first-child{padding:0 28px}
+.cs-summary .cs-stage-heading .cs-dates>span:last-child{padding-right:0}
+.cs-summary .cs-stage-heading .cs-dates>span+span{border-left:1px solid rgba(255,255,255,.1)}
+.cs-summary .cs-stage-heading .cs-dates>span:first-child::before,.cs-summary .cs-stage-heading .cs-dates>span:last-child::before{display:none}
+.cs-summary .cs-stage .cs-stage-heading h3{font-family:"Gmarket Sans","GmarketSans","Pretendard",sans-serif !important;font-weight:700;letter-spacing:-.02em}
+.cs-summary .cs-overview-eyebrow{margin-bottom:6px}.cs-summary .cs-overview-list{margin-top:4px}.cs-summary .cs-overview-lead+.cs-overview-list{margin-top:14px}
+/* Meter v2: thicker bar, 10% tick segments on the track, moving diagonal-stripe texture on the fill */
+.cs-summary .cs-meter-track{height:16px;border-radius:8px;background:
+  repeating-linear-gradient(90deg,transparent 0 calc(10% - 2px),rgba(10,14,22,.9) calc(10% - 2px) 10%),
+  rgba(255,255,255,.07)}
+.cs-summary .cs-meter-track i{border-radius:8px;background:
+  repeating-linear-gradient(-45deg,rgba(255,255,255,.16) 0 6px,transparent 6px 12px),
+  linear-gradient(90deg,#3f9e95,#a7e3de);
+  background-size:17px 17px,100% 100%;
+  animation:cs-meter-stripes 1.2s linear infinite;
+  box-shadow:0 0 18px rgba(127,214,205,.35)}
+.cs-summary .cs-meter-track i::after{display:none}
+.cs-summary .cs-meter-track::after{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 calc(10% - 2px),rgba(10,14,22,.85) calc(10% - 2px) 10%)}
+@keyframes cs-meter-stripes{to{background-position:17px 0,0 0}}
+@media (prefers-reduced-motion: reduce){.cs-summary .cs-meter-track i{animation:none}}
+/* Section headings: 사업 개요 matches 추진 현황 */
+.cs-summary .cs-overview-eyebrow{align-items:center;margin:0 0 14px}
+.cs-summary .cs-overview-eyebrow>span:first-child{font-family:"Gmarket Sans","GmarketSans","Pretendard",sans-serif !important;font-size:24px;font-weight:700;letter-spacing:-.02em;color:#f4f5fc}
+.cs-summary .cs-overview-list{margin-top:0}
+.cs-summary .cs-overview{max-width:none}
+/* Below the summary: drop blocks already shown above, keep 추진경과·향후계획 and 사전절차 이행여부 */
+.pd-detail-page:has(> .cs-summary) .pd-card:has(> .pd-kv-row-overview){display:none}
+.pd-detail-page:has(> .cs-summary) .pd-progress-summary{display:none}
+/* Larger type: 추진경과·향후계획·사전절차 (children science page only) */
+.pd-detail-page:has(> .cs-summary) .pd-panel-fade .pd-section-heading-title{font-size:22px !important}
+.pd-detail-page:has(> .cs-summary) .pd-panel-fade .text-muted-foreground{font-size:16px !important}
+.pd-detail-page:has(> .cs-summary) .pd-panel-fade .text-base,
+.pd-detail-page:has(> .cs-summary) .pd-panel-fade .pd-progress-milestone{font-size:19px !important;line-height:1.6 !important}
+.pd-detail-page:has(> .cs-summary) .pd-panel-fade .pd-progress-notes-title,
+.pd-detail-page:has(> .cs-summary) .pd-panel-fade .pd-progress-notes-empty{font-size:17px !important}
+.pd-detail-page:has(> .cs-summary) .pd-panel-fade .pd-admin-card *{font-size:18px !important}
+.pd-detail-page:has(> .cs-summary) .pd-panel-fade .pd-admin-card .pd-section-heading-title{font-size:22px !important}
+/* "Now" heading: live pulsing dot */
+.cs-summary .cs-stage-heading h3{display:inline-flex;align-items:center;gap:12px}
+.cs-summary .cs-live-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#ffd67e;animation:cs-live-dot-gold 1.8s ease-out infinite;flex:none}
+@media (prefers-reduced-motion: reduce){.cs-summary .cs-live-dot{animation:none}}
+/* Budget v2: one bar = 총사업비; 편성(안에 집행) · 2027 요구 · 향후 필요 */
+.cs-budget.cs-budget-v2{padding:32px 36px}
+.cs-budget-v2 header{display:block;margin:0 0 22px}
+.cs-budget-v2 header h3{margin:0;display:flex;align-items:baseline;gap:16px;font-family:"Gmarket Sans","GmarketSans","Pretendard",sans-serif !important;font-size:24px;font-weight:700;color:#f4f5fc;letter-spacing:-.02em}
+.cs-budget-v2 header h3 strong{font-size:40px;color:#fff;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.cs-flow-bar{display:flex;gap:4px;height:28px;margin:0 0 26px}
+.cs-flow-bar>span{position:relative;height:100%;border-radius:6px;overflow:hidden}
+.cs-flow-bar .past{background:rgba(127,214,205,.32)}
+.cs-flow-bar .past .spent{position:absolute;inset:0 auto 0 0;background:#5fb8b0}
+.cs-flow-bar .next{background:#e7c26d}
+.cs-flow-bar .future{background:repeating-linear-gradient(-45deg,rgba(176,166,232,.55) 0 6px,rgba(176,166,232,.3) 6px 12px)}
+.cs-flow-legend{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;margin:0}
+.cs-flow-legend>div{min-width:0}
+.cs-flow-legend dt{display:flex;align-items:center;gap:8px;font-size:17px;color:#c3cbd8;font-weight:500}
+.cs-flow-legend dt i{width:12px;height:12px;border-radius:3px;flex:none}
+.cs-flow-legend .past dt i{background:rgba(127,214,205,.32);box-shadow:inset 0 0 0 1px #5fb8b0}
+.cs-flow-legend .spent dt i{background:#5fb8b0}
+.cs-flow-legend .next dt i{background:#e7c26d}
+.cs-flow-legend .future dt i{background:repeating-linear-gradient(-45deg,rgba(176,166,232,.8) 0 3px,rgba(176,166,232,.4) 3px 6px)}
+.cs-flow-legend dd{margin:8px 0 0;display:flex;flex-direction:column;gap:4px}
+.cs-flow-legend b{font-size:30px;font-weight:700;color:#f4f6fb;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.cs-flow-legend .next b{color:#ffd67e}
+.cs-flow-legend small{font-size:15px;color:#8fa3bf}
+@media(max-width:900px){.cs-flow-legend{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* children science: drop the duplicate 5 KPI cards under the summary */
+.pd-detail-page:has(> .cs-summary) .pd-exec-grid{display:none}
+.cs-flow-legend{grid-template-columns:repeat(3,minmax(0,1fr))}
+/* Execution, separated from the total bar */
+.cs-exec{margin-top:30px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)}
+.cs-exec-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:14px}
+.cs-exec-head h4{margin:0;font-family:"Gmarket Sans","GmarketSans","Pretendard",sans-serif !important;font-size:20px;font-weight:700;color:#f4f5fc}
+.cs-exec-head p{margin:0;display:flex;align-items:baseline;gap:12px}
+.cs-exec-head span{font-size:16px;color:#8fa3bf}
+.cs-exec-head b{font-size:30px;font-weight:700;color:#f4f6fb;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.cs-exec-head em{font-style:normal;font-size:30px;font-weight:700;color:#a7e3de;font-variant-numeric:tabular-nums}
+.cs-exec-track{height:12px;border-radius:6px;background:rgba(255,255,255,.07);overflow:hidden}
+.cs-exec-track i{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#3f9e95,#a7e3de)}
+.cs-exec small{display:block;margin-top:10px;font-size:14px;color:#7f8b9e}
+.cs-flow-bar .past{background:#5fb8b0}.cs-flow-legend .past dt i{background:#5fb8b0;box-shadow:none}
+/* Execution v2: 편성액 bar split into 집행/미집행, stats row with 이월 */
+.cs-exec h4{margin:0 0 16px;display:flex;align-items:baseline;gap:14px;font-family:"Gmarket Sans","GmarketSans","Pretendard",sans-serif !important;font-size:20px;font-weight:700;color:#f4f5fc}
+.cs-exec h4 small{font-family:"Pretendard",sans-serif;font-size:14px;font-weight:500;color:#7f8b9e;margin:0}
+.cs-exec-bar{display:flex;height:34px;border-radius:8px;overflow:hidden;background:repeating-linear-gradient(-45deg,rgba(255,255,255,.08) 0 6px,rgba(255,255,255,.03) 6px 12px)}
+.cs-exec-bar .done{display:flex;align-items:center;justify-content:flex-end;padding-right:12px;background:linear-gradient(90deg,#3f9e95,#7fd6cd)}
+.cs-exec-bar .done b{font-size:16px;font-weight:800;color:#0f1726;font-variant-numeric:tabular-nums}
+.cs-exec-bar .left{flex:1}
+.cs-exec-stats{display:flex;flex-wrap:wrap;gap:12px 44px;margin:16px 0 0}
+.cs-exec-stats>div{display:flex;align-items:baseline;gap:10px}
+.cs-exec-stats dt{display:flex;align-items:center;gap:8px;font-size:16px;color:#8fa3bf}
+.cs-exec-stats dt i{width:12px;height:12px;border-radius:3px}
+.cs-exec-stats .done dt i{background:#5fb8b0}
+.cs-exec-stats .left dt i{background:repeating-linear-gradient(-45deg,rgba(255,255,255,.35) 0 3px,rgba(255,255,255,.12) 3px 6px)}
+.cs-exec-stats dd{margin:0;font-size:24px;font-weight:700;color:#f4f6fb;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.cs-exec-stats .done dd{color:#a7e3de}
+.cs-exec-stats .base{margin-left:auto}
+.cs-exec-stats .base dd,.cs-exec-stats .carry dd{font-size:20px;color:#d9dfea}
+.cs-exec-stats .carry{padding-left:24px;border-left:1px solid rgba(255,255,255,.12)}
+.cs-flow-legend dt small{font-size:15px;color:#8fa3bf;font-weight:400;margin-left:2px}
+/* Refined bars: slim track, muted tones, % above each segment, no hatching */
+.cs-flow-bar{position:relative;gap:3px;height:10px;margin:34px 0 26px}
+.cs-flow-bar>span{border-radius:5px;overflow:visible}
+.cs-flow-bar>span em{position:absolute;left:0;bottom:16px;font-style:normal;font-size:14px;font-weight:600;color:#8fa3bf;font-variant-numeric:tabular-nums}
+.cs-flow-bar .past{background:linear-gradient(90deg,#4aa79f,#7fcfc6)}
+.cs-flow-bar .next{background:linear-gradient(90deg,#d9b25c,#f0d28a);box-shadow:0 0 16px rgba(240,210,138,.25)}
+.cs-flow-bar .next em{color:#e9c97f}
+.cs-flow-bar .future{background:rgba(160,170,200,.22)}
+.cs-flow-legend .past dt i{background:#5fb8b0}
+.cs-flow-legend .next dt i{background:#e7c26d}
+.cs-flow-legend .future dt i{background:rgba(160,170,200,.45)}
+.cs-flow-legend dt i{width:8px;height:8px;border-radius:50%}
+.cs-exec-bar{height:10px;border-radius:5px;overflow:visible;background:rgba(255,255,255,.08);margin-top:34px;position:relative}
+.cs-exec-bar .done{position:relative;border-radius:5px;padding:0;background:linear-gradient(90deg,#4aa79f,#7fcfc6)}
+.cs-exec-bar .done b{position:absolute;right:0;bottom:16px;font-size:14px;font-weight:700;color:#a7e3de}
+.cs-exec-stats .done dt i,.cs-exec-stats .left dt i{width:8px;height:8px;border-radius:50%}
+.cs-exec-stats .left dt i{background:rgba(255,255,255,.25)}
+/* Equation layout: 편성 + 2027 + 향후 = 총사업비 */
+.cs-budget.cs-budget-eq{padding:36px 40px 30px}
+.cs-eq{display:grid;grid-template-columns:auto auto auto auto auto auto auto;justify-content:space-between;align-items:end;gap:0 20px}
+.cs-eq-term{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cs-eq-term p{margin:0;font-size:17px;font-weight:500;color:#c3cbd8;white-space:nowrap}
+.cs-eq-term b{font-size:40px;font-weight:700;line-height:1.1;color:#f4f6fb;letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.cs-eq-term small{font-size:14px;color:#7f8b9e;white-space:nowrap}
+.cs-eq-term.next b{color:#ffd67e}
+.cs-eq-term.future b{color:#c9cfdc}
+.cs-eq-term.total{padding-left:28px;border-left:1px solid rgba(255,255,255,.12)}
+.cs-eq-term.total p{font-family:"Gmarket Sans","GmarketSans","Pretendard",sans-serif;font-weight:700;color:#f4f5fc}
+.cs-eq-term.total b{font-size:48px;color:#a7e3de}
+.cs-eq-op{align-self:center;margin-top:8px;font-size:34px;font-weight:300;color:#5d6a7e;line-height:1}
+.cs-exec-eq{display:flex;align-items:center;flex-wrap:wrap;gap:12px 22px;margin-top:30px;padding-top:24px;border-top:1px solid rgba(255,255,255,.08)}
+.cs-exec-eq h4{margin:0;font-family:"Gmarket Sans","GmarketSans","Pretendard",sans-serif !important;font-size:20px;font-weight:700;color:#f4f5fc}
+.cs-ring{width:48px;height:48px;flex:none}
+.cs-ring circle{fill:none;stroke-width:7}
+.cs-ring .track{stroke:rgba(255,255,255,.09)}
+.cs-ring .fill{stroke:#7fcfc6;stroke-linecap:round;transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)}
+.cs-exec-rate{margin-left:-10px;font-size:28px;font-weight:700;color:#a7e3de;font-variant-numeric:tabular-nums}
+.cs-exec-line{margin:0;display:flex;align-items:baseline;gap:8px}
+.cs-exec-line span{font-size:16px;color:#8fa3bf}
+.cs-exec-line b{font-size:22px;font-weight:700;color:#f4f6fb;font-variant-numeric:tabular-nums}
+.cs-exec-line b.done{color:#a7e3de}
+.cs-exec-line i{font-style:normal;color:#5d6a7e;margin:0 6px}
+.cs-exec-line.carry{padding-left:22px;border-left:1px solid rgba(255,255,255,.12)}
+.cs-exec-basis{margin-left:auto;font-size:14px;color:#7f8b9e}
+@media(max-width:1100px){.cs-eq{grid-template-columns:1fr;gap:16px}.cs-eq-op{display:none}.cs-eq-term.total{padding-left:0;border-left:0;padding-top:16px;border-top:1px solid rgba(255,255,255,.12)}}
+.cs-eq-term.total p,.cs-exec-eq h4{font-family:"Gmarket Sans","GmarketSans","Pretendard",sans-serif !important;font-size:20px !important;font-weight:700 !important;color:#f4f5fc !important;letter-spacing:-.01em !important}
+/* Execution as a second equation: 집행 + 미집행 = 누적 편성액 | 이월액 */
+.cs-exec-eq{display:block}
+.cs-exec-eq h4{display:flex;align-items:baseline;gap:14px;margin:0 0 18px}
+.cs-exec-eq h4 small{font-family:"Pretendard",sans-serif;font-size:14px;font-weight:500;color:#7f8b9e}
+.cs-eq-sub{grid-template-columns:auto auto auto auto auto 1fr;justify-content:start;gap:0 28px}
+.cs-eq-sub .cs-eq-term b{font-size:32px}
+.cs-eq-sub .cs-eq-op{font-size:28px}
+.cs-eq-value{display:flex;align-items:center;gap:12px}
+.cs-eq-sub .cs-ring{width:38px;height:38px}
+.cs-eq-sub .done b{color:#a7e3de}
+.cs-eq-sub .done small{color:#7fcfc6}
+.cs-eq-sub .left b{color:#9aa5b8}
+.cs-eq-sub .carry{justify-self:end;padding-left:28px;border-left:1px solid rgba(255,255,255,.12)}
+.cs-eq-sub .carry b{color:#d9dfea}
+.cs-exec-rate,.cs-exec-line,.cs-exec-basis{display:none}
+@media(max-width:1100px){.cs-eq-sub{grid-template-columns:1fr}.cs-eq-sub .carry{justify-self:start;padding-left:0;border-left:0}}
+/* 2026 cash on hand: 예산현액 = 편성 + 이월, 그중 집행 / 미집행 */
+.cs-cash{margin-top:30px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)}
+.cs-cash h4{margin:0 0 12px;display:flex;align-items:baseline;gap:14px;font-family:"Gmarket Sans","GmarketSans","Pretendard",sans-serif !important;font-size:20px;font-weight:700;color:#f4f5fc}
+.cs-cash h4 small{font-family:"Pretendard",sans-serif;font-size:14px;font-weight:500;color:#7f8b9e}
+.cs-cash-formula{margin:0 0 18px;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px}
+.cs-cash-formula span{font-size:15px;color:#8fa3bf}
+.cs-cash-formula b{font-size:22px;font-weight:700;color:#f4f6fb;font-variant-numeric:tabular-nums}
+.cs-cash-formula b.sm{font-size:17px;font-weight:600;color:#c3cbd8}
+.cs-cash-formula i{font-style:normal;color:#5d6a7e;margin:0 4px}
+.cs-cash-bar{display:flex;gap:3px;height:12px}
+.cs-cash-bar span{border-radius:6px}
+.cs-cash-bar .done{background:linear-gradient(90deg,#4aa79f,#7fcfc6)}
+.cs-cash-bar .unspent{flex:1;background:linear-gradient(90deg,#d9b25c,#f0d28a)}
+.cs-cash-stats{display:grid;grid-template-columns:auto 1fr;gap:0 56px;margin:16px 0 0}
+.cs-cash-stats dt{display:flex;align-items:center;gap:8px;font-size:16px;color:#8fa3bf}
+.cs-cash-stats dt i{width:8px;height:8px;border-radius:50%}
+.cs-cash-stats .done dt i{background:#7fcfc6}
+.cs-cash-stats .unspent dt i{background:#f0d28a}
+.cs-cash-stats dd{margin:6px 0 0;display:flex;align-items:baseline;gap:10px;font-size:30px;font-weight:700;color:#f4f6fb;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.cs-cash-stats dd em{font-style:normal;font-size:18px;font-weight:600;color:#8fa3bf}
+.cs-cash-stats .done dd{color:#a7e3de}
+.cs-cash-stats .unspent dd{color:#ffd67e}
+.cs-cash-stats small{display:block;margin-top:4px;font-size:14px;color:#a8946a}
+.cs-cash-bar .unspent{background:rgba(255,255,255,.08)}
+/* Bar = 예산현액 (full width), fill = 집행액 */
+.cs-cash-scale{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:12px}
+.cs-cash-scale p{margin:0;display:flex;align-items:baseline;gap:10px}
+.cs-cash-scale span{font-size:16px;color:#8fa3bf}
+.cs-cash-scale b{font-size:30px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.cs-cash-scale .done b{color:#a7e3de}
+.cs-cash-scale .done em{font-style:normal;font-size:18px;font-weight:600;color:#7fcfc6}
+.cs-cash-scale .total b{color:#f4f6fb}
+.cs-cash-scale .total small{font-size:14px;color:#7f8b9e}
+.cs-cash-bar{display:block;position:relative;height:16px;border-radius:8px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);overflow:hidden}
+.cs-cash-bar .done{display:block;height:100%;border-radius:8px 0 0 8px}
+.cs-cash-parts{margin:12px 0 0;display:flex;justify-content:flex-end;align-items:baseline;gap:10px}
+.cs-cash-parts span{font-size:16px;color:#8fa3bf}
+.cs-cash-parts b{font-size:24px;font-weight:700;color:#e9edf5;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.cs-cash-parts i{font-style:normal;color:#5d6a7e;margin:0 6px;font-size:20px}
+.cs-cash-scale .done em{font-size:30px !important;font-weight:700 !important;color:#7fcfc6 !important;font-variant-numeric:tabular-nums;margin-left:4px}
+/* Budget reveal motion */
+.cs-budget-eq .cs-eq-term,.cs-budget-eq .cs-eq-op,.cs-budget-eq .cs-cash{opacity:0;transform:translateY(12px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+.cs-budget-eq .cs-eq-term{transition-delay:calc(var(--i,0) * 150ms)}
+.cs-budget-eq .cs-eq-op{transition-delay:200ms}
+.cs-budget-eq .cs-cash{transition-delay:550ms}
+.cs-budget-eq.is-visible .cs-eq-term,.cs-budget-eq.is-visible .cs-eq-op,.cs-budget-eq.is-visible .cs-cash{opacity:1;transform:none}
+.cs-cash-bar .done{transition:width 1.4s cubic-bezier(.16,1,.3,1) .7s;position:relative;overflow:hidden}
+.cs-cash-bar .done::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transform:translateX(-100%);animation:cs-meter-sheen 2.6s 2.2s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.cs-budget-eq .cs-eq-term,.cs-budget-eq .cs-eq-op,.cs-budget-eq .cs-cash{opacity:1;transform:none;transition:none}.cs-cash-bar .done{transition:none}.cs-cash-bar .done::after{display:none}}
+/* Execution v4: same equation style as 총사업비 row, bar under it */
+.cs-cash h4{margin-bottom:16px}
+.cs-eq-cash{grid-template-columns:auto auto auto auto auto 1fr;justify-content:start;gap:0 24px;margin-bottom:18px}
+.cs-eq-cash .cs-eq-term b{font-size:28px;color:#e9edf5}
+.cs-eq-cash .cs-eq-op{font-size:26px}
+.cs-eq-cash .base b{color:#f4f6fb}
+.cs-eq-cash .exec{justify-self:end;align-items:flex-end;text-align:right;padding-left:28px;border-left:1px solid rgba(255,255,255,.12)}
+.cs-eq-cash .exec b{display:flex;align-items:baseline;gap:12px;font-size:32px;color:#a7e3de}
+.cs-eq-cash .exec em{font-style:normal;font-size:32px;font-weight:700;color:#7fcfc6}
+.cs-cash-scale,.cs-cash-parts{display:none}
+@media(max-width:1100px){.cs-eq-cash{grid-template-columns:1fr}.cs-eq-cash .exec{justify-self:start;align-items:flex-start;text-align:left;padding-left:0;border-left:0}}
+.cs-eq-cash .exec b{font-size:40px;color:#a7e3de}
+.cs-eq-cash .exec small{font-size:16px;color:#8fa3bf;white-space:nowrap}
+/* Cash chart v5: background = 이월(넓음)+2026 편성(좁음), overlay = 집행, tick at 집행 위치 */
+.cs-cash-chart{position:relative;padding-top:34px}
+.cs-cash-chart .cs-cash-bar{position:relative;display:flex;height:22px;border-radius:6px;overflow:hidden;background:none;box-shadow:none;gap:0}
+.cs-cash-chart .seg{height:100%}
+.cs-cash-chart .seg.carry{width:var(--carry);background:repeating-linear-gradient(-45deg,rgba(176,190,214,.22) 0 5px,rgba(176,190,214,.12) 5px 10px)}
+.cs-cash-chart .seg.new{flex:1;background:rgba(231,194,109,.55);border-left:2px solid #11151d}
+.cs-cash-chart .done{position:absolute;inset:0 auto 0 0;width:var(--done);background:linear-gradient(90deg,rgba(74,167,159,.95),rgba(127,207,198,.95));border-radius:6px 0 0 6px;transition:width 1.4s cubic-bezier(.16,1,.3,1) .7s}
+.cs-cash-chart .done::after{display:none}
+.cs-cash-mark{position:absolute;top:0;bottom:-6px;left:var(--done);width:0;transition:left 1.4s cubic-bezier(.16,1,.3,1) .7s;pointer-events:none}
+.cs-cash-mark::before{content:"";position:absolute;top:22px;bottom:0;left:-1px;width:2px;background:#a7e3de;border-radius:1px}
+.cs-cash-mark span{position:absolute;top:0;left:0;transform:translateX(-50%);white-space:nowrap;font-size:15px;font-weight:700;color:#a7e3de;font-variant-numeric:tabular-nums}
+.cs-cash-legend{position:relative;height:22px;margin-top:8px}
+.cs-cash-legend span{position:absolute;top:0;font-size:14px;color:#8fa3bf;white-space:nowrap}
+.cs-cash-legend .carry{left:0}
+.cs-cash-legend .new{right:0;color:#d9b25c}
+@media (prefers-reduced-motion: reduce){.cs-cash-chart .done,.cs-cash-mark{transition:none}}
+/* Cash chart v6: labels on the bar itself — 이월액(left top), 예산현액(right top), 집행액 at tick (below), 2026 편성 (right below) */
+.cs-cash-chart{padding-top:0;padding-bottom:64px}
+.cs-cash-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.cs-cash-top p,.cs-cash-new,.cs-cash-mark p{margin:0;display:flex;align-items:baseline;gap:8px}
+.cs-cash-top span,.cs-cash-new span,.cs-cash-mark span{font-size:15px;color:#8fa3bf}
+.cs-cash-top b{font-size:26px;font-weight:700;color:#e9edf5;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.cs-cash-top .total b{color:#f4f6fb}
+.cs-cash-mark{top:auto;bottom:0;height:auto}
+.cs-cash-mark::before{top:auto;bottom:40px;height:38px}
+.cs-cash-mark p{position:absolute;top:auto;bottom:0;left:0;transform:translateX(-50%);white-space:nowrap}
+.cs-cash-mark span{position:static;transform:none;font-weight:500}
+.cs-cash-mark b{font-size:26px;font-weight:700;color:#a7e3de;font-variant-numeric:tabular-nums}
+.cs-cash-mark em{font-style:normal;font-size:26px;font-weight:700;color:#7fcfc6}
+.cs-cash-new{position:absolute;right:0;bottom:30px}
+.cs-cash-new span{color:#b89a55}
+.cs-cash-new b{font-size:17px;font-weight:600;color:#e7c26d;font-variant-numeric:tabular-nums}
+.cs-eq-cash,.cs-cash-legend{display:none}
+/* Labels stacked over amounts, like the 총사업비 row */
+.cs-cash-top{align-items:flex-end}
+.cs-cash-top p,.cs-cash-mark p,.cs-cash-new{flex-direction:column;align-items:flex-start;gap:4px}
+.cs-cash-top .total,.cs-cash-new{align-items:flex-end}
+.cs-cash-mark p{align-items:center}
+.cs-cash-top span,.cs-cash-new span,.cs-cash-mark span{font-size:17px;font-weight:500;color:#c3cbd8}
+.cs-cash-top b,.cs-cash-mark b{font-size:28px}
+.cs-cash-mark p{flex-direction:column}
+.cs-cash-mark p>b{display:inline}
+.cs-cash-mark em{font-size:20px;margin-top:-2px}
+.cs-cash-chart{padding-bottom:96px}
+.cs-cash-new{bottom:44px}
+.cs-cash-mark::before{bottom:72px}
+/* Execution chart (clean rebuild) */
+.cs-xc{position:relative}
+.cs-xc p{margin:0;display:flex;flex-direction:column;gap:4px}
+.cs-xc span{font-size:17px;font-weight:500;color:#c3cbd8}
+.cs-xc b{font-size:28px;font-weight:700;color:#f4f6fb;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.cs-xc .end{align-items:flex-end;text-align:right}
+.cs-xc-row{display:flex;justify-content:space-between;align-items:flex-end}
+.cs-xc-pct{position:relative;height:36px}
+.cs-xc-pct em{position:absolute;bottom:4px;left:var(--done);transform:translateX(-50%);font-style:normal;font-size:24px;font-weight:800;color:#a7e3de;font-variant-numeric:tabular-nums;transition:left 1.4s cubic-bezier(.16,1,.3,1) .7s}
+.cs-xc-bar{position:relative;display:flex;height:22px;border-radius:6px;overflow:hidden}
+.cs-xc-bar .carry{width:var(--carry);background:repeating-linear-gradient(-45deg,rgba(176,190,214,.22) 0 5px,rgba(176,190,214,.12) 5px 10px)}
+.cs-xc-bar .new{flex:1;background:rgba(231,194,109,.6);border-left:2px solid #11151d}
+.cs-xc-bar .done{position:absolute;inset:0 auto 0 0;width:var(--done);background:linear-gradient(90deg,#4aa79f,#7fcfc6);border-right:2px solid #c9f1ec;transition:width 1.4s cubic-bezier(.16,1,.3,1) .7s}
+.cs-xc-below{position:relative;height:64px;margin-top:10px}
+.cs-xc-below .mark{position:absolute;top:0;left:var(--done);transform:translateX(-50%);align-items:center;white-space:nowrap;transition:left 1.4s cubic-bezier(.16,1,.3,1) .7s}
+.cs-xc-below .mark b{color:#a7e3de}
+.cs-xc-below .new{position:absolute;top:0;right:0}
+.cs-xc-below .new span{color:#b89a55}
+.cs-xc-below .new b{font-size:20px;color:#e7c26d}
+@media (prefers-reduced-motion: reduce){.cs-xc-pct em,.cs-xc-bar .done,.cs-xc-below .mark{transition:none}}
+/* 25% on the same line as 이월액/예산현액 amounts; bar pulled up */
+.cs-xc-row{margin-bottom:12px}
+.cs-xc-pct{height:0}
+.cs-xc-pct em{bottom:12px;font-size:28px;line-height:1.2;color:#ffd67e}
+/* Equation row: slightly smaller */
+.cs-budget-eq > .cs-eq .cs-eq-term b{font-size:34px}
+.cs-budget-eq > .cs-eq .cs-eq-term.total b{font-size:42px}
+.cs-budget-eq > .cs-eq .cs-eq-term p{font-size:16px}
+.cs-budget-eq > .cs-eq .cs-eq-op{font-size:30px}
+/* 예산 집행현황 as its own panel, same frame as 연도별 예산 */
+.cs-cash-panel{margin-top:16px}
+.cs-cash-panel .cs-cash{margin:0;padding:24px 28px 20px;border-top:0;opacity:1;transform:none}
+.cs-cash-panel .cs-cash h4{display:none}
+.cs-xc-below .mark{transform:translateX(-50%);align-items:flex-start;text-align:left}
+.pd-detail-page:has(> .cs-summary) .yb-flow{display:none}
+/* 예산 집행현황 numbers smaller */
+.cs-xc b{font-size:23px}
+.cs-xc-pct em{font-size:23px}
+.cs-xc-below .new b{font-size:18px}
+.cs-xc span{font-size:15px}
+.cs-xc-below{height:56px}
+.pd-detail-page:has(> .cs-summary) .cs-budget-eq{margin-bottom:0}.pd-detail-page:has(> .cs-summary) .cs-cash-panel{margin-top:12px !important;margin-bottom:0 !important}.pd-detail-page:has(> .cs-summary) .pd-budget-breakdown-grid{margin-top:12px !important}
+/* 집행액 + % above the bar at the tick */
+.cs-xc-pct .mark{position:absolute;bottom:12px;left:var(--done);transform:translateX(-50%);align-items:flex-start;white-space:nowrap;transition:left 1.4s cubic-bezier(.16,1,.3,1) .7s}
+.cs-xc-pct .mark b{display:flex;align-items:baseline;gap:8px;color:#a7e3de}
+.cs-xc-pct .mark em{position:static;transform:none;font-style:normal;font-size:23px;font-weight:800;color:#ffd67e;transition:none}
+.cs-xc-below{height:52px}
+@media (prefers-reduced-motion: reduce){.cs-xc-pct .mark{transition:none}}
+.cs-budget.cs-budget-eq{padding:22px 40px 20px}
+.cs-xc p{gap:0}.cs-xc span{line-height:1.3}.cs-xc b{line-height:1.25}
+.cs-xc-pct .mark{transform:none;padding-left:10px}
+.cs-xc-below .new{flex-direction:row;align-items:baseline;gap:10px}.cs-xc-below{height:34px}
+.cs-budget.cs-budget-eq{padding-top:18px;padding-bottom:18px}.cs-cash-panel .cs-cash{padding-top:18px;padding-bottom:18px}
+.pd-detail-page:has(> .cs-summary) .pd-card-title>span:first-child{font-size:22px !important;font-weight:800 !important}

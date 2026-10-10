@@ -10371,7 +10371,10 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 17560
+      "card_budget_2028_plus_million_krw": 17560,
+      "execution_2026_current_budget_million_krw": 4245,
+      "execution_2026_amount_million_krw": 1080,
+      "execution_2026_source": "2026년 예산집행 현황(세출 통계목 4건 합계)"
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:7",
