@@ -9741,7 +9741,7 @@
       "category": "문화관광시설",
       "current_stage": "",
       "funding_type": "",
-      "total_cost_million_krw": 772710,
+      "total_cost_million_krw": 72710,
       "invested_to_2026_million_krw": 0,
       "budget_2027_million_krw": 212,
       "execution_rate": null,
@@ -9802,11 +9802,11 @@
         },
         {
           "name": "시비",
-          "total": 772710,
+          "total": 72710,
           "invested": 0,
           "budget_2026": null,
           "budget_2027": 212,
-          "budget_2028_plus": 772498,
+          "budget_2028_plus": 72498,
           "budget_2026_base": null,
           "budget_2026_first_extra": null,
           "budget_2026_second_extra": null,
@@ -9936,7 +9936,7 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 772498
+      "card_budget_2028_plus_million_krw": 72498
     },
     {
       "id": "문화예술과_수동입력:7",
