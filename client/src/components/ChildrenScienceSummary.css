@@ -568,3 +568,8 @@
 .cs-xc-below .new{flex-direction:row;align-items:baseline;gap:10px}.cs-xc-below{height:34px}
 .cs-budget.cs-budget-eq{padding-top:18px;padding-bottom:18px}.cs-cash-panel .cs-cash{padding-top:18px;padding-bottom:18px}
 .pd-detail-page:has(> .cs-summary) .pd-card-title>span:first-child{font-size:22px !important;font-weight:800 !important}
+/* Execution colors: 예산현액 yellow, 집행액+% mint, 2026 편성액 white */
+.cs-xc-row .end b{color:#ffd67e !important}
+.cs-xc-pct .mark b,.cs-xc-pct .mark em{color:#7fe0d4 !important}
+.cs-xc-below .new span{color:#c3cbd8 !important}
+.cs-xc-below .new b{color:#f4f6fb !important}
