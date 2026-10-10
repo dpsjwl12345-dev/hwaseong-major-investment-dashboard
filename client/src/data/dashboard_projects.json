@@ -10876,10 +10876,12 @@
       "department": "문화예술과",
       "project_name": "석우동 51번지 복합문화시설 건립",
       "rendering_images": [
+        "/renderings/ai-culture-seogu/ai.jpg",
         "/renderings/culture-9/1.png",
         "/renderings/culture-9/2.png"
       ],
       "rendering_image_types": [
+        "조감도",
         "조감도",
         "위치도"
       ],

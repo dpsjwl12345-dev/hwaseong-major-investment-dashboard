@@ -59,6 +59,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 47, carryover: 0, executed: 0 },
   },
   "총괄데이터_5.xlsx:문화예술과:8": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["사전 행정절차", "설계공모·설계", "건축 공사", "시범 운영·개관"],
     current: 0,
     dates: [{ label: "공사 착공 예정", value: "2028.6." }, { label: "준공 예정", value: "2030.6." }, { label: "개관", value: "2030.10." }],
