@@ -8850,12 +8850,14 @@
       "department": "문화예술과",
       "project_name": "동탄복합문화센터 공간개선",
       "rendering_images": [
+        "/renderings/culture-1/exterior.jpg",
         "/renderings/culture-1/1.png",
         "/renderings/culture-1/2.png",
         "/renderings/culture-1/3.png",
         "/renderings/culture-1/4.png"
       ],
       "rendering_image_types": [
+        "조감도",
         "조감도",
         "조감도",
         "조감도",
@@ -12081,7 +12083,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 1063
+      "card_budget_2028_plus_million_krw": 1063,
+      "rendering_images": [
+        "/renderings/library-4/exterior.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     },
     {
       "id": "독립기념관_수동입력:13",

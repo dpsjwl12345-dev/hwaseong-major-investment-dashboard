@@ -9,6 +9,8 @@ export type RenewalConfig = {
   title?: string;
   // 대표 사진으로 쓸 rendering_images 순번(없으면 첫 조감도).
   imageIndex?: number;
+  // 대표 사진 아래 설명(기존 건물 사진을 렌더링 톤으로 다듬은 경우 등).
+  imageCaption?: string;
   // 총사업비가 아직 정해지지 않은 사업: 개요에 "미정"을 쓰고 총사업비 수식을 숨긴다.
   totalUndecided?: string;
   steps: string[];
@@ -45,6 +47,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     dates: [{ label: "준공·개관", value: "2027.4." }],
   },
   "총괄데이터_5.xlsx:문화예술과:1": {
+    imageCaption: "현재 건물 · 리모델링 대상",
     steps: ["사전 행정절차", "설계공모·설계", "리모델링 공사", "재개관"],
     current: 0,
     dates: [{ label: "설계 착수 예정", value: "2027.3." }, { label: "공사 착공 예정", value: "2027.9." }, { label: "공사 준공", value: "2028.8." }],
@@ -182,6 +185,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 8905, carryover: 8544, executed: 5051 },
   },
   "총괄데이터_일반.xlsx:Sheet1:4": {
+    imageCaption: "현재 건물 · 리모델링 대상",
     steps: ["안전진단·투자심사", "설계공모·설계", "리모델링 공사", "재개관"],
     current: 0,
     dates: [{ label: "설계 착수 예정", value: "2027.1." }, { label: "공사 착공 예정", value: "2027.8." }, { label: "재개관", value: "2028.12." }],

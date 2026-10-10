@@ -109,7 +109,7 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
     {titleContainer && createPortal(<h1 className="cs-project-title">{config.title ?? project.project_name}</h1>, titleContainer)}
     <section ref={summaryRef} className={`cs-summary${image ? "" : " no-image"}`} aria-label={`${project.project_name} 한눈에 보기`}>
       <div className="cs-intro">
-        {image && <figure><img src={image} alt={`${project.project_name} ${imageType}`} /><figcaption>{imageType === "조감도" ? "완공 후 모습 · 조감도(계획)" : imageType}</figcaption></figure>}
+        {image && <figure><img src={image} alt={`${project.project_name} ${imageType}`} /><figcaption>{config.imageCaption ?? (imageType === "조감도" ? "완공 후 모습 · 조감도(계획)" : imageType)}</figcaption></figure>}
         <div className="cs-overview">
           <p className="cs-overview-eyebrow"><span>사업 개요</span><span className="cs-overview-basis">자료 기준 2026.9.</span></p>
           {fields["사업내용"] && <p className="cs-overview-lead">{fields["사업내용"]}</p>}
