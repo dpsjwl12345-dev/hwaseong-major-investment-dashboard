@@ -15,7 +15,7 @@ export function DepartmentOverview({ projects, stage, onStageChange }: {
       request: sum.request + budget.budget2027, future: sum.future + budget.budget2028Plus };
   }, { total: 0, invested: 0, request: 0, future: 0 });
   const stages = Array.from(new Set(projects.map(p => p.current_stage || "미등록")));
-  const amount = (value: number) => (value / 100).toLocaleString("ko-KR", { maximumFractionDigits: 1 });
+  const amount = (value: number) => (value / 100).toLocaleString("ko-KR", { maximumFractionDigits: 0 });
   const cards = [
     ["총사업비", totals.total],
     ["누적 투자예산", totals.invested],
