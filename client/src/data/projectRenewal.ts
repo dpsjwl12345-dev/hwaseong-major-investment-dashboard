@@ -65,12 +65,14 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 22, carryover: 0, executed: 20 },
   },
   "총괄데이터_5.xlsx:문화예술과:9": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["투자심사·행정절차", "설계공모·설계", "리모델링 공사", "개관"],
     current: 0,
     dates: [{ label: "설계 착수 예정", value: "2027.10." }, { label: "공사 착공 예정", value: "2028.10." }, { label: "개관", value: "2030.6." }],
     execution2026: { budget2026: 40, carryover: 0, executed: 40 },
   },
   "총괄데이터_5.xlsx:문화예술과:10": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["설계", "공간 조성 공사", "준공·개관"],
     current: 2,
     dates: [{ label: "사업 완료", value: "2026.6." }],
@@ -90,6 +92,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
 
   // 문화유산과 ─────────────────────────────────────────────
   "문화유산_주요투자사업_총괄표.xlsx:총괄표:1": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["타당성조사·투자심사", "설계공모·설계", "건축 공사", "전시 설치·유물 수장", "개관"],
     current: 0,
     dates: [{ label: "공사 착공 예정", value: "2028.5." }, { label: "준공 예정", value: "2030.2." }, { label: "박물관 개관", value: "2031.3." }],
@@ -114,6 +117,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 0, carryover: 1732, carryoverType: "계속비이월", executed: 61 },
   },
   "독립기념관_수동입력:14": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["기본설계", "제안 평가·실시설계", "기념탑 조성 공사", "준공"],
     current: 1,
     dates: [{ label: "제안서 평가", value: "2027.3." }, { label: "공사 착공", value: "2027.3." }, { label: "준공", value: "2027.8." }],
@@ -122,6 +126,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
 
   // 관광진흥과 ─────────────────────────────────────────────
   "관광진흥과_총괄데이터.xlsx:Sheet1:1": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["설계", "계류시설 설치 공사", "준공"],
     current: 1,
     dates: [{ label: "국화도 준공", value: "2026.9." }, { label: "입파도 준공", value: "2026.10." }],
@@ -167,6 +172,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
   },
   // 도서관정책과 ─────────────────────────────────────────────
   "총괄데이터_일반.xlsx:Sheet1:1": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["타당성·투자심사", "설계공모·설계", "건축 공사", "개관"],
     current: 0,
     dates: [{ label: "공사 착공 예정", value: "2028.9." }, { label: "준공 예정", value: "2030.8." }, { label: "도서관 개관", value: "2030.11." }],
@@ -204,6 +210,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 1350, carryover: 0, executed: 87 },
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:3": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["설계", "테니스장 조성 공사", "준공"],
     current: 1,
     dates: [{ label: "사업 완료", value: "2026.8." }],
@@ -233,6 +240,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 2724, carryover: 3043, executed: 1656 },
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:9": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["사전 행정절차", "실시설계·공원계획", "테니스장 조성 공사", "준공"],
     current: 0,
     dates: [{ label: "실시설계 착수", value: "2027.1." }, { label: "공사 착공 예정", value: "2027.5." }, { label: "준공", value: "2027.8." }],
@@ -244,11 +252,13 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 765, carryover: 200, executed: 20 },
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:11": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["타당성조사", "투자심사·도시계획", "설계", "보상", "공사"],
     current: 0,
     dates: [{ label: "투자심사 완료", value: "2028.7." }, { label: "공사 착공 예정", value: "2033.3." }, { label: "준공 예정", value: "2035.12." }],
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:12": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["실시설계", "훈련시설 공사", "잔디 생착·완료"],
     current: 0,
     dates: [{ label: "공사 착수", value: "2026.11." }, { label: "사업 완료", value: "2027.7." }],

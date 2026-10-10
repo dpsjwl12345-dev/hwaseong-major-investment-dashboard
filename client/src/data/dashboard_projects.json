@@ -9,9 +9,11 @@
       "department": "문화유산과",
       "project_name": "화성시역사박물관 건립",
       "rendering_images": [
+        "/renderings/heritage-1/ai.jpg",
         "/renderings/heritage-1/1.png"
       ],
       "rendering_image_types": [
+        "조감도",
         "위치도"
       ],
       "overview_images_title": "위치도",
@@ -1299,7 +1301,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 0
+      "card_budget_2028_plus_million_krw": 0,
+      "rendering_images": [
+        "/renderings/sports-3/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:4",
@@ -3423,7 +3431,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 0
+      "card_budget_2028_plus_million_krw": 0,
+      "rendering_images": [
+        "/renderings/sports-9/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:10",
@@ -3986,7 +4000,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 557100
+      "card_budget_2028_plus_million_krw": 557100,
+      "rendering_images": [
+        "/renderings/sports-11/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     },
     {
       "id": "주요투자사업_총괄데이터.xlsx:Sheet1:12",
@@ -4194,7 +4214,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 1800
+      "card_budget_2028_plus_million_krw": 1800,
+      "rendering_images": [
+        "/renderings/sports-12/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     },
     {
       "id": "체육진흥과_수동입력:13",
@@ -5882,7 +5908,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 0
+      "card_budget_2028_plus_million_krw": 0,
+      "rendering_images": [
+        "/renderings/tourism-1/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     },
     {
       "id": "관광진흥과_총괄데이터.xlsx:Sheet1:2",
@@ -10801,7 +10833,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": null
+      "card_budget_2028_plus_million_krw": null,
+      "rendering_images": [
+        "/renderings/culture-10b/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     },
     {
       "id": "총괄데이터_5.xlsx:문화예술과:8",
@@ -11225,7 +11263,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 9102
+      "card_budget_2028_plus_million_krw": 9102,
+      "rendering_images": [
+        "/renderings/culture-artcube/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     },
     {
       "id": "총괄데이터_일반.xlsx:Sheet1:1",
@@ -11433,7 +11477,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 12950
+      "card_budget_2028_plus_million_krw": 12950,
+      "rendering_images": [
+        "/renderings/library-1/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     },
     {
       "id": "총괄데이터_일반.xlsx:Sheet1:2",
@@ -12513,7 +12563,13 @@
       "card_budget_2026_second_extra_million_krw": null,
       "card_budget_2026_third_extra_million_krw": null,
       "card_budget_2026_additional_million_krw": null,
-      "card_budget_2028_plus_million_krw": 0
+      "card_budget_2028_plus_million_krw": 0,
+      "rendering_images": [
+        "/renderings/independence-2/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
+      ]
     }
   ]
 }
