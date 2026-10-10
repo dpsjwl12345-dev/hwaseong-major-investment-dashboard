@@ -79,11 +79,13 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 0, carryover: 936, carryoverType: "명시이월", executed: 757 },
   },
   "문화예술과_수동입력:6": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["기본구상·타당성조사", "투자심사·행정절차", "설계공모·설계", "공사·개관"],
     current: 0,
     dates: [{ label: "설계 착수 예정", value: "2029.3." }, { label: "공사 착공 예정", value: "2030.8." }, { label: "개관", value: "2032.12." }],
   },
   "문화예술과_수동입력:7": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     totalUndecided: "건축기획 용역 추진에 따라 결정 예정",
     steps: ["타당성·건축기획", "투자심사·사전절차", "설계공모·설계", "건축 공사", "시범 운영·개관"],
     current: 0,
@@ -104,6 +106,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 0, carryover: 101, carryoverType: "명시이월", executed: 12 },
   },
   "문화유산_주요투자사업_총괄표.xlsx:총괄표:3": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["투자심사·국비 확보", "실시설계", "건축 공사", "개관"],
     current: 0,
     dates: [{ label: "설계 발주 예정", value: "2027.1." }, { label: "사업 완료", value: "2029.12." }],
@@ -139,6 +142,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 24, carryover: 935, carryoverType: "사고이월", executed: 920 },
   },
   "관광진흥과_총괄데이터.xlsx:Sheet1:3": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     // 예산현액·집행은 자체 사업과 전환사업 두 단위를 합친 값.
     steps: ["설계", "해안 데크 설치", "준공", "개통·걷기축제"],
     current: 2,
@@ -164,6 +168,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 442, carryover: 1708, carryoverType: "계속비이월", executed: 1805 },
   },
   "관광진흥과_총괄데이터.xlsx:Sheet1:10": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     // 예산현액·집행은 '중로2-3호선 외 3개소 개설' 단위 기준.
     steps: ["토지보상", "도로 개설 공사", "준공"],
     current: 0,
@@ -199,11 +204,13 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
   },
   // 체육진흥과 ─────────────────────────────────────────────
   "주요투자사업_총괄데이터.xlsx:Sheet1:1": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["사전 행정절차", "실시설계", "철거·신축 공사", "준공"],
     current: 0,
     dates: [{ label: "실시설계 착수", value: "2027.2." }, { label: "공사 착공 예정", value: "2027.4." }, { label: "준공", value: "2027.9." }],
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:2": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["설계", "발주·계약", "개선 공사", "준공"],
     current: 1,
     dates: [{ label: "공사 착공", value: "2026.9." }, { label: "준공", value: "2026.11." }],
@@ -217,6 +224,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 0, carryover: 1584, carryoverType: "명시이월", executed: 1506 },
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:5": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["설계", "체육시설 조성 공사", "개방"],
     current: 0,
     dates: [{ label: "사업 완료", value: "2027.9." }],
@@ -228,6 +236,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 2956, carryover: 2750, executed: 1982 },
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:7": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["건축기획·사전절차", "설계공모·설계", "건축 공사", "개관"],
     current: 0,
     dates: [{ label: "공사 착공 예정", value: "2028.2." }, { label: "준공 예정", value: "2029.10." }, { label: "개관", value: "2030.1." }],
@@ -246,6 +255,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     dates: [{ label: "실시설계 착수", value: "2027.1." }, { label: "공사 착공 예정", value: "2027.5." }, { label: "준공", value: "2027.8." }],
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:10": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["사전절차·설명회", "실시계획·설계", "건축 공사", "개관"],
     current: 0,
     dates: [{ label: "공사 착공 예정", value: "2027.10." }, { label: "준공 예정", value: "2029.4." }, { label: "센터 개관", value: "2029.7." }],
@@ -276,18 +286,21 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
   },
   // 전국체전추진단 ─────────────────────────────────────────────
   "총괄데이터_2.xlsx:Sheet1:1": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["공원계획 변경", "경기장 공사", "준공"],
     current: 0,
     dates: [{ label: "공사 착공 예정", value: "2026.12." }, { label: "준공 예정", value: "2027.5." }],
     execution2026: { budget2026: 0, carryover: 1914, carryoverType: "명시이월", executed: 0 },
   },
   "총괄데이터_2.xlsx:Sheet1:2": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["설계", "발주·계약", "축구장 공사", "준공"],
     current: 1,
     dates: [{ label: "공사 착공 예정", value: "2026.11." }, { label: "준공 예정", value: "2027.5." }],
     execution2026: { budget2026: 0, carryover: 2671, carryoverType: "명시이월", executed: 0 },
   },
   "총괄데이터_2.xlsx:Sheet1:3": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["설계·발주", "경기장 개보수 공사", "개보수 완료"],
     current: 0,
     dates: [{ label: "개보수 완료", value: "2027.5." }],
