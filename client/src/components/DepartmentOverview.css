@@ -47,7 +47,7 @@
 @font-face {
   font-family: "GmarketSans";
   src: url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2") format("woff2");
-  font-weight: 500;
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
@@ -88,12 +88,12 @@
 }
 .do-overview .do-budget-card > span {
   display: block;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   min-width: 0;
   color: #ced9e8;
   font-family: inherit;
-  font-size: 22px;
-  font-weight: 500;
+  font-size: 28px;
+  font-weight: 700;
   line-height: 1.4;
   white-space: nowrap;
 }
@@ -106,7 +106,7 @@
   margin-left: auto;
   color: #f4f7fd;
   font-family: inherit;
-  font-size: 38px;
+  font-size: 28px;
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: -.035em;
@@ -114,9 +114,9 @@
   font-variant-numeric: tabular-nums;
 }
 .do-overview .do-budget-card > strong small {
-  font: inherit;
-  font-size: 22px;
-  font-weight: 500;
+  font-family: inherit;
+  font-size: 28px;
+  font-weight: 700;
   letter-spacing: 0;
 }
 .do-overview .do-budget-card.is-request {
