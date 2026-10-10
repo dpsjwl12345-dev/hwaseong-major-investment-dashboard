@@ -102,6 +102,20 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     current: 0,
     dates: [{ label: "설계 발주 예정", value: "2027.1." }, { label: "사업 완료", value: "2029.12." }],
   },
+
+  // 독립기념관 ─────────────────────────────────────────────
+  "독립기념관_수동입력:13": {
+    steps: ["기념관 건립", "역사문화공원 토지보상", "공원사업 준공", "진입도로 개설"],
+    current: 1,
+    dates: [{ label: "토지보상 완료", value: "2026.10." }, { label: "공원사업 준공", value: "2026.12." }, { label: "진입도로 준공", value: "2027.6." }],
+    execution2026: { budget2026: 0, carryover: 1732, carryoverType: "계속비이월", executed: 61 },
+  },
+  "독립기념관_수동입력:14": {
+    steps: ["기본설계", "제안 평가·실시설계", "기념탑 조성 공사", "준공"],
+    current: 1,
+    dates: [{ label: "제안서 평가", value: "2027.3." }, { label: "공사 착공", value: "2027.3." }, { label: "준공", value: "2027.8." }],
+    execution2026: { budget2026: 0, carryover: 55, carryoverType: "명시이월", executed: 30 },
+  },
 };
 
 export const isRenewedProject = (id: string) => id in PROJECT_RENEWAL;
