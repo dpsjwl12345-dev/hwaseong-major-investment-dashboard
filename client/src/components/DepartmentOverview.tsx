@@ -17,14 +17,14 @@ export function DepartmentOverview({ projects, stage, onStageChange }: {
   const stages = Array.from(new Set(projects.map(p => p.current_stage || "미등록")));
   const amount = (value: number) => (value / 100).toLocaleString("ko-KR", { maximumFractionDigits: 1 });
   const cards = [
-    ["총사업비", totals.total, "전체 사업의 계획 규모"],
-    ["누적 투자예산", totals.invested, "2026년까지 · 실제 집행액과 구분"],
-    ["2027년 요구액", totals.request, "2027년 본예산 요구 기준"],
-    ["향후 계획액", totals.future, "2028년 이후 투자 계획"],
+    ["총사업비", totals.total],
+    ["누적 투자예산", totals.invested],
+    ["2027년 요구액", totals.request],
+    ["향후 계획액", totals.future],
   ] as const;
   return <div className="do-overview">
-    <div className="do-budget-grid">{cards.map(([label, value, note], index) => <div key={label} className={index === 2 ? "do-budget-card is-request" : "do-budget-card"}>
-      <span>{label}</span><strong>{amount(value)}<small>억원</small></strong><p>{note}</p>
+    <div className="do-budget-grid">{cards.map(([label, value], index) => <div key={label} className={index === 2 ? "do-budget-card is-request" : "do-budget-card"}>
+      <span>{label}</span><strong>{amount(value)}<small>억원</small></strong>
     </div>)}</div>
     <div className="do-stage-header"><h2>사업 목록</h2><span>전체 {projects.length}개 · 계속 {projects.filter(p => p.region === "계속").length}개 · 신규 {projects.filter(p => p.region === "신규").length}개</span></div>
     <div className="do-stage-list" aria-label="추진단계별 사업 필터">
