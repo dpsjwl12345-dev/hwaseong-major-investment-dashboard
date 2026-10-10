@@ -42,3 +42,92 @@
 .do-budget-card strong small { font-size: 20px; }
 .do-budget-card p { grid-column: 1 / -1; grid-row: 2; font-size: 16px; line-height: 24px; }
 .do-budget-card.is-request { border-color: #806633; background: #242117; }
+
+/* Refreshed compact KPI cards – department overview only */
+@font-face {
+  font-family: "GmarketSans";
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansMedium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "GmarketSans";
+  src: url("https://cdn.jsdelivr.net/gh/webfontworld/gmarket/GmarketSansBold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+.do-overview .do-budget-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
+  max-width: none;
+  gap: 14px;
+  overflow: visible;
+  padding: 2px 0 6px;
+  border: 0;
+  background: transparent;
+}
+.do-overview .do-budget-card,
+.do-overview .do-budget-card + .do-budget-card {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  min-height: 88px;
+  padding: 21px 22px;
+  border: 1px solid #35435a;
+  border-radius: 10px;
+  background: linear-gradient(120deg, #1e2c40 0%, #172130 100%);
+  box-shadow: inset 3px 0 0 #6e95bc, 0 8px 20px rgba(0,0,0,.13);
+  font-family: "GmarketSans", "Pretendard", sans-serif;
+}
+.do-overview .do-budget-card > span {
+  display: block;
+  flex: 0 1 auto;
+  min-width: 0;
+  color: #ced9e8;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.do-overview .do-budget-card > strong {
+  display: inline-flex;
+  flex: 0 0 auto;
+  justify-content: flex-end;
+  align-items: baseline;
+  gap: 4px;
+  margin-left: auto;
+  color: #f4f7fd;
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.do-overview .do-budget-card > strong small {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.do-overview .do-budget-card.is-request {
+  border-color: #977b43;
+  background: linear-gradient(120deg, #30291d 0%, #24251f 100%);
+  box-shadow: inset 3px 0 0 #e4b75c, 0 8px 20px rgba(0,0,0,.13);
+}
+.do-overview .do-budget-card.is-request > strong { color: #ffd67e; }
+@media (max-width: 1180px) {
+  .do-overview .do-budget-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 640px) {
+  .do-overview .do-budget-grid { grid-template-columns: minmax(0,1fr); }
+}
