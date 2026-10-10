@@ -47,7 +47,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     dates: [{ label: "준공·개관", value: "2027.4." }],
   },
   "총괄데이터_5.xlsx:문화예술과:1": {
-    imageCaption: "현재 건물 · 리모델링 대상",
+    imageCaption: "현재 건물 기반 렌더링 이미지 · 리모델링 대상",
     steps: ["사전 행정절차", "설계공모·설계", "리모델링 공사", "재개관"],
     current: 0,
     dates: [{ label: "설계 착수 예정", value: "2027.3." }, { label: "공사 착공 예정", value: "2027.9." }, { label: "공사 준공", value: "2028.8." }],
@@ -185,7 +185,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     execution2026: { budget2026: 8905, carryover: 8544, executed: 5051 },
   },
   "총괄데이터_일반.xlsx:Sheet1:4": {
-    imageCaption: "현재 건물 · 리모델링 대상",
+    imageCaption: "현재 건물 기반 렌더링 이미지 · 리모델링 대상",
     steps: ["안전진단·투자심사", "설계공모·설계", "리모델링 공사", "재개관"],
     current: 0,
     dates: [{ label: "설계 착수 예정", value: "2027.1." }, { label: "공사 착공 예정", value: "2027.8." }, { label: "재개관", value: "2028.12." }],
