@@ -84,6 +84,24 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     current: 0,
     dates: [{ label: "공사 착공 예정", value: "2029.6." }, { label: "준공 예정", value: "2030.6." }, { label: "개관", value: "2030.9." }],
   },
+
+  // 문화유산과 ─────────────────────────────────────────────
+  "문화유산_주요투자사업_총괄표.xlsx:총괄표:1": {
+    steps: ["타당성조사·투자심사", "설계공모·설계", "건축 공사", "전시 설치·유물 수장", "개관"],
+    current: 0,
+    dates: [{ label: "공사 착공 예정", value: "2028.5." }, { label: "준공 예정", value: "2030.2." }, { label: "박물관 개관", value: "2031.3." }],
+  },
+  "문화유산_주요투자사업_총괄표.xlsx:총괄표:2": {
+    steps: ["토지보상", "홍보관 설계", "역사공원 조성", "개방"],
+    current: 0,
+    dates: [{ label: "토지보상 완료", value: "2027.7." }, { label: "공원 공사 발주", value: "2027.12." }, { label: "사업 완료", value: "2028.12." }],
+    execution2026: { budget2026: 0, carryover: 101, carryoverType: "명시이월", executed: 12 },
+  },
+  "문화유산_주요투자사업_총괄표.xlsx:총괄표:3": {
+    steps: ["투자심사·국비 확보", "실시설계", "건축 공사", "개관"],
+    current: 0,
+    dates: [{ label: "설계 발주 예정", value: "2027.1." }, { label: "사업 완료", value: "2029.12." }],
+  },
 };
 
 export const isRenewedProject = (id: string) => id in PROJECT_RENEWAL;

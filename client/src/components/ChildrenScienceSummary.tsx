@@ -96,6 +96,11 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
     : project.card_execution_rate ?? null;
   const location = [project.contact, project.district, project.town].filter(Boolean).join(" · ");
   const fields = overviewFields(project.overview);
+  // 사업규모 칸이 없고 사업내용이 면적·층수 같은 규모 설명이면 규모 줄로 옮긴다(제목 아래 한 줄은 짧은 소개만).
+  if (!fields["사업규모"] && /㎡|층/.test(fields["사업내용"] ?? "")) {
+    fields["사업규모"] = fields["사업내용"];
+    delete fields["사업내용"];
+  }
   const { steps, current, dates } = config;
   return (
     <>
