@@ -1448,10 +1448,10 @@ function DepartmentDashboard({
 
       <div className="dept-panel dept-panel-projects dept-panel-selected">
         <div className="dept-filter-row dept-budget-filter-row">
-          <button type="button" className="dept-table-export" onClick={exportBudgetCsv}><Download size={14} /> CSV 출력</button>
-          {isAdmin && !newRowDraft && <button type="button" className="dept-table-export" onClick={startNewRow}><Plus size={14} /> 행 추가</button>}
-          <span>(단위:백만원)</span>
           {isAdmin && isFiltered && <span className="dept-reorder-hint">필터·정렬이 걸려 있으면 순서를 바꿀 수 없습니다 - 초기화 후 이용해 주세요.</span>}
+          <button type="button" className="dept-table-export dept-table-export-first" onClick={exportBudgetCsv}><Download size={14} /> CSV 출력</button>
+          {isAdmin && !newRowDraft && <button type="button" className="dept-table-export" onClick={startNewRow}><Plus size={14} /> 행 추가</button>}
+          <span className="dept-unit-label">(단위:백만원)</span>
         </div>
         <div className="dept-project-table-wrap">
           <table className="dept-project-table"><thead><tr>
