@@ -1,8 +1,5 @@
 .do-overview { --do-space: 24px; margin: 0; font-family: "Pretendard", sans-serif; color: #edf1f7; }
-.dept-dashboard:has(.do-overview) .dept-dashboard-header { padding-top: 0; margin-bottom: 12px; }
-.dept-dashboard:has(.do-overview) .dept-dashboard-eyebrow { display: none; }
-.dept-dashboard:has(.do-overview) .dept-dashboard-header::before,
-.dept-dashboard:has(.do-overview) .dept-dashboard-header::after { display: none; }
+.dept-dashboard:has(.do-overview) .dept-dashboard-header { margin-bottom: 12px; }
 .dept-dashboard:has(.do-overview) .dept-baseline-note { margin: 0 0 24px; text-align: right; font: 16px/1.5 "Pretendard",sans-serif; color: #c3ccda; }
 .do-budget-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); border: 1px solid #343c4b; border-radius: 14px; background: #141a25; overflow: hidden; }
 .do-budget-card { display: grid; grid-template-rows: 26px 52px auto; gap: 8px; padding: 20px 24px; min-width: 0; }
