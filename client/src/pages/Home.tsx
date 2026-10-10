@@ -54,7 +54,7 @@ import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
 import { Timeline, TimelineContent, TimelineDate, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator } from "@/components/ui/timeline";
 import { InteractiveSelector } from "@/components/ui/interactive-selector";
 import { BudgetDetailPanel, hasBudgetDetail } from "../components/BudgetDetailPanel";
-import { CHILDREN_SCIENCE_ID, ChildrenScienceSummary, ChildrenScienceBudgetSummary } from "../components/ChildrenScienceSummary";
+import { CHILDREN_SCIENCE_ID, ChildrenScienceSummary, ChildrenScienceBudgetSummary, isRenewedProject } from "../components/ChildrenScienceSummary";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
 
@@ -701,7 +701,7 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
   return (
     <div className="pd-card">
       <p className="pd-baseline-note">{BUDGET_BASELINE_LABEL}</p>
-      {project.id === CHILDREN_SCIENCE_ID && <ChildrenScienceBudgetSummary budget={budgetOf} spent={executionAmount} carryover={carryoverTotal} carryoverType={carryoverItems.length === 1 ? carryoverItems[0].type : undefined} />}
+      {isRenewedProject(project.id) && <ChildrenScienceBudgetSummary key={project.id} projectId={project.id} budget={budgetOf} />}
       <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid">
         <YearBudgetPanel
@@ -1037,7 +1037,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
         <div className="pd-detail-search"><PodaSearch value={searchValue} onChange={onSearchChange} projects={searchProjects} onSelectProject={onSelectProject} /></div>
       </div>
 
-      {activeProject.id === CHILDREN_SCIENCE_ID && <ChildrenScienceSummary stage={activeProject.current_stage} image={activeProject.rendering_images?.find((_, index) => activeProject.rendering_image_types?.[index] === "조감도")} />}
+      {isRenewedProject(activeProject.id) && <ChildrenScienceSummary key={activeProject.id} project={activeProject} total={deriveProjectBudget(activeProject).total} />}
 
       <section className="pd-summary mt-8" aria-label="사업 요약">
         <div className="pd-summary-cell">
@@ -1112,7 +1112,7 @@ function ProjectDetail({ project, lock, searchValue, onSearchChange, searchProje
             <span key={tab} className="pill-tab-option">
               <input id={inputId} name={`detail-tab-${project.id}`} type="radio" checked={activeTab === tab} onChange={() => setActiveTab(tab)} />
               <label htmlFor={inputId} role="tab" aria-selected={activeTab === tab}>
-                {project.id === CHILDREN_SCIENCE_ID && tab === "사업개요·추진현황" ? "추진경과·계획" : tab}
+                {isRenewedProject(project.id) && tab === "사업개요·추진현황" ? "추진경과·계획" : tab}
               </label>
             </span>
           );

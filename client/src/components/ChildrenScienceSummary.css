@@ -573,3 +573,7 @@
 .cs-xc-pct .mark b,.cs-xc-pct .mark em{color:#7fe0d4 !important}
 .cs-xc-below .new span{color:#c3cbd8 !important}
 .cs-xc-below .new b{color:#f4f6fb !important}
+/* Generic renewal: no image → overview full width; late execution label anchors left of tick */
+.cs-summary.no-image .cs-intro{grid-template-columns:1fr}
+.cs-summary.no-image .cs-overview{max-width:none}
+.cs-xc-pct .mark.is-late{transform:translateX(-100%);padding-left:0;padding-right:10px;align-items:flex-end;text-align:right}
