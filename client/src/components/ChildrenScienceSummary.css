@@ -619,3 +619,8 @@
 /* 사업 개요 소개 문장: 26px → 1pt 작게 */
 .cs-summary .cs-overview-lead{font-size:calc(26px - 1pt)}
 @media(max-width:800px){.cs-summary .cs-overview-lead{font-size:calc(24px - 1pt)}}
+/* 사업 개요 박스 안 글자 전체 1pt 작게(소개문은 위에서 이미 1pt 축소) */
+.cs-summary .cs-overview-list dt{font-size:calc(18px - 1pt)}
+.cs-summary .cs-overview-list b{font-size:calc(21px - 1pt)}
+.cs-summary .cs-overview-list b.is-accent{font-size:calc(26px - 1pt)}
+.cs-summary .cs-overview-list span{font-size:calc(16px - 1pt)}
