@@ -1756,7 +1756,13 @@
           "card_budget_2028_plus_million_krw": null,
           "district": "우정읍",
           "town": "갑구",
-          "contact": "만세구"
+          "contact": "만세구",
+          "rendering_images": [
+            "/renderings/ai-sports-4/ai.jpg"
+          ],
+          "rendering_image_types": [
+            "조감도"
+          ]
         },
         {
           "name": "오산천",
@@ -2359,6 +2365,12 @@
           "town": "병구",
           "contact": "효행구"
         }
+      ],
+      "rendering_images": [
+        "/renderings/ai-sports-4/ai.jpg"
+      ],
+      "rendering_image_types": [
+        "조감도"
       ]
     },
     {
@@ -4463,12 +4475,12 @@
       "project_name": "스포츠컴플렉스 조성",
       "overview": "○ 사업위치: 화성시 효행구 비봉면 구포리 산6-19 (개발제한구역)\n○ 사업규모: 대지면적 270,000㎡, 건축면적 각 3,000㎡\n○ 사업내용: 파크골프장 54홀, 축구장 2면, 실외 테니스장 12면, 실내 테니스장 4면, 실내 배드민턴장 16면, 맨발숲길 조성\n○ 사업기간: 2027. ~ (2030년부터 설계완료 및 공사 추진)\n○ 총사업비: 84,300백만원",
       "rendering_images": [
-        "/renderings/sports-20/location.webp",
-        "/renderings/sports-20/1.webp"
+        "/renderings/sports-20/1.webp",
+        "/renderings/sports-20/location.webp"
       ],
       "rendering_image_types": [
-        "위치도",
-        "조감도"
+        "조감도",
+        "위치도"
       ],
       "location_map": {
         "center": [
@@ -6820,9 +6832,11 @@
       "project_name": "서해안 관광벨트 주차장 및 도로 조성",
       "overview": "",
       "rendering_images": [
+        "/renderings/ai-tourism-8/ai.jpg",
         "/renderings/tourism-8/1.png"
       ],
       "rendering_image_types": [
+        "조감도",
         "위치도"
       ],
       "category": "문화관광시설",
@@ -7638,10 +7652,12 @@
           "card_budget_2026_additional_million_krw": null,
           "card_budget_2028_plus_million_krw": null,
           "rendering_images": [
+            "/renderings/ai-tourism-8/ai.jpg",
             "/renderings/tourism-8/west-coast-407.webp",
             "/renderings/tourism-8/location-parking-layout.svg"
           ],
           "rendering_image_types": [
+            "조감도",
             "위치도",
             "위치도"
           ]
@@ -9579,10 +9595,12 @@
       "department": "문화예술과",
       "project_name": "화성남양 문화예술공간 조성",
       "rendering_images": [
+        "/renderings/ai-culture-namyang/ai.jpg",
         "/renderings/culture-5/1.png"
       ],
       "rendering_image_types": [
-        "조감도"
+        "조감도",
+        "배치도"
       ],
       "overview": "○ 사업위치: 화성시 남양읍 홍난파길 32일원\n○ 사업규모: 부지 48,364㎡/ 건축연면적 1,657.8㎡(지상2층,지하1층)\n○ 사업기간: 2023. ~ 2030.06.\n○ 사업내용: 전시실, 다목적강좌, 작은도서관, 홍난파전시관 등 조성",
       "category": "문화관광시설",

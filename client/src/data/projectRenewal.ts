@@ -54,6 +54,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     dates: [{ label: "설계 착수 예정", value: "2027.3." }, { label: "공사 착공 예정", value: "2027.9." }, { label: "공사 준공", value: "2028.8." }],
   },
   "총괄데이터_5.xlsx:문화예술과:5": {
+    imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["사전 행정절차", "토지매입·건축기획", "설계", "건축 공사", "개관"],
     current: 0,
     dates: [{ label: "공사 착공 예정", value: "2028.5." }, { label: "준공 예정", value: "2029. 하반기" }, { label: "개관", value: "2030. 상반기" }],
@@ -130,6 +131,12 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
   },
 
   // 관광진흥과 ─────────────────────────────────────────────
+  "관광진흥과_총괄데이터.xlsx:Sheet1:7": {
+    // 송교리·궁평·서해안 관광지 주차장 세 곳을 탭으로 나눠 본다. 단계·일정은 세 곳이 같다.
+    steps: ["도시계획시설 결정", "실시계획인가", "보상", "공사", "준공"],
+    current: 1,
+    dates: [{ label: "실시계획인가", value: "2027.3." }, { label: "공사 착공", value: "2027.9." }, { label: "준공", value: "2027.12." }],
+  },
   "관광진흥과_총괄데이터.xlsx:Sheet1:1": {
     imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["설계", "계류시설 설치 공사", "준공"],
@@ -225,6 +232,12 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     current: 1,
     dates: [{ label: "사업 완료", value: "2026.8." }],
     execution2026: { budget2026: 0, carryover: 1584, carryoverType: "명시이월", executed: 1506 },
+  },
+  "주요투자사업_총괄데이터.xlsx:Sheet1:4": {
+    // 서부권·오산천·남양·개발제한구역 네 곳을 탭으로 나눠 본다. 일정은 앞선 두 곳 기준.
+    steps: ["설계·인허가", "조성 공사", "준공·개장"],
+    current: 0,
+    dates: [{ label: "서부권 개장", value: "2027.6." }, { label: "오산천 준공", value: "2028.4." }],
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:5": {
     imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
