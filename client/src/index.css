@@ -9453,3 +9453,13 @@ main.app-main.app-main-flush .hero-panel {
 .pd-card.bd-card .tl-stage-line { font-size:15.5px; }
 .pd-card.bd-card .tl-stage-line b { font-size:14.5px; }
 .pd-card.bd-card .bd-unit { font-size:16px; }
+/* 상세 표: 구분 이름은 한 줄로, 회색 글씨는 진하게(밝은 바탕에서 잘 안 보이던 문제) */
+.pd-card.bd-card .tl-table.tl-label-fit td:first-child { white-space:nowrap; }
+.pd-card.bd-card { --pd-text-muted:#2f3a4d; --pd-text-faint:#4b566a; }
+.pd-card.bd-card .tl-table .tl-item td { color:#2f3a4d !important; }
+.pd-card.bd-card .tl-table .tl-item .tl-amount { color:#1b2333; }
+.pd-card.bd-card :is(.tl-table,.mx-table) th small { color:#34475f !important; }
+.pd-card.bd-card .pl-notes, .pd-card.bd-card ~ .pl-notes { color:#4b566a; }
+.pd-card.bd-card .tl-table .tl-item td { font-weight:500; }
+/* 카드 사이(어두운 바탕)에 놓인 각주는 밝게 */
+.pd-detail-attached-group > .pl-notes { color:#c3cbd8; }

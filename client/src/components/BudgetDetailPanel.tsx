@@ -65,6 +65,16 @@ export type PlanYearKey = "budget_2026" | "budget_2027" | "budget_2028_plus";
 const parseAmount = (value: string | undefined) => (value && value !== "-" ? Number(value.replace(/,/g, "")) : 0);
 const GROUP_COLORS = ["#3987e5", "#199e70", "#9085e9", "#c98500", "#d55181", "#d95926"];
 const thousandText = (value: number) => `${value.toLocaleString("ko-KR")}천원`;
+// 구분 칸 너비: 가장 긴 이름이 한 줄에 들어가게 실제 글자 폭을 재고(좌우 여백·색 점 56px), 최소값 이상·360px 이하.
+// 최소값을 아래 「연도별 예산 지출」 표 구분 칸(270)과 같게 두어 두 표의 계·연도 열이 같은 자리에서 시작하게 한다.
+let labelCanvas: CanvasRenderingContext2D | null = null;
+const labelColWidth = (labels: string[], min: number) => {
+  if (!labelCanvas && typeof document !== "undefined") labelCanvas = document.createElement("canvas").getContext("2d");
+  const ctx = labelCanvas;
+  if (ctx) ctx.font = '700 18px "Pretendard", "Noto Sans KR", sans-serif';
+  const widest = Math.max(0, ...labels.map((label) => (ctx ? ctx.measureText(label).width : label.length * 17)));
+  return Math.min(360, Math.max(min, Math.ceil(widest + 56)));
+};
 
 function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; selectedYear?: PlanYearKey }) {
   const totalRow = section.rows.find((row) => row.kind === "total");
@@ -112,9 +122,9 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
       {/* 그해 추진 내용은 표 칸에 넣지 않고 표 위 한 줄로: "2020년 토지보상 · 2021년 …" */}
       {stageLine && <p className="tl-stage-line"><b>추진 내용</b>{stageLine}</p>}
       <div className="bd-scroll">
-        <table className="tl-table">
+        <table className="tl-table tl-label-fit">
           <colgroup>
-            <col style={{ width: 160 }} />
+            <col style={{ width: labelColWidth(items.map((item) => item.name).concat(groups.map((entry) => entry.name)), 270) }} />
             <col style={{ width: 120 }} />
             {years.map(({ year }) => <col key={year} />)}
           </colgroup>
@@ -239,7 +249,7 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false }: 
       <div className="bd-scroll">
         <table className="tl-table" style={years.length > 8 ? { minWidth: 370 + years.length * 110 } : undefined}>
           <colgroup>
-            <col style={{ width: 250 }} />
+            <col style={{ width: 270 }} />
             <col style={{ width: 120 }} />
             {years.map(({ year }) => <col key={year} />)}
           </colgroup>
