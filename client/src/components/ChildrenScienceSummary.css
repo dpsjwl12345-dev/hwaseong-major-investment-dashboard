@@ -574,8 +574,7 @@
 .cs-summary.no-image .cs-overview{max-width:none}
 .cs-xc-pct .mark.is-late{transform:translateX(-100%);padding-left:0;padding-right:10px;align-items:flex-end;text-align:right}
 /* 현재 단계: 헤딩보다 크게, 금색. 박스·추가 점 없이 아래 한 줄이 계속 흘러 '진행 중'을 보여준다. */
-.cs-summary .cs-stage-heading h3 strong{position:relative;padding-bottom:7px;font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1.1;color:#ffd67e;text-shadow:0 0 18px rgba(255,214,126,.35)}
+.cs-summary .cs-stage-heading h3 strong{position:relative;padding-bottom:7px;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;color:#ffd67e;text-shadow:0 0 18px rgba(255,214,126,.35)}
 .cs-summary .cs-stage-heading h3 strong::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(255,214,126,.15) 0%,rgba(255,214,126,.15) 35%,#ffd67e 50%,rgba(255,214,126,.15) 65%,rgba(255,214,126,.15) 100%);background-size:250% 100%;animation:cs-stage-flow 2.4s linear infinite}
 @keyframes cs-stage-flow{from{background-position:100% 0}to{background-position:-150% 0}}
 @media (prefers-reduced-motion: reduce){.cs-summary .cs-stage-heading h3 strong::after{animation:none;background:rgba(255,214,126,.5)}}
-@media(max-width:900px){.cs-summary .cs-stage-heading h3 strong{font-size:22px}}
