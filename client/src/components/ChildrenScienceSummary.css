@@ -597,3 +597,22 @@
 .cs-xc-row{margin-bottom:8px}
 .cs-xc-pct{height:56px}
 .cs-xc-pct .mark{bottom:8px}
+.cs-summary .cs-stage-heading h3 .cs-stage-note{font-family:"Pretendard","Noto Sans KR",sans-serif;font-size:.68em;font-weight:400;letter-spacing:0;color:#aeb8c9}
+/* 조감도 높이를 옆 사업 개요 칸 높이에 맞춘다(사진은 칸을 채우도록 잘라 보임). */
+.cs-summary .cs-intro{align-items:stretch}
+.cs-summary .cs-intro figure{align-self:stretch;display:flex;flex-direction:column}
+.cs-summary .cs-intro img{flex:1 1 0;height:auto;min-height:0;max-height:none;aspect-ratio:auto;object-fit:cover}
+@media(max-width:800px){.cs-summary .cs-intro img{flex:none;aspect-ratio:4/3;max-height:300px}}
+.cs-summary .cs-intro figure{position:relative}
+.cs-summary .cs-intro figure figcaption{position:absolute;right:12px;bottom:12px;margin:0;padding:4px 10px;border-radius:6px;background:rgba(10,14,22,.62);color:#e6ebf3;font-size:12px;line-height:1.4}
+/* 사업 개요 박스: 내용(4줄)에 비해 높던 줄 간격·여백을 줄인다. */
+.cs-summary .cs-overview{padding:20px 24px}
+.cs-summary .cs-overview-eyebrow{margin:0 0 8px}
+.cs-summary .cs-overview-lead+.cs-overview-list{margin-top:10px}
+.cs-summary .cs-overview-list>div{padding:10px 0}
+.cs-summary .cs-overview-list>div:last-child{border-bottom:0;padding-bottom:0}
+.cs-summary .cs-overview-list b.is-accent{font-size:26px}
+.cs-summary .cs-overview-list dd{gap:1px}
+/* "사업 개요" 제목과 소개 문장 사이: 짧은 강조선 하나로 구분한다. */
+.cs-summary .cs-overview-eyebrow{margin-bottom:0}
+.cs-summary .cs-overview-lead::before{content:"";display:block;width:40px;height:3px;margin:12px 0 14px;border-radius:2px;background:linear-gradient(90deg,#a7e3de,rgba(167,227,222,.15))}
