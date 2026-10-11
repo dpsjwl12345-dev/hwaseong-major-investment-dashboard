@@ -1758,7 +1758,7 @@
           "town": "갑구",
           "contact": "만세구",
           "rendering_images": [
-            "/renderings/ai-sports-4/ai.jpg"
+            "/renderings/ai-sports-4/ai-v2.jpg"
           ],
           "rendering_image_types": [
             "조감도"
@@ -1971,7 +1971,13 @@
           "card_budget_2028_plus_million_krw": null,
           "district": "방교동",
           "town": "정구",
-          "contact": "동탄구"
+          "contact": "동탄구",
+          "rendering_images": [
+            "/renderings/ai-sports-4-osan/ai-v2.jpg"
+          ],
+          "rendering_image_types": [
+            "조감도"
+          ]
         },
         {
           "name": "남양",
@@ -2367,7 +2373,7 @@
         }
       ],
       "rendering_images": [
-        "/renderings/ai-sports-4/ai.jpg"
+        "/renderings/ai-sports-4/ai-v2.jpg"
       ],
       "rendering_image_types": [
         "조감도"
@@ -6832,7 +6838,7 @@
       "project_name": "서해안 관광벨트 주차장 및 도로 조성",
       "overview": "",
       "rendering_images": [
-        "/renderings/ai-tourism-8/ai.jpg",
+        "/renderings/ai-tourism-8/ai-v2.jpg",
         "/renderings/tourism-8/1.png"
       ],
       "rendering_image_types": [
@@ -7444,11 +7450,13 @@
           "card_budget_2026_additional_million_krw": null,
           "card_budget_2028_plus_million_krw": null,
           "rendering_images": [
+            "/renderings/ai-tourism-8-gungpyeong/ai-v2.jpg",
             "/renderings/tourism-8/gungpyeong-parking-plan.svg",
             "/renderings/tourism-8/gungpyeong-location-original.svg",
             "/renderings/tourism-8/gungpyeong-location-change.svg"
           ],
           "rendering_image_types": [
+            "조감도",
             "위치도",
             "위치도",
             "위치도"
@@ -7652,7 +7660,7 @@
           "card_budget_2026_additional_million_krw": null,
           "card_budget_2028_plus_million_krw": null,
           "rendering_images": [
-            "/renderings/ai-tourism-8/ai.jpg",
+            "/renderings/ai-tourism-8/ai-v2.jpg",
             "/renderings/tourism-8/west-coast-407.webp",
             "/renderings/tourism-8/location-parking-layout.svg"
           ],
@@ -9595,7 +9603,7 @@
       "department": "문화예술과",
       "project_name": "화성남양 문화예술공간 조성",
       "rendering_images": [
-        "/renderings/ai-culture-namyang/ai.jpg",
+        "/renderings/ai-culture-namyang/ai-v2.jpg",
         "/renderings/culture-5/1.png"
       ],
       "rendering_image_types": [

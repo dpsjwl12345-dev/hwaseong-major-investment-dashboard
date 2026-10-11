@@ -68,7 +68,7 @@ function ProgressMeter({ label, value, note }: { label: string; value: number | 
   }, [value]);
   return (
     <div ref={ref} className={`cs-meter${visible ? " is-visible" : ""}`}>
-      <div className="cs-meter-head"><span>{label}</span><b>{value == null ? "자료 없음" : <>{shown}<small>%</small></>}</b></div>
+      <div className="cs-meter-head"><span>{label}</span><b className={value == null ? "is-empty" : undefined}>{value == null ? "자료 없음" : <>{shown}<small>%</small></>}</b></div>
       <div className="cs-meter-track" role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={value ?? undefined}><i style={{ ["--to" as string]: `${Math.min(100, value ?? 0)}%` }} /></div>
       {note && <small className="cs-meter-note">{note}</small>}
     </div>
@@ -109,7 +109,7 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
     {titleContainer && createPortal(<h1 className="cs-project-title">{config.title ?? project.project_name}</h1>, titleContainer)}
     <section ref={summaryRef} className={`cs-summary${image ? "" : " no-image"}`} aria-label={`${project.project_name} 한눈에 보기`}>
       <div className="cs-intro">
-        {image && <figure><img src={image} alt={`${project.project_name} ${imageType}`} /><figcaption>{config.imageCaption ?? (/\/ai\.jpg$/.test(image) ? "AI 가상 이미지 · 실제 설계와 다를 수 있음" : imageType === "조감도" ? "완공 후 모습 · 조감도(계획)" : imageType)}</figcaption></figure>}
+        {image && <figure><img src={image} alt={`${project.project_name} ${imageType}`} /><figcaption>{config.imageCaption ?? (/\/ai(-v\d+)?\.jpg$/.test(image) ? "AI 가상 이미지 · 실제 설계와 다를 수 있음" : imageType === "조감도" ? "완공 후 모습 · 조감도(계획)" : imageType)}</figcaption></figure>}
         <div className="cs-overview">
           <p className="cs-overview-eyebrow"><span>사업 개요</span><span className="cs-overview-basis">자료 기준 2026.9.</span></p>
           {fields["사업내용"] && <p className="cs-overview-lead">{fields["사업내용"]}</p>}
