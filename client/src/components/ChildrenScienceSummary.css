@@ -183,9 +183,7 @@
 /* Stage tag: plain text with live dot instead of a boxed badge */
 .cs-summary .cs-stage-heading h3{gap:18px;align-items:baseline}
 .cs-summary .cs-stage-heading h3 strong{display:inline-flex;align-items:center;gap:10px;padding:0;border:0;border-radius:0;background:none;color:#a7e3de;font-size:18px;font-weight:600;letter-spacing:-.01em}
-.cs-summary .cs-stage-heading h3 strong::before{content:"";width:8px;height:8px;border-radius:50%;background:#a7e3de;box-shadow:0 0 0 0 rgba(167,227,222,.6);animation:cs-live-dot 1.8s ease-out infinite}
 @keyframes cs-live-dot{0%{box-shadow:0 0 0 0 rgba(167,227,222,.55)}100%{box-shadow:0 0 0 9px rgba(167,227,222,0)}}
-@media (prefers-reduced-motion: reduce){.cs-summary .cs-stage-heading h3 strong::before{animation:none}}
 /* Steps: horizontal timeline (no boxes) — dots on a line, line filled up to current step */
 .cs-summary .cs-steps{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin:36px 0 28px;padding:0}
 .cs-summary .cs-steps::before{content:"";position:absolute;left:10%;right:10%;top:15px;height:2px;background:rgba(255,255,255,.1)}
@@ -203,7 +201,6 @@
 .cs-summary .cs-steps li.is-current small{color:#a7e3de;font-weight:600}
 @media(max-width:560px){.cs-summary .cs-steps b{font-size:14px}.cs-summary .cs-steps small{font-size:12px}}
 .cs-summary .cs-stage-heading h3 strong{color:#ffd67e}
-.cs-summary .cs-stage-heading h3 strong::before{background:#ffd67e;animation-name:cs-live-dot-gold}
 @keyframes cs-live-dot-gold{0%{box-shadow:0 0 0 0 rgba(255,214,126,.55)}100%{box-shadow:0 0 0 9px rgba(255,214,126,0)}}
 /* Key dates inline on the heading row */
 .cs-summary .cs-stage-heading{display:flex;align-items:center;flex-wrap:wrap;gap:12px 32px}

@@ -122,7 +122,7 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
         </div>
       </div>
       <div className="cs-stage">
-        <div className="cs-stage-heading"><h3><i className="cs-live-dot" aria-hidden="true" />지금 이 사업은 {steps[current] && <strong>{steps[current]}</strong>}</h3>{dates.length > 0 && <div className="cs-dates">{dates.map((date) => <span key={date.label}><b>{date.label}</b>{date.value}</span>)}</div>}</div>
+        <div className="cs-stage-heading"><h3><i className="cs-live-dot" aria-hidden="true" />지금 이 사업은 {steps[current] && <strong>{steps[current]} 중</strong>}</h3>{dates.length > 0 && <div className="cs-dates">{dates.map((date) => <span key={date.label}><b>{date.label}</b>{date.value}</span>)}</div>}</div>
         <div className="cs-stage-metrics"><ProgressMeter label="전체 사업 진척도" value={progress} />{execution != null && <ProgressMeter label="누적 예산 집행률" value={execution} note="누적 지출 ÷ 누적 예산 · ~2026년" />}</div>
         <ol className="cs-steps" aria-label="사업 추진 단계" style={{ gridTemplateColumns: `repeat(${steps.length}, minmax(0, 1fr))` }}>
           {steps.map((step, index) => <li key={step} className={index === current ? "is-current" : index < current ? "is-past" : ""} aria-current={index === current ? "step" : undefined}><span>{index < current ? "✓" : index + 1}</span><b>{step}</b><small>{index === current ? "현재 단계" : index < current ? "이전 단계" : "예정"}</small></li>)}
