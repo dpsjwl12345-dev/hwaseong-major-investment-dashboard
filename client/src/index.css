@@ -9392,3 +9392,64 @@ main.app-main.app-main-flush .hero-panel {
 .tl-table th .tl-stage-keyword{display:block;margin-top:4px;font-size:14px;font-weight:600;color:#a7e3de;white-space:nowrap;letter-spacing:-.01em}.tl-table th.is-selected .tl-stage-keyword{color:#ffd67e}
 .tl-table tr.tl-subhead td{background:#1d2a3d !important;color:#d6e2f2 !important;font-weight:700 !important;border-top:1px solid #34486a;border-bottom:1px solid #34486a}
 .tl-table tr.tl-subhead td{background:#16302e !important;color:#a7e3de !important;border-top:1px solid #2c5551;border-bottom:1px solid #2c5551}
+/* ── 예산현황 탭 하단 상세 표(연도별 사업비 계획 등): 밝은 바탕 ──
+   카드 안에서 색 변수를 밝은 값으로 바꾸고, 어두운 화면용으로 박아 둔 흰 글자·반투명 흰 배경만 따로 덮는다. */
+.pd-card.bd-card { --pd-text:#1b2333; --pd-text-muted:#465166; --pd-text-faint:#6b7689; --pd-border:#d5dce7; --pd-border-soft:#e4e9f0; --pd-surface:#ffffff; background:#f7f9fc !important; border-color:#d5dce7 !important; color:#1b2333; box-shadow:0 1px 2px rgba(15,30,60,.06) !important; }
+.pd-card.bd-card .pd-card-title, .pd-card.bd-card .pd-card-title * { color:#1b2333; }
+.pd-card.bd-card .bd-unit { color:#6b7689; }
+.pd-card.bd-card :is(.tl-table,.sg-table,.mx-table) th { background:#e5edf8 !important; color:#1f3a5f !important; border-bottom-color:#3987e5 !important; }
+.pd-card.bd-card :is(.tl-table,.sg-table,.mx-table) th.is-selected { background:#cfe0f5 !important; }
+.pd-card.bd-card :is(.tl-table,.mx-table) th small { color:#4a5f7d !important; }
+.pd-card.bd-card :is(.tl-table,.sg-table,.mx-table,.pl-table) td { border-bottom-color:rgba(15,30,60,.09) !important; }
+.pd-card.bd-card :is(.tl-table,.sg-table) :is(td + td, th + th) { border-left-color:rgba(15,30,60,.07) !important; }
+.pd-card.bd-card .tl-table .tl-item td { border-bottom-color:rgba(15,30,60,.05) !important; }
+.pd-card.bd-card :is(.tl-table .tl-total td, .sg-table .sg-sum td, .pl-table .pl-sum td, .mx-table .mx-total td) { background:#edf1f7 !important; }
+.pd-card.bd-card .tl-table .tl-group td { background:#f1f4f9 !important; }
+.pd-card.bd-card :is(.tl-table,.mx-table) tbody tr:hover td { background:rgba(15,30,60,.035) !important; }
+.pd-card.bd-card .mx-table tbody tr:nth-child(even) td { background:rgba(15,30,60,.025); }
+.pd-card.bd-card :is(.tl-table td.is-selected, .mx-table td.is-selected, .tl-table .tl-group td.is-selected, .sg-table tr.is-selected td, .pl-table tr.is-selected td) { background:rgba(57,135,229,.10) !important; }
+.pd-card.bd-card .tl-track { background:rgba(15,30,60,.08); }
+.pd-card.bd-card .tl-table th .tl-stage-keyword { color:#1f7a74; }
+.pd-card.bd-card .tl-table th.is-selected .tl-stage-keyword { color:#a26a00; }
+.pd-card.bd-card .tl-table .tl-stage-note th { background:#f1f4f9 !important; color:#465166 !important; }
+.pd-card.bd-card .tl-table .tl-stage-note th.is-selected { background:rgba(57,135,229,.12) !important; }
+.pd-card.bd-card .tl-table tr.tl-subhead td { background:#e3f3f1 !important; color:#1f6e69 !important; border-top-color:#b9dfdb !important; border-bottom-color:#b9dfdb !important; }
+.pd-card.bd-card .tl-table .tl-notes td { background:#f1f4f9 !important; }
+.pd-card.bd-card .tl-table .tl-notes td:first-child { color:#1f3a5f !important; }
+.pd-card.bd-card .tl-stage-line b { background:rgba(57,135,229,.12); color:#1f3a5f; }
+.pd-card.bd-card .cs-year { background:#ffffff; border-color:rgba(15,30,60,.1); }
+.pd-card.bd-card .cs-year header { border-bottom-color:rgba(15,30,60,.1); }
+.pd-card.bd-card .cs-total strong, .pd-card.bd-card .cb-total strong { color:#1b2333; }
+.pd-card.bd-card .cs-total span { color:#2563b8; }
+.pd-card.bd-card .cb-bar { background:rgba(15,30,60,.06); }
+.pd-card.bd-card .ex-rate { background:rgba(15,30,60,.06); }
+.pd-card.bd-card .ex-rate.is-low { background:rgba(250,178,25,.2); color:#9a6200; }
+.pd-card.bd-card .ex-rate.is-over { background:rgba(57,135,229,.14); color:#2563b8; }
+.pd-card.bd-card .pl-tag { background:rgba(15,30,60,.06); }
+.pd-card.bd-card .bd-table th, .pd-card.bd-card .bd-table td { border-color:rgba(15,30,60,.12); }
+.pd-card.bd-card .bd-table thead th { background:#e5edf8; color:#1f3a5f; }
+.pd-card.bd-card .bd-table .bd-stage-row th, .pd-card.bd-card .bd-table .bd-label { background:#f1f4f9; }
+.pd-card.bd-card .bd-table .bd-total-row td { background:#edf1f7; }
+.pd-card.bd-card .bd-table.bd-grid { --bd-accent:#0f8c95; }
+.pd-card.bd-card .bd-table.bd-grid thead th, .pd-card.bd-card .bd-table.bd-grid td.bd-label { background:transparent; }
+.pd-card.bd-card .bd-table.bd-grid tbody tr:not(.bd-total-row):not(.bd-meta-row):hover td { background:rgba(15,30,60,.035); }
+/* 밝은 바탕 상세 표: 글자 1~2pt 키움 */
+.pd-card.bd-card :is(.tl-table,.sg-table,.mx-table,.pl-table,.bd-table) { font-size:17px !important; }
+.pd-card.bd-card :is(.tl-table,.sg-table,.mx-table,.pl-table,.bd-table) :is(th,td) { font-size:17px !important; }
+.pd-card.bd-card :is(.tl-table .tl-total td, .tl-table .tl-stage td, .mx-table .mx-total td) { font-size:18px !important; }
+.pd-card.bd-card :is(.tl-table .tl-item td, .mx-table .mx-item td) { font-size:16.5px !important; }
+.pd-card.bd-card :is(.tl-table,.mx-table) th small, .pd-card.bd-card .tl-table .tl-sub, .pd-card.bd-card .tl-table .tl-notes td, .pd-card.bd-card .tl-table .tl-stage-note th { font-size:14.5px !important; }
+.pd-card.bd-card .tl-table th .tl-stage-keyword { font-size:15px !important; }
+.pd-card.bd-card :is(.sg-item span, .pl-items, .pl-tag) { font-size:15.5px !important; }
+.pd-card.bd-card :is(.sg-table .sg-note, .pl-table .pl-stage-name, .cb-table td small, .bd-table.bd-grid td.bd-align-left:not(.bd-label), .bd-table.bd-grid .bd-meta-row td) { font-size:14.5px !important; }
+.pd-card.bd-card .cs-year header b { font-size:18.5px; }
+.pd-card.bd-card :is(.cs-year header span, .cs-total span, .cb-total span) { font-size:14.5px; }
+.pd-card.bd-card :is(.cs-year dt, .cs-year dd) { font-size:16px; }
+.pd-card.bd-card .cs-total strong { font-size:24px; }
+.pd-card.bd-card .cb-total strong { font-size:26px; }
+.pd-card.bd-card .cb-legend li { font-size:15.5px; }
+.pd-card.bd-card .cb-legend em { font-size:14.5px; }
+.pd-card.bd-card .pl-notes, .pd-card.bd-card ~ .pl-notes { font-size:14.5px; }
+.pd-card.bd-card .tl-stage-line { font-size:15.5px; }
+.pd-card.bd-card .tl-stage-line b { font-size:14.5px; }
+.pd-card.bd-card .bd-unit { font-size:16px; }
