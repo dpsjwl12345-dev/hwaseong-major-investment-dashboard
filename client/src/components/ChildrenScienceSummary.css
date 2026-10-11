@@ -596,21 +596,23 @@
   position: relative;
   align-self: center;
   padding: 10px;
-  border: 1px solid rgba(210,223,255,.22);
+  border: 1px solid rgba(157,220,255,.5);
   border-radius: 24px;
-  background: linear-gradient(145deg,rgba(236,245,255,.12),rgba(130,155,195,.03));
-  box-shadow: 0 25px 45px -20px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.2);
-  transform: perspective(1200px) rotateY(3deg) rotateZ(-1deg);
+  background: linear-gradient(135deg,rgba(122,211,255,.25),rgba(71,117,189,.16) 55%,rgba(192,157,255,.2));
+  backdrop-filter: blur(16px) saturate(1.25);
+  box-shadow: 0 25px 45px -20px rgba(0,0,0,.7),inset 0 1px 0 rgba(224,249,255,.55),inset 0 -1px 0 rgba(153,206,255,.15);
+  transform: perspective(1200px) rotateY(3deg) rotateZ(-2deg);
 }
 .cs-summary .cs-intro figure::before {
   content: "";
   position: absolute;
-  inset: 13px 16px -12px 10px;
+  inset: 14px 20px -15px -9px;
   z-index: -1;
-  border: 1px solid rgba(161,186,234,.16);
+  border: 1px solid rgba(194,161,255,.45);
   border-radius: 24px;
-  background: #1c293d;
-  transform: rotate(2.5deg);
+  background: linear-gradient(135deg,rgba(128,90,214,.4),rgba(57,61,139,.5) 65%,rgba(125,183,255,.2));
+  box-shadow: 0 14px 28px -12px rgba(35,15,92,.6),inset 0 1px 0 rgba(230,207,255,.3);
+  transform: rotate(-2.5deg);
   pointer-events: none;
 }
 .cs-summary .cs-intro img {
@@ -633,10 +635,13 @@
   min-width: 0;
   margin-left: -24px;
   padding: 28px;
-  border: 1px solid rgba(195,215,250,.2);
+  border: 1px solid rgba(194,240,231,.35);
   border-radius: 24px;
-  background: linear-gradient(145deg,rgba(40,54,79,.97),rgba(22,31,48,.98));
-  box-shadow: 0 26px 60px -26px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.18);
+  background: linear-gradient(145deg,rgba(43,85,85,.94),rgba(28,48,65,.97) 55%,rgba(32,35,64,.98));
+  backdrop-filter: blur(20px);
+  box-shadow: -12px 18px 35px -18px rgba(0,0,0,.65),0 26px 60px -26px rgba(0,0,0,.75),inset 0 1px 0 rgba(229,255,247,.3);
+  transform: perspective(1400px) rotateY(-2deg) rotateZ(1.5deg);
+  transform-origin: center;
 }
 .cs-summary .cs-overview-heading {
   padding: 0;
@@ -734,7 +739,7 @@
   font-size: 13px;
   line-height: 1.5;
 }
-.cs-summary.no-image .cs-overview { margin-left: 0; }
+.cs-summary.no-image .cs-overview { margin-left: 0; transform: none; }
 @media (max-width:1000px) {
   .cs-summary .cs-intro { padding: 24px; }
   .cs-summary .cs-overview { padding: 22px; margin-left: -14px; }
@@ -742,13 +747,13 @@
 @media (max-width:800px) {
   .cs-summary .cs-intro { grid-template-columns: minmax(0,1fr); gap: 0; padding: 18px; }
   .cs-summary .cs-intro figure { width: 100%; min-width: 0; transform: none; padding: 7px 7px 20px; }
-  .cs-summary .cs-intro figure::before { inset: 10px 10px -6px; transform: rotate(1deg); }
+  .cs-summary .cs-intro figure::before { inset: 10px 10px -8px -5px; transform: rotate(-1.5deg); }
   .cs-summary .cs-intro figcaption { padding: 10px 4px 5px; }
-  .cs-summary .cs-overview { width: 100%; margin: -12px 0 0; padding: 20px; }
+  .cs-summary .cs-overview { width: 100%; margin: -12px 0 0; padding: 20px; transform: none; }
   .cs-summary.no-image .cs-overview { margin-top: 0; }
   .cs-summary .cs-overview-caption { font-size: 26px; }
   .cs-summary .cs-overview-heading + .cs-overview-list { grid-template-columns: minmax(0,1fr); }
   .cs-summary .cs-overview-heading + .cs-overview-list > div { padding: 14px; }
   .cs-summary .cs-overview-heading + .cs-overview-list b.is-accent { font-size: 30px; }
 }
-@media (prefers-reduced-motion:reduce) { .cs-summary .cs-intro figure { transform: none; } }
+@media (prefers-reduced-motion:reduce) { .cs-summary .cs-intro figure,.cs-summary .cs-overview { transform: none; } }
