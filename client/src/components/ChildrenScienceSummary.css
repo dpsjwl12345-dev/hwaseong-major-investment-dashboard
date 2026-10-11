@@ -155,7 +155,7 @@
 .cs-summary .cs-overview-list b{line-height:1.55;word-break:keep-all}
 /* Larger overview type */
 .cs-summary .cs-overview-eyebrow{font-size:17px}
-.cs-summary .cs-overview-lead{font-size:27px}
+.cs-summary .cs-overview-lead{font-size:26px}
 .cs-summary .cs-overview-list>div{grid-template-columns:110px minmax(0,1fr);padding:18px 0}
 .cs-summary .cs-overview-list dt{font-size:18px}
 .cs-summary .cs-overview-list b{font-size:21px}

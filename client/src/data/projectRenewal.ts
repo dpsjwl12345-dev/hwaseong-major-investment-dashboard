@@ -15,6 +15,7 @@ export type RenewalConfig = {
   totalUndecided?: string;
   steps: string[];
   current: number;
+  currentLabel?: string;
   dates: RenewalDate[];
   execution2026?: RenewalExecution;
 };
@@ -165,6 +166,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
   "관광진흥과_총괄데이터.xlsx:Sheet1:8": {
     steps: ["부지 확보", "관광지 조성 공사", "준공"],
     current: 1,
+    currentLabel: "공사 중",
     dates: [{ label: "남측 주차장·산책로", value: "2026.11." }, { label: "관광지 조성 준공", value: "2027.12." }],
     execution2026: { budget2026: 442, carryover: 1708, carryoverType: "계속비이월", executed: 1805 },
   },
