@@ -111,13 +111,8 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
       <div className="cs-intro">
         {image && <figure><img src={image} alt={`${project.project_name} ${imageType}`} /><figcaption>{config.imageCaption ?? (imageType === "조감도" ? "완공 후 모습 · 조감도(계획)" : imageType)}</figcaption></figure>}
         <div className="cs-overview">
-          <div className={`cs-overview-heading${fields["사업내용"] ? " has-description" : ""}`}>
-            <div className="cs-overview-caption-row">
-              <h2 className="cs-overview-caption">사업 개요</h2>
-              <span className="cs-overview-basis">자료 기준 2026.9.</span>
-            </div>
-            {fields["사업내용"] && <p className="cs-overview-lead">{fields["사업내용"]}</p>}
-          </div>
+          <p className="cs-overview-eyebrow"><span>사업 개요</span><span className="cs-overview-basis">자료 기준 2026.9.</span></p>
+          {fields["사업내용"] && <p className="cs-overview-lead">{fields["사업내용"]}</p>}
           <dl className="cs-overview-list">
             <div><dt>총사업비</dt><dd><b className="is-accent">{config.totalUndecided || !(total > 0) ? "미정" : won(total)}</b>{config.totalUndecided && <span>{config.totalUndecided}</span>}</dd></div>
             {fields["사업위치"] && <div><dt>위치</dt><dd><b>{fields["사업위치"]}</b>{location && <span>{location}</span>}</dd></div>}
