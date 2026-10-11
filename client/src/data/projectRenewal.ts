@@ -237,7 +237,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     imageCaption: "현재 건물 기반 렌더링 이미지 · 리모델링 대상",
     steps: ["안전진단·투자심사", "설계공모·설계", "리모델링 공사", "재개관"],
     current: 0,
-    currentNote: "2026.10. 지방재정 투자심사 예정",
+    currentNote: "2026.10.13. 투자심사 · 2027.1. 설계공모 착수 예정",
     dates: [{ label: "설계 착수 예정", value: "2027.1." }, { label: "공사 착공 예정", value: "2027.8." }, { label: "재개관", value: "2028.12." }],
     execution2026: { budget2026: 100, carryover: 0, executed: 56 },
   },

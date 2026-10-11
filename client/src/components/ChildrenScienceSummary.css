@@ -616,3 +616,6 @@
 /* "사업 개요" 제목과 소개 문장 사이: 짧은 강조선 하나로 구분한다. */
 .cs-summary .cs-overview-eyebrow{margin-bottom:0}
 .cs-summary .cs-overview-lead::before{content:"";display:block;width:40px;height:3px;margin:12px 0 14px;border-radius:2px;background:linear-gradient(90deg,#a7e3de,rgba(167,227,222,.15))}
+/* 사업 개요 소개 문장: 26px → 1pt 작게 */
+.cs-summary .cs-overview-lead{font-size:calc(26px - 1pt)}
+@media(max-width:800px){.cs-summary .cs-overview-lead{font-size:calc(24px - 1pt)}}
