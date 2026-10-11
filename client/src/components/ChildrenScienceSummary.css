@@ -583,7 +583,7 @@
 .cs-summary .cs-intro {
   position: relative;
   isolation: isolate;
-  grid-template-columns: minmax(0,1fr) minmax(0,1.08fr);
+  grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr);
   gap: 0;
   align-items: center;
   padding: 34px;
@@ -619,7 +619,8 @@
   border-radius: 16px;
   aspect-ratio: 4/3;
   height: auto;
-  max-height: none;
+  max-height: 280px;
+  object-fit: contain;
 }
 .cs-summary .cs-intro figcaption {
   margin: 0;
@@ -747,6 +748,7 @@
 @media (max-width:800px) {
   .cs-summary .cs-intro { grid-template-columns: minmax(0,1fr); gap: 0; padding: 18px; }
   .cs-summary .cs-intro figure { width: 100%; min-width: 0; transform: none; padding: 7px 7px 20px; }
+  .cs-summary .cs-intro img { max-height: 200px; }
   .cs-summary .cs-intro figure::before { inset: 10px 10px -8px -5px; transform: rotate(-1.5deg); }
   .cs-summary .cs-intro figcaption { padding: 10px 4px 5px; }
   .cs-summary .cs-overview { width: 100%; margin: -12px 0 0; padding: 20px; transform: none; }
