@@ -184,7 +184,6 @@
 .cs-summary .cs-stage-heading h3{gap:18px;align-items:baseline}
 .cs-summary .cs-stage-heading h3 strong{display:inline-flex;align-items:center;gap:10px;padding:0;border:0;border-radius:0;background:none;color:#a7e3de;font-size:18px;font-weight:600;letter-spacing:-.01em}
 .cs-summary .cs-stage-heading h3 strong::before{content:"";width:8px;height:8px;border-radius:50%;background:#a7e3de;box-shadow:0 0 0 0 rgba(167,227,222,.6);animation:cs-live-dot 1.8s ease-out infinite}
-.cs-summary .cs-stage-heading h3 strong::after{content:"진행 중";margin-left:2px;font-size:15px;font-weight:500;color:#8fa3bf}
 @keyframes cs-live-dot{0%{box-shadow:0 0 0 0 rgba(167,227,222,.55)}100%{box-shadow:0 0 0 9px rgba(167,227,222,0)}}
 @media (prefers-reduced-motion: reduce){.cs-summary .cs-stage-heading h3 strong::before{animation:none}}
 /* Steps: horizontal timeline (no boxes) — dots on a line, line filled up to current step */
