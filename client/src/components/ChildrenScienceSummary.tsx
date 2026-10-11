@@ -214,7 +214,7 @@ export function ChildrenScienceBudgetSummary({ projectId, budget }: { projectId:
               : <p><span>2026년 편성액</span><b><CountUp value={budget2026} visible={visible} format={mil} delay={600} /></b></p>}
             <p className="end"><span>예산현액</span><b><CountUp value={current} visible={visible} format={mil} delay={700} /></b></p>
           </div>
-          <div className="cs-xc-pct"><p className={`mark${executedRate > 60 ? " is-late" : ""}`}><span>집행액</span><b><CountUp value={executed} visible={visible} format={mil} delay={800} /><em><CountUp value={executedRate} visible={visible} format={n => `${n}%`} delay={800} /></em></b></p></div>
+          <div className="cs-xc-pct"><p className={`mark${executedRate > 50 ? " is-late" : ""}`}><span>집행액</span><b><CountUp value={executed} visible={visible} format={mil} delay={800} /><em><CountUp value={executedRate} visible={visible} format={n => `${n}%`} delay={800} /></em></b></p></div>
           <div className="cs-xc-bar" role="img" aria-label={`예산현액 ${mil(current)}(이월액 ${mil(carry)}, 2026년 편성액 ${mil(budget2026)}) 중 집행 ${mil(executed)}, 집행률 ${executedRate}%`}>
             <span className="carry" />{carryPct < 100 && <span className="new" />}<span className="done" />
           </div>

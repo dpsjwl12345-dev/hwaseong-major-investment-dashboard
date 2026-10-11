@@ -593,3 +593,7 @@
   .cs-summary .cs-overview { padding: 18px; min-width: 0; }
   .cs-summary .cs-intro img { max-height: 300px; object-fit: contain; }
 }
+/* 집행액·집행률은 이월액/예산현액 줄과 겹치지 않도록 막대 바로 위 자기 줄에 둔다(집행률 100% 근처에서 예산현액과 겹치던 문제). */
+.cs-xc-row{margin-bottom:8px}
+.cs-xc-pct{height:56px}
+.cs-xc-pct .mark{bottom:8px}
