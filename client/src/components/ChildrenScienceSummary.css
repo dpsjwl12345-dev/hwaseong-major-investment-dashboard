@@ -626,3 +626,16 @@
 .cs-summary .cs-overview-list span{font-size:calc(16px - 1pt)}
 /* 사업 개요 소개 문장: 제목 아래 강조선과 같은 민트 계열로 구분 */
 .cs-summary .cs-overview-lead{color:#a7e3de}
+
+@font-face {
+  font-family: "Sunflower";
+  src: url("/fonts/Sunflower-Light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+.cs-summary .cs-overview-lead,
+.cs-summary .cs-overview-lead strong {
+  font-family: "Sunflower", "Pretendard", sans-serif;
+  font-weight: 300;
+}

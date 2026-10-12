@@ -9493,7 +9493,7 @@ main.app-main.app-main-flush .hero-panel {
   .bd-library-budget-pair .pd-card-title { flex-wrap: wrap; gap: 8px; }
 }
 
-.dept-venue-map { margin: 28px 0 0; }
+.dept-venue-map { width: 66.6667%; margin: 28px auto 0; }
 .dept-venue-map figcaption { margin-bottom: 12px; font-size: 20px; font-weight: 700; }
 .dept-venue-map a { display: block; overflow: hidden; border-radius: 16px; background: #fff; }
 .dept-venue-map a:focus-visible { outline: 3px solid #3987e5; outline-offset: 4px; }
