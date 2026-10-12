@@ -4,7 +4,7 @@
 // - dates: 제목 줄 오른쪽 핵심 날짜. 마지막 항목이 목표(노란색)
 // - execution2026: 2026년 예산집행 현황(세출 통계목 합계, 백만원). 사업 단위로 분리되지 않으면 넣지 않는다.
 export type RenewalDate = { label: string; value: string };
-export type RenewalExecution = { budget2026: number; carryover: number; carryoverType?: string; executed: number };
+export type RenewalExecution = { budget2026: number; carryover: number; carryoverType?: string; executed: number; amountDecimals?: number };
 export type RenewalConfig = {
   title?: string;
   // 대표 사진으로 쓸 rendering_images 순번(없으면 첫 조감도).
@@ -74,7 +74,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     current: 0,
     currentNote: "2026.12.~2027.3. 설계공모 진행 예정",
     dates: [{ label: "공사 착공 예정", value: "2028.6." }, { label: "준공 예정", value: "2030.6." }, { label: "개관", value: "2030.10." }],
-    execution2026: { budget2026: 22, carryover: 0, executed: 20 },
+    execution2026: { budget2026: 22, carryover: 0, executed: 20.2312, amountDecimals: 4 },
   },
   "총괄데이터_5.xlsx:문화예술과:9": {
     imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",

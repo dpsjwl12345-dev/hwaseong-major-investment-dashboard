@@ -10940,7 +10940,7 @@
       "total_cost_million_krw": 28131,
       "invested_to_2026_million_krw": 57,
       "budget_2027_million_krw": 1719,
-      "execution_rate": 0,
+      "execution_rate": 91.96,
       "progress_status": "○ 2024.04. ~ 12.: 기본구상 및 타당성조사 착수~준공\n○ 2026.03. ~ 05.: 공공건축 기획용역 시행\n○ 2026.06. ~ 07.: 공공건축 사업계획 사전검토(경기도 공공건설 지원센터)",
       "progress_rate": 10,
       "expected_completion": "10%",
@@ -10966,8 +10966,9 @@
       "card_budget_2028_million_krw": null,
       "card_budget_2029_plus_million_krw": null,
       "card_execution_budget_million_krw": 22,
-      "card_execution_amount_million_krw": 20,
-      "card_execution_rate": 91,
+      "card_execution_amount_million_krw": 20.2312,
+      "card_execution_rate": 91.96,
+      "carryover_million_krw": 0,
       "card_inspection": "양호",
       "funding_breakdown": [
         {
@@ -11116,7 +11117,7 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "중기재정(2024.11.18.), 투·융자심사(2025.09.30.), 공유재산(2025.09.22.)",
+      "card_admin_procedures": "중기재정(2024.11.18.), 투·융자심사(2025.09.30. · 34,700 · 조건부), 공유재산(2025.09.22. · 원안가결)",
       "card_admin_legal_basis": "□ 법, 조례, 규칙 □ 정책사업",
       "card_admin_status": {
         "mid_term_fiscal": true,
