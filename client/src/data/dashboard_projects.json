@@ -4246,7 +4246,7 @@
       "card_budget_2026_additional_million_krw": null,
       "card_budget_2028_plus_million_krw": 1800,
       "rendering_images": [
-        "/renderings/sports-12/ai.jpg"
+        "/renderings/sports-12/ai-v2.jpg"
       ],
       "rendering_image_types": [
         "조감도"
@@ -7681,12 +7681,14 @@
       "department": "관광진흥과",
       "project_name": "궁평 종합관광지 조성",
       "rendering_images": [
+        "/renderings/tourism-6/ai.jpg",
         "/renderings/tourism-6/1.png",
         "/renderings/tourism-6/2.png",
         "/renderings/tourism-6/3.png",
         "/renderings/tourism-6/4.webp"
       ],
       "rendering_image_types": [
+        "조감도",
         "위치도",
         "조감도",
         "조감도",
