@@ -240,7 +240,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     current: 0,
     currentNote: "2026.10.13. 투자심사 · 2027.1. 설계공모 착수 예정",
     dates: [{ label: "설계 착수 예정", value: "2027.1." }, { label: "공사 착공 예정", value: "2027.8." }, { label: "재개관", value: "2028.12." }],
-    // 2026년 편성액 = 국비 2,746(3회 추경) + 시비 100(기본계획·안전진단 용역)
+    // 2026년 편성액 = 국비 2,746(3회 추경) + 시비 100(건축기획용역 등 타당성 조사)
     execution2026: { budget2026: 2846, carryover: 0, executed: 56 },
   },
   // 체육진흥과 ─────────────────────────────────────────────
