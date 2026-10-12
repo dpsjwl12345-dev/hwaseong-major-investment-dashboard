@@ -9463,3 +9463,28 @@ main.app-main.app-main-flush .hero-panel {
 .pd-card.bd-card .tl-table .tl-item td { font-weight:500; }
 /* 카드 사이(어두운 바탕)에 놓인 각주는 밝게 */
 .pd-detail-attached-group > .pl-notes { color:#c3cbd8; }
+
+/* 둥지나래 도서관: 재원별·항목별 예산표를 나란히 비교한다. */
+.bd-library-budget-pair > .pd-stacked-panel { min-width: 0; }
+@media (min-width: 1100px) {
+  .pd-detail-attached-group.bd-library-budget-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    align-items: start;
+  }
+  .pd-detail-attached-group.bd-library-budget-pair > .pd-stacked-panel > .pd-card {
+    border-radius: 18px !important;
+    border-top: 1px solid var(--pd-border) !important;
+    padding: 20px 14px;
+  }
+  .bd-library-budget-pair .bd-table.bd-grid { width: 100% !important; table-layout: fixed; }
+  .bd-library-budget-pair .bd-table.bd-grid col { width: auto !important; }
+  .bd-library-budget-pair .bd-table.bd-grid col:first-child { width: 22% !important; }
+  .bd-library-budget-pair .pd-card.bd-card .bd-table :is(th, td) {
+    padding: 12px 6px;
+    font-size: 15px !important;
+    overflow-wrap: anywhere;
+  }
+  .bd-library-budget-pair .pd-card-title { flex-wrap: wrap; gap: 8px; }
+}

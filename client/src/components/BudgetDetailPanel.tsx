@@ -608,7 +608,7 @@ export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: stri
     );
   }
   return (
-    <div className="pd-detail-attached-group">
+    <div className={`pd-detail-attached-group${projectId === "총괄데이터_일반.xlsx:Sheet1:4" ? " bd-library-budget-pair" : ""}`}>
       {executionPanel(false, false)}
       {detail.sections.map((section, index) => renderSection(section, index === detail.sections.length - 1))}
     </div>

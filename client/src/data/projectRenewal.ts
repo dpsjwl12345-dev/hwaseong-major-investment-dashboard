@@ -238,6 +238,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     imageCaption: "현재 건물 기반 렌더링 이미지 · 리모델링 대상",
     steps: ["안전진단·투자심사", "설계공모·설계", "리모델링 공사", "재개관"],
     current: 0,
+    currentLabel: "건축기획 용역 중",
     currentNote: "2026.10.13. 투자심사 · 2027.1. 설계공모 착수 예정",
     dates: [{ label: "설계 착수 예정", value: "2027.1." }, { label: "공사 착공 예정", value: "2027.8." }, { label: "재개관", value: "2028.12." }],
     // 2026년 편성액 = 국비 2,746(3회 추경) + 시비 100(건축기획용역 등 타당성 조사)
