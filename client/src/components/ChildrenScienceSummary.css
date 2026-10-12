@@ -651,3 +651,56 @@
 .cs-summary .cs-overview-list b { line-height: 1.4; }
 .cs-summary .cs-overview-list span { line-height: 1.35; }
 .cs-summary .cs-overview-lead + .cs-overview-list { margin-top: 8px; }
+
+/* 구분선 사이 항목명·내용의 열과 세로 정렬을 통일한다. */
+.cs-summary .cs-overview-list > div {
+  grid-template-columns: 90px minmax(0, 1fr);
+  column-gap: 16px;
+  align-items: center;
+  padding: 8px 0;
+}
+.cs-summary .cs-overview-list dt {
+  margin: 0;
+  line-height: 1.4;
+  text-align: left;
+}
+.cs-summary .cs-overview-list dd {
+  margin: 0;
+  align-items: flex-start;
+  text-align: left;
+}
+.cs-summary .cs-overview-list dd > :is(b, span) {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 800px) {
+  .cs-summary .cs-overview-list > div {
+    grid-template-columns: 72px minmax(0, 1fr);
+    column-gap: 12px;
+  }
+}
+
+/* 주요 일정: 한글 항목명을 2pt 키우고 항목·날짜를 가운데 정렬. */
+.cs-summary .cs-stage-heading .cs-dates {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  row-gap: 12px;
+}
+.cs-summary .cs-stage-heading .cs-dates > span,
+.cs-summary .cs-stage-heading .cs-dates > span:first-child,
+.cs-summary .cs-stage-heading .cs-dates > span:last-child {
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+.cs-summary .cs-stage-heading .cs-dates b {
+  font-size: calc(14px + 2pt);
+  text-align: center;
+}
+@media (max-width: 800px) {
+  .cs-summary .cs-stage-heading .cs-dates { width: 100%; }
+}

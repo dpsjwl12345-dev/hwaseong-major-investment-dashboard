@@ -76,7 +76,7 @@ const labelColWidth = (labels: string[], min: number) => {
   return Math.min(360, Math.max(min, Math.ceil(widest + 56)));
 };
 
-function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; selectedYear?: PlanYearKey }) {
+function MatrixYearTable({ section, selectedYear, columnWidthShift = 0 }: { section: MatrixSection; selectedYear?: PlanYearKey; columnWidthShift?: number }) {
   const totalRow = section.rows.find((row) => row.kind === "total");
   const items: { group: string; name: string; total: string; values: string[]; flags: number[]; extra: string[] }[] = [];
   let group = "";
@@ -124,8 +124,8 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
       <div className="bd-scroll">
         <table className="tl-table tl-label-fit">
           <colgroup>
-            <col style={{ width: labelColWidth(items.map((item) => item.name).concat(groups.map((entry) => entry.name)), 270) }} />
-            <col style={{ width: 120 }} />
+            <col style={{ width: labelColWidth(items.map((item) => item.name).concat(groups.map((entry) => entry.name)), 270) - columnWidthShift }} />
+            <col style={{ width: 120 + columnWidthShift }} />
             {years.map(({ year }) => <col key={year} />)}
           </colgroup>
           <thead>
@@ -180,7 +180,7 @@ function MatrixYearTable({ section, selectedYear }: { section: MatrixSection; se
 
 // 예산현황표와 지출현황표를 연도별로 맞대어: 그해 예산, 지출, 집행률(막대). 계는 지출이 있을 수 있는 해(~2026)까지만 비교한다.
 // spendDetail: 지출현황표(과목×연도)를 이 표 아래쪽 "과목별 지출" 줄로 합쳐, 합계 지출 줄과 지출현황표가 겹치지 않게 한다.
-function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false }: { budget: MatrixSection; spend: MatrixSection; selectedYear?: PlanYearKey; spendDetail?: boolean }) {
+function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, columnWidthShift = 0, hideTotalPeriod = false }: { budget: MatrixSection; spend: MatrixSection; selectedYear?: PlanYearKey; spendDetail?: boolean; columnWidthShift?: number; hideTotalPeriod?: boolean }) {
   const budgetTotal = budget.rows.find((row) => row.kind === "total");
   const spendTotal = spend.rows.find((row) => row.kind === "total");
   const valueAt = (section: MatrixSection, total: DetailRow | undefined, year: string) => {
@@ -249,14 +249,14 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false }: 
       <div className="bd-scroll">
         <table className="tl-table" style={years.length > 8 ? { minWidth: 370 + years.length * 110 } : undefined}>
           <colgroup>
-            <col style={{ width: 270 }} />
-            <col style={{ width: 120 }} />
+            <col style={{ width: 270 - columnWidthShift }} />
+            <col style={{ width: 120 + columnWidthShift }} />
             {years.map(({ year }) => <col key={year} />)}
           </colgroup>
           <thead>
             <tr>
               <th>구분</th>
-              <th>계<small>~{lastPast}</small></th>
+              <th>계{!hideTotalPeriod && <small>~{lastPast}</small>}</th>
               {years.map(({ year }) => <th key={year} className={isSelected(year) ? "is-selected" : undefined}>{year}</th>)}
             </tr>
           </thead>
@@ -571,6 +571,7 @@ function CostBreakdownView({ section }: { section: GridSection }) {
 export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: string; selectedYear?: PlanYearKey }) {
   const detail = detailByProject[projectId];
   if (!detail) return null;
+  const columnWidthShift = projectId === "총괄데이터_5.xlsx:문화예술과:6" ? 40 : 0;
   const matrices = detail.sections.filter((section): section is MatrixSection => section.kind !== "grid");
   const budgetMatrix = matrices.find((section) => section.title.includes("예산현황"));
   const spendMatrix = matrices.find((section) => section.title.includes("지출현황"));
@@ -584,14 +585,14 @@ export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: stri
         <GridTable section={section} />
       ) : (
         <div className="pd-card bd-card">
-          {section.kind === "grid" ? <PlanTable section={section} selectedYear={selectedYear} /> : <MatrixYearTable section={section} selectedYear={selectedYear} />}
+          {section.kind === "grid" ? <PlanTable section={section} selectedYear={selectedYear} /> : <MatrixYearTable section={section} selectedYear={selectedYear} columnWidthShift={columnWidthShift} />}
         </div>
       )}
     </div>
   );
   const executionPanel = (isLast: boolean, spendDetail: boolean) => budgetMatrix && spendMatrix && (
     <div key="execution" className={`pd-stacked-panel${isLast ? " pd-attached-last" : ""}`}>
-      <div className="pd-card bd-card"><ExecutionSummary budget={budgetMatrix} spend={spendMatrix} selectedYear={selectedYear} spendDetail={spendDetail} /></div>
+      <div className="pd-card bd-card"><ExecutionSummary budget={budgetMatrix} spend={spendMatrix} selectedYear={selectedYear} spendDetail={spendDetail} columnWidthShift={columnWidthShift} hideTotalPeriod={projectId === "총괄데이터_5.xlsx:문화예술과:6"} /></div>
     </div>
   );
   // 연도별 예산현황 표를 먼저 보여주는 사업(어린이 과학관): 예산현황 → 예산 대비 지출(지출현황표를 한 표로 합침) → 나머지.
