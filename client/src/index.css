@@ -9514,3 +9514,7 @@ main.app-main.app-main-flush .hero-panel {
 .pd-detail-page .pd-timeline [data-slot="timeline-item"]:not(:last-child) { padding-bottom: 12px; }
 .pd-detail-page .pd-timeline [data-slot="timeline-content"] { line-height: 1.4; }
 .pd-detail-page .pd-progress-horizontal-group + .pd-progress-horizontal-group { margin-top: 12px; padding-top: 12px; }
+
+.pd-budget-memo { margin-top: 16px; padding: 16px 20px; border: 1px solid var(--pd-border); border-radius: 14px; }
+.pd-budget-memo .pd-inline-note-view { margin-top: 10px; min-height: 64px; }
+.pd-budget-memo .pd-inline-note { margin-top: 10px; }

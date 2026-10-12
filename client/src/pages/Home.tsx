@@ -631,7 +631,7 @@ function BudgetFlowStrip({ flow, selected, onSelect }: { flow: FlowTotals; selec
   );
 }
 
-function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, selectedYear, onSelectYear, note, projectId, onNoteSaved }: { usageRows: BreakdownRow[]; fundingRows: BreakdownRow[]; flow: FlowTotals; projectTotal: number; selectedYear: BudgetYearKey; onSelectYear: (key: BudgetYearKey) => void; note?: string; projectId: string; onNoteSaved?: (patch: Partial<Project>) => void }) {
+function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, selectedYear, onSelectYear, note, projectId, onNoteSaved, showNote = true }: { usageRows: BreakdownRow[]; fundingRows: BreakdownRow[]; flow: FlowTotals; projectTotal: number; selectedYear: BudgetYearKey; onSelectYear: (key: BudgetYearKey) => void; note?: string; projectId: string; onNoteSaved?: (patch: Partial<Project>) => void; showNote?: boolean }) {
   const selectedLabel = YEAR_TABS.find((year) => year.key === selectedYear)?.label ?? "";
   const yearTotal = selectedYear === "budget_2026" ? flow.budget2026 : selectedYear === "budget_2027" ? flow.budget2027 : flow.budget2028Plus;
   const share = projectTotal > 0 ? (yearTotal / projectTotal) * 100 : 0;
@@ -656,7 +656,7 @@ function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, selectedY
           <FundingDonut rows={fundingRows} yearKey={selectedYear} />
         </div>
         <BudgetFlowStrip flow={flow} selected={selectedYear} onSelect={onSelectYear} />
-        <InlineNoteEditor projectId={projectId} fieldKey="usage_breakdown_note" value={note ?? ""} placeholder="등록된 안내문구가 없습니다. 클릭해서 작성하세요." rows={2} textClassName="pd-note-box mt-3 !text-[16px]" onSaved={onNoteSaved} />
+        {showNote && <InlineNoteEditor projectId={projectId} fieldKey="usage_breakdown_note" value={note ?? ""} placeholder="등록된 안내문구가 없습니다. 클릭해서 작성하세요." rows={2} textClassName="pd-note-box mt-3 !text-[16px]" onSaved={onNoteSaved} />}
       </div>
     </div>
   );
@@ -712,12 +712,19 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
           selectedYear={selectedYear}
           onSelectYear={setSelectedYear}
           note={project.usage_breakdown_note}
+          showNote={project.id !== CHILDREN_SCIENCE_ID}
           projectId={project.id}
           onNoteSaved={onNoteSaved}
         />
-        {hasBudgetDetail(project.id) && (
-          <BudgetDetailPanel projectId={project.id} selectedYear={selectedYear} />
-        )}
+        {hasBudgetDetail(project.id) && (project.id === CHILDREN_SCIENCE_ID ? (
+          <div>
+            <BudgetDetailPanel projectId={project.id} selectedYear={selectedYear} />
+            <section className="pd-budget-memo" aria-label="예산현황 메모">
+              <DetailSectionHeading icon={Pencil} title="메모" />
+              <InlineNoteEditor projectId={project.id} fieldKey="usage_breakdown_note" value={project.usage_breakdown_note ?? ""} placeholder="클릭해서 예산현황 메모를 작성하세요." rows={3} textClassName="pd-note-box !text-[16px]" onSaved={onNoteSaved} />
+            </section>
+          </div>
+        ) : <BudgetDetailPanel projectId={project.id} selectedYear={selectedYear} />)}
       </div>
       {!project.management_card_matched && <p className="pd-note-box mt-4 text-amber-300">해당 사업의 사업별 관리카드가 검색되지 않아 총괄표 기준으로 표시합니다.</p>}
       {project.route_budget_rows?.length ? <RouteBudgetTable rows={project.route_budget_rows} /> : null}
