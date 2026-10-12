@@ -674,6 +674,9 @@
   max-width: 100%;
   overflow-wrap: anywhere;
 }
+.cs-summary .cs-overview-list b:not(.is-accent) {
+  font-weight: 500;
+}
 @media (max-width: 800px) {
   .cs-summary .cs-overview-list > div {
     grid-template-columns: 72px minmax(0, 1fr);
@@ -704,4 +707,19 @@
 }
 @media (max-width: 800px) {
   .cs-summary .cs-stage-heading .cs-dates { width: 100%; margin-left: 0; justify-content: center; }
+}
+
+/* 예산 수식의 금액을 줄이고 집행 지표는 그래프 위 한 줄로 배치. */
+.cs-budget-eq > .cs-eq .cs-eq-term b { font-size: 28px; }
+.cs-budget-eq > .cs-eq .cs-eq-term.total b { font-size: 32px; }
+.cs-cash-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 14px; align-items: start; }
+.cs-cash-metrics p { min-width: 0; }
+.cs-cash-metrics b { font-size: 20px; overflow-wrap: anywhere; }
+.cs-cash-metrics .current b { color: #ffd67e; }
+.cs-cash-metrics .executed b { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; color: #7fe0d4; }
+.cs-cash-metrics em { font-size: 18px; font-style: normal; color: #7fe0d4; }
+@media (max-width: 800px) {
+  .cs-cash-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cs-budget-eq > .cs-eq .cs-eq-term b { font-size: 24px; }
+  .cs-budget-eq > .cs-eq .cs-eq-term.total b { font-size: 28px; }
 }

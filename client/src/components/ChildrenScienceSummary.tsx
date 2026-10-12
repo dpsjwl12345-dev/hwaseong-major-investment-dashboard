@@ -208,19 +208,16 @@ export function ChildrenScienceBudgetSummary({ projectId, budget }: { projectId:
       <div className="cs-cash">
         {/* 2026년 편성액 구간은 실제 비율(약 3%)보다 넓게(최소 15%) 그려 보이게 한다. 집행 위치는 예산현액 대비 실제 비율 그대로. */}
         <div className="cs-xc" style={{ ["--done" as string]: `${visible ? executedRate : 0}%`, ["--carry" as string]: `${carryPct}%` }}>
-          <div className="cs-xc-row">
-            {carry > 0
-              ? <p><span>이월액{exec?.carryoverType ? ` · ${exec.carryoverType}` : ""}</span><b><CountUp value={carry} visible={visible} format={mil} delay={600} /></b></p>
-              : <p><span>2026년 편성액</span><b><CountUp value={budget2026} visible={visible} format={mil} delay={600} /></b></p>}
-            <p className="end"><span>예산현액</span><b><CountUp value={current} visible={visible} format={mil} delay={700} /></b></p>
+          <div className="cs-cash-metrics">
+            <p><span>이월액{exec?.carryoverType ? ` · ${exec.carryoverType}` : ""}</span><b><CountUp value={carry} visible={visible} format={mil} delay={600} /></b></p>
+            <p><span>2026년 편성액</span><b><CountUp value={budget2026} visible={visible} format={mil} delay={600} /></b></p>
+            <p className="current"><span>예산현액</span><b><CountUp value={current} visible={visible} format={mil} delay={700} /></b></p>
+            <p className="executed"><span>집행액</span><b><CountUp value={executed} visible={visible} format={mil} delay={800} /><em><CountUp value={executedRate} visible={visible} format={n => `${n}%`} delay={800} /></em></b></p>
           </div>
-          <div className="cs-xc-pct"><p className={`mark${executedRate > 50 ? " is-late" : ""}`}><span>집행액</span><b><CountUp value={executed} visible={visible} format={mil} delay={800} /><em><CountUp value={executedRate} visible={visible} format={n => `${n}%`} delay={800} /></em></b></p></div>
           <div className="cs-xc-bar" role="img" aria-label={`예산현액 ${mil(current)}(이월액 ${mil(carry)}, 2026년 편성액 ${mil(budget2026)}) 중 집행 ${mil(executed)}, 집행률 ${executedRate}%`}>
             <span className="carry" />{carryPct < 100 && <span className="new" />}<span className="done" />
           </div>
-          {carry > 0 && budget2026 > 0 && <div className="cs-xc-below">
-            <p className="end new"><span>2026년 편성액</span><b>{mil(budget2026)}</b></p>
-          </div>}
+
         </div>
       </div>
     </div>}
