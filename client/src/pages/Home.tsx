@@ -667,6 +667,7 @@ function formatMillion(value: number | null | undefined) {
 }
 
 function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?: (patch: Partial<Project>) => void }) {
+  const memoAtBottom = project.id === CHILDREN_SCIENCE_ID || project.id === "총괄데이터_5.xlsx:문화예술과:3";
   // 상단 카드·연도별 예산 흐름이 모두 같은 계산을 쓴다.
   const budgetOf = pb(project);
   const total = budgetOf.total || null;
@@ -712,11 +713,11 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
           selectedYear={selectedYear}
           onSelectYear={setSelectedYear}
           note={project.usage_breakdown_note}
-          showNote={project.id !== CHILDREN_SCIENCE_ID}
+          showNote={!memoAtBottom}
           projectId={project.id}
           onNoteSaved={onNoteSaved}
         />
-        {hasBudgetDetail(project.id) && (project.id === CHILDREN_SCIENCE_ID ? (
+        {hasBudgetDetail(project.id) && (memoAtBottom ? (
           <div>
             <BudgetDetailPanel projectId={project.id} selectedYear={selectedYear} />
             <section className="pd-budget-memo" aria-label="예산현황 메모">

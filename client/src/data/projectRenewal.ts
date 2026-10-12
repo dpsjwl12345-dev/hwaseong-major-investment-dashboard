@@ -45,7 +45,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     current: 1,
     currentNote: "2027년 상반기 설계 준공 예정",
     dates: [{ label: "공사 착공 예정", value: "2027.7." }, { label: "준공 예정", value: "2029.2." }, { label: "미술관 개관", value: "2029.4." }],
-    execution2026: { budget2026: 8214, carryover: 2816, carryoverType: "계속비이월", executed: 808 },
+    execution2026: { budget2026: 8214, carryover: 2815.51398, carryoverType: "계속비이월", executed: 9021.0633 },
   },
   "총괄데이터_5.xlsx:문화예술과:2": {
     steps: ["설계", "공연장 조성 공사", "준공·개관"],
