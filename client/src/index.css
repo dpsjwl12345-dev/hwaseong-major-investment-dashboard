@@ -9471,14 +9471,18 @@ main.app-main.app-main-flush .hero-panel {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
-    align-items: start;
+    align-items: stretch;
   }
   .pd-detail-attached-group.bd-library-budget-pair > .pd-stacked-panel > .pd-card {
     border-radius: 18px !important;
     border-top: 1px solid var(--pd-border) !important;
     padding: 20px 14px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
-  .bd-library-budget-pair .bd-table.bd-grid { width: 100% !important; table-layout: fixed; }
+  .bd-library-budget-pair .bd-scroll { flex: 1; }
+  .bd-library-budget-pair .bd-table.bd-grid { width: 100% !important; height: 100%; table-layout: fixed; }
   .bd-library-budget-pair .bd-table.bd-grid col { width: auto !important; }
   .bd-library-budget-pair .bd-table.bd-grid col:first-child { width: 22% !important; }
   .bd-library-budget-pair .pd-card.bd-card .bd-table :is(th, td) {
@@ -9488,3 +9492,9 @@ main.app-main.app-main-flush .hero-panel {
   }
   .bd-library-budget-pair .pd-card-title { flex-wrap: wrap; gap: 8px; }
 }
+
+.dept-venue-map { margin: 28px 0 0; }
+.dept-venue-map figcaption { margin-bottom: 12px; font-size: 20px; font-weight: 700; }
+.dept-venue-map a { display: block; overflow: hidden; border-radius: 16px; background: #fff; }
+.dept-venue-map a:focus-visible { outline: 3px solid #3987e5; outline-offset: 4px; }
+.dept-venue-map img { display: block; width: 100%; height: auto; }

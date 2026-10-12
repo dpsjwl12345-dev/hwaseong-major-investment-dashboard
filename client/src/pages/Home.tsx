@@ -1549,6 +1549,14 @@ function DepartmentDashboard({
           </tbody></table>
         </div>
       </div>
+      {initialDepartment === "전국체전추진단" && (
+        <figure className="dept-venue-map">
+          <figcaption>전국체전 경기장 현황</figcaption>
+          <a href="/department-images/national-sports-festival-venues.png" target="_blank" rel="noopener noreferrer" aria-label="전국체전 경기장 안내 지도 원본 크게 보기">
+            <img src="/department-images/national-sports-festival-venues.png" alt="화성시 전국체전 경기장 위치와 종목, 면적 및 주차대수 안내 지도" width={2435} height={1296} loading="lazy" />
+          </a>
+        </figure>
+      )}
     </section>
   );
 }
