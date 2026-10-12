@@ -128,7 +128,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     steps: ["투자심사·국비 확보", "실시설계", "건축 공사", "개관"],
     current: 0,
     currentLabel: "투자심사·국비 확보",
-    currentNote: "2026.9. 자체 투자심사 · 2027 본예산 반영",
+    currentNote: "2026.9. 자체 투자심사 · 2027.1. 실시설계 발주 예정",
     dates: [{ label: "설계 발주 예정", value: "2027.1." }, { label: "사업 완료", value: "2029.12." }],
   },
 

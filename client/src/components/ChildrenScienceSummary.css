@@ -624,3 +624,5 @@
 .cs-summary .cs-overview-list b{font-size:calc(21px - 1pt)}
 .cs-summary .cs-overview-list b.is-accent{font-size:calc(26px - 1pt)}
 .cs-summary .cs-overview-list span{font-size:calc(16px - 1pt)}
+/* 사업 개요 소개 문장: 제목 아래 강조선과 같은 민트 계열로 구분 */
+.cs-summary .cs-overview-lead{color:#a7e3de}
