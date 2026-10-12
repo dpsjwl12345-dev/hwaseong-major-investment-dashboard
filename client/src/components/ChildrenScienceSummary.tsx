@@ -115,7 +115,7 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
           {fields["사업내용"] && <p className="cs-overview-lead">{fields["사업내용"]}</p>}
           <dl className="cs-overview-list">
             <div><dt>총사업비</dt><dd><b className="is-accent">{config.totalUndecided || !(total > 0) ? "미정" : won(total)}</b>{config.totalUndecided && <span>{config.totalUndecided}</span>}</dd></div>
-            {fields["사업위치"] && <div><dt>위치</dt><dd><b>{fields["사업위치"]}</b>{location && <span>{location}</span>}</dd></div>}
+            {fields["사업위치"] && <div><dt>위치</dt><dd><b>{fields["사업위치"]}{location && <span className="cs-location-meta"> · {location}</span>}</b></dd></div>}
             {fields["사업규모"] && <div><dt>규모</dt><dd><b>{fields["사업규모"].replace(/,?\s*주차대수\s*[:：]?\s*[^,]*/, "")}</b></dd></div>}
             {fields["사업기간"] && <div><dt>기간</dt><dd><b>{fields["사업기간"]}</b></dd></div>}
           </dl>

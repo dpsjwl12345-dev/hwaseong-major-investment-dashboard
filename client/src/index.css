@@ -9518,3 +9518,14 @@ main.app-main.app-main-flush .hero-panel {
 .pd-budget-memo { margin-top: 16px; padding: 16px 20px; border: 1px solid var(--pd-border); border-radius: 14px; }
 .pd-budget-memo .pd-inline-note-view { margin-top: 10px; min-height: 64px; }
 .pd-budget-memo .pd-inline-note { margin-top: 10px; }
+
+/* 연도별 예산 지출표의 계 열 강조. */
+.pd-card.bd-card .tl-execution-table thead th:nth-child(2),
+.pd-card.bd-card .tl-execution-table tbody tr:not(.tl-subhead) td:nth-child(2) {
+  background: #fff0cb !important;
+  color: #805400 !important;
+  font-weight: 800;
+  border-left: 1px solid #e8cf90 !important;
+  border-right: 1px solid #e8cf90 !important;
+}
+.pd-card.bd-card .tl-execution-table thead th:nth-child(2) small { color: #805400 !important; }

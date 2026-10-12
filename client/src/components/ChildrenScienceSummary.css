@@ -681,13 +681,14 @@
   }
 }
 
-/* 주요 일정: 한글 항목명을 2pt 키우고 항목·날짜를 가운데 정렬. */
+/* 주요 일정 묶음은 우측에 배치하고 각 항목·날짜는 가운데 정렬. */
 .cs-summary .cs-stage-heading .cs-dates {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  flex: 1;
+  flex: 0 1 auto;
+  margin-left: auto;
   row-gap: 12px;
 }
 .cs-summary .cs-stage-heading .cs-dates > span,
@@ -702,5 +703,5 @@
   text-align: center;
 }
 @media (max-width: 800px) {
-  .cs-summary .cs-stage-heading .cs-dates { width: 100%; }
+  .cs-summary .cs-stage-heading .cs-dates { width: 100%; margin-left: 0; justify-content: center; }
 }

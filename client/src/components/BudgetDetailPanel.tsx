@@ -247,7 +247,7 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, co
         <span className="bd-unit">[단위: 백만원]</span>
       </div>
       <div className="bd-scroll">
-        <table className="tl-table" style={years.length > 8 ? { minWidth: 370 + years.length * 110 } : undefined}>
+        <table className="tl-table tl-execution-table" style={years.length > 8 ? { minWidth: 370 + years.length * 110 } : undefined}>
           <colgroup>
             <col style={{ width: 270 - columnWidthShift }} />
             <col style={{ width: 120 + columnWidthShift }} />
