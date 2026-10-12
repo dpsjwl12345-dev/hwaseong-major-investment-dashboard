@@ -29,3 +29,5 @@
 .route-budget-notes summary { cursor: pointer; width: fit-content; }
 .route-budget-notes p { margin: 8px 0 0; }
 @media(max-width: 700px) { .route-budget-heading h3 { font-size: 19px; } .route-budget-heading > span { font-size: 13px; } }
+
+.route-budget-table tbody td { padding-top: 11px; padding-bottom: 11px; }

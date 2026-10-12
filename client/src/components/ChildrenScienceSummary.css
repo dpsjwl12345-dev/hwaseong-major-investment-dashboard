@@ -616,9 +616,9 @@
 /* "사업 개요" 제목과 소개 문장 사이: 짧은 강조선 하나로 구분한다. */
 .cs-summary .cs-overview-eyebrow{margin-bottom:0}
 .cs-summary .cs-overview-lead::before{content:"";display:block;width:40px;height:3px;margin:6px 0 7px;border-radius:2px;background:linear-gradient(90deg,#d1d8e8,rgba(209,216,232,.15))}
-/* 사업 개요 소개 문장: 기존 크기에서 추가로 1pt 축소 */
-.cs-summary .cs-overview-lead{font-size:calc(26px - 2pt)}
-@media(max-width:800px){.cs-summary .cs-overview-lead{font-size:calc(24px - 2pt)}}
+/* 사업 개요 소개 문장: 기본 크기에서 총 3pt 축소 */
+.cs-summary .cs-overview-lead{font-size:calc(26px - 3pt)}
+@media(max-width:800px){.cs-summary .cs-overview-lead{font-size:calc(24px - 3pt)}}
 /* 사업 개요 박스 안 글자 전체 1pt 작게(소개문은 위에서 이미 1pt 축소) */
 .cs-summary .cs-overview-list dt{font-size:calc(18px - 1pt)}
 .cs-summary .cs-overview-list b{font-size:calc(21px - 1pt)}
@@ -643,3 +643,11 @@
   font-family: "Sunflower", "Pretendard", sans-serif !important;
   font-weight: 300;
 }
+
+/* 사업 개요: 내용 길이에 맞게 줄간격과 항목 사이 여백을 줄인다. */
+.cs-summary .cs-overview { padding-top: 16px; padding-bottom: 16px; }
+.cs-summary .cs-overview-lead { line-height: 1.35; }
+.cs-summary .cs-overview-list > div { padding-top: 7px; padding-bottom: 7px; }
+.cs-summary .cs-overview-list b { line-height: 1.4; }
+.cs-summary .cs-overview-list span { line-height: 1.35; }
+.cs-summary .cs-overview-lead + .cs-overview-list { margin-top: 8px; }

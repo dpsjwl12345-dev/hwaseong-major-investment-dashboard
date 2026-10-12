@@ -90,7 +90,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     current: 2,
     currentNote: "2026.8. 말 개관",
     dates: [{ label: "사업 완료", value: "2026.6." }],
-    execution2026: { budget2026: 0, carryover: 936, carryoverType: "명시이월", executed: 757 },
+    execution2026: { budget2026: 0, carryover: 936, carryoverType: "명시이월", executed: 936 },
   },
   "문화예술과_수동입력:6": {
     imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
