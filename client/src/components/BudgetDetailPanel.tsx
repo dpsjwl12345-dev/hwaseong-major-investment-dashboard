@@ -364,7 +364,7 @@ const stageOf = (name: string) => STAGE_OF[name] ?? "부대·기타";
 
 // 원본은 천원. 위 카드와 같은 백만원으로 보여준다(천원 아래 자리는 소수 한 자리로 살린다).
 const toMillion = (value: string) => (value ? Number(value.replace(/,/g, "")) / 1000 : 0);
-const fmtMillion = (value: number) => value.toLocaleString("ko-KR", { maximumFractionDigits: 0 });
+const fmtMillion = (value: number) => Math.trunc(value).toLocaleString("ko-KR");
 
 function yearBucket(label: string): PlanYearKey | null {
   const match = label.match(/(\d{4})/);

@@ -663,7 +663,7 @@ function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, selectedY
 }
 
 function formatMillion(value: number | null | undefined) {
-  return value == null ? "-" : value.toLocaleString("ko-KR", { maximumFractionDigits: 2 });
+  return value == null ? "-" : Math.trunc(value).toLocaleString("ko-KR");
 }
 
 function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?: (patch: Partial<Project>) => void }) {
@@ -1246,7 +1246,7 @@ function createBlankProject(department: string, serial: number): Project {
 }
 
 function formatBudgetNumber(value: number) {
-  return value.toLocaleString("ko-KR", { maximumFractionDigits: 0 });
+  return Math.trunc(value).toLocaleString("ko-KR");
 }
 
 function formatDepartmentAmount(value: number) {
