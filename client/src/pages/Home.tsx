@@ -1807,57 +1807,22 @@ function LandingPage() {
     const image = project.rendering_images?.[index];
     return image ? [{ id, image }] : [];
   });
-  const ribbonRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const galleryPaused = useRef(false);
-  useEffect(() => {
-    const ribbon = ribbonRef.current;
-    const track = trackRef.current;
-    if (!ribbon || !track || !galleryPanels.length) return;
-    const frames = Array.from(track.querySelectorAll<HTMLElement>(".landing-gallery-frame"));
-    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let offset = 0;
-    let previous = 0;
-    let frame = 0;
-    let cardWidth = 0;
-    let gap = 0;
-    const measure = () => {
-      cardWidth = frames[0]?.offsetWidth ?? 0;
-      gap = parseFloat(getComputedStyle(track).columnGap) || 16;
-    };
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(ribbon);
-    const tick = (now: number) => {
-      const elapsed = previous ? Math.min(now - previous, 50) : 0;
-      previous = now;
-      const loopWidth = galleryPanels.length * (cardWidth + gap);
-      if (!motion.matches && !galleryPaused.current && loopWidth) offset = (offset + elapsed * 0.025) % loopWidth;
-      track.style.transform = `translate3d(${-offset}px, -50%, 0)`;
-      frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); };
-  }, []);
 
   return (
     <section className="landing-page">
-      <div className="hero-panel landing-hero-panel landing-dark-gallery">
+      <div className="hero-panel landing-hero-panel landing-dark-gallery landing-grid-reveal">
         <div className="landing-gallery-grid" aria-hidden="true" />
         <div className="landing-gallery-intro">
           <h1 className="landing-hib-title"><span className="landing-hib-wordmark">HIB</span><span className="landing-hib-name">화성시 주요투자사업</span></h1>
         </div>
-        <div className="landing-gallery-ribbon" ref={ribbonRef} aria-hidden="true" onMouseEnter={() => { galleryPaused.current = true; }} onMouseLeave={() => { galleryPaused.current = false; }}>
-          <svg width="0" height="0" aria-hidden="true"><defs><clipPath id="landing-gallery-curve" clipPathUnits="objectBoundingBox"><path d="M0,0 Q.5,.34 1,0 L1,1 Q.5,.66 0,1 Z" /></clipPath></defs></svg>
-          <div className="landing-gallery-window">
-          <div className="landing-gallery-track" ref={trackRef}>
-            {[...galleryPanels, ...galleryPanels, ...galleryPanels].map((panel, index) => (
-              <div key={`${panel.id}-${index}`} className="landing-gallery-frame">
+        <div className="landing-reveal-grid" aria-hidden="true">
+          {galleryPanels.map((panel, index) => (
+            <div key={panel.id} className="landing-reveal-cell">
+              <div className="landing-reveal-card" style={{ "--reveal-delay": `${350 + index * 180}ms` } as CSSProperties}>
                 <img src={panel.image} alt="" draggable={false} />
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          ))}
         </div>
         <div className="landing-hero-statrow landing-gallery-stats">
           <div className="landing-hero-stat"><b><RollingNumber value={projects.length} /><small>개</small></b><em>관리사업</em></div>
