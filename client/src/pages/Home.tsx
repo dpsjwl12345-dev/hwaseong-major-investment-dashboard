@@ -1651,7 +1651,7 @@ function FloatingNavBar({
   // navOrganization은 overrides가 반영된 liveOrganization이어야 한다 — 관리자가 부서별
   // 현황 표에서 사업 순서를 바꾸면(serial 변경) 이 드롭다운도 같은 순서로 보여야 하기 때문.
   const projectsByDepartment = navOrganization.flatMap((bureau) => bureau.departments);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
   const [openDeptName, setOpenDeptName] = useState<string | null>(null);
   const [showProjects, setShowProjects] = useState(false);
@@ -1674,7 +1674,7 @@ function FloatingNavBar({
   }
 
   return (
-    <nav className="floating-nav" aria-label="빠른 이동">
+    <nav className="floating-nav is-expanded" aria-label="빠른 이동">
       <button
         type="button"
         className="floating-nav-link"
@@ -1685,6 +1685,8 @@ function FloatingNavBar({
       <div className="floating-nav-item">
         <button
           type="button"
+          aria-expanded={true}
+          aria-label="메뉴 닫기"
           className={`floating-nav-link ${activeDepartmentName ? "is-selected" : ""}`}
           onClick={() => { setIsExpanded(false); setOpenDeptName(null); setShowProjects(false); }}
         >
