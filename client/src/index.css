@@ -9677,3 +9677,10 @@ main.app-main.app-main-flush .hero-panel {
   letter-spacing: -.025em;
   line-height: 1.4;
 }
+
+/* Cylindrical reference ribbon: level centers, taller edges, shorter middle. */
+.landing-gallery-ribbon { height: 240px; }
+@media (max-width: 700px) { .landing-gallery-ribbon { height: 210px; } }
+
+.landing-gallery-track { align-items: center; }
+.landing-gallery-ribbon { perspective: none; }
