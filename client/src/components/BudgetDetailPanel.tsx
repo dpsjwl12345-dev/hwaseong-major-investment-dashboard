@@ -1,3 +1,4 @@
+import { Children, cloneElement, isValidElement, useEffect, useState, type ReactElement, type ReactNode, type ComponentPropsWithoutRef } from "react";
 import budgetDetailData from "../data/budget_detail.json";
 
 type DetailRow = {
@@ -76,7 +77,41 @@ const labelColWidth = (labels: string[], min: number) => {
   return Math.min(360, Math.max(min, Math.ceil(widest + 56)));
 };
 
-function MatrixYearTable({ section, selectedYear, columnWidthShift = 0 }: { section: MatrixSection; selectedYear?: PlanYearKey; columnWidthShift?: number }) {
+type FocusTableProps = ComponentPropsWithoutRef<"table"> & { focusedYear: string | null; onFocusYear: (year: string) => void };
+
+function YearFocusTable({ focusedYear, onFocusYear, children, ...props }: FocusTableProps) {
+  const elements = Children.toArray(children);
+  const head = elements.find((node) => isValidElement(node) && node.type === "thead") as ReactElement<{ children?: ReactNode }> | undefined;
+  const headerRow = head && Children.toArray(head.props.children).find(isValidElement) as ReactElement<{ children?: ReactNode }> | undefined;
+  const headers = headerRow ? Children.toArray(headerRow.props.children) : [];
+  const yearOf = (node: ReactNode) => isValidElement<{ children?: ReactNode }>(node)
+    ? Children.toArray(node.props.children).find((value): value is string => typeof value === "string" && /^\d{4}년$/.test(value))
+    : undefined;
+  const focusIndex = headers.findIndex((node) => yearOf(node) === focusedYear);
+  const reorder = (cells: ReactNode[]) => focusIndex > 1 && cells.length === headers.length
+    ? [cells[0], cells[focusIndex], ...cells.slice(1, focusIndex), ...cells.slice(focusIndex + 1)] : cells;
+  const transformRow = (node: ReactNode, header = false): ReactNode => {
+    if (!isValidElement<{ children?: ReactNode }>(node) || node.type !== "tr") return node;
+    const cells = Children.toArray(node.props.children);
+    if (cells.length !== headers.length) return node;
+    return cloneElement(node, {}, reorder(cells.map((cell, index) => {
+      if (!isValidElement<{ children?: ReactNode; className?: string }>(cell)) return cell;
+      const year = header ? yearOf(cell) : undefined;
+      const className = [cell.props.className, index === 1 ? "tl-total-column" : "", index === focusIndex && focusIndex > 1 ? "is-focused-year" : ""].filter(Boolean).join(" ");
+      return cloneElement(cell, { className }, year
+        ? <button type="button" className="tl-year-focus" aria-pressed={focusedYear === year} title={focusedYear === year ? "원래 열 순서로 복원" : `${year} 열을 구분 옆으로 이동`} onClick={() => onFocusYear(year)}>{cell.props.children}</button>
+        : cell.props.children);
+    })));
+  };
+  return <table {...props}>{elements.map((node) => {
+    if (!isValidElement<{ children?: ReactNode }>(node)) return node;
+    if (node.type === "colgroup") return cloneElement(node, {}, reorder(Children.toArray(node.props.children)));
+    if (node.type === "thead" || node.type === "tbody") return cloneElement(node, {}, Children.map(node.props.children, (row) => transformRow(row, node.type === "thead")));
+    return node;
+  })}</table>;
+}
+
+function MatrixYearTable({ section, selectedYear, columnWidthShift = 0, focusedYear, onFocusYear }: { section: MatrixSection; selectedYear?: PlanYearKey; columnWidthShift?: number; focusedYear: string | null; onFocusYear: (year: string) => void }) {
   const totalRow = section.rows.find((row) => row.kind === "total");
   const items: { group: string; name: string; total: string; values: string[]; flags: number[]; extra: string[] }[] = [];
   let group = "";
@@ -122,7 +157,7 @@ function MatrixYearTable({ section, selectedYear, columnWidthShift = 0 }: { sect
       {/* 그해 추진 내용은 표 칸에 넣지 않고 표 위 한 줄로: "2020년 토지보상 · 2021년 …" */}
       {stageLine && <p className="tl-stage-line"><b>추진 내용</b>{stageLine}</p>}
       <div className="bd-scroll">
-        <table className="tl-table tl-label-fit">
+        <YearFocusTable focusedYear={focusedYear} onFocusYear={onFocusYear} className="tl-table tl-label-fit">
           <colgroup>
             <col style={{ width: labelColWidth(items.map((item) => item.name).concat(groups.map((entry) => entry.name)), 270) - columnWidthShift }} />
             <col style={{ width: 120 + columnWidthShift }} />
@@ -171,7 +206,7 @@ function MatrixYearTable({ section, selectedYear, columnWidthShift = 0 }: { sect
               ];
             })}
           </tbody>
-        </table>
+        </YearFocusTable>
       </div>
       {notes && <p className="pl-notes">※ {notes}</p>}
     </>
@@ -180,7 +215,7 @@ function MatrixYearTable({ section, selectedYear, columnWidthShift = 0 }: { sect
 
 // 예산현황표와 지출현황표를 연도별로 맞대어: 그해 예산, 지출, 집행률(막대). 계는 지출이 있을 수 있는 해(~2026)까지만 비교한다.
 // spendDetail: 지출현황표(과목×연도)를 이 표 아래쪽 "과목별 지출" 줄로 합쳐, 합계 지출 줄과 지출현황표가 겹치지 않게 한다.
-function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, columnWidthShift = 0, hideTotalPeriod = false }: { budget: MatrixSection; spend: MatrixSection; selectedYear?: PlanYearKey; spendDetail?: boolean; columnWidthShift?: number; hideTotalPeriod?: boolean }) {
+function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, columnWidthShift = 0, hideTotalPeriod = false, focusedYear, onFocusYear }: { budget: MatrixSection; spend: MatrixSection; selectedYear?: PlanYearKey; spendDetail?: boolean; columnWidthShift?: number; hideTotalPeriod?: boolean; focusedYear: string | null; onFocusYear: (year: string) => void }) {
   const budgetTotal = budget.rows.find((row) => row.kind === "total");
   const spendTotal = spend.rows.find((row) => row.kind === "total");
   const valueAt = (section: MatrixSection, total: DetailRow | undefined, year: string) => {
@@ -247,7 +282,7 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, co
         <span className="bd-unit">[단위: 백만원]</span>
       </div>
       <div className="bd-scroll">
-        <table className="tl-table tl-execution-table" style={years.length > 8 ? { minWidth: 370 + years.length * 110 } : undefined}>
+        <YearFocusTable focusedYear={focusedYear} onFocusYear={onFocusYear} className="tl-table tl-execution-table" style={years.length > 8 ? { minWidth: 370 + years.length * 110 } : undefined}>
           <colgroup>
             <col style={{ width: 270 - columnWidthShift }} />
             <col style={{ width: 120 + columnWidthShift }} />
@@ -299,7 +334,7 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, co
               </>
             )}
           </tbody>
-        </table>
+        </YearFocusTable>
       </div>
     </>
   );
@@ -569,6 +604,9 @@ function CostBreakdownView({ section }: { section: GridSection }) {
 }
 
 export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: string; selectedYear?: PlanYearKey }) {
+  const [focusedYear, setFocusedYear] = useState<string | null>(null);
+  useEffect(() => { setFocusedYear(selectedYear === "budget_2026" ? "2026년" : selectedYear === "budget_2027" ? "2027년" : selectedYear === "budget_2028_plus" ? "2028년" : null); }, [projectId, selectedYear]);
+  const onFocusYear = (year: string) => setFocusedYear((current) => current === year ? null : year);
   const detail = detailByProject[projectId];
   if (!detail) return null;
   const columnWidthShift = projectId === "총괄데이터_5.xlsx:문화예술과:6" ? 40 : 0;
@@ -585,14 +623,14 @@ export function BudgetDetailPanel({ projectId, selectedYear }: { projectId: stri
         <GridTable section={section} />
       ) : (
         <div className="pd-card bd-card">
-          {section.kind === "grid" ? <PlanTable section={section} selectedYear={selectedYear} /> : <MatrixYearTable section={section} selectedYear={selectedYear} columnWidthShift={columnWidthShift} />}
+          {section.kind === "grid" ? <PlanTable section={section} selectedYear={selectedYear} /> : <MatrixYearTable focusedYear={focusedYear} onFocusYear={onFocusYear} section={section} selectedYear={selectedYear} columnWidthShift={columnWidthShift} />}
         </div>
       )}
     </div>
   );
   const executionPanel = (isLast: boolean, spendDetail: boolean) => budgetMatrix && spendMatrix && (
     <div key="execution" className={`pd-stacked-panel${isLast ? " pd-attached-last" : ""}`}>
-      <div className="pd-card bd-card"><ExecutionSummary budget={budgetMatrix} spend={spendMatrix} selectedYear={selectedYear} spendDetail={spendDetail} columnWidthShift={columnWidthShift} hideTotalPeriod={projectId === "총괄데이터_5.xlsx:문화예술과:6"} /></div>
+      <div className="pd-card bd-card"><ExecutionSummary focusedYear={focusedYear} onFocusYear={onFocusYear} budget={budgetMatrix} spend={spendMatrix} selectedYear={selectedYear} spendDetail={spendDetail} columnWidthShift={columnWidthShift} hideTotalPeriod={projectId === "총괄데이터_5.xlsx:문화예술과:6"} /></div>
     </div>
   );
   // 연도별 예산현황 표를 먼저 보여주는 사업(어린이 과학관): 예산현황 → 예산 대비 지출(지출현황표를 한 표로 합침) → 나머지.
