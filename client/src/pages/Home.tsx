@@ -2088,7 +2088,7 @@ export default function Home() {
       {/* On the landing page the header floats over the full-height hero
           (no reserved space). On every other page it sits in normal flow
           and scrolls away with the content instead of staying pinned. */}
-      <div className={`site-header-sticky ${activeView === "landing" ? "site-header-sticky-overlay" : activeView === "project" ? "site-header-project" : ""}`}>
+      <div className={`site-header-sticky ${activeView === "landing" ? "site-header-sticky-overlay" : activeView === "project" ? "site-header-project" : activeView === "department" ? "site-header-department" : ""}`}>
         {activeView !== "landing" && <button type="button" className="site-logo-mark" onClick={goLanding} aria-label="홈으로 이동">
           <span className="site-logo-mark-word">HIB.</span>
           <span className="site-logo-mark-tagline"><span>화성시</span><span>주요투자사업</span></span>

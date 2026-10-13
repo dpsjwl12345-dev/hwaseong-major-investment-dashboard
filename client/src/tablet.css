@@ -511,3 +511,51 @@
 @media (max-width: 600px) {
   .site-header-sticky.site-header-project .site-logo-mark { top: 20px; }
 }
+
+/* A tighter department header and stronger KPI typography. */
+.site-header-sticky.site-header-department .floating-nav-row { top: 80px; }
+.site-header-sticky.site-header-department { height: 168px; min-height: 168px; }
+.app-main:has(> .dept-dashboard) { padding-top: 0 !important; }
+.dept-dashboard .do-overview .do-budget-card > span { font-size: 20px; }
+.dept-dashboard .do-overview .do-budget-card > strong { font-size: 36px; flex-wrap: wrap; white-space: normal; }
+.dept-dashboard .do-overview .do-budget-card > strong small { font-size: 17px; }
+@media (max-width: 1366px) {
+  .site-header-sticky.site-header-department .floating-nav-row { top: 80px; }
+  .site-header-sticky.site-header-department { height: 294px; min-height: 294px; }
+  .dept-dashboard .do-overview .do-budget-card > strong { font-size: 32px; }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-department .floating-nav-row { top: 80px; }
+  .site-header-sticky.site-header-department { height: 354px; min-height: 354px; }
+  .dept-dashboard .do-overview .do-budget-card > span { font-size: 18px; }
+  .dept-dashboard .do-overview .do-budget-card > strong { font-size: 27px; }
+  .dept-dashboard .do-overview .do-budget-card > strong small { font-size: 15px; }
+}
+
+/* The faint corner folds must remain visible over opaque content surfaces. */
+.project-backdrop-texture.is-lower-left { z-index: 2; opacity: .3; }
+@media (max-width: 1000px) {
+  .project-backdrop-texture.is-lower-left { opacity: .24; }
+}
+@media (max-width: 600px) {
+  .project-backdrop-texture.is-lower-left { opacity: .18; }
+}
+
+/* Both dashboards share visible, non-interactive foreground corner texture. */
+.project-backdrop-texture { z-index: 2; opacity: .65; }
+.project-backdrop-texture.is-lower-left { opacity: .45; }
+@media (max-width: 1000px) {
+  .project-backdrop-texture { opacity: .55; }
+  .project-backdrop-texture.is-lower-left { opacity: .36; }
+}
+@media (max-width: 600px) {
+  .project-backdrop-texture { opacity: .4; }
+  .project-backdrop-texture.is-lower-left { opacity: .28; }
+}
+
+/* Pick up the existing gold and ivory accents instead of navy-on-navy folds. */
+.project-backdrop-texture {
+  background:
+    repeating-linear-gradient(90deg, transparent 0, #e8ac4244 2px, #869da848 8px, #22334e26 30px, #050a1400 46px, #fff0ce55 48px),
+    radial-gradient(ellipse at 85% 5%, #bfa36a2e, #5069792a 48%, transparent 80%);
+}
