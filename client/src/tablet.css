@@ -567,3 +567,21 @@
   -webkit-mask-image: radial-gradient(ellipse 100% 100% at 100% 0%, #000 8%, #000b 35%, #0004 60%, transparent 88%);
 }
 .dashboard-shell.is-department-view .dept-dashboard { background: transparent; }
+
+/* Final small lift of the project-page logo. */
+.site-header-sticky.site-header-project .site-logo-mark { top: 32px; }
+@media (max-width: 1366px) {
+  .site-header-sticky.site-header-project .site-logo-mark { top: 24px; }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project .site-logo-mark { top: 16px; }
+}
+
+/* Tighten only the content inset inside the project panel. */
+.detail-panel-shell .pd-detail-page { padding-top: 32px !important; }
+@media (max-width: 1366px) {
+  .detail-panel-shell .pd-detail-page { padding-top: 18px !important; }
+}
+@media (max-width: 600px) {
+  .detail-panel-shell .pd-detail-page { padding-top: 14px !important; }
+}
