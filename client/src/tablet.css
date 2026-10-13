@@ -229,3 +229,20 @@
 @media (max-width: 700px) {
   .landing-gallery-intro .landing-hib-wordmark.cascade-text { font-size: 92px !important; }
 }
+
+@font-face {
+  font-family: "Sunflower";
+  src: url("/fonts/Sunflower-Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+.landing-gallery-intro .landing-hib-name {
+  font-family: "Sunflower", "Pretendard", sans-serif;
+  font-weight: 500;
+  letter-spacing: -.025em;
+}
+
+/* Finish all numerical reels before the central title starts moving. */
+.landing-gallery-intro:not(.is-metrics-complete) .landing-hib-name { animation-play-state: paused; }
+.landing-gallery-intro.is-metrics-complete .landing-hib-name { animation-play-state: running; }

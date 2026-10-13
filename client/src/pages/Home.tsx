@@ -1792,6 +1792,25 @@ function LandingBudgetAmount({ value }: { value: number }) {
 }
 
 function LandingPage() {
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [numbersComplete, setNumbersComplete] = useState(false);
+  useEffect(() => {
+    const stats = statsRef.current;
+    if (!stats) return;
+    const reels = new Set(stats.querySelectorAll(".landing-rolling-track"));
+    const finished = new Set<Element>();
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const checkMotion = () => { if (media.matches || !reels.size) setNumbersComplete(true); };
+    const finish = (event: AnimationEvent) => {
+      if (event.animationName !== "landing-number-roll" || !(event.target instanceof Element) || !reels.has(event.target)) return;
+      finished.add(event.target);
+      if (finished.size === reels.size) setNumbersComplete(true);
+    };
+    checkMotion();
+    stats.addEventListener("animationend", finish);
+    media.addEventListener("change", checkMotion);
+    return () => { stats.removeEventListener("animationend", finish); media.removeEventListener("change", checkMotion); };
+  }, []);
   const totalBudget = projects.reduce((sum, project) => sum + pb(project).total, 0);
   const investedTo2026 = projects.reduce((sum, project) => sum + pb(project).investedThrough2026, 0);
   const budgetRequest2027 = projects.reduce((sum, project) => sum + pb(project).budget2027, 0);
@@ -1847,8 +1866,8 @@ function LandingPage() {
     <section className="landing-page">
       <div className="hero-panel landing-hero-panel landing-dark-gallery">
         <div className="landing-gallery-grid" aria-hidden="true" />
-        <div className="landing-gallery-intro">
-          <h1 className="landing-hib-title"><TextReveal text="HIB" autoPlay as="button" className="landing-hib-wordmark" fontSize="clamp(84px, 9vw, 128px)" color="#E8AC42" hoverColor="#FFF0CE" staggerDelay={65} duration={450} easing="cubic-bezier(.16,1,.3,1)" style={{ padding: "0.08em", lineHeight: 1 }} /><span className="landing-hib-name">화성시 주요투자사업</span></h1>
+        <div className={`landing-gallery-intro${numbersComplete ? " is-metrics-complete" : ""}`}>
+          <h1 className="landing-hib-title"><TextReveal text="HIB" autoPlay={numbersComplete} as="button" className="landing-hib-wordmark" fontSize="clamp(84px, 9vw, 128px)" color="#E8AC42" hoverColor="#FFF0CE" staggerDelay={65} duration={450} easing="cubic-bezier(.16,1,.3,1)" style={{ padding: "0.08em", lineHeight: 1 }} /><span className="landing-hib-name">화성시 주요투자사업</span></h1>
         </div>
         <div className="landing-gallery-ribbon" ref={ribbonRef} aria-hidden="true" onMouseEnter={() => { galleryPaused.current = true; }} onMouseLeave={() => { galleryPaused.current = false; }}>
           <svg width="0" height="0" aria-hidden="true"><defs><clipPath id="landing-gallery-curve" clipPathUnits="objectBoundingBox"><path d="M0,0 Q.5,.34 1,0 L1,1 Q.5,.66 0,1 Z" /></clipPath></defs></svg>
@@ -1862,7 +1881,7 @@ function LandingPage() {
           </div>
         </div>
         </div>
-        <div className="landing-hero-statrow landing-gallery-stats">
+        <div className="landing-hero-statrow landing-gallery-stats" ref={statsRef}>
           <div className="landing-hero-stat"><b><RollingNumber value={projects.length} /><small>개</small></b><em>관리사업</em></div>
           <div className="landing-hero-stat"><LandingBudgetAmount value={totalBudget} /><em>총사업비</em></div>
           <div className="landing-hero-stat"><LandingBudgetAmount value={budgetRequest2027} /><em>2027년 예산 요구액</em></div>
