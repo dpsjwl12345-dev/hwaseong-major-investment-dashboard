@@ -199,3 +199,19 @@
   .site-header-sticky:not(.site-header-sticky-overlay) { height: 370px; min-height: 370px; }
   .landing-hero-panel.landing-dark-gallery { padding-top: 320px !important; }
 }
+
+@font-face {
+  font-family: "Syne";
+  src: url("/fonts/Syne-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+}
+.landing-gallery-intro .landing-hib-wordmark {
+  font-family: "Syne", "Pretendard", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.15;
+  padding-inline: .08em;
+  overflow: visible;
+}
