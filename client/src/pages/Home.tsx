@@ -1651,7 +1651,7 @@ function FloatingNavBar({
   // navOrganization은 overrides가 반영된 liveOrganization이어야 한다 — 관리자가 부서별
   // 현황 표에서 사업 순서를 바꾸면(serial 변경) 이 드롭다운도 같은 순서로 보여야 하기 때문.
   const projectsByDepartment = navOrganization.flatMap((bureau) => bureau.departments);
-  const [isExpanded, setIsExpanded] = useState(() => typeof window === "undefined" || window.innerWidth > 700);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
   const [openDeptName, setOpenDeptName] = useState<string | null>(null);
   const [showProjects, setShowProjects] = useState(false);
@@ -1668,7 +1668,7 @@ function FloatingNavBar({
   if (!isExpanded) {
     return (
       <nav className="floating-nav" aria-label="빠른 이동">
-        <button type="button" className="floating-nav-link" onClick={() => setIsExpanded(true)}>MENU</button>
+        <button type="button" className="floating-nav-link" aria-expanded={false} onClick={() => setIsExpanded(true)}>MENU</button>
       </nav>
     );
   }
@@ -1799,7 +1799,7 @@ function LandingPage() {
   const budgetCount = useCountUp(totalBudget, 1400);
   const budgetRequestCount = useCountUp(budgetRequest2027, 1200);
   const investedCount = useCountUp(investedTo2026, 1200);
-  const galleryProjectIds = ["총괄데이터_5.xlsx:문화예술과:6", "총괄데이터_5.xlsx:문화예술과:3", "총괄데이터_일반.xlsx:Sheet1:2", "총괄데이터_5.xlsx:문화예술과:7", "주요투자사업_총괄데이터.xlsx:Sheet1:6"];
+  const galleryProjectIds = ["총괄데이터_5.xlsx:문화예술과:6", "총괄데이터_5.xlsx:문화예술과:3", "총괄데이터_일반.xlsx:Sheet1:2", "주요투자사업_총괄데이터.xlsx:Sheet1:11", "체육진흥과_수동입력:13"];
   const galleryPanels = galleryProjectIds.flatMap((id) => {
     const project = projects.find((item) => item.id === id);
     if (!project) return [];

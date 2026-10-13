@@ -9733,3 +9733,24 @@ main.app-main.app-main-flush .hero-panel {
   .landing-dark-gallery .landing-hero-stat { gap: 10px; }
   .landing-dark-gallery .landing-hero-stat:nth-child(n+3) { border-top-color: #FFFFFF1A; }
 }
+
+/* Slow golden light across the central two-line typography. */
+.landing-gallery-intro .landing-hib-wordmark,
+.landing-gallery-intro .landing-hib-name {
+  background: linear-gradient(110deg, #C58A2D 0%, #E8AC42 28%, #FFF0CE 46%, #E8AC42 64%, #C58A2D 100%);
+  background-size: 220% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: landing-gold-flow 9s ease-in-out infinite alternate;
+}
+.landing-gallery-intro .landing-hib-name { animation-delay: -2s; }
+@keyframes landing-gold-flow {
+  from { background-position: 0% 50%; }
+  to { background-position: 100% 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-gallery-intro .landing-hib-wordmark,
+  .landing-gallery-intro .landing-hib-name { animation: none; background-position: 50% 50%; }
+}
