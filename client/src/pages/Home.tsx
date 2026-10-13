@@ -1779,6 +1779,18 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
+function LandingBudgetAmount({ value }: { value: number }) {
+  const eok = Math.floor(value / 100);
+  const jo = Math.floor(eok / 10000);
+  const remainder = eok % 10000;
+  return (
+    <b title={`${formatBudgetNumber(Math.round(value))}백만원 (억원 미만 절사)`}>
+      {jo > 0 && <>{jo}<small>조</small></>}
+      {formatBudgetNumber(remainder)}<small>억원</small>
+    </b>
+  );
+}
+
 function LandingPage() {
   const totalBudget = projects.reduce((sum, project) => sum + pb(project).total, 0);
   const investedTo2026 = projects.reduce((sum, project) => sum + pb(project).investedThrough2026, 0);
@@ -1787,7 +1799,7 @@ function LandingPage() {
   const budgetCount = useCountUp(totalBudget, 1400);
   const budgetRequestCount = useCountUp(budgetRequest2027, 1200);
   const investedCount = useCountUp(investedTo2026, 1200);
-  const galleryProjectIds = ["총괄데이터_5.xlsx:문화예술과:6", "총괄데이터_5.xlsx:문화예술과:3", "총괄데이터_일반.xlsx:Sheet1:2", "문화유산_주요투자사업_총괄표.xlsx:총괄표:2", "총괄데이터_5.xlsx:문화예술과:7", "주요투자사업_총괄데이터.xlsx:Sheet1:6", "총괄데이터_일반.xlsx:Sheet1:3"];
+  const galleryProjectIds = ["총괄데이터_5.xlsx:문화예술과:6", "총괄데이터_5.xlsx:문화예술과:3", "총괄데이터_일반.xlsx:Sheet1:2", "총괄데이터_5.xlsx:문화예술과:7", "주요투자사업_총괄데이터.xlsx:Sheet1:6"];
   const galleryPanels = galleryProjectIds.flatMap((id) => {
     const project = projects.find((item) => item.id === id);
     if (!project) return [];
@@ -1809,11 +1821,9 @@ function LandingPage() {
     let frame = 0;
     let cardWidth = 0;
     let gap = 0;
-    let width = 0;
     const measure = () => {
       cardWidth = frames[0]?.offsetWidth ?? 0;
       gap = parseFloat(getComputedStyle(track).columnGap) || 16;
-      width = ribbon.clientWidth;
     };
     measure();
     const observer = new ResizeObserver(measure);
@@ -1824,12 +1834,6 @@ function LandingPage() {
       const loopWidth = galleryPanels.length * (cardWidth + gap);
       if (!motion.matches && !galleryPaused.current && loopWidth) offset = (offset + elapsed * 0.025) % loopWidth;
       track.style.transform = `translate3d(${-offset}px, -50%, 0)`;
-      frames.forEach((element, index) => {
-        const x = index * (cardWidth + gap) + cardWidth / 2 - offset - width / 2;
-        const position = Math.max(-1.4, Math.min(1.4, x / (width / 2)));
-        element.style.height = `${cardWidth * 0.625 * (0.78 + Math.abs(position) * 0.5)}px`;
-        element.style.transform = `perspective(700px) rotateY(${-position * 30}deg)`;
-      });
       frame = requestAnimationFrame(tick);
     };
     frame = requestAnimationFrame(tick);
@@ -1844,6 +1848,8 @@ function LandingPage() {
           <h1 className="landing-hib-title"><span className="landing-hib-wordmark">HIB</span><span className="landing-hib-name">화성시 주요투자사업</span></h1>
         </div>
         <div className="landing-gallery-ribbon" ref={ribbonRef} aria-hidden="true" onMouseEnter={() => { galleryPaused.current = true; }} onMouseLeave={() => { galleryPaused.current = false; }}>
+          <svg width="0" height="0" aria-hidden="true"><defs><clipPath id="landing-gallery-curve" clipPathUnits="objectBoundingBox"><path d="M0,0 Q.5,.34 1,0 L1,1 Q.5,.66 0,1 Z" /></clipPath></defs></svg>
+          <div className="landing-gallery-window">
           <div className="landing-gallery-track" ref={trackRef}>
             {[...galleryPanels, ...galleryPanels, ...galleryPanels].map((panel, index) => (
               <div key={`${panel.id}-${index}`} className="landing-gallery-frame">
@@ -1852,11 +1858,12 @@ function LandingPage() {
             ))}
           </div>
         </div>
+        </div>
         <div className="landing-hero-statrow landing-gallery-stats">
-          <div className="landing-hero-stat"><em>관리사업</em><b>{Math.round(projectCount)}<small>개</small></b></div>
-          <div className="landing-hero-stat"><em>총사업비</em><b>{formatBudgetNumber(Math.round(budgetCount))}<small>백만원</small></b></div>
-          <div className="landing-hero-stat"><em>2027년 예산 요구액</em><b>{formatBudgetNumber(Math.round(budgetRequestCount))}<small>백만원</small></b></div>
-          <div className="landing-hero-stat"><em>2026년까지 누적 투자액</em><b>{formatBudgetNumber(Math.round(investedCount))}<small>백만원</small></b></div>
+          <div className="landing-hero-stat"><b>{Math.round(projectCount)}<small>개</small></b><em>관리사업</em></div>
+          <div className="landing-hero-stat"><LandingBudgetAmount value={budgetCount} /><em>총사업비</em></div>
+          <div className="landing-hero-stat"><LandingBudgetAmount value={budgetRequestCount} /><em>2027년 예산 요구액</em></div>
+          <div className="landing-hero-stat"><LandingBudgetAmount value={investedCount} /><em>2026년까지 누적 투자액</em></div>
         </div>
       </div>
     </section>
@@ -2092,10 +2099,10 @@ export default function Home() {
           (no reserved space). On every other page it sits in normal flow
           and scrolls away with the content instead of staying pinned. */}
       <div className={`site-header-sticky ${activeView === "landing" ? "site-header-sticky-overlay" : ""}`}>
-        <button type="button" className="site-logo-mark" onClick={goLanding} aria-label="홈으로 이동">
+        {activeView !== "landing" && <button type="button" className="site-logo-mark" onClick={goLanding} aria-label="홈으로 이동">
           <span className="site-logo-mark-word">HIB.</span>
           <span className="site-logo-mark-tagline"><span>화성시</span><span>주요투자사업</span></span>
-        </button>
+        </button>}
         <div className="floating-nav-row">
           <FloatingNavBar
             organization={liveOrganization}
