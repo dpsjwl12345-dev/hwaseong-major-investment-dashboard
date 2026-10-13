@@ -312,3 +312,11 @@
   .landing-gallery-intro { transform: translateY(-12px); }
   .landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child b { padding-left: 14px; }
 }
+
+/* Match the Korean title to HIB's illuminated motion color. */
+.landing-gallery-intro .landing-hib-name {
+  color: #FFF0CE;
+  -webkit-text-fill-color: #FFF0CE;
+  background: none;
+  animation: none;
+}
