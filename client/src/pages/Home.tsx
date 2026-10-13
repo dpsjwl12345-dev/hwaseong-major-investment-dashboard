@@ -123,6 +123,8 @@ type Project = {
   card_execution_budget_million_krw: number | null;
   card_execution_amount_million_krw: number | null;
   card_execution_rate: number | null;
+  cumulative_execution_budget_million_krw?: number;
+  cumulative_execution_amount_million_krw?: number;
   card_inspection: string;
   funding_breakdown: { name: string; total: number | null; invested: number | null; budget_2026: number | null; budget_2027: number | null; budget_2028_plus: number | null; budget_2026_base?: number | null; budget_2026_first_extra?: number | null; budget_2026_second_extra?: number | null; budget_2026_third_extra?: number | null; budget_2026_additional?: number | null }[];
   usage_breakdown: { name: string; total: number | null; invested: number | null; budget_2026: number | null; budget_2027: number | null; budget_2028_plus: number | null; budget_2026_base?: number | null; budget_2026_first_extra?: number | null; budget_2026_second_extra?: number | null; budget_2026_third_extra?: number | null; budget_2026_additional?: number | null }[];
@@ -662,8 +664,8 @@ function YearBudgetPanel({ usageRows, fundingRows, flow, projectTotal, selectedY
   );
 }
 
-function formatMillion(value: number | null | undefined, decimals = 0) {
-  return value == null ? "-" : (decimals ? value : Math.trunc(value)).toLocaleString("ko-KR", { maximumFractionDigits: decimals });
+function formatMillion(value: number | null | undefined) {
+  return value == null ? "-" : Math.trunc(value).toLocaleString("ko-KR");
 }
 
 function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?: (patch: Partial<Project>) => void }) {
@@ -703,7 +705,7 @@ function BudgetPanel({ project, onNoteSaved }: { project: Project; onNoteSaved?:
     <div className="pd-card">
       <p className="pd-baseline-note">{BUDGET_BASELINE_LABEL}</p>
       {isRenewedProject(project.id) && <ChildrenScienceBudgetSummary key={project.id} projectId={project.id} budget={budgetOf} />}
-      <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value, project.id === "총괄데이터_5.xlsx:문화예술과:8" ? 4 : 0)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
+      <div className="pd-exec-grid">{budgetCards.map(({ label, value, icon: Icon, tone, carryoverItems: items }, index) => <div key={label} className={`pd-exec-card pd-exec-card-${tone} ${index === 0 ? "is-primary" : ""}`}><div className="pd-exec-card-top"><span className="pd-exec-icon"><Icon size={17} strokeWidth={2.2} /></span><span className="label">{label}</span></div><span className="num">{formatMillion(value)}<small>백만원</small></span>{items && items.length > 1 && <div className="pd-carryover-list">{items.map((item) => <span key={`${item.label}-${item.type}`}><b>{item.type}</b> {formatMillion(item.amount_million_krw)}</span>)}</div>}<span className="pd-exec-card-glow" aria-hidden="true" /></div>)}</div>
       <div className="pd-budget-breakdown-grid">
         <YearBudgetPanel
           usageRows={project.usage_breakdown}

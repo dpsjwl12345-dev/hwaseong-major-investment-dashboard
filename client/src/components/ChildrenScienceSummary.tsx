@@ -24,6 +24,8 @@ export type RenewalProject = {
   card_execution_amount_million_krw?: number | null;
   card_execution_budget_million_krw?: number | null;
   card_execution_rate?: number | null;
+  cumulative_execution_budget_million_krw?: number;
+  cumulative_execution_amount_million_krw?: number;
 };
 
 const won = (million: number) => `${(million / 100).toLocaleString("ko-KR", { maximumFractionDigits: 0 })}억 원`;
@@ -91,7 +93,10 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
   const image = imageIndex >= 0 ? images[imageIndex] : undefined;
   const imageType = imageIndex >= 0 ? types[imageIndex] || "사진" : "";
   const progress = project.progress_rate ?? null;
-  const execution = project.card_execution_amount_million_krw != null && project.card_execution_budget_million_krw
+  const hasCumulative = project.cumulative_execution_amount_million_krw != null && !!project.cumulative_execution_budget_million_krw;
+  const execution = hasCumulative
+    ? Math.round(project.cumulative_execution_amount_million_krw! / project.cumulative_execution_budget_million_krw! * 100)
+    : project.card_execution_amount_million_krw != null && project.card_execution_budget_million_krw
     ? Math.round(project.card_execution_amount_million_krw / project.card_execution_budget_million_krw * 100)
     : project.card_execution_rate ?? null;
   const location = [project.contact, project.district, project.town].filter(Boolean).join(" · ");
@@ -116,7 +121,7 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
           <dl className="cs-overview-list">
             <div><dt>총사업비</dt><dd><b className="is-accent">{config.totalUndecided || !(total > 0) ? "미정" : won(total)}</b>{config.totalUndecided && <span>{config.totalUndecided}</span>}</dd></div>
             {fields["사업위치"] && <div><dt>위치</dt><dd><b>{fields["사업위치"]}{location && <span className="cs-location-meta"> · {location}</span>}</b></dd></div>}
-            {fields["사업규모"] && <div><dt>규모</dt><dd><b>{fields["사업규모"].replace(/,?\s*주차대수\s*[:：]?\s*[^,]*/, "")}</b></dd></div>}
+            {fields["사업규모"] && <div><dt>규모</dt><dd><b>{hasCumulative ? fields["사업규모"] : fields["사업규모"].replace(/,?\s*주차대수\s*[:：]?\s*[^,]*/, "")}</b></dd></div>}
             {fields["사업기간"] && <div><dt>기간</dt><dd><b>{fields["사업기간"]}</b></dd></div>}
           </dl>
         </div>
@@ -178,7 +183,7 @@ export function ChildrenScienceBudgetSummary({ projectId, budget }: { projectId:
   const executed = exec?.executed ?? 0;
   const exactAmounts = exec?.amountDecimals != null;
   const executedRate = current > 0 ? Math.round(executed / current * 100 * (exactAmounts ? 100 : 1)) / (exactAmounts ? 100 : 1) : 0;
-  const mil = (value: number) => `${(exactAmounts ? value : Math.trunc(value)).toLocaleString("ko-KR", { maximumFractionDigits: exec?.amountDecimals ?? 0 })}백만원`;
+  const mil = (value: number) => `${Math.trunc(value).toLocaleString("ko-KR")}백만원`;
   // 이월과 2026년 편성이 둘 다 있을 때만 막대를 두 구간으로 나눈다(편성 구간은 보이게 최소 15%).
   const carryPct = carry > 0 && budget2026 > 0 ? Math.min(carry / current * 100, 85) : carry > 0 ? 100 : 0;
   const terms = [
@@ -209,17 +214,17 @@ export function ChildrenScienceBudgetSummary({ projectId, budget }: { projectId:
       <div className="cs-cash">
         {/* 2026년 편성액 구간은 실제 비율(약 3%)보다 넓게(최소 15%) 그려 보이게 한다. 집행 위치는 예산현액 대비 실제 비율 그대로. */}
         <div className="cs-xc" style={{ ["--done" as string]: `${visible ? executedRate : 0}%`, ["--carry" as string]: `${carryPct}%` }}>
-          <div className="cs-cash-metrics">
+          <div className={`cs-cash-metrics${exactAmounts ? " cs-cash-endpoints" : ""}`}>
             <p><span>이월액{exec?.carryoverType ? ` · ${exec.carryoverType}` : ""}</span><b><CountUp value={carry} visible={visible} format={mil} delay={600} /></b></p>
             {!exactAmounts && <p><span>2026년 편성액</span><b><CountUp value={budget2026} visible={visible} format={mil} delay={600} /></b></p>}
             {!exactAmounts && <p className="current"><span>예산현액</span><b><CountUp value={current} visible={visible} format={mil} delay={700} /></b></p>}
-            <p className="executed"><span>{exactAmounts ? "지급 완료액" : "집행액"}</span><b><CountUp value={executed} visible={visible} format={mil} delay={800} /><em><CountUp value={executedRate} visible={visible} format={n => `${exactAmounts ? n.toFixed(2) : Math.round(n)}%`} delay={800} /></em></b></p>
-            {exactAmounts && <p><span>집행잔액</span><b>{mil(current - executed)}</b></p>}
+            {!exactAmounts && <p className="executed"><span>집행액</span><b><CountUp value={executed} visible={visible} format={mil} delay={800} /><em><CountUp value={executedRate} visible={visible} format={n => `${Math.round(n)}%`} delay={800} /></em></b></p>}
             {exactAmounts && <p className="current"><span>예산현액</span><b><CountUp value={current} visible={visible} format={mil} delay={900} /></b></p>}
           </div>
           <div className="cs-xc-bar" role="img" aria-label={`예산현액 ${mil(current)}(이월액 ${mil(carry)}, 2026년 편성액 ${mil(budget2026)}) 중 집행 ${mil(executed)}, 집행률 ${executedRate}%`}>
             <span className="carry" />{carryPct < 100 && <span className="new" />}<span className="done" />
           </div>
+          {exactAmounts && <div className="cs-execution-position" style={{ left: `${Math.min(100, Math.max(0, executedRate))}%` }}><p><span>집행액</span><b>{mil(executed)} <em>{Math.round(executedRate)}%</em></b></p></div>}
           {exactAmounts && <p className="cs-budget-allocation-note">2026년 편성액 {mil(budget2026)}</p>}
 
         </div>
