@@ -1827,7 +1827,7 @@ function LandingPage() {
       frames.forEach((element, index) => {
         const x = index * (cardWidth + gap) + cardWidth / 2 - offset - width / 2;
         const position = Math.max(-1.4, Math.min(1.4, x / (width / 2)));
-        element.style.transform = `translateY(${-position * position * 44}px) rotateY(${-position * 24}deg) rotateZ(${position * 6}deg)`;
+        element.style.transform = `translateY(${-position * position * 10}px) rotateY(${-position * 8}deg)`;
       });
       frame = requestAnimationFrame(tick);
     };
@@ -1840,7 +1840,7 @@ function LandingPage() {
       <div className="hero-panel landing-hero-panel landing-dark-gallery">
         <div className="landing-gallery-grid" aria-hidden="true" />
         <div className="landing-gallery-intro">
-          <h1 className="landing-his-title"><span className="landing-his-wordmark">H<span className="landing-his-accent">I</span>S</span><span className="landing-his-name"><span>화성시</span><strong>주요투자사업</strong></span></h1>
+          <h1 className="landing-hib-title"><span className="landing-hib-wordmark">HIB</span><span className="landing-hib-name">화성시 주요투자사업</span></h1>
         </div>
         <div className="landing-gallery-ribbon" ref={ribbonRef} aria-hidden="true" onMouseEnter={() => { galleryPaused.current = true; }} onMouseLeave={() => { galleryPaused.current = false; }}>
           <div className="landing-gallery-track" ref={trackRef}>
@@ -1851,7 +1851,6 @@ function LandingPage() {
             ))}
           </div>
         </div>
-        <p className="landing-gallery-caption">사업의 계획부터 예산과 집행까지.<br />화성시의 주요투자사업을 함께 살펴봅니다.</p>
         <div className="landing-hero-statrow landing-gallery-stats">
           <div className="landing-hero-stat"><em>관리사업</em><b>{Math.round(projectCount)}<small>개</small></b></div>
           <div className="landing-hero-stat"><em>총사업비</em><b>{formatBudgetNumber(Math.round(budgetCount))}<small>백만원</small></b></div>
