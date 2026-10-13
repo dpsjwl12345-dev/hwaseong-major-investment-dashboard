@@ -16,6 +16,7 @@ export interface TextRevealProps {
   color?: string;
   hoverColor?: string;
   direction?: "up" | "down";
+  autoPlay?: boolean;
   onClick?: (e: React.MouseEvent) => void;
 }
 
@@ -33,8 +34,10 @@ const TextReveal = React.memo(function TextReveal({
   color = "inherit",
   hoverColor = "#b2c73a",
   direction = "up",
+  autoPlay = false,
   onClick,
 }: TextRevealProps) {
+  const [automatic, setAutomatic] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
   const [tapped, setTapped] = useState(false);
@@ -56,8 +59,23 @@ const TextReveal = React.memo(function TextReveal({
     return Array.from(text);
   }, [text]);
 
+  useEffect(() => {
+    if (!autoPlay || reducedMotion || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    let cancelled = false;
+    const timers: number[] = [];
+    // Wait for the wordmark font so the first transition uses its final metrics.
+    void document.fonts.ready.then(() => {
+      if (cancelled) return;
+      timers.push(window.setTimeout(() => {
+        setAutomatic(true);
+        timers.push(window.setTimeout(() => setAutomatic(false), duration + Math.max(0, chars.length - 1) * staggerDelay + 350));
+      }, 300));
+    });
+    return () => { cancelled = true; timers.forEach(window.clearTimeout); setAutomatic(false); };
+  }, [autoPlay, reducedMotion, duration, staggerDelay, chars.length]);
+
   const sign = direction === "up" ? 1 : -1;
-  const active = hovered || focused || tapped;
+  const active = automatic || hovered || focused || tapped;
   const rootProps: Record<string, unknown> = {
     className: `cascade-text inline-block relative no-underline font-extrabold uppercase tracking-tight overflow-hidden cursor-pointer select-none ${className}`.trim(),
     style: {
