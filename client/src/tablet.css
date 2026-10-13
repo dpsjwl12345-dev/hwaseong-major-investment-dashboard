@@ -201,17 +201,17 @@
 }
 
 @font-face {
-  font-family: "Syne";
-  src: url("/fonts/Syne-Variable.ttf") format("truetype");
+  font-family: "Bebas Neue";
+  src: url("/fonts/BebasNeue-Regular.ttf") format("truetype");
   font-style: normal;
-  font-weight: 400 800;
+  font-weight: 400;
   font-display: swap;
 }
 .landing-gallery-intro .landing-hib-wordmark {
-  font-family: "Syne", "Pretendard", sans-serif;
-  font-weight: 800;
-  letter-spacing: 0;
-  line-height: 1.15;
+  font-family: "Bebas Neue", "Pretendard", sans-serif;
+  font-weight: 400;
+  letter-spacing: .035em;
+  line-height: 1.05;
   padding-inline: .08em;
   overflow: visible;
 }
