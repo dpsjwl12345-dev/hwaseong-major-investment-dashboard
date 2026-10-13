@@ -1759,24 +1759,19 @@ function FloatingNavBar({
   );
 }
 
-// Counts up from 0 to `target` once on mount (landing hero metrics) using
-// an eased requestAnimationFrame loop rather than a setInterval ticker, so
-// the motion decelerates smoothly instead of stepping at a fixed rate.
-function useCountUp(target: number, duration = 1200) {
-  const [value, setValue] = useState(0);
-  useEffect(() => {
-    let raf: number;
-    const start = performance.now();
-    const animate = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setValue(target * eased);
-      if (t < 1) raf = requestAnimationFrame(animate);
-    };
-    raf = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(raf);
-  }, [target, duration]);
-  return value;
+function RollingNumber({ value }: { value: number }) {
+  const label = formatBudgetNumber(value);
+  return (
+    <span className="landing-rolling-number" role="img" aria-label={label}>
+      {Array.from(label).map((character, index) => /\d/.test(character) ? (
+        <span className="landing-rolling-digit" aria-hidden="true" key={index}>
+          <span className="landing-rolling-track" style={{ "--digit-stop": 20 + Number(character), "--digit-delay": `${index * 70}ms` } as CSSProperties}>
+            {Array.from({ length: 30 }, (_, digit) => <span key={digit}>{digit % 10}</span>)}
+          </span>
+        </span>
+      ) : <span aria-hidden="true" key={index}>{character}</span>)}
+    </span>
+  );
 }
 
 function LandingBudgetAmount({ value }: { value: number }) {
@@ -1785,8 +1780,8 @@ function LandingBudgetAmount({ value }: { value: number }) {
   const remainder = eok % 10000;
   return (
     <b title={`${formatBudgetNumber(Math.round(value))}백만원 (억원 미만 절사)`}>
-      {jo > 0 && <>{jo}<small>조</small></>}
-      {formatBudgetNumber(remainder)}<small>억원</small>
+      {jo > 0 && <><RollingNumber value={jo} /><small>조</small></>}
+      <RollingNumber value={remainder} /><small>억원</small>
     </b>
   );
 }
@@ -1795,10 +1790,6 @@ function LandingPage() {
   const totalBudget = projects.reduce((sum, project) => sum + pb(project).total, 0);
   const investedTo2026 = projects.reduce((sum, project) => sum + pb(project).investedThrough2026, 0);
   const budgetRequest2027 = projects.reduce((sum, project) => sum + pb(project).budget2027, 0);
-  const projectCount = useCountUp(projects.length, 1100);
-  const budgetCount = useCountUp(totalBudget, 1400);
-  const budgetRequestCount = useCountUp(budgetRequest2027, 1200);
-  const investedCount = useCountUp(investedTo2026, 1200);
   const galleryProjectIds = [
     "총괄데이터_5.xlsx:문화예술과:6",
     "주요투자사업_총괄데이터.xlsx:Sheet1:11",
@@ -1867,10 +1858,10 @@ function LandingPage() {
         </div>
         </div>
         <div className="landing-hero-statrow landing-gallery-stats">
-          <div className="landing-hero-stat"><b>{Math.round(projectCount)}<small>개</small></b><em>관리사업</em></div>
-          <div className="landing-hero-stat"><LandingBudgetAmount value={budgetCount} /><em>총사업비</em></div>
-          <div className="landing-hero-stat"><LandingBudgetAmount value={budgetRequestCount} /><em>2027년 예산 요구액</em></div>
-          <div className="landing-hero-stat"><LandingBudgetAmount value={investedCount} /><em>2026년까지 누적 투자액</em></div>
+          <div className="landing-hero-stat"><b><RollingNumber value={projects.length} /><small>개</small></b><em>관리사업</em></div>
+          <div className="landing-hero-stat"><LandingBudgetAmount value={totalBudget} /><em>총사업비</em></div>
+          <div className="landing-hero-stat"><LandingBudgetAmount value={budgetRequest2027} /><em>2027년 예산 요구액</em></div>
+          <div className="landing-hero-stat"><LandingBudgetAmount value={investedTo2026} /><em>2026년까지 누적 투자액</em></div>
         </div>
       </div>
     </section>

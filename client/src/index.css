@@ -9754,3 +9754,18 @@ main.app-main.app-main-flush .hero-panel {
   .landing-gallery-intro .landing-hib-wordmark,
   .landing-gallery-intro .landing-hib-name { animation: none; background-position: 50% 50%; }
 }
+
+/* Fixed-width digit reels settle on the actual totals without layout shifts. */
+.landing-rolling-number { display: inline-flex; align-items: baseline; line-height: 1; font-variant-numeric: tabular-nums; }
+.landing-rolling-digit { display: inline-block; height: 1em; width: 1ch; overflow: hidden; }
+.landing-rolling-track { display: flex; flex-direction: column; transform: translateY(calc(var(--digit-stop) * -1em)); animation: landing-number-roll 2.6s cubic-bezier(.12,.65,.2,1) both; animation-delay: var(--digit-delay); }
+.landing-rolling-track > span { display: block; height: 1em; flex: 0 0 1em; line-height: 1; text-align: center; }
+@keyframes landing-number-roll {
+  from { transform: translateY(0); }
+  to { transform: translateY(calc(var(--digit-stop) * -1em)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .landing-rolling-track { animation: none; }
+}
+.landing-dark-gallery .landing-hero-stat b .landing-rolling-number,
+.landing-dark-gallery .landing-hero-stat b .landing-rolling-number span { font-size: inherit; font-weight: inherit; color: inherit; letter-spacing: inherit; }
