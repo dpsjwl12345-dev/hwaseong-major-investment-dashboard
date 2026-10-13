@@ -4,6 +4,7 @@ import RouteBudgetTable, { type RouteBudgetRow } from "@/components/RouteBudgetT
 import { trpc } from "@/lib/trpc";
 import { AnimatePresence, motion } from "framer-motion";
 import { TextReveal } from "@/components/ui/cascade-text";
+import { TiltedGridHero } from "@/components/ui/tilted-grid-hero";
 import {
   Banknote,
   ClipboardCheck,
@@ -1829,38 +1830,6 @@ function LandingPage() {
     const image = project.rendering_images?.[index];
     return image ? [{ id, image }] : [];
   });
-  const ribbonRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const galleryPaused = useRef(false);
-  useEffect(() => {
-    const ribbon = ribbonRef.current;
-    const track = trackRef.current;
-    if (!ribbon || !track || !galleryPanels.length) return;
-    const frames = Array.from(track.querySelectorAll<HTMLElement>(".landing-gallery-frame"));
-    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let offset = 0;
-    let previous = 0;
-    let frame = 0;
-    let cardWidth = 0;
-    let gap = 0;
-    const measure = () => {
-      cardWidth = frames[0]?.offsetWidth ?? 0;
-      gap = parseFloat(getComputedStyle(track).columnGap) || 16;
-    };
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(ribbon);
-    const tick = (now: number) => {
-      const elapsed = previous ? Math.min(now - previous, 50) : 0;
-      previous = now;
-      const loopWidth = galleryPanels.length * (cardWidth + gap);
-      if (!motion.matches && !galleryPaused.current && loopWidth) offset = (offset + elapsed * 0.025) % loopWidth;
-      track.style.transform = `translate3d(${-offset}px, -50%, 0)`;
-      frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); };
-  }, []);
 
   return (
     <section className="landing-page">
@@ -1869,18 +1838,12 @@ function LandingPage() {
         <div className={`landing-gallery-intro${numbersComplete ? " is-metrics-complete" : ""}`}>
           <h1 className="landing-hib-title"><TextReveal text="HIB" autoPlay={numbersComplete} as="button" className="landing-hib-wordmark" fontSize="clamp(84px, 9vw, 128px)" color="#E8AC42" hoverColor="#FFF0CE" staggerDelay={65} duration={450} easing="cubic-bezier(.16,1,.3,1)" style={{ padding: "0.08em", lineHeight: 1 }} /><span className="landing-hib-name">화성시 주요투자사업</span></h1>
         </div>
-        <div className="landing-gallery-ribbon" ref={ribbonRef} aria-hidden="true" onMouseEnter={() => { galleryPaused.current = true; }} onMouseLeave={() => { galleryPaused.current = false; }}>
-          <svg width="0" height="0" aria-hidden="true"><defs><clipPath id="landing-gallery-curve" clipPathUnits="objectBoundingBox"><path d="M0,0 Q.5,.34 1,0 L1,1 Q.5,.66 0,1 Z" /></clipPath></defs></svg>
-          <div className="landing-gallery-window">
-          <div className="landing-gallery-track" ref={trackRef}>
-            {[...galleryPanels, ...galleryPanels, ...galleryPanels].map((panel, index) => (
-              <div key={`${panel.id}-${index}`} className="landing-gallery-frame">
-                <img src={panel.image} alt="" draggable={false} />
-              </div>
-            ))}
-          </div>
-        </div>
-        </div>
+        <TiltedGridHero
+          images={galleryPanels.map((panel) => ({ src: panel.image }))}
+          className="landing-cylinder-gallery"
+          tileHeight={44}
+          axis={50}
+        />
         <div className="landing-hero-statrow landing-gallery-stats landing-metric-band" ref={statsRef}>
           <div className="landing-hero-stat"><em><i className="landing-metric-icon" aria-hidden="true"><BuildingsIcon size={21} /></i>관리사업</em><b><RollingNumber value={projects.length} /><small>개</small></b></div>
           <div className="landing-hero-stat"><em><i className="landing-metric-icon" aria-hidden="true"><WalletMoneyIcon size={21} /></i>총사업비</em><LandingBudgetAmount value={totalBudget} /></div>
