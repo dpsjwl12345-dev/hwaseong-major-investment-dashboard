@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import RouteBudgetTable, { type RouteBudgetRow } from "@/components/RouteBudgetTable";
 import { trpc } from "@/lib/trpc";
 import { AnimatePresence, motion } from "framer-motion";
+import { TextReveal } from "@/components/ui/cascade-text";
 import {
   Banknote,
   ClipboardCheck,
@@ -1847,7 +1848,7 @@ function LandingPage() {
       <div className="hero-panel landing-hero-panel landing-dark-gallery">
         <div className="landing-gallery-grid" aria-hidden="true" />
         <div className="landing-gallery-intro">
-          <h1 className="landing-hib-title"><span className="landing-hib-wordmark">HIB</span><span className="landing-hib-name">화성시 주요투자사업</span></h1>
+          <h1 className="landing-hib-title"><TextReveal text="HIB" as="button" className="landing-hib-wordmark" fontSize="clamp(84px, 9vw, 128px)" color="#E8AC42" hoverColor="#FFF0CE" staggerDelay={65} duration={450} easing="cubic-bezier(.16,1,.3,1)" style={{ padding: "0.08em", lineHeight: 1 }} /><span className="landing-hib-name">화성시 주요투자사업</span></h1>
         </div>
         <div className="landing-gallery-ribbon" ref={ribbonRef} aria-hidden="true" onMouseEnter={() => { galleryPaused.current = true; }} onMouseLeave={() => { galleryPaused.current = false; }}>
           <svg width="0" height="0" aria-hidden="true"><defs><clipPath id="landing-gallery-curve" clipPathUnits="objectBoundingBox"><path d="M0,0 Q.5,.34 1,0 L1,1 Q.5,.66 0,1 Z" /></clipPath></defs></svg>

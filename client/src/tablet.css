@@ -201,17 +201,31 @@
 }
 
 @font-face {
-  font-family: "Bebas Neue";
-  src: url("/fonts/BebasNeue-Regular.ttf") format("truetype");
+  font-family: "Space Grotesk";
+  src: url("/fonts/SpaceGrotesk-Variable.ttf") format("truetype");
   font-style: normal;
-  font-weight: 400;
+  font-weight: 300 700;
   font-display: swap;
 }
 .landing-gallery-intro .landing-hib-wordmark {
-  font-family: "Bebas Neue", "Pretendard", sans-serif;
-  font-weight: 400;
-  letter-spacing: .035em;
-  line-height: 1.05;
+  font-family: "Space Grotesk", "Pretendard", sans-serif;
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.15;
   padding-inline: .08em;
   overflow: visible;
+}
+
+/* Cascade uses currentColor for its second glyph; keep the wordmark opaque. */
+.landing-gallery-intro .landing-hib-wordmark.cascade-text {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  animation: none;
+  border: 0;
+  cursor: pointer;
+}
+.landing-gallery-intro .landing-hib-wordmark.cascade-text span { -webkit-text-fill-color: currentColor; font-family: inherit; font-weight: inherit; }
+.landing-hib-wordmark.cascade-text:focus-visible { outline: 2px solid #e8ac42; outline-offset: 6px; border-radius: 8px; }
+@media (max-width: 700px) {
+  .landing-gallery-intro .landing-hib-wordmark.cascade-text { font-size: 92px !important; }
 }

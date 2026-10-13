@@ -9775,3 +9775,5 @@ main.app-main.app-main-flush .hero-panel {
 .landing-dark-gallery .landing-hero-stat b .landing-rolling-number { display: inline-flex; }
 .landing-dark-gallery .landing-hero-stat b .landing-rolling-digit { display: inline-block; }
 .landing-dark-gallery .landing-hero-stat b .landing-rolling-track { display: flex; }
+
+:root { --demo-bg: #ffffff; --demo-text: #1a1a1a; }
