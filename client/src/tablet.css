@@ -424,19 +424,19 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: min(1120px, 82vw);
+  width: min(960px, 56vw);
   height: 620px;
   z-index: 0;
   pointer-events: none;
   background:
     repeating-linear-gradient(90deg, #111b2b00 0, #26395042 3px, #18263830 12px, #10182718 43px, #080d1900 47px, #35496338 48px),
     radial-gradient(ellipse at 85% 5%, #3b526342, #17263720 48%, transparent 80%);
-  mask-image: radial-gradient(ellipse at 100% 0%, #000 14%, #000b 54%, transparent 90%);
-  -webkit-mask-image: radial-gradient(ellipse at 100% 0%, #000 14%, #000b 54%, transparent 90%);
+  mask-image: radial-gradient(ellipse at 100% 0%, #000 14%, #000b 44%, transparent 82%);
+  -webkit-mask-image: radial-gradient(ellipse at 100% 0%, #000 14%, #000b 44%, transparent 82%);
 }
-.dashboard-shell.is-project-view .app-main { z-index: 1; background: transparent !important; }
+.dashboard-shell:is(.is-project-view, .is-department-view) .app-main { z-index: 1; background: transparent !important; }
 @media (max-width: 1000px) {
-  .project-backdrop-texture { width: 90vw; height: 520px; opacity: .8; }
+  .project-backdrop-texture { width: 58vw; height: 520px; opacity: .8; }
 }
 @media (max-width: 600px) {
   .project-backdrop-texture { height: 420px; opacity: .65; }
@@ -482,4 +482,32 @@
   .site-header-sticky.site-header-project .floating-nav-row { top: 16px; }
   .site-header-sticky.site-header-project .floating-nav-dropdown-row-static { margin-top: 24px; }
   .site-header-sticky.site-header-project { height: 304px; min-height: 304px; }
+}
+
+/* A faint, smaller counterpart to the upper-right folds. */
+.project-backdrop-texture.is-lower-left {
+  position: fixed;
+  top: auto;
+  right: auto;
+  bottom: 0;
+  left: 0;
+  width: min(520px, 36vw);
+  height: 360px;
+  transform: rotate(180deg);
+  opacity: .2;
+}
+@media (max-width: 1000px) {
+  .project-backdrop-texture.is-lower-left { width: 42vw; height: 280px; opacity: .16; }
+}
+@media (max-width: 600px) {
+  .project-backdrop-texture.is-lower-left { height: 220px; opacity: .12; }
+}
+
+/* Keep the project logo clear of the content panel's top border. */
+.site-header-sticky.site-header-project .site-logo-mark { top: 36px; }
+@media (max-width: 1366px) {
+  .site-header-sticky.site-header-project .site-logo-mark { top: 28px; }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project .site-logo-mark { top: 20px; }
 }
