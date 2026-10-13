@@ -424,20 +424,32 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: min(760px, 66vw);
-  height: 520px;
+  width: min(1120px, 82vw);
+  height: 620px;
   z-index: 0;
   pointer-events: none;
   background:
     repeating-linear-gradient(90deg, #111b2b00 0, #26395042 3px, #18263830 12px, #10182718 43px, #080d1900 47px, #35496338 48px),
     radial-gradient(ellipse at 85% 5%, #3b526342, #17263720 48%, transparent 80%);
-  mask-image: radial-gradient(ellipse at 100% 0%, #000 10%, #000b 42%, transparent 76%);
-  -webkit-mask-image: radial-gradient(ellipse at 100% 0%, #000 10%, #000b 42%, transparent 76%);
+  mask-image: radial-gradient(ellipse at 100% 0%, #000 14%, #000b 54%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse at 100% 0%, #000 14%, #000b 54%, transparent 90%);
 }
 .dashboard-shell.is-project-view .app-main { z-index: 1; background: transparent !important; }
 @media (max-width: 1000px) {
-  .project-backdrop-texture { width: 76vw; height: 440px; opacity: .8; }
+  .project-backdrop-texture { width: 90vw; height: 520px; opacity: .8; }
 }
 @media (max-width: 600px) {
-  .project-backdrop-texture { height: 360px; opacity: .65; }
+  .project-backdrop-texture { height: 420px; opacity: .65; }
+}
+
+/* Lift only project navigation and branding, leaving the panel in place. */
+.site-header-sticky.site-header-project .floating-nav-row { top: 64px; }
+.site-header-sticky.site-header-project .site-logo-mark { top: 48px; }
+@media (max-width: 1366px) {
+  .site-header-sticky.site-header-project .floating-nav-row { top: 48px; }
+  .site-header-sticky.site-header-project .site-logo-mark { top: 40px; }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project .floating-nav-row { top: 96px; }
+  .site-header-sticky.site-header-project .site-logo-mark { top: 32px; }
 }
