@@ -261,6 +261,11 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, co
             </tr>
           </thead>
           <tbody>
+            <tr className="tl-stage tl-execution-rate-row">
+              <td>집행률</td>
+              {rateCell(rate(pastSpend, pastBudget), "계")}
+              {years.map((entry) => rateCell(rate(entry.spend, entry.budget), entry.year, isSelected(entry.year)))}
+            </tr>
             <tr className="tl-stage">
               <td>예산</td>
               {amount(pastBudget, "계")}
@@ -270,11 +275,6 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, co
               <td>지출</td>
               {amount(pastSpend, "계")}
               {years.map((entry) => amount(entry.spend, entry.year))}
-            </tr>
-            <tr className="tl-stage tl-execution-rate-row">
-              <td>집행률</td>
-              {rateCell(rate(pastSpend, pastBudget), "계")}
-              {years.map((entry) => rateCell(rate(entry.spend, entry.budget), entry.year, isSelected(entry.year)))}
             </tr>
             {spendDetail && (
               <>
