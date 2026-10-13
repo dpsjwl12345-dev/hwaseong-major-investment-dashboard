@@ -1651,7 +1651,7 @@ function FloatingNavBar({
   // navOrganization은 overrides가 반영된 liveOrganization이어야 한다 — 관리자가 부서별
   // 현황 표에서 사업 순서를 바꾸면(serial 변경) 이 드롭다운도 같은 순서로 보여야 하기 때문.
   const projectsByDepartment = navOrganization.flatMap((bureau) => bureau.departments);
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(() => typeof window === "undefined" || window.innerWidth > 700);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
   const [openDeptName, setOpenDeptName] = useState<string | null>(null);
   const [showProjects, setShowProjects] = useState(false);
@@ -1779,79 +1779,6 @@ function useCountUp(target: number, duration = 1200) {
   return value;
 }
 
-// Positions the hero's compositional grid (two full-height verticals tied
-// to the stat row's own column dividers, plus a stepped pair of horizontal
-// segments in the clear space above the eyebrow / below the cta-pill) by
-// measuring real DOM rects instead of guessing fixed percentages — the
-// only way to keep the lines from ever crossing the title text at any
-// viewport width.
-function useHeroGridPosition() {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const eyebrowRef = useRef<HTMLHeadingElement>(null);
-  const pillRef = useRef<HTMLSpanElement>(null);
-  const statRowRef = useRef<HTMLDivElement>(null);
-  const statLeftRef = useRef<HTMLDivElement>(null);
-  const statMidRef = useRef<HTMLDivElement>(null);
-  const statRightRef = useRef<HTMLDivElement>(null);
-  const vLeftRef = useRef<HTMLSpanElement>(null);
-  const vRightRef = useRef<HTMLSpanElement>(null);
-  const hTopRef = useRef<HTMLSpanElement>(null);
-  const dotTopLRef = useRef<HTMLSpanElement>(null);
-  const dotTopMidRef = useRef<HTMLSpanElement>(null);
-  const dotBot25Ref = useRef<HTMLSpanElement>(null);
-  const dotBot50Ref = useRef<HTMLSpanElement>(null);
-  const dotBotRightRef = useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    const position = () => {
-      const hero = heroRef.current;
-      const eyebrow = eyebrowRef.current;
-      const statRow = statRowRef.current;
-      const leftStat = statLeftRef.current;
-      const midStat = statMidRef.current;
-      const rightStat = statRightRef.current;
-      if (!hero || !eyebrow || !statRow || !leftStat || !midStat || !rightStat) return;
-      const heroRect = hero.getBoundingClientRect();
-      const eyebrowRect = eyebrow.getBoundingClientRect();
-      const rowRect = statRow.getBoundingClientRect();
-      const leftRect = leftStat.getBoundingClientRect();
-      const midRect = midStat.getBoundingClientRect();
-      const rightRect = rightStat.getBoundingClientRect();
-
-      const leftX = leftRect.left - heroRect.left;
-      const midX = midRect.left - heroRect.left;
-      const rightX = rightRect.left - heroRect.left;
-      const leftPct = (leftX / heroRect.width) * 100;
-      const midPct = (midX / heroRect.width) * 100;
-      const rightPct = (rightX / heroRect.width) * 100;
-      const topY = heroRect.top + (eyebrowRect.top - heroRect.top) * 0.7 - heroRect.top;
-      // The real "bottom" line is the stat row's own top border — anchor every
-      // bottom-tier dot/bracket to that instead of an independently computed
-      // Y, so they can never drift apart from the line they're supposed to mark.
-      const botY = rowRect.top - heroRect.top;
-
-      if (vLeftRef.current) vLeftRef.current.style.left = `${leftX}px`;
-      if (vRightRef.current) vRightRef.current.style.left = `${rightX}px`;
-      if (hTopRef.current) { hTopRef.current.style.top = `${topY}px`; hTopRef.current.style.left = `${leftX}px`; }
-      statRow.style.setProperty("--hero-stat-line-right", `${Math.max(0, heroRect.width - rightX)}px`);
-      if (dotTopLRef.current) { dotTopLRef.current.style.top = `${topY}px`; dotTopLRef.current.style.left = `${leftPct}%`; }
-      if (dotTopMidRef.current) { dotTopMidRef.current.style.top = `${topY}px`; dotTopMidRef.current.style.left = `${rightPct}%`; }
-      if (dotBot25Ref.current) { dotBot25Ref.current.style.top = `${botY}px`; dotBot25Ref.current.style.left = `${leftPct}%`; }
-      if (dotBot50Ref.current) { dotBot50Ref.current.style.top = `${botY}px`; dotBot50Ref.current.style.left = `${midPct}%`; }
-      if (dotBotRightRef.current) { dotBotRightRef.current.style.top = `${botY}px`; dotBotRightRef.current.style.left = `${rightPct}%`; }
-    };
-    position();
-    window.addEventListener("resize", position);
-    // Custom fonts load with font-display:swap, so the very first measurement
-    // (taken against fallback-font metrics) can land a few px off the text's
-    // final position — re-measure once webfonts finish swapping in.
-    document.fonts?.ready?.then(position).catch(() => {});
-    return () => window.removeEventListener("resize", position);
-  }, []);
-
-  return { heroRef, eyebrowRef, pillRef, statRowRef, statLeftRef, statMidRef, statRightRef, vLeftRef, vRightRef, hTopRef, dotTopLRef, dotTopMidRef, dotBot25Ref, dotBot50Ref, dotBotRightRef };
-}
-
 function LandingPage() {
   const totalBudget = projects.reduce((sum, project) => sum + pb(project).total, 0);
   const investedTo2026 = projects.reduce((sum, project) => sum + pb(project).investedThrough2026, 0);
@@ -1860,47 +1787,32 @@ function LandingPage() {
   const budgetCount = useCountUp(totalBudget, 1400);
   const budgetRequestCount = useCountUp(budgetRequest2027, 1200);
   const investedCount = useCountUp(investedTo2026, 1200);
-  const grid = useHeroGridPosition();
+  const galleryPanels = ["violet", "silver", "ember", "spectrum", "cobalt", "silver", "violet"];
 
   return (
     <section className="landing-page">
-      <div className="hero-panel landing-hero-panel" ref={grid.heroRef}>
-        <div className="landing-hero-bg" aria-hidden="true" />
-        <div className="landing-noise" aria-hidden="true" />
-        <span className="landing-hero-v" ref={grid.vLeftRef} aria-hidden="true" />
-        <span className="landing-hero-v" ref={grid.vRightRef} aria-hidden="true" />
-        <span className="landing-hero-h" ref={grid.hTopRef} aria-hidden="true" />
-        <span className="landing-hero-dot" ref={grid.dotTopLRef} aria-hidden="true" />
-        <span className="landing-hero-dot" ref={grid.dotTopMidRef} aria-hidden="true" />
-        <span className="landing-hero-dot" ref={grid.dotBot25Ref} aria-hidden="true" />
-        <span className="landing-hero-dot" ref={grid.dotBot50Ref} aria-hidden="true" />
-        <span className="landing-hero-dot" ref={grid.dotBotRightRef} aria-hidden="true" />
-
-        <div className="landing-hero-content">
-          <div className="landing-hero-title-group">
-            <h1 ref={grid.eyebrowRef} className="landing-hero-title"><span className="landing-hero-title-line landing-hero-title-line-a">MAJOR INVESTMENT</span><span className="landing-hero-title-line landing-hero-title-line-b">BUDGET</span></h1>
-          </div>
-          <span className="landing-hero-pill" ref={grid.pillRef}>화성시 주요투자사업 대시보드</span>
+      <div className="hero-panel landing-hero-panel landing-dark-gallery">
+        <div className="landing-gallery-grid" aria-hidden="true" />
+        <div className="landing-gallery-intro">
+          <p className="landing-gallery-eyebrow">HWASEONG CITY · INVESTMENT BUDGET</p>
+          <h1>주요투자사업의 흐름을,<br /><span>한눈에.</span></h1>
+          <p className="landing-gallery-subtitle">화성시 주요투자사업 대시보드</p>
         </div>
-
-        <div className="landing-hero-statrow" ref={grid.statRowRef}>
-          <span className="landing-hero-dot" style={{ top: 0, left: "1.5%" }} aria-hidden="true" />
-          <div className="landing-hero-stat">
-            <em>관리사업</em>
-            <b>{Math.round(projectCount)}<small>개</small></b>
+        <div className="landing-gallery-ribbon" aria-hidden="true">
+          <div className="landing-gallery-track">
+            {galleryPanels.map((panel, index) => (
+              <div key={`${panel}-${index}`} className={`landing-gallery-frame frame-${index}`}>
+                <div className={`landing-gallery-art art-${panel}`}><i /><i /><i /></div>
+              </div>
+            ))}
           </div>
-          <div className="landing-hero-stat" ref={grid.statLeftRef}>
-            <em>총사업비</em>
-            <b>{formatBudgetNumber(Math.round(budgetCount))}<small>백만원</small></b>
-          </div>
-          <div className="landing-hero-stat" ref={grid.statMidRef}>
-            <em>2027년 예산 요구액</em>
-            <b>{formatBudgetNumber(Math.round(budgetRequestCount))}<small>백만원</small></b>
-          </div>
-          <div className="landing-hero-stat" ref={grid.statRightRef}>
-            <em>2026년까지 누적 투자액</em>
-            <b>{formatBudgetNumber(Math.round(investedCount))}<small>백만원</small></b>
-          </div>
+        </div>
+        <p className="landing-gallery-caption">사업의 계획부터 예산과 집행까지.<br />화성시의 주요투자사업을 함께 살펴봅니다.</p>
+        <div className="landing-hero-statrow landing-gallery-stats">
+          <div className="landing-hero-stat"><em>관리사업</em><b>{Math.round(projectCount)}<small>개</small></b></div>
+          <div className="landing-hero-stat"><em>총사업비</em><b>{formatBudgetNumber(Math.round(budgetCount))}<small>백만원</small></b></div>
+          <div className="landing-hero-stat"><em>2027년 예산 요구액</em><b>{formatBudgetNumber(Math.round(budgetRequestCount))}<small>백만원</small></b></div>
+          <div className="landing-hero-stat"><em>2026년까지 누적 투자액</em><b>{formatBudgetNumber(Math.round(investedCount))}<small>백만원</small></b></div>
         </div>
       </div>
     </section>
