@@ -9769,3 +9769,9 @@ main.app-main.app-main-flush .hero-panel {
 }
 .landing-dark-gallery .landing-hero-stat b .landing-rolling-number,
 .landing-dark-gallery .landing-hero-stat b .landing-rolling-number span { font-size: inherit; font-weight: inherit; color: inherit; letter-spacing: inherit; }
+/* Legacy caption rules must not add spacing or dim the digit reels. */
+.landing-dark-gallery .landing-hero-stat b .landing-rolling-number,
+.landing-dark-gallery .landing-hero-stat b .landing-rolling-number span { margin: 0; opacity: 1; font-family: inherit; }
+.landing-dark-gallery .landing-hero-stat b .landing-rolling-number { display: inline-flex; }
+.landing-dark-gallery .landing-hero-stat b .landing-rolling-digit { display: inline-block; }
+.landing-dark-gallery .landing-hero-stat b .landing-rolling-track { display: flex; }
