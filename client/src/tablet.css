@@ -327,3 +327,21 @@
 @media (max-width: 600px) {
   .landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child { padding-left: 28px !important; }
 }
+
+/* Move the count divider with its content instead of leaving it behind. */
+.landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child {
+  position: relative;
+  border-left: 0;
+}
+.landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child::after {
+  content: "";
+  position: absolute;
+  left: 36px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #ffffff20;
+}
+@media (max-width: 600px) {
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child::after { left: 18px; }
+}
