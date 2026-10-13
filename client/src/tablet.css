@@ -304,3 +304,11 @@
   .landing-dark-gallery .landing-metric-band .landing-hero-stat { gap: 10px; padding-inline: 10px !important; }
   .landing-dark-gallery .landing-metric-band .landing-metric-icon { flex-basis: 28px; width: 28px; height: 28px; }
 }
+
+/* Fine positioning of the title group and the project-count metric. */
+.landing-gallery-intro { transform: translateY(-18px); }
+.landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child b { padding-left: 22px; }
+@media (max-width: 600px) {
+  .landing-gallery-intro { transform: translateY(-12px); }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child b { padding-left: 14px; }
+}
