@@ -1761,15 +1761,17 @@ function FloatingNavBar({
 
 function RollingNumber({ value }: { value: number }) {
   const label = formatBudgetNumber(value);
+  // Keep reel geometry local so global caption styles cannot stack the digits.
+  const numeralStyle: CSSProperties = { margin: 0, font: "inherit", color: "inherit", opacity: 1, letterSpacing: "inherit", lineHeight: 1 };
   return (
-    <span className="landing-rolling-number" role="img" aria-label={label}>
+    <span className="landing-rolling-number" role="img" aria-label={label} style={{ ...numeralStyle, display: "inline-flex", flexDirection: "row", alignItems: "baseline" }}>
       {Array.from(label).map((character, index) => /\d/.test(character) ? (
-        <span className="landing-rolling-digit" aria-hidden="true" key={index}>
-          <span className="landing-rolling-track" style={{ "--digit-stop": 20 + Number(character), "--digit-delay": `${index * 70}ms` } as CSSProperties}>
-            {Array.from({ length: 30 }, (_, digit) => <span key={digit}>{digit % 10}</span>)}
+        <span className="landing-rolling-digit" aria-hidden="true" key={index} style={{ ...numeralStyle, display: "inline-block", height: "1em", width: "1ch", overflow: "hidden", flexShrink: 0 }}>
+          <span className="landing-rolling-track" style={{ ...numeralStyle, display: "flex", flexDirection: "column", "--digit-stop": 20 + Number(character), "--digit-delay": `${index * 70}ms` } as CSSProperties}>
+            {Array.from({ length: 30 }, (_, digit) => <span key={digit} style={{ ...numeralStyle, display: "block", height: "1em", flex: "0 0 1em", textAlign: "center" }}>{digit % 10}</span>)}
           </span>
         </span>
-      ) : <span aria-hidden="true" key={index}>{character}</span>)}
+      ) : <span aria-hidden="true" key={index} style={{ ...numeralStyle, display: "inline-block" }}>{character}</span>)}
     </span>
   );
 }
