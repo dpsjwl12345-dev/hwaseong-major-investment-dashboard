@@ -462,3 +462,24 @@
 @media (max-width: 600px) {
   .landing-cylinder-gallery { height: 220px; }
 }
+
+@font-face {
+  font-family: "Black Ops One";
+  src: url("/fonts/BlackOpsOne-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+.landing-gallery-intro .landing-hib-wordmark { font-family: "Black Ops One", "Pretendard", sans-serif; font-weight: 400; }
+/* Align the navigation's first row with the HIB wordmark centre. */
+.site-header-sticky.site-header-project .floating-nav-row { top: 43px; }
+.site-header-sticky.site-header-project { height: 119px; min-height: 119px; }
+@media (max-width: 1366px) {
+  .site-header-sticky.site-header-project .floating-nav-row { top: 28px; }
+  .site-header-sticky.site-header-project { height: 250px; min-height: 250px; }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project .floating-nav-row { top: 16px; }
+  .site-header-sticky.site-header-project .floating-nav-dropdown-row-static { margin-top: 24px; }
+  .site-header-sticky.site-header-project { height: 304px; min-height: 304px; }
+}
