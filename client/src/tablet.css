@@ -287,3 +287,20 @@
   .landing-dark-gallery .landing-metric-band .landing-hero-stat b { font-size: 27px; gap: 3px; }
   .landing-dark-gallery .landing-metric-band .landing-hero-stat b small { font-size: 10px; }
 }
+
+/* A larger Korean title and a tighter, centered group of metrics. */
+.landing-gallery-intro .landing-hib-name { font-size: clamp(36px, 4vw, 56px); line-height: 1.2; }
+.landing-dark-gallery .landing-gallery-stats.landing-metric-band { width: min(1160px, 94%); padding: 22px 12px; margin-top: 24px; }
+.landing-dark-gallery .landing-metric-band .landing-hero-stat { gap: 14px; padding-inline: 18px !important; }
+.landing-dark-gallery .landing-metric-band .landing-hero-stat em { gap: 9px; min-height: 34px; }
+.landing-dark-gallery .landing-metric-band .landing-metric-icon { flex-basis: 34px; width: 34px; height: 34px; }
+@media (max-width: 1000px) {
+  .landing-dark-gallery .landing-gallery-stats.landing-metric-band { width: min(760px, 94%); gap: 22px 0; padding: 18px 8px; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat { gap: 12px; padding-inline: 18px !important; }
+}
+@media (max-width: 600px) {
+  .landing-gallery-intro .landing-hib-name { font-size: 34px; }
+  .landing-dark-gallery .landing-gallery-stats.landing-metric-band { gap: 20px 0; padding: 16px 0; margin-top: 18px; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat { gap: 10px; padding-inline: 10px !important; }
+  .landing-dark-gallery .landing-metric-band .landing-metric-icon { flex-basis: 28px; width: 28px; height: 28px; }
+}
