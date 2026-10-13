@@ -386,3 +386,58 @@
 @media (max-width: 600px) {
   .site-header-sticky.site-header-project .floating-nav-row { top: 92px; }
 }
+
+.site-header-sticky.site-header-project .site-logo-mark { top: 56px; }
+@media (max-width: 1366px) {
+  .site-header-sticky.site-header-project .site-logo-mark { top: 48px; }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project .site-logo-mark { top: 40px; }
+  .site-header-sticky.site-header-project .floating-nav-row { top: 104px; }
+  .site-header-sticky.site-header-project { height: 366px; min-height: 366px; }
+}
+
+/* Reduce project header space so the whole content moves upward. */
+.site-header-sticky.site-header-project { height: 142px; min-height: 142px; }
+@media (max-width: 1366px) {
+  .site-header-sticky.site-header-project { height: 270px; min-height: 270px; }
+  .site-header-sticky.site-header-project .floating-nav-row { top: 56px; }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project { height: 366px; min-height: 366px; }
+  .site-header-sticky.site-header-project .floating-nav-row { top: 104px; }
+}
+
+/* Remove the extra main padding between project navigation and its panel. */
+.app-main:has(> .detail-panel-shell) { padding-top: 0 !important; }
+.site-header-sticky.site-header-project { height: 140px; min-height: 140px; }
+@media (max-width: 1366px) {
+  .site-header-sticky.site-header-project { height: 270px; min-height: 270px; }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project { height: 366px; min-height: 366px; }
+}
+
+/* Subtle folded texture in the upper-right corner of project pages. */
+.dashboard-shell { position: relative; isolation: isolate; }
+.project-backdrop-texture {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(760px, 66vw);
+  height: 520px;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, #111b2b00 0, #26395042 3px, #18263830 12px, #10182718 43px, #080d1900 47px, #35496338 48px),
+    radial-gradient(ellipse at 85% 5%, #3b526342, #17263720 48%, transparent 80%);
+  mask-image: radial-gradient(ellipse at 100% 0%, #000 10%, #000b 42%, transparent 76%);
+  -webkit-mask-image: radial-gradient(ellipse at 100% 0%, #000 10%, #000b 42%, transparent 76%);
+}
+.dashboard-shell.is-project-view .app-main { z-index: 1; background: transparent !important; }
+@media (max-width: 1000px) {
+  .project-backdrop-texture { width: 76vw; height: 440px; opacity: .8; }
+}
+@media (max-width: 600px) {
+  .project-backdrop-texture { height: 360px; opacity: .65; }
+}
