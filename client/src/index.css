@@ -9566,30 +9566,6 @@ main.app-main.app-main-flush .hero-panel {
 .landing-gallery-ribbon { position: relative; width: 100%; height: clamp(210px, 24vw, 340px); margin: 18px 0 0; overflow: hidden; perspective: 1100px; mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
 .landing-gallery-track { position: absolute; left: 50%; top: 50%; display: flex; gap: 16px; width: max-content; transform: translate(-50%, -50%); transform-style: preserve-3d; }
 .landing-gallery-frame { width: clamp(170px, 19vw, 285px); height: clamp(124px, 13.6vw, 204px); flex: none; padding: 1px; border-radius: 10px; overflow: hidden; background: #ffffff20; box-shadow: 0 20px 50px #0009; transform-origin: center; }
-.landing-gallery-frame.frame-0 { transform: translateY(-48px) rotateY(40deg) rotateZ(-10deg); }
-.landing-gallery-frame.frame-1 { transform: translateY(-27px) rotateY(32deg) rotateZ(-7deg); }
-.landing-gallery-frame.frame-2 { transform: translateY(-6px) rotateY(16deg) rotateZ(-3deg); }
-.landing-gallery-frame.frame-3 { transform: translateY(0); }
-.landing-gallery-frame.frame-4 { transform: translateY(-6px) rotateY(-16deg) rotateZ(3deg); }
-.landing-gallery-frame.frame-5 { transform: translateY(-27px) rotateY(-32deg) rotateZ(7deg); }
-.landing-gallery-frame.frame-6 { transform: translateY(-48px) rotateY(-40deg) rotateZ(10deg); }
-.landing-gallery-art { width: 100%; height: 100%; border-radius: 9px; position: relative; overflow: hidden; }
-.landing-gallery-art i { position: absolute; display: block; }
-.art-spectrum { background: #030407; }
-.art-spectrum i:first-child { width: 135%; height: 42%; left: -18%; top: 36%; transform: rotate(-28deg); border-radius: 50%; background: linear-gradient(180deg, #8bdfe1, #6487cd 24%, #a687bb 48%, #dd776c 70%, #daa55a); filter: blur(18px); opacity: .85; }
-.art-spectrum i:nth-child(2) { inset: 0; background: linear-gradient(90deg, #000b, transparent 42%, #0008); }
-.art-ember { background: linear-gradient(140deg, #321b29, #0d101c 50%, #ba754d); }
-.art-ember i:first-child { width: 112%; height: 125%; top: -55%; left: -8%; border-radius: 44% 56% 62% 38%; transform: rotate(23deg); background: conic-gradient(from 60deg, #8f596c, #dcb599, #b67862, #343353, #8f596c); box-shadow: inset 0 -14px 22px #b58b7655; }
-.art-ember i:nth-child(2) { width: 96%; height: 62%; top: 52%; left: 20%; border: 2px solid #c4947666; border-radius: 50%; transform: rotate(-29deg); }
-.art-silver { background: #111318; }
-.art-silver i:first-child { width: 160%; height: 200%; top: -55%; left: -35%; border-radius: 42%; transform: rotate(39deg); background: repeating-conic-gradient(from 10deg at 43% 47%, #17191d 0deg, #e0dfdb 16deg, #83848a 32deg, #25282e 53deg, #aaadb1 69deg, #17191d 85deg); filter: blur(2px); }
-.art-silver i:nth-child(2) { width: 40%; height: 65%; top: 0; left: 47%; border-radius: 50%; background: #111318; transform: rotate(25deg); box-shadow: -15px 0 30px #d2d6da55; }
-.art-cobalt { background: #030913; }
-.art-cobalt i:first-child { width: 130%; height: 48%; left: -20%; top: 25%; border-radius: 50%; background: linear-gradient(180deg, #070f27, #1754b2, #709ace, #173365, #061327); transform: rotate(-31deg); filter: blur(12px); }
-.art-cobalt i:nth-child(2) { width: 100%; height: 48%; top: 41%; left: 8%; background: #030913; border-radius: 50%; transform: rotate(-30deg); filter: blur(7px); }
-.art-violet { background: radial-gradient(ellipse at 15% 25%, #8a5884, #423953 38%, #101423 76%); }
-.art-violet i:first-child { width: 145%; height: 75%; top: 26%; left: -18%; border-radius: 50%; background: conic-gradient(from 120deg, #171b32, #9c787e, #e0a78c, #73659b, #171b32); transform: rotate(-25deg); }
-.art-violet i:nth-child(2) { width: 130%; height: 54%; top: 44%; left: -14%; border-radius: 50%; background: #101321; transform: rotate(-25deg); }
 .landing-gallery-caption { margin: 0 20px 40px; text-align: center; color: #787983; font-size: 12px; line-height: 1.65; }
 .landing-dark-gallery .landing-gallery-stats { width: min(1120px, 88%); margin: 0; border-top: 1px solid #ffffff12; }
 .landing-dark-gallery .landing-gallery-stats::before, .landing-dark-gallery .landing-hero-stat::before { display: none; }
@@ -9609,4 +9585,43 @@ main.app-main.app-main-flush .hero-panel {
   .landing-dark-gallery .landing-hero-stat { padding: 20px 10px !important; }
   .landing-dark-gallery .landing-hero-stat:nth-child(3) { border-left: 0; }
   .landing-dark-gallery .landing-hero-stat:nth-child(n+3) { border-top: 1px solid #ffffff0c; }
+}
+
+.landing-gallery-track { left: 0; will-change: transform; }
+.landing-gallery-frame { will-change: transform; }
+.landing-gallery-frame img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 9px; }
+.landing-gallery-intro .landing-his-title { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.landing-gallery-intro .landing-his-wordmark { color: #f5f4ef; font-size: clamp(64px, 7vw, 96px); letter-spacing: -.06em; line-height: 1; }
+.landing-gallery-intro .landing-his-name { color: #d9bc86; font-size: clamp(24px, 3vw, 40px); font-weight: 500; letter-spacing: -.04em; }
+
+/* HIS: two-line typographic lockup. */
+.landing-gallery-intro .landing-his-title { gap: 4px; }
+.landing-gallery-intro .landing-his-wordmark {
+  font-family: "Gmarket Sans", "Pretendard", sans-serif;
+  font-size: clamp(112px, 12vw, 176px);
+  font-weight: 700;
+  letter-spacing: -.09em;
+  padding-right: .09em;
+  color: #eeece5;
+  line-height: 1.04;
+}
+.landing-his-wordmark .landing-his-accent { color: #d9bc86; }
+.landing-gallery-intro .landing-his-name {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .38em;
+  font-family: "Pretendard", sans-serif;
+  font-size: clamp(22px, 2.7vw, 36px);
+  letter-spacing: -.055em;
+  line-height: 1.4;
+  color: #e6e4de;
+}
+.landing-his-name > span { font-weight: 350; color: #96969c; }
+.landing-his-name > strong { font-weight: 600; }
+.landing-gallery-ribbon { pointer-events: auto; z-index: 1; }
+@media (max-width: 700px) {
+  .landing-gallery-intro .landing-his-title { gap: 8px; }
+  .landing-gallery-intro .landing-his-wordmark { font-size: 112px; }
+  .landing-gallery-intro .landing-his-name { font-size: 24px; }
 }

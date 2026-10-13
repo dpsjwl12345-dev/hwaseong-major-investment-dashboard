@@ -1787,22 +1787,66 @@ function LandingPage() {
   const budgetCount = useCountUp(totalBudget, 1400);
   const budgetRequestCount = useCountUp(budgetRequest2027, 1200);
   const investedCount = useCountUp(investedTo2026, 1200);
-  const galleryPanels = ["violet", "silver", "ember", "spectrum", "cobalt", "silver", "violet"];
+  const galleryProjectIds = ["총괄데이터_5.xlsx:문화예술과:6", "총괄데이터_5.xlsx:문화예술과:3", "총괄데이터_일반.xlsx:Sheet1:2", "문화유산_주요투자사업_총괄표.xlsx:총괄표:2", "총괄데이터_5.xlsx:문화예술과:7", "주요투자사업_총괄데이터.xlsx:Sheet1:6", "총괄데이터_일반.xlsx:Sheet1:3"];
+  const galleryPanels = galleryProjectIds.flatMap((id) => {
+    const project = projects.find((item) => item.id === id);
+    if (!project) return [];
+    const index = id === "총괄데이터_5.xlsx:문화예술과:3" ? 2 : project.rendering_image_types?.indexOf("조감도") ?? -1;
+    const image = project.rendering_images?.[index];
+    return image ? [{ id, image }] : [];
+  });
+  const ribbonRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const galleryPaused = useRef(false);
+  useEffect(() => {
+    const ribbon = ribbonRef.current;
+    const track = trackRef.current;
+    if (!ribbon || !track || !galleryPanels.length) return;
+    const frames = Array.from(track.querySelectorAll<HTMLElement>(".landing-gallery-frame"));
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let offset = 0;
+    let previous = 0;
+    let frame = 0;
+    let cardWidth = 0;
+    let gap = 0;
+    let width = 0;
+    const measure = () => {
+      cardWidth = frames[0]?.offsetWidth ?? 0;
+      gap = parseFloat(getComputedStyle(track).columnGap) || 16;
+      width = ribbon.clientWidth;
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(ribbon);
+    const tick = (now: number) => {
+      const elapsed = previous ? Math.min(now - previous, 50) : 0;
+      previous = now;
+      const loopWidth = galleryPanels.length * (cardWidth + gap);
+      if (!motion.matches && !galleryPaused.current && loopWidth) offset = (offset + elapsed * 0.025) % loopWidth;
+      track.style.transform = `translate3d(${-offset}px, -50%, 0)`;
+      frames.forEach((element, index) => {
+        const x = index * (cardWidth + gap) + cardWidth / 2 - offset - width / 2;
+        const position = Math.max(-1.4, Math.min(1.4, x / (width / 2)));
+        element.style.transform = `translateY(${-position * position * 44}px) rotateY(${-position * 24}deg) rotateZ(${position * 6}deg)`;
+      });
+      frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(frame); observer.disconnect(); };
+  }, []);
 
   return (
     <section className="landing-page">
       <div className="hero-panel landing-hero-panel landing-dark-gallery">
         <div className="landing-gallery-grid" aria-hidden="true" />
         <div className="landing-gallery-intro">
-          <p className="landing-gallery-eyebrow">HWASEONG CITY · INVESTMENT BUDGET</p>
-          <h1>주요투자사업의 흐름을,<br /><span>한눈에.</span></h1>
-          <p className="landing-gallery-subtitle">화성시 주요투자사업 대시보드</p>
+          <h1 className="landing-his-title"><span className="landing-his-wordmark">H<span className="landing-his-accent">I</span>S</span><span className="landing-his-name"><span>화성시</span><strong>주요투자사업</strong></span></h1>
         </div>
-        <div className="landing-gallery-ribbon" aria-hidden="true">
-          <div className="landing-gallery-track">
-            {galleryPanels.map((panel, index) => (
-              <div key={`${panel}-${index}`} className={`landing-gallery-frame frame-${index}`}>
-                <div className={`landing-gallery-art art-${panel}`}><i /><i /><i /></div>
+        <div className="landing-gallery-ribbon" ref={ribbonRef} aria-hidden="true" onMouseEnter={() => { galleryPaused.current = true; }} onMouseLeave={() => { galleryPaused.current = false; }}>
+          <div className="landing-gallery-track" ref={trackRef}>
+            {[...galleryPanels, ...galleryPanels, ...galleryPanels].map((panel, index) => (
+              <div key={`${panel.id}-${index}`} className="landing-gallery-frame">
+                <img src={panel.image} alt="" draggable={false} />
               </div>
             ))}
           </div>
