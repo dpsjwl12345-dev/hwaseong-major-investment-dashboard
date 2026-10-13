@@ -9529,3 +9529,5 @@ main.app-main.app-main-flush .hero-panel {
   border-right: 1px solid #e8cf90 !important;
 }
 .pd-card.bd-card .tl-execution-table thead th:nth-child(2) small { color: #805400 !important; }
+
+.tl-execution-table .tl-execution-rate-row td { text-align: left; }

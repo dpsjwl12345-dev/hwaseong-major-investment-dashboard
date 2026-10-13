@@ -243,7 +243,7 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, co
   return (
     <>
       <div className="pd-card-title">
-        <span>□ 연도별 예산 지출</span>
+        <span>□ 연도별 예산 지출 현황</span>
         <span className="bd-unit">[단위: 백만원]</span>
       </div>
       <div className="bd-scroll">
@@ -271,7 +271,7 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, co
               {amount(pastSpend, "계")}
               {years.map((entry) => amount(entry.spend, entry.year))}
             </tr>
-            <tr className="tl-stage">
+            <tr className="tl-stage tl-execution-rate-row">
               <td>집행률</td>
               {rateCell(rate(pastSpend, pastBudget), "계")}
               {years.map((entry) => rateCell(rate(entry.spend, entry.budget), entry.year, isSelected(entry.year)))}
