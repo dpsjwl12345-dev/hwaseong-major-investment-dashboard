@@ -320,3 +320,10 @@
   background: none;
   animation: none;
 }
+
+/* Align the project-count heading icon and number on one left edge. */
+.landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child { padding-left: 54px !important; }
+.landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child b { padding-left: 0; }
+@media (max-width: 600px) {
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child { padding-left: 28px !important; }
+}
