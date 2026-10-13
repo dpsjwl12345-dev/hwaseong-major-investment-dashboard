@@ -1799,7 +1799,14 @@ function LandingPage() {
   const budgetCount = useCountUp(totalBudget, 1400);
   const budgetRequestCount = useCountUp(budgetRequest2027, 1200);
   const investedCount = useCountUp(investedTo2026, 1200);
-  const galleryProjectIds = ["총괄데이터_5.xlsx:문화예술과:6", "총괄데이터_5.xlsx:문화예술과:3", "총괄데이터_일반.xlsx:Sheet1:2", "주요투자사업_총괄데이터.xlsx:Sheet1:11", "체육진흥과_수동입력:13"];
+  const galleryProjectIds = [
+    "총괄데이터_5.xlsx:문화예술과:6",
+    "주요투자사업_총괄데이터.xlsx:Sheet1:11",
+    "관광진흥과_총괄데이터.xlsx:Sheet1:4",
+    "총괄데이터_5.xlsx:문화예술과:3",
+    "체육진흥과_수동입력:13",
+    "관광진흥과_총괄데이터.xlsx:Sheet1:8",
+  ];
   const galleryPanels = galleryProjectIds.flatMap((id) => {
     const project = projects.find((item) => item.id === id);
     if (!project) return [];
