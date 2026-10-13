@@ -2120,7 +2120,7 @@ export default function Home() {
       {/* On the landing page the header floats over the full-height hero
           (no reserved space). On every other page it sits in normal flow
           and scrolls away with the content instead of staying pinned. */}
-      <div className={`site-header-sticky ${activeView === "landing" ? "site-header-sticky-overlay" : ""}`}>
+      <div className={`site-header-sticky ${activeView === "landing" ? "site-header-sticky-overlay" : activeView === "project" ? "site-header-project" : ""}`}>
         {activeView !== "landing" && <button type="button" className="site-logo-mark" onClick={goLanding} aria-label="홈으로 이동">
           <span className="site-logo-mark-word">HIB.</span>
           <span className="site-logo-mark-tagline"><span>화성시</span><span>주요투자사업</span></span>
@@ -2193,7 +2193,7 @@ export default function Home() {
           {activeView === "investment-review" ? (
             <InvestmentReviewBoard isAdmin={isAdmin} />
           ) : activeView === "department" ? (
-            <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); }} />
+            <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); window.scrollTo(0, 0); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
               <ProjectDetail project={selectedProject} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />

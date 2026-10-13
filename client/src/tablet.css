@@ -351,3 +351,38 @@
 @media (max-width: 600px) {
   .landing-dark-gallery .landing-metric-band .landing-hero-stat em { font-size: 13px; }
 }
+
+/* Bring project pages closer to their navigation without moving the landing. */
+.site-header-sticky.site-header-project { height: 166px; min-height: 166px; }
+.site-header-sticky.site-header-project .floating-nav-row { top: 72px; }
+.site-header-sticky.site-header-project .site-logo-mark { top: 44px; right: 64px; }
+@media (max-width: 1366px) {
+  .site-header-sticky.site-header-project { height: 294px; min-height: 294px; }
+  .site-header-sticky.site-header-project .floating-nav-row { top: 80px; }
+  .site-header-sticky.site-header-project .site-logo-mark { top: 36px; right: 36px; }
+  .site-header-sticky.site-header-project .floating-nav.is-expanded { width: min(680px, calc(100vw - 220px)); }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project { height: 354px; min-height: 354px; }
+  .site-header-sticky.site-header-project .floating-nav-row { top: 80px; }
+  .site-header-sticky.site-header-project .site-logo-mark { top: 28px; right: 26px; }
+  .site-header-sticky.site-header-project .floating-nav.is-expanded { width: calc(100vw - 28px); }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project .site-logo-mark-word { font-size: 28px; }
+  .site-header-sticky.site-header-project .site-logo-mark-tagline { font-size: 10px; }
+}
+
+/* Project navigation follows the left content edge. */
+.site-header-sticky.site-header-project .floating-nav-row {
+  left: clamp(20px, 2.5vw, 40px);
+  right: auto;
+  transform: none;
+  align-items: flex-start;
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project .floating-nav-row { left: 14px; }
+}
+@media (max-width: 600px) {
+  .site-header-sticky.site-header-project .floating-nav-row { top: 92px; }
+}
