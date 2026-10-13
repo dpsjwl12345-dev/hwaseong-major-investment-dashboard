@@ -1841,6 +1841,7 @@ function LandingPage() {
         <TiltedGridHero
           images={galleryPanels.map((panel) => ({ src: panel.image }))}
           className="landing-cylinder-gallery"
+          speed={4.4}
           tileHeight={44}
           axis={50}
         />
