@@ -231,14 +231,14 @@
 }
 
 @font-face {
-  font-family: "EF_cucumber";
-  src: url("/fonts/EF-cucumbersalad.ttf") format("truetype");
+  font-family: "April16th Promise";
+  src: url("/fonts/April16th-Promise.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
 }
 .landing-gallery-intro .landing-hib-name {
-  font-family: "EF_cucumber", "Pretendard", sans-serif;
+  font-family: "April16th Promise", "Pretendard", sans-serif;
   font-weight: 400;
   letter-spacing: -.025em;
 }

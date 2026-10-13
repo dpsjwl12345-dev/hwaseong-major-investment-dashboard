@@ -1,0 +1,6 @@
+Font: April16th Promise, Regular (4월16일체 약속)
+Designer: 4.16foundation
+Embedded copyright: Copyright © 2023 4.16foundation. All rights reserved. Font Designed by 4.16foundation.
+Source: https://github.com/Bell7080/ODD-SHIFT/blob/f29abd46f84759b6eaa76e0208457bd2dbe03136/public/assets/fonts/April16th-Promise.woff2
+Font family verified against the corresponding April16th-Promise.woff from https://github.com/jtjoo/itunion_kr/tree/a86f5c841e52980dec6fd8fd87900d13ae1b8a39/src/assets/font/April16th
+Original font file is preserved.
