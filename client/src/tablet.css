@@ -556,8 +556,8 @@
 /* Cool highlights keep the straight folds visible without a yellow cast. */
 .project-backdrop-texture {
   background:
-    repeating-linear-gradient(90deg, transparent 0, #a8b8c444 2px, #869da848 8px, #22334e26 30px, #050a1400 46px, #d6dfe855 48px),
-    radial-gradient(ellipse at 85% 5%, #8c9eaf2e, #5069792a 48%, transparent 80%);
+    repeating-linear-gradient(90deg, transparent 0, #4c929466 2px, #347b7d60 8px, #24565c44 30px, #102d3100 46px, #64a9a96b 48px),
+    radial-gradient(ellipse at 85% 5%, #347b7d48, #24565c38 48%, transparent 80%);
 }
 
 /* Fade the whole corner region along an ellipse, with no rectangular cutoff. */
