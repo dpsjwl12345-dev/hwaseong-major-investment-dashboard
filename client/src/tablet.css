@@ -345,3 +345,9 @@
 @media (max-width: 600px) {
   .landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child::after { left: 18px; }
 }
+
+/* Slightly more readable metric labels without enlarging the numbers. */
+.landing-dark-gallery .landing-metric-band .landing-hero-stat em { font-size: 16px; }
+@media (max-width: 600px) {
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat em { font-size: 13px; }
+}
