@@ -1881,11 +1881,11 @@ function LandingPage() {
           </div>
         </div>
         </div>
-        <div className="landing-hero-statrow landing-gallery-stats" ref={statsRef}>
-          <div className="landing-hero-stat"><b><RollingNumber value={projects.length} /><small>개</small></b><em>관리사업</em></div>
-          <div className="landing-hero-stat"><LandingBudgetAmount value={totalBudget} /><em>총사업비</em></div>
-          <div className="landing-hero-stat"><LandingBudgetAmount value={budgetRequest2027} /><em>2027년 예산 요구액</em></div>
-          <div className="landing-hero-stat"><LandingBudgetAmount value={investedTo2026} /><em>2026년까지 누적 투자액</em></div>
+        <div className="landing-hero-statrow landing-gallery-stats landing-metric-band" ref={statsRef}>
+          <div className="landing-hero-stat"><em><i className="landing-metric-icon" aria-hidden="true"><BuildingsIcon size={21} /></i>관리사업</em><b><RollingNumber value={projects.length} /><small>개</small></b></div>
+          <div className="landing-hero-stat"><em><i className="landing-metric-icon" aria-hidden="true"><WalletMoneyIcon size={21} /></i>총사업비</em><LandingBudgetAmount value={totalBudget} /></div>
+          <div className="landing-hero-stat"><em><i className="landing-metric-icon" aria-hidden="true"><CalendarAddIcon size={21} /></i>2027년 예산 요구액</em><LandingBudgetAmount value={budgetRequest2027} /></div>
+          <div className="landing-hero-stat"><em><i className="landing-metric-icon" aria-hidden="true"><ChartProgressIcon size={21} /></i>2026년까지 누적 투자액</em><LandingBudgetAmount value={investedTo2026} /></div>
         </div>
       </div>
     </section>

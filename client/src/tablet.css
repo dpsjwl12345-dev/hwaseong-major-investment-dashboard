@@ -231,18 +231,59 @@
 }
 
 @font-face {
-  font-family: "Sunflower";
-  src: url("/fonts/Sunflower-Medium.ttf") format("truetype");
+  font-family: "EF_cucumber";
+  src: url("/fonts/EF-cucumbersalad.ttf") format("truetype");
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   font-display: swap;
 }
 .landing-gallery-intro .landing-hib-name {
-  font-family: "Sunflower", "Pretendard", sans-serif;
-  font-weight: 500;
+  font-family: "EF_cucumber", "Pretendard", sans-serif;
+  font-weight: 400;
   letter-spacing: -.025em;
 }
 
 /* Finish all numerical reels before the central title starts moving. */
 .landing-gallery-intro:not(.is-metrics-complete) .landing-hib-name { animation-play-state: paused; }
 .landing-gallery-intro.is-metrics-complete .landing-hib-name { animation-play-state: running; }
+
+/* Reference metric layout with the existing landing palette. */
+.landing-dark-gallery .landing-gallery-stats.landing-metric-band {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  width: 100%;
+  padding: 46px clamp(24px, 3vw, 48px);
+  margin: 40px 0 0;
+  border: 0;
+  background: transparent;
+}
+.landing-metric-band::after { display: none; }
+.landing-dark-gallery .landing-metric-band .landing-hero-stat {
+  display: flex;
+  align-items: flex-start;
+  gap: 34px;
+  padding: 0 clamp(16px, 2vw, 30px) !important;
+  text-align: left;
+  min-width: 0;
+  border-left: 1px solid #ffffff20;
+}
+.landing-dark-gallery .landing-metric-band .landing-hero-stat em { display: flex; align-items: center; gap: 12px; min-height: 40px; margin: 0; color: #A6A29A; font-size: 14px; font-weight: 500; line-height: 1.4; }
+.landing-dark-gallery .landing-metric-band .landing-metric-icon { display: inline-flex; flex: 0 0 40px; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: #191a1f; border: 1px solid #ffffff0b; color: #F0EDE6; font-style: normal; }
+.landing-dark-gallery .landing-metric-band .landing-hero-stat b { margin: 0; justify-content: flex-start; gap: 6px; color: #F0EDE6; font-size: clamp(34px, 3.5vw, 52px); font-weight: 450; line-height: 1.1; letter-spacing: -.03em; }
+.landing-dark-gallery .landing-metric-band .landing-hero-stat b small { font-size: 13px; color: #C5A66C; font-weight: 400; }
+@media (max-width: 1000px) {
+  .landing-dark-gallery .landing-gallery-stats.landing-metric-band { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 32px 0; padding: 32px 24px; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat { gap: 24px; padding-inline: 22px !important; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat:nth-child(n+3) { border-top: 0; border-left: 1px solid #ffffff20; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat b { font-size: 44px; }
+}
+@media (max-width: 600px) {
+  .landing-dark-gallery .landing-gallery-stats.landing-metric-band { padding: 28px 14px; gap: 28px 0; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat { padding-inline: 12px !important; gap: 20px; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat em { font-size: 11px; gap: 7px; }
+  .landing-dark-gallery .landing-metric-band .landing-metric-icon { flex-basis: 30px; width: 30px; height: 30px; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat b { font-size: 27px; gap: 3px; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat b small { font-size: 10px; }
+}

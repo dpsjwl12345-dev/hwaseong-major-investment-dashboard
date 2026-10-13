@@ -1,0 +1,5 @@
+Font: EF_cucumbersalad (오이샐러드체), Regular
+Designer: Earlyfont (얼리폰트), hyuny
+Embedded copyright: Copyright (c) Earlyfont. All rights reserved. Font designed by Earlyfont.
+Source file: https://github.com/bitcory/tbcinema/blob/bb4db10c0a4eca28d167b3510355db34cbe9e748/fonts/EF_cucumbersalad(ttf).ttf
+Original font metadata and file contents are preserved.
