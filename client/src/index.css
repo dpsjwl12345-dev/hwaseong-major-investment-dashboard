@@ -9539,3 +9539,12 @@ main.app-main.app-main-flush .hero-panel {
 .tl-year-focus:focus-visible { outline: 2px solid #3987e5; outline-offset: 3px; }
 .tl-year-focus[aria-pressed="true"]::after { content: " ◀"; font-size: 11px; }
 .pd-card.bd-card .tl-table .is-focused-year { background: #e3f3f1 !important; }
+
+/* 지출현황 집행률: 동일 색상, 작은 글씨, 가운데 정렬. */
+.tl-execution-table .tl-execution-rate-row td { text-align: center; }
+.pd-card.bd-card .tl-execution-table .tl-execution-rate-row .ex-rate {
+  font-size: calc(17px - 3pt);
+  color: #1f6e69 !important;
+  background: #e3f3f1 !important;
+  text-align: center;
+}
