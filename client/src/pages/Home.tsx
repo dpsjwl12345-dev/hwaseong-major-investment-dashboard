@@ -1827,7 +1827,7 @@ function LandingPage() {
       frames.forEach((element, index) => {
         const x = index * (cardWidth + gap) + cardWidth / 2 - offset - width / 2;
         const position = Math.max(-1.4, Math.min(1.4, x / (width / 2)));
-        element.style.transform = `translateY(${-position * position * 10}px) rotateY(${-position * 8}deg)`;
+        element.style.transform = `translateY(${-position * position * 58}px) rotateY(${-position * 24}deg) rotateZ(${position * 5}deg)`;
       });
       frame = requestAnimationFrame(tick);
     };

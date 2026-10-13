@@ -9670,3 +9670,10 @@ main.app-main.app-main-flush .hero-panel {
   .landing-dark-gallery .landing-hero-stat b { font-size: 24px; }
   .landing-dark-gallery .landing-hero-stat b small { font-size: 10px; }
 }
+
+.landing-gallery-intro .landing-hib-name {
+  font-family: "Gmarket Sans", "Pretendard", sans-serif;
+  font-weight: 500;
+  letter-spacing: -.025em;
+  line-height: 1.4;
+}
