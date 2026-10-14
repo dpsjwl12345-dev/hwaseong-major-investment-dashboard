@@ -585,3 +585,36 @@
 @media (max-width: 600px) {
   .detail-panel-shell .pd-detail-page { padding-top: 14px !important; }
 }
+
+/* iPad navigation stays on one line; keep each button easy to tap. */
+@media (min-width: 701px) and (max-width: 1366px) {
+  .site-header-sticky .floating-nav.is-expanded { width: min(1060px, calc(100vw - 160px)); flex-wrap: nowrap; align-items: center; padding: 4px; gap: 2px; }
+  .site-header-sticky .floating-nav.is-expanded .floating-nav-item { flex: 1 1 auto; min-width: 0; flex-wrap: nowrap; align-items: center; }
+  .site-header-sticky .floating-nav-dropdown-row-static { display: flex; flex-wrap: nowrap; width: auto; flex: 1; gap: 0; margin-top: 0; }
+  .site-header-sticky .floating-nav-link { min-height: 44px; font-size: 14px; padding: 8px 10px; white-space: nowrap; }
+  .site-header-sticky .floating-nav-dropdown-row-static button { min-height: 44px; font-size: 14px; padding: 8px 8px; white-space: nowrap; }
+  .site-header-sticky .floating-nav-dept-item { flex: 0 0 auto; }
+  .site-header-sticky.site-header-project { height: 94px; min-height: 94px; }
+  .site-header-sticky.site-header-department { height: 142px; min-height: 142px; }
+  .site-header-sticky:not(.site-header-sticky-overlay):not(.site-header-project):not(.site-header-department) { height: 148px; min-height: 148px; }
+  .landing-hero-panel.landing-dark-gallery { padding-top: 160px !important; }
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .site-header-sticky .floating-nav.is-expanded { width: calc(100vw - 40px); }
+  .site-header-sticky .floating-nav-link { font-size: 12px; padding-inline: 6px; }
+  .site-header-sticky .floating-nav-dropdown-row-static button { font-size: 12px; padding-inline: 5px; }
+  .site-header-sticky:not(.site-header-sticky-overlay) .floating-nav-row { top: 90px; left: 20px; transform: none; }
+  .site-header-sticky.site-header-project, .site-header-sticky.site-header-department { height: 148px; min-height: 148px; }
+}
+
+/* Keep the title, curved renderings and all metrics within an iPad viewport. */
+@media (min-width: 701px) and (max-width: 1366px) {
+  .landing-hero-panel.landing-dark-gallery { padding: 108px 0 24px !important; justify-content: space-between; gap: 16px; }
+  .landing-gallery-intro { transform: none; }
+  .landing-gallery-intro .landing-hib-wordmark.cascade-text { font-size: clamp(76px, 8vw, 104px) !important; }
+  .landing-gallery-intro .landing-hib-name { font-size: clamp(36px, 3.6vw, 46px); }
+  .landing-cylinder-gallery { height: clamp(200px, 29svh, 280px); margin-top: 0; }
+  .landing-dark-gallery .landing-gallery-stats.landing-metric-band { margin-top: 0; padding-top: 12px; padding-bottom: 12px; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat { gap: 10px; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat b { font-size: clamp(34px, 3.4vw, 44px); }
+}
