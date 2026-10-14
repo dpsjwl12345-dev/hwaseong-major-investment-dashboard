@@ -109,6 +109,10 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
     delete fields["사업내용"];
   }
   const { steps, current, dates } = config;
+  const scaleText = hasCumulative ? fields["사업규모"] : fields["사업규모"]?.replace(/,?\s*주차대수\s*[:：]?\s*[^,]*/, "");
+  const scaleLines = project.id === "관광진흥과_총괄데이터.xlsx:Sheet1:10"
+    ? scaleText?.split(/\s+(?=-\s*[①-⑤])/)
+    : undefined;
   return (
     <>
     {titleContainer && createPortal(<h1 className="cs-project-title">{config.title ?? project.project_name}</h1>, titleContainer)}
@@ -121,7 +125,7 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
           <dl className="cs-overview-list">
             <div><dt>총사업비</dt><dd><b className="is-accent">{config.totalUndecided || !(total > 0) ? "미정" : won(total)}</b>{config.totalUndecided && <span>{config.totalUndecided}</span>}</dd></div>
             {fields["사업위치"] && <div><dt>위치</dt><dd><b>{fields["사업위치"]}{location && <span className="cs-location-meta"> · {location}</span>}</b></dd></div>}
-            {fields["사업규모"] && <div><dt>규모</dt><dd><b>{hasCumulative ? fields["사업규모"] : fields["사업규모"].replace(/,?\s*주차대수\s*[:：]?\s*[^,]*/, "")}</b></dd></div>}
+            {fields["사업규모"] && <div><dt>규모</dt><dd><b>{scaleLines ? scaleLines[0] : scaleText}</b>{scaleLines?.slice(1).map((line, index) => <small className="cs-scale-subline" key={index}>{line}</small>)}</dd></div>}
             {fields["사업기간"] && <div><dt>기간</dt><dd><b>{fields["사업기간"]}</b></dd></div>}
           </dl>
         </div>

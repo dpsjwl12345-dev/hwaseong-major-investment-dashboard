@@ -729,3 +729,12 @@
   .cs-budget-eq > .cs-eq .cs-eq-term b { font-size: 24px; }
   .cs-budget-eq > .cs-eq .cs-eq-term.total b { font-size: 28px; }
 }
+/* Road-by-road detail sits below the main scale without changing its type. */
+.cs-summary .cs-overview-list .cs-scale-subline {
+  display: block;
+  margin-top: 4px;
+  font-size: .85em;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--pd-muted);
+}
