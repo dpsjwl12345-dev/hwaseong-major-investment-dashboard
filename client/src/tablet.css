@@ -542,7 +542,7 @@
 }
 
 /* Both dashboards share visible, non-interactive foreground corner texture. */
-.project-backdrop-texture { z-index: 2; opacity: .65; }
+.project-backdrop-texture { z-index: 10; opacity: .65; }
 .project-backdrop-texture.is-lower-left { opacity: .45; }
 @media (max-width: 1000px) {
   .project-backdrop-texture { opacity: .55; }

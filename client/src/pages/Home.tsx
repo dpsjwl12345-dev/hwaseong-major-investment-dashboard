@@ -2081,10 +2081,10 @@ export default function Home() {
 
   return (
     <div className={`dashboard-shell flex min-h-screen flex-col bg-[var(--pd-ground)] text-white${activeView === "project" ? " is-project-view" : activeView === "department" ? " is-department-view" : ""}`}>
-      {(activeView === "project" || activeView === "department") && <>
+      {(activeView === "project" || activeView === "department") && createPortal(<>
         <div className="project-backdrop-texture" aria-hidden="true" />
         <div className="project-backdrop-texture is-lower-left" aria-hidden="true" />
-      </>}
+      </>, document.body)}
       {/* On the landing page the header floats over the full-height hero
           (no reserved space). On every other page it sits in normal flow
           and scrolls away with the content instead of staying pinned. */}
