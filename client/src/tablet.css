@@ -421,7 +421,7 @@
 /* Subtle folded texture in the upper-right corner of project pages. */
 .dashboard-shell { position: relative; isolation: isolate; }
 .project-backdrop-texture {
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   width: min(960px, 56vw);
@@ -486,7 +486,7 @@
 
 /* A faint, smaller counterpart to the upper-right folds. */
 .project-backdrop-texture.is-lower-left {
-  position: absolute;
+  position: fixed;
   top: auto;
   right: auto;
   bottom: 0;
