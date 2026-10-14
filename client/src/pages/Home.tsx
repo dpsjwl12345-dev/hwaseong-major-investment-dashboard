@@ -877,6 +877,7 @@ function LocationPanel({ project }: { project: Project }) {
   const typeOf = (src: string, index: number) => project.rendering_image_types?.[index] ?? (isLocationImage(src) ? "위치도" : "조감도");
   const entries = renderings
     .map((src, index) => ({ src, index, type: typeOf(src, index) }))
+    .filter((entry, index, all) => all.findIndex((other) => other.src === entry.src) === index)
     .sort((a, b) => (a.type === b.type ? a.index - b.index : a.type === "위치도" ? -1 : 1));
   const countOf = (type: string) => entries.filter((entry) => entry.type === type).length;
   const seen: Record<string, number> = {};

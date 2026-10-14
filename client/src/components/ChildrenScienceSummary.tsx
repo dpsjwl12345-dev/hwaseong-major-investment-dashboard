@@ -12,6 +12,7 @@ export { isRenewedProject, PROJECT_RENEWAL };
 export type RenewalProject = {
   id: string;
   project_name: string;
+  name?: string;
   current_stage?: string | null;
   progress_rate?: number | null;
   region?: string | null;
@@ -79,7 +80,10 @@ function ProgressMeter({ label, value, note }: { label: string; value: number | 
 
 // 사진(조감도 우선) · 사업 개요 · 지금 이 사업은(진척도·집행률·성격별 단계·핵심 날짜)
 export function ChildrenScienceSummary({ project, total }: { project: RenewalProject; total: number }) {
-  const config: RenewalConfig | undefined = PROJECT_RENEWAL[project.id];
+  const baseConfig: RenewalConfig | undefined = PROJECT_RENEWAL[project.id];
+  const config = baseConfig && project.id === "관광진흥과_총괄데이터.xlsx:Sheet1:7" && project.name === "궁평주차장"
+    ? { ...baseConfig, current: 0, currentNote: "2027.9. 도시관리계획 결정(변경) 예정", dates: [{ label: "실시계획인가", value: "2027.12." }, { label: "공사 착공", value: "2028.9." }, { label: "준공", value: "2028.12." }] }
+    : baseConfig;
   const summaryRef = useRef<HTMLElement>(null);
   const [titleContainer, setTitleContainer] = useState<HTMLElement | null>(null);
   useEffect(() => {
@@ -110,8 +114,8 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
   }
   const { steps, current, dates } = config;
   const scaleText = hasCumulative ? fields["사업규모"] : fields["사업규모"]?.replace(/,?\s*주차대수\s*[:：]?\s*[^,]*/, "");
-  const scaleLines = project.id === "관광진흥과_총괄데이터.xlsx:Sheet1:10"
-    ? scaleText?.split(/\s+(?=-\s*[①-⑤])/)
+  const scaleLines = ["관광진흥과_총괄데이터.xlsx:Sheet1:10", "관광진흥과_총괄데이터.xlsx:Sheet1:7"].includes(project.id)
+    ? scaleText?.split(/\s+(?=-\s)/)
     : undefined;
   return (
     <>
