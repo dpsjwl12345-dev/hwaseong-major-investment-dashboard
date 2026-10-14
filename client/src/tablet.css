@@ -486,7 +486,7 @@
 
 /* A faint, smaller counterpart to the upper-right folds. */
 .project-backdrop-texture.is-lower-left {
-  position: fixed;
+  position: absolute;
   top: auto;
   right: auto;
   bottom: 0;
