@@ -672,3 +672,16 @@
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: "Sunflower";
+  src: url("/fonts/Sunflower-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+.landing-dark-gallery .landing-metric-band .landing-hero-stat > em {
+  font-family: "Sunflower", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
