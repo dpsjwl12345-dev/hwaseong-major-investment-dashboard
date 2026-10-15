@@ -6,6 +6,7 @@ import superjson from "superjson";
 import App from "./App";
 import "./index.css";
 import "./tablet.css";
+import "./app-layout.css";
 
 const queryClient = new QueryClient();
 

@@ -1654,7 +1654,7 @@ function FloatingNavBar({
   // navOrganization은 overrides가 반영된 liveOrganization이어야 한다 — 관리자가 부서별
   // 현황 표에서 사업 순서를 바꾸면(serial 변경) 이 드롭다운도 같은 순서로 보여야 하기 때문.
   const projectsByDepartment = navOrganization.flatMap((bureau) => bureau.departments);
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(() => !window.matchMedia("(max-width: 700px)").matches);
   const [isDeptOpen, setIsDeptOpen] = useState(false);
   const [openDeptName, setOpenDeptName] = useState<string | null>(null);
   const [showProjects, setShowProjects] = useState(false);
@@ -1989,8 +1989,9 @@ export default function Home() {
   const [siteUnlocked, setSiteUnlocked] = useState(() => typeof window !== "undefined" && localStorage.getItem(SITE_UNLOCK_STORAGE_KEY) === "1");
   const overridesQuery = trpc.projectContent.list.useQuery();
   const liveProjects = useMemo(() => {
+    const overridesById = new Map(overridesQuery.data?.map((item) => [item.projectId, item]));
     const overridden = projects.map((project) => {
-      const override = overridesQuery.data?.find((item) => item.projectId === project.id);
+      const override = overridesById.get(project.id);
       return override ? { ...project, ...(override.payload as Partial<Project>) } : project;
     });
     // 부서별 현황 표에서 관리자가 새로 추가한 사업은 정적 데이터셋에 없어서 위 map으로는 안 잡힌다.
@@ -2029,7 +2030,7 @@ export default function Home() {
   const normalizedQuery = query.trim().toLowerCase();
   const visibleOrganization = useMemo(
     () =>
-      buildOrganization(liveProjects)
+      liveOrganization
         .map((bureau) => ({
           ...bureau,
           departments: bureau.departments
@@ -2042,7 +2043,7 @@ export default function Home() {
             .filter((department) => department.projects.length > 0),
         }))
         .filter((bureau) => bureau.departments.length > 0),
-    [normalizedQuery, liveProjects],
+    [normalizedQuery, liveOrganization],
   );
   const searchMatches = useMemo(
     () =>

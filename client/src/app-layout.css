@@ -1,0 +1,80 @@
+/* Compact app windows use content-sized headers rather than desktop offsets. */
+@media (max-width: 700px) {
+  .dashboard-shell > .site-header-sticky {
+    position: relative;
+    inset: auto;
+    height: auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: max(16px, env(safe-area-inset-top)) 16px 20px;
+  }
+
+  .dashboard-shell > .site-header-sticky .site-logo-mark,
+  .dashboard-shell > .site-header-sticky .floating-nav-row {
+    position: relative;
+    inset: auto;
+    transform: none;
+    max-width: 100%;
+  }
+
+  .dashboard-shell > .site-header-sticky .site-logo-mark { align-self: flex-start; }
+  .dashboard-shell > .site-header-sticky .floating-nav-row { width: 100%; }
+  .site-header-sticky .floating-nav.is-expanded {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    padding: 8px;
+  }
+  .site-header-sticky .floating-nav.is-expanded > .floating-nav-item { display: contents; }
+  .site-header-sticky .floating-nav-dropdown-row-static {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 4px;
+  }
+  .site-header-sticky .floating-nav-dropdown-row-static button {
+    min-height: 44px;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .site-header-sticky .floating-nav-dept-item { position: static; }
+  .site-header-sticky .floating-nav-dropdown-projects-anchored {
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 50svh;
+    overflow-y: auto;
+  }
+
+  .landing-hero-panel.landing-dark-gallery {
+    height: auto;
+    min-height: 0;
+    padding: 12px 0 max(24px, env(safe-area-inset-bottom)) !important;
+    gap: 20px;
+  }
+  .landing-gallery-intro { transform: none; padding-inline: 16px; }
+  .landing-gallery-intro .landing-hib-name { font-size: clamp(26px, 7vw, 34px); }
+  .landing-cylinder-gallery { height: clamp(160px, 27svh, 220px); margin-top: 0; }
+  .landing-dark-gallery .landing-gallery-stats.landing-metric-band { margin: 0 auto; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat { min-width: 0; }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat b { flex-wrap: wrap; }
+}
+
+@media (max-width: 420px) {
+  .landing-dark-gallery .landing-gallery-stats.landing-metric-band {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 0 16px;
+  }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat,
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child {
+    align-items: flex-start;
+    border: 0;
+    border-bottom: 1px solid #ffffff1a;
+    padding: 16px 0 !important;
+  }
+  .landing-dark-gallery .landing-metric-band .landing-hero-stat:first-child::after { display: none; }
+}
