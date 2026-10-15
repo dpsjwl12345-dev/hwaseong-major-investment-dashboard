@@ -655,7 +655,7 @@
   max-width: 100%;
   padding-inline: 0;
   margin: 4px 0 12px;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "Bebas Neue", sans-serif;
   font-size: clamp(10px, 1.12vw, 16px);
   font-weight: 400;
   line-height: 1.5;
@@ -663,4 +663,12 @@
   color: #a8bacb;
   text-align: center;
   white-space: nowrap;
+}
+
+@font-face {
+  font-family: "Bebas Neue";
+  src: url("/fonts/BebasNeue-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }

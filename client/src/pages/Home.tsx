@@ -1804,7 +1804,7 @@ function LandingPage() {
     const context = canvas.getContext("2d");
     const fit = () => {
       if (!context) return;
-      context.font = '400 100px "IBM Plex Sans"';
+      context.font = '400 100px "Bebas Neue"';
       const text = subtitle.textContent ?? "";
       const units = context.measureText(text).width / 100 + text.length * .12;
       const width = title.getBoundingClientRect().width;
