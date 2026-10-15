@@ -685,3 +685,15 @@
   font-weight: 500;
   font-style: normal;
 }
+
+.landing-dark-gallery .landing-metric-band .landing-hero-stat b > small {
+  font-family: "Sunflower", sans-serif;
+  font-weight: 500;
+}
+
+.landing-dark-gallery .landing-metric-band .landing-hero-stat b {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}

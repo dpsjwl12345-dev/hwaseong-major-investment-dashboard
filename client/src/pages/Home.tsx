@@ -56,7 +56,7 @@ import { InvestmentReviewBoard } from "../components/InvestmentReviewBoard";
 import { Timeline, TimelineContent, TimelineDate, TimelineHeader, TimelineIndicator, TimelineItem, TimelineSeparator } from "@/components/ui/timeline";
 import { InteractiveSelector } from "@/components/ui/interactive-selector";
 import { BudgetDetailPanel, hasBudgetDetail } from "../components/BudgetDetailPanel";
-import { CHILDREN_SCIENCE_ID, ChildrenScienceSummary, ChildrenScienceBudgetSummary, isRenewedProject } from "../components/ChildrenScienceSummary";
+import { CHILDREN_SCIENCE_ID, ChildrenScienceSummary, ChildrenScienceBudgetSummary, isRenewedProject, PROJECT_RENEWAL } from "../components/ChildrenScienceSummary";
 // 예산 숫자는 화면마다 따로 읽지 않는다 — 전부 이 한 함수를 거친다.
 import { deriveProjectBudget } from "../lib/projectBudget";
 
@@ -875,8 +875,14 @@ function LocationPanel({ project }: { project: Project }) {
   const cardTitle = `위치도·${imagesTitle}`;
   // 이미지마다 종류(위치도/조감도)를 붙이고, 위치도를 먼저 → 조감도 순으로 보여준다(같은 종류끼리는 원래 순서).
   const typeOf = (src: string, index: number) => project.rendering_image_types?.[index] ?? (isLocationImage(src) ? "위치도" : "조감도");
+  const summaryConfig = PROJECT_RENEWAL[project.id];
+  const firstBirdIndex = project.rendering_image_types?.findIndex((type) => type === "조감도") ?? -1;
+  const summaryIndex = summaryConfig?.imageIndex ?? (firstBirdIndex >= 0 ? firstBirdIndex : 0);
+  const summaryImage = summaryConfig && summaryIndex >= 0 && typeOf(renderings[summaryIndex] ?? "", summaryIndex) === "조감도"
+    ? renderings[summaryIndex] : undefined;
   const entries = renderings
     .map((src, index) => ({ src, index, type: typeOf(src, index) }))
+    .filter((entry) => entry.src !== summaryImage)
     .filter((entry, index, all) => all.findIndex((other) => other.src === entry.src) === index)
     .sort((a, b) => (a.type === b.type ? a.index - b.index : a.type === "위치도" ? -1 : 1));
   const countOf = (type: string) => entries.filter((entry) => entry.type === type).length;
@@ -892,14 +898,15 @@ function LocationPanel({ project }: { project: Project }) {
     };
   });
 
+  if (entries.length === 0) return null;
   return (
     <div className="pd-card">
       <div className="pd-card-title"><DetailSectionHeading icon={GalleryIcon} title={cardTitle} /></div>
       {/* 펼쳐진 이미지를 다시 누르면 확대 보기(확대 보기는 원래 이미지 순서 기준) */}
-      <InteractiveSelector options={options} onActiveClick={(index) => setLightboxIndex(entries[index].index)} />
+      <InteractiveSelector options={options} onActiveClick={(index) => setLightboxIndex(index)} />
       {lightboxIndex !== null && (
         <RenderingLightbox
-          images={renderings}
+          images={entries.map((entry) => entry.src)}
           index={lightboxIndex}
           projectName={project.project_name}
           onClose={() => setLightboxIndex(null)}
