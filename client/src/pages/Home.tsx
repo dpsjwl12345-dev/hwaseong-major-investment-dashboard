@@ -1794,6 +1794,28 @@ function LandingBudgetAmount({ value }: { value: number }) {
 }
 
 function LandingPage() {
+  const subtitleRef = useRef<HTMLSpanElement>(null);
+  const koreanTitleRef = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const subtitle = subtitleRef.current;
+    const title = koreanTitleRef.current;
+    if (!subtitle || !title) return;
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    const fit = () => {
+      if (!context) return;
+      context.font = '400 100px "IBM Plex Sans"';
+      const text = subtitle.textContent ?? "";
+      const units = context.measureText(text).width / 100 + text.length * .12;
+      const width = title.getBoundingClientRect().width;
+      subtitle.style.width = `${width}px`;
+      subtitle.style.fontSize = `${width / units}px`;
+    };
+    const observer = new ResizeObserver(fit);
+    observer.observe(title);
+    void document.fonts.ready.then(fit);
+    return () => observer.disconnect();
+  }, []);
   const statsRef = useRef<HTMLDivElement>(null);
   const [numbersComplete, setNumbersComplete] = useState(false);
   useEffect(() => {
@@ -1837,7 +1859,7 @@ function LandingPage() {
       <div className="hero-panel landing-hero-panel landing-dark-gallery">
         <div className="landing-gallery-grid" aria-hidden="true" />
         <div className={`landing-gallery-intro${numbersComplete ? " is-metrics-complete" : ""}`}>
-          <h1 className="landing-hib-title"><TextReveal text="HIB" autoPlay={numbersComplete} as="button" className="landing-hib-wordmark" fontSize="clamp(84px, 9vw, 128px)" color="#E8AC42" hoverColor="#FFF0CE" staggerDelay={65} duration={450} easing="cubic-bezier(.16,1,.3,1)" style={{ padding: "0.08em", lineHeight: 1 }} /><span className="landing-hib-subtitle">HWASEONG SPECIAL CITY INVESTMENT BOARD</span><span className="landing-hib-name">화성시 주요투자사업 보드</span></h1>
+          <h1 className="landing-hib-title"><TextReveal text="HIB" autoPlay={numbersComplete} as="button" className="landing-hib-wordmark" fontSize="clamp(84px, 9vw, 128px)" color="#E8AC42" hoverColor="#FFF0CE" staggerDelay={65} duration={450} easing="cubic-bezier(.16,1,.3,1)" style={{ padding: "0.08em", lineHeight: 1 }} /><span ref={subtitleRef} className="landing-hib-subtitle">HWASEONG SPECIAL CITY INVESTMENT BOARD</span><span ref={koreanTitleRef} className="landing-hib-name">화성시 주요투자사업 보드</span></h1>
         </div>
         <TiltedGridHero
           images={galleryPanels.map((panel) => ({ src: panel.image }))}
