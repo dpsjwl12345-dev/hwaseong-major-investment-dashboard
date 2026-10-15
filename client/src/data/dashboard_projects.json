@@ -12670,7 +12670,6 @@
       "project_name": "제부도 무궤도 관광순환열차",
       "rendering_images": [
         "/renderings/tourism-jebudo-train/ai-v3.jpg",
-        "/renderings/tourism-jebudo-train/vehicle.png",
         "/renderings/tourism-jebudo-train/route.png",
         "/renderings/tourism-jebudo-train/garage-location.png",
         "/renderings/tourism-jebudo-train/garage-plan-1.png",
@@ -12678,14 +12677,13 @@
       ],
       "rendering_image_types": [
         "조감도",
-        "조감도",
         "위치도",
         "위치도",
         "조감도",
         "조감도"
       ],
       "overview_images_title": "",
-      "overview": "○ 사업위치: 화성시 만세구 서신면 제부리 일원(제부도 전역)\n○ 사업규모: 무궤도 관광순환열차 2편성 및 정류장·차고지 등 기반시설 조성\n- 노선: 기존 도로체계를 활용한 해안 일주형 순환노선 5.33km, 약 24분\n- 차량: 동력차 1량 + 객차 2량, 편성당 총 정원 51명(동력차 3명, 객차 48명)\n- 매표소: 서해랑케이블카·어촌체험마을·매바위광장 등 3개소\n- 차고지: 어촌체험마을 일원 기존 노상주차장 약 25면 활용, 조성안 A=600㎡\n○ 사업기간: 2027.01.01. ~ 2028.07.31.\n○ 소요예산: 1,983백만원\n○ 사업내용: 제부도 주요 관광거점을 연결하는 순환형 관광교통체계 구축으로 관광객 이동편의 증진",
+      "overview": "○ 사업위치: 화성시 만세구 서신면 제부리 일원(제부도 전역)\n○ 사업규모: 무궤도 관광순환열차 2편성 및 정류장·차고지 등 기반시설 조성\n- 매표소: 서해랑케이블카·어촌체험마을·매바위광장 등 3개소\n- 차고지: 어촌체험마을 일원 기존 노상주차장 약 25면 활용, 조성안 A=600㎡\n○ 사업기간: 2027.01.01. ~ 2028.07.31.\n○ 소요예산: 1,983백만원\n○ 사업내용: 제부도 주요 관광거점을 연결하는 순환형 관광교통체계 구축으로 관광객 이동편의 증진",
       "category": "문화관광시설",
       "current_stage": "도입 검토·연구 용역",
       "funding_type": "",
