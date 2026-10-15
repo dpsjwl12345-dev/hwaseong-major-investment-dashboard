@@ -23,6 +23,14 @@ export type RenewalConfig = {
 };
 
 export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
+  "tourism-jebudo-trackless-train": {
+    imageCaption: "관광순환열차 차량 제작안 · 검토보고서 제시안",
+    steps: ["도입 검토·연구", "설계·특례 협의", "제조·구매 계약", "제작·기반시설 조성", "시범·정식운행"],
+    current: 0,
+    currentLabel: "도입 검토·연구 용역",
+    currentNote: "보고서 기준 · 용역 준공 여부 별도 확인",
+    dates: [{ label: "설계 착수 예정", value: "2027.1." }, { label: "시범운행 예정", value: "2028.5." }, { label: "정식운행 예정", value: "2028.8." }],
+  },
   // 문화예술과 ─────────────────────────────────────────────
   "총괄데이터_5.xlsx:문화예술과:6": {
     title: "화성시 어린이 테마 과학관 건립",

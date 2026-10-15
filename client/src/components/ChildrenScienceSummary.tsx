@@ -114,7 +114,7 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
   }
   const { steps, current, dates } = config;
   const scaleText = hasCumulative ? fields["사업규모"] : fields["사업규모"]?.replace(/,?\s*주차대수\s*[:：]?\s*[^,]*/, "");
-  const scaleLines = ["관광진흥과_총괄데이터.xlsx:Sheet1:10", "관광진흥과_총괄데이터.xlsx:Sheet1:7"].includes(project.id)
+  const scaleLines = ["관광진흥과_총괄데이터.xlsx:Sheet1:10", "관광진흥과_총괄데이터.xlsx:Sheet1:7", "tourism-jebudo-trackless-train"].includes(project.id)
     ? scaleText?.split(/\s+(?=-\s)/)
     : undefined;
   return (
