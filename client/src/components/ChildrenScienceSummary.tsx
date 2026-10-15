@@ -32,13 +32,13 @@ export type RenewalProject = {
 const won = (million: number) => `${(million / 100).toLocaleString("ko-KR", { maximumFractionDigits: 0 })}억 원`;
 
 // 사업개요 원문("○ 항목: 내용")에서 항목별 값을 꺼낸다. 값이 여러 줄이면 다음 ○ 전까지 이어 붙인다.
-const overviewFields = (text: string | null | undefined) => {
+const overviewFields = (text: string | null | undefined, preserveLines = false) => {
   const fields: Record<string, string> = {};
   let key = "";
   for (const line of (text ?? "").split("\n")) {
     const m = line.match(/^\s*○\s*([^:：]+)[:：]\s*(.*)$/);
     if (m) { key = m[1].trim(); fields[key] = m[2].trim(); }
-    else if (key && line.trim()) fields[key] = `${fields[key]} ${line.trim()}`.trim();
+    else if (key && line.trim()) fields[key] = `${fields[key]}${preserveLines ? "\n" : " "}${line.trim()}`.trim();
   }
   return fields;
 };
@@ -104,7 +104,8 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
     ? Math.round(project.card_execution_amount_million_krw / project.card_execution_budget_million_krw * 100)
     : project.card_execution_rate ?? null;
   const location = [project.contact, project.district, project.town].filter(Boolean).join(" · ");
-  const fields = overviewFields(project.overview);
+  const isJebudoRoad = project.id === "관광진흥과_총괄데이터.xlsx:Sheet1:10";
+  const fields = overviewFields(project.overview, isJebudoRoad);
   // "사업량"으로 적힌 사업(도로 등)은 규모로 본다.
   if (!fields["사업규모"] && fields["사업량"]) fields["사업규모"] = fields["사업량"];
   // 사업규모 칸이 없고 사업내용이 면적·층수 같은 규모 설명이면 규모 줄로 옮긴다(제목 아래 한 줄은 짧은 소개만).
@@ -114,7 +115,7 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
   }
   const { steps, current, dates } = config;
   const scaleText = hasCumulative ? fields["사업규모"] : fields["사업규모"]?.replace(/,?\s*주차대수\s*[:：]?\s*[^,]*/, "");
-  const scaleLines = ["관광진흥과_총괄데이터.xlsx:Sheet1:10", "관광진흥과_총괄데이터.xlsx:Sheet1:7", "tourism-jebudo-trackless-train"].includes(project.id)
+  const scaleLines = isJebudoRoad ? scaleText?.split("\n") : ["관광진흥과_총괄데이터.xlsx:Sheet1:7", "tourism-jebudo-trackless-train"].includes(project.id)
     ? scaleText?.split(/\s+(?=-\s)/)
     : undefined;
   return (

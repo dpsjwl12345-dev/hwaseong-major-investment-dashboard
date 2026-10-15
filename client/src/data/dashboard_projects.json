@@ -2395,11 +2395,11 @@
         "조감도",
         "위치도"
       ],
-      "overview": "○ 사업위치: 화성시 만세구 향남읍,남양읍,팔탄면 일원\n○ 사업규모:\n○ 사업기간: 2026.09. ~ 2027.09.\n○ 사업내용: 서해선 교량하부 유휴부지 내 체육시설 조성",
+      "overview": "○ 사업위치: 화성시 만세구 향남읍,남양읍,팔탄면 일원\n○ 사업규모: 1구간(게이트볼장), 2구간(다목적구장, 족구장), 3구간(게이트볼장, 테니스장), 4구간(다목적구장, 배드민턴장), 5구간(게이트볼장, 다목적구장)\n○ 사업기간: 2026.09. ~ 2027.09.\n○ 사업내용: 서해선 교량하부 유휴부지 내 체육시설 조성",
       "category": "체육시설",
       "current_stage": "설계",
       "funding_type": "소계",
-      "total_cost_million_krw": 4791,
+      "total_cost_million_krw": 2837,
       "invested_to_2026_million_krw": null,
       "budget_2027_million_krw": 2837,
       "execution_rate": 0,
@@ -2407,7 +2407,7 @@
       "progress_rate": 0,
       "expected_completion": "0%",
       "progress_notes": "0",
-      "future_plan": "",
+      "future_plan": "○ 2027.03.: 공사 착공\n○ 2027.07.: 공사 착공",
       "inspection": "2027.09.",
       "delay_reason": "양호",
       "administrative_procedures": "",
@@ -2419,7 +2419,7 @@
       "last_saved": "육동현\n(6188)",
       "management_card_matched": true,
       "management_card_source": "주요투자사업 관리카드 1.hwpx",
-      "card_total_budget_million_krw": 4791,
+      "card_total_budget_million_krw": 2837,
       "card_invested_to_2026_million_krw": null,
       "card_budget_2027_million_krw": 2837,
       "card_budget_2027_base_million_krw": null,
@@ -2460,7 +2460,7 @@
         },
         {
           "name": "시비",
-          "total": 4791,
+          "total": 2837,
           "invested": null,
           "budget_2026": 0,
           "budget_2027": 2837,
@@ -2527,7 +2527,7 @@
         },
         {
           "name": "공사",
-          "total": 4791,
+          "total": 2837,
           "invested": null,
           "budget_2026": 0,
           "budget_2027": 2837,
@@ -2578,13 +2578,14 @@
           "budget_2026_additional": null
         }
       ],
-      "card_admin_procedures": "투·융자심사(2025.03.05.)",
+      "card_admin_procedures": "투·융자심사(2025.03.05. / 3,500백만원 / 조건부 추진)",
       "card_admin_legal_basis": "□ 법, 조례, 규칙 ■ 정책사업",
       "card_admin_status": {
         "mid_term_fiscal": false,
         "investment_review": true,
         "public_property": false,
-        "none": false
+        "none": false,
+        "investment_review_date": "2025.03.05."
       },
       "card_invested_to_2025_million_krw": null,
       "card_budget_2026_million_krw": 0,
@@ -7932,7 +7933,7 @@
           "amount_million_krw": 1667.85884
         }
       ],
-      "overview": "○ 사업위치: 서신면 제부리 일원\n○ 사업량: L=2,030m, B=8~15m, 면적 A=28,172㎡(총 필지 수: 143필지)\n- ① 중로2-3호선(L=885m, B=15m)\n- ③ 중로2-2호선(L=102m, B=15m) [회전교차로 설치구간]\n- ② 소로1-7호선(L=71m, B=10m)\n- ④ 소로1-8호선(L=308m, B=10m)\n- ⑤ 소로2-1호선(L=664m, B=8m) 일부\n○ 사업기간: 2023. ~ 2027.\n○ 소요예산: 17,898백만원(보상비 10,398백만원, 공사비 등 7,000백만원, 용역비 500백만원)\n○ 근거법령: 「국토의 계획 및 이용에 관한 법률」\n○ 사업내용: 제부도 북측도로 교통관광 인프라 확충",
+      "overview": "○ 사업위치: 서신면 제부리 일원\n○ 사업량: L=2,030m, B=8~15m, 면적 A=28,172㎡(총 필지 수: 143필지)\n① 중로2-3호선(L=885m, B=15m), ③ 중로2-2호선(L=102m, B=15m) [회전교차로 설치구간]\n② 소로1-7호선(L=71m, B=10m), ④ 소로1-8호선(L=308m, B=10m), ⑤ 소로2-1호선(L=664m, B=8m) 일부\n○ 사업기간: 2023. ~ 2027.\n○ 소요예산: 17,898백만원(보상비 10,398백만원, 공사비 등 7,000백만원, 용역비 500백만원)\n○ 근거법령: 「국토의 계획 및 이용에 관한 법률」\n○ 사업내용: 제부도 북측도로 교통관광 인프라 확충",
       "category": "도로1(시도·농어촌)",
       "current_stage": "부지확보 및 보상",
       "funding_type": "소계",

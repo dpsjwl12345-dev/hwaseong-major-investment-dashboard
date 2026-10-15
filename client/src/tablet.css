@@ -618,3 +618,9 @@
   .landing-dark-gallery .landing-metric-band .landing-hero-stat { gap: 10px; }
   .landing-dark-gallery .landing-metric-band .landing-hero-stat b { font-size: clamp(34px, 3.4vw, 44px); }
 }
+
+/* Bridge sports-facility cost table: readable locations and facilities. */
+.pd-card.bd-location-cost-card > .pd-card-title { display: flex; width: 100%; align-items: baseline; justify-content: space-between; }
+.pd-card.bd-location-cost-card > .pd-card-title .bd-unit { margin-left: auto; white-space: nowrap; }
+.pd-detail-page .pd-card.bd-location-cost-card .bd-location-cost :is(th, td):nth-child(2),
+.pd-detail-page .pd-card.bd-location-cost-card .bd-location-cost :is(th, td):nth-child(3) { font-size: 18px; }

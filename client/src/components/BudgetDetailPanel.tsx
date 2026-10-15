@@ -343,8 +343,8 @@ function ExecutionSummary({ budget, spend, selectedYear, spendDetail = false, co
 function GridTable({ section }: { section: GridSection }) {
   const tableWidth = section.widths.reduce((sum, width) => sum + width, 0);
   return (
-    <div className="pd-card bd-card">
-      <div className="pd-card-title" style={{ maxWidth: tableWidth }}>
+    <div className={`pd-card bd-card${section.variant === "location-cost" ? " bd-location-cost-card" : ""}`}>
+      <div className="pd-card-title" style={{ maxWidth: section.variant === "location-cost" ? undefined : tableWidth }}>
         <span>{section.title}</span>
         {section.unit && <span className="bd-unit">[단위: {section.unit}]</span>}
       </div>
