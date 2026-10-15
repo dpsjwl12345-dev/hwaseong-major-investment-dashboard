@@ -29,7 +29,7 @@ export type RenewalProject = {
   cumulative_execution_amount_million_krw?: number;
 };
 
-const won = (million: number) => `${(million / 100).toLocaleString("ko-KR", { maximumFractionDigits: 0 })}억 원`;
+const won = (million: number, decimals = 0) => `${(million / 100).toLocaleString("ko-KR", { maximumFractionDigits: decimals })}억 원`;
 
 // 사업개요 원문("○ 항목: 내용")에서 항목별 값을 꺼낸다. 값이 여러 줄이면 다음 ○ 전까지 이어 붙인다.
 const overviewFields = (text: string | null | undefined, preserveLines = false) => {
@@ -128,7 +128,7 @@ export function ChildrenScienceSummary({ project, total }: { project: RenewalPro
           <p className="cs-overview-eyebrow"><span>사업 개요</span><span className="cs-overview-basis">자료 기준 2026.9.</span></p>
           {fields["사업내용"] && <p className="cs-overview-lead">{fields["사업내용"]}</p>}
           <dl className="cs-overview-list">
-            <div><dt>총사업비</dt><dd><b className="is-accent">{config.totalUndecided || !(total > 0) ? "미정" : won(total)}</b>{config.totalUndecided && <span>{config.totalUndecided}</span>}</dd></div>
+            <div><dt>총사업비</dt><dd><b className="is-accent">{config.totalUndecided || !(total > 0) ? "미정" : won(total, config.totalDecimals)}</b>{config.totalUndecided && <span>{config.totalUndecided}</span>}</dd></div>
             {fields["사업위치"] && <div><dt>위치</dt><dd><b>{fields["사업위치"]}{location && <span className="cs-location-meta"> · {location}</span>}</b></dd></div>}
             {fields["사업규모"] && <div><dt>규모</dt><dd><b>{scaleLines ? scaleLines[0] : scaleText}</b>{scaleLines?.slice(1).map((line, index) => <small className="cs-scale-subline" key={index}>{line}</small>)}</dd></div>}
             {fields["사업기간"] && <div><dt>기간</dt><dd><b>{fields["사업기간"]}</b></dd></div>}

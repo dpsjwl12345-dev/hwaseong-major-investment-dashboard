@@ -624,3 +624,21 @@
 .pd-card.bd-location-cost-card > .pd-card-title .bd-unit { margin-left: auto; white-space: nowrap; }
 .pd-detail-page .pd-card.bd-location-cost-card .bd-location-cost :is(th, td):nth-child(2),
 .pd-detail-page .pd-card.bd-location-cost-card .bd-location-cost :is(th, td):nth-child(3) { font-size: 18px; }
+
+/* Shared rounded corners for every budget detail table, including scrollable ones. */
+.pd-detail-page .pd-card.bd-card .bd-scroll,
+.pd-detail-page .route-budget-scroll {
+  border-radius: 12px;
+  overflow: auto;
+}
+.pd-detail-page .pd-card.bd-card :is(.tl-table, .sg-table, .mx-table, .pl-table, .bd-table),
+.pd-detail-page .route-budget-table {
+  border-radius: 12px;
+  clip-path: inset(0 round 12px);
+}
+/* Override the older small-text rule specifically for location/facility body cells. */
+.pd-detail-page .pd-card.bd-location-cost-card .bd-table.bd-grid.bd-location-cost tbody td:nth-child(2),
+.pd-detail-page .pd-card.bd-location-cost-card .bd-table.bd-grid.bd-location-cost tbody td:nth-child(3) {
+  font-size: 20px !important;
+  line-height: 1.5;
+}

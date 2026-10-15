@@ -6,6 +6,7 @@
 export type RenewalDate = { label: string; value: string };
 export type RenewalExecution = { budget2026: number; carryover: number; carryoverType?: string; executed: number; amountDecimals?: number };
 export type RenewalConfig = {
+  totalDecimals?: number;
   title?: string;
   // 대표 사진으로 쓸 rendering_images 순번(없으면 첫 조감도).
   imageIndex?: number;
@@ -331,6 +332,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     dates: [{ label: "투자심사 완료", value: "2028.7." }, { label: "공사 착공 예정", value: "2033.3." }, { label: "준공 예정", value: "2035.12." }],
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:12": {
+    totalDecimals: 1,
     imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["실시설계", "훈련시설 공사", "잔디 생착·완료"],
     current: 0,
