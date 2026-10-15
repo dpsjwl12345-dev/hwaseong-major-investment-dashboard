@@ -214,8 +214,8 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     // 예산현액·집행은 '중로2-3호선 외 3개소 개설' 단위 기준.
     steps: ["토지보상", "도로 개설 공사", "준공"],
     current: 0,
-    currentNote: "2026.8. 수용재결 개시",
-    dates: [{ label: "수용재결 개시", value: "2026.8." }, { label: "사업 완료", value: "2027." }],
+    currentNote: "보상·수용재결 추진 · 착공 완료 여부 미확인",
+    dates: [{ label: "착공·선금 예정", value: "2026.10." }, { label: "보상 완료 예정", value: "2026.12." }, { label: "도로 준공 예정", value: "2027.12." }],
     execution2026: { budget2026: 8398, carryover: 1668, carryoverType: "계속비이월", executed: 3540 },
   },
   // 도서관정책과 ─────────────────────────────────────────────
