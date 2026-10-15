@@ -1859,7 +1859,7 @@ function LandingPage() {
       <div className="hero-panel landing-hero-panel landing-dark-gallery">
         <div className="landing-gallery-grid" aria-hidden="true" />
         <div className={`landing-gallery-intro${numbersComplete ? " is-metrics-complete" : ""}`}>
-          <h1 className="landing-hib-title"><TextReveal text="HIB" autoPlay={numbersComplete} as="button" className="landing-hib-wordmark" fontSize="clamp(84px, 9vw, 128px)" color="#E8AC42" hoverColor="#FFF0CE" staggerDelay={65} duration={450} easing="cubic-bezier(.16,1,.3,1)" style={{ padding: "0.08em", lineHeight: 1 }} /><span ref={subtitleRef} className="landing-hib-subtitle">HWASEONG SPECIAL CITY INVESTMENT BOARD</span><span ref={koreanTitleRef} className="landing-hib-name">화성시 주요투자사업 보드</span></h1>
+          <h1 className="landing-hib-title"><TextReveal text="HIB" autoPlay={numbersComplete} as="button" className="landing-hib-wordmark" fontSize="clamp(84px, 9vw, 128px)" color="#E8AC42" hoverColor="#FFF0CE" staggerDelay={65} duration={450} easing="cubic-bezier(.16,1,.3,1)" style={{ padding: "0.08em", lineHeight: 1 }} /><span ref={subtitleRef} className="landing-hib-subtitle">HWASEONG SPECIAL CITY INVESTMENT BOARD</span><span ref={koreanTitleRef} className="landing-hib-name">화성시 주요투자사업</span></h1>
         </div>
         <TiltedGridHero
           images={galleryPanels.map((panel) => ({ src: panel.image }))}
