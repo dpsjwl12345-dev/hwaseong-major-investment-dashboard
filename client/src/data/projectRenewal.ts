@@ -24,7 +24,6 @@ export type RenewalConfig = {
 
 export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
   "tourism-jebudo-trackless-train": {
-    imageCaption: "관광순환열차 차량 제작안 · 검토보고서 제시안",
     steps: ["도입 검토·연구", "설계·특례 협의", "제조·구매 계약", "제작·기반시설 조성", "시범·정식운행"],
     current: 0,
     currentLabel: "도입 검토·연구 용역",

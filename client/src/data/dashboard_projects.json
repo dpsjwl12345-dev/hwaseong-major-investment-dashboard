@@ -12669,6 +12669,7 @@
       "department": "관광진흥과",
       "project_name": "제부도 무궤도 관광순환열차",
       "rendering_images": [
+        "/renderings/tourism-jebudo-train/ai.jpg",
         "/renderings/tourism-jebudo-train/vehicle.png",
         "/renderings/tourism-jebudo-train/route.png",
         "/renderings/tourism-jebudo-train/garage-location.png",
@@ -12676,6 +12677,7 @@
         "/renderings/tourism-jebudo-train/garage-plan-2.png"
       ],
       "rendering_image_types": [
+        "조감도",
         "조감도",
         "위치도",
         "위치도",
