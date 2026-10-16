@@ -104,21 +104,10 @@
 .dmp-v3 .dmp-status-track{background:#ffffff0e}.dmp-v3 .dmp-status-track>i{background:linear-gradient(90deg,#9c91b7,#d1c3df)}
 .dmp-v3 .dmp-business-list,.dmp-v3 .dmp-progress-panel{scrollbar-color:#6b6579 transparent}
 @media(prefers-reduced-motion:reduce){.dmp-v3 .dmp-business-list>button{transition:none}}
-/* Start with the supplied road plan, rather than inventing route geometry. */
-.dmp-source-map{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;overflow:hidden;background:#e5ebe7;color:#31554b}
-.dmp-source-title{padding:19px 20px 15px;display:flex;flex-direction:column;gap:5px;border-bottom:1px solid #65877826;background:#f5f7f1}
-.dmp-source-title>strong{font-size:17px;font-weight:650}.dmp-source-title>span{font-size:12px;color:#7a9488}
-.dmp-source-viewport{position:relative;flex:1;min-height:0;overflow:hidden;display:flex;justify-content:center;align-items:center;touch-action:none;cursor:grab;padding:18px;background:radial-gradient(ellipse at center,#f6f7f0,#dbe5df)}
-.dmp-source-viewport:active{cursor:grabbing}.dmp-source-viewport>img{display:block;max-height:100%;max-width:100%;object-fit:contain;user-select:none;box-shadow:0 6px 25px #284b4140;transform-origin:center}
-.dmp-source-controls{display:flex;align-items:center;justify-content:center;gap:4px;padding:8px;background:#f5f7f1;border-top:1px solid #65877826}
-.dmp-source-controls>button{width:35px;height:33px;display:grid;place-items:center;border:0;border-radius:7px;background:transparent;color:#456c5e;cursor:pointer}.dmp-source-controls>button:hover{background:#486f5c12}.dmp-source-controls>span{font:500 12px "Pretendard",sans-serif;min-width:48px;text-align:center}
-.dmp-source-credit{padding:0 12px 9px;margin:0;text-align:center;font-size:10px;background:#f5f7f1;color:#82988c}
-.dmp-map-mode{position:absolute;z-index:5;top:17px;right:16px;display:flex;gap:3px;padding:4px;border:1px solid #93aa9c5e;border-radius:9px;background:#f6f8f1}
-.dmp-map-mode>button{border:0;border-radius:6px;padding:8px 10px;background:none;color:#7a9185;font:500 11px "Pretendard",sans-serif;cursor:pointer}.dmp-map-mode>button[aria-pressed="true"]{background:#2e6558;color:#f4f8ee}
-.dmp-map .is-source-hidden{display:none}.dmp-map.has-source-map .dmp-real-map{visibility:hidden}
-.dmp-source-map.is-expanded{position:fixed;inset:3vh 8vw;z-index:100;border:1px solid #9db3a5;border-radius:15px;box-shadow:0 0 0 100vmax #080f13cc}
-.dmp-map-unavailable{position:absolute;z-index:3;inset:0 0 64px;background:#e9efebf8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;color:#537165;padding:30px}.dmp-map-unavailable>strong{font-size:17px}.dmp-map-unavailable>p{font-size:13px;margin:0;color:#81998c}.dmp-map-unavailable>button{border:1px solid #557c68;border-radius:9px;background:#376957;color:#f1f5eb;font-size:13px;padding:12px 17px;margin-top:7px;cursor:pointer}
 .dmp-road-segments{margin-top:20px;padding:14px 12px;border:1px solid #ffffff18;border-radius:10px;background:#ffffff04}.dmp-road-segments>header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.dmp-road-segments h4{font-size:14px;margin:0;color:#d4c9b5}.dmp-road-segments>header>span{font-size:12px;color:#d9bc80}.dmp-road-segments>div{display:flex;gap:8px;padding:11px 0;border-top:1px solid #ffffff0b;align-items:center}.dmp-road-segments>div>b{font-size:12px;color:#b3a7c2;font-weight:500}.dmp-road-segments>div>span{flex:1}.dmp-road-segments strong{font-size:12px;font-weight:550;color:#d5cfdf}.dmp-road-segments small{display:block;font-size:10px;margin-top:4px;color:#9e97ad}.dmp-road-segments em{font:500 12px "Pretendard",sans-serif;color:#d9c49c;text-align:right}.dmp-road-segments>p{font-size:11px;line-height:1.6;color:#9b91a8;margin:12px 0 0}
 @media(max-width:1400px){.dmp-source-title{padding-top:70px}}@media(max-width:760px){.dmp-source-map.is-expanded{inset:1vh 2vw}.dmp-source-title{padding-top:65px}}
 
 @media(min-width:1201px){.dmp-v3 .dmp-workspace{height:calc(100svh - 280px)}}
+
+.dmp-project-count{gap:0}
+.dmp-tourism-brand{white-space:nowrap}
