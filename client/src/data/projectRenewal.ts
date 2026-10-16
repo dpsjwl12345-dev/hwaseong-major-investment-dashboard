@@ -24,6 +24,13 @@ export type RenewalConfig = {
 };
 
 export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
+  "culture-southwest-performance-hall": {
+    steps: ["부지선정·기본구상", "타당성조사·행정절차", "설계공모·설계", "공사·개관"],
+    current: 0,
+    currentLabel: "부지선정·기본구상 준비",
+    currentNote: "효행아트홀과 사업시기 조정·단계적 추진 예정",
+    dates: [{ label: "설계 착수 예정", value: "2029.7." }, { label: "공사 착공 예정", value: "2031.3." }, { label: "개관 예정", value: "2033.7." }],
+  },
   "tourism-jebudo-trackless-train": {
     steps: ["도입 검토·연구", "설계·특례 협의", "제조·구매 계약", "제작·기반시설 조성", "시범·정식운행"],
     current: 0,
@@ -36,14 +43,14 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     title: "화성시 어린이 테마 과학관 건립",
     steps: ["기획·부지 확보", "설계", "건축 공사", "전시 설치", "개관"],
     current: 1,
-    currentNote: "2026.9. 설계 준공 · 2027.3. 착공 예정",
+    currentNote: "2026.11. 기본·실시설계 준공 예정 · 2027.3. 착공 예정",
     dates: [{ label: "공사 착공 예정", value: "2027.3." }, { label: "준공 예정", value: "2028.10." }, { label: "과학관 개관", value: "2028.12." }],
     execution2026: { budget2026: 120, carryover: 4125, carryoverType: "계속비이월", executed: 1080 },
   },
   "총괄데이터_5.xlsx:문화예술과:7": {
     steps: ["기획·부지 확보", "설계", "건축 공사", "전시 설치", "개관"],
     current: 1,
-    currentNote: "2026.9. 설계 준공 · 2027.3. 착공 예정",
+    currentNote: "2027.1. 설계 재착수·도서 납품 예정 · 2027.3. 착공 예정",
     dates: [{ label: "공사 착공 예정", value: "2027.3." }, { label: "준공 예정", value: "2028.8." }, { label: "센터 개관", value: "2029.3." }],
   },
   "총괄데이터_5.xlsx:문화예술과:3": {
@@ -58,8 +65,8 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
   "총괄데이터_5.xlsx:문화예술과:2": {
     steps: ["설계", "공연장 조성 공사", "준공·개관"],
     current: 1,
-    currentNote: "2026.7. 착공 · 2027.4. 준공 예정",
-    dates: [{ label: "준공·개관", value: "2027.4." }],
+    currentNote: "2026.8. 착공 · 2027.5. 준공·개관 예정",
+    dates: [{ label: "준공·개관", value: "2027.5." }],
   },
   "총괄데이터_5.xlsx:문화예술과:1": {
     imageCaption: "현재 건물 기반 렌더링 이미지 · 리모델링 대상",
@@ -80,7 +87,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["사전 행정절차", "설계공모·설계", "건축 공사", "시범 운영·개관"],
     current: 0,
-    currentNote: "2026.12.~2027.3. 설계공모 진행 예정",
+    currentNote: "2027.2.~4. 설계공모 · 2027.4.~2028.2. 설계 예정",
     dates: [{ label: "공사 착공 예정", value: "2028.6." }, { label: "준공 예정", value: "2030.6." }, { label: "개관", value: "2030.10." }],
     execution2026: { budget2026: 22, carryover: 0, executed: 20.2312, amountDecimals: 4 },
   },
