@@ -22,6 +22,7 @@ import {
   Search,
   Lock,
   ArrowRight,
+  ArrowUpRight,
   Pencil,
   Save,
   Plus,
@@ -1458,6 +1459,7 @@ function DepartmentDashboard({
           <h1>{initialDepartment} 주요투자사업</h1>
         </div>
         <div className="dept-dashboard-search">
+          {initialDepartment === "관광진흥과" && <a href="/department-map-preview" className="dept-map-preview-link">지도 시안 <ArrowUpRight size={14} /></a>}
           <PodaSearch value={projectSearch} onChange={setProjectSearch} projects={departmentProjects} onSelectProject={onSelectProject} />
         </div>
       </div>
