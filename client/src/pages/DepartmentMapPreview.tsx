@@ -1,99 +1,118 @@
-import { useMemo, useRef, useState, type PointerEvent } from "react";
-import { ArrowLeft, ArrowUpRight, LocateFixed, Minus, Plus, X } from "lucide-react";
-import boundary from "../data/hwaseong-boundary.json";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ArrowLeft, ArrowUpRight, Anchor, Footprints, Leaf, MapPin, ParkingCircle, Route, TrainFront, X, LocateFixed, Search } from "lucide-react";
+import maplibregl from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
 import guOutlines from "../data/hwaseong-gu-outlines.json";
-import islands from "../data/hwaseong-islands.json";
-import points from "../data/hwaseong-coastal-points.json";
+import boundary from "../data/hwaseong-boundary.json";
+import coastalPoints from "../data/hwaseong-coastal-points.json";
 import dataset from "../data/dashboard_projects.json";
 import "./DepartmentMapPreview.css";
 
-type Region = "제부도" | "궁평항" | "국화도" | "입파도";
-const regions: Region[] = ["제부도", "궁평항", "국화도", "입파도"];
-const projectRegions = (name: string): Region[] => /계류시설/.test(name) ? ["국화도", "입파도"] : /주차장 및 도로/.test(name) ? ["제부도", "궁평항"] : /국화도/.test(name) ? ["국화도"] : /궁평|주차장 및 도로|황금해안길/.test(name) ? ["궁평항"] : ["제부도"];
-const INITIAL = { x: -35, y: -5, w: 1120, h: 630 };
-const GU_COLORS: Record<string, string> = { "만세구": "#e8eee5", "효행구": "#f0eadf", "병점구": "#dce8ec", "동탄구": "#e9e4ed" };
-// Place gu labels inside the largest ring of each existing boundary.
-const labelPosition = (d: string): [number, number] => {
-  let largest = 0; let result: [number, number] = [0, 0];
-  for (const ring of d.split("M").filter(Boolean)) {
-    const coords = (ring.match(/-?\d+(?:\.\d+)?/g) ?? []).map(Number);
-    let area = 0, x = 0, y = 0;
-    for (let i = 0; i + 1 < coords.length; i += 2) {
-      const j = (i + 2) % coords.length;
-      const cross = coords[i] * coords[j + 1] - coords[j] * coords[i + 1];
-      area += cross; x += (coords[i] + coords[j]) * cross; y += (coords[i + 1] + coords[j + 1]) * cross;
-    }
-    if (Math.abs(area) > largest) { largest = Math.abs(area); result = [x / (3 * area), y / (3 * area)]; }
-  }
-  return result;
-};
+type Region = keyof typeof coastalPoints;
+const REGIONS: Region[] = ["제부도", "궁평항", "국화도", "입파도"];
+const COLORS: Record<string, string> = { "만세구": "#e3eed9", "효행구": "#f2e4ca", "병점구": "#c9e3eb", "동탄구": "#e4d6eb" };
+const projectRegions = (name: string): Region[] => /계류시설/.test(name) ? ["국화도", "입파도"] : /주차장 및 도로/.test(name) ? ["제부도", "궁평항"] : /국화도/.test(name) ? ["국화도"] : /궁평|황금해안길/.test(name) ? ["궁평항"] : ["제부도"];
+const kindOf = (name: string) => /열차/.test(name) ? { Icon: TrainFront, label: "관광교통" } : /계류/.test(name) ? { Icon: Anchor, label: "해양레저" } : /주차/.test(name) ? { Icon: ParkingCircle, label: "주차·접근시설" } : /도로/.test(name) ? { Icon: Route, label: "관광도로" } : /데크|해안길/.test(name) ? { Icon: Footprints, label: "해안산책" } : { Icon: Leaf, label: "관광거점" };
+// Inverse of the original Mercator projection: preserve geographic positions and proportions.
+const lonlat = (x: number, y: number): [number, number] => [
+  (x - boundary.translate[0]) / boundary.scale * 180 / Math.PI,
+  Math.atan(Math.sinh((boundary.translate[1] - y) / boundary.scale)) * 180 / Math.PI,
+];
+const ringsFor = (path: string) => path.split("M").filter(Boolean).map(ring => {
+  const n = (ring.match(/-?\d+(?:\.\d+)?/g) ?? []).map(Number); const points: [number, number][] = [];
+  for(let i=0;i+1<n.length;i+=2) points.push(lonlat(n[i],n[i+1]));
+  if(points.length) points.push(points[0]); return points;
+}).filter(r => r.length >= 4);
+const guFeatures: GeoJSON.FeatureCollection = { type: "FeatureCollection", features: Object.entries(guOutlines).map(([name, shape]) => ({ type: "Feature", properties: { name, color: COLORS[name] }, geometry: { type: "MultiPolygon", coordinates: ringsFor(shape.d).map(r => [r]) } })) };
+const regionPosition = (region: Region) => lonlat(coastalPoints[region].x * 10, coastalPoints[region].y * boundary.height / 100);
+const extent = new maplibregl.LngLatBounds();
+guFeatures.features.forEach(feature => { if(feature.geometry.type === "MultiPolygon") feature.geometry.coordinates.forEach(p => p[0].forEach(c => extent.extend(c as [number,number]))); });
+REGIONS.forEach(r => extent.extend(regionPosition(r)));
+
 export default function DepartmentMapPreview() {
-  const [view, setView] = useState(INITIAL);
-  const [selected, setSelected] = useState<Region | null>(null);
-  const [projectId, setProjectId] = useState<string | null>(null);
-  const svg = useRef<SVGSVGElement>(null);
-  const scene = useRef<SVGGElement>(null);
-  const drag = useRef<{ x: number; y: number; vx: number; vy: number; moved: boolean } | null>(null);
   const projects = useMemo(() => dataset.projects.filter(p => p.department === "관광진흥과"), []);
-  const selectedProjects = selected ? projects.filter(p => projectRegions(p.project_name).includes(selected)) : [];
-  const chosen = selectedProjects.find(p => p.id === projectId);
-  const zoom = (factor: number) => setView(v => {
-    const w = Math.max(100, Math.min(1150, v.w * factor)); const h = w * INITIAL.h / INITIAL.w;
-    return { x: v.x + (v.w - w) / 2, y: v.y + (v.h - h) / 2, w, h };
-  });
-  const start = (e: PointerEvent<SVGSVGElement>) => {
-    if ((e.target as Element).closest('[data-marker]')) return;
-    e.currentTarget.setPointerCapture(e.pointerId);
-    drag.current = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y, moved: false };
-  };
-  const move = (e: PointerEvent<SVGSVGElement>) => {
-    const d = drag.current; const matrix = svg.current?.getScreenCTM(); if (!d || !matrix) return;
-    const dx = (e.clientX - d.x) / matrix.a; const dy = (e.clientY - d.y) / matrix.d;
-    if (Math.abs(dx) + Math.abs(dy) > 2) d.moved = true;
-    setView(v => ({ ...v, x: d.vx - dx, y: d.vy - dy }));
-  };
-  const select = (region: Region) => { setSelected(region); setProjectId(null); };
-  return <main className="dmp-page">
-    <header className="dmp-header"><a href="/" className="dmp-back"><ArrowLeft size={17} /> 돌아가기</a><span>HIB<span className="dmp-dot">.</span></span><span className="dmp-preview">MAP STUDY / 02</span></header>
-    <section className="dmp-heading"><div><p>TOURISM INVESTMENT MAP</p><h1>관광진흥과 <span>사업지도</span></h1></div><div className="dmp-summary"><b>{projects.length}</b><span>개 사업<span>서해안 관광 거점</span></span></div></section>
-    <section className="dmp-map" aria-label="관광진흥과 주요투자사업 지도">
-      <div className="dmp-map-caption"><span className="dmp-live" /> 화성시 관광사업 <span className="dmp-divider">/</span><span>사업 분포</span></div>
-      <svg ref={svg} viewBox={`${view.x} ${view.y} ${view.w} ${view.h}`} aria-label="화성시 해안 권역별 관광사업 지도" onPointerDown={start} onPointerMove={move} onPointerUp={() => { drag.current = null; }} onPointerCancel={() => { drag.current = null; }}>
-        <defs>
-          <linearGradient id="dmp-water" x1="0" y1="600" x2="1000" y2="0" gradientUnits="userSpaceOnUse"><stop stopColor="#176a78"/><stop offset=".46" stopColor="#3d9198"/><stop offset="1" stopColor="#9bcac0"/></linearGradient>
-          <pattern id="dmp-water-lines" width="110" height="110" patternUnits="userSpaceOnUse"><path d="M-10 55Q20 45 55 55T120 55" fill="none" stroke="#d4ebe5" strokeWidth=".45" strokeOpacity=".12"/></pattern>
-          <filter id="dmp-shore"><feGaussianBlur stdDeviation="7"/></filter>
-          <filter id="dmp-land-shadow" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="1" dy="10" stdDeviation="9" floodColor="#103e46" floodOpacity=".28"/></filter>
-          <filter id="dmp-pin-shadow" x="-100%" y="-100%" width="300%" height="350%"><feDropShadow dx="0" dy="3" stdDeviation="2" floodColor="#124e55" floodOpacity=".28"/></filter>
-        </defs>
-        <rect x="-10000" y="-10000" width="20000" height="20000" fill="url(#dmp-water)" />
-        <rect x="-10000" y="-10000" width="20000" height="20000" fill="url(#dmp-water-lines)" />
-        <g ref={scene} transform="matrix(1 .075 -.13 .83 55 30)">
-          <path d={boundary.d} fill="none" stroke="#ceede0" strokeWidth="12" opacity=".14" filter="url(#dmp-shore)" />
-          <g filter="url(#dmp-land-shadow)">
-            <path d={boundary.d} transform="translate(0 9)" fill="#578f87" stroke="#578f87" strokeWidth="1"/>
-            <path d={boundary.d} transform="translate(0 5)" fill="#88aea0" stroke="#88aea0" strokeWidth="1"/>
-            <path d={boundary.d} fill="#e8eee5" stroke="#f9faf0" strokeWidth="1"/>
-            {Object.entries(guOutlines).map(([name,shape]) => <path key={name} d={shape.d} fill={GU_COLORS[name]} stroke="#a4b5ab" strokeWidth="1.1" vectorEffect="non-scaling-stroke"/>)}
-          </g>
-          {Object.entries(islands).map(([name, shape]) => <g key={name}><path d={shape.d} transform="translate(0 4)" fill="#619287"/><path d={shape.d} fill="#edf0e5" stroke="#f8f9eb" strokeWidth="1"/></g>)}
-          <g className="dmp-gu-labels">{Object.entries(guOutlines).map(([name,shape]) => <text key={name} x={labelPosition(shape.d)[0]} y={labelPosition(shape.d)[1]} textAnchor="middle">{name}</text>)}</g>
-          <g className="dmp-place-labels"><text x="343" y="192">송산면</text><text x="303" y="263">서신면</text><text x="410" y="280">마도면</text><text x="470" y="345">팔탄면</text><text x="275" y="437">우정읍</text><text x="60" y="190" className="dmp-sea-label">WEST COAST</text></g>
-        {regions.map(region => {
-          const point = points[region]; const x = point.x * 10; const y = point.y * boundary.height / 100;
-          const active = selected === region; const count = projects.filter(p => projectRegions(p.project_name).includes(region)).length;
-          const scale = Math.max(.65, view.w / 950); const r = 12;
-          return <g key={region} transform={`translate(${x} ${y}) scale(${scale})`} className={`dmp-pin${active ? " is-selected" : ""}`} data-marker="true" role="button" tabIndex={0} aria-label={`${region} 권역 ${count}개 사업`} aria-pressed={active} onClick={() => select(region)} onKeyDown={e => { if(e.key === "Enter" || e.key === " ") { e.preventDefault(); select(region); } }}>
-            <rect x="-18" y="-36" width="95" height="51" fill="transparent" pointerEvents="all"/><ellipse cy="6" rx="13" ry="4" className="dmp-pin-ground"/><path d="M0 3V-9" className="dmp-pin-stem"/><g filter="url(#dmp-pin-shadow)"><circle cy="-18" r="16" className="dmp-pin-ring"/><circle cy="-18" r={r} className="dmp-pin-core"/><text y="-18" textAnchor="middle" dominantBaseline="central" className="dmp-pin-count">{count}</text></g><text x="23" y="-14" className="dmp-pin-name">{region === "궁평항" ? "궁평 권역" : region}</text>
-          </g>;
-        })}
-        </g>
-      </svg>
-      <div className="dmp-controls"><button onClick={() => zoom(.75)} aria-label="지도 확대"><Plus size={19}/></button><button onClick={() => zoom(1.333)} aria-label="지도 축소"><Minus size={19}/></button><span/><button onClick={() => setView(INITIAL)} aria-label="해안 전체 보기"><LocateFixed size={19}/></button></div>
-      <nav className="dmp-regions" aria-label="지도 권역 선택">{regions.map(region => <button key={region} className={selected === region ? "is-selected" : ""} onClick={() => select(region)}>{region === "궁평항" ? "궁평 권역" : region}</button>)}</nav>
-      {selected && <aside className="dmp-popover" aria-label={`${selected} 사업 목록`}><div className="dmp-popover-head"><div><small>SELECTED AREA</small><h2>{selected === "궁평항" ? "궁평 권역" : selected}</h2></div><button aria-label="선택 닫기" onClick={() => { setSelected(null); setProjectId(null); }}><X size={18}/></button></div><div className="dmp-projects">{selectedProjects.map(p => <button key={p.id} className={p.id === projectId ? "is-selected" : ""} onClick={() => setProjectId(p.id)}><span>{p.project_name}</span><ArrowUpRight size={16}/></button>)}</div>{chosen && <div className="dmp-project-note"><b>{chosen.current_stage || "추진단계 확인 중"}</b><p>{chosen.overview.split('\n').find(s => s.includes('사업위치:'))?.replace('○ 사업위치:', '') || "세부사업별 위치 확인"}</p></div>}</aside>}
-      <footer className="dmp-map-footer"><span><i/> 사업 권역 <i className="is-gold"/> 선택 권역 <span className="dmp-gu-legend">{Object.entries(GU_COLORS).map(([name,color]) => <span key={name}><i style={{ background: color }}/>{name}</span>)}</span></span><span>권역 대표 위치 · 사업별 부지 경계 미반영</span></footer>
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [mapReady, setMapReady] = useState(false);
+  const [tileUnavailable, setTileUnavailable] = useState(false);
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<maplibregl.Map | null>(null);
+  const markers = useRef<{ region: Region; element: HTMLButtonElement; marker: maplibregl.Marker }[]>([]);
+  const selected = projects.find(p => p.id === selectedId);
+  const selectedRegions = selected ? projectRegions(selected.project_name) : [];
+  const selectedKind = selected ? kindOf(selected.project_name) : null;
+  const filtered = projects.filter(p => p.project_name.includes(query.trim()));
+  useEffect(() => {
+    if (!mapContainer.current) return;
+    const instance = new maplibregl.Map({ container: mapContainer.current, center: [126.79,37.17], zoom: 10, pitch: 0, bearing: 0, attributionControl:{compact:true}, style: {
+      version:8, sources:{
+        basemap:{type:"raster",tiles:["https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"],tileSize:256,attribution:"Tiles © Esri · Administrative boundaries: existing dashboard geographic data"},
+        districts:{type:"geojson",data:guFeatures},
+      }, layers:[
+        {id:"sea",type:"background",paint:{"background-color":"#2c8b9a"}},
+        {id:"actual-basemap",type:"raster",source:"basemap",paint:{"raster-saturation":-.2,"raster-opacity":.9}},
+        {id:"gu-fill",type:"fill",source:"districts",paint:{"fill-color":["get","color"],"fill-opacity":.65}},
+        {id:"gu-boundary",type:"line",source:"districts",paint:{"line-color":"#647f75","line-width":1.4,"line-opacity":.85}},
+      ]
+    }});
+    map.current=instance;
+    instance.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-right");
+    instance.fitBounds(extent,{padding:{top:45,right:45,bottom:60,left:45},duration:0});
+    const observer=new ResizeObserver(()=>instance.resize());observer.observe(mapContainer.current);
+    instance.on("load",()=>setMapReady(true));
+    instance.on("error",e=>{if("sourceId" in e && e.sourceId==="basemap")setTileUnavailable(true);});
+    for(const region of REGIONS){
+      const button=document.createElement("button");button.type="button";button.className="dmp-region-marker";
+      const members=projects.filter(p=>projectRegions(p.project_name).includes(region));
+      const count=document.createElement("b");count.textContent=String(members.length);
+      const label=document.createElement("span");label.textContent=region==="궁평항"?"궁평 권역":region;
+      button.append(count,label);button.setAttribute("aria-label",`${region} 권역 ${members.length}개 사업`);
+      button.onclick=()=>{setQuery("");setSelectedId(members[0]?.id ?? null);};
+      const marker=new maplibregl.Marker({element:button,anchor:"bottom"}).setLngLat(regionPosition(region)).addTo(instance);
+      markers.current.push({region,element:button,marker});
+    }
+    // The labels follow the same geographic boundary, without skew or decorative displacement.
+    Object.entries(guOutlines).forEach(([name,shape])=>{
+      const ring=ringsFor(shape.d).sort((a,b)=>b.length-a.length)[0];
+      if(!ring)return;
+      const xs=ring.map(p=>p[0]),ys=ring.map(p=>p[1]);
+      const label=document.createElement("span");label.className="dmp-gu-map-label";label.textContent=name;
+      new maplibregl.Marker({element:label}).setLngLat([(Math.min(...xs)+Math.max(...xs))/2,(Math.min(...ys)+Math.max(...ys))/2]).addTo(instance);
+    });
+    return()=>{observer.disconnect();markers.current=[];map.current=null;instance.remove();};
+  },[projects]);
+  useEffect(()=>{
+    markers.current.forEach(({region,element})=>element.classList.toggle("is-selected",selectedRegions.includes(region)));
+    if(selected && map.current){
+      const bounds=new maplibregl.LngLatBounds();selectedRegions.forEach(r=>bounds.extend(regionPosition(r)));
+      map.current.fitBounds(bounds,{maxZoom:12,padding:{top:100,right:65,bottom:80,left:65},duration:window.matchMedia('(prefers-reduced-motion: reduce)').matches?0:650});
+    }
+  },[selectedId]);
+  return <main className="dmp-page dmp-v3">
+    <header className="dmp-header"><a href="/" className="dmp-back"><ArrowLeft size={17}/> 돌아가기</a><div className="dmp-brand"><b>HIB.</b><span>화성시 주요투자사업</span></div><span/></header>
+    <section className="dmp-heading"><div><p>TOURISM INVESTMENT MAP</p><h1>관광진흥과 <span>사업지도</span></h1></div><div className="dmp-summary"><b>{projects.length}</b><span>개 사업<span>바다를 잇고, 화성을 누리다</span></span></div></section>
+    <section className="dmp-workspace" aria-label="관광진흥과 사업 목록과 지도">
+      <aside className="dmp-sidebar"><div className="dmp-sidebar-heading"><h2>전체 사업 <span>{projects.length}</span></h2><p>사업명을 선택해 위치와 내용을 확인하세요.</p></div><label className="dmp-search"><Search size={15}/><input aria-label="지도 사업 검색" placeholder="사업명 검색" value={query} onChange={e=>setQuery(e.target.value)}/></label><div className="dmp-business-list">{filtered.map(p=>{const {Icon,label}=kindOf(p.project_name);return <button key={p.id} aria-pressed={selectedId===p.id} className={selectedId===p.id?"is-selected":""} onClick={()=>setSelectedId(p.id)}><span className="dmp-business-icon"><Icon size={20}/></span><span className="dmp-business-copy"><strong>{p.project_name}</strong><span><MapPin size={11}/>{label} · {projectRegions(p.project_name).map(r=>r==="궁평항"?"궁평 권역":r).join(" · ")}</span></span><ArrowUpRight size={16}/></button>})}{!filtered.length&&<p className="dmp-no-results">일치하는 사업이 없습니다.</p>}</div></aside>
+      <section className="dmp-map" aria-label="실제 좌표 기반 관광사업 지도"><div ref={mapContainer} className="dmp-real-map"/>
+        <div className="dmp-map-caption"><span className="dmp-live"/>{selected?"선택 사업 위치":"전체 사업 분포"}</div>
+        <button className="dmp-reset" onClick={()=>{setSelectedId(null);map.current?.fitBounds(extent,{padding:45,duration:500});}}><LocateFixed size={16}/> 전체 보기</button>
+        {!mapReady&&<span className="dmp-loading">지도 불러오는 중</span>}
+        {tileUnavailable&&<span className="dmp-network-note">배경지도 연결 제한 · 행정경계 표시 중</span>}
+        {!selected&&<div className="dmp-start-hint"><MapPin size={18}/><span>왼쪽 사업명을 선택하세요</span></div>}
+
+        <footer className="dmp-map-footer"><span className="dmp-gu-legend">{Object.entries(COLORS).map(([name,color])=><span key={name}><i style={{background:color}}/>{name}</span>)}</span><span>마커는 권역 대표 위치 · 부지 경계 아님</span></footer>
+      </section>
+      <aside className="dmp-progress-panel" aria-label="사업 진척도 및 추진현황">
+        <div className="dmp-progress-heading"><span>PROJECT STATUS</span><h2>{selected ? "선택 사업 추진현황" : "사업별 진척도"}</h2>{selected && <button onClick={()=>setSelectedId(null)} aria-label="전체 진척도 보기"><X size={17}/></button>}</div>
+        {selected && selectedKind ? <>
+          <div className="dmp-status-project"><selectedKind.Icon size={25}/><small>{selectedKind.label}</small><h3>{selected.project_name}</h3><p>{selected.current_stage || "추진단계 확인 중"}</p></div>
+          <div className="dmp-progress-number"><span>전체 사업 진척도</span>{selected.progress_rate == null ? <strong className="is-unknown">자료 미등록</strong> : <strong>{selected.progress_rate}<small>%</small></strong>}<div className="dmp-status-track" role="progressbar" aria-label="전체 사업 진척도" aria-valuemin={0} aria-valuemax={100} aria-valuenow={selected.progress_rate ?? undefined}><i style={{width:`${Math.max(0,Math.min(100,selected.progress_rate??0))}%`}}/></div></div>
+          <div className="dmp-status-detail"><h4>위치</h4><p>{selected.overview.split('\n').find(l=>l.includes('사업위치:'))?.replace('○ 사업위치:','').trim() || "세부사업별 위치"}</p></div>
+          <div className="dmp-status-detail"><h4>최근 추진경과</h4>{selected.progress_status?.trim() ? selected.progress_status.split('\n').filter(l=>l.trim()).slice(-3).map((line,i)=><p key={i}>{line.replace(/^○\s*/, '')}</p>) : <p>등록된 추진경과가 없습니다.</p>}</div>
+          <div className="dmp-status-detail is-next"><h4>향후 추진계획</h4>{selected.future_plan?.trim() ? selected.future_plan.split('\n').filter(l=>l.trim()).slice(0,3).map((line,i)=><p key={i}>{line.replace(/^○\s*/, '')}</p>) : <p>등록된 추진계획이 없습니다.</p>}</div>
+        </> : <><p className="dmp-progress-caption">사업을 선택하면 세부 추진현황이 표시됩니다.</p><div className="dmp-progress-overview">{projects.map(project=><button key={project.id} onClick={()=>setSelectedId(project.id)}><span>{project.project_name}</span><b>{project.progress_rate == null ? "미등록" : `${project.progress_rate}%`}</b><div className="dmp-status-track"><i style={{width:`${Math.max(0,Math.min(100,project.progress_rate??0))}%`}}/></div></button>)}</div></>}
+        <p className="dmp-progress-basis">진척도는 등록된 사업 자료 기준입니다. 미등록 사업은 0%로 계산하지 않습니다.</p>
+      </aside>
     </section>
-    <footer className="dmp-footnote">여러 지역에 걸친 사업은 해당 권역에 함께 표시됩니다. <span>지도: 기존 화성시 행정경계 자료 · 사업정보: 대시보드 등록자료</span></footer>
   </main>;
 }
