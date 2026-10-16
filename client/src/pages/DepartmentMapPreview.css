@@ -37,3 +37,88 @@
 @media(min-width:1800px){.dmp-v3 .dmp-workspace{grid-template-columns:350px minmax(0,1fr) 350px}}
 @media(max-width:1200px){.dmp-v3 .dmp-workspace{grid-template-columns:270px minmax(0,1fr)}.dmp-progress-panel{grid-column:1/-1;max-height:450px}.dmp-v3 .dmp-workspace{height:auto}.dmp-v3 .dmp-map{min-height:680px}.dmp-v3 .dmp-sidebar{max-height:680px}.dmp-progress-overview{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 20px}}
 @media(max-width:760px){.dmp-v3 .dmp-workspace{grid-template-columns:1fr}.dmp-v3 .dmp-sidebar{height:330px}.dmp-v3 .dmp-map{min-height:520px;height:520px}.dmp-progress-panel{max-height:none}.dmp-progress-overview{grid-template-columns:1fr}.dmp-progress-number>strong{font-size:45px}.dmp-progress-panel{padding:20px}}
+/* Distinct panels, readable Korean typography, and a tourism wordmark. */
+.dmp-v3 .dmp-sidebar{background:#2a302b;border-color:#526253}
+.dmp-v3 .dmp-progress-panel{background:#17323d;border-color:#3c6470}
+.dmp-v3 .dmp-search{background:#1f2721;border-color:#4a5b4d}
+.dmp-v3 .dmp-business-list>button{color:#edf0df;border-bottom-color:#e0e7c214}
+.dmp-v3 .dmp-business-list>button.is-selected{background:#445a3b;border-color:#95aa74}
+.dmp-v3 .dmp-business-icon{background:#3c4936;border-color:#80916d66;color:#c2d5aa;width:43px;height:46px}
+.dmp-v3 .dmp-business-copy strong{font-size:14px}
+.dmp-v3 .dmp-business-copy .dmp-business-kind{font-size:16px;font-weight:600;color:#d1dcb8}
+.dmp-v3 .dmp-business-copy>span:last-child{font-size:12px;color:#a6b6a2}
+.dmp-v3 .dmp-business-list>button{padding:13px 10px}
+.dmp-v3 .dmp-sidebar-heading h2,.dmp-v3 .dmp-progress-heading h2{font-size:20px}
+.dmp-v3 .dmp-sidebar-heading p,.dmp-v3 .dmp-progress-caption{font-size:13px;line-height:1.6}
+.dmp-v3 .dmp-brand{gap:15px;align-items:baseline}
+.dmp-v3 .dmp-brand b{font-size:30px;line-height:1.25}
+.dmp-v3 .dmp-brand>span{font:400 30px/1.25 "April16th Promise","Pretendard",sans-serif;color:#FFF0CE}
+.dmp-v3 .dmp-summary{display:flex;align-items:center;gap:26px}
+.dmp-project-count{display:flex;align-items:baseline;gap:9px;white-space:nowrap}
+.dmp-project-count>b{font:400 43px/1 "Bebas Neue",sans-serif;color:#e9c78e}
+.dmp-project-count>span{font:500 43px/1.2 "Sunflower",sans-serif;color:#e9c78e}
+.dmp-tourism-brand{font:400 italic 23px/1.25 "April16th Promise","Pretendard",sans-serif!important;letter-spacing:.01em!important;color:#b5d8cd!important;margin:0!important;transform:rotate(-5deg) skewX(-5deg);text-shadow:0 1px #6c9488,0 2px #41665d,0 5px 11px #0008}
+.dmp-v3 .dmp-status-project>small{font-size:22px;font-weight:600;color:#a9d5c7}
+.dmp-v3 .dmp-status-detail h4{font-size:15px}.dmp-v3 .dmp-status-detail p{font-size:13px}.dmp-v3 .dmp-progress-overview>button>span{font-size:14px}.dmp-v3 .dmp-progress-overview>button>b{font-size:16px}.dmp-v3 .dmp-progress-basis{font-size:12px;color:#94b3ad}
+.dmp-v3 .dmp-map-footer{font-size:12px;height:64px;gap:7px}.dmp-v3 .dmp-real-map{bottom:64px}.dmp-v3 .dmp-gu-legend{font-size:12px}.dmp-v3 .dmp-start-hint{bottom:84px;font-size:14px}
+.dmp-v3 .dmp-progress-number{background:#20444c;border-color:#547e7c66}
+@keyframes dmp-walk{0%,100%{transform:translate(-2px,2px) rotate(-5deg)}50%{transform:translate(3px,-2px) rotate(5deg)}}
+@keyframes dmp-footstep{0%,100%{opacity:1}50%{opacity:.3}}
+.is-walking>svg{animation:dmp-walk 1.6s ease-in-out infinite;overflow:visible}
+.is-walking>svg>path:nth-child(odd){animation:dmp-footstep 1.6s ease-in-out infinite}.is-walking>svg>path:nth-child(even){animation:dmp-footstep 1.6s ease-in-out -.8s infinite}
+@media(prefers-reduced-motion:reduce){.is-walking>svg,.is-walking>svg>path{animation:none}}
+@media(max-width:1000px){.dmp-v3 .dmp-brand>span,.dmp-v3 .dmp-brand b{font-size:24px}.dmp-project-count>span,.dmp-project-count>b{font-size:34px}.dmp-tourism-brand{font-size:20px!important}.dmp-v3 .dmp-summary{gap:18px}}
+@media(max-width:760px){.dmp-v3 .dmp-brand>span,.dmp-v3 .dmp-brand b{font-size:18px}.dmp-v3 .dmp-heading{align-items:flex-start;gap:20px;flex-wrap:wrap}.dmp-v3 .dmp-summary{width:100%;justify-content:space-between}.dmp-v3 .dmp-map-footer{font-size:11px}.dmp-v3 .dmp-gu-legend{font-size:11px}}
+.dmp-v3 .dmp-header{display:grid;grid-template-columns:1fr auto 1fr}.dmp-v3 .dmp-header .dmp-back{justify-self:start}
+.dmp-v3 .dmp-summary{flex-direction:column;align-items:flex-end;gap:12px}
+.dmp-tourism-brand{text-align:right;padding-right:5px}
+@media(max-width:760px){.dmp-v3 .dmp-summary{align-items:flex-start}.dmp-tourism-brand{text-align:left}}
+/* Shared neutral glass panels: material contrast instead of colored blocks. */
+.dmp-v3 .dmp-sidebar,
+.dmp-v3 .dmp-progress-panel{
+  position:relative;
+  background:linear-gradient(145deg,#ffffff0f 0%,#ffffff04 38%,#ffffff02 100%),#252831c9;
+  border:1px solid #ffffff24;
+  box-shadow:inset 0 1px 0 #ffffff24,inset 1px 0 0 #ffffff09,0 15px 40px #00000024;
+  backdrop-filter:blur(22px) saturate(115%);
+  -webkit-backdrop-filter:blur(22px) saturate(115%);
+  color:#e0e1e8;
+}
+.dmp-v3 .dmp-sidebar-heading,
+.dmp-v3 .dmp-progress-heading{background:linear-gradient(110deg,#ffffff04,transparent)}
+.dmp-v3 .dmp-sidebar-heading p,.dmp-v3 .dmp-progress-caption{color:#a7a9b7}
+.dmp-v3 .dmp-sidebar-heading h2 span,.dmp-v3 .dmp-progress-heading>span{color:#c3b69e}
+.dmp-v3 .dmp-search{background:#10121866;border-color:#ffffff16;box-shadow:inset 0 2px 5px #0003;color:#a4a5b2}
+.dmp-v3 .dmp-business-list>button{color:#e4e3e9;border-bottom-color:#ffffff0b;transition:background .2s,border-color .2s}
+.dmp-v3 .dmp-business-list>button:hover{background:#ffffff07}
+.dmp-v3 .dmp-business-list>button.is-selected{background:linear-gradient(120deg,#e7c99219,#ffffff06);border-color:#c6ae793f;box-shadow:inset 0 1px #fff1}
+.dmp-v3 .dmp-business-icon{background:linear-gradient(145deg,#ffffff13,#ffffff04);border-color:#ffffff20;color:#cac9d5;box-shadow:inset 0 1px #ffffff13,0 3px 7px #0002}
+.dmp-v3 .dmp-business-list>button.is-selected .dmp-business-icon{color:#ecd2a1;background:#d7ba7b15;border-color:#d7ba7b44}
+.dmp-v3 .dmp-business-copy .dmp-business-kind{color:#cfccd9}.dmp-v3 .dmp-business-copy>span:last-child{color:#999aaa}
+.dmp-v3 .dmp-business-list>button>svg{color:#8b899b}
+.dmp-v3 .dmp-progress-number{background:linear-gradient(135deg,#ffffff0d,#ffffff03);border-color:#ffffff1a;box-shadow:inset 0 1px #ffffff13,0 5px 15px #0001}
+.dmp-v3 .dmp-status-project>svg,.dmp-v3 .dmp-status-project>small{color:#c9c5d6}
+.dmp-v3 .dmp-status-detail h4{color:#c9c6d3}.dmp-v3 .dmp-status-detail p{color:#a3a1b2;border-color:#8e87a255}
+.dmp-v3 .dmp-status-detail.is-next p{border-color:#c7a76b66}
+.dmp-v3 .dmp-progress-overview>button>span{color:#c9c7d1}.dmp-v3 .dmp-progress-basis{color:#94909f}
+.dmp-v3 .dmp-status-track{background:#ffffff0e}.dmp-v3 .dmp-status-track>i{background:linear-gradient(90deg,#9c91b7,#d1c3df)}
+.dmp-v3 .dmp-business-list,.dmp-v3 .dmp-progress-panel{scrollbar-color:#6b6579 transparent}
+@media(prefers-reduced-motion:reduce){.dmp-v3 .dmp-business-list>button{transition:none}}
+/* Start with the supplied road plan, rather than inventing route geometry. */
+.dmp-source-map{position:absolute;inset:0;z-index:4;display:flex;flex-direction:column;overflow:hidden;background:#e5ebe7;color:#31554b}
+.dmp-source-title{padding:19px 20px 15px;display:flex;flex-direction:column;gap:5px;border-bottom:1px solid #65877826;background:#f5f7f1}
+.dmp-source-title>strong{font-size:17px;font-weight:650}.dmp-source-title>span{font-size:12px;color:#7a9488}
+.dmp-source-viewport{position:relative;flex:1;min-height:0;overflow:hidden;display:flex;justify-content:center;align-items:center;touch-action:none;cursor:grab;padding:18px;background:radial-gradient(ellipse at center,#f6f7f0,#dbe5df)}
+.dmp-source-viewport:active{cursor:grabbing}.dmp-source-viewport>img{display:block;max-height:100%;max-width:100%;object-fit:contain;user-select:none;box-shadow:0 6px 25px #284b4140;transform-origin:center}
+.dmp-source-controls{display:flex;align-items:center;justify-content:center;gap:4px;padding:8px;background:#f5f7f1;border-top:1px solid #65877826}
+.dmp-source-controls>button{width:35px;height:33px;display:grid;place-items:center;border:0;border-radius:7px;background:transparent;color:#456c5e;cursor:pointer}.dmp-source-controls>button:hover{background:#486f5c12}.dmp-source-controls>span{font:500 12px "Pretendard",sans-serif;min-width:48px;text-align:center}
+.dmp-source-credit{padding:0 12px 9px;margin:0;text-align:center;font-size:10px;background:#f5f7f1;color:#82988c}
+.dmp-map-mode{position:absolute;z-index:5;top:17px;right:16px;display:flex;gap:3px;padding:4px;border:1px solid #93aa9c5e;border-radius:9px;background:#f6f8f1}
+.dmp-map-mode>button{border:0;border-radius:6px;padding:8px 10px;background:none;color:#7a9185;font:500 11px "Pretendard",sans-serif;cursor:pointer}.dmp-map-mode>button[aria-pressed="true"]{background:#2e6558;color:#f4f8ee}
+.dmp-map .is-source-hidden{display:none}.dmp-map.has-source-map .dmp-real-map{visibility:hidden}
+.dmp-source-map.is-expanded{position:fixed;inset:3vh 8vw;z-index:100;border:1px solid #9db3a5;border-radius:15px;box-shadow:0 0 0 100vmax #080f13cc}
+.dmp-map-unavailable{position:absolute;z-index:3;inset:0 0 64px;background:#e9efebf8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;color:#537165;padding:30px}.dmp-map-unavailable>strong{font-size:17px}.dmp-map-unavailable>p{font-size:13px;margin:0;color:#81998c}.dmp-map-unavailable>button{border:1px solid #557c68;border-radius:9px;background:#376957;color:#f1f5eb;font-size:13px;padding:12px 17px;margin-top:7px;cursor:pointer}
+.dmp-road-segments{margin-top:20px;padding:14px 12px;border:1px solid #ffffff18;border-radius:10px;background:#ffffff04}.dmp-road-segments>header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.dmp-road-segments h4{font-size:14px;margin:0;color:#d4c9b5}.dmp-road-segments>header>span{font-size:12px;color:#d9bc80}.dmp-road-segments>div{display:flex;gap:8px;padding:11px 0;border-top:1px solid #ffffff0b;align-items:center}.dmp-road-segments>div>b{font-size:12px;color:#b3a7c2;font-weight:500}.dmp-road-segments>div>span{flex:1}.dmp-road-segments strong{font-size:12px;font-weight:550;color:#d5cfdf}.dmp-road-segments small{display:block;font-size:10px;margin-top:4px;color:#9e97ad}.dmp-road-segments em{font:500 12px "Pretendard",sans-serif;color:#d9c49c;text-align:right}.dmp-road-segments>p{font-size:11px;line-height:1.6;color:#9b91a8;margin:12px 0 0}
+@media(max-width:1400px){.dmp-source-title{padding-top:70px}}@media(max-width:760px){.dmp-source-map.is-expanded{inset:1vh 2vw}.dmp-source-title{padding-top:65px}}
+
+@media(min-width:1201px){.dmp-v3 .dmp-workspace{height:calc(100svh - 280px)}}
