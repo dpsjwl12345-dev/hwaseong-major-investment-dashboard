@@ -72,17 +72,19 @@
 .tdb-map-header>button:hover,.tdb-zoom button:hover{background:#304158}
 .tdb-project-title:focus-visible,.tdb-project-locate:focus-visible,.tdb-map-header>button:focus-visible,.tdb-zoom button:focus-visible{outline:2px solid #e2ba77;outline-offset:3px}
 
-.tdb-satellite-canvas{position:absolute;inset:0}
-.tdb-satellite-marker{display:flex;align-items:center;gap:7px;border:0;padding:0;background:none;color:#fff;cursor:pointer;filter:drop-shadow(0 2px 3px #0009)}
-.tdb-satellite-marker b{display:grid;place-items:center;width:32px;height:32px;background:#14283be8;border:2px solid #e9bd70;border-radius:50%;color:#ffe2a3;font:650 14px "Pretendard",sans-serif}
-.tdb-satellite-marker span{font:600 13px "Pretendard",sans-serif;background:#132131cf;border:1px solid #ffffff24;border-radius:5px;padding:5px 8px;color:#fff1d4}
-.tdb-satellite-marker:hover b,.tdb-satellite-marker.is-active b{background:#e8ba69;color:#182536;border-color:#fff0c5}
-.tdb-satellite-marker:focus-visible{outline:2px solid #f0ca80;outline-offset:5px;border-radius:8px}
-.tdb-satellite-status{position:absolute;top:70px;left:18px;background:#152336ed;border:1px solid #ffffff24;border-radius:9px;padding:12px 15px;color:#c6d2df;font-size:12px}
-.tdb-satellite-status strong{font-weight:500}
-.tdb-satellite-status button{display:block;margin-top:9px;padding:7px 10px;background:#354258;color:#f3d7a3;border:1px solid #bfa06560;border-radius:6px;cursor:pointer;font-size:12px}
+.tdb-geographic-canvas{position:absolute;inset:0}
+.tdb-geographic-marker{display:flex;align-items:center;gap:7px;border:0;padding:0;background:none;color:#fff;cursor:pointer;filter:drop-shadow(0 2px 3px #0009)}
+.tdb-geographic-marker b{display:grid;place-items:center;width:32px;height:32px;background:#14283be8;border:2px solid #e9bd70;border-radius:50%;color:#ffe2a3;font:650 14px "Pretendard",sans-serif}
+.tdb-geographic-marker span{font:600 13px "Pretendard",sans-serif;background:#132131cf;border:1px solid #ffffff24;border-radius:5px;padding:5px 8px;color:#fff1d4}
+.tdb-geographic-marker:hover b,.tdb-geographic-marker.is-active b{background:#e8ba69;color:#182536;border-color:#fff0c5}
+.tdb-geographic-marker:focus-visible{outline:2px solid #f0ca80;outline-offset:5px;border-radius:8px}
+.tdb-geographic-status{position:absolute;top:70px;left:18px;background:#152336ed;border:1px solid #ffffff24;border-radius:9px;padding:12px 15px;color:#c6d2df;font-size:12px}
+.tdb-geographic-status strong{font-weight:500}
+.tdb-geographic-status button{display:block;margin-top:9px;padding:7px 10px;background:#354258;color:#f3d7a3;border:1px solid #bfa06560;border-radius:6px;cursor:pointer;font-size:12px}
 .tdb-map-surface .maplibregl-ctrl-attrib{font-size:10px}
 .tdb-project-detail{flex-shrink:0;align-self:center;padding:5px;border:0;background:none;color:#bba273;cursor:pointer}
 .tdb-project-detail:hover{color:#ffe0a6}
 .tdb-project-detail:focus-visible{outline:2px solid #e2ba77;outline-offset:3px}
 .tdb-project{gap:7px}
+
+.tdb-gu-label{color:#c6d1de;font:500 13px "Pretendard",sans-serif;letter-spacing:1px;pointer-events:none;text-shadow:0 1px 3px #152335}
