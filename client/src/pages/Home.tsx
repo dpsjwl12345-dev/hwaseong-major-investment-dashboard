@@ -62,6 +62,7 @@ import { CHILDREN_SCIENCE_ID, ChildrenScienceSummary, ChildrenScienceBudgetSumma
 import { deriveProjectBudget } from "../lib/projectBudget";
 
 import { DepartmentOverview } from "../components/DepartmentOverview";
+import TourismDepartmentDashboard from "../components/TourismDepartmentDashboard";
 
 const pb = deriveProjectBudget;
 
@@ -2016,7 +2017,7 @@ function LiquidMorphMenu({ label, onLabelClick, sections }: { label: string; onL
   );
 }
 
-export default function Home() {
+export default function Home({ initialDepartment }: { initialDepartment?: string } = {}) {
   const [siteUnlocked, setSiteUnlocked] = useState(() => typeof window !== "undefined" && localStorage.getItem(SITE_UNLOCK_STORAGE_KEY) === "1");
   const overridesQuery = trpc.projectContent.list.useQuery();
   const liveProjects = useMemo(() => {
@@ -2055,8 +2056,8 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [selectedDepartmentDashboard, setSelectedDepartmentDashboard] = useState("전체");
-  const [activeView, setActiveView] = useState<"landing" | "project" | "department" | "investment-review">("landing");
+  const [selectedDepartmentDashboard, setSelectedDepartmentDashboard] = useState(initialDepartment ?? "전체");
+  const [activeView, setActiveView] = useState<"landing" | "project" | "department" | "investment-review">(initialDepartment ? "department" : "landing");
 
   const normalizedQuery = query.trim().toLowerCase();
   const visibleOrganization = useMemo(
@@ -2114,7 +2115,7 @@ export default function Home() {
 
   return (
     <div className={`dashboard-shell flex min-h-screen flex-col bg-[var(--pd-ground)] text-white${activeView === "project" ? " is-project-view" : activeView === "department" ? " is-department-view" : ""}`}>
-      {(activeView === "project" || activeView === "department") && createPortal(<>
+      {(activeView === "project" || (activeView === "department" && selectedDepartmentDashboard !== "관광진흥과")) && createPortal(<>
         <div className="project-backdrop-texture" aria-hidden="true" />
         <div className="project-backdrop-texture is-lower-left" aria-hidden="true" />
       </>, document.body)}
@@ -2194,7 +2195,7 @@ export default function Home() {
           {activeView === "investment-review" ? (
             <InvestmentReviewBoard isAdmin={isAdmin} />
           ) : activeView === "department" ? (
-            <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); window.scrollTo(0, 0); }} />
+            selectedDepartmentDashboard === "관광진흥과" ? <TourismDepartmentDashboard projects={liveProjects} onOpenProject={id => { const project = liveProjects.find(p => p.id === id); if (project) goProject(project); }} /> : <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); window.scrollTo(0, 0); }} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
               <ProjectDetail project={selectedProject} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />

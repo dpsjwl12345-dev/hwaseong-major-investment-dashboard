@@ -5,14 +5,20 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
-import DepartmentMapPreview from "./pages/DepartmentMapPreview";
+function TourismDepartmentPage() {
+  return <Home initialDepartment="관광진흥과" />;
+}
+function HomePage() {
+  return <Home />;
+}
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path="/department-map-preview" component={DepartmentMapPreview} />
-      <Route path={"/"} component={Home} />
+      <Route path="/department-map-preview" component={TourismDepartmentPage} />
+      <Route path="/departments/tourism" component={TourismDepartmentPage} />
+      <Route path={"/"} component={HomePage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
