@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, type PointerEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import { Anchor, ArrowUpRight, Footprints, Layers3, LocateFixed, MapPin, Minus, ParkingCircle, Plus, Route, Search, TrainFront, Trees, Wallet, X } from "lucide-react";
 import { deriveProjectBudget } from "../lib/projectBudget";
 import boundary from "../data/hwaseong-boundary.json";
@@ -42,11 +42,29 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
   const [view,setView]=useState(FULL_VIEW);
   const svg=useRef<SVGSVGElement>(null);
   const drag=useRef<{x:number;y:number;vx:number;vy:number}|null>(null);
+  useEffect(() => {
+    const element = svg.current;
+    if (!element) return;
+    const onWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      const matrix = element.getScreenCTM();
+      if (!matrix) return;
+      const cursor = new DOMPoint(event.clientX, event.clientY).matrixTransform(matrix.inverse());
+      setView(previous => {
+        const width = Math.max(120, Math.min(FULL_VIEW.width * 1.6, previous.width * Math.exp(Math.max(-120, Math.min(120, event.deltaY)) * .002)));
+        const ratio = width / previous.width;
+        return { x: cursor.x - (cursor.x - previous.x) * ratio, y: cursor.y - (cursor.y - previous.y) * ratio, width, height: previous.height * ratio };
+      });
+    };
+    element.addEventListener("wheel", onWheel, { passive: false });
+    return () => element.removeEventListener("wheel", onWheel);
+  }, []);
+
   const totals=useMemo(()=>projects.reduce((sum,p)=>{const b=tourismBudgetFor(p);return {total:sum.total+b.total,request:sum.request+b.request,invested:sum.invested+b.invested};},{total:0,request:0,invested:0}),[projects]);
   const visible=projects.filter(p=>p.project_name.includes(query.trim())&&(!region||regionsFor(p.project_name).includes(region)));
   const active=projects.find(p=>p.id===(hoveredId??activeId));
   const highlights=active?regionsFor(active.project_name):region?[region]:[];
-  const zoom=(factor:number)=>setView(v=>{const width=Math.max(240,Math.min(FULL_VIEW.width,v.width*factor));const height=width*FULL_VIEW.height/FULL_VIEW.width;return {x:v.x+(v.width-width)/2,y:v.y+(v.height-height)/2,width,height};});
+  const zoom=(factor:number)=>setView(v=>{const width=Math.max(120,Math.min(FULL_VIEW.width*1.6,v.width*factor));const height=width*FULL_VIEW.height/FULL_VIEW.width;return {x:v.x+(v.width-width)/2,y:v.y+(v.height-height)/2,width,height};});
   const focus=(p:TourismProject)=>{setActiveId(p.id);const places=regionsFor(p.project_name).map(r=>coastalPoints[r]);const x=places.reduce((s,p)=>s+p.x*10,0)/places.length;const y=places.reduce((s,p)=>s+p.y*boundary.height/100,0)/places.length;setView({x:x-210,y:y-130,width:470,height:470*FULL_VIEW.height/FULL_VIEW.width});};
   const start=(e:PointerEvent<SVGSVGElement>)=>{if((e.target as Element).closest('[data-region]'))return;e.currentTarget.setPointerCapture(e.pointerId);drag.current={x:e.clientX,y:e.clientY,vx:view.x,vy:view.y};};
   const move=(e:PointerEvent<SVGSVGElement>)=>{const d=drag.current,m=svg.current?.getScreenCTM();if(d&&m)setView(v=>({...v,x:d.vx-(e.clientX-d.x)/m.a,y:d.vy-(e.clientY-d.y)/m.d}));};
@@ -62,7 +80,7 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
       <section className="tdb-map-card" aria-label="화성시 관광사업 권역 지도">
         <header className="tdb-map-header"><div><h2>사업 분포</h2><span>화성시</span></div><button aria-label="화성시 지도 전체 보기" onClick={()=>{setView(FULL_VIEW);setRegion(null);setActiveId(null);}}><LocateFixed size={15}/> 전체 보기</button></header>
         <div className="tdb-map-surface">
-          <svg ref={svg} viewBox={`${view.x} ${view.y} ${view.width} ${view.height}`} onPointerDown={start} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} aria-label="화성시 4개 구 경계와 관광사업 권역">
+          <svg ref={svg} viewBox={`${view.x} ${view.y} ${view.width} ${view.height}`} onDoubleClick={()=>zoom(.65)} onPointerDown={start} onPointerMove={move} onPointerUp={()=>{drag.current=null;}} onPointerCancel={()=>{drag.current=null;}} aria-label="화성시 4개 구 경계와 관광사업 권역">
             <path className="tdb-city" d={boundary.d}/>
             {Object.entries(guOutlines).map(([name,shape])=><path className="tdb-district" key={name} d={shape.d}/>)}
             <g className="tdb-district-names">{Object.entries(guOutlines).map(([name,shape])=>{const [x,y]=districtLabel(shape.d);return <text key={name} x={x} y={y} textAnchor="middle">{name}</text>;})}</g>
