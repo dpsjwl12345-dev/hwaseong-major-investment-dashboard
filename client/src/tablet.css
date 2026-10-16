@@ -697,3 +697,26 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: 0;
 }
+
+.pd-detail-page .pd-card.bd-location-cost-card .bd-table.bd-grid.bd-location-cost thead th {
+  font-size: 20px !important;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Keep all four corners consistent on every budget-detail surface. */
+.pd-detail-page .pd-card.bd-card,
+.pd-detail-page .route-budget {
+  border-radius: 18px !important;
+  overflow: hidden;
+}
+.pd-detail-page .pd-card.bd-card .bd-scroll,
+.pd-detail-page .route-budget-scroll {
+  border-radius: 12px;
+  clip-path: inset(0 round 12px);
+  isolation: isolate;
+}
+.pd-detail-page .pd-card.bd-card .bd-scroll :is(.tl-table, .sg-table, .mx-table, .pl-table, .bd-table),
+.pd-detail-page .route-budget-scroll .route-budget-table {
+  clip-path: none;
+}

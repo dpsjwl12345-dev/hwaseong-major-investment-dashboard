@@ -285,6 +285,7 @@ export const PROJECT_RENEWAL: Record<string, RenewalConfig> = {
     imageCaption: "AI 가상 이미지 · 실제 설계와 다를 수 있음",
     steps: ["설계", "체육시설 조성 공사", "개방"],
     current: 0,
+    currentLabel: "설계 완료, 공사 착공 전",
     dates: [{ label: "사업 완료", value: "2027.9." }],
   },
   "주요투자사업_총괄데이터.xlsx:Sheet1:6": {
