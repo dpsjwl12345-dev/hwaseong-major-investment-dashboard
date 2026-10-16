@@ -15,17 +15,59 @@
 @media(max-width:1100px){.tdb-kpi{padding:9px 10px;gap:6px}.tdb-kpi>strong{font-size:21px}.tdb-kpi>div{font-size:10px}}
 @media(max-width:760px){.tdb-kpi>strong{font-size:22px}}
 
-/* Map treatment from the first reference: neutral relief and dark location pins. */
-.tdb-map-surface{background:radial-gradient(ellipse at 48% 40%,#ededed 0%,#dedee0 75%,#d7d7da 100%)}
-.tdb-city{fill:#b6b6ba;stroke:#f3f3f4;stroke-width:1.5;filter:drop-shadow(0 5px 3px #44445118)}
-.tdb-district{fill:#b6b6ba;stroke:#f4f4f5;stroke-width:2}
-.tdb-district:nth-child(odd){fill:#c2c2c6}
-.tdb-district-names text{fill:#696971;font-weight:600}
-.tdb-marker-halo{fill:#e56c86;opacity:.3;r:36;filter:blur(6px)}
-.tdb-marker-disc{fill:#28282f;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 3px 2px #20202a33)}
-.tdb-marker-hole{fill:#fafafa;pointer-events:none}
-.tdb-marker-count{fill:#b33a56;font-size:15px;font-weight:750;paint-order:stroke;stroke:#ededee;stroke-width:4px;stroke-linejoin:round}
-.tdb-marker-name{fill:#34343e;stroke:#ededee;stroke-width:4px;font-weight:600}
-.tdb-map-marker.is-active .tdb-marker-disc,.tdb-map-marker:hover .tdb-marker-disc,.tdb-map-marker:focus-visible .tdb-marker-disc{fill:#c74765;stroke:#fff}
-.tdb-map-marker.is-active .tdb-marker-count,.tdb-map-marker:hover .tdb-marker-count,.tdb-map-marker:focus-visible .tdb-marker-count{fill:#a42f4a}
-.tdb-map-marker.is-active .tdb-marker-halo{opacity:.5}
+/* HIB department workspace: restrained navy surfaces, gold reserved for projects. */
+.tdb-shell{background:#101621;color:#e8edf4;border-color:#ffffff12;box-shadow:0 18px 55px #0003}
+.tdb-header p{color:#bd9958}
+.tdb-header h1{color:#f1f3f7}
+.tdb-header h1>span{color:#a5afbe}
+.tdb-slogan{color:#cebb94}
+.tdb-kpi,.tdb-kpi.is-count,.tdb-kpi.is-request{background:#19212f;border-color:#ffffff12}
+.tdb-kpi>div,.tdb-kpi.is-count>div{color:#a0adbf}
+.tdb-kpi>strong,.tdb-kpi.is-count>strong{color:#eef1f6}
+.tdb-kpi.is-count>strong{color:#e5bc70}
+.tdb-map-card,.tdb-list-card{background:#151e2c;border-color:#ffffff16;box-shadow:0 8px 28px #0002}
+.tdb-map-header{background:#151e2c}
+.tdb-map-header h2,.tdb-list-header h2{color:#e7edf5}
+.tdb-map-header>div>span{color:#8493a8;border-color:#ffffff18}
+.tdb-map-header>button{background:#202c3d;color:#bdc9d8;border-color:#ffffff18}
+.tdb-map-surface{background:radial-gradient(ellipse at 30% 60%,#23384c 0%,#18283c 48%,#131e2e 100%)}
+.tdb-city{fill:#455c72;stroke:#a6bbcb;stroke-width:1.2;filter:drop-shadow(0 7px 5px #040b1460)}
+.tdb-district{fill:#455c72;stroke:#b6c8d157;stroke-width:1.25}
+.tdb-district:nth-child(odd){fill:#526b80}
+.tdb-district-names text{fill:#d5dfe8;font-weight:500;letter-spacing:1px}
+.tdb-marker-halo{fill:#efba63;opacity:.12;r:30}
+.tdb-marker-disc{fill:#1c2939;stroke:#e8bc71;stroke-width:2;filter:drop-shadow(0 3px 5px #0005)}
+.tdb-marker-count{fill:#f3cc87;font-size:14px;font-weight:650;stroke:none}
+.tdb-marker-name{fill:#f3e6cc;stroke:#192b3e;stroke-width:4px;font-weight:500}
+.tdb-map-marker.is-active .tdb-marker-disc,.tdb-map-marker:hover .tdb-marker-disc,.tdb-map-marker:focus-visible .tdb-marker-disc{fill:#e7b969;stroke:#ffdfa4}
+.tdb-map-marker.is-active .tdb-marker-count,.tdb-map-marker:hover .tdb-marker-count,.tdb-map-marker:focus-visible .tdb-marker-count{fill:#202735}
+.tdb-map-marker.is-active .tdb-marker-halo{opacity:.25}
+.tdb-zoom{border-color:#ffffff24;box-shadow:0 4px 15px #0004}
+.tdb-zoom button{background:#1c2a3d;color:#d3deeb;width:36px;height:36px}
+.tdb-zoom button+button{border-color:#ffffff16}
+.tdb-map-caption{border-color:#ffffff0c;color:#8291a5;background:#151e2c}
+.tdb-map-caption>span:first-child{color:#a8b5c5}
+.tdb-map-selection{background:#172335f2;border-color:#d0ad6359;color:#eee3ce;box-shadow:0 7px 20px #0003;backdrop-filter:blur(12px)}
+.tdb-map-selection>button{background:#344151;color:#ebcb92}
+.tdb-list-card{background:linear-gradient(155deg,#202b3ddd,#141e2cf5)}
+.tdb-list-header>div>span{background:#ffffff0c;color:#d6b57b}
+.tdb-list-header>button{color:#acb9ca}
+.tdb-search{background:#101a29;border-color:#ffffff14;color:#8498ae}
+.tdb-search>input{color:#e1e8f1}
+.tdb-search>input::placeholder{color:#798ba2}
+.tdb-project-list{scrollbar-color:#42546c transparent}
+.tdb-project{border-color:#ffffff0b}
+.tdb-project:hover,.tdb-project.is-active{background:#ffffff07}
+.tdb-project.is-active{box-shadow:inset 2px 0 #d9af68}
+.tdb-project-icon{background:#ffffff04;border-color:#ffffff0d;color:#9eafc3}
+.tdb-project.is-active .tdb-project-icon{color:#e3bc79;border-color:#d6b36c40}
+.tdb-project-title{color:#dce4ef}
+.tdb-project-title>svg{color:#7c90a9}
+.tdb-project-title:hover{color:#efce95}
+.tdb-project-meta{color:#91a2b8}
+.tdb-project-meta>strong{color:#bdcbdc}
+.tdb-project-locate{color:#8195af}
+.tdb-project-locate:hover{color:#ebc381}
+.tdb-empty{color:#a3b2c6}
+.tdb-map-header>button:hover,.tdb-zoom button:hover{background:#304158}
+.tdb-project-title:focus-visible,.tdb-project-locate:focus-visible,.tdb-map-header>button:focus-visible,.tdb-zoom button:focus-visible{outline:2px solid #e2ba77;outline-offset:3px}
