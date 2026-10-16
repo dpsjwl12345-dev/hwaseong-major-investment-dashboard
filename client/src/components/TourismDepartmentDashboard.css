@@ -14,3 +14,18 @@
 @media(min-width:761px){.tdb-body{height:clamp(620px,calc(100svh - 235px),940px)}}
 @media(max-width:1100px){.tdb-kpi{padding:9px 10px;gap:6px}.tdb-kpi>strong{font-size:21px}.tdb-kpi>div{font-size:10px}}
 @media(max-width:760px){.tdb-kpi>strong{font-size:22px}}
+
+/* Map treatment from the first reference: neutral relief and dark location pins. */
+.tdb-map-surface{background:radial-gradient(ellipse at 48% 40%,#ededed 0%,#dedee0 75%,#d7d7da 100%)}
+.tdb-city{fill:#b6b6ba;stroke:#f3f3f4;stroke-width:1.5;filter:drop-shadow(0 5px 3px #44445118)}
+.tdb-district{fill:#b6b6ba;stroke:#f4f4f5;stroke-width:2}
+.tdb-district:nth-child(odd){fill:#c2c2c6}
+.tdb-district-names text{fill:#696971;font-weight:600}
+.tdb-marker-halo{fill:#e56c86;opacity:.3;r:36;filter:blur(6px)}
+.tdb-marker-disc{fill:#28282f;stroke:#fff;stroke-width:1.5;filter:drop-shadow(0 3px 2px #20202a33)}
+.tdb-marker-hole{fill:#fafafa;pointer-events:none}
+.tdb-marker-count{fill:#b33a56;font-size:15px;font-weight:750;paint-order:stroke;stroke:#ededee;stroke-width:4px;stroke-linejoin:round}
+.tdb-marker-name{fill:#34343e;stroke:#ededee;stroke-width:4px;font-weight:600}
+.tdb-map-marker.is-active .tdb-marker-disc,.tdb-map-marker:hover .tdb-marker-disc,.tdb-map-marker:focus-visible .tdb-marker-disc{fill:#c74765;stroke:#fff}
+.tdb-map-marker.is-active .tdb-marker-count,.tdb-map-marker:hover .tdb-marker-count,.tdb-map-marker:focus-visible .tdb-marker-count{fill:#a42f4a}
+.tdb-map-marker.is-active .tdb-marker-halo{opacity:.5}
