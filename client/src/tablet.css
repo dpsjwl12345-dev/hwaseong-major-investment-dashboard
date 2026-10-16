@@ -720,3 +720,25 @@
 .pd-detail-page .route-budget-scroll .route-budget-table {
   clip-path: none;
 }
+
+/* Round the actual corner cells too, including the bottom execution table. */
+.pd-detail-page .pd-card.bd-card :is(.tl-table, .sg-table, .mx-table, .pl-table, .bd-table),
+.pd-detail-page .route-budget-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+.pd-detail-page .pd-card.bd-card table thead tr:first-child > :first-child,
+.pd-detail-page .route-budget-table thead tr:first-child > :first-child { border-top-left-radius: 12px; }
+.pd-detail-page .pd-card.bd-card table thead tr:first-child > :last-child,
+.pd-detail-page .route-budget-table thead tr:first-child > :last-child { border-top-right-radius: 12px; }
+.pd-detail-page .pd-card.bd-card table tbody tr:last-child > :first-child,
+.pd-detail-page .route-budget-table tbody tr:last-child > :first-child { border-bottom-left-radius: 12px; }
+.pd-detail-page .pd-card.bd-card table tbody tr:last-child > :last-child,
+.pd-detail-page .route-budget-table tbody tr:last-child > :last-child { border-bottom-right-radius: 12px; }
+
+/* Attached-panel rules used to square off the last detail card's top corners. */
+.pd-detail-page .pd-detail-attached-group .pd-stacked-panel .pd-card.bd-card,
+.pd-detail-page .pd-detail-attached-group .pd-stacked-panel > .pd-card:has(.route-budget) {
+  border-radius: 18px !important;
+}
