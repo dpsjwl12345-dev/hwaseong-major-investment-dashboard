@@ -105,12 +105,9 @@
 .tdb-geographic-marker b{box-shadow:0 0 0 2px #a5b9b66b}
 .tdb-geographic-marker.is-active span{background:transparent;color:#573b18;font-weight:600}
 .tdb-geographic-marker.is-active b,.tdb-geographic-marker:hover b,.tdb-geographic-marker:focus-visible b{box-shadow:0 0 0 2px #b49b6f66}
-.tdb-attraction-marker{z-index:2;--poi-ink:#315e52;--poi-bg:#deeee4}
-.tdb-attraction-marker[data-category="heritage"],.tdb-attraction-marker[data-category="temple"],.tdb-attraction-marker[data-category="church"]{--poi-ink:#805338;--poi-bg:#f2e3cc}
-.tdb-attraction-marker[data-category="harbor"]{--poi-ink:#315e87;--poi-bg:#dcebf3}
-.tdb-attraction-marker[data-category="fossil"]{--poi-ink:#79602a;--poi-bg:#f0e7c7}
-.tdb-attraction-marker b,.tdb-attraction-marker:hover b,.tdb-attraction-marker:focus-visible b{width:26px;height:26px;margin:1px;border-radius:0;background:transparent;color:var(--poi-bg);border:0;box-shadow:none}
-.tdb-attraction-marker b svg{display:block;width:18px;height:18px;flex-shrink:0;filter:none}
+.tdb-attraction-marker{z-index:2}
+.tdb-attraction-marker b,.tdb-attraction-marker:hover b,.tdb-attraction-marker:focus-visible b{width:28px;height:28px;margin:0;border-radius:0;background:transparent;color:#80cfdf;border:0;box-shadow:none}
+.tdb-attraction-marker b svg{display:block;width:28px;height:30px;flex-shrink:0;filter:drop-shadow(0 2px 2px #07152399)}
 .tdb-attraction-marker span{font:600 12px/1.4 "Pretendard",sans-serif;color:#20364c;background:transparent;border:0;padding:0;box-shadow:none}
 .tdb-attraction-marker:hover,.tdb-attraction-marker:focus-visible{z-index:4}
 .tdb-attraction-marker:hover span,.tdb-attraction-marker:focus-visible span{color:#101f31;text-decoration:underline;text-underline-offset:3px}

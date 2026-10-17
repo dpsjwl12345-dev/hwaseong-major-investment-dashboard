@@ -1,6 +1,6 @@
 import { createElement, forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { Anchor, Landmark, Church, Flower2, Trees, Shell, House } from "lucide-react";
+import TourismLandmarkIcon from "./TourismLandmarkIcon";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { placeMapLabel, mapLabelRectsOverlap, type MapLabelRect, type MapLabelSide } from "../lib/mapLabelLayout";
@@ -21,7 +21,6 @@ const CENTERS: Record<TourismRegion, [number, number]> = {
   국화도: [126.55692916127481, 37.06210373671743],
   입파도: [126.53922474495708, 37.10764374760446],
 };
-const attractionIcons = { harbor: Anchor, heritage: Landmark, church: Church, temple: House, garden: Flower2, park: Trees, fossil: Shell };
 const CITY_VIEW_PADDING = { top: 30, right: 30, bottom: 30, left: 45 };
 const cityBounds = new maplibregl.LngLatBounds(
   [geography.bounds[0], geography.bounds[1]],
@@ -228,13 +227,13 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       button.setAttribute("aria-label", `${region} 권역 사업 보기`);
       markers.current.push({ region, button, marker });
     }
-    for (const attraction of tourismAttractions) {
+    for (const {attractionIndex, attraction} of tourismAttractions.map((attraction,attractionIndex)=>({attractionIndex,attraction}))) {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'tdb-geographic-marker tdb-attraction-marker';
       button.dataset.category = attraction.category;
       const dot = document.createElement('b'); dot.setAttribute('aria-hidden', 'true');
-      dot.innerHTML = renderToStaticMarkup(createElement(attractionIcons[attraction.category], { size: 15, strokeWidth: 1.7 }));
+      dot.innerHTML = renderToStaticMarkup(createElement(TourismLandmarkIcon, { category: attraction.category, idPrefix: `tdb-landmark-${attractionIndex}` }));
       const label = document.createElement('span'); label.textContent = attraction.name;
       button.append(dot, label);
       button.title = `${attraction.name} · 관광안내도 기반 대략 위치`;
