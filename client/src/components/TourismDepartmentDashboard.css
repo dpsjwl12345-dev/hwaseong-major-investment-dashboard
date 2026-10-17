@@ -104,7 +104,7 @@
 .tdb-attraction-marker[data-category="heritage"],.tdb-attraction-marker[data-category="temple"],.tdb-attraction-marker[data-category="church"]{--poi-ink:#795b49;--poi-bg:#e0cfba}
 .tdb-attraction-marker[data-category="harbor"]{--poi-ink:#3e657f;--poi-bg:#c4d6df}
 .tdb-attraction-marker[data-category="fossil"]{--poi-ink:#7a6841;--poi-bg:#ded5b9}
-.tdb-attraction-marker b,.tdb-attraction-marker:hover b,.tdb-attraction-marker:focus-visible b{width:26px;height:26px;margin:1px;border-radius:8px;background:var(--poi-bg);color:var(--poi-ink);border:1px solid color-mix(in srgb,var(--poi-ink) 40%,transparent);box-shadow:0 2px 4px #203c4020}
-.tdb-attraction-marker b svg{display:block;flex-shrink:0}
+.tdb-attraction-marker b,.tdb-attraction-marker:hover b,.tdb-attraction-marker:focus-visible b{width:26px;height:26px;margin:1px;border-radius:8px;background:linear-gradient(145deg,color-mix(in srgb,var(--poi-bg) 82%,#f3ead7) 0%,var(--poi-bg) 48%,color-mix(in srgb,var(--poi-bg) 75%,var(--poi-ink)) 100%);color:var(--poi-ink);border:1px solid color-mix(in srgb,var(--poi-ink) 38%,var(--poi-bg));box-shadow:inset 0 1px 1px #fff8,inset 0 -1px 2px #233c4026,0 2px 0 color-mix(in srgb,var(--poi-ink) 65%,var(--poi-bg)),0 4px 5px #203c4033}
+.tdb-attraction-marker b svg{display:block;flex-shrink:0;filter:drop-shadow(0 1px 0 #ffffff80) drop-shadow(0 1px 1px #19343d30)}
 .tdb-attraction-marker span{font:500 11px/1.35 "Pretendard",sans-serif;color:var(--poi-ink);background:transparent;border:0;padding:0;box-shadow:none}
 .tdb-attraction-marker:hover,.tdb-attraction-marker:focus-visible{z-index:4}
