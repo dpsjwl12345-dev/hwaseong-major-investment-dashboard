@@ -18,7 +18,7 @@ const CENTERS:Record<TourismRegion,[number,number]>={
   제부도:guidePoint([322,545]),궁평항:guidePoint([461,747]),
   국화도:guidePoint([316,1122]),입파도:guidePoint([310,1000]),
 };
-const districtColors:Record<string,string>={만세구:"#667a7b",효행구:"#727e83",병점구:"#7f8c8e",동탄구:"#909994"};
+const districtColors:Record<string,string>={만세구:"#bed6c4",효행구:"#e4d5b9",병점구:"#b7d3dd",동탄구:"#cec8e3"};
 const districtShapes:Record<string,[number,number][]>=Object.fromEntries(Object.entries(guideOutline.districts).map(([name,points])=>[name,points.map(point=>guidePoint(point as [number,number]))]));
 const lines=Object.values(districtShapes).map(ring=>[...ring,ring[0]]);
 const districts:GeoJSON.FeatureCollection={type:"FeatureCollection",features:Object.entries(districtShapes).map(([name,ring])=>({type:"Feature",properties:{name,color:districtColors[name]},geometry:{type:"Polygon",coordinates:[[...ring,ring[0]]]}}))};
@@ -48,12 +48,12 @@ const TourismGeographicMap = forwardRef<TourismMapHandle,Props>(function Tourism
       minZoom:8,maxZoom:18,dragPan:true,
       attributionControl:{compact:true},dragRotate:false,touchPitch:false,
       style:{version:8,sources:{city:{type:"geojson",data:{type:"Feature",properties:{},geometry:{type:"MultiPolygon",coordinates:lines.filter(r=>r.length>=4).map(r=>[r])}}},districts:{type:"geojson",data:districts},"island-points":{type:"geojson",data:{type:"FeatureCollection",features:(["국화도","입파도"] as TourismRegion[]).map(region=>({type:"Feature",properties:{},geometry:{type:"Point",coordinates:CENTERS[region]}}))}}},layers:[
-        {id:"sea",type:"background",paint:{"background-color":"#142537"}},
-        {id:"land",type:"fill",source:"city",paint:{"fill-color":"#657a7b","fill-opacity":1}},
-        {id:"district-land",type:"fill",source:"districts",paint:{"fill-color":["get","color"],"fill-opacity":.8}},
-        {id:"islands",type:"circle",source:"island-points",paint:{"circle-radius":7,"circle-color":"#7f938d","circle-stroke-color":"#c8c2a7","circle-stroke-width":1}},
-        {id:"district-boundaries",type:"line",source:"districts",paint:{"line-color":"#ede7d6","line-width":1,"line-opacity":.42}},
-        {id:"city-boundary",type:"line",source:"city",paint:{"line-color":"#e9d3ac","line-width":1.2,"line-opacity":.6}},
+        {id:"sea",type:"background",paint:{"background-color":"#183749"}},
+        {id:"land",type:"fill",source:"city",paint:{"fill-color":"#bed6c4","fill-opacity":1}},
+        {id:"district-land",type:"fill",source:"districts",paint:{"fill-color":["get","color"],"fill-opacity":1}},
+        {id:"islands",type:"circle",source:"island-points",paint:{"circle-radius":7,"circle-color":"#bed6c4","circle-stroke-color":"#c8c2a7","circle-stroke-width":1}},
+        {id:"district-boundaries",type:"line",source:"districts",paint:{"line-color":"#ffffff","line-width":1.4,"line-opacity":.75}},
+        {id:"city-boundary",type:"line",source:"city",paint:{"line-color":"#d9e6e2","line-width":1.3,"line-opacity":.8}},
       ]},
     });} catch {setStatus("error");return;}
     map.current=instance;
@@ -63,7 +63,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle,Props>(function Tourism
     const districtMarkers:maplibregl.Marker[]=[];
     const artRoots:ReturnType<typeof createRoot>[]=[];
     const popups:maplibregl.Popup[]=[];
-    const districtNames:Record<string,[number,number]>={만세구:[750,810],효행구:[1080,500],병점구:[1470,265],동탄구:[1680,475]};
+    const districtNames:Record<string,[number,number]>={만세구:[750,810],효행구:[1080,500],병점구:[1450,365],동탄구:[1680,475]};
     for(const [name,point] of Object.entries(districtNames)){
       const label=document.createElement('span');label.className='tdb-gu-label';label.textContent=name;
       const marker=new maplibregl.Marker({element:label}).setLngLat(guidePoint(point)).addTo(instance);

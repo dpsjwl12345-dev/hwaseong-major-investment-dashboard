@@ -122,3 +122,13 @@
 .tdb-geographic-canvas .maplibregl-canvas-container{cursor:grab;touch-action:none;user-select:none}
 .tdb-geographic-canvas .maplibregl-canvas-container:active{cursor:grabbing}
 .tdb-map-surface{font-family:"Pretendard",sans-serif}
+
+/* Brighter land colors, with dark labels for contrast on the light districts. */
+.tdb-gu-label{color:#344c5b99;text-shadow:none}
+.tdb-landmark-name{color:#243e4c;text-shadow:0 1px 2px #ffffffa6,0 0 5px #ffffff80;font-weight:600}
+.tdb-landmark-art{filter:drop-shadow(0 3px 3px #172b3e30)}
+.tdb-map-watermark{color:#b6d8e653}
+.tdb-map-watermark span{color:#bbd8e67a}
+
+.tdb-geographic-marker{grid-template-rows:35px 25px}
+.tdb-geographic-marker span{padding:3px 6px;border:1px solid #e2bd772e;border-radius:5px;background:#142a3dcc;font-size:14px;color:#ffe3ad;text-shadow:none}
