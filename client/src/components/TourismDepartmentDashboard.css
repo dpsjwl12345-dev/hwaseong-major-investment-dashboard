@@ -94,3 +94,9 @@
 .tdb-geographic-marker.is-active b,.tdb-geographic-marker:hover b,.tdb-geographic-marker:focus-visible b{box-shadow:0 0 0 2px #ffffffd9}
 .tdb-gu-label{font-size:12px;font-weight:500;letter-spacing:1px}
 .tdb-geographic-marker.is-label-collapsed::after{display:none}
+
+/* Tourism POIs remain subordinate to investment-project counts. */
+.tdb-attraction-marker{z-index:2}
+.tdb-attraction-marker b,.tdb-attraction-marker:hover b,.tdb-attraction-marker:focus-visible b{width:8px;height:8px;margin:10px;background:#638b73;border:1px solid #fff;box-shadow:0 0 0 1px #638b7380}
+.tdb-attraction-marker span{font:400 11px/1.35 "Pretendard",sans-serif;color:#43634f;border-color:#cbd7ce;background:#fffffff5;padding:3px 6px}
+.tdb-attraction-marker:hover,.tdb-attraction-marker:focus-visible{z-index:4}

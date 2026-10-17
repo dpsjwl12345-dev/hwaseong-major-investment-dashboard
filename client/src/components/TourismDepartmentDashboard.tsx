@@ -50,7 +50,7 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
           <div className="tdb-zoom"><button aria-label="관광 지도 확대" onClick={()=>map.current?.zoom(1)}><Plus size={17}/></button><button aria-label="관광 지도 축소" onClick={()=>map.current?.zoom(-1)}><Minus size={17}/></button></div>
           {active&&<div className="tdb-map-selection"><MapPin size={16}/><span>{active.project_name}</span><button onClick={()=>onOpenProject(active.id)} aria-label={`${active.project_name} 상세 보기`}><ArrowUpRight size={17}/></button></div>}
         </div>
-        <div className="tdb-map-caption"><span>{projects.length}개 사업 · 4개 권역</span><span>경계 2026.7 · 표시는 사업 부지가 아닌 권역 대표지점</span></div>
+        <div className="tdb-map-caption"><span>{projects.length}개 사업 · 4개 권역 · 관광명소 10곳</span><span>숫자: 사업 권역 · 작은 점: 명소 대략 위치</span></div>
       </section>
       <section className="tdb-list-card" aria-label="관광진흥과 사업 목록">
         <header className="tdb-list-header"><div><h2>{region?regionLabel(region):"전체 사업"}</h2><span>{visible.length}</span></div>{region&&<button aria-label="권역 필터 해제" onClick={()=>setRegion(null)}><X size={16}/></button>}</header>

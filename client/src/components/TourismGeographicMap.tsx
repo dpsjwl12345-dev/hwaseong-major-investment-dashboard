@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "re
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { placeMapLabel, mapLabelRectsOverlap, type MapLabelRect, type MapLabelSide } from "../lib/mapLabelLayout";
+import { tourismAttractions } from "../data/tourism-attractions";
 import geography from "../data/hwaseong-map-metadata.json";
 
 export const TOURISM_REGIONS = ["제부도", "궁평항", "국화도", "입파도"] as const;
@@ -111,6 +112,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       if ((event as { sourceId?: string }).sourceId === "geography") setStatus("error");
       else if (!rasterReady) setStatus("unavailable");
     });
+    const attractions: { button: HTMLButtonElement; marker: maplibregl.Marker }[] = [];
     const labels: { element: HTMLElement; marker: maplibregl.Marker; district: boolean }[] = [];
     for (const label of geography.labels) {
       const element = document.createElement("span");
@@ -139,6 +141,10 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
         const point = instance.project(item.marker.getLngLat());
         occupied.push({ x: point.x - 15, y: point.y - 15, width: 30, height: 30 });
       }
+      for (const item of attractions) {
+        const point = instance.project(item.marker.getLngLat());
+        occupied.push({ x: point.x - 5, y: point.y - 5, width: 10, height: 10 });
+      }
       const priority = (region: TourismRegion, button: HTMLElement) => region === hoveredRegion ? 2 : button.classList.contains('is-active') ? 1 : 0;
       for (const item of [...visibleMarkers].sort((a,b)=>priority(b.region,b.button)-priority(a.region,a.button))) {
         const text = item.button.querySelector('span')!;
@@ -149,6 +155,18 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
           item.button.dataset.labelSide = placed.side;
           item.button.classList.toggle('is-offset-label', placed.distance > 23);
           item.button.style.setProperty('--tdb-label-gap', `${placed.distance - 14}px`);
+          occupied.push(placed.rect);
+        }
+      }
+      for (const item of attractions) {
+        const point = instance.project(item.marker.getLngLat());
+        const text = item.button.querySelector('span')!;
+        const inside = point.x > 10 && point.y > 10 && point.x < viewport.width - 10 && point.y < viewport.height - 10;
+        item.button.style.visibility = inside ? 'visible' : 'hidden';
+        const placed = inside ? placeMapLabel(point, { width: text.offsetWidth, height: text.offsetHeight }, viewport, occupied, item.button.dataset.labelSide as MapLabelSide | undefined, [23]) : null;
+        item.button.classList.toggle('is-label-collapsed', !placed);
+        if (placed) {
+          item.button.dataset.labelSide = placed.side;
           occupied.push(placed.rect);
         }
       }
@@ -185,6 +203,22 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       button.setAttribute("aria-label", `${region} 권역 사업 보기`);
       markers.current.push({ region, button, marker });
     }
+    for (const attraction of tourismAttractions) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'tdb-geographic-marker tdb-attraction-marker';
+      const dot = document.createElement('b'); dot.setAttribute('aria-hidden', 'true');
+      const label = document.createElement('span'); label.textContent = attraction.name;
+      button.append(dot, label);
+      button.title = `${attraction.name} · 관광안내도 기반 대략 위치`;
+      button.onclick = () => {
+        overview.current = false;
+        instance.easeTo({ center: attraction.point, zoom: Math.max(instance.getZoom(), 12.5), duration: duration() });
+      };
+      const marker = new maplibregl.Marker({ element: button, anchor: 'center' }).setLngLat(attraction.point).addTo(instance);
+      button.setAttribute('aria-label', `${attraction.name} 대략 위치 확대`);
+      attractions.push({ button, marker });
+    }
     scheduleLabels();
     document.fonts.ready.then(() => { if (!disposed) scheduleLabels(); });
     const resize = new ResizeObserver(() => {
@@ -198,6 +232,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     const timeout = window.setTimeout(() => { if (!disposed && !rasterReady) setStatus("unavailable"); }, 10000);
     return () => {
       disposed = true; clearTimeout(timeout); cancelAnimationFrame(layoutFrame); relayout.current = () => {}; resize.disconnect();
+      attractions.forEach(item => item.marker.remove());
       labels.forEach(label => label.marker.remove());
       markers.current.forEach(marker => marker.marker.remove()); markers.current = [];
       instance.remove(); map.current = null;
