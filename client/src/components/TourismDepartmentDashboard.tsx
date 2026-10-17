@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Anchor, ArrowUpRight, Footprints, Layers3, LocateFixed, MapPin, Minus, ParkingCircle, Plus, Route, Search, TrainFront, Trees, Wallet, X } from "lucide-react";
 import { deriveProjectBudget } from "../lib/projectBudget";
 import TourismGeographicMap, { TOURISM_REGIONS, type TourismRegion, type TourismMapHandle } from "./TourismGeographicMap";
@@ -35,6 +35,18 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
   const [activeId,setActiveId]=useState<string|null>(null);
   const [hoveredId,setHoveredId]=useState<string|null>(null);
   const map = useRef<TourismMapHandle>(null);
+  const projectList = useRef<HTMLDivElement>(null);
+  const [revealProject,setRevealProject]=useState<{id:string}|null>(null);
+  useEffect(()=>{
+    if(!revealProject)return;
+    const list=projectList.current;
+    const row=list && Array.from(list.querySelectorAll<HTMLElement>("[data-project-id]")).find(element=>element.dataset.projectId===revealProject.id);
+    if(!list||!row)return;
+    const bounds=list.getBoundingClientRect(),item=row.getBoundingClientRect();
+    if(item.top>=bounds.top&&item.bottom<=bounds.bottom)return;
+    // Scroll only the project list; keep the map and page in place.
+    list.scrollTo({top:list.scrollTop+item.top-bounds.top-(list.clientHeight-item.height)/2,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+  },[revealProject]);
   const totals=useMemo(()=>projects.reduce((sum,p)=>{const b=tourismBudgetFor(p);return {total:sum.total+b.total,request:sum.request+b.request,invested:sum.invested+b.invested};},{total:0,request:0,invested:0}),[projects]);
   const visible=projects.filter(p=>p.project_name.includes(query.trim())&&(!region||regionsFor(p.project_name).includes(region)));
   const active=projects.find(p=>p.id===(hoveredId??activeId));
@@ -44,7 +56,7 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
     const index=projects.findIndex(p=>p.id.endsWith(site.projectSuffix));if(index<0)return [];
     const p=projects[index];return [{...site,projectId:p.id,number:index+1,name:p.project_name}];
   }),[projects]);
-  const selectSite=(site:TourismMapSite)=>{setRegion(null);setQuery("");setHoveredId(null);setActiveId(site.projectId);setActiveSiteKey(site.key);map.current?.focusSites([site.point]);};
+  const selectSite=(site:TourismMapSite)=>{setRegion(null);setQuery("");setHoveredId(null);setActiveId(site.projectId);setActiveSiteKey(site.key);setRevealProject({id:site.projectId});map.current?.focusSites([site.point]);};
   const focus=(p:TourismProject)=>{setActiveId(p.id);setActiveSiteKey(sites.find(s=>s.projectId===p.id)?.key??null);map.current?.focusSites(sites.filter(s=>s.projectId===p.id).map(s=>s.point));};
   return <section className="tdb-shell" aria-label="관광진흥과 부서별 현황">
     <header className="tdb-header"><div><p>TOURISM DEPARTMENT</p><h1>관광진흥과 <span>주요투자사업</span></h1></div><div className="tdb-slogan"><ContainerTextFlip words={TOURISM_SLOGAN} interval={3600} className="tdb-slogan-flip" textClassName="tdb-slogan-word"/></div></header>
@@ -67,7 +79,7 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
       <section className="tdb-list-card" aria-label="관광진흥과 사업 목록">
         <header className="tdb-list-header"><div><h2>{region?regionLabel(region):"전체 사업"}</h2><span>{visible.length}</span></div>{region&&<button aria-label="권역 필터 해제" onClick={()=>setRegion(null)}><X size={16}/></button>}</header>
         <label className="tdb-search"><Search size={15}/><input aria-label="관광진흥과 사업 검색" value={query} onChange={e=>setQuery(e.target.value)} placeholder="사업명 검색"/></label>
-        <div className="tdb-project-list">{visible.map(project=>{const Icon=iconFor(project.project_name);return <article key={project.id} className={`tdb-project${activeId===project.id?" is-active":""}`} onMouseEnter={()=>setHoveredId(project.id)} onMouseLeave={()=>setHoveredId(null)}>
+        <div className="tdb-project-list" ref={projectList}>{visible.map(project=>{const Icon=iconFor(project.project_name);return <article key={project.id} data-project-id={project.id} className={`tdb-project${activeId===project.id?" is-active":""}`} onMouseEnter={()=>setHoveredId(project.id)} onMouseLeave={()=>setHoveredId(null)}>
           <span className="tdb-project-icon"><Icon size={19}/><b className="tdb-project-number">{projects.findIndex(p=>p.id===project.id)+1}</b></span><div className="tdb-project-info"><div className="tdb-project-heading"><button className="tdb-project-title" aria-pressed={activeId===project.id} onClick={()=>focus(project)}>{project.project_name}</button><span className="tdb-project-stage">{project.current_stage||(project.sub_projects?.length?`세부사업 ${project.sub_projects.length}개`:"단계 미등록")}</span></div>{project.progress_rate!=null&&<div className="tdb-progress" aria-label={`진척률 ${project.progress_rate}%`}><i style={{width:`${Math.max(0,Math.min(100,project.progress_rate))}%`}}/></div>}</div><button className="tdb-project-detail" aria-label={`${project.project_name} 상세 보기`} onClick={()=>onOpenProject(project.id)}><ArrowUpRight size={25} strokeWidth={1.8}/></button>
         </article>;})}{!visible.length&&<p className="tdb-empty">검색 결과가 없습니다.</p>}</div>
       </section>
