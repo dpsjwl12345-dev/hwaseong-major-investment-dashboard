@@ -8,6 +8,11 @@ import Home from "./pages/Home";
 function TourismDepartmentPage() {
   return <Home initialDepartment="관광진흥과" />;
 }
+const departmentRoutes:Record<string,string>={culture:"문화예술과",heritage:"문화유산과",memorial:"독립기념관",libraries:"도서관정책과",sports:"체육진흥과",festival:"전국체전추진단"};
+function DepartmentPage({params}:{params:{slug:string}}) {
+  const department=departmentRoutes[params.slug];
+  return department?<Home key={department} initialDepartment={department}/>:<NotFound/>;
+}
 function HomePage() {
   return <Home />;
 }
@@ -18,6 +23,7 @@ function Router() {
     <Switch>
       <Route path="/department-map-preview" component={TourismDepartmentPage} />
       <Route path="/departments/tourism" component={TourismDepartmentPage} />
+      <Route path="/departments/:slug" component={DepartmentPage} />
       <Route path={"/"} component={HomePage} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}

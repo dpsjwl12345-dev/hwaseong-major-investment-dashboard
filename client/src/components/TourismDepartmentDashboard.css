@@ -226,3 +226,25 @@
 .tdb-project-detail:hover svg,.tdb-project-detail:focus-visible svg{animation:none;opacity:1}
 .tdb-project-detail:active{transform:translateY(1px);box-shadow:inset 1px 1px 3px #07101b80,0 1px 0 #0a1421}
 @media(prefers-reduced-motion:reduce){.tdb-project-detail svg{animation:none;opacity:1}.tdb-project-detail{transition:none}}
+
+/* One layout, department-specific facility symbols and restrained accent tones. */
+.department-heading-icon{display:inline-block;margin-right:10px;vertical-align:-3px;color:var(--tdb-gold);stroke-width:1.6}
+.tdb-shell:not([data-department="관광진흥과"]) .tdb-slogan{color:var(--tdb-gold)}
+.tdb-shell:not([data-department="관광진흥과"]) .tdb-project-icon{color:var(--tdb-gold)}
+.department-unmapped{font:400 11px/1.4 "Pretendard",sans-serif;color:#a9b3c1}
+.department-view-switch{display:flex;justify-content:flex-end;gap:6px;max-width:1760px;margin:0 auto 10px}
+.department-view-switch button{display:flex;align-items:center;gap:6px;border:1px solid #ffffff20;border-radius:8px;background:#17202d;color:#aebdcb;padding:8px 12px;font:500 13px "Pretendard",sans-serif;cursor:pointer}
+.department-view-switch button[aria-pressed="true"]{background:#26374c;color:#e3edf7;border-color:#789ab66b}
+.department-court-lines{position:absolute;left:23px;top:22px;width:58px;height:27px;border:1px solid #d7e6dd;transform:translateZ(4px)}
+.department-court-lines::before{content:"";position:absolute;left:50%;top:0;height:100%;border-left:1px solid #d7e6dd}
+.department-court-lines i{position:absolute;left:23px;top:7px;width:12px;height:12px;border:1px solid #d7e6dd;border-radius:50%}
+.department-library-spines{position:absolute;left:17px;top:21px;display:flex;gap:4px;transform:translateZ(25px)}
+.department-library-spines i{display:block;width:3px;height:25px;background:#e3d4b7;border-radius:1px}
+.department-culture-windows{position:absolute;left:16px;top:28px;width:36px;height:15px;transform:translateZ(21px);background:repeating-linear-gradient(90deg,#bfcbd1 0 4px,#657789 4px 5px)}
+@media(max-width:760px){.department-heading-icon{width:20px;height:20px;margin-right:7px}.tdb-shell:not([data-department="관광진흥과"]) .tdb-map-caption>span:last-child{max-width:none}}
+.department-tennis-court{position:absolute;left:17px;top:18px;width:70px;height:34px;border:1px solid #e5ece2;transform:translateZ(4px)}
+.department-tennis-court::before{content:"";position:absolute;inset:5px 0;border-top:1px solid #e5ece2;border-bottom:1px solid #e5ece2}
+.department-tennis-court i{position:absolute;inset:5px 16px;border-left:1px solid #e5ece2;border-right:1px solid #e5ece2}
+.department-tennis-court i::before{content:"";position:absolute;top:50%;left:0;width:100%;border-top:1px solid #e5ece2}
+.department-tennis-net{position:absolute;left:52px;top:15px;width:1px;height:40px;border-left:1px solid #dce5e1;box-shadow:2px 1px 1px #172b3380;transform:translateZ(10px)}
+.department-baseball-diamond{position:absolute;inset:0;width:104px;height:64px;transform:translateZ(4px)}

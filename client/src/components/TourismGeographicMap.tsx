@@ -30,9 +30,10 @@ export type TourismMapHandle = {
   reset: () => void;
   zoom: (direction: number) => void;
   focus: (regions: TourismRegion[]) => void;
-  focusSites: (points: [number, number][]) => void;
+  focusSites: (points: [number, number][], maxZoom?: number) => void;
 };
 type Props = {
+  landmarkCategories?: string[];
   sites: TourismMapSite[];
   activeProjectId: string | null;
   activeSiteKey: string | null;
@@ -47,7 +48,7 @@ const BOUNDARY_ATTRIBUTION = '<a href="https://sgis.kostat.go.kr" target="_blank
 // OpenStreetMap Standard tiles require no account or API key.
 const tiles = ["hwaseong-toned://tile.openstreetmap.org/{z}/{x}/{y}.png"];
 
-const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function TourismGeographicMap({ counts, highlights, onSelect, onZoomChange, sites, activeProjectId, activeSiteKey, onProjectSelect }, ref) {
+const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function TourismGeographicMap({ landmarkCategories, counts, highlights, onSelect, onZoomChange, sites, activeProjectId, activeSiteKey, onProjectSelect }, ref) {
   const [mapInstance,setMapInstance]=useState<maplibregl.Map|null>(null);
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
@@ -64,12 +65,12 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
   useImperativeHandle(ref, () => ({
     reset() { overview.current = true; map.current?.fitBounds(cityBounds, { padding: CITY_VIEW_PADDING, duration: duration() }); },
     zoom(direction) { overview.current = false; const instance = map.current; if (instance) instance.easeTo({ zoom: instance.getZoom() + direction, duration: duration() ? 200 : 0 }); },
-    focusSites(points) {
+    focusSites(points, maxZoom = 14.2) {
       if(!points.length)return;
       overview.current=false;
-      if(points.length===1){map.current?.easeTo({center:points[0],zoom:14.2,offset:[0,65],duration:duration()});return;}
+      if(points.length===1){map.current?.easeTo({center:points[0],zoom:maxZoom,offset:[0,65],duration:duration()});return;}
       const bounds=new maplibregl.LngLatBounds();points.forEach(p=>bounds.extend(p));
-      map.current?.fitBounds(bounds,{padding:90,maxZoom:14.2,duration:duration()});
+      map.current?.fitBounds(bounds,{padding:90,maxZoom,duration:duration()});
     },
     focus(regions) {
       if (!regions.length) return;
@@ -215,7 +216,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     });
     instance.on("load", layoutLabels);
     layoutLabels();
-    for (const region of (sites.length ? [] : TOURISM_REGIONS)) {
+    for (const region of (sites.length ? [] : TOURISM_REGIONS.filter(region=>counts[region]>0))) {
       const button = document.createElement("button");
       button.type = "button"; button.className = "tdb-geographic-marker";
       const count = document.createElement("b"); count.textContent = String(counts[region]);
@@ -228,7 +229,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       button.setAttribute("aria-label", `${region} 권역 사업 보기`);
       markers.current.push({ region, button, marker });
     }
-    for (const {attractionIndex, attraction} of tourismAttractions.map((attraction,attractionIndex)=>({attractionIndex,attraction}))) {
+    for (const {attractionIndex, attraction} of tourismAttractions.filter(attraction=>!landmarkCategories||landmarkCategories.includes(attraction.category)).map((attraction,attractionIndex)=>({attractionIndex,attraction}))) {
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'tdb-geographic-marker tdb-attraction-marker';

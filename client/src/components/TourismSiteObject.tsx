@@ -1,8 +1,16 @@
 import { useId, type CSSProperties } from "react";
 import gukhwa from "../data/gukhwa-object-outline.json";
-export type TourismObjectKind = "marina"|"rock"|"rest"|"trail"|"park"|"deck"|"parking"|"tourism"|"road"|"train";
+export type TourismObjectKind = "marina"|"rock"|"rest"|"trail"|"park"|"deck"|"parking"|"tourism"|"road"|"train"|"culture"|"heritage"|"memorial"|"library"|"sports"|"stadium"|"tennis"|"baseball";
 type Block={x:number;y:number;w:number;d:number;h:number;color:string};
 const blocks:Record<TourismObjectKind,Block[]>={
+  culture:[{x:9,y:22,w:55,d:30,h:20,color:"#9c94ad"},{x:55,y:12,w:37,d:40,h:32,color:"#c1b8b2"}],
+  heritage:[{x:13,y:21,w:78,d:29,h:17,color:"#9a8167"},{x:7,y:17,w:90,d:37,h:20,color:"#69797b"},{x:18,y:24,w:6,d:24,h:20,color:"#b5a18a"},{x:79,y:24,w:6,d:24,h:20,color:"#b5a18a"}],
+  memorial:[{x:14,y:16,w:76,d:40,h:4,color:"#727f77"},{x:40,y:26,w:24,d:20,h:12,color:"#a7aea7"},{x:48,y:30,w:8,d:12,h:55,color:"#c4c7bc"}],
+  library:[{x:9,y:16,w:38,d:38,h:24,color:"#b0b49c"},{x:55,y:16,w:38,d:38,h:24,color:"#c0b69f"},{x:47,y:20,w:8,d:30,h:19,color:"#758783"}],
+  tennis:[{x:7,y:12,w:90,d:46,h:3,color:"#5c827a"}],
+  baseball:[{x:8,y:10,w:88,d:48,h:3,color:"#6a826b"}],
+  sports:[{x:7,y:12,w:90,d:46,h:3,color:"#587e77"},{x:5,y:10,w:94,d:3,h:6,color:"#b8c5bf"},{x:5,y:57,w:94,d:3,h:6,color:"#b8c5bf"}],
+  stadium:[{x:9,y:12,w:86,d:5,h:15,color:"#9eabb6"},{x:9,y:53,w:86,d:5,h:15,color:"#9eabb6"},{x:7,y:17,w:9,d:36,h:12,color:"#b6bfc3"},{x:88,y:17,w:9,d:36,h:12,color:"#b6bfc3"},{x:19,y:20,w:64,d:29,h:3,color:"#537d70"}],
   marina:[{x:12,y:27,w:76,d:7,h:4,color:"#8a7761"},{x:18,y:8,w:10,d:21,h:7,color:"#d9ddd9"},{x:47,y:34,w:11,d:22,h:8,color:"#c6cdcc"},{x:74,y:8,w:10,d:21,h:7,color:"#c6cdcc"}],
   rock:[{x:18,y:22,w:23,d:18,h:39,color:"#91877a"},{x:49,y:29,w:17,d:15,h:27,color:"#776f65"},{x:75,y:35,w:12,d:12,h:19,color:"#a29888"}],
   rest:[{x:20,y:20,w:56,d:29,h:23,color:"#60747e"},{x:12,y:17,w:74,d:9,h:28,color:"#b4a58a"}],
@@ -79,6 +87,11 @@ export default function TourismSiteObject({kind}:{kind:TourismObjectKind}) {
     {kind==="train"&&<><div className="object-train-coupling"/>{[12,27,42,57,73,88].map(x=><i key={x} className="object-train-wheel" style={{left:x}}/>)}</>}
     {kind==="parking"&&<><div className="object-parking-lines"/><div className="object-parking-sign"><span className="parking-sign-front">P</span><span className="parking-sign-back">P</span></div></>}
     {kind==="marina"&&[19,48,75].map((x,i)=><i key={x} className="object-yacht-sail" style={{left:x,top:i===1?44:19}}/>)}
+    {["sports","stadium"].includes(kind)&&<div className="department-court-lines"><i/></div>}
+    {kind==="tennis"&&<><div className="department-tennis-court"><i/></div><div className="department-tennis-net"/></>}
+    {kind==="baseball"&&<svg className="department-baseball-diamond" viewBox="0 0 104 64"><path d="M52 51 24 29 Q52 2 80 29Z" fill="#b49b79"/><path d="m52 49-15-14 15-14 15 14Z" fill="#718b70" stroke="#e0e6d7" strokeWidth=".8"/><path d="M52 51 13 20 M52 51 91 20" stroke="#e0e6d7" fill="none" strokeWidth="1"/></svg>}
+    {kind==="library"&&<div className="department-library-spines">{[0,1,2,3,4].map(i=><i key={i}/>)}</div>}
+    {kind==="culture"&&<div className="department-culture-windows"/>}
     {kind==="road"&&<div className="object-road-markings"/>}
     {["tourism","rest"].includes(kind)&&[0,1].map(i=><div className="tdb-object-tree" key={i} style={{left:83-i*72,top:46-i*31}}><i/><b/></div>)}
   </div></div>;

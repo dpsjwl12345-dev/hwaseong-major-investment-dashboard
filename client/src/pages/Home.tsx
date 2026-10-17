@@ -62,7 +62,7 @@ import { CHILDREN_SCIENCE_ID, ChildrenScienceSummary, ChildrenScienceBudgetSumma
 import { deriveProjectBudget } from "../lib/projectBudget";
 
 import { DepartmentOverview } from "../components/DepartmentOverview";
-import TourismDepartmentDashboard from "../components/TourismDepartmentDashboard";
+import DepartmentDashboardView from "../components/DepartmentDashboardView";
 
 const pb = deriveProjectBudget;
 
@@ -2195,7 +2195,7 @@ export default function Home({ initialDepartment }: { initialDepartment?: string
           {activeView === "investment-review" ? (
             <InvestmentReviewBoard isAdmin={isAdmin} />
           ) : activeView === "department" ? (
-            selectedDepartmentDashboard === "관광진흥과" ? <TourismDepartmentDashboard projects={liveProjects} onOpenProject={id => { const project = liveProjects.find(p => p.id === id); if (project) goProject(project); }} /> : <DepartmentDashboard key={selectedDepartmentDashboard} projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={(project) => { setSelectedProject(project); setActiveView("project"); window.scrollTo(0, 0); }} />
+            <DepartmentDashboardView key={selectedDepartmentDashboard} department={selectedDepartmentDashboard} projects={liveProjects} isAdmin={isAdmin} onOpenProject={id => { const project = liveProjects.find(p => p.id === id); if (project) goProject(project); }} managementTable={<DepartmentDashboard projects={liveProjects} initialDepartment={selectedDepartmentDashboard} isAdmin={isAdmin} onSelectProject={goProject} />} />
           ) : activeView === "project" && selectedProject ? (
             <div className="detail-panel-shell">
               <ProjectDetail project={selectedProject} onProjectUpdated={(projectId, patch) => setSelectedProject((current) => current?.id === projectId ? { ...current, ...patch } : current)} searchValue={query} onSearchChange={setQuery} searchProjects={liveProjects} onSelectProject={goProject} />
