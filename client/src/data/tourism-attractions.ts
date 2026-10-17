@@ -7,7 +7,7 @@ export const tourismAttractions: { name: string; point: [number, number]; catego
   { name: "고정리 공룡알화석산지", point: [126.763, 37.279], category: "fossil" },
   { name: "화성 당성", point: [126.735, 37.191], category: "heritage" },
   { name: "남양성모성지", point: [126.816, 37.205], category: "church" },
-  { name: "화성 융릉과 건릉", point: [126.989, 37.212], category: "heritage" },
+  { name: "융건릉", point: [126.989, 37.212], category: "heritage" },
   { name: "용주사", point: [127.005, 37.213], category: "temple" },
   { name: "화성시 우리꽃식물원", point: [126.879, 37.077], category: "garden" },
   { name: "동탄호수공원", point: [127.104, 37.158], category: "park" },
