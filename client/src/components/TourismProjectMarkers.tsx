@@ -16,7 +16,7 @@ export default function TourismProjectMarkers({map,sites,activeId,activeSiteKey,
   useEffect(()=>{
     if(!map)return;
     const items=sites.map(site=>{
-      const element=document.createElement("div");element.className="tdb-site-marker";
+      const element=document.createElement("div");element.className="tdb-site-marker";element.dataset.kind=site.kind;
       const marker=new maplibregl.Marker({element,anchor:"center"}).setLngLat(site.point).addTo(map);
       return {site,element,marker};
     });
@@ -46,7 +46,7 @@ export default function TourismProjectMarkers({map,sites,activeId,activeSiteKey,
         item.element.style.setProperty("--tether-length",`${Math.hypot(...offset)}px`);
         item.element.style.setProperty("--tether-angle",`${Math.atan2(-offset[1],-offset[0])}rad`);
         occupied.push({x:p.x+offset[0]-14,y:p.y+offset[1]-14,width:28,height:28});
-        if(item.site.key===active.current)occupied.push({x:p.x+offset[0]-105,y:p.y+offset[1]+22,width:210,height:42});
+        if(item.site.key===active.current)occupied.push({x:p.x+offset[0]-105,y:p.y+offset[1]+(item.site.kind==="train"?-64:22),width:210,height:42});
       }
       if(map.getZoom()<12)return;
       visible.sort((a,b)=>Number(b.site.key===active.current)-Number(a.site.key===active.current));
@@ -54,11 +54,11 @@ export default function TourismProjectMarkers({map,sites,activeId,activeSiteKey,
         const card=item.element.querySelector<HTMLElement>(".tdb-site-object");if(!card)continue;
         const projected=map.project(item.site.point);const offset=item.marker.getOffset();const p={x:projected.x+offset.x,y:projected.y+offset.y};
         // Keep the object directly over its numbered pin; never shift it sideways.
-        const rect={x:p.x-card.offsetWidth/2,y:p.y-22-card.offsetHeight,width:card.offsetWidth,height:card.offsetHeight};
+        const rect={x:p.x-card.offsetWidth/2,y:item.site.kind==="train"?p.y+26:p.y-22-card.offsetHeight,width:card.offsetWidth,height:card.offsetHeight};
         const inside=rect.x>=6&&rect.y>=6&&rect.x+rect.width<=viewport.width-6&&rect.y+rect.height<=viewport.height-6;
         const blocked=occupied.some(other=>mapLabelRectsOverlap(rect,other,3));
         if(!inside||(blocked&&item.site.key!==active.current))continue;
-        card.style.left=`${14-card.offsetWidth/2}px`;card.style.top=`${-8-card.offsetHeight}px`;
+        card.style.left=`${14-card.offsetWidth/2}px`;card.style.top=item.site.kind==="train"?"40px":`${-8-card.offsetHeight}px`;
         item.element.classList.add("is-expanded");occupied.push(rect);
       }
     };

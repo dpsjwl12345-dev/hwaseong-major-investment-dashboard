@@ -193,3 +193,30 @@
 .tdb-site-name{color:#e2e8ed;text-shadow:-1px -1px 0 #142332,1px -1px 0 #142332,-1px 1px 0 #142332,1px 1px 0 #142332}
 .tdb-site-tether{background:#b09d7977}
 .tdb-attraction-marker:hover span,.tdb-attraction-marker:focus-visible span{color:#e6cfab}
+
+.tdb-site-marker[data-kind="train"] .tdb-site-name{top:auto;bottom:36px}
+.coast-shore,.coast-handrails{position:absolute;inset:0;width:104px;height:64px;overflow:visible}
+.coast-shore{transform:translateZ(-1px);opacity:.75}
+.coast-plank{transform-origin:center;transform-style:preserve-3d}
+.object-trail .coast-plank .object-roof{background:linear-gradient(90deg,color-mix(in srgb,var(--block-color) 90%,#d3c5a9),var(--block-color));border:0}
+.object-trail .coast-plank .object-side{border:0;background:#655844}
+.coast-post i{border:0}
+.coast-foundation{position:absolute;width:2px;height:2px;border-radius:50%;background:#53635f;transform:translateZ(-2px);box-shadow:0 0 3px #07192455}
+
+.island-outline{position:absolute;inset:0;width:104px;height:64px;overflow:visible}
+.island-stone{transform:translateZ(1px)}.island-land{transform:translateZ(5px)}
+.island-deck{transform:translateZ(7px)}.island-rails{transform:translateZ(13px)}
+
+.tdb-project-heading{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.tdb-project-heading .tdb-project-title{flex:0 1 auto}
+.tdb-project-stage{font:400 12px/1.4 "Pretendard",sans-serif;color:#a9b7c9;white-space:nowrap}
+.tdb-project-detail{width:37px;height:37px;padding:5px;color:#cfb17b}.tdb-project-detail:hover{background:#ffffff08;border-radius:7px;color:#efd49c}
+.tdb-project.is-active .tdb-project-title{color:#e4c383}
+
+.tdb-attraction-marker span{font-size:13px;font-weight:600;line-height:1.45}
+
+.tdb-project-icon{position:relative}
+.tdb-project-number{position:absolute;right:-5px;bottom:-5px;display:grid;place-items:center;min-width:17px;height:17px;padding:0 3px;border:1px solid #b59b6a66;border-radius:5px;background:#172433;color:#e6c88e;font:500 11px/1 "Gmarket Sans","Pretendard",sans-serif;box-shadow:0 1px 3px #07121c55}
+.tdb-site-pin b{font:700 14px/1 "Gmarket Sans","Pretendard",sans-serif;text-shadow:0 1px 0 #f4ddb54d}
+
+.object-deck .tdb-object-stage{scale:1.7}
