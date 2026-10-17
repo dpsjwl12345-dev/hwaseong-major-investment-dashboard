@@ -45,7 +45,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle,Props>(function Tourism
     let disposed=false;
     let instance:maplibregl.Map;
     try {instance=new maplibregl.Map({container:container.current,center:[126.63,37.13],zoom:10.7,
-      minZoom:9,maxZoom:18,maxBounds:[[126.44,36.9],[127.2,37.4]],
+      minZoom:8,maxZoom:18,dragPan:true,
       attributionControl:{compact:true},dragRotate:false,touchPitch:false,
       style:{version:8,sources:{city:{type:"geojson",data:{type:"Feature",properties:{},geometry:{type:"MultiPolygon",coordinates:lines.filter(r=>r.length>=4).map(r=>[r])}}},districts:{type:"geojson",data:districts},"island-points":{type:"geojson",data:{type:"FeatureCollection",features:(["국화도","입파도"] as TourismRegion[]).map(region=>({type:"Feature",properties:{},geometry:{type:"Point",coordinates:CENTERS[region]}}))}}},layers:[
         {id:"sea",type:"background",paint:{"background-color":"#142537"}},
