@@ -3,7 +3,12 @@
 .tdb-header p{margin:0 0 7px;color:var(--tdb-gold);font-size:9px;letter-spacing:.18em}
 .tdb-header h1{margin:0;font:600 25px/1.3 "Pretendard",sans-serif;letter-spacing:-.04em}
 .tdb-header h1>span{margin-left:9px;color:#9faaba;font-size:18px;font-weight:400}
-.tdb-slogan{font:400 italic 19px "April16th Promise","Pretendard",sans-serif;color:#c2b391;white-space:nowrap}
+.tdb-slogan{display:flex;align-items:center;justify-content:flex-end;gap:15px;min-width:280px;max-width:100%;color:#d7c5a5}
+.tdb-slogan::before{content:"";width:48px;height:1px;flex-shrink:0;background:linear-gradient(90deg,transparent,#b6a385)}
+.tdb-slogan .tdb-slogan-flip{padding:5px 16px;background:none;border:0;border-radius:0;box-shadow:none;color:inherit;font:500 27px/1.55 "Gmarket Sans","Pretendard",sans-serif;letter-spacing:-.055em}
+.tdb-slogan-word>span:nth-child(-n+2){color:#d5e1e6}
+@media(max-width:760px){.tdb-slogan{min-width:0;gap:8px;justify-content:flex-start}.tdb-slogan::before{width:27px}.tdb-slogan .tdb-slogan-flip{font-size:21px;padding-top:3px;padding-bottom:3px}}
+@media(prefers-reduced-motion:reduce){.tdb-slogan{min-width:0}.tdb-slogan::before{display:none}.tdb-slogan .tdb-slogan-flip{font-size:20px}}
 .tdb-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:11px 0;margin-bottom:18px;border-top:1px solid var(--tdb-line);border-bottom:1px solid var(--tdb-line)}
 .tdb-kpi{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 18px}
 .tdb-kpi:first-child{padding-left:0}.tdb-kpi:last-child{padding-right:0}.tdb-kpi+.tdb-kpi{border-left:1px solid var(--tdb-line)}
@@ -173,3 +178,18 @@
 .tdb-map-caption{justify-content:flex-end}.tdb-map-caption>span:only-child{color:#758b96;white-space:normal;text-align:right}
 
 @media(min-width:761px) and (max-width:1450px){.tdb-kpi{flex-wrap:wrap;row-gap:8px}.tdb-kpi>div{width:100%}}
+
+/* Navy map surface and controls share the department dashboard palette. */
+.tdb-map-card{border-color:#ffffff16;background:#14202e}
+.tdb-map-header,.tdb-map-caption{background:#182432;border-color:#ffffff12;color:#a5b5c5}
+.tdb-map-header>div>span,.tdb-map-caption>span:only-child{color:#a1b2c4}
+.tdb-map-header>button{background:#253546;border-color:#536b8055;color:#d4dfe8}.tdb-map-header>button:hover{background:#31465a}
+.tdb-map-surface{background:#142332}
+.tdb-zoom{border-color:#6e839c55;box-shadow:0 3px 12px #07111b40}.tdb-zoom button{background:#243547;color:#d5dfe8}.tdb-zoom button:hover{background:#344c61}.tdb-zoom button+button{border-color:#ffffff12}
+.tdb-map-surface .maplibregl-ctrl-attrib{background:#152332e8;color:#9bafc3}.tdb-map-surface .maplibregl-ctrl-attrib a{color:#a9bbcd}
+.tdb-map-network-note{background:#213447ed;color:#b8c9d8}.tdb-geographic-status{background:#142332;color:#bccddd}
+.tdb-gu-label,.tdb-town-label{color:#a6bac9;text-shadow:0 1px 2px #101e2d}
+.tdb-geographic-marker span,.tdb-attraction-marker span{color:#c3d3de;text-shadow:-1px -1px 0 #142332,1px 1px 0 #142332}
+.tdb-site-name{color:#e2e8ed;text-shadow:-1px -1px 0 #142332,1px -1px 0 #142332,-1px 1px 0 #142332,1px 1px 0 #142332}
+.tdb-site-tether{background:#b09d7977}
+.tdb-attraction-marker:hover span,.tdb-attraction-marker:focus-visible span{color:#e6cfab}

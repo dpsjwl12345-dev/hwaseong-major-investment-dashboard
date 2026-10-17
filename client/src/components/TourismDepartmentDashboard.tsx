@@ -4,6 +4,7 @@ import { deriveProjectBudget } from "../lib/projectBudget";
 import TourismGeographicMap, { TOURISM_REGIONS, type TourismRegion, type TourismMapHandle } from "./TourismGeographicMap";
 import { tourismProjectSites } from "../data/tourism-project-sites";
 import type { TourismMapSite } from "./TourismProjectMarkers";
+import { ContainerTextFlip } from "./ui/container-text-flip";
 import "./TourismDepartmentDashboard.css";
 
 type BudgetSource = Parameters<typeof deriveProjectBudget>[0];
@@ -14,6 +15,7 @@ export type TourismProject = BudgetSource & {
   sub_projects?: (BudgetSource & { name: string })[];
 };
 type Region = TourismRegion;
+const TOURISM_SLOGAN = ["바다를 잇고,", "화성을 누리다"];
 
 const regionsFor = (name: string): Region[] => /계류시설/.test(name) ? ["국화도","입파도"] : /주차장 및 도로/.test(name) ? ["제부도","궁평항"] : /국화도/.test(name) ? ["국화도"] : /궁평|황금해안길/.test(name) ? ["궁평항"] : ["제부도"];
 const regionLabel = (region: Region) => region === "궁평항" ? "궁평 권역" : region === "제부도" ? "제부 권역" : region;
@@ -45,7 +47,7 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
   const selectSite=(site:TourismMapSite)=>{setRegion(null);setQuery("");setHoveredId(null);setActiveId(site.projectId);setActiveSiteKey(site.key);map.current?.focusSites([site.point]);};
   const focus=(p:TourismProject)=>{setActiveId(p.id);setActiveSiteKey(sites.find(s=>s.projectId===p.id)?.key??null);map.current?.focusSites(sites.filter(s=>s.projectId===p.id).map(s=>s.point));};
   return <section className="tdb-shell" aria-label="관광진흥과 부서별 현황">
-    <header className="tdb-header"><div><p>TOURISM DEPARTMENT</p><h1>관광진흥과 <span>주요투자사업</span></h1></div><span className="tdb-slogan">바다를 잇고, 화성을 누리다</span></header>
+    <header className="tdb-header"><div><p>TOURISM DEPARTMENT</p><h1>관광진흥과 <span>주요투자사업</span></h1></div><div className="tdb-slogan"><ContainerTextFlip words={TOURISM_SLOGAN} interval={3600} className="tdb-slogan-flip" textClassName="tdb-slogan-word"/></div></header>
     <div className="tdb-kpis" aria-label="관광진흥과 주요 지표">
       <article className="tdb-kpi is-count"><div><Layers3 size={17}/><span>관리사업</span></div><strong>{projects.length}<small>개</small></strong><p>세부사업은 모사업에 포함</p></article>
       <article className="tdb-kpi"><div><Wallet size={17}/><span>총사업비</span></div><strong>{money(totals.total)}<small>억원</small></strong><p>등록된 사업비 합계</p></article>
