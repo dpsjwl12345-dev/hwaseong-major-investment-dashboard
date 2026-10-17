@@ -22,6 +22,7 @@ const CENTERS: Record<TourismRegion, [number, number]> = {
   입파도: [126.53922474495708, 37.10764374760446],
 };
 const attractionIcons = { harbor: Anchor, heritage: Landmark, church: Church, temple: House, garden: Flower2, park: Trees, fossil: Shell };
+const CITY_VIEW_PADDING = { top: 30, right: 30, bottom: 30, left: 45 };
 const cityBounds = new maplibregl.LngLatBounds(
   [geography.bounds[0], geography.bounds[1]],
   [geography.bounds[2], geography.bounds[3]],
@@ -62,7 +63,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
   useEffect(() => { relayout.current(); });
   const duration = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450;
   useImperativeHandle(ref, () => ({
-    reset() { overview.current = true; map.current?.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: duration() }); },
+    reset() { overview.current = true; map.current?.fitBounds(cityBounds, { padding: CITY_VIEW_PADDING, duration: duration() }); },
     zoom(direction) { overview.current = false; const instance = map.current; if (instance) instance.easeTo({ zoom: instance.getZoom() + direction, duration: duration() ? 200 : 0 }); },
     focusSites(points) {
       if(!points.length)return;
@@ -121,7 +122,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       });
     } catch { setStatus("error"); return; }
     map.current = instance;setMapInstance(instance);
-    instance.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: 0 });
+    instance.fitBounds(cityBounds, { padding: CITY_VIEW_PADDING, duration: 0 });
     instance.on("movestart", event => { if (event.originalEvent) overview.current = false; });
     instance.on("sourcedata", event => {
       if (event.sourceId === "basemap" && event.tile?.state === "loaded" && !disposed) {
@@ -251,7 +252,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       instance.resize();
       // Flex/grid layout can resize the canvas after initialization. Keep the
       // entire city inside the final viewport until the user pans or zooms.
-      if (overview.current) instance.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: 0 });
+      if (overview.current) instance.fitBounds(cityBounds, { padding: CITY_VIEW_PADDING, duration: 0 });
       layoutLabels();
     });
     resize.observe(container.current);
