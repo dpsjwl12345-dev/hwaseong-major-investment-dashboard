@@ -127,8 +127,8 @@
 /* Objects stay geographically anchored; no gallery or image-card overlay. */
 .tdb-site-marker{width:28px;height:28px;z-index:4;overflow:visible}
 .tdb-site-pin{display:block;position:relative;left:-8px;top:-8px;width:44px;height:44px;padding:0;border:0;border-radius:0;background:transparent;color:#d7b579;box-shadow:none;cursor:pointer;transition:color .2s}
-.tdb-investment-pin-shape{position:absolute;left:4px;top:-3px;width:36px;height:46px;filter:none}
-.tdb-site-pin b{position:absolute;left:36px;top:36px;transform:none;display:grid;place-items:center;min-width:24px;width:auto;height:24px;margin:0;padding:0 4px;background:#172433;border:1px solid #b59b6a66;border-radius:5px;clip-path:none;box-shadow:0 1px 3px #07121c55;color:#e6c88e;font:500 15px/1 "Gmarket Sans","Pretendard",sans-serif;text-shadow:none}
+.tdb-investment-pin-shape{position:absolute;left:6px;top:0;width:32px;height:41px;filter:none}
+.tdb-site-pin b{position:absolute;left:22px;top:25px;transform:none;display:grid;place-items:center;min-width:22px;width:auto;height:22px;margin:0;padding:0 4px;background:#172433;border:1px solid #b59b6a66;border-radius:5px;clip-path:none;box-shadow:0 1px 3px #07121c55;color:#e6c88e;font:500 14px/1 "Gmarket Sans","Pretendard",sans-serif;text-shadow:none}
 .tdb-site-pin:hover,.tdb-site-pin:focus-visible{background:transparent;color:#edcc91;box-shadow:none}
 .tdb-site-pin:focus-visible{outline:2px solid #d6b579;outline-offset:3px}
 .tdb-site-object{position:absolute;width:174px;display:block;padding:0;border:0;background:transparent;text-align:center;color:#19354b;cursor:pointer;visibility:hidden;pointer-events:none}
