@@ -30,21 +30,24 @@ type Props = {
 };
 const GEOGRAPHY_URL = "/maps/hwaseong-20260701.geojson";
 const BOUNDARY_ATTRIBUTION = '<a href="https://sgis.kostat.go.kr" target="_blank" rel="noopener noreferrer">SGIS</a> · <a href="https://github.com/vuski/admdongkor" target="_blank" rel="noopener noreferrer">admdongkor</a> (CC BY 4.0)';
-const tiles = ["https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"];
+// OpenStreetMap Standard tiles require no account or API key.
+const tiles = ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"];
 
 const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function TourismGeographicMap({ counts, highlights, onSelect }, ref) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const markers = useRef<{ region: TourismRegion; button: HTMLButtonElement; marker: maplibregl.Marker }[]>([]);
+  const overview = useRef(true);
   const callback = useRef(onSelect);
   callback.current = onSelect;
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable" | "error">("loading");
   const duration = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450;
   useImperativeHandle(ref, () => ({
-    reset() { map.current?.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: duration() }); },
-    zoom(direction) { const instance = map.current; if (instance) instance.easeTo({ zoom: instance.getZoom() + direction, duration: duration() ? 200 : 0 }); },
+    reset() { overview.current = true; map.current?.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: duration() }); },
+    zoom(direction) { overview.current = false; const instance = map.current; if (instance) instance.easeTo({ zoom: instance.getZoom() + direction, duration: duration() ? 200 : 0 }); },
     focus(regions) {
       if (!regions.length) return;
+      overview.current = false;
       const bounds = new maplibregl.LngLatBounds();
       regions.forEach(region => bounds.extend(CENTERS[region]));
       map.current?.fitBounds(bounds, { padding: 100, maxZoom: 12.5, duration: duration() });
@@ -59,14 +62,14 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     try {
       instance = new maplibregl.Map({
         container: container.current,
-        center: [126.84, 37.15], zoom: 10, minZoom: 8, maxZoom: 17,
+        center: [126.84, 37.15], zoom: 10, minZoom: 5, maxZoom: 17,
         dragPan: true, dragRotate: false, touchPitch: false,
         attributionControl: { compact: true },
         style: {
           version: 8,
           sources: {
             geography: { type: "geojson", data: GEOGRAPHY_URL, attribution: BOUNDARY_ATTRIBUTION },
-            basemap: { type: "raster", tiles, tileSize: 256, attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> © <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>' },
+            basemap: { type: "raster", tiles, tileSize: 256, attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>' },
           },
           layers: [
             { id: "water", type: "background", paint: { "background-color": "#c9d7d8" } },
@@ -83,8 +86,9 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     } catch { setStatus("error"); return; }
     map.current = instance;
     instance.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: 0 });
+    instance.on("movestart", event => { if (event.originalEvent) overview.current = false; });
     instance.on("sourcedata", event => {
-      if (event.sourceId === "basemap" && event.sourceDataType === "content" && event.tile?.state === "loaded" && !disposed) {
+      if (event.sourceId === "basemap" && event.tile?.state === "loaded" && !disposed) {
         rasterReady = true;
         setStatus("ready");
       }
@@ -129,7 +133,13 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       button.setAttribute("aria-label", `${region} 권역 사업 보기`);
       markers.current.push({ region, button, marker });
     }
-    const resize = new ResizeObserver(() => { instance.resize(); layoutLabels(); });
+    const resize = new ResizeObserver(() => {
+      instance.resize();
+      // Flex/grid layout can resize the canvas after initialization. Keep the
+      // entire city inside the final viewport until the user pans or zooms.
+      if (overview.current) instance.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: 0 });
+      layoutLabels();
+    });
     resize.observe(container.current);
     const timeout = window.setTimeout(() => { if (!disposed && !rasterReady) setStatus("unavailable"); }, 10000);
     return () => {
