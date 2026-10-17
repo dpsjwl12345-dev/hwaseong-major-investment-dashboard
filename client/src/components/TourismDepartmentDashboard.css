@@ -12,7 +12,7 @@
 .tdb-kpi>strong{font:500 23px/1.2 "Space Grotesk","Pretendard",sans-serif;letter-spacing:-.04em;white-space:nowrap}
 .tdb-kpi>strong>small{margin-left:4px;font:500 12px "Gmarket Sans","Pretendard",sans-serif;letter-spacing:0;color:#acb6c4}
 .tdb-kpi.is-count>strong{color:var(--tdb-gold)}.tdb-kpi>p{display:none}
-.tdb-body{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:15px;height:clamp(600px,calc(100svh - 320px),880px)}
+.tdb-body{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:15px;height:clamp(600px,calc(100svh - 320px),880px)}
 .tdb-map-card,.tdb-list-card{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border-radius:13px}
 .tdb-map-card{border:1px solid #ffffff24;background:#f4f5ef}
 .tdb-map-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 18px;background:#f8f9f5;border-bottom:1px solid #203e4910}
@@ -69,8 +69,8 @@
 .tdb-project-detail{color:#aa9673}.tdb-project-locate:hover,.tdb-project-detail:hover{color:#e1c591}
 .tdb-empty{padding:20px 12px;font-size:12px;color:#8798ac}
 .tdb-project-title:focus-visible,.tdb-project-locate:focus-visible,.tdb-project-detail:focus-visible,.tdb-map-header>button:focus-visible,.tdb-zoom button:focus-visible{outline:2px solid #bca16e;outline-offset:3px}
-@media(min-width:1800px){.tdb-body{grid-template-columns:minmax(0,1fr) 390px}.tdb-project-title{font-size:16px}.tdb-project{min-height:70px}}
-@media(max-width:1100px){.tdb-shell{padding:18px}.tdb-body{grid-template-columns:minmax(0,1fr) 310px}.tdb-kpi{padding:0 10px;gap:7px}.tdb-kpi>strong{font-size:20px}.tdb-kpi>div{font-size:12px}.tdb-kpi>div>svg{display:none}.tdb-map-caption{font-size:9px}.tdb-map-header>div>span{display:none}}
+@media(min-width:1800px){.tdb-body{grid-template-columns:minmax(0,1fr) 450px}.tdb-project-title{font-size:16px}.tdb-project{min-height:70px}}
+@media(max-width:1100px){.tdb-shell{padding:18px}.tdb-body{grid-template-columns:minmax(0,1fr) 330px}.tdb-kpi{padding:0 10px;gap:7px}.tdb-kpi>strong{font-size:20px}.tdb-kpi>div{font-size:12px}.tdb-kpi>div>svg{display:none}.tdb-map-caption{font-size:9px}.tdb-map-header>div>span{display:none}}
 @media(max-width:760px){.tdb-shell{padding:14px;border-radius:14px}.tdb-header{align-items:flex-start;flex-direction:column;gap:10px;margin-bottom:14px}.tdb-header h1{font-size:22px}.tdb-header h1>span{font-size:15px}.tdb-slogan{font-size:16px}.tdb-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 0}.tdb-kpi{padding:0 9px!important}.tdb-kpi:nth-child(3){border-left:0}.tdb-body{height:auto;grid-template-columns:1fr}.tdb-map-card{height:540px}.tdb-list-card{max-height:600px}.tdb-map-header{padding:12px}.tdb-map-header h2{font-size:12px}.tdb-map-caption{padding:9px 11px;gap:8px}.tdb-map-caption>span:last-child{max-width:180px}.tdb-map-selection{font-size:11px}.tdb-geographic-marker span{font-size:11px}.tdb-gu-label{font-size:11px;letter-spacing:1px}}
 
 /* The dot stays at its geographic coordinate; only its label changes sides. */
