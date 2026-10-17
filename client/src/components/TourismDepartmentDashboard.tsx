@@ -7,6 +7,7 @@ import "./TourismDepartmentDashboard.css";
 type BudgetSource = Parameters<typeof deriveProjectBudget>[0];
 export type TourismProject = BudgetSource & {
   id: string; department: string; project_name: string; current_stage?: string; progress_rate?: number | null;
+  overview?: string;
   rendering_images?: string[]; rendering_image_types?: string[];
   sub_projects?: (BudgetSource & { name: string })[];
 };
@@ -19,6 +20,16 @@ const previewFor = (p: TourismProject) => {
   const images = p.rendering_images ?? [];
   const index = images.findIndex((url,i) => p.rendering_image_types?.[i] !== "위치도" && !url.endsWith(".svg"));
   return index >= 0 ? images[index] : null;
+};
+const featureFor = (p: TourismProject) => {
+  const lines=(p.overview ?? "").split("\n");
+  for (const pattern of [/사업내용\s*[:：]\s*(.+)/, /사업규모\s*[:：]\s*(.+)/, /사업량\s*[:：]\s*(.+)/]) {
+    for (const line of lines) {
+      const match=line.replace(/사\s+업\s*/g,"사업").match(pattern);
+      if(match?.[1]?.trim())return match[1].trim();
+    }
+  }
+  return p.current_stage || "사업개요 확인 중";
 };
 const money = (value: number) => Math.trunc(value / 100).toLocaleString("ko-KR");
 // A parent project is one list item; sum its children once for its budget.
@@ -58,7 +69,7 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
             <div className="tdb-preview-heading">{region ? regionLabel(region) : "주요투자사업"}<small>사업 조감도 · 계획 이미지</small></div>
             <div className="tdb-preview-strip">{visible.map(project=>{const image=previewFor(project);const Icon=iconFor(project.project_name);return <button key={project.id} className={`tdb-preview${activeId===project.id?" is-active":""}`} onClick={()=>{setActiveId(project.id);setHoveredId(null);}} aria-label={`${project.project_name} 미리보기 선택`}>
               {image ? <img src={image} alt={`${project.project_name} 계획 이미지`} onError={e=>{e.currentTarget.style.display="none";}}/> : <div className="tdb-preview-placeholder"><Icon size={28}/></div>}
-              <span>{project.project_name}</span>
+              <strong className="tdb-preview-name">{project.project_name}</strong><p className="tdb-preview-feature">{featureFor(project)}</p>
             </button>;})}</div>
           </div>}
           <div className="tdb-zoom"><button aria-label="관광 지도 확대" onClick={()=>map.current?.zoom(1)}><Plus size={17}/></button><button aria-label="관광 지도 축소" onClick={()=>map.current?.zoom(-1)}><Minus size={17}/></button></div>
