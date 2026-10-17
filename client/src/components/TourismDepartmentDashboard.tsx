@@ -56,7 +56,7 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
     </div>
     <div className="tdb-body">
       <section className="tdb-map-card" aria-label="화성시 관광사업 권역 지도">
-        <header className="tdb-map-header"><div><span>화성시 전체</span></div><button aria-label="화성시 지도 전체 보기" onClick={()=>{map.current?.reset();setRegion(null);setActiveId(null);setActiveSiteKey(null);}}><LocateFixed size={15}/> 전체 보기</button></header>
+        <header className="tdb-map-header"><button aria-label="화성시 지도 전체 보기" onClick={()=>{map.current?.reset();setRegion(null);setActiveId(null);setActiveSiteKey(null);}}><LocateFixed size={15}/> 전체 보기</button></header>
         <div className="tdb-map-surface">
           <TourismGeographicMap ref={map} counts={counts} highlights={highlights} sites={sites} activeProjectId={activeId} activeSiteKey={activeSiteKey} onProjectSelect={selectSite} onSelect={place=>{setRegion(place);setQuery("");setActiveId(null);setHoveredId(null);map.current?.focus([place]);}}/>
           <div className="tdb-zoom"><button aria-label="관광 지도 확대" onClick={()=>map.current?.zoom(1)}><Plus size={17}/></button><button aria-label="관광 지도 축소" onClick={()=>map.current?.zoom(-1)}><Minus size={17}/></button></div>

@@ -20,7 +20,7 @@
 .tdb-body{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:15px;height:clamp(600px,calc(100svh - 320px),880px)}
 .tdb-map-card,.tdb-list-card{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border-radius:13px}
 .tdb-map-card{border:1px solid #ffffff24;background:#f4f5ef}
-.tdb-map-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 18px;background:#f8f9f5;border-bottom:1px solid #203e4910}
+.tdb-map-header{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding:15px 18px;background:#f8f9f5;border-bottom:1px solid #203e4910}
 .tdb-map-header>div{display:flex;align-items:center;gap:10px;min-width:0}
 .tdb-map-header h2{margin:0;font-size:14px;font-weight:600;color:#334b56}
 .tdb-map-header>div>span{border-left:1px solid #203e4924;padding-left:10px;font-size:10px;color:#8b999d;white-space:nowrap}
