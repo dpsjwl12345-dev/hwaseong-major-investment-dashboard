@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import maplibregl from "maplibre-gl";
 import TourismSiteObject, { type TourismObjectKind } from "./TourismSiteObject";
-import { placeMapLabel, mapLabelRectsOverlap, type MapLabelRect } from "../lib/mapLabelLayout";
+import { mapLabelRectsOverlap, type MapLabelRect } from "../lib/mapLabelLayout";
 
 export type TourismMapSite = {
   key: string; projectId: string; number: number; name: string; label: string;
-  feature: string; kind: TourismObjectKind; point: [number, number];
+  kind: TourismObjectKind; point: [number, number];
 };
 type Entry = { site: TourismMapSite; element: HTMLDivElement; marker: maplibregl.Marker };
 export default function TourismProjectMarkers({map,sites,activeId,activeSiteKey,onSelect}:{map:maplibregl.Map|null;sites:TourismMapSite[];activeId:string|null;activeSiteKey:string|null;onSelect:(site:TourismMapSite)=>void}) {
@@ -34,6 +34,7 @@ export default function TourismProjectMarkers({map,sites,activeId,activeSiteKey,
 
         return inside;
       });
+      visible.sort((a,b)=>Number(b.site.key===active.current)-Number(a.site.key===active.current));
       // Spread only the screen symbols, never their geographic coordinates.
       // A tether keeps the geographic anchor visible when close sites overlap.
       for(const item of visible){
@@ -45,19 +46,20 @@ export default function TourismProjectMarkers({map,sites,activeId,activeSiteKey,
         item.element.style.setProperty("--tether-length",`${Math.hypot(...offset)}px`);
         item.element.style.setProperty("--tether-angle",`${Math.atan2(-offset[1],-offset[0])}rad`);
         occupied.push({x:p.x+offset[0]-14,y:p.y+offset[1]-14,width:28,height:28});
+        if(item.site.key===active.current)occupied.push({x:p.x+offset[0]-105,y:p.y+offset[1]+22,width:210,height:42});
       }
       if(map.getZoom()<12)return;
       visible.sort((a,b)=>Number(b.site.key===active.current)-Number(a.site.key===active.current));
       for(const item of visible){
         const card=item.element.querySelector<HTMLElement>(".tdb-site-object");if(!card)continue;
         const projected=map.project(item.site.point);const offset=item.marker.getOffset();const p={x:projected.x+offset.x,y:projected.y+offset.y};
-        const placed=placeMapLabel(p,{width:card.offsetWidth,height:card.offsetHeight},viewport,occupied,"top",[30,65,105]);
-        if(!placed)continue;
-        const end={x:Math.max(placed.rect.x,Math.min(p.x,placed.rect.x+placed.rect.width)),y:Math.max(placed.rect.y,Math.min(p.y,placed.rect.y+placed.rect.height))};
-        item.element.style.setProperty("--object-link-length",`${Math.hypot(end.x-p.x,end.y-p.y)}px`);
-        item.element.style.setProperty("--object-link-angle",`${Math.atan2(end.y-p.y,end.x-p.x)}rad`);
-        card.style.left=`${placed.rect.x-p.x+14}px`;card.style.top=`${placed.rect.y-p.y+14}px`;
-        item.element.classList.add("is-expanded");occupied.push(placed.rect);
+        // Keep the object directly over its numbered pin; never shift it sideways.
+        const rect={x:p.x-card.offsetWidth/2,y:p.y-22-card.offsetHeight,width:card.offsetWidth,height:card.offsetHeight};
+        const inside=rect.x>=6&&rect.y>=6&&rect.x+rect.width<=viewport.width-6&&rect.y+rect.height<=viewport.height-6;
+        const blocked=occupied.some(other=>mapLabelRectsOverlap(rect,other,3));
+        if(!inside||(blocked&&item.site.key!==active.current))continue;
+        card.style.left=`${14-card.offsetWidth/2}px`;card.style.top=`${-8-card.offsetHeight}px`;
+        item.element.classList.add("is-expanded");occupied.push(rect);
       }
     };
     const schedule=()=>{if(disposed)return;if(!frame)frame=requestAnimationFrame(()=>{frame=0;arrange();});};
@@ -68,12 +70,11 @@ export default function TourismProjectMarkers({map,sites,activeId,activeSiteKey,
   },[map,sites]);
   useEffect(()=>{layout.current();},[activeId,activeSiteKey,entries]);
   return <>{entries.map(({site,element})=>createPortal(<>
-    <i className="tdb-object-link" aria-hidden="true"/>
     <i className="tdb-site-tether" aria-hidden="true"/>
     <button className="tdb-site-pin" aria-label={`${site.label} 사업 위치 확대`} aria-pressed={activeSiteKey===site.key} onClick={()=>onSelect(site)} title={site.label}><b>{site.number}</b></button>
     <button className="tdb-site-object" aria-label={`${site.label} 사업 오브젝트 선택`} onClick={()=>onSelect(site)}>
       <TourismSiteObject kind={site.kind}/>
-      <strong>{site.name}</strong>{site.label!==site.name&&<small>{site.label}</small>}<p>{site.feature}</p>
     </button>
+    <strong className="tdb-site-name">{site.name}</strong>
   </>,element,site.key))}</>;
 }

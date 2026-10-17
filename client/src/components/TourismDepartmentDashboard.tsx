@@ -18,16 +18,6 @@ type Region = TourismRegion;
 const regionsFor = (name: string): Region[] => /계류시설/.test(name) ? ["국화도","입파도"] : /주차장 및 도로/.test(name) ? ["제부도","궁평항"] : /국화도/.test(name) ? ["국화도"] : /궁평|황금해안길/.test(name) ? ["궁평항"] : ["제부도"];
 const regionLabel = (region: Region) => region === "궁평항" ? "궁평 권역" : region === "제부도" ? "제부 권역" : region;
 const iconFor = (name: string) => /열차/.test(name) ? TrainFront : /계류/.test(name) ? Anchor : /주차/.test(name) ? ParkingCircle : /도로/.test(name) ? Route : /데크|해안길/.test(name) ? Footprints : Trees;
-const featureFor = (p: TourismProject) => {
-  const lines=(p.overview ?? "").split("\n");
-  for (const pattern of [/사업내용\s*[:：]\s*(.+)/, /사업규모\s*[:：]\s*(.+)/, /사업량\s*[:：]\s*(.+)/]) {
-    for (const line of lines) {
-      const match=line.replace(/사\s+업\s*/g,"사업").match(pattern);
-      if(match?.[1]?.trim())return match[1].trim();
-    }
-  }
-  return p.current_stage || "사업개요 확인 중";
-};
 const money = (value: number) => Math.trunc(value / 100).toLocaleString("ko-KR");
 // A parent project is one list item; sum its children once for its budget.
 export const tourismBudgetFor = (project: TourismProject) => {
@@ -50,7 +40,7 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
   const counts=useMemo(()=>Object.fromEntries(TOURISM_REGIONS.map(place=>[place,projects.filter(p=>regionsFor(p.project_name).includes(place)).length])) as Record<Region,number>,[projects]);
   const sites=useMemo<TourismMapSite[]>(()=>tourismProjectSites.flatMap(site=>{
     const index=projects.findIndex(p=>p.id.endsWith(site.projectSuffix));if(index<0)return [];
-    const p=projects[index];return [{...site,projectId:p.id,number:index+1,name:p.project_name,feature:featureFor(p)}];
+    const p=projects[index];return [{...site,projectId:p.id,number:index+1,name:p.project_name}];
   }),[projects]);
   const selectSite=(site:TourismMapSite)=>{setRegion(null);setQuery("");setHoveredId(null);setActiveId(site.projectId);setActiveSiteKey(site.key);map.current?.focusSites([site.point]);};
   const focus=(p:TourismProject)=>{setActiveId(p.id);setActiveSiteKey(sites.find(s=>s.projectId===p.id)?.key??null);map.current?.focusSites(sites.filter(s=>s.projectId===p.id).map(s=>s.point));};
@@ -70,7 +60,7 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
           <div className="tdb-zoom"><button aria-label="관광 지도 확대" onClick={()=>map.current?.zoom(1)}><Plus size={17}/></button><button aria-label="관광 지도 축소" onClick={()=>map.current?.zoom(-1)}><Minus size={17}/></button></div>
 
         </div>
-        <div className="tdb-map-caption"><span>{projects.length}개 사업 · {sites.length}개 사업지점 · 관광명소 10곳</span><span>가상 오브젝트 · 위치도 판독 대표위치(대략)</span></div>
+        <div className="tdb-map-caption"><span>가상 오브젝트 · 위치도 판독 대표위치(대략)</span></div>
       </section>
       <section className="tdb-list-card" aria-label="관광진흥과 사업 목록">
         <header className="tdb-list-header"><div><h2>{region?regionLabel(region):"전체 사업"}</h2><span>{visible.length}</span></div>{region&&<button aria-label="권역 필터 해제" onClick={()=>setRegion(null)}><X size={16}/></button>}</header>

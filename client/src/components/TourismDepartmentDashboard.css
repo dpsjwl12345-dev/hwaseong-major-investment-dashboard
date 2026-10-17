@@ -21,7 +21,7 @@
 .tdb-map-header>div>span{border-left:1px solid #203e4924;padding-left:10px;font-size:10px;color:#8b999d;white-space:nowrap}
 .tdb-map-header>button{display:flex;align-items:center;gap:6px;padding:7px 9px;background:#fff;color:#60757e;border:1px solid #344f5b20;border-radius:7px;font:400 10px "Pretendard",sans-serif;white-space:nowrap;cursor:pointer}
 .tdb-map-header>button:hover{background:#eaf0ec}
-.tdb-map-surface{position:relative;flex:1;min-height:0;overflow:hidden;background:#c9d7d8;font-family:"Pretendard",sans-serif}
+.tdb-map-surface{position:relative;flex:1;min-height:0;overflow:hidden;background:#b7d2df;font-family:"Pretendard",sans-serif}
 .tdb-geographic-canvas{position:absolute;inset:0}
 .tdb-geographic-canvas .maplibregl-canvas-container{cursor:grab;touch-action:none;user-select:none}
 .tdb-geographic-canvas .maplibregl-canvas-container:active{cursor:grabbing}
@@ -129,9 +129,6 @@
 .tdb-site-marker.is-expanded .tdb-site-object{visibility:visible;pointer-events:auto}
 .tdb-site-marker.is-selected{z-index:8}
 .tdb-site-marker.is-selected .tdb-site-pin{filter:drop-shadow(0 0 4px #ad793e)}
-.tdb-site-object>strong{display:block;font:500 12px/1.4 "Gmarket Sans","Pretendard",sans-serif;word-break:keep-all;text-shadow:-1px -1px 0 #f3f2e7,1px 1px 0 #f3f2e7}
-.tdb-site-object>small{display:block;margin-top:3px;font:500 11px "Pretendard",sans-serif;color:#395369}
-.tdb-site-object>p{margin:4px 0 0;font:400 11px/1.4 "Pretendard",sans-serif;color:#304d61;word-break:keep-all;text-shadow:0 1px 0 #f5f3e6}
 .tdb-site-object:focus-visible{outline:2px solid #a77330;outline-offset:5px;border-radius:12px}
 .tdb-object-scene{position:relative;width:174px;height:108px;perspective:550px;pointer-events:none;filter:drop-shadow(0 7px 4px #18394d30)}
 .tdb-object-stage{position:absolute;left:35px;top:24px;width:104px;height:64px;transform:rotateX(56deg) rotateZ(-34deg);transform-style:preserve-3d}
@@ -149,12 +146,28 @@
 .tdb-object-tree b{display:block;position:absolute;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#a8c087,#608865 65%,#456c54);transform:translateZ(20px);box-shadow:2px 3px 0 #4f765d}
 @media(prefers-reduced-motion:reduce){.tdb-object-stage{transition:none}}
 
-.tdb-site-object>strong,.tdb-site-object>small,.tdb-site-object>p{display:none}
-.tdb-site-marker.is-selected .tdb-site-object>strong,.tdb-site-marker.is-selected .tdb-site-object>small,.tdb-site-marker.is-selected .tdb-site-object>p{display:block}
 .tdb-site-marker.is-selected .tdb-object-stage{animation:tdb-site-orbit 14s linear infinite}
 @keyframes tdb-site-orbit{from{transform:rotateX(56deg) rotateZ(-34deg)}to{transform:rotateX(56deg) rotateZ(326deg)}}
 @media(prefers-reduced-motion:reduce){.tdb-site-marker.is-selected .tdb-object-stage{animation:none}}
 
 .tdb-site-tether{position:absolute;left:14px;top:14px;display:block;width:var(--tether-length,0px);height:1px;background:#8a744d99;transform-origin:left center;transform:rotate(var(--tether-angle,0rad));pointer-events:none;z-index:-1}
 
-.tdb-object-link{display:none;position:absolute;left:14px;top:14px;height:1px;width:var(--object-link-length,0px);background:#7a8b8699;transform-origin:left center;transform:rotate(var(--object-link-angle,0rad));pointer-events:none;z-index:-1}.tdb-site-marker.is-expanded .tdb-object-link{display:block}
+
+/* Recognizable details are built as scene geometry, not raster thumbnails. */
+.object-train-coupling{position:absolute;left:10px;top:32px;width:84px;height:4px;background:#485d67;transform:translateZ(6px)}
+.object-train-wheel{position:absolute;top:44px;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle,#c8c7b8 0 22%,#263d4c 25% 70%,#152b39 72%);transform-origin:top;transform:rotateX(90deg);box-shadow:0 0 0 1px #172e40}
+.object-train .object-roof{border-radius:3px;background:#e8dbb8}
+.object-parking-lines{position:absolute;inset:8px 18px 8px 8px;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 22px,#f2ebcb 23px 24px);border-top:1px solid #f2ebcb;border-bottom:1px solid #f2ebcb;transform:translateZ(1px)}
+.object-parking-sign{position:absolute;left:88px;top:45px;width:16px;height:19px;background:#315f81;color:#eef5f8;border:1px solid #c9dce6;border-radius:3px;font:700 14px/18px "Pretendard",sans-serif;text-align:center;transform-origin:top;transform:rotateX(90deg);box-shadow:1px 1px 0 #173d58}
+.object-parking .object-roof{border-radius:3px;background:linear-gradient(90deg,#496979 0 18%,color-mix(in srgb,var(--block-color) 85%,#fff) 20% 75%,#496979 78% 95%,var(--block-color) 96%)}
+.object-yacht-sail{position:absolute;width:15px;height:23px;background:linear-gradient(110deg,#f7f0dc,#cfdfdf);clip-path:polygon(0 100%,0 0,100% 88%);transform-origin:bottom left;transform:rotateX(90deg) translateY(-11px)}
+.object-marina .tdb-object-block:not(:first-of-type) .object-roof{border-radius:5px 5px 2px 2px}
+.object-road-markings{position:absolute;left:8px;top:34px;width:88px;height:2px;background:repeating-linear-gradient(90deg,#f5d981 0 10px,transparent 10px 17px);transform:translateZ(3px)}
+.object-railing-post{position:absolute;top:28px;width:2px;height:12px;background:#8d795b;transform-origin:top;transform:rotateX(90deg)}
+.object-deck .tdb-object-block:first-of-type .object-roof,.object-trail .tdb-object-block:first-of-type .object-roof{background:repeating-linear-gradient(90deg,#d0ac7b 0 7px,#a78255 8px 9px)}
+.object-park .tdb-object-ground{background:radial-gradient(ellipse at 80% 50%,#a9bf94 0 35%,transparent 36%),#91bfcb;border-color:#6e9eaa;box-shadow:3px 4px 0 #668f9b}
+
+.tdb-site-name{display:none;position:absolute;left:50%;top:36px;width:210px;transform:translateX(-50%);text-align:center;font:500 13px/1.45 "Gmarket Sans","Pretendard",sans-serif;color:#19354b;word-break:keep-all;text-shadow:-1px -1px 0 #f3f2e7,1px -1px 0 #f3f2e7,-1px 1px 0 #f3f2e7,1px 1px 0 #f3f2e7;pointer-events:none}
+.tdb-site-marker.is-selected .tdb-site-name{display:block}
+
+.tdb-map-caption{justify-content:flex-end}.tdb-map-caption>span:only-child{color:#758b96;white-space:normal;text-align:right}

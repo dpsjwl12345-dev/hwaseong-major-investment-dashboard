@@ -65,7 +65,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     focusSites(points) {
       if(!points.length)return;
       overview.current=false;
-      if(points.length===1){map.current?.easeTo({center:points[0],zoom:14.2,duration:duration()});return;}
+      if(points.length===1){map.current?.easeTo({center:points[0],zoom:14.2,offset:[0,65],duration:duration()});return;}
       const bounds=new maplibregl.LngLatBounds();points.forEach(p=>bounds.extend(p));
       map.current?.fitBounds(bounds,{padding:90,maxZoom:14.2,duration:duration()});
     },
@@ -102,14 +102,14 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
             basemap: { type: "raster", tiles, tileSize: 256, attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>' },
           },
           layers: [
-            { id: "water", type: "background", paint: { "background-color": "#c9d7d8" } },
+            { id: "water", type: "background", paint: { "background-color": "#b7d2df" } },
             // Locally available real-coordinate context remains if raster tiles
             // are unavailable. It does not masquerade as a complete road map.
-            { id: "land-context", type: "fill", source: "geography", filter: ["==", ["get", "kind"], "city"], paint: { "fill-color": "#edece4" } },
-            { id: "basemap", type: "raster", source: "basemap", paint: { "raster-fade-duration": 150, "raster-saturation": -.8, "raster-contrast": -.15, "raster-opacity": .7 } },
+            { id: "land-context", type: "fill", source: "geography", filter: ["==", ["get", "kind"], "city"], paint: { "fill-color": "#f0ead8" } },
+            { id: "basemap", type: "raster", source: "basemap", paint: { "raster-fade-duration": 150, "raster-saturation": -.45, "raster-contrast": -.07, "raster-opacity": .82 } },
             // An opaque geographic mask keeps adjacent cities, roads and labels
             // out of the dashboard, without cropping or deforming city geometry.
-            { id: "outside-city", type: "fill", source: "geography", filter: ["==", ["get", "kind"], "outside"], paint: { "fill-color": "#c9d7d8", "fill-opacity": 1 } },
+            { id: "outside-city", type: "fill", source: "geography", filter: ["==", ["get", "kind"], "outside"], paint: { "fill-color": "#b7d2df", "fill-opacity": 1 } },
             { id: "town-boundaries", minzoom: 11.5, type: "line", source: "geography", filter: ["==", ["get", "kind"], "town"], paint: { "line-color": "#8b9c96", "line-width": .6, "line-opacity": .18 } },
             { id: "district-boundaries", type: "line", source: "geography", filter: ["==", ["get", "kind"], "district"], paint: { "line-color": "#6d8383", "line-width": .9, "line-opacity": .5, "line-dasharray": [4, 3] } },
             { id: "city-boundary", type: "line", source: "geography", filter: ["==", ["get", "kind"], "city"], paint: { "line-color": "#718b88", "line-width": 1.1, "line-opacity": .5 } },
