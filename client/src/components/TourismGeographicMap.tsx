@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { placeMapLabel, mapLabelRectsOverlap, type MapLabelRect, type MapLabelSide } from "../lib/mapLabelLayout";
 import geography from "../data/hwaseong-map-metadata.json";
 
 export const TOURISM_REGIONS = ["제부도", "궁평항", "국화도", "입파도"] as const;
@@ -38,9 +39,11 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
   const map = useRef<maplibregl.Map | null>(null);
   const markers = useRef<{ region: TourismRegion; button: HTMLButtonElement; marker: maplibregl.Marker }[]>([]);
   const overview = useRef(true);
+  const relayout = useRef<() => void>(() => {});
   const callback = useRef(onSelect);
   callback.current = onSelect;
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable" | "error">("loading");
+  useEffect(() => { relayout.current(); }, [status]);
   const duration = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450;
   useImperativeHandle(ref, () => ({
     reset() { overview.current = true; map.current?.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: duration() }); },
@@ -58,6 +61,12 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     if (!container.current) return;
     let disposed = false;
     let rasterReady = false;
+    let hoveredRegion: TourismRegion | null = null;
+    let layoutFrame = 0;
+    const scheduleLabels = () => {
+      if (layoutFrame) return;
+      layoutFrame = requestAnimationFrame(() => { layoutFrame = 0; if (!disposed) relayout.current(); });
+    };
     let instance: maplibregl.Map;
     try {
       instance = new maplibregl.Map({
@@ -76,12 +85,12 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
             // Locally available real-coordinate context remains if raster tiles
             // are unavailable. It does not masquerade as a complete road map.
             { id: "land-context", type: "fill", source: "geography", filter: ["==", ["get", "kind"], "city"], paint: { "fill-color": "#edece4" } },
-            { id: "basemap", type: "raster", source: "basemap", paint: { "raster-fade-duration": 150, "raster-saturation": -.1 } },
+            { id: "basemap", type: "raster", source: "basemap", paint: { "raster-fade-duration": 150, "raster-saturation": -.8, "raster-contrast": -.15, "raster-opacity": .7 } },
             // An opaque geographic mask keeps adjacent cities, roads and labels
             // out of the dashboard, without cropping or deforming city geometry.
             { id: "outside-city", type: "fill", source: "geography", filter: ["==", ["get", "kind"], "outside"], paint: { "fill-color": "#c9d7d8", "fill-opacity": 1 } },
-            { id: "town-boundaries", type: "line", source: "geography", filter: ["==", ["get", "kind"], "town"], paint: { "line-color": "#8b9c96", "line-width": .65, "line-opacity": .32 } },
-            { id: "district-boundaries", type: "line", source: "geography", filter: ["==", ["get", "kind"], "district"], paint: { "line-color": "#6d8383", "line-width": 1.15, "line-opacity": .65, "line-dasharray": [4, 3] } },
+            { id: "town-boundaries", minzoom: 11.5, type: "line", source: "geography", filter: ["==", ["get", "kind"], "town"], paint: { "line-color": "#8b9c96", "line-width": .6, "line-opacity": .18 } },
+            { id: "district-boundaries", type: "line", source: "geography", filter: ["==", ["get", "kind"], "district"], paint: { "line-color": "#6d8383", "line-width": .9, "line-opacity": .5, "line-dasharray": [4, 3] } },
             { id: "city-boundary", type: "line", source: "geography", filter: ["==", ["get", "kind"], "city"], paint: { "line-color": "#718b88", "line-width": 1.1, "line-opacity": .5 } },
           ],
         },
@@ -94,6 +103,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       if (event.sourceId === "basemap" && event.tile?.state === "loaded" && !disposed) {
         rasterReady = true;
         setStatus("ready");
+        scheduleLabels();
       }
     });
     instance.on("error", event => {
@@ -110,18 +120,49 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       element.setAttribute("aria-hidden", "true");
       labels.push({ element, marker, district: label.kind === "district" });
     }
-    // Hide colliding minor labels instead of moving them away from their real
-    // positions. Districts and all project markers retain their coordinates.
+    // Raster tiles already contain their own place names. Avoid painting a
+    // second set of administrative names over them. Our project labels get
+    // opaque backgrounds and collision-aware positions, anchored to real points.
     const layoutLabels = () => {
-      const occupied: { x: number; y: number; w: number; h: number }[] = [];
+      const canvasRect = instance.getCanvas().getBoundingClientRect();
+      const viewport = { width: canvasRect.width, height: canvasRect.height };
+      const occupied: MapLabelRect[] = [];
+      const toRect = (rect: DOMRect): MapLabelRect => ({ x: rect.left - canvasRect.left, y: rect.top - canvasRect.top, width: rect.width, height: rect.height });
+      container.current?.parentElement?.querySelectorAll('.tdb-map-key,.tdb-zoom,.tdb-map-selection,.tdb-map-network-note').forEach(element => occupied.push(toRect(element.getBoundingClientRect())));
+      const visibleMarkers = markers.current.filter(item => {
+        const point = instance.project(item.marker.getLngLat());
+        const inside = point.x >= 0 && point.y >= 0 && point.x <= viewport.width && point.y <= viewport.height;
+        if (!inside) item.button.classList.add('is-label-collapsed');
+        return inside;
+      });
+      for (const item of visibleMarkers) {
+        const point = instance.project(item.marker.getLngLat());
+        occupied.push({ x: point.x - 15, y: point.y - 15, width: 30, height: 30 });
+      }
+      const priority = (region: TourismRegion, button: HTMLElement) => region === hoveredRegion ? 2 : button.classList.contains('is-active') ? 1 : 0;
+      for (const item of [...visibleMarkers].sort((a,b)=>priority(b.region,b.button)-priority(a.region,a.button))) {
+        const text = item.button.querySelector('span')!;
+        const point = instance.project(item.marker.getLngLat());
+        const placed = placeMapLabel(point, { width: text.offsetWidth, height: text.offsetHeight }, viewport, occupied, item.button.dataset.labelSide as MapLabelSide | undefined, priority(item.region,item.button) ? [23,45,67,89] : [23]);
+        item.button.classList.toggle('is-label-collapsed', !placed);
+        if (placed) {
+          item.button.dataset.labelSide = placed.side;
+          item.button.classList.toggle('is-offset-label', placed.distance > 23);
+          item.button.style.setProperty('--tdb-label-gap', `${placed.distance - 14}px`);
+          occupied.push(placed.rect);
+        }
+      }
       for (const label of labels) {
         const point = instance.project(label.marker.getLngLat());
-        const candidate = { x: point.x - 25, y: point.y - 9, w: 50, h: 18 };
-        const allowed = label.district || (instance.getZoom() > 10 && !occupied.some(r => Math.abs(r.x - candidate.x) < (r.w + candidate.w) / 2 + 8 && Math.abs(r.y - candidate.y) < 24));
+        const rect = { x: point.x - label.element.offsetWidth / 2, y: point.y - label.element.offsetHeight / 2, width: label.element.offsetWidth, height: label.element.offsetHeight };
+        const inside = rect.x > 10 && rect.y > 10 && rect.x + rect.width < viewport.width - 10 && rect.y + rect.height < viewport.height - 10;
+        const allowed = !rasterReady && inside && (label.district || instance.getZoom() > 11.5) && !occupied.some(other => mapLabelRectsOverlap(rect, other, 5));
         label.element.style.visibility = allowed ? "visible" : "hidden";
-        if (allowed) occupied.push(candidate);
+        if (allowed) occupied.push(rect);
       }
     };
+    relayout.current = layoutLabels;
+    instance.on("move", scheduleLabels);
     instance.on("moveend", () => {
       layoutLabels();
       const center=instance.getCenter();
@@ -138,10 +179,14 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       const label = document.createElement("span"); label.textContent = region;
       button.append(count, label);
       button.onclick = () => callback.current(region);
-      const marker = new maplibregl.Marker({ element: button, anchor: "left" }).setLngLat(CENTERS[region]).addTo(instance);
+      button.onmouseenter = button.onfocus = () => { hoveredRegion = region; scheduleLabels(); };
+      button.onmouseleave = button.onblur = () => { if (hoveredRegion === region) hoveredRegion = null; scheduleLabels(); };
+      const marker = new maplibregl.Marker({ element: button, anchor: "center" }).setLngLat(CENTERS[region]).addTo(instance);
       button.setAttribute("aria-label", `${region} 권역 사업 보기`);
       markers.current.push({ region, button, marker });
     }
+    scheduleLabels();
+    document.fonts.ready.then(() => { if (!disposed) scheduleLabels(); });
     const resize = new ResizeObserver(() => {
       instance.resize();
       // Flex/grid layout can resize the canvas after initialization. Keep the
@@ -152,7 +197,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     resize.observe(container.current);
     const timeout = window.setTimeout(() => { if (!disposed && !rasterReady) setStatus("unavailable"); }, 10000);
     return () => {
-      disposed = true; clearTimeout(timeout); resize.disconnect();
+      disposed = true; clearTimeout(timeout); cancelAnimationFrame(layoutFrame); relayout.current = () => {}; resize.disconnect();
       labels.forEach(label => label.marker.remove());
       markers.current.forEach(marker => marker.marker.remove()); markers.current = [];
       instance.remove(); map.current = null;
@@ -164,10 +209,10 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       button.setAttribute("aria-pressed", String(highlights.includes(region)));
       button.querySelector("b")!.textContent = String(counts[region]);
     });
+    relayout.current();
   }, [counts, highlights]);
   return <>
     <div ref={container} className="tdb-geographic-canvas" aria-label="실제 지형과 행정경계에 기반한 화성시 관광사업 지도" />
-    <div className="tdb-map-key"><span>화성시</span><span><b />투자사업 권역</span></div>
     {status === "unavailable" && <div className="tdb-map-network-note">배경지도 연결 지연 · 실제 행정경계 표시 중</div>}
     {status === "error" && <div className="tdb-geographic-status">지도를 불러오지 못했습니다.</div>}
   </>;
