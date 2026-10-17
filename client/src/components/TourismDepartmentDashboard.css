@@ -9,7 +9,7 @@
 .tdb-kpi:first-child{padding-left:0}.tdb-kpi:last-child{padding-right:0}.tdb-kpi+.tdb-kpi{border-left:1px solid var(--tdb-line)}
 .tdb-kpi>div{display:flex;align-items:center;gap:7px;font:500 14px/1.4 "Gmarket Sans","Pretendard",sans-serif;color:#aebaca}
 .tdb-kpi>div>svg{width:14px;height:14px;stroke-width:1.4}
-.tdb-kpi>strong{font:500 23px/1.2 "Space Grotesk","Pretendard",sans-serif;letter-spacing:-.04em;white-space:nowrap}
+.tdb-kpi>strong{font:500 23px/1.2 "Gmarket Sans","Pretendard",sans-serif;letter-spacing:-.04em;white-space:nowrap}
 .tdb-kpi>strong>small{margin-left:4px;font:500 12px "Gmarket Sans","Pretendard",sans-serif;letter-spacing:0;color:#acb6c4}
 .tdb-kpi.is-count>strong{color:var(--tdb-gold)}.tdb-kpi>p{display:none}
 .tdb-body{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:15px;height:clamp(600px,calc(100svh - 320px),880px)}
