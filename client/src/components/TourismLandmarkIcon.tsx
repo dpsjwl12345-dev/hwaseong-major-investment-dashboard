@@ -17,10 +17,10 @@ export default function TourismLandmarkIcon({ category, idPrefix }: { category: 
   const face=`${idPrefix}-face`,edge=`${idPrefix}-edge`;
   return <svg viewBox="0 0 32 34" width="28" height="30" fill="none" aria-hidden="true" focusable="false" className="tdb-landmark-symbol">
     <defs>
-      <linearGradient id={face} x1="5" y1="1" x2="27" y2="30" gradientUnits="userSpaceOnUse"><stop stopColor="#dbf7fa"/><stop offset=".35" stopColor="#80cfdf"/><stop offset=".72" stopColor="#4cabc6"/><stop offset="1" stopColor="#327b9a"/></linearGradient>
-      <linearGradient id={edge} x1="3" y1="5" x2="28" y2="32" gradientUnits="userSpaceOnUse"><stop stopColor="#30647d"/><stop offset="1" stopColor="#153d59"/></linearGradient>
+      <linearGradient id={face} x1="5" y1="1" x2="27" y2="30" gradientUnits="userSpaceOnUse"><stop stopColor="#f5e5c6"/><stop offset=".35" stopColor="#d4af74"/><stop offset=".72" stopColor="#b58a4d"/><stop offset="1" stopColor="#886136"/></linearGradient>
+      <linearGradient id={edge} x1="3" y1="5" x2="28" y2="32" gradientUnits="userSpaceOnUse"><stop stopColor="#775735"/><stop offset="1" stopColor="#493928"/></linearGradient>
     </defs>
-    <g transform="translate(0 1.7)" fill={`url(#${edge})`} stroke="#142d42" strokeWidth=".65" strokeLinejoin="round">{symbols[category]}</g>
-    <g fill={`url(#${face})`} stroke="#b4e4ee" strokeOpacity=".45" strokeWidth=".45" strokeLinejoin="round">{symbols[category]}</g>
+    <g transform="translate(0 1.7)" fill={`url(#${edge})`} stroke="#382d23" strokeWidth=".65" strokeLinejoin="round">{symbols[category]}</g>
+    <g fill={`url(#${face})`} stroke="#f5dfb7" strokeOpacity=".45" strokeWidth=".45" strokeLinejoin="round">{symbols[category]}</g>
   </svg>;
 }
