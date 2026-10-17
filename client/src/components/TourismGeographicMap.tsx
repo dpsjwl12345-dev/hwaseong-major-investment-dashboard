@@ -1,4 +1,6 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { createElement, forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { Anchor, Landmark, Church, Flower2, Trees, Shell, House } from "lucide-react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { placeMapLabel, mapLabelRectsOverlap, type MapLabelRect, type MapLabelSide } from "../lib/mapLabelLayout";
@@ -16,6 +18,7 @@ const CENTERS: Record<TourismRegion, [number, number]> = {
   국화도: [126.55692916127481, 37.06210373671743],
   입파도: [126.53922474495708, 37.10764374760446],
 };
+const attractionIcons = { harbor: Anchor, heritage: Landmark, church: Church, temple: House, garden: Flower2, park: Trees, fossil: Shell };
 const cityBounds = new maplibregl.LngLatBounds(
   [geography.bounds[0], geography.bounds[1]],
   [geography.bounds[2], geography.bounds[3]],
@@ -143,7 +146,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       }
       for (const item of attractions) {
         const point = instance.project(item.marker.getLngLat());
-        occupied.push({ x: point.x - 5, y: point.y - 5, width: 10, height: 10 });
+        occupied.push({ x: point.x - 13, y: point.y - 13, width: 26, height: 26 });
       }
       const priority = (region: TourismRegion, button: HTMLElement) => region === hoveredRegion ? 2 : button.classList.contains('is-active') ? 1 : 0;
       for (const item of [...visibleMarkers].sort((a,b)=>priority(b.region,b.button)-priority(a.region,a.button))) {
@@ -207,7 +210,9 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'tdb-geographic-marker tdb-attraction-marker';
+      button.dataset.category = attraction.category;
       const dot = document.createElement('b'); dot.setAttribute('aria-hidden', 'true');
+      dot.innerHTML = renderToStaticMarkup(createElement(attractionIcons[attraction.category], { size: 15, strokeWidth: 1.7 }));
       const label = document.createElement('span'); label.textContent = attraction.name;
       button.append(dot, label);
       button.title = `${attraction.name} · 관광안내도 기반 대략 위치`;
