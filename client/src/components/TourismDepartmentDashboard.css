@@ -109,3 +109,7 @@
 .tdb-attraction-marker span{font:600 12px/1.4 "Pretendard",sans-serif;color:#20364c;background:transparent;border:0;padding:0;box-shadow:none}
 .tdb-attraction-marker:hover,.tdb-attraction-marker:focus-visible{z-index:4}
 .tdb-attraction-marker:hover span,.tdb-attraction-marker:focus-visible span{color:#101f31;text-decoration:underline;text-underline-offset:3px}
+
+/* Investment counts use pointed pins; attraction symbols remain circular. */
+.tdb-geographic-marker:not(.tdb-attraction-marker) b{width:26px;height:30px;margin:-1px 1px;padding-bottom:5px;border-radius:10px 10px 0 0;clip-path:polygon(0 0,100% 0,100% 67%,50% 100%,0 67%);background:#263b50;border:0;color:#f3d9a4;box-shadow:none;font-weight:700;font-size:12px}
+.tdb-geographic-marker:not(.tdb-attraction-marker).is-active b,.tdb-geographic-marker:not(.tdb-attraction-marker):hover b,.tdb-geographic-marker:not(.tdb-attraction-marker):focus-visible b{background:#c99b50;color:#172b3c;box-shadow:none}
