@@ -1,8 +1,0 @@
-Source: user-provided tourmap_kor_20260707_S.pdf, page 1.
-Original PDF page rasterized at scale 1800 / 2154.330078125.
-Map rectangle in that pixel frame: left 240, top 17, right 1783, bottom 1195.
-Output: 1543 × 1178 PNG. No contour extraction, smoothing, redrawing,
-recoloring, or changes to the relative geometry of roads, coast, or islands.
-Labels printed in the source remain part of the original artwork.
-Additional interactive project badges use Pretendard.
-The map is an illustrated tourism guide, not surveyed parcel/navigation data.

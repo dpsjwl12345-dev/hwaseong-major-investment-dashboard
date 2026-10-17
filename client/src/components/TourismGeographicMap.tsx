@@ -1,71 +1,156 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import geography from "../data/hwaseong-map-metadata.json";
 
 export const TOURISM_REGIONS = ["제부도", "궁평항", "국화도", "입파도"] as const;
 export type TourismRegion = typeof TOURISM_REGIONS[number];
-// The supplied tourism guide is an illustrated map. Preserve its geometry and
-// island inset, using Mercator only as a zoom/pan canvas, not as GPS data.
-const guidePoint=(point:[number,number]):[number,number]=>[
-  126.5+(point[0]-240)*.0004,
-  Math.atan(Math.sinh(Math.asinh(Math.tan(37.34*Math.PI/180))-(point[1]-20)*.0004*Math.PI/180))*180/Math.PI,
-];
-const CENTERS:Record<TourismRegion,[number,number]>={
-  제부도:guidePoint([322,545]),궁평항:guidePoint([461,747]),
-  국화도:guidePoint([316,1122]),입파도:guidePoint([310,1000]),
+// Named islands use their original WGS84 polygon centers, identified by the
+// guide's island names and north/south locations, not by ranking and guessing.
+// 궁평항 is a representative harbor point, not a surveyed project parcel.
+const CENTERS: Record<TourismRegion, [number, number]> = {
+  제부도: [126.61996914392513, 37.16794090190677],
+  궁평항: [126.683, 37.116],
+  국화도: [126.55692916127481, 37.06210373671743],
+  입파도: [126.53922474495708, 37.10764374760446],
 };
-// Render the original PDF map rectangle without tracing, smoothing, recoloring,
-// repositioning islands, or stretching its 1543:1178 aspect ratio.
-const MAP_CORNERS:[[number,number],[number,number],[number,number],[number,number]]=[guidePoint([240,17]),guidePoint([1783,17]),guidePoint([1783,1195]),guidePoint([240,1195])];
-const wholeCityBounds = new maplibregl.LngLatBounds(MAP_CORNERS[3],MAP_CORNERS[1]);
-export type TourismMapHandle = { reset:()=>void; zoom:(direction:number)=>void; focus:(regions:TourismRegion[])=>void };
-type Props = {counts:Record<TourismRegion,number>; highlights:TourismRegion[]; onSelect:(region:TourismRegion)=>void};
+const cityBounds = new maplibregl.LngLatBounds(
+  [geography.bounds[0], geography.bounds[1]],
+  [geography.bounds[2], geography.bounds[3]],
+);
+export type TourismMapHandle = {
+  reset: () => void;
+  zoom: (direction: number) => void;
+  focus: (regions: TourismRegion[]) => void;
+};
+type Props = {
+  counts: Record<TourismRegion, number>;
+  highlights: TourismRegion[];
+  onSelect: (region: TourismRegion) => void;
+};
+const GEOGRAPHY_URL = "/maps/hwaseong-20260701.geojson";
+const BOUNDARY_ATTRIBUTION = '<a href="https://sgis.kostat.go.kr" target="_blank" rel="noopener noreferrer">SGIS</a> · <a href="https://github.com/vuski/admdongkor" target="_blank" rel="noopener noreferrer">admdongkor</a> (CC BY 4.0)';
+const tiles = ["https://basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png"];
 
-const TourismGeographicMap = forwardRef<TourismMapHandle,Props>(function TourismGeographicMap({counts,highlights,onSelect},ref){
-  const container=useRef<HTMLDivElement>(null);
-  const map=useRef<maplibregl.Map|null>(null);
-  const markers=useRef<{region:TourismRegion; marker:maplibregl.Marker; button:HTMLButtonElement}[]>([]);
-  const callback=useRef(onSelect); callback.current=onSelect;
-  const [status,setStatus]=useState<"loading"|"ready"|"error">("loading");
-  const reduced=()=>window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  useImperativeHandle(ref,()=>({
-    reset(){map.current?.fitBounds(wholeCityBounds,{padding:24,duration:reduced()?0:450});},
-    zoom(direction){map.current?.easeTo({zoom:map.current.getZoom()+direction,duration:200});},
-    focus(regions){if(!regions.length)return;const bounds=new maplibregl.LngLatBounds();regions.forEach(region=>bounds.extend(CENTERS[region]));map.current?.fitBounds(bounds,{padding:100,maxZoom:13,duration:reduced()?0:650});},
-  }),[]);
-  useEffect(()=>{
-    if(!container.current)return;
-    let disposed=false;
-    let instance:maplibregl.Map;
-    try {instance=new maplibregl.Map({container:container.current,center:[126.63,37.13],zoom:10.7,
-      minZoom:8,maxZoom:18,dragPan:true,
-      attributionControl:{compact:true},dragRotate:false,touchPitch:false,
-      style:{version:8,sources:{"original-guide":{type:"image",url:"/maps/hwaseong-tourism-guide-original.png",coordinates:MAP_CORNERS}},layers:[
-        {id:"background",type:"background",paint:{"background-color":"#c5d5d6"}},
-        {id:"original-guide",type:"raster",source:"original-guide",paint:{"raster-fade-duration":0}},
-      ]},
-    });} catch {setStatus("error");return;}
-    map.current=instance;
-    instance.fitBounds(wholeCityBounds,{padding:24,duration:0});
-    instance.on("load",()=>{if(!disposed)setStatus("ready");});
-    instance.on("error",()=>{if(!disposed)setStatus("error");});
-    for(const region of TOURISM_REGIONS){
-      const button=document.createElement('button');button.type='button';button.className='tdb-geographic-marker';button.setAttribute('aria-label',`${region} 권역 사업 보기`);
-      const number=document.createElement('b');number.textContent=String(counts[region]);
-      const label=document.createElement('span');label.textContent=region;
-      button.append(number,label);button.onclick=()=>callback.current(region);
-      const marker=new maplibregl.Marker({element:button,anchor:'left'}).setLngLat(CENTERS[region]).addTo(instance);
-      button.setAttribute('aria-label',`${region} 권역 사업 보기`);
-      markers.current.push({region,button,marker});
+const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function TourismGeographicMap({ counts, highlights, onSelect }, ref) {
+  const container = useRef<HTMLDivElement>(null);
+  const map = useRef<maplibregl.Map | null>(null);
+  const markers = useRef<{ region: TourismRegion; button: HTMLButtonElement; marker: maplibregl.Marker }[]>([]);
+  const callback = useRef(onSelect);
+  callback.current = onSelect;
+  const [status, setStatus] = useState<"loading" | "ready" | "unavailable" | "error">("loading");
+  const duration = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450;
+  useImperativeHandle(ref, () => ({
+    reset() { map.current?.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: duration() }); },
+    zoom(direction) { const instance = map.current; if (instance) instance.easeTo({ zoom: instance.getZoom() + direction, duration: duration() ? 200 : 0 }); },
+    focus(regions) {
+      if (!regions.length) return;
+      const bounds = new maplibregl.LngLatBounds();
+      regions.forEach(region => bounds.extend(CENTERS[region]));
+      map.current?.fitBounds(bounds, { padding: 100, maxZoom: 12.5, duration: duration() });
+    },
+  }), []);
+
+  useEffect(() => {
+    if (!container.current) return;
+    let disposed = false;
+    let rasterReady = false;
+    let instance: maplibregl.Map;
+    try {
+      instance = new maplibregl.Map({
+        container: container.current,
+        center: [126.84, 37.15], zoom: 10, minZoom: 8, maxZoom: 17,
+        dragPan: true, dragRotate: false, touchPitch: false,
+        attributionControl: { compact: true },
+        style: {
+          version: 8,
+          sources: {
+            geography: { type: "geojson", data: GEOGRAPHY_URL, attribution: BOUNDARY_ATTRIBUTION },
+            basemap: { type: "raster", tiles, tileSize: 256, attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> © <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>' },
+          },
+          layers: [
+            { id: "water", type: "background", paint: { "background-color": "#c9d7d8" } },
+            // Locally available real-coordinate context remains if raster tiles
+            // are unavailable. It does not masquerade as a complete road map.
+            { id: "land-context", type: "fill", source: "geography", filter: ["==", ["get", "kind"], "city"], paint: { "fill-color": "#edece4" } },
+            { id: "basemap", type: "raster", source: "basemap", paint: { "raster-fade-duration": 150, "raster-saturation": -.1 } },
+            { id: "town-boundaries", type: "line", source: "geography", filter: ["==", ["get", "kind"], "town"], paint: { "line-color": "#8b9c96", "line-width": .65, "line-opacity": .32 } },
+            { id: "district-boundaries", type: "line", source: "geography", filter: ["==", ["get", "kind"], "district"], paint: { "line-color": "#6d8383", "line-width": 1.15, "line-opacity": .65, "line-dasharray": [4, 3] } },
+            { id: "city-boundary", type: "line", source: "geography", filter: ["==", ["get", "kind"], "city"], paint: { "line-color": "#718b88", "line-width": 1.1, "line-opacity": .5 } },
+          ],
+        },
+      });
+    } catch { setStatus("error"); return; }
+    map.current = instance;
+    instance.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: 0 });
+    instance.on("sourcedata", event => {
+      if (event.sourceId === "basemap" && event.sourceDataType === "content" && event.tile?.state === "loaded" && !disposed) {
+        rasterReady = true;
+        setStatus("ready");
+      }
+    });
+    instance.on("error", event => {
+      if (disposed) return;
+      if ((event as { sourceId?: string }).sourceId === "geography") setStatus("error");
+      else if (!rasterReady) setStatus("unavailable");
+    });
+    const labels: { element: HTMLElement; marker: maplibregl.Marker; district: boolean }[] = [];
+    for (const label of geography.labels) {
+      const element = document.createElement("span");
+      element.className = label.kind === "district" ? "tdb-gu-label" : "tdb-town-label";
+      element.textContent = label.name;
+      const marker = new maplibregl.Marker({ element }).setLngLat(label.point as [number, number]).addTo(instance);
+      element.setAttribute("aria-hidden", "true");
+      labels.push({ element, marker, district: label.kind === "district" });
     }
-    const observer=new ResizeObserver(()=>instance.resize());observer.observe(container.current);
-    return()=>{disposed=true;observer.disconnect();markers.current.forEach(m=>m.marker.remove());markers.current=[];instance.remove();map.current=null;};
-  },[]);
-  useEffect(()=>{markers.current.forEach(({region,button})=>{button.classList.toggle('is-active',highlights.includes(region));button.setAttribute('aria-pressed',String(highlights.includes(region)));button.querySelector('b')!.textContent=String(counts[region]);});},[highlights,counts]);
+    // Hide colliding minor labels instead of moving them away from their real
+    // positions. Districts and all project markers retain their coordinates.
+    const layoutLabels = () => {
+      const occupied: { x: number; y: number; w: number; h: number }[] = [];
+      for (const label of labels) {
+        const point = instance.project(label.marker.getLngLat());
+        const candidate = { x: point.x - 25, y: point.y - 9, w: 50, h: 18 };
+        const allowed = label.district || (instance.getZoom() > 10 && !occupied.some(r => Math.abs(r.x - candidate.x) < (r.w + candidate.w) / 2 + 8 && Math.abs(r.y - candidate.y) < 24));
+        label.element.style.visibility = allowed ? "visible" : "hidden";
+        if (allowed) occupied.push(candidate);
+      }
+    };
+    instance.on("moveend", layoutLabels);
+    instance.on("load", layoutLabels);
+    layoutLabels();
+    for (const region of TOURISM_REGIONS) {
+      const button = document.createElement("button");
+      button.type = "button"; button.className = "tdb-geographic-marker";
+      const count = document.createElement("b"); count.textContent = String(counts[region]);
+      const label = document.createElement("span"); label.textContent = region;
+      button.append(count, label);
+      button.onclick = () => callback.current(region);
+      const marker = new maplibregl.Marker({ element: button, anchor: "left" }).setLngLat(CENTERS[region]).addTo(instance);
+      button.setAttribute("aria-label", `${region} 권역 사업 보기`);
+      markers.current.push({ region, button, marker });
+    }
+    const resize = new ResizeObserver(() => { instance.resize(); layoutLabels(); });
+    resize.observe(container.current);
+    const timeout = window.setTimeout(() => { if (!disposed && !rasterReady) setStatus("unavailable"); }, 10000);
+    return () => {
+      disposed = true; clearTimeout(timeout); resize.disconnect();
+      labels.forEach(label => label.marker.remove());
+      markers.current.forEach(marker => marker.marker.remove()); markers.current = [];
+      instance.remove(); map.current = null;
+    };
+  }, []);
+  useEffect(() => {
+    markers.current.forEach(({ region, button }) => {
+      button.classList.toggle("is-active", highlights.includes(region));
+      button.setAttribute("aria-pressed", String(highlights.includes(region)));
+      button.querySelector("b")!.textContent = String(counts[region]);
+    });
+  }, [counts, highlights]);
   return <>
-    <div ref={container} className="tdb-geographic-canvas" aria-label="화성시 전체 관광사업 권역 지도"/>
-    <div className="tdb-map-key"><span><b/>투자사업 권역</span></div>
-    {status==='error'&&<div className="tdb-geographic-status">지도 표시를 지원하는 브라우저에서 다시 열어 주세요.</div>}
+    <div ref={container} className="tdb-geographic-canvas" aria-label="실제 지형과 행정경계에 기반한 화성시 관광사업 지도" />
+    <div className="tdb-map-key"><span>화성시</span><span><b />투자사업 권역</span></div>
+    {status === "unavailable" && <div className="tdb-map-network-note">배경지도 연결 지연 · 실제 행정경계 표시 중</div>}
+    {status === "error" && <div className="tdb-geographic-status">지도를 불러오지 못했습니다.</div>}
   </>;
 });
 export default TourismGeographicMap;

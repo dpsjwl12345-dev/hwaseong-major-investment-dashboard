@@ -1,154 +1,74 @@
-.tdb-shell{max-width:1760px;margin:0 auto 24px;padding:25px 26px 22px;background:#f1f2ed;color:#252a29;border:1px solid #fff8;border-radius:22px;font-family:"Pretendard",sans-serif;box-shadow:0 12px 45px #0002}.tdb-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:22px}.tdb-header p{font-size:9px;letter-spacing:.19em;color:#858a80;margin:0 0 6px}.tdb-header h1{font-size:26px;letter-spacing:-.045em;margin:0;font-weight:700}.tdb-header h1>span{color:#858a83;font-weight:400;margin-left:9px;font-size:21px}.tdb-slogan{font:400 italic 20px "April16th Promise","Pretendard",sans-serif;color:#8b866d;white-space:nowrap}.tdb-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:18px}.tdb-kpi{padding:18px 21px 14px;background:#fff;border:1px solid #e2e5dc;border-radius:15px}.tdb-kpi>div{display:flex;align-items:center;gap:8px;font-size:12px;color:#7b8176}.tdb-kpi>div>svg{stroke-width:1.5}.tdb-kpi>strong{display:block;margin-top:13px;font:500 37px/1.1 "Space Grotesk","Pretendard",sans-serif;color:#303631;letter-spacing:-.04em;white-space:nowrap}.tdb-kpi>strong>small{font:400 13px "Pretendard",sans-serif;margin-left:7px;letter-spacing:0}.tdb-kpi>p{font-size:10px;color:#a0a397;margin:9px 0 0}.tdb-kpi.is-count{background:#30332f;border-color:#30332f}.tdb-kpi.is-count>div{color:#b5b8ad}.tdb-kpi.is-count>strong{color:#fff8e5}.tdb-kpi.is-count>p{color:#969c8f}.tdb-kpi.is-request{background:#f4eddb;border-color:#e6dcc4}.tdb-body{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:16px;height:clamp(580px,calc(100svh - 320px),900px)}.tdb-map-card,.tdb-list-card{min-width:0;min-height:0;background:#fff;border:1px solid #e0e3da;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}.tdb-map-header{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 13px}.tdb-map-header>div{display:flex;align-items:center;gap:11px}.tdb-map-header h2,.tdb-list-header h2{font-size:15px;font-weight:650;margin:0}.tdb-map-header>div>span{font-size:11px;color:#a6aaa1;border-left:1px solid #e3e6df;padding-left:11px}.tdb-map-header>button{display:flex;align-items:center;gap:6px;border:1px solid #e5e7e0;border-radius:8px;background:#fafbf8;color:#777e72;font:400 11px "Pretendard",sans-serif;padding:7px 9px;cursor:pointer}.tdb-map-surface{position:relative;flex:1;min-height:0;overflow:hidden;background:radial-gradient(ellipse at 42% 45%,#fafbf7,#eff1eb)}.tdb-map-surface>svg{display:block;width:100%;height:100%;touch-action:none;cursor:grab}.tdb-map-surface>svg:active{cursor:grabbing}.tdb-city{fill:#c6cbc3;stroke:#fdfefa;stroke-width:1.1;vector-effect:non-scaling-stroke;pointer-events:none}.tdb-district{fill:#bfc6bc;stroke:#fff;stroke-width:1.4;vector-effect:non-scaling-stroke;pointer-events:none}.tdb-district:nth-child(odd){fill:#cdd1c9}.tdb-district-names{pointer-events:none}.tdb-district-names text{font:500 13px "Pretendard",sans-serif;fill:#798174;letter-spacing:2px}.tdb-map-marker{cursor:pointer;outline:none}.tdb-marker-halo{fill:#ead5a0;opacity:.25;pointer-events:all}.tdb-marker-disc{fill:#e3be65;stroke:#fff9;stroke-width:2}.tdb-marker-count{font:650 13px "Pretendard",sans-serif;fill:#594b28;pointer-events:none}.tdb-marker-name{font:500 12px "Pretendard",sans-serif;fill:#626855;paint-order:stroke;stroke:#f9faf4;stroke-width:3px;stroke-linejoin:round;pointer-events:none}.tdb-map-marker.is-active .tdb-marker-disc,.tdb-map-marker:hover .tdb-marker-disc,.tdb-map-marker:focus-visible .tdb-marker-disc{fill:#3e4e43;stroke:#e5bd62}.tdb-map-marker.is-active .tdb-marker-count,.tdb-map-marker:hover .tdb-marker-count,.tdb-map-marker:focus-visible .tdb-marker-count{fill:#fff5d5}.tdb-zoom{position:absolute;bottom:18px;left:18px;display:flex;flex-direction:column;border-radius:9px;overflow:hidden;border:1px solid #e0e4d9;box-shadow:0 4px 12px #3541270a}.tdb-zoom button{border:0;background:#ffffffec;color:#707b64;width:32px;height:32px;display:grid;place-items:center;cursor:pointer}.tdb-zoom button+button{border-top:1px solid #e9ebe3}.tdb-map-caption{display:flex;justify-content:space-between;gap:12px;padding:11px 18px;border-top:1px solid #edf0e7;font-size:10px;color:#9aa18f}.tdb-map-caption>span:first-child{color:#777f6d;white-space:nowrap}.tdb-map-selection{position:absolute;bottom:18px;left:65px;right:18px;display:flex;align-items:center;gap:9px;padding:11px 12px;border:1px solid #e3e8dc;border-radius:10px;background:#fffffff0;box-shadow:0 7px 20px #33441f12;color:#566349;font-size:12px}.tdb-map-selection>span{flex:1}.tdb-map-selection>button{border:0;background:#edf0e6;color:#657452;border-radius:6px;padding:5px;cursor:pointer}.tdb-list-header{display:flex;justify-content:space-between;align-items:center;min-height:56px;padding:16px 19px 11px}.tdb-list-header>div{display:flex;align-items:center;gap:8px}.tdb-list-header>div>span{font:500 12px "Pretendard",sans-serif;border-radius:6px;background:#eff1e9;color:#8d967f;padding:3px 6px}.tdb-list-header>button{border:0;background:none;color:#9a9f92;cursor:pointer}.tdb-search{display:flex;align-items:center;gap:8px;margin:0 16px 9px;padding:8px 11px;border:1px solid #e7eae1;border-radius:8px;background:#fafbf8;color:#9da68f}.tdb-search>input{outline:none;background:none;border:0;width:100%;font:400 12px "Pretendard",sans-serif;color:#505c44}.tdb-search>input::placeholder{color:#a2a995}.tdb-project-list{flex:1;min-height:0;overflow:auto;padding:0 10px 10px;scrollbar-width:thin;scrollbar-color:#c6ccbd transparent}.tdb-project{display:flex;align-items:center;gap:10px;min-height:74px;padding:11px 8px;border-radius:9px;border-bottom:1px solid #edf0e7}.tdb-project.is-active{background:#f1f3ea}.tdb-project-icon{flex-shrink:0;display:grid;place-items:center;width:32px;height:35px;border:1px solid #e4e9dc;border-radius:9px;background:#f6f8f0;color:#8d9a7e}.tdb-project-info{flex:1;min-width:0}.tdb-project-title{display:flex;align-items:center;gap:4px;text-align:left;background:none;border:0;padding:0;font:550 12px/1.5 "Pretendard",sans-serif;color:#414a39;word-break:keep-all;cursor:pointer}.tdb-project-title>svg{flex-shrink:0;color:#a4ad98}.tdb-project-title:hover{color:#8e6c24}.tdb-project-meta{display:flex;justify-content:space-between;gap:7px;font-size:10px;color:#a0a892;margin:6px 0}.tdb-project-meta>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:175px}.tdb-project-meta>strong{font-weight:500;color:#7a876a;white-space:nowrap}.tdb-progress{height:3px;border-radius:4px;background:#eef1e8;overflow:hidden}.tdb-progress>i{display:block;height:100%;border-radius:4px;background:#a7b497}.tdb-project-locate{align-self:center;flex-shrink:0;border:0;background:none;color:#adb6a0;padding:5px;cursor:pointer}.tdb-project-locate:hover{color:#8c702b}.tdb-empty{padding:25px 15px;font-size:12px;color:#9bA48e}@media(min-width:1800px){.tdb-body{grid-template-columns:minmax(0,1fr) 340px}.tdb-project-title{font-size:14px}.tdb-project-meta{font-size:11px}.tdb-project{min-height:80px}}@media(max-width:1100px){.tdb-shell{padding:20px}.tdb-body{grid-template-columns:minmax(0,1fr) 290px}.tdb-kpi{padding:16px}.tdb-kpi>strong{font-size:30px}.tdb-map-caption>span:last-child{max-width:230px;text-align:right;font-size:9px}}@media(max-width:760px){.tdb-shell{padding:16px;border-radius:16px}.tdb-header{align-items:flex-start;flex-direction:column;gap:11px}.tdb-header h1{font-size:22px}.tdb-header h1>span{font-size:16px}.tdb-slogan{font-size:17px}.tdb-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.tdb-kpi{padding:14px}.tdb-kpi>strong{font-size:27px}.tdb-kpi>div{font-size:11px}.tdb-kpi>p{font-size:9px}.tdb-body{height:auto;grid-template-columns:1fr}.tdb-map-card{height:520px}.tdb-list-card{max-height:540px}.tdb-map-caption>span:last-child{max-width:200px}.tdb-map-selection{font-size:11px}}@media(prefers-reduced-motion:no-preference){.tdb-project,.tdb-marker-disc{transition:background .18s,fill .18s}}
-
-@media(min-width:1101px){.tdb-header{margin-bottom:16px}.tdb-kpi{padding:13px 18px 11px}.tdb-kpi>strong{margin-top:8px}.tdb-kpi>p{margin-top:6px}}
-.tdb-project{min-height:52px;padding:8px}.tdb-project-meta{margin:3px 0 0;line-height:1.4}.tdb-project-title{font-size:13px;line-height:1.45}
-
-/* Keep department totals secondary to the map. */
-.tdb-kpis{gap:8px;margin-bottom:12px}
-.tdb-kpi{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;border-radius:10px}
-.tdb-kpi>div{font-size:11px;gap:6px}
-.tdb-kpi>div>svg{width:14px;height:14px}
-.tdb-kpi>strong{font-size:24px;margin:0;line-height:1.2}
-.tdb-kpi>strong>small{font-size:11px;margin-left:4px}
-.tdb-kpi>p{display:none}
-@media(min-width:761px){.tdb-body{height:clamp(620px,calc(100svh - 235px),940px)}}
-@media(max-width:1100px){.tdb-kpi{padding:9px 10px;gap:6px}.tdb-kpi>strong{font-size:21px}.tdb-kpi>div{font-size:10px}}
-@media(max-width:760px){.tdb-kpi>strong{font-size:22px}}
-
-/* HIB department workspace: restrained navy surfaces, gold reserved for projects. */
-.tdb-shell{background:#101621;color:#e8edf4;border-color:#ffffff12;box-shadow:0 18px 55px #0003}
-.tdb-header p{color:#bd9958}
-.tdb-header h1{color:#f1f3f7}
-.tdb-header h1>span{color:#a5afbe}
-.tdb-slogan{color:#cebb94}
-.tdb-kpi,.tdb-kpi.is-count,.tdb-kpi.is-request{background:#19212f;border-color:#ffffff12}
-.tdb-kpi>div,.tdb-kpi.is-count>div{color:#a0adbf}
-.tdb-kpi>strong,.tdb-kpi.is-count>strong{color:#eef1f6}
-.tdb-kpi.is-count>strong{color:#e5bc70}
-.tdb-map-card,.tdb-list-card{background:#151e2c;border-color:#ffffff16;box-shadow:0 8px 28px #0002}
-.tdb-map-header{background:#151e2c}
-.tdb-map-header h2,.tdb-list-header h2{color:#e7edf5}
-.tdb-map-header>div>span{color:#8493a8;border-color:#ffffff18}
-.tdb-map-header>button{background:#202c3d;color:#bdc9d8;border-color:#ffffff18}
-.tdb-map-surface{background:radial-gradient(ellipse at 30% 60%,#23384c 0%,#18283c 48%,#131e2e 100%)}
-.tdb-city{fill:#455c72;stroke:#a6bbcb;stroke-width:1.2;filter:drop-shadow(0 7px 5px #040b1460)}
-.tdb-district{fill:#455c72;stroke:#b6c8d157;stroke-width:1.25}
-.tdb-district:nth-child(odd){fill:#526b80}
-.tdb-district-names text{fill:#d5dfe8;font-weight:500;letter-spacing:1px}
-.tdb-marker-halo{fill:#efba63;opacity:.12;r:30}
-.tdb-marker-disc{fill:#1c2939;stroke:#e8bc71;stroke-width:2;filter:drop-shadow(0 3px 5px #0005)}
-.tdb-marker-count{fill:#f3cc87;font-size:14px;font-weight:650;stroke:none}
-.tdb-marker-name{fill:#f3e6cc;stroke:#192b3e;stroke-width:4px;font-weight:500}
-.tdb-map-marker.is-active .tdb-marker-disc,.tdb-map-marker:hover .tdb-marker-disc,.tdb-map-marker:focus-visible .tdb-marker-disc{fill:#e7b969;stroke:#ffdfa4}
-.tdb-map-marker.is-active .tdb-marker-count,.tdb-map-marker:hover .tdb-marker-count,.tdb-map-marker:focus-visible .tdb-marker-count{fill:#202735}
-.tdb-map-marker.is-active .tdb-marker-halo{opacity:.25}
-.tdb-zoom{border-color:#ffffff24;box-shadow:0 4px 15px #0004}
-.tdb-zoom button{background:#1c2a3d;color:#d3deeb;width:36px;height:36px}
-.tdb-zoom button+button{border-color:#ffffff16}
-.tdb-map-caption{border-color:#ffffff0c;color:#8291a5;background:#151e2c}
-.tdb-map-caption>span:first-child{color:#a8b5c5}
-.tdb-map-selection{background:#172335f2;border-color:#d0ad6359;color:#eee3ce;box-shadow:0 7px 20px #0003;backdrop-filter:blur(12px)}
-.tdb-map-selection>button{background:#344151;color:#ebcb92}
-.tdb-list-card{background:linear-gradient(155deg,#202b3ddd,#141e2cf5)}
-.tdb-list-header>div>span{background:#ffffff0c;color:#d6b57b}
-.tdb-list-header>button{color:#acb9ca}
-.tdb-search{background:#101a29;border-color:#ffffff14;color:#8498ae}
-.tdb-search>input{color:#e1e8f1}
-.tdb-search>input::placeholder{color:#798ba2}
-.tdb-project-list{scrollbar-color:#42546c transparent}
-.tdb-project{border-color:#ffffff0b}
-.tdb-project:hover,.tdb-project.is-active{background:#ffffff07}
-.tdb-project.is-active{box-shadow:inset 2px 0 #d9af68}
-.tdb-project-icon{background:#ffffff04;border-color:#ffffff0d;color:#9eafc3}
-.tdb-project.is-active .tdb-project-icon{color:#e3bc79;border-color:#d6b36c40}
-.tdb-project-title{color:#dce4ef}
-.tdb-project-title>svg{color:#7c90a9}
-.tdb-project-title:hover{color:#efce95}
-.tdb-project-meta{color:#91a2b8}
-.tdb-project-meta>strong{color:#bdcbdc}
-.tdb-project-locate{color:#8195af}
-.tdb-project-locate:hover{color:#ebc381}
-.tdb-empty{color:#a3b2c6}
-.tdb-map-header>button:hover,.tdb-zoom button:hover{background:#304158}
-.tdb-project-title:focus-visible,.tdb-project-locate:focus-visible,.tdb-map-header>button:focus-visible,.tdb-zoom button:focus-visible{outline:2px solid #e2ba77;outline-offset:3px}
-
+.tdb-shell{--tdb-ink:#e7ebf1;--tdb-muted:#8f9bad;--tdb-line:#ffffff12;--tdb-gold:#d6b579;max-width:1760px;margin:0 auto 24px;padding:24px;background:#111823;color:var(--tdb-ink);border:1px solid var(--tdb-line);border-radius:20px;font-family:"Pretendard",sans-serif}
+.tdb-header{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:20px}
+.tdb-header p{margin:0 0 7px;color:var(--tdb-gold);font-size:9px;letter-spacing:.18em}
+.tdb-header h1{margin:0;font:600 25px/1.3 "Pretendard",sans-serif;letter-spacing:-.04em}
+.tdb-header h1>span{margin-left:9px;color:#9faaba;font-size:18px;font-weight:400}
+.tdb-slogan{font:400 italic 19px "April16th Promise","Pretendard",sans-serif;color:#c2b391;white-space:nowrap}
+.tdb-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:11px 0;margin-bottom:18px;border-top:1px solid var(--tdb-line);border-bottom:1px solid var(--tdb-line)}
+.tdb-kpi{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 18px}
+.tdb-kpi:first-child{padding-left:0}.tdb-kpi:last-child{padding-right:0}.tdb-kpi+.tdb-kpi{border-left:1px solid var(--tdb-line)}
+.tdb-kpi>div{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--tdb-muted)}
+.tdb-kpi>div>svg{width:14px;height:14px;stroke-width:1.4}
+.tdb-kpi>strong{font:500 23px/1.2 "Space Grotesk","Pretendard",sans-serif;letter-spacing:-.04em;white-space:nowrap}
+.tdb-kpi>strong>small{margin-left:4px;font:400 10px "Pretendard",sans-serif;letter-spacing:0;color:#acb6c4}
+.tdb-kpi.is-count>strong{color:var(--tdb-gold)}.tdb-kpi>p{display:none}
+.tdb-body{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:15px;height:clamp(600px,calc(100svh - 320px),880px)}
+.tdb-map-card,.tdb-list-card{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border-radius:13px}
+.tdb-map-card{border:1px solid #ffffff24;background:#f4f5ef}
+.tdb-map-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 18px;background:#f8f9f5;border-bottom:1px solid #203e4910}
+.tdb-map-header>div{display:flex;align-items:center;gap:10px;min-width:0}
+.tdb-map-header h2{margin:0;font-size:14px;font-weight:600;color:#334b56}
+.tdb-map-header>div>span{border-left:1px solid #203e4924;padding-left:10px;font-size:10px;color:#8b999d;white-space:nowrap}
+.tdb-map-header>button{display:flex;align-items:center;gap:6px;padding:7px 9px;background:#fff;color:#60757e;border:1px solid #344f5b20;border-radius:7px;font:400 10px "Pretendard",sans-serif;white-space:nowrap;cursor:pointer}
+.tdb-map-header>button:hover{background:#eaf0ec}
+.tdb-map-surface{position:relative;flex:1;min-height:0;overflow:hidden;background:#c9d7d8;font-family:"Pretendard",sans-serif}
 .tdb-geographic-canvas{position:absolute;inset:0}
-.tdb-geographic-marker{display:flex;align-items:center;gap:7px;border:0;padding:0;background:none;color:#fff;cursor:pointer;filter:drop-shadow(0 2px 3px #0009)}
-.tdb-geographic-marker b{display:grid;place-items:center;width:32px;height:32px;background:#14283be8;border:2px solid #e9bd70;border-radius:50%;color:#ffe2a3;font:650 14px "Pretendard",sans-serif}
-.tdb-geographic-marker span{font:600 13px "Pretendard",sans-serif;background:#132131cf;border:1px solid #ffffff24;border-radius:5px;padding:5px 8px;color:#fff1d4}
-.tdb-geographic-marker:hover b,.tdb-geographic-marker.is-active b{background:#e8ba69;color:#182536;border-color:#fff0c5}
-.tdb-geographic-marker:focus-visible{outline:2px solid #f0ca80;outline-offset:5px;border-radius:8px}
-.tdb-geographic-status{position:absolute;top:70px;left:18px;background:#152336ed;border:1px solid #ffffff24;border-radius:9px;padding:12px 15px;color:#c6d2df;font-size:12px}
-.tdb-geographic-status strong{font-weight:500}
-.tdb-geographic-status button{display:block;margin-top:9px;padding:7px 10px;background:#354258;color:#f3d7a3;border:1px solid #bfa06560;border-radius:6px;cursor:pointer;font-size:12px}
-.tdb-map-surface .maplibregl-ctrl-attrib{font-size:10px}
-.tdb-project-detail{flex-shrink:0;align-self:center;padding:5px;border:0;background:none;color:#bba273;cursor:pointer}
-.tdb-project-detail:hover{color:#ffe0a6}
-.tdb-project-detail:focus-visible{outline:2px solid #e2ba77;outline-offset:3px}
-.tdb-project{gap:7px}
-
-.tdb-gu-label{color:#c6d1de;font:500 13px "Pretendard",sans-serif;letter-spacing:1px;pointer-events:none;text-shadow:0 1px 3px #152335}
-
-/* Tourism atlas: typography and original landmark miniatures. */
-.tdb-header h1{font-family:"Gmarket Sans","Pretendard",sans-serif;font-size:25px;font-weight:600}
-.tdb-header h1>span{font-family:"Pretendard",sans-serif;font-size:18px;font-weight:400}
-.tdb-gu-label{font:500 16px "Pretendard",sans-serif;letter-spacing:4px;color:#e6e9e4b3;text-shadow:0 2px 5px #0c203099;pointer-events:none}
-.tdb-landmark{display:flex;flex-direction:column;align-items:center;gap:0;background:none;border:0;padding:0;cursor:pointer;z-index:2}
-.tdb-landmark-art{display:block;width:54px;height:49px;filter:drop-shadow(0 3px 4px #0d192b55);transition:filter .18s}
-.tdb-landmark-art svg,.tdb-region-art svg{width:100%;height:100%;overflow:visible}
-.tdb-landmark-name{font:500 14px/1.3 "Pretendard",sans-serif;color:#f0e9d8;white-space:nowrap;text-shadow:0 1px 3px #152738,0 0 6px #152738;padding:2px 4px}
-.tdb-landmark:hover,.tdb-landmark:focus-visible{z-index:7}
-.tdb-landmark:hover .tdb-landmark-art,.tdb-landmark:focus-visible .tdb-landmark-art{filter:drop-shadow(0 0 7px #edc28290)}
-.tdb-landmark:focus-visible{outline:1px solid #edc282;outline-offset:5px;border-radius:8px}
-.tdb-landmark.is-temple .tdb-landmark-art{width:46px;height:42px}
-.tdb-geographic-marker{display:grid;grid-template-columns:52px auto;grid-template-rows:35px 20px;gap:0;filter:drop-shadow(0 2px 4px #0b162a66);z-index:4}
-.tdb-region-art{grid-row:1/3;display:block;width:57px;height:54px;font-style:normal}
-.tdb-geographic-marker b{width:25px;height:25px;font-size:12px;border-width:1.5px;align-self:center;justify-self:start;margin-left:1px;box-shadow:0 0 0 4px #d4b27116}
-.tdb-geographic-marker span{grid-column:2;padding:0 4px 0 0;background:none;border:0;font:500 16px/1 "Pretendard",sans-serif;color:#ffe3ad;white-space:nowrap;text-shadow:0 2px 4px #0c1b2c}
-.tdb-map-key{position:absolute;top:16px;left:18px;display:flex;gap:16px;color:#bfccd7;font:400 10px "Pretendard",sans-serif;pointer-events:none;padding:8px 11px;background:#152638b8;border:1px solid #ffffff12;border-radius:8px;backdrop-filter:blur(8px)}
-.tdb-map-key span{display:flex;align-items:center;gap:6px}
-.tdb-map-key i{width:7px;height:7px;background:#9ab6b5;transform:rotate(45deg);border:1px solid #d6e3db}
-.tdb-map-key b{width:9px;height:9px;border:1.5px solid #e2b76d;border-radius:50%}
-.tdb-map-watermark{position:absolute;left:28px;top:23%;color:#8da5bb36;font:400 11px "Pretendard",sans-serif;letter-spacing:5px;pointer-events:none}
-.tdb-map-watermark span{display:block;margin-top:10px;color:#b0c6d44d;font:400 16px "Pretendard",sans-serif;letter-spacing:1px}
-.tdb-landmark-popup .maplibregl-popup-content{background:#1a293b;color:#e7edf4;border:1px solid #aebfc32e;border-radius:12px;padding:17px 20px 14px;box-shadow:0 12px 30px #03091666;font-family:"Pretendard",sans-serif}
-.tdb-landmark-popup .maplibregl-popup-tip{border-top-color:#1a293b;border-bottom-color:#1a293b}
-.tdb-landmark-popup small{display:block;font-size:9px;letter-spacing:1px;color:#cfad77;margin-bottom:7px}
-.tdb-landmark-popup strong{font:600 20px "Pretendard",sans-serif;color:#f5dfb5}
-.tdb-landmark-popup p{font-size:11px;line-height:1.6;color:#aebfd0;margin:8px 0 0}
-.tdb-landmark-popup .maplibregl-popup-close-button{color:#aebfd0;padding:3px 7px;font-size:17px}
-@media(max-width:1100px){.tdb-landmark-art{width:43px;height:39px}.tdb-landmark-name{font-size:12px}.tdb-gu-label{font-size:13px;letter-spacing:2px}}
-
 .tdb-geographic-canvas .maplibregl-canvas-container{cursor:grab;touch-action:none;user-select:none}
 .tdb-geographic-canvas .maplibregl-canvas-container:active{cursor:grabbing}
-.tdb-map-surface{font-family:"Pretendard",sans-serif}
-
-/* Brighter land colors, with dark labels for contrast on the light districts. */
-.tdb-gu-label{color:#344c5b99;text-shadow:none}
-.tdb-landmark-name{color:#243e4c;text-shadow:0 1px 2px #ffffffa6,0 0 5px #ffffff80;font-weight:600}
-.tdb-landmark-art{filter:drop-shadow(0 3px 3px #172b3e30)}
-.tdb-map-watermark{color:#b6d8e653}
-.tdb-map-watermark span{color:#bbd8e67a}
-
-.tdb-geographic-marker{grid-template-rows:35px 25px}
-.tdb-geographic-marker span{padding:3px 6px;border:1px solid #e2bd772e;border-radius:5px;background:#142a3dcc;font-size:14px;color:#ffe3ad;text-shadow:none}
-
-/* Light cartographic surface: restrained roads and administrative context. */
-.tdb-map-surface{background:#c5d5d6}
-.tdb-gu-label{color:#637a7b;font-weight:600;letter-spacing:3px;text-shadow:0 1px 2px #fff8}
-.tdb-town-label{font:400 11px "Pretendard",sans-serif;color:#8b968b;letter-spacing:.3px;pointer-events:none;text-shadow:0 1px 2px #fff}
-.tdb-map-watermark{color:#6f909582}
-.tdb-map-watermark span{color:#64878ca6}
-.tdb-map-key{background:#f8f9f2db;border-color:#94aaa52e;color:#5f7478;box-shadow:0 2px 8px #577d7d0a}
-.tdb-map-key i{background:#73918b;border-color:#f3f5e9}
-.tdb-map-key b{border-color:#a17d3c;background:#24384a}
-.tdb-zoom{border-color:#819b9b3d;box-shadow:0 3px 12px #4964631a}
-.tdb-zoom button{background:#fafbf6;color:#50676d}
-.tdb-zoom button+button{border-color:#b2c3bc50}
-.tdb-zoom button:hover{background:#e9eeea}
-.tdb-landmark-name{color:#3b514d;text-shadow:0 1px 2px #ffffffd9,0 0 5px #ffffff99}
-
-/* Original tourism-guide artwork remains intact; only project badges overlay it. */
-.tdb-geographic-marker{display:flex;align-items:center;gap:5px;filter:drop-shadow(0 2px 3px #15233450)}
-.tdb-geographic-marker b{margin:0;width:28px;height:28px;border-width:2px;font:600 12px "Pretendard",sans-serif}
-.tdb-geographic-marker span{font:500 12px/1.2 "Pretendard",sans-serif;padding:5px 7px;background:#142a3de8}
+.tdb-map-key{position:absolute;top:16px;left:16px;display:flex;align-items:center;gap:12px;padding:8px 10px;background:#fffffff0;border:1px solid #819e9a30;border-radius:7px;font-size:10px;color:#647b7e;pointer-events:none;box-shadow:0 2px 8px #4463650a}
+.tdb-map-key>span{display:flex;align-items:center;gap:6px}.tdb-map-key>span+span{border-left:1px solid #879b962a;padding-left:12px}
+.tdb-map-key b{width:7px;height:7px;border-radius:50%;background:#253746;border:1px solid #c6a66b}
+.tdb-gu-label{font:600 13px "Pretendard",sans-serif;color:#5d7479;letter-spacing:2px;text-shadow:0 1px 3px #fff;pointer-events:none}
+.tdb-town-label{font:400 10px "Pretendard",sans-serif;color:#85938d;pointer-events:none;text-shadow:0 1px 3px #fff}
+.tdb-geographic-marker{display:flex;align-items:center;gap:5px;padding:0;background:none;border:0;cursor:pointer;filter:drop-shadow(0 2px 3px #17323425);z-index:3}
+.tdb-geographic-marker b{display:grid;place-items:center;width:28px;height:28px;border:1.5px solid #d8ba81;border-radius:50%;background:#223440;color:#f8ead0;font:600 12px "Pretendard",sans-serif;box-shadow:0 0 0 4px #ffffff68}
+.tdb-geographic-marker span{padding:5px 8px;border:1px solid #718b8829;border-radius:5px;background:#ffffffec;color:#354f58;font:500 12px "Pretendard",sans-serif;white-space:nowrap}
+.tdb-geographic-marker.is-active,.tdb-geographic-marker:hover,.tdb-geographic-marker:focus-visible{z-index:5}
+.tdb-geographic-marker.is-active b,.tdb-geographic-marker:hover b,.tdb-geographic-marker:focus-visible b{background:#d7b574;color:#1b303c;border-color:#fff1cc;box-shadow:0 0 0 5px #d6b47640}
+.tdb-geographic-marker.is-active span{border-color:#c3a46d99;color:#755c32;background:#fffbf1}
+.tdb-geographic-marker:focus-visible{outline:2px solid #9e7d42;outline-offset:5px;border-radius:7px}
+.tdb-zoom{position:absolute;bottom:17px;left:17px;display:flex;flex-direction:column;border:1px solid #6c898933;border-radius:8px;overflow:hidden;box-shadow:0 3px 12px #2c4e4c1a}
+.tdb-zoom button{display:grid;place-items:center;width:35px;height:35px;border:0;background:#fffffff2;color:#526b72;cursor:pointer}
+.tdb-zoom button+button{border-top:1px solid #7f999526}.tdb-zoom button:hover{background:#e7eeea}
+.tdb-map-caption{display:flex;justify-content:space-between;gap:12px;padding:10px 16px;background:#f8f9f5;border-top:1px solid #203e4910;color:#8c999a;font-size:10px}
+.tdb-map-caption>span:first-child{color:#5a7279;white-space:nowrap}.tdb-map-caption>span:last-child{text-align:right}
+.tdb-map-selection{position:absolute;bottom:18px;left:65px;right:18px;display:flex;align-items:center;gap:9px;padding:11px 12px;border:1px solid #b6a37b66;border-radius:9px;background:#fffffff5;color:#405864;font-size:12px;box-shadow:0 5px 18px #28463e17}
+.tdb-map-selection>span{flex:1}.tdb-map-selection>button{display:grid;place-items:center;padding:5px;border:0;border-radius:5px;background:#eeeee4;color:#7a6949;cursor:pointer}
+.tdb-map-network-note{position:absolute;top:58px;left:16px;max-width:calc(100% - 32px);padding:7px 10px;background:#ffffffe8;border-radius:5px;color:#7d877f;font-size:10px;pointer-events:none}
+.tdb-geographic-status{position:absolute;inset:0;display:grid;place-items:center;color:#60757a;font-size:12px;background:#e9efebee}
+.tdb-map-surface .maplibregl-ctrl-attrib{font:400 9px "Pretendard",sans-serif;color:#758581;background:#ffffffd9}
+.tdb-map-surface .maplibregl-ctrl-attrib a{color:#758581}
+.tdb-list-card{border:1px solid var(--tdb-line);background:#18212e}
+.tdb-list-header{display:flex;justify-content:space-between;align-items:center;min-height:52px;padding:14px 16px 10px}
+.tdb-list-header>div{display:flex;align-items:center;gap:8px}.tdb-list-header h2{font-size:14px;font-weight:600;margin:0}
+.tdb-list-header>div>span{padding:2px 6px;border-radius:4px;background:#ffffff08;color:#c2aa7e;font-size:11px}
+.tdb-list-header>button{border:0;background:none;color:#92a0b1;cursor:pointer}
+.tdb-search{display:flex;align-items:center;gap:7px;margin:0 13px 8px;padding:8px 9px;border:1px solid var(--tdb-line);border-radius:6px;background:#121b27;color:#78899d}
+.tdb-search>input{width:100%;outline:none;border:0;background:none;font:400 11px "Pretendard",sans-serif;color:#d4deea}.tdb-search>input::placeholder{color:#78899d}
+.tdb-project-list{flex:1;min-height:0;overflow:auto;padding:0 8px 10px;scrollbar-width:thin;scrollbar-color:#435163 transparent}
+.tdb-project{display:flex;align-items:center;gap:7px;min-height:64px;padding:11px 7px;border-bottom:1px solid #ffffff09;border-radius:6px}
+.tdb-project:hover{background:#ffffff04}.tdb-project.is-active{background:#d6b57908;box-shadow:inset 2px 0 #c9a567}
+.tdb-project-icon{display:grid;place-items:center;flex-shrink:0;width:23px;color:#74879d}.tdb-project-icon svg{width:16px;height:16px;stroke-width:1.4}
+.tdb-project-info{flex:1;min-width:0}
+.tdb-project-title{display:block;text-align:left;margin:0;padding:0;border:0;background:none;font:500 12px/1.5 "Pretendard",sans-serif;color:#dce4ee;word-break:keep-all;cursor:pointer}
+.tdb-project-title:hover{color:#e1c591}
+.tdb-project-meta{display:flex;justify-content:space-between;gap:6px;margin:5px 0 0;color:#8998ab;font-size:10px;line-height:1.4}
+.tdb-project-meta>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px}.tdb-project-meta>strong{font-weight:400;color:#b5c0cf;white-space:nowrap}
+.tdb-progress{height:2px;margin-top:7px;background:#ffffff06;border-radius:3px;overflow:hidden}.tdb-progress>i{display:block;height:100%;background:#aa9671;border-radius:3px}
+.tdb-project-locate,.tdb-project-detail{flex-shrink:0;align-self:center;display:grid;place-items:center;padding:4px;border:0;background:none;color:#75899f;cursor:pointer}
+.tdb-project-detail{color:#aa9673}.tdb-project-locate:hover,.tdb-project-detail:hover{color:#e1c591}
+.tdb-empty{padding:20px 12px;font-size:12px;color:#8798ac}
+.tdb-project-title:focus-visible,.tdb-project-locate:focus-visible,.tdb-project-detail:focus-visible,.tdb-map-header>button:focus-visible,.tdb-zoom button:focus-visible{outline:2px solid #bca16e;outline-offset:3px}
+@media(min-width:1800px){.tdb-body{grid-template-columns:minmax(0,1fr) 350px}.tdb-project-title{font-size:13px}.tdb-project{min-height:70px}}
+@media(max-width:1100px){.tdb-shell{padding:18px}.tdb-body{grid-template-columns:minmax(0,1fr) 290px}.tdb-kpi{padding:0 10px;gap:7px}.tdb-kpi>strong{font-size:20px}.tdb-kpi>div{font-size:10px}.tdb-kpi>div>svg{display:none}.tdb-map-caption{font-size:9px}.tdb-map-header>div>span{display:none}}
+@media(max-width:760px){.tdb-shell{padding:14px;border-radius:14px}.tdb-header{align-items:flex-start;flex-direction:column;gap:10px;margin-bottom:14px}.tdb-header h1{font-size:22px}.tdb-header h1>span{font-size:15px}.tdb-slogan{font-size:16px}.tdb-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 0}.tdb-kpi{padding:0 9px!important}.tdb-kpi:nth-child(3){border-left:0}.tdb-body{height:auto;grid-template-columns:1fr}.tdb-map-card{height:540px}.tdb-list-card{max-height:600px}.tdb-map-header{padding:12px}.tdb-map-header h2{font-size:12px}.tdb-map-caption{padding:9px 11px;gap:8px}.tdb-map-caption>span:last-child{max-width:180px}.tdb-map-selection{font-size:11px}.tdb-geographic-marker span{font-size:11px}.tdb-gu-label{font-size:11px;letter-spacing:1px}}
