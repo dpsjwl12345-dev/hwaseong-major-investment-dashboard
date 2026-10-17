@@ -14,7 +14,7 @@ type Region = TourismRegion;
 const regionsFor = (name: string): Region[] => /계류시설/.test(name) ? ["국화도","입파도"] : /주차장 및 도로/.test(name) ? ["제부도","궁평항"] : /국화도/.test(name) ? ["국화도"] : /궁평|황금해안길/.test(name) ? ["궁평항"] : ["제부도"];
 const regionLabel = (region: Region) => region === "궁평항" ? "궁평 권역" : region === "제부도" ? "제부 권역" : region;
 const iconFor = (name: string) => /열차/.test(name) ? TrainFront : /계류/.test(name) ? Anchor : /주차/.test(name) ? ParkingCircle : /도로/.test(name) ? Route : /데크|해안길/.test(name) ? Footprints : Trees;
-const money = (value: number) => (Math.trunc(value / 100 * 10) / 10).toLocaleString("ko-KR", {maximumFractionDigits:1});
+const money = (value: number) => Math.trunc(value / 100).toLocaleString("ko-KR");
 // A parent project is one list item; sum its children once for its budget.
 export const tourismBudgetFor = (project: TourismProject) => {
   const sources = project.sub_projects?.length ? project.sub_projects : [project];

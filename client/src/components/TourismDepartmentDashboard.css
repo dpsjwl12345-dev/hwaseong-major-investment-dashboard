@@ -7,10 +7,10 @@
 .tdb-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:11px 0;margin-bottom:18px;border-top:1px solid var(--tdb-line);border-bottom:1px solid var(--tdb-line)}
 .tdb-kpi{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 18px}
 .tdb-kpi:first-child{padding-left:0}.tdb-kpi:last-child{padding-right:0}.tdb-kpi+.tdb-kpi{border-left:1px solid var(--tdb-line)}
-.tdb-kpi>div{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--tdb-muted)}
+.tdb-kpi>div{display:flex;align-items:center;gap:7px;font-size:14px;color:#aebaca}
 .tdb-kpi>div>svg{width:14px;height:14px;stroke-width:1.4}
 .tdb-kpi>strong{font:500 23px/1.2 "Space Grotesk","Pretendard",sans-serif;letter-spacing:-.04em;white-space:nowrap}
-.tdb-kpi>strong>small{margin-left:4px;font:400 10px "Pretendard",sans-serif;letter-spacing:0;color:#acb6c4}
+.tdb-kpi>strong>small{margin-left:4px;font:400 12px "Pretendard",sans-serif;letter-spacing:0;color:#acb6c4}
 .tdb-kpi.is-count>strong{color:var(--tdb-gold)}.tdb-kpi>p{display:none}
 .tdb-body{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:15px;height:clamp(600px,calc(100svh - 320px),880px)}
 .tdb-map-card,.tdb-list-card{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border-radius:13px}
@@ -56,21 +56,21 @@
 .tdb-search{display:flex;align-items:center;gap:7px;margin:0 13px 8px;padding:8px 9px;border:1px solid var(--tdb-line);border-radius:6px;background:#121b27;color:#78899d}
 .tdb-search>input{width:100%;outline:none;border:0;background:none;font:400 11px "Pretendard",sans-serif;color:#d4deea}.tdb-search>input::placeholder{color:#78899d}
 .tdb-project-list{flex:1;min-height:0;overflow:auto;padding:0 8px 10px;scrollbar-width:thin;scrollbar-color:#435163 transparent}
-.tdb-project{display:flex;align-items:center;gap:7px;min-height:64px;padding:11px 7px;border-bottom:1px solid #ffffff09;border-radius:6px}
+.tdb-project{display:flex;align-items:center;gap:10px;min-height:76px;padding:13px 7px;border-bottom:1px solid #ffffff09;border-radius:6px}
 .tdb-project:hover{background:#ffffff04}.tdb-project.is-active{background:#d6b57908;box-shadow:inset 2px 0 #c9a567}
-.tdb-project-icon{display:grid;place-items:center;flex-shrink:0;width:23px;color:#74879d}.tdb-project-icon svg{width:16px;height:16px;stroke-width:1.4}
+.tdb-project-icon{display:grid;place-items:center;flex-shrink:0;width:34px;height:34px;border-radius:11px;background:linear-gradient(145deg,#263448,#182332);color:#c5d4e7;border:1px solid #8298b126;box-shadow:inset 1px 1px 1px #a0bad126,inset -1px -1px 2px #07101b70,3px 3px 6px #080f1970,-2px -2px 5px #50617a16}.tdb-project-icon svg{width:20px;height:20px;stroke-width:1.8;filter:drop-shadow(0 1px 1px #07101b80)}
 .tdb-project-info{flex:1;min-width:0}
-.tdb-project-title{display:block;text-align:left;margin:0;padding:0;border:0;background:none;font:500 14px/1.55 "Gmarket Sans","Pretendard",sans-serif;color:#edf1f7;word-break:keep-all;overflow-wrap:anywhere;cursor:pointer}
+.tdb-project-title{display:block;text-align:left;margin:0;padding:0;border:0;background:none;font:500 16px/1.55 "Gmarket Sans","Pretendard",sans-serif;color:#edf1f7;word-break:keep-all;overflow-wrap:anywhere;cursor:pointer}
 .tdb-project-title:hover{color:#e1c591}
-.tdb-project-meta{display:flex;justify-content:space-between;gap:6px;margin:5px 0 0;color:#8998ab;font-size:10px;line-height:1.4}
+.tdb-project-meta{display:flex;justify-content:space-between;gap:6px;margin:7px 0 0;color:#a9b7c9;font-size:12px;line-height:1.4}
 .tdb-project-meta>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px}.tdb-project-meta>strong{font-weight:400;color:#b5c0cf;white-space:nowrap}
 .tdb-progress{height:2px;margin-top:7px;background:#ffffff06;border-radius:3px;overflow:hidden}.tdb-progress>i{display:block;height:100%;background:#aa9671;border-radius:3px}
 .tdb-project-locate,.tdb-project-detail{flex-shrink:0;align-self:center;display:grid;place-items:center;padding:4px;border:0;background:none;color:#75899f;cursor:pointer}
 .tdb-project-detail{color:#aa9673}.tdb-project-locate:hover,.tdb-project-detail:hover{color:#e1c591}
 .tdb-empty{padding:20px 12px;font-size:12px;color:#8798ac}
 .tdb-project-title:focus-visible,.tdb-project-locate:focus-visible,.tdb-project-detail:focus-visible,.tdb-map-header>button:focus-visible,.tdb-zoom button:focus-visible{outline:2px solid #bca16e;outline-offset:3px}
-@media(min-width:1800px){.tdb-body{grid-template-columns:minmax(0,1fr) 350px}.tdb-project-title{font-size:14px}.tdb-project{min-height:70px}}
-@media(max-width:1100px){.tdb-shell{padding:18px}.tdb-body{grid-template-columns:minmax(0,1fr) 290px}.tdb-kpi{padding:0 10px;gap:7px}.tdb-kpi>strong{font-size:20px}.tdb-kpi>div{font-size:10px}.tdb-kpi>div>svg{display:none}.tdb-map-caption{font-size:9px}.tdb-map-header>div>span{display:none}}
+@media(min-width:1800px){.tdb-body{grid-template-columns:minmax(0,1fr) 350px}.tdb-project-title{font-size:16px}.tdb-project{min-height:70px}}
+@media(max-width:1100px){.tdb-shell{padding:18px}.tdb-body{grid-template-columns:minmax(0,1fr) 290px}.tdb-kpi{padding:0 10px;gap:7px}.tdb-kpi>strong{font-size:20px}.tdb-kpi>div{font-size:12px}.tdb-kpi>div>svg{display:none}.tdb-map-caption{font-size:9px}.tdb-map-header>div>span{display:none}}
 @media(max-width:760px){.tdb-shell{padding:14px;border-radius:14px}.tdb-header{align-items:flex-start;flex-direction:column;gap:10px;margin-bottom:14px}.tdb-header h1{font-size:22px}.tdb-header h1>span{font-size:15px}.tdb-slogan{font-size:16px}.tdb-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 0}.tdb-kpi{padding:0 9px!important}.tdb-kpi:nth-child(3){border-left:0}.tdb-body{height:auto;grid-template-columns:1fr}.tdb-map-card{height:540px}.tdb-list-card{max-height:600px}.tdb-map-header{padding:12px}.tdb-map-header h2{font-size:12px}.tdb-map-caption{padding:9px 11px;gap:8px}.tdb-map-caption>span:last-child{max-width:180px}.tdb-map-selection{font-size:11px}.tdb-geographic-marker span{font-size:11px}.tdb-gu-label{font-size:11px;letter-spacing:1px}}
 
 /* The dot stays at its geographic coordinate; only its label changes sides. */
@@ -117,3 +117,5 @@
 .tdb-geographic-marker:not(.tdb-attraction-marker) b::before{content:"";position:absolute;left:4px;right:5px;top:2px;height:5px;border-radius:50%;background:linear-gradient(180deg,#e1effa65,transparent);pointer-events:none;z-index:-1}
 .tdb-geographic-marker:not(.tdb-attraction-marker).is-active,.tdb-geographic-marker:not(.tdb-attraction-marker):hover,.tdb-geographic-marker:not(.tdb-attraction-marker):focus-visible{--pin-light:#f3d692;--pin-face:#c69a50;--pin-edge:#785222}
 .tdb-geographic-marker:not(.tdb-attraction-marker).is-active b,.tdb-geographic-marker:not(.tdb-attraction-marker):hover b,.tdb-geographic-marker:not(.tdb-attraction-marker):focus-visible b{color:#182b3b;text-shadow:0 1px 0 #ffe4aa70;box-shadow:inset 1px 1px 1px #fff0be99,inset -3px -2px 2px #56391855}
+
+@media(max-width:760px){.tdb-kpi{flex-wrap:wrap;row-gap:4px}.tdb-kpi>div{width:100%}}
