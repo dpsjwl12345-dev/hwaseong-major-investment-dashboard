@@ -63,7 +63,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       instance = new maplibregl.Map({
         container: container.current,
         center: [126.84, 37.15], zoom: 10, minZoom: 5, maxZoom: 17,
-        dragPan: true, dragRotate: false, touchPitch: false,
+        dragPan: true, dragRotate: false, touchPitch: false, renderWorldCopies: false,
         attributionControl: { compact: true },
         style: {
           version: 8,
@@ -77,6 +77,9 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
             // are unavailable. It does not masquerade as a complete road map.
             { id: "land-context", type: "fill", source: "geography", filter: ["==", ["get", "kind"], "city"], paint: { "fill-color": "#edece4" } },
             { id: "basemap", type: "raster", source: "basemap", paint: { "raster-fade-duration": 150, "raster-saturation": -.1 } },
+            // An opaque geographic mask keeps adjacent cities, roads and labels
+            // out of the dashboard, without cropping or deforming city geometry.
+            { id: "outside-city", type: "fill", source: "geography", filter: ["==", ["get", "kind"], "outside"], paint: { "fill-color": "#c9d7d8", "fill-opacity": 1 } },
             { id: "town-boundaries", type: "line", source: "geography", filter: ["==", ["get", "kind"], "town"], paint: { "line-color": "#8b9c96", "line-width": .65, "line-opacity": .32 } },
             { id: "district-boundaries", type: "line", source: "geography", filter: ["==", ["get", "kind"], "district"], paint: { "line-color": "#6d8383", "line-width": 1.15, "line-opacity": .65, "line-dasharray": [4, 3] } },
             { id: "city-boundary", type: "line", source: "geography", filter: ["==", ["get", "kind"], "city"], paint: { "line-color": "#718b88", "line-width": 1.1, "line-opacity": .5 } },
@@ -119,7 +122,13 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
         if (allowed) occupied.push(candidate);
       }
     };
-    instance.on("moveend", layoutLabels);
+    instance.on("moveend", () => {
+      layoutLabels();
+      const center=instance.getCenter();
+      const lng=Math.max(cityBounds.getWest(),Math.min(cityBounds.getEast(),center.lng));
+      const lat=Math.max(cityBounds.getSouth(),Math.min(cityBounds.getNorth(),center.lat));
+      if(Math.abs(center.lng-lng)>1e-7||Math.abs(center.lat-lat)>1e-7)instance.panTo([lng,lat],{duration:duration()?200:0});
+    });
     instance.on("load", layoutLabels);
     layoutLabels();
     for (const region of TOURISM_REGIONS) {
