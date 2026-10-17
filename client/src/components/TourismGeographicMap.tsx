@@ -4,6 +4,7 @@ import { TourismLandmarkArt } from "./TourismLandmarkArt";
 import { tourismLandmarks } from "../data/tourism-landmarks";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import guideRoads from "../data/tourism-guide-roads.json";
 import guideOutline from "../data/tourism-guide-outline.json";
 
 export const TOURISM_REGIONS = ["제부도", "궁평항", "국화도", "입파도"] as const;
@@ -18,7 +19,7 @@ const CENTERS:Record<TourismRegion,[number,number]>={
   제부도:guidePoint([322,545]),궁평항:guidePoint([461,747]),
   국화도:guidePoint([316,1122]),입파도:guidePoint([310,1000]),
 };
-const districtColors:Record<string,string>={만세구:"#bed6c4",효행구:"#e4d5b9",병점구:"#b7d3dd",동탄구:"#cec8e3"};
+const districtColors:Record<string,string>={만세구:"#ece9df",효행구:"#ece9df",병점구:"#ece9df",동탄구:"#ece9df"};
 const districtShapes:Record<string,[number,number][]>=Object.fromEntries(Object.entries(guideOutline.districts).map(([name,points])=>[name,points.map(point=>guidePoint(point as [number,number]))]));
 const lines=Object.values(districtShapes).map(ring=>[...ring,ring[0]]);
 const districts:GeoJSON.FeatureCollection={type:"FeatureCollection",features:Object.entries(districtShapes).map(([name,ring])=>({type:"Feature",properties:{name,color:districtColors[name]},geometry:{type:"Polygon",coordinates:[[...ring,ring[0]]]}}))};
@@ -47,13 +48,17 @@ const TourismGeographicMap = forwardRef<TourismMapHandle,Props>(function Tourism
     try {instance=new maplibregl.Map({container:container.current,center:[126.63,37.13],zoom:10.7,
       minZoom:8,maxZoom:18,dragPan:true,
       attributionControl:{compact:true},dragRotate:false,touchPitch:false,
-      style:{version:8,sources:{city:{type:"geojson",data:{type:"Feature",properties:{},geometry:{type:"MultiPolygon",coordinates:lines.filter(r=>r.length>=4).map(r=>[r])}}},districts:{type:"geojson",data:districts},"island-points":{type:"geojson",data:{type:"FeatureCollection",features:(["국화도","입파도"] as TourismRegion[]).map(region=>({type:"Feature",properties:{},geometry:{type:"Point",coordinates:CENTERS[region]}}))}}},layers:[
-        {id:"sea",type:"background",paint:{"background-color":"#183749"}},
-        {id:"land",type:"fill",source:"city",paint:{"fill-color":"#bed6c4","fill-opacity":1}},
+      style:{version:8,sources:{city:{type:"geojson",data:{type:"Feature",properties:{},geometry:{type:"MultiPolygon",coordinates:lines.filter(r=>r.length>=4).map(r=>[r])}}},districts:{type:"geojson",data:districts},roads:{type:"geojson",data:{type:"Feature",properties:{},geometry:{type:"MultiLineString",coordinates:guideRoads.lines.map(line=>line.map(point=>guidePoint(point as [number,number])))}}},"main-roads":{type:"geojson",data:{type:"Feature",properties:{},geometry:{type:"MultiLineString",coordinates:guideRoads.majorLines.map(line=>line.map(point=>guidePoint(point as [number,number])))}}},"island-points":{type:"geojson",data:{type:"FeatureCollection",features:(["국화도","입파도"] as TourismRegion[]).map(region=>({type:"Feature",properties:{},geometry:{type:"Point",coordinates:CENTERS[region]}}))}}},layers:[
+        {id:"sea",type:"background",paint:{"background-color":"#c5d5d6"}},
+        {id:"land",type:"fill",source:"city",paint:{"fill-color":"#ece9df","fill-opacity":1}},
         {id:"district-land",type:"fill",source:"districts",paint:{"fill-color":["get","color"],"fill-opacity":1}},
-        {id:"islands",type:"circle",source:"island-points",paint:{"circle-radius":7,"circle-color":"#bed6c4","circle-stroke-color":"#c8c2a7","circle-stroke-width":1}},
-        {id:"district-boundaries",type:"line",source:"districts",paint:{"line-color":"#ffffff","line-width":1.4,"line-opacity":.75}},
-        {id:"city-boundary",type:"line",source:"city",paint:{"line-color":"#d9e6e2","line-width":1.3,"line-opacity":.8}},
+        {id:"islands",type:"circle",source:"island-points",paint:{"circle-radius":7,"circle-color":"#ece9df","circle-stroke-color":"#c8c2a7","circle-stroke-width":1}},
+        {id:"roads-casing",type:"line",source:"roads",layout:{"line-cap":"round","line-join":"round"},paint:{"line-color":"#d9d5ca","line-width":["interpolate",["linear"],["zoom"],8,1,12,4],"line-opacity":.55}},
+        {id:"roads",type:"line",source:"roads",layout:{"line-cap":"round","line-join":"round"},paint:{"line-color":"#ffffff","line-width":["interpolate",["linear"],["zoom"],8,.6,12,2.6],"line-opacity":.95}},
+        {id:"main-roads-case",type:"line",source:"main-roads",layout:{"line-cap":"round","line-join":"round"},paint:{"line-color":"#c9c5b8","line-width":["interpolate",["linear"],["zoom"],8,1.5,12,5],"line-opacity":.65}},
+        {id:"main-roads",type:"line",source:"main-roads",layout:{"line-cap":"round","line-join":"round"},paint:{"line-color":"#fffdf4","line-width":["interpolate",["linear"],["zoom"],8,.8,12,3.3]}},
+        {id:"district-boundaries",type:"line",source:"districts",paint:{"line-color":"#9aa6a1","line-width":1.3,"line-opacity":.8,"line-dasharray":[3,2]}},
+        {id:"city-boundary",type:"line",source:"city",paint:{"line-color":"#adb9b2","line-width":1,"line-opacity":.75}},
       ]},
     });} catch {setStatus("error");return;}
     map.current=instance;
@@ -69,6 +74,15 @@ const TourismGeographicMap = forwardRef<TourismMapHandle,Props>(function Tourism
       const marker=new maplibregl.Marker({element:label}).setLngLat(guidePoint(point)).addTo(instance);
       label.setAttribute('aria-hidden','true');districtMarkers.push(marker);
     }
+    const towns:Record<string,[number,number]>={송산면:[600,310],마도면:[700,460],남양읍:[820,300],서신면:[610,585],우정읍:[760,750],장안면:[850,1020],비봉면:[995,235],매송면:[1145,180],봉담읍:[1170,320],팔탄면:[975,600],정남면:[1260,540],향남읍:[1110,700],양감면:[1190,875]};
+    const townLabels:HTMLElement[]=[];
+    for(const [name,point] of Object.entries(towns)){
+      const label=document.createElement('span');label.className='tdb-town-label';label.textContent=name;
+      const marker=new maplibregl.Marker({element:label}).setLngLat(guidePoint(point)).addTo(instance);
+      label.setAttribute('aria-hidden','true');districtMarkers.push(marker);townLabels.push(label);
+    }
+    const updateTownLabels=()=>townLabels.forEach(label=>{label.style.visibility=instance.getZoom()>=9.8?'visible':'hidden';});
+    instance.on('zoom',updateTownLabels);updateTownLabels();
     for(const landmark of tourismLandmarks){
       const element=document.createElement('button');element.type='button';element.className=`tdb-landmark is-${landmark.kind}`;
       const art=document.createElement('span');art.className='tdb-landmark-art';

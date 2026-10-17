@@ -132,3 +132,18 @@
 
 .tdb-geographic-marker{grid-template-rows:35px 25px}
 .tdb-geographic-marker span{padding:3px 6px;border:1px solid #e2bd772e;border-radius:5px;background:#142a3dcc;font-size:14px;color:#ffe3ad;text-shadow:none}
+
+/* Light cartographic surface: restrained roads and administrative context. */
+.tdb-map-surface{background:#c5d5d6}
+.tdb-gu-label{color:#637a7b;font-weight:600;letter-spacing:3px;text-shadow:0 1px 2px #fff8}
+.tdb-town-label{font:400 11px "Pretendard",sans-serif;color:#8b968b;letter-spacing:.3px;pointer-events:none;text-shadow:0 1px 2px #fff}
+.tdb-map-watermark{color:#6f909582}
+.tdb-map-watermark span{color:#64878ca6}
+.tdb-map-key{background:#f8f9f2db;border-color:#94aaa52e;color:#5f7478;box-shadow:0 2px 8px #577d7d0a}
+.tdb-map-key i{background:#73918b;border-color:#f3f5e9}
+.tdb-map-key b{border-color:#a17d3c;background:#24384a}
+.tdb-zoom{border-color:#819b9b3d;box-shadow:0 3px 12px #4964631a}
+.tdb-zoom button{background:#fafbf6;color:#50676d}
+.tdb-zoom button+button{border-color:#b2c3bc50}
+.tdb-zoom button:hover{background:#e9eeea}
+.tdb-landmark-name{color:#3b514d;text-shadow:0 1px 2px #ffffffd9,0 0 5px #ffffff99}
