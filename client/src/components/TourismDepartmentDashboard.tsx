@@ -7,6 +7,7 @@ import "./TourismDepartmentDashboard.css";
 type BudgetSource = Parameters<typeof deriveProjectBudget>[0];
 export type TourismProject = BudgetSource & {
   id: string; department: string; project_name: string; current_stage?: string; progress_rate?: number | null;
+  rendering_images?: string[]; rendering_image_types?: string[];
   sub_projects?: (BudgetSource & { name: string })[];
 };
 type Region = TourismRegion;
@@ -14,6 +15,11 @@ type Region = TourismRegion;
 const regionsFor = (name: string): Region[] => /계류시설/.test(name) ? ["국화도","입파도"] : /주차장 및 도로/.test(name) ? ["제부도","궁평항"] : /국화도/.test(name) ? ["국화도"] : /궁평|황금해안길/.test(name) ? ["궁평항"] : ["제부도"];
 const regionLabel = (region: Region) => region === "궁평항" ? "궁평 권역" : region === "제부도" ? "제부 권역" : region;
 const iconFor = (name: string) => /열차/.test(name) ? TrainFront : /계류/.test(name) ? Anchor : /주차/.test(name) ? ParkingCircle : /도로/.test(name) ? Route : /데크|해안길/.test(name) ? Footprints : Trees;
+const previewFor = (p: TourismProject) => {
+  const images = p.rendering_images ?? [];
+  const index = images.findIndex((url,i) => p.rendering_image_types?.[i] !== "위치도" && !url.endsWith(".svg"));
+  return index >= 0 ? images[index] : null;
+};
 const money = (value: number) => Math.trunc(value / 100).toLocaleString("ko-KR");
 // A parent project is one list item; sum its children once for its budget.
 export const tourismBudgetFor = (project: TourismProject) => {
@@ -23,6 +29,7 @@ export const tourismBudgetFor = (project: TourismProject) => {
 
 export default function TourismDepartmentDashboard({projects: allProjects,onOpenProject}:{projects: TourismProject[];onOpenProject:(id:string)=>void}) {
   const projects=useMemo(()=>allProjects.filter(p=>p.department==="관광진흥과"),[allProjects]);
+  const [zoom,setZoom]=useState(10);
   const [query,setQuery]=useState("");
   const [region,setRegion]=useState<Region|null>(null);
   const [activeId,setActiveId]=useState<string|null>(null);
@@ -44,9 +51,16 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
     </div>
     <div className="tdb-body">
       <section className="tdb-map-card" aria-label="화성시 관광사업 권역 지도">
-        <header className="tdb-map-header"><div><h2>관광명소·투자사업</h2><span>화성시 전체</span></div><button aria-label="화성시 지도 전체 보기" onClick={()=>{map.current?.reset();setRegion(null);setActiveId(null);}}><LocateFixed size={15}/> 전체 보기</button></header>
+        <header className="tdb-map-header"><div><span>화성시 전체</span></div><button aria-label="화성시 지도 전체 보기" onClick={()=>{map.current?.reset();setRegion(null);setActiveId(null);}}><LocateFixed size={15}/> 전체 보기</button></header>
         <div className="tdb-map-surface">
-          <TourismGeographicMap ref={map} counts={counts} highlights={highlights} onSelect={place=>{setRegion(place);setQuery("");setActiveId(null);setHoveredId(null);map.current?.focus([place]);}}/>
+          <TourismGeographicMap ref={map} counts={counts} highlights={highlights} onZoomChange={setZoom} onSelect={place=>{setRegion(place);setQuery("");setActiveId(null);setHoveredId(null);map.current?.focus([place]);}}/>
+          {zoom >= 11.5 && <div className="tdb-project-previews" aria-label="확대 지도 사업 미리보기">
+            <div className="tdb-preview-heading">{region ? regionLabel(region) : "주요투자사업"}<small>사업 조감도 · 계획 이미지</small></div>
+            <div className="tdb-preview-strip">{visible.map(project=>{const image=previewFor(project);const Icon=iconFor(project.project_name);return <button key={project.id} className={`tdb-preview${activeId===project.id?" is-active":""}`} onClick={()=>{setActiveId(project.id);setHoveredId(null);}} aria-label={`${project.project_name} 미리보기 선택`}>
+              {image ? <img src={image} alt={`${project.project_name} 계획 이미지`} onError={e=>{e.currentTarget.style.display="none";}}/> : <div className="tdb-preview-placeholder"><Icon size={28}/></div>}
+              <span>{project.project_name}</span>
+            </button>;})}</div>
+          </div>}
           <div className="tdb-zoom"><button aria-label="관광 지도 확대" onClick={()=>map.current?.zoom(1)}><Plus size={17}/></button><button aria-label="관광 지도 축소" onClick={()=>map.current?.zoom(-1)}><Minus size={17}/></button></div>
           {active&&<div className="tdb-map-selection"><MapPin size={16}/><span>{active.project_name}</span><button onClick={()=>onOpenProject(active.id)} aria-label={`${active.project_name} 상세 보기`}><ArrowUpRight size={17}/></button></div>}
         </div>

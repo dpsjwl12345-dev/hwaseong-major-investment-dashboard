@@ -119,3 +119,11 @@
 .tdb-geographic-marker:not(.tdb-attraction-marker).is-active b,.tdb-geographic-marker:not(.tdb-attraction-marker):hover b,.tdb-geographic-marker:not(.tdb-attraction-marker):focus-visible b{color:#182b3b;text-shadow:0 1px 0 #ffe4aa70;box-shadow:inset 1px 1px 1px #fff0be99,inset -3px -2px 2px #56391855}
 
 @media(max-width:760px){.tdb-kpi{flex-wrap:wrap;row-gap:4px}.tdb-kpi>div{width:100%}}
+
+.tdb-project-previews{position:absolute;left:14px;right:14px;bottom:54px;z-index:6;padding:11px;border:1px solid #8197a14d;border-radius:12px;background:#172331f2;box-shadow:0 6px 18px #10212b30;color:#edf2f6}
+.tdb-preview-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font:500 12px "Gmarket Sans","Pretendard",sans-serif}.tdb-preview-heading small{font:400 10px "Pretendard",sans-serif;color:#afbdcd}
+.tdb-preview-strip{display:flex;gap:9px;overflow-x:auto;scrollbar-width:thin;padding:2px 2px 5px}
+.tdb-preview{flex:0 0 138px;overflow:hidden;padding:0;border:1px solid #7a8fa23d;border-radius:8px;background:#223145;text-align:left;color:#f1f4f8;cursor:pointer}
+.tdb-preview img,.tdb-preview-placeholder{display:block;width:100%;height:80px;object-fit:cover}.tdb-preview-placeholder{display:grid;place-items:center;background:#30465a;color:#d0ba91}
+.tdb-preview>span{display:block;padding:7px;font:500 11px/1.45 "Gmarket Sans","Pretendard",sans-serif;word-break:keep-all}
+.tdb-preview.is-active,.tdb-preview:hover,.tdb-preview:focus-visible{border-color:#e0b968;outline:1px solid #e0b968;outline-offset:0}

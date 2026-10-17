@@ -32,13 +32,14 @@ type Props = {
   counts: Record<TourismRegion, number>;
   highlights: TourismRegion[];
   onSelect: (region: TourismRegion) => void;
+  onZoomChange?: (zoom: number) => void;
 };
 const GEOGRAPHY_URL = "/maps/hwaseong-20260701.geojson";
 const BOUNDARY_ATTRIBUTION = '<a href="https://sgis.kostat.go.kr" target="_blank" rel="noopener noreferrer">SGIS</a> · <a href="https://github.com/vuski/admdongkor" target="_blank" rel="noopener noreferrer">admdongkor</a> (CC BY 4.0)';
 // OpenStreetMap Standard tiles require no account or API key.
 const tiles = ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"];
 
-const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function TourismGeographicMap({ counts, highlights, onSelect }, ref) {
+const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function TourismGeographicMap({ counts, highlights, onSelect, onZoomChange }, ref) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const markers = useRef<{ region: TourismRegion; button: HTMLButtonElement; marker: maplibregl.Marker }[]>([]);
@@ -46,8 +47,10 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
   const relayout = useRef<() => void>(() => {});
   const callback = useRef(onSelect);
   callback.current = onSelect;
+  const zoomCallback = useRef(onZoomChange);
+  zoomCallback.current = onZoomChange;
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable" | "error">("loading");
-  useEffect(() => { relayout.current(); }, [status]);
+  useEffect(() => { relayout.current(); });
   const duration = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 450;
   useImperativeHandle(ref, () => ({
     reset() { overview.current = true; map.current?.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: duration() }); },
@@ -133,7 +136,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
       const viewport = { width: canvasRect.width, height: canvasRect.height };
       const occupied: MapLabelRect[] = [];
       const toRect = (rect: DOMRect): MapLabelRect => ({ x: rect.left - canvasRect.left, y: rect.top - canvasRect.top, width: rect.width, height: rect.height });
-      container.current?.parentElement?.querySelectorAll('.tdb-map-key,.tdb-zoom,.tdb-map-selection,.tdb-map-network-note').forEach(element => occupied.push(toRect(element.getBoundingClientRect())));
+      container.current?.parentElement?.querySelectorAll('.tdb-map-key,.tdb-zoom,.tdb-map-selection,.tdb-map-network-note,.tdb-project-previews').forEach(element => occupied.push(toRect(element.getBoundingClientRect())));
       const visibleMarkers = markers.current.filter(item => {
         const point = instance.project(item.marker.getLngLat());
         const inside = point.x >= 0 && point.y >= 0 && point.x <= viewport.width && point.y <= viewport.height;
@@ -185,6 +188,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     relayout.current = layoutLabels;
     instance.on("move", scheduleLabels);
     instance.on("moveend", () => {
+      zoomCallback.current?.(instance.getZoom());
       layoutLabels();
       const center=instance.getCenter();
       const lng=Math.max(cityBounds.getWest(),Math.min(cityBounds.getEast(),center.lng));
