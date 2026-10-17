@@ -132,18 +132,18 @@
 .tdb-site-object:focus-visible{outline:2px solid #a77330;outline-offset:5px;border-radius:12px}
 .tdb-object-scene{position:relative;width:174px;height:108px;perspective:550px;pointer-events:none;filter:drop-shadow(0 7px 4px #18394d30)}
 .tdb-object-stage{position:absolute;left:35px;top:24px;width:104px;height:64px;transform:rotateX(56deg) rotateZ(-34deg);transform-style:preserve-3d}
-.tdb-object-ground{position:absolute;inset:0;border-radius:9px;background:#b4c8ab;border:1px solid #819c88;box-shadow:3px 4px 0 #7d9585;transform:translateZ(-1px)}
-.object-marina .tdb-object-ground,.object-deck .tdb-object-ground,.object-trail .tdb-object-ground{background:repeating-linear-gradient(0deg,#8cbdcb 0 10px,#a0cad4 11px 12px);border-color:#6398ac;box-shadow:3px 4px 0 #5d8fa3}
+.tdb-object-ground{position:absolute;inset:0;border-radius:9px;background:#75a870;border:1px solid #4f8157;box-shadow:3px 4px 0 #456d4d;transform:translateZ(-1px)}
+.object-marina .tdb-object-ground,.object-deck .tdb-object-ground,.object-trail .tdb-object-ground{background:repeating-linear-gradient(0deg,#489dbb 0 10px,#78c0d1 11px 12px);border-color:#6398ac;box-shadow:3px 4px 0 #5d8fa3}
 .object-parking .tdb-object-ground,.object-road .tdb-object-ground{background:#a4b3b6;border-color:#7a9097;box-shadow:3px 4px 0 #70868e}
 .tdb-object-block{position:absolute;transform-style:preserve-3d}
 .tdb-object-block i{position:absolute;display:block;backface-visibility:visible}
-.object-roof{inset:0;background:color-mix(in srgb,var(--block-color) 80%,#fff);border:1px solid #ffffff35;transform:translateZ(var(--block-height))}
+.object-roof{inset:0;background:color-mix(in srgb,var(--block-color) 93%,#fff);border:1px solid #ffffff35;transform:translateZ(var(--block-height))}
 .object-front{left:0;top:100%;width:100%;height:var(--block-height);transform-origin:top;transform:rotateX(90deg);background:var(--block-color);border:1px solid #122a3b18}
-.object-side{left:100%;top:0;width:var(--block-height);height:100%;transform-origin:left;transform:rotateY(-90deg);background:color-mix(in srgb,var(--block-color) 70%,#294c60);border:1px solid #122a3b18}
+.object-side{left:100%;top:0;width:var(--block-height);height:100%;transform-origin:left;transform:rotateY(-90deg);background:color-mix(in srgb,var(--block-color) 63%,#193b52);border:1px solid #122a3b18}
 .object-rest .object-front,.object-tourism .object-front,.object-train .object-front{background:repeating-linear-gradient(90deg,var(--block-color) 0 6px,#426b7c 7px 12px,var(--block-color) 13px 16px)}
 .tdb-object-tree{position:absolute;width:14px;height:14px;transform-style:preserve-3d}
 .tdb-object-tree i{display:block;position:absolute;left:5px;top:5px;width:4px;height:18px;background:#886c45;transform-origin:top;transform:rotateX(90deg)}
-.tdb-object-tree b{display:block;position:absolute;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#a8c087,#608865 65%,#456c54);transform:translateZ(20px);box-shadow:2px 3px 0 #4f765d}
+.tdb-object-tree b{display:block;position:absolute;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#8fc56c,#3d8954 65%,#255f3e);transform:translateZ(20px);box-shadow:2px 3px 0 #4f765d}
 @media(prefers-reduced-motion:reduce){.tdb-object-stage{transition:none}}
 
 .tdb-site-marker.is-selected .tdb-object-stage{animation:tdb-site-orbit 14s linear infinite}
@@ -156,7 +156,7 @@
 /* Recognizable details are built as scene geometry, not raster thumbnails. */
 .object-train-coupling{position:absolute;left:10px;top:32px;width:84px;height:4px;background:#485d67;transform:translateZ(6px)}
 .object-train-wheel{position:absolute;top:44px;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle,#c8c7b8 0 22%,#263d4c 25% 70%,#152b39 72%);transform-origin:top;transform:rotateX(90deg);box-shadow:0 0 0 1px #172e40}
-.object-train .object-roof{border-radius:3px;background:#e8dbb8}
+.object-train .object-roof{border-radius:3px;background:#ead08a}
 .object-parking-lines{position:absolute;inset:8px 18px 8px 8px;pointer-events:none;background:repeating-linear-gradient(90deg,transparent 0 22px,#f2ebcb 23px 24px);border-top:1px solid #f2ebcb;border-bottom:1px solid #f2ebcb;transform:translateZ(1px)}
 .object-parking-sign{position:absolute;left:88px;top:45px;width:16px;height:19px;background:#315f81;color:#eef5f8;border:1px solid #c9dce6;border-radius:3px;font:700 14px/18px "Pretendard",sans-serif;text-align:center;transform-origin:top;transform:rotateX(90deg);box-shadow:1px 1px 0 #173d58}
 .object-parking .object-roof{border-radius:3px;background:linear-gradient(90deg,#496979 0 18%,color-mix(in srgb,var(--block-color) 85%,#fff) 20% 75%,#496979 78% 95%,var(--block-color) 96%)}
@@ -164,10 +164,28 @@
 .object-marina .tdb-object-block:not(:first-of-type) .object-roof{border-radius:5px 5px 2px 2px}
 .object-road-markings{position:absolute;left:8px;top:34px;width:88px;height:2px;background:repeating-linear-gradient(90deg,#f5d981 0 10px,transparent 10px 17px);transform:translateZ(3px)}
 .object-railing-post{position:absolute;top:28px;width:2px;height:12px;background:#8d795b;transform-origin:top;transform:rotateX(90deg)}
-.object-deck .tdb-object-block:first-of-type .object-roof,.object-trail .tdb-object-block:first-of-type .object-roof{background:repeating-linear-gradient(90deg,#d0ac7b 0 7px,#a78255 8px 9px)}
-.object-park .tdb-object-ground{background:radial-gradient(ellipse at 80% 50%,#a9bf94 0 35%,transparent 36%),#91bfcb;border-color:#6e9eaa;box-shadow:3px 4px 0 #668f9b}
+.object-deck .tdb-object-block:first-of-type .object-roof,.object-trail .tdb-object-block:first-of-type .object-roof{background:repeating-linear-gradient(90deg,#cb944f 0 7px,#93622b 8px 9px)}
+.object-park .tdb-object-ground{background:radial-gradient(ellipse at 80% 50%,#78ae65 0 35%,transparent 36%),#439dbb;border-color:#6e9eaa;box-shadow:3px 4px 0 #668f9b}
 
 .tdb-site-name{display:none;position:absolute;left:50%;top:36px;width:210px;transform:translateX(-50%);text-align:center;font:500 13px/1.45 "Gmarket Sans","Pretendard",sans-serif;color:#19354b;word-break:keep-all;text-shadow:-1px -1px 0 #f3f2e7,1px -1px 0 #f3f2e7,-1px 1px 0 #f3f2e7,1px 1px 0 #f3f2e7;pointer-events:none}
 .tdb-site-marker.is-selected .tdb-site-name{display:block}
 
 .tdb-map-caption{justify-content:flex-end}.tdb-map-caption>span:only-child{color:#758b96;white-space:normal;text-align:right}
+
+.object-parking-sign{background:transparent;border:0;box-shadow:none;transform-style:preserve-3d;transform-origin:bottom;transform:rotateX(-90deg)}
+.object-parking-sign>span{position:absolute;inset:0;display:grid;place-items:center;border:1px solid #b8d7e9;border-radius:3px;background:#175b92;color:#f5f8fc;font:700 14px/1 "Pretendard",sans-serif;backface-visibility:hidden}
+.parking-sign-front{transform:translateZ(.5px)}
+.parking-sign-back{transform:rotateY(180deg) translateZ(.5px)}
+
+.object-park .tdb-object-ground{background:repeating-linear-gradient(0deg,#439dbb 0 11px,#63b2c9 12px 13px);border-color:#397d9b;box-shadow:3px 4px 0 #366d88}
+.object-bridge-island{position:absolute;top:16px;width:20px;height:37px;border-radius:48% 38% 42% 35%;background:radial-gradient(ellipse at 35% 30%,#8cba65,#4f8e55 68%,#3e7150);border:1px solid #437b51;transform:translateZ(2px);box-shadow:1px 2px 0 #5a7654}
+.island-west{left:-2px}.island-east{right:-2px}
+.object-bridge-cables{position:absolute;left:0;top:-1px;width:104px;height:28px;overflow:visible;transform-origin:bottom;transform:translateZ(9px) rotateX(-90deg)}
+.object-bridge-cables.cable-1{top:17px}
+.object-bridge-tower-top{position:absolute;top:25px;width:4px;height:22px;background:#f0dba6;border:1px solid #be9d66;transform:translateZ(35px)}
+
+.object-rock .tdb-object-ground{background:radial-gradient(ellipse at 48% 60%,#dbc18c 0 38%,#c8a978 39% 44%,transparent 45%),repeating-linear-gradient(0deg,#439dbb 0 10px,#6dbbd0 11px 12px);border-color:#397d9b;box-shadow:3px 4px 0 #366d88}
+.object-rock .object-roof{background:linear-gradient(135deg,#c4a276,#936a46);clip-path:polygon(0 25%,23% 0,65% 9%,100% 39%,85% 100%,30% 88%);border:0}
+.object-rock .object-front{background:repeating-linear-gradient(172deg,#8c684b 0 7px,#a27d57 8px 10px,#b18b60 11px 16px);clip-path:polygon(0 0,100% 0,86% 50%,78% 83%,62% 100%,25% 91%,8% 69%);border:0}
+.object-rock .object-side{background:linear-gradient(110deg,#75533b,#a2815a 70%,#866246);clip-path:polygon(0 0,58% 10%,100% 38%,85% 90%,0 100%);border:0}
+.object-rock .object-front,.object-rock .object-side{clip-path:none}

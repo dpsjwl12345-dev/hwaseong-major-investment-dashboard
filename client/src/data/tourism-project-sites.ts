@@ -5,7 +5,7 @@ import type { TourismObjectKind } from "../components/TourismSiteObject";
 export const tourismProjectSites: { kind: TourismObjectKind; key: string; projectSuffix: string; label: string; point: [number, number]; source: string }[] = [
   {kind:"marina",key:"marina-guk",projectSuffix:"Sheet1:1",label:"국화도 계류시설",point:[126.559,37.063],source:"사업개요: 국화도 / 관광안내도"},
   {kind:"marina",key:"marina-ip",projectSuffix:"Sheet1:1",label:"입파도 계류시설",point:[126.540,37.108],source:"사업개요: 입파도 / 관광안내도"},
-  {kind:"rest",key:"jebudo-rest",projectSuffix:"Sheet1:2",label:"제부도 관광휴게시설",point:[126.620,37.156],source:"사업개요: 제부리 관광휴게시설·매바위"},
+  {kind:"rock",key:"jebudo-rest",projectSuffix:"Sheet1:2",label:"제부도 관광휴게시설",point:[126.620,37.156],source:"사업개요: 제부리 관광휴게시설·매바위"},
   {kind:"trail",key:"gold-coast",projectSuffix:"Sheet1:3",label:"황금해안길",point:[126.674,37.145],source:"/renderings/tourism-3/1.webp · 전곡항~궁평항 노선 대표구간"},
   {kind:"park",key:"goryeom",projectSuffix:"Sheet1:4",label:"고렴산 해상공원",point:[126.657,37.163],source:"/renderings/tourism-4/1.png · 송교리 해상공원 사업구역"},
   {kind:"deck",key:"guk-deck",projectSuffix:"Sheet1:5",label:"국화도 해안데크",point:[126.555,37.062],source:"/renderings/tourism-12/1.png · 서측 해안 정비구간"},

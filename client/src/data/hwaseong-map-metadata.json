@@ -4,6 +4,13 @@
   "license": "CC BY 4.0; underlying SGIS KOGL Type 1",
   "coordinateSystem": "EPSG:4326",
   "processing": "Town coordinates retained without modification; city/districts topological unions; label anchors inside largest polygon. No geometry simplification or illustration tracing.",
+  "coastalBasemapBounds": [
+    126.7,
+    37.055,
+    126.83,
+    37.19
+  ],
+  "maskProcessing": "Hwaong coastal viewing window exposes basemap land and water; not a land-fill polygon or amended administrative boundary.",
   "bounds": [
     126.53703703069493,
     37.01206008437089,
