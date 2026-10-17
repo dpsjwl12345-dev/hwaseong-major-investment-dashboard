@@ -60,7 +60,7 @@
 .tdb-project:hover{background:#ffffff04}.tdb-project.is-active{background:#d6b57908;box-shadow:inset 2px 0 #c9a567}
 .tdb-project-icon{display:grid;place-items:center;flex-shrink:0;width:23px;color:#74879d}.tdb-project-icon svg{width:16px;height:16px;stroke-width:1.4}
 .tdb-project-info{flex:1;min-width:0}
-.tdb-project-title{display:block;text-align:left;margin:0;padding:0;border:0;background:none;font:500 12px/1.5 "Pretendard",sans-serif;color:#dce4ee;word-break:keep-all;cursor:pointer}
+.tdb-project-title{display:block;text-align:left;margin:0;padding:0;border:0;background:none;font:500 14px/1.55 "Gmarket Sans","Pretendard",sans-serif;color:#edf1f7;word-break:keep-all;overflow-wrap:anywhere;cursor:pointer}
 .tdb-project-title:hover{color:#e1c591}
 .tdb-project-meta{display:flex;justify-content:space-between;gap:6px;margin:5px 0 0;color:#8998ab;font-size:10px;line-height:1.4}
 .tdb-project-meta>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px}.tdb-project-meta>strong{font-weight:400;color:#b5c0cf;white-space:nowrap}
@@ -69,7 +69,7 @@
 .tdb-project-detail{color:#aa9673}.tdb-project-locate:hover,.tdb-project-detail:hover{color:#e1c591}
 .tdb-empty{padding:20px 12px;font-size:12px;color:#8798ac}
 .tdb-project-title:focus-visible,.tdb-project-locate:focus-visible,.tdb-project-detail:focus-visible,.tdb-map-header>button:focus-visible,.tdb-zoom button:focus-visible{outline:2px solid #bca16e;outline-offset:3px}
-@media(min-width:1800px){.tdb-body{grid-template-columns:minmax(0,1fr) 350px}.tdb-project-title{font-size:13px}.tdb-project{min-height:70px}}
+@media(min-width:1800px){.tdb-body{grid-template-columns:minmax(0,1fr) 350px}.tdb-project-title{font-size:14px}.tdb-project{min-height:70px}}
 @media(max-width:1100px){.tdb-shell{padding:18px}.tdb-body{grid-template-columns:minmax(0,1fr) 290px}.tdb-kpi{padding:0 10px;gap:7px}.tdb-kpi>strong{font-size:20px}.tdb-kpi>div{font-size:10px}.tdb-kpi>div>svg{display:none}.tdb-map-caption{font-size:9px}.tdb-map-header>div>span{display:none}}
 @media(max-width:760px){.tdb-shell{padding:14px;border-radius:14px}.tdb-header{align-items:flex-start;flex-direction:column;gap:10px;margin-bottom:14px}.tdb-header h1{font-size:22px}.tdb-header h1>span{font-size:15px}.tdb-slogan{font-size:16px}.tdb-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 0}.tdb-kpi{padding:0 9px!important}.tdb-kpi:nth-child(3){border-left:0}.tdb-body{height:auto;grid-template-columns:1fr}.tdb-map-card{height:540px}.tdb-list-card{max-height:600px}.tdb-map-header{padding:12px}.tdb-map-header h2{font-size:12px}.tdb-map-caption{padding:9px 11px;gap:8px}.tdb-map-caption>span:last-child{max-width:180px}.tdb-map-selection{font-size:11px}.tdb-geographic-marker span{font-size:11px}.tdb-gu-label{font-size:11px;letter-spacing:1px}}
 
