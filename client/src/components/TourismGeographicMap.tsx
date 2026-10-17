@@ -1,29 +1,27 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { createRoot } from "react-dom/client";
+import { TourismLandmarkArt } from "./TourismLandmarkArt";
+import { tourismLandmarks } from "../data/tourism-landmarks";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
-import guOutlines from "../data/hwaseong-gu-outlines.json";
-import boundary from "../data/hwaseong-boundary.json";
+import guideOutline from "../data/tourism-guide-outline.json";
 
 export const TOURISM_REGIONS = ["제부도", "궁평항", "국화도", "입파도"] as const;
 export type TourismRegion = typeof TOURISM_REGIONS[number];
-// Geographic landmark centers, not surveyed project parcels. Keep the island
-// names paired with their actual north/south positions (입파도 north of 국화도).
-const CENTERS: Record<TourismRegion, [number, number]> = {
-  제부도: [126.617, 37.169], 궁평항: [126.682, 37.116],
-  국화도: [126.556, 37.061], 입파도: [126.539, 37.106],
+// The supplied tourism guide is an illustrated map. Preserve its geometry and
+// island inset, using Mercator only as a zoom/pan canvas, not as GPS data.
+const guidePoint=(point:[number,number]):[number,number]=>[
+  126.5+(point[0]-240)*.0004,
+  Math.atan(Math.sinh(Math.asinh(Math.tan(37.34*Math.PI/180))-(point[1]-20)*.0004*Math.PI/180))*180/Math.PI,
+];
+const CENTERS:Record<TourismRegion,[number,number]>={
+  제부도:guidePoint([322,545]),궁평항:guidePoint([461,747]),
+  국화도:guidePoint([316,1122]),입파도:guidePoint([310,1000]),
 };
-const ringsFor = (path:string) => path.split("M").filter(Boolean).map(ring => {
-  const values = (ring.match(/-?\d+(?:\.\d+)?/g) ?? []).map(Number);
-  const points: [number,number][]=[];
-  for(let i=0;i+1<values.length;i+=2) points.push([
-    (values[i]-boundary.translate[0])/boundary.scale*180/Math.PI,
-    Math.atan(Math.sinh((boundary.translate[1]-values[i+1])/boundary.scale))*180/Math.PI,
-  ]);
-  if(points.length) points.push(points[0]);
-  return points;
-});
-const lines=ringsFor(boundary.d);
-const districts:GeoJSON.FeatureCollection={type:"FeatureCollection",features:Object.entries(guOutlines).map(([name,shape])=>({type:"Feature",properties:{name},geometry:{type:"MultiPolygon",coordinates:ringsFor(shape.d).filter(r=>r.length>=4).map(r=>[r])}}))};
+const districtColors:Record<string,string>={만세구:"#667a7b",효행구:"#727e83",병점구:"#7f8c8e",동탄구:"#909994"};
+const districtShapes:Record<string,[number,number][]>=Object.fromEntries(Object.entries(guideOutline.districts).map(([name,points])=>[name,points.map(point=>guidePoint(point as [number,number]))]));
+const lines=Object.values(districtShapes).map(ring=>[...ring,ring[0]]);
+const districts:GeoJSON.FeatureCollection={type:"FeatureCollection",features:Object.entries(districtShapes).map(([name,ring])=>({type:"Feature",properties:{name,color:districtColors[name]},geometry:{type:"Polygon",coordinates:[[...ring,ring[0]]]}}))};
 const wholeCityBounds = new maplibregl.LngLatBounds();
 lines.forEach(ring=>ring.forEach(point=>wholeCityBounds.extend(point)));
 Object.values(CENTERS).forEach(point=>wholeCityBounds.extend(point));
@@ -47,13 +45,15 @@ const TourismGeographicMap = forwardRef<TourismMapHandle,Props>(function Tourism
     let disposed=false;
     let instance:maplibregl.Map;
     try {instance=new maplibregl.Map({container:container.current,center:[126.63,37.13],zoom:10.7,
-      minZoom:9,maxZoom:18,maxBounds:[[126.46,36.98],[127.18,37.39]],
+      minZoom:9,maxZoom:18,maxBounds:[[126.44,36.9],[127.2,37.4]],
       attributionControl:{compact:true},dragRotate:false,touchPitch:false,
-      style:{version:8,sources:{city:{type:"geojson",data:{type:"Feature",properties:{},geometry:{type:"MultiPolygon",coordinates:lines.filter(r=>r.length>=4).map(r=>[r])}}},districts:{type:"geojson",data:districts}},layers:[
-        {id:"sea",type:"background",paint:{"background-color":"#1b2833"}},
-        {id:"land",type:"fill",source:"city",paint:{"fill-color":"#475d70","fill-opacity":1}},
-        {id:"district-boundaries",type:"line",source:"districts",paint:{"line-color":"#aab8c9","line-width":1,"line-opacity":.45}},
-        {id:"city-boundary",type:"line",source:"city",paint:{"line-color":"#f4ead0","line-width":1.2,"line-opacity":.65}},
+      style:{version:8,sources:{city:{type:"geojson",data:{type:"Feature",properties:{},geometry:{type:"MultiPolygon",coordinates:lines.filter(r=>r.length>=4).map(r=>[r])}}},districts:{type:"geojson",data:districts},"island-points":{type:"geojson",data:{type:"FeatureCollection",features:(["국화도","입파도"] as TourismRegion[]).map(region=>({type:"Feature",properties:{},geometry:{type:"Point",coordinates:CENTERS[region]}}))}}},layers:[
+        {id:"sea",type:"background",paint:{"background-color":"#142537"}},
+        {id:"land",type:"fill",source:"city",paint:{"fill-color":"#657a7b","fill-opacity":1}},
+        {id:"district-land",type:"fill",source:"districts",paint:{"fill-color":["get","color"],"fill-opacity":.8}},
+        {id:"islands",type:"circle",source:"island-points",paint:{"circle-radius":7,"circle-color":"#7f938d","circle-stroke-color":"#c8c2a7","circle-stroke-width":1}},
+        {id:"district-boundaries",type:"line",source:"districts",paint:{"line-color":"#ede7d6","line-width":1,"line-opacity":.42}},
+        {id:"city-boundary",type:"line",source:"city",paint:{"line-color":"#e9d3ac","line-width":1.2,"line-opacity":.6}},
       ]},
     });} catch {setStatus("error");return;}
     map.current=instance;
@@ -61,32 +61,47 @@ const TourismGeographicMap = forwardRef<TourismMapHandle,Props>(function Tourism
     instance.on("load",()=>{if(!disposed)setStatus("ready");});
     instance.on("error",()=>{if(!disposed)setStatus("error");});
     const districtMarkers:maplibregl.Marker[]=[];
-    for(const [name,shape] of Object.entries(guOutlines)){
-      const rings=ringsFor(shape.d);
-      const ring=rings.reduce((best,current)=>current.length>best.length?current:best,[] as [number,number][]);
-      if(!ring.length)continue;
-      let area=0,x=0,y=0;
-      for(let i=0;i<ring.length-1;i++){const a=ring[i],b=ring[i+1],cross=a[0]*b[1]-b[0]*a[1];area+=cross;x+=(a[0]+b[0])*cross;y+=(a[1]+b[1])*cross;}
-      if(!area)continue;
+    const artRoots:ReturnType<typeof createRoot>[]=[];
+    const popups:maplibregl.Popup[]=[];
+    const districtNames:Record<string,[number,number]>={만세구:[750,810],효행구:[1080,500],병점구:[1470,265],동탄구:[1680,475]};
+    for(const [name,point] of Object.entries(districtNames)){
       const label=document.createElement('span');label.className='tdb-gu-label';label.textContent=name;
-      const marker=new maplibregl.Marker({element:label}).setLngLat([x/(3*area),y/(3*area)]).addTo(instance);
+      const marker=new maplibregl.Marker({element:label}).setLngLat(guidePoint(point)).addTo(instance);
       label.setAttribute('aria-hidden','true');districtMarkers.push(marker);
+    }
+    for(const landmark of tourismLandmarks){
+      const element=document.createElement('button');element.type='button';element.className=`tdb-landmark is-${landmark.kind}`;
+      const art=document.createElement('span');art.className='tdb-landmark-art';
+      const root=createRoot(art);root.render(<TourismLandmarkArt kind={landmark.kind}/>);artRoots.push(root);
+      const name=document.createElement('span');name.className='tdb-landmark-name';name.textContent=landmark.name;
+      element.append(art,name);
+      const marker=new maplibregl.Marker({element,anchor:'bottom'}).setLngLat(guidePoint(landmark.point)).addTo(instance);
+      element.setAttribute('aria-label',`${landmark.name} 관광명소 정보`);
+      const content=document.createElement('div');const heading=document.createElement('strong');heading.textContent=landmark.name;
+      const category=document.createElement('small');category.textContent=landmark.category;
+      const text=document.createElement('p');text.textContent=landmark.description;
+      content.append(category,heading,text);
+      const popup=new maplibregl.Popup({offset:32,closeButton:true,closeOnClick:true,className:'tdb-landmark-popup',maxWidth:'240px'}).setDOMContent(content);
+      marker.setPopup(popup);districtMarkers.push(marker);popups.push(popup);
     }
     for(const region of TOURISM_REGIONS){
       const button=document.createElement('button');button.type='button';button.className='tdb-geographic-marker';button.setAttribute('aria-label',`${region} 권역 사업 보기`);
       const number=document.createElement('b');number.textContent=String(counts[region]);
+      const art=document.createElement('i');art.className='tdb-region-art';const root=createRoot(art);root.render(<TourismLandmarkArt kind={region==='궁평항'?'harbor':'island'}/>);artRoots.push(root);
       const label=document.createElement('span');label.textContent=region;
-      button.append(number,label);button.onclick=()=>callback.current(region);
+      button.append(art,number,label);button.onclick=()=>callback.current(region);
       const marker=new maplibregl.Marker({element:button,anchor:'left'}).setLngLat(CENTERS[region]).addTo(instance);
       button.setAttribute('aria-label',`${region} 권역 사업 보기`);
       markers.current.push({region,button,marker});
     }
     const observer=new ResizeObserver(()=>instance.resize());observer.observe(container.current);
-    return()=>{disposed=true;districtMarkers.forEach(m=>m.remove());observer.disconnect();markers.current.forEach(m=>m.marker.remove());markers.current=[];instance.remove();map.current=null;};
+    return()=>{disposed=true;popups.forEach(p=>p.remove());artRoots.forEach(root=>root.unmount());districtMarkers.forEach(m=>m.remove());observer.disconnect();markers.current.forEach(m=>m.marker.remove());markers.current=[];instance.remove();map.current=null;};
   },[]);
   useEffect(()=>{markers.current.forEach(({region,button})=>{button.classList.toggle('is-active',highlights.includes(region));button.setAttribute('aria-pressed',String(highlights.includes(region)));button.querySelector('b')!.textContent=String(counts[region]);});},[highlights,counts]);
   return <>
     <div ref={container} className="tdb-geographic-canvas" aria-label="화성시 전체 관광사업 권역 지도"/>
+    <div className="tdb-map-key"><span><i/>관광명소</span><span><b/>투자사업 권역</span></div>
+    <div className="tdb-map-watermark" aria-hidden="true">WEST SEA<span>서해</span></div>
     {status==='error'&&<div className="tdb-geographic-status">지도 표시를 지원하는 브라우저에서 다시 열어 주세요.</div>}
   </>;
 });
