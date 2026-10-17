@@ -2,6 +2,8 @@ import { useMemo, useRef, useState } from "react";
 import { Anchor, ArrowUpRight, Footprints, Layers3, LocateFixed, MapPin, Minus, ParkingCircle, Plus, Route, Search, TrainFront, Trees, Wallet, X } from "lucide-react";
 import { deriveProjectBudget } from "../lib/projectBudget";
 import TourismGeographicMap, { TOURISM_REGIONS, type TourismRegion, type TourismMapHandle } from "./TourismGeographicMap";
+import { tourismProjectSites } from "../data/tourism-project-sites";
+import type { TourismMapSite } from "./TourismProjectMarkers";
 import "./TourismDepartmentDashboard.css";
 
 type BudgetSource = Parameters<typeof deriveProjectBudget>[0];
@@ -16,11 +18,6 @@ type Region = TourismRegion;
 const regionsFor = (name: string): Region[] => /계류시설/.test(name) ? ["국화도","입파도"] : /주차장 및 도로/.test(name) ? ["제부도","궁평항"] : /국화도/.test(name) ? ["국화도"] : /궁평|황금해안길/.test(name) ? ["궁평항"] : ["제부도"];
 const regionLabel = (region: Region) => region === "궁평항" ? "궁평 권역" : region === "제부도" ? "제부 권역" : region;
 const iconFor = (name: string) => /열차/.test(name) ? TrainFront : /계류/.test(name) ? Anchor : /주차/.test(name) ? ParkingCircle : /도로/.test(name) ? Route : /데크|해안길/.test(name) ? Footprints : Trees;
-const previewFor = (p: TourismProject) => {
-  const images = p.rendering_images ?? [];
-  const index = images.findIndex((url,i) => p.rendering_image_types?.[i] !== "위치도" && !url.endsWith(".svg"));
-  return index >= 0 ? images[index] : null;
-};
 const featureFor = (p: TourismProject) => {
   const lines=(p.overview ?? "").split("\n");
   for (const pattern of [/사업내용\s*[:：]\s*(.+)/, /사업규모\s*[:：]\s*(.+)/, /사업량\s*[:：]\s*(.+)/]) {
@@ -40,9 +37,9 @@ export const tourismBudgetFor = (project: TourismProject) => {
 
 export default function TourismDepartmentDashboard({projects: allProjects,onOpenProject}:{projects: TourismProject[];onOpenProject:(id:string)=>void}) {
   const projects=useMemo(()=>allProjects.filter(p=>p.department==="관광진흥과"),[allProjects]);
-  const [zoom,setZoom]=useState(10);
   const [query,setQuery]=useState("");
   const [region,setRegion]=useState<Region|null>(null);
+  const [activeSiteKey,setActiveSiteKey]=useState<string|null>(null);
   const [activeId,setActiveId]=useState<string|null>(null);
   const [hoveredId,setHoveredId]=useState<string|null>(null);
   const map = useRef<TourismMapHandle>(null);
@@ -51,7 +48,12 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
   const active=projects.find(p=>p.id===(hoveredId??activeId));
   const highlights=active?regionsFor(active.project_name):region?[region]:[];
   const counts=useMemo(()=>Object.fromEntries(TOURISM_REGIONS.map(place=>[place,projects.filter(p=>regionsFor(p.project_name).includes(place)).length])) as Record<Region,number>,[projects]);
-  const focus=(p:TourismProject)=>{setActiveId(p.id);map.current?.focus(regionsFor(p.project_name));};
+  const sites=useMemo<TourismMapSite[]>(()=>tourismProjectSites.flatMap(site=>{
+    const index=projects.findIndex(p=>p.id.endsWith(site.projectSuffix));if(index<0)return [];
+    const p=projects[index];return [{...site,projectId:p.id,number:index+1,name:p.project_name,feature:featureFor(p)}];
+  }),[projects]);
+  const selectSite=(site:TourismMapSite)=>{setRegion(null);setQuery("");setHoveredId(null);setActiveId(site.projectId);setActiveSiteKey(site.key);map.current?.focusSites([site.point]);};
+  const focus=(p:TourismProject)=>{setActiveId(p.id);setActiveSiteKey(sites.find(s=>s.projectId===p.id)?.key??null);map.current?.focusSites(sites.filter(s=>s.projectId===p.id).map(s=>s.point));};
   return <section className="tdb-shell" aria-label="관광진흥과 부서별 현황">
     <header className="tdb-header"><div><p>TOURISM DEPARTMENT</p><h1>관광진흥과 <span>주요투자사업</span></h1></div><span className="tdb-slogan">바다를 잇고, 화성을 누리다</span></header>
     <div className="tdb-kpis" aria-label="관광진흥과 주요 지표">
@@ -62,20 +64,13 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
     </div>
     <div className="tdb-body">
       <section className="tdb-map-card" aria-label="화성시 관광사업 권역 지도">
-        <header className="tdb-map-header"><div><span>화성시 전체</span></div><button aria-label="화성시 지도 전체 보기" onClick={()=>{map.current?.reset();setRegion(null);setActiveId(null);}}><LocateFixed size={15}/> 전체 보기</button></header>
+        <header className="tdb-map-header"><div><span>화성시 전체</span></div><button aria-label="화성시 지도 전체 보기" onClick={()=>{map.current?.reset();setRegion(null);setActiveId(null);setActiveSiteKey(null);}}><LocateFixed size={15}/> 전체 보기</button></header>
         <div className="tdb-map-surface">
-          <TourismGeographicMap ref={map} counts={counts} highlights={highlights} onZoomChange={setZoom} onSelect={place=>{setRegion(place);setQuery("");setActiveId(null);setHoveredId(null);map.current?.focus([place]);}}/>
-          {zoom >= 11.5 && <div className="tdb-project-previews" aria-label="확대 지도 사업 미리보기">
-            <div className="tdb-preview-heading">{region ? regionLabel(region) : "주요투자사업"}<small>사업 조감도 · 계획 이미지</small></div>
-            <div className="tdb-preview-strip">{visible.map(project=>{const image=previewFor(project);const Icon=iconFor(project.project_name);return <button key={project.id} className={`tdb-preview${activeId===project.id?" is-active":""}`} onClick={()=>{setActiveId(project.id);setHoveredId(null);}} aria-label={`${project.project_name} 미리보기 선택`}>
-              {image ? <img src={image} alt={`${project.project_name} 계획 이미지`} onError={e=>{e.currentTarget.style.display="none";}}/> : <div className="tdb-preview-placeholder"><Icon size={28}/></div>}
-              <strong className="tdb-preview-name">{project.project_name}</strong><p className="tdb-preview-feature">{featureFor(project)}</p>
-            </button>;})}</div>
-          </div>}
+          <TourismGeographicMap ref={map} counts={counts} highlights={highlights} sites={sites} activeProjectId={activeId} activeSiteKey={activeSiteKey} onProjectSelect={selectSite} onSelect={place=>{setRegion(place);setQuery("");setActiveId(null);setHoveredId(null);map.current?.focus([place]);}}/>
           <div className="tdb-zoom"><button aria-label="관광 지도 확대" onClick={()=>map.current?.zoom(1)}><Plus size={17}/></button><button aria-label="관광 지도 축소" onClick={()=>map.current?.zoom(-1)}><Minus size={17}/></button></div>
-          {active&&<div className="tdb-map-selection"><MapPin size={16}/><span>{active.project_name}</span><button onClick={()=>onOpenProject(active.id)} aria-label={`${active.project_name} 상세 보기`}><ArrowUpRight size={17}/></button></div>}
+
         </div>
-        <div className="tdb-map-caption"><span>{projects.length}개 사업 · 4개 권역 · 관광명소 10곳</span><span>숫자: 사업 권역 · 아이콘: 명소 대략 위치</span></div>
+        <div className="tdb-map-caption"><span>{projects.length}개 사업 · {sites.length}개 사업지점 · 관광명소 10곳</span><span>가상 오브젝트 · 위치도 판독 대표위치(대략)</span></div>
       </section>
       <section className="tdb-list-card" aria-label="관광진흥과 사업 목록">
         <header className="tdb-list-header"><div><h2>{region?regionLabel(region):"전체 사업"}</h2><span>{visible.length}</span></div>{region&&<button aria-label="권역 필터 해제" onClick={()=>setRegion(null)}><X size={16}/></button>}</header>

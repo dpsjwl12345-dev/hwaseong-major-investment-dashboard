@@ -120,14 +120,41 @@
 
 @media(max-width:760px){.tdb-kpi{flex-wrap:wrap;row-gap:4px}.tdb-kpi>div{width:100%}}
 
-.tdb-project-previews{position:absolute;left:14px;right:14px;bottom:54px;z-index:6;padding:11px;border:1px solid #8197a14d;border-radius:12px;background:#172331f2;box-shadow:0 6px 18px #10212b30;color:#edf2f6}
-.tdb-preview-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;font:500 12px "Gmarket Sans","Pretendard",sans-serif}.tdb-preview-heading small{font:400 10px "Pretendard",sans-serif;color:#afbdcd}
-.tdb-preview-strip{display:flex;gap:9px;overflow-x:auto;scrollbar-width:thin;padding:2px 2px 5px}
-.tdb-preview{flex:0 0 200px;overflow:hidden;padding:0;border:1px solid #7a8fa23d;border-radius:8px;background:#223145;text-align:left;color:#f1f4f8;cursor:pointer}
-.tdb-preview img,.tdb-preview-placeholder{display:block;width:100%;height:112px;object-fit:cover}.tdb-preview-placeholder{display:grid;place-items:center;background:#30465a;color:#d0ba91}
-.tdb-preview>span{display:block;padding:7px;font:500 11px/1.45 "Gmarket Sans","Pretendard",sans-serif;word-break:keep-all}
-.tdb-preview.is-active,.tdb-preview:hover,.tdb-preview:focus-visible{border-color:#e0b968;outline:1px solid #e0b968;outline-offset:0}
 
-.tdb-preview-name{display:block;padding:9px 10px 0;font:500 13px/1.5 "Gmarket Sans","Pretendard",sans-serif;color:#f2f5f9;word-break:keep-all}
-.tdb-preview-feature{margin:5px 0 0;padding:0 10px 10px;font:400 12px/1.5 "Pretendard",sans-serif;color:#bacbda;word-break:keep-all}
-@media(max-width:760px){.tdb-preview{flex-basis:180px}.tdb-preview img,.tdb-preview-placeholder{height:96px}}
+/* Objects stay geographically anchored; no gallery or image-card overlay. */
+.tdb-site-marker{width:28px;height:28px;z-index:4;overflow:visible}
+.tdb-site-pin{display:block;position:relative;width:28px;height:28px;padding:0;border:0;background:none;cursor:pointer}
+.tdb-site-pin b{display:grid;place-items:center;width:27px;height:31px;padding-bottom:5px;border-radius:10px 10px 0 0;clip-path:polygon(0 0,100% 0,100% 67%,50% 100%,0 67%);background:linear-gradient(120deg,#f5d394,#c79c51 55%,#755021);color:#172b3c;font:700 12px "Pretendard",sans-serif;box-shadow:inset 1px 1px 1px #fff3c5,inset -3px -2px 2px #54331255}
+.tdb-site-object{position:absolute;width:174px;display:block;padding:0;border:0;background:transparent;text-align:center;color:#19354b;cursor:pointer;visibility:hidden;pointer-events:none}
+.tdb-site-marker.is-expanded .tdb-site-object{visibility:visible;pointer-events:auto}
+.tdb-site-marker.is-selected{z-index:8}
+.tdb-site-marker.is-selected .tdb-site-pin{filter:drop-shadow(0 0 4px #ad793e)}
+.tdb-site-object>strong{display:block;font:500 12px/1.4 "Gmarket Sans","Pretendard",sans-serif;word-break:keep-all;text-shadow:-1px -1px 0 #f3f2e7,1px 1px 0 #f3f2e7}
+.tdb-site-object>small{display:block;margin-top:3px;font:500 11px "Pretendard",sans-serif;color:#395369}
+.tdb-site-object>p{margin:4px 0 0;font:400 11px/1.4 "Pretendard",sans-serif;color:#304d61;word-break:keep-all;text-shadow:0 1px 0 #f5f3e6}
+.tdb-site-object:focus-visible{outline:2px solid #a77330;outline-offset:5px;border-radius:12px}
+.tdb-object-scene{position:relative;width:174px;height:108px;perspective:550px;pointer-events:none;filter:drop-shadow(0 7px 4px #18394d30)}
+.tdb-object-stage{position:absolute;left:35px;top:24px;width:104px;height:64px;transform:rotateX(56deg) rotateZ(-34deg);transform-style:preserve-3d}
+.tdb-object-ground{position:absolute;inset:0;border-radius:9px;background:#b4c8ab;border:1px solid #819c88;box-shadow:3px 4px 0 #7d9585;transform:translateZ(-1px)}
+.object-marina .tdb-object-ground,.object-deck .tdb-object-ground,.object-trail .tdb-object-ground{background:repeating-linear-gradient(0deg,#8cbdcb 0 10px,#a0cad4 11px 12px);border-color:#6398ac;box-shadow:3px 4px 0 #5d8fa3}
+.object-parking .tdb-object-ground,.object-road .tdb-object-ground{background:#a4b3b6;border-color:#7a9097;box-shadow:3px 4px 0 #70868e}
+.tdb-object-block{position:absolute;transform-style:preserve-3d}
+.tdb-object-block i{position:absolute;display:block;backface-visibility:visible}
+.object-roof{inset:0;background:color-mix(in srgb,var(--block-color) 80%,#fff);border:1px solid #ffffff35;transform:translateZ(var(--block-height))}
+.object-front{left:0;top:100%;width:100%;height:var(--block-height);transform-origin:top;transform:rotateX(90deg);background:var(--block-color);border:1px solid #122a3b18}
+.object-side{left:100%;top:0;width:var(--block-height);height:100%;transform-origin:left;transform:rotateY(-90deg);background:color-mix(in srgb,var(--block-color) 70%,#294c60);border:1px solid #122a3b18}
+.object-rest .object-front,.object-tourism .object-front,.object-train .object-front{background:repeating-linear-gradient(90deg,var(--block-color) 0 6px,#426b7c 7px 12px,var(--block-color) 13px 16px)}
+.tdb-object-tree{position:absolute;width:14px;height:14px;transform-style:preserve-3d}
+.tdb-object-tree i{display:block;position:absolute;left:5px;top:5px;width:4px;height:18px;background:#886c45;transform-origin:top;transform:rotateX(90deg)}
+.tdb-object-tree b{display:block;position:absolute;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#a8c087,#608865 65%,#456c54);transform:translateZ(20px);box-shadow:2px 3px 0 #4f765d}
+@media(prefers-reduced-motion:reduce){.tdb-object-stage{transition:none}}
+
+.tdb-site-object>strong,.tdb-site-object>small,.tdb-site-object>p{display:none}
+.tdb-site-marker.is-selected .tdb-site-object>strong,.tdb-site-marker.is-selected .tdb-site-object>small,.tdb-site-marker.is-selected .tdb-site-object>p{display:block}
+.tdb-site-marker.is-selected .tdb-object-stage{animation:tdb-site-orbit 14s linear infinite}
+@keyframes tdb-site-orbit{from{transform:rotateX(56deg) rotateZ(-34deg)}to{transform:rotateX(56deg) rotateZ(326deg)}}
+@media(prefers-reduced-motion:reduce){.tdb-site-marker.is-selected .tdb-object-stage{animation:none}}
+
+.tdb-site-tether{position:absolute;left:14px;top:14px;display:block;width:var(--tether-length,0px);height:1px;background:#8a744d99;transform-origin:left center;transform:rotate(var(--tether-angle,0rad));pointer-events:none;z-index:-1}
+
+.tdb-object-link{display:none;position:absolute;left:14px;top:14px;height:1px;width:var(--object-link-length,0px);background:#7a8b8699;transform-origin:left center;transform:rotate(var(--object-link-angle,0rad));pointer-events:none;z-index:-1}.tdb-site-marker.is-expanded .tdb-object-link{display:block}

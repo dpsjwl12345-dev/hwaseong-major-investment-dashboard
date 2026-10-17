@@ -5,6 +5,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { placeMapLabel, mapLabelRectsOverlap, type MapLabelRect, type MapLabelSide } from "../lib/mapLabelLayout";
 import { tourismAttractions } from "../data/tourism-attractions";
+import TourismProjectMarkers, { type TourismMapSite } from "./TourismProjectMarkers";
 import geography from "../data/hwaseong-map-metadata.json";
 
 export const TOURISM_REGIONS = ["제부도", "궁평항", "국화도", "입파도"] as const;
@@ -27,8 +28,13 @@ export type TourismMapHandle = {
   reset: () => void;
   zoom: (direction: number) => void;
   focus: (regions: TourismRegion[]) => void;
+  focusSites: (points: [number, number][]) => void;
 };
 type Props = {
+  sites: TourismMapSite[];
+  activeProjectId: string | null;
+  activeSiteKey: string | null;
+  onProjectSelect: (site: TourismMapSite) => void;
   counts: Record<TourismRegion, number>;
   highlights: TourismRegion[];
   onSelect: (region: TourismRegion) => void;
@@ -39,7 +45,8 @@ const BOUNDARY_ATTRIBUTION = '<a href="https://sgis.kostat.go.kr" target="_blank
 // OpenStreetMap Standard tiles require no account or API key.
 const tiles = ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"];
 
-const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function TourismGeographicMap({ counts, highlights, onSelect, onZoomChange }, ref) {
+const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function TourismGeographicMap({ counts, highlights, onSelect, onZoomChange, sites, activeProjectId, activeSiteKey, onProjectSelect }, ref) {
+  const [mapInstance,setMapInstance]=useState<maplibregl.Map|null>(null);
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const markers = useRef<{ region: TourismRegion; button: HTMLButtonElement; marker: maplibregl.Marker }[]>([]);
@@ -55,6 +62,13 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
   useImperativeHandle(ref, () => ({
     reset() { overview.current = true; map.current?.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: duration() }); },
     zoom(direction) { overview.current = false; const instance = map.current; if (instance) instance.easeTo({ zoom: instance.getZoom() + direction, duration: duration() ? 200 : 0 }); },
+    focusSites(points) {
+      if(!points.length)return;
+      overview.current=false;
+      if(points.length===1){map.current?.easeTo({center:points[0],zoom:14.2,duration:duration()});return;}
+      const bounds=new maplibregl.LngLatBounds();points.forEach(p=>bounds.extend(p));
+      map.current?.fitBounds(bounds,{padding:90,maxZoom:14.2,duration:duration()});
+    },
     focus(regions) {
       if (!regions.length) return;
       overview.current = false;
@@ -103,7 +117,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
         },
       });
     } catch { setStatus("error"); return; }
-    map.current = instance;
+    map.current = instance;setMapInstance(instance);
     instance.fitBounds(cityBounds, { padding: { top: 55, right: 55, bottom: 55, left: 75 }, duration: 0 });
     instance.on("movestart", event => { if (event.originalEvent) overview.current = false; });
     instance.on("sourcedata", event => {
@@ -197,7 +211,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     });
     instance.on("load", layoutLabels);
     layoutLabels();
-    for (const region of TOURISM_REGIONS) {
+    for (const region of (sites.length ? [] : TOURISM_REGIONS)) {
       const button = document.createElement("button");
       button.type = "button"; button.className = "tdb-geographic-marker";
       const count = document.createElement("b"); count.textContent = String(counts[region]);
@@ -256,6 +270,7 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
     relayout.current();
   }, [counts, highlights]);
   return <>
+    <TourismProjectMarkers map={mapInstance} sites={sites} activeId={activeProjectId} activeSiteKey={activeSiteKey} onSelect={onProjectSelect}/>
     <div ref={container} className="tdb-geographic-canvas" aria-label="실제 지형과 행정경계에 기반한 화성시 관광사업 지도" />
     {status === "unavailable" && <div className="tdb-map-network-note">배경지도 연결 지연 · 실제 행정경계 표시 중</div>}
     {status === "error" && <div className="tdb-geographic-status">지도를 불러오지 못했습니다.</div>}
