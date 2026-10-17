@@ -107,8 +107,8 @@
 .tdb-geographic-marker.is-active b,.tdb-geographic-marker:hover b,.tdb-geographic-marker:focus-visible b{box-shadow:0 0 0 2px #b49b6f66}
 .tdb-attraction-marker{z-index:2}
 .tdb-attraction-marker b,.tdb-attraction-marker:hover b,.tdb-attraction-marker:focus-visible b{position:relative;isolation:isolate;width:28px;height:28px;margin:0;border-radius:0;background:transparent;color:#80cfdf;border:0;box-shadow:none}
-.tdb-attraction-marker b::before{content:"";position:absolute;inset:-8px;z-index:-1;border:1px solid #d5e2f22b;border-radius:50%;background:#cfdae612;backdrop-filter:blur(4px);box-shadow:inset 0 1px 0 #eaf1f80d;pointer-events:none}
-.tdb-attraction-marker b svg{display:block;width:28px;height:30px;flex-shrink:0;filter:drop-shadow(0 2px 2px #07152399)}
+.tdb-attraction-marker b::before{content:"";position:absolute;inset:-4px;z-index:-1;border:1px solid #d5e2f22b;border-radius:50%;background:#cfdae612;backdrop-filter:blur(4px);box-shadow:inset 0 1px 0 #eaf1f80d;pointer-events:none}
+.tdb-attraction-marker b svg{display:block;width:24px;height:26px;margin:1px 2px;flex-shrink:0;filter:drop-shadow(0 2px 2px #07152399)}
 .tdb-attraction-marker span{font:600 12px/1.4 "Pretendard",sans-serif;color:#20364c;background:transparent;border:0;padding:0;box-shadow:none}
 .tdb-attraction-marker:hover,.tdb-attraction-marker:focus-visible{z-index:4}
 .tdb-attraction-marker:hover span,.tdb-attraction-marker:focus-visible span{color:#101f31;text-decoration:underline;text-underline-offset:3px}
@@ -127,8 +127,8 @@
 /* Objects stay geographically anchored; no gallery or image-card overlay. */
 .tdb-site-marker{width:28px;height:28px;z-index:4;overflow:visible}
 .tdb-site-pin{display:block;position:relative;left:-8px;top:-8px;width:44px;height:44px;padding:0;border:0;border-radius:0;background:transparent;color:#d7b579;box-shadow:none;cursor:pointer;transition:color .2s}
-.tdb-investment-pin-shape{position:absolute;left:11px;top:7px;width:20px;height:26px;filter:none}
-.tdb-site-pin b{position:absolute;left:28px;top:28px;transform:none;display:grid;place-items:center;min-width:18px;width:auto;height:18px;margin:0;padding:0 3px;background:#172433;border:1px solid #b59b6a66;border-radius:5px;clip-path:none;box-shadow:0 1px 3px #07121c55;color:#e6c88e;font:500 11px/1 "Gmarket Sans","Pretendard",sans-serif;text-shadow:none}
+.tdb-investment-pin-shape{position:absolute;left:4px;top:-3px;width:36px;height:46px;filter:none}
+.tdb-site-pin b{position:absolute;left:36px;top:36px;transform:none;display:grid;place-items:center;min-width:24px;width:auto;height:24px;margin:0;padding:0 4px;background:#172433;border:1px solid #b59b6a66;border-radius:5px;clip-path:none;box-shadow:0 1px 3px #07121c55;color:#e6c88e;font:500 15px/1 "Gmarket Sans","Pretendard",sans-serif;text-shadow:none}
 .tdb-site-pin:hover,.tdb-site-pin:focus-visible{background:transparent;color:#edcc91;box-shadow:none}
 .tdb-site-pin:focus-visible{outline:2px solid #d6b579;outline-offset:3px}
 .tdb-site-object{position:absolute;width:174px;display:block;padding:0;border:0;background:transparent;text-align:center;color:#19354b;cursor:pointer;visibility:hidden;pointer-events:none}
@@ -151,7 +151,6 @@
 .tdb-site-marker.is-selected .tdb-object-stage{animation:tdb-site-orbit 22s linear infinite}
 @keyframes tdb-site-orbit{from{transform:rotateX(52deg) rotateZ(-28deg)}to{transform:rotateX(52deg) rotateZ(332deg)}}
 @media(prefers-reduced-motion:reduce){.tdb-site-marker.is-selected .tdb-object-stage{animation:none}}
-.tdb-site-tether{position:absolute;left:14px;top:14px;display:block;width:var(--tether-length,0px);height:1px;background:#8a744d99;transform-origin:left center;transform:rotate(var(--tether-angle,0rad));pointer-events:none;z-index:-1}
 .object-train-coupling{position:absolute;left:10px;top:32px;width:84px;height:4px;background:#35464c;transform:translateZ(6px)}
 .object-train-wheel{position:absolute;top:44px;width:7px;height:7px;border-radius:50%;background:radial-gradient(circle,#bfc7c4 0 22%,#34444c 25% 70%,#1f2d34 72%);transform-origin:top;transform:rotateX(90deg);box-shadow:0 0 0 1px #27363c}
 .object-train .object-roof{border-radius:1px;background:#c9cec9}
@@ -192,7 +191,6 @@
 .tdb-gu-label,.tdb-town-label{color:#a6bac9;text-shadow:0 1px 2px #101e2d}
 .tdb-geographic-marker span,.tdb-attraction-marker span{color:#c3d3de;text-shadow:-1px -1px 0 #142332,1px 1px 0 #142332}
 .tdb-site-name{color:#e2e8ed;text-shadow:-1px -1px 0 #142332,1px -1px 0 #142332,-1px 1px 0 #142332,1px 1px 0 #142332}
-.tdb-site-tether{background:#b09d7977}
 .tdb-attraction-marker:hover span,.tdb-attraction-marker:focus-visible span{color:#e6cfab}
 
 .tdb-site-marker[data-kind="train"] .tdb-site-name{top:auto;bottom:44px}

@@ -36,16 +36,13 @@ export default function TourismProjectMarkers({map,sites,activeId,activeSiteKey,
       });
       visible.sort((a,b)=>Number(b.site.key===active.current)-Number(a.site.key===active.current));
       // Spread only the screen symbols, never their geographic coordinates.
-      // A tether keeps the geographic anchor visible when close sites overlap.
       for(const item of visible){
         const p=map.project(item.site.point);
         const candidates:[[number,number],...[number,number][]]=[[0,0]];
         for(const radius of [34,60,86])for(let i=0;i<12;i++){const a=i*Math.PI/6;candidates.push([Math.cos(a)*radius,Math.sin(a)*radius]);}
-        const offset=candidates.find(([x,y])=>{const r={x:p.x+x-23,y:p.y+y-23,width:46,height:60};return r.x>6&&r.y>6&&r.x+46<viewport.width-6&&r.y+60<viewport.height-6&&!occupied.some(o=>mapLabelRectsOverlap(r,o,3));})??[0,0];
+        const offset=candidates.find(([x,y])=>{const r={x:p.x+x-23,y:p.y+y-23,width:64,height:70};return r.x>6&&r.y>6&&r.x+64<viewport.width-6&&r.y+70<viewport.height-6&&!occupied.some(o=>mapLabelRectsOverlap(r,o,3));})??[0,0];
         item.marker.setOffset(offset);
-        item.element.style.setProperty("--tether-length",`${Math.hypot(...offset)}px`);
-        item.element.style.setProperty("--tether-angle",`${Math.atan2(-offset[1],-offset[0])}rad`);
-        occupied.push({x:p.x+offset[0]-23,y:p.y+offset[1]-23,width:46,height:60});
+        occupied.push({x:p.x+offset[0]-23,y:p.y+offset[1]-23,width:64,height:70});
         if(item.site.key===active.current)occupied.push({x:p.x+offset[0]-105,y:p.y+offset[1]+(item.site.kind==="train"?-72:42),width:210,height:42});
       }
       if(map.getZoom()<12)return;
@@ -70,7 +67,6 @@ export default function TourismProjectMarkers({map,sites,activeId,activeSiteKey,
   },[map,sites]);
   useEffect(()=>{layout.current();},[activeId,activeSiteKey,entries]);
   return <>{entries.map(({site,element})=>createPortal(<>
-    <i className="tdb-site-tether" aria-hidden="true"/>
     <button className="tdb-site-pin" aria-label={`${site.label} 사업 위치 확대`} aria-pressed={activeSiteKey===site.key} onClick={()=>onSelect(site)} title={site.label}>
       <svg className="tdb-investment-pin-shape" viewBox="0 0 28 34" aria-hidden="true"><path fillRule="evenodd" d="M14 2C7.9 2 3 6.8 3 12.8c0 7.1 8.4 16.4 10.1 18.1a1.3 1.3 0 0 0 1.8 0C16.6 29.2 25 19.9 25 12.8 25 6.8 20.1 2 14 2ZM14 8.3a4.2 4.2 0 1 1 0 8.4 4.2 4.2 0 0 1 0-8.4Z" fill="currentColor"/></svg>
       <b>{site.number}</b>

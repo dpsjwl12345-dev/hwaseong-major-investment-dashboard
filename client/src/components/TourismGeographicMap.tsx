@@ -165,8 +165,8 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
         occupied.push({ x: point.x - 15, y: point.y - 15, width: 30, height: 30 });
       }
       for (const item of attractions) {
-        const point = instance.project(item.marker.getLngLat());
-        occupied.push({ x: point.x - 13, y: point.y - 13, width: 26, height: 26 });
+        const point = instance.project(item.marker.getLngLat()).add(item.marker.getOffset());
+        occupied.push({ x: point.x - 18, y: point.y - 18, width: 36, height: 36 });
       }
       const priority = (region: TourismRegion, button: HTMLElement) => region === hoveredRegion ? 2 : button.classList.contains('is-active') ? 1 : 0;
       for (const item of [...visibleMarkers].sort((a,b)=>priority(b.region,b.button)-priority(a.region,a.button))) {
@@ -182,14 +182,15 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
         }
       }
       for (const item of attractions) {
-        const point = instance.project(item.marker.getLngLat());
+        const point = instance.project(item.marker.getLngLat()).add(item.marker.getOffset());
         const text = item.button.querySelector('span')!;
         const inside = point.x > 10 && point.y > 10 && point.x < viewport.width - 10 && point.y < viewport.height - 10;
         item.button.style.visibility = inside ? 'visible' : 'hidden';
-        const placed = inside ? placeMapLabel(point, { width: text.offsetWidth, height: text.offsetHeight }, viewport, occupied, item.button.dataset.labelSide as MapLabelSide | undefined, [23]) : null;
+        const placed = inside ? placeMapLabel(point, { width: text.offsetWidth, height: text.offsetHeight }, viewport, occupied, item.button.dataset.labelSide as MapLabelSide | undefined, [30,52]) : null;
         item.button.classList.toggle('is-label-collapsed', !placed);
         if (placed) {
           item.button.dataset.labelSide = placed.side;
+          item.button.style.setProperty('--tdb-label-gap', `${placed.distance - 14}px`);
           occupied.push(placed.rect);
         }
       }
@@ -241,7 +242,11 @@ const TourismGeographicMap = forwardRef<TourismMapHandle, Props>(function Touris
         overview.current = false;
         instance.easeTo({ center: attraction.point, zoom: Math.max(instance.getZoom(), 12.5), duration: duration() });
       };
-      const marker = new maplibregl.Marker({ element: button, anchor: 'center' }).setLngLat(attraction.point).addTo(instance);
+      // Separate neighboring heritage symbols on screen without changing their coordinates.
+      const offset: [number, number] = attraction.name === '융건릉' ? [0, 22] : attraction.name === '용주사' ? [0, -22] : [0, 0];
+      if (attraction.name === '융건릉') button.dataset.labelSide = 'left';
+      if (attraction.name === '용주사') button.dataset.labelSide = 'right';
+      const marker = new maplibregl.Marker({ element: button, anchor: 'center', offset }).setLngLat(attraction.point).addTo(instance);
       button.setAttribute('aria-label', `${attraction.name} 대략 위치 확대`);
       attractions.push({ button, marker });
     }
