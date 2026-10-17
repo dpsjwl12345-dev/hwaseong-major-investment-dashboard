@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Anchor, ArrowUpRight, Footprints, Layers3, LocateFixed, MapPin, Minus, ParkingCircle, Plus, Route, Search, TrainFront, Trees, Wallet, X } from "lucide-react";
 import { deriveProjectBudget } from "../lib/projectBudget";
 import TourismGeographicMap, { TOURISM_REGIONS, type TourismRegion, type TourismMapHandle } from "./TourismGeographicMap";
@@ -37,15 +37,14 @@ export default function TourismDepartmentDashboard({projects: allProjects,onOpen
   const map = useRef<TourismMapHandle>(null);
   const projectList = useRef<HTMLDivElement>(null);
   const [revealProject,setRevealProject]=useState<{id:string}|null>(null);
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     if(!revealProject)return;
     const list=projectList.current;
     const row=list && Array.from(list.querySelectorAll<HTMLElement>("[data-project-id]")).find(element=>element.dataset.projectId===revealProject.id);
     if(!list||!row)return;
     const bounds=list.getBoundingClientRect(),item=row.getBoundingClientRect();
-    if(item.top>=bounds.top&&item.bottom<=bounds.bottom)return;
     // Scroll only the project list; keep the map and page in place.
-    list.scrollTo({top:list.scrollTop+item.top-bounds.top-(list.clientHeight-item.height)/2,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+    list.scrollTo({top:list.scrollTop+item.top-bounds.top-(list.clientHeight-item.height)/2,behavior:"instant"});
   },[revealProject]);
   const totals=useMemo(()=>projects.reduce((sum,p)=>{const b=tourismBudgetFor(p);return {total:sum.total+b.total,request:sum.request+b.request,invested:sum.invested+b.invested};},{total:0,request:0,invested:0}),[projects]);
   const visible=projects.filter(p=>p.project_name.includes(query.trim())&&(!region||regionsFor(p.project_name).includes(region)));
