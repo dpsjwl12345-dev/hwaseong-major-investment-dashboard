@@ -209,7 +209,7 @@
 
 .tdb-project-heading{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .tdb-project-heading .tdb-project-title{flex:0 1 auto}
-.tdb-project-stage{font:400 12px/1.4 "Pretendard",sans-serif;color:#a9b7c9;white-space:nowrap}
+.tdb-project-stage{font:700 14px/1.4 "Pretendard",sans-serif;color:#c5d2df;white-space:nowrap}
 .tdb-project-detail{width:37px;height:37px;padding:5px;color:#cfb17b}.tdb-project-detail:hover{background:#ffffff08;border-radius:7px;color:#efd49c}
 .tdb-project.is-active .tdb-project-title{color:#e4c383}
 
@@ -220,3 +220,11 @@
 .tdb-site-pin b{font:700 14px/1 "Gmarket Sans","Pretendard",sans-serif;text-shadow:0 1px 0 #f4ddb54d}
 
 .object-deck .tdb-object-stage{scale:1.7}
+
+.tdb-project-detail{border-radius:10px;border:1px solid #b9a27d38;background:linear-gradient(145deg,#3b4858,#1b2838 70%);box-shadow:inset 1px 1px 1px #c7d5e832,inset -1px -1px 2px #07101b88,0 2px 0 #0a1421,0 4px 7px #07111c55;color:#e5c58b;transition:transform .18s ease,box-shadow .18s ease}
+.tdb-project-detail svg{filter:drop-shadow(0 1px 0 #705632) drop-shadow(0 2px 1px #030b15);animation:tdb-detail-blink 2.4s ease-in-out infinite}
+@keyframes tdb-detail-blink{0%,100%{opacity:1}50%{opacity:.38}}
+.tdb-project-detail:hover,.tdb-project-detail:focus-visible{border-radius:10px;background:linear-gradient(145deg,#4b596a,#26374a);color:#f3d59e;transform:translateY(-1px);box-shadow:inset 1px 1px 1px #dbe4ef38,0 3px 0 #0a1421,0 6px 9px #07111c66}
+.tdb-project-detail:hover svg,.tdb-project-detail:focus-visible svg{animation:none;opacity:1}
+.tdb-project-detail:active{transform:translateY(1px);box-shadow:inset 1px 1px 3px #07101b80,0 1px 0 #0a1421}
+@media(prefers-reduced-motion:reduce){.tdb-project-detail svg{animation:none;opacity:1}.tdb-project-detail{transition:none}}
