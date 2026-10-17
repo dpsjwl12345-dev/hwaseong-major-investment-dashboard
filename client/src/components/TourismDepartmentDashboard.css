@@ -110,6 +110,10 @@
 .tdb-attraction-marker:hover,.tdb-attraction-marker:focus-visible{z-index:4}
 .tdb-attraction-marker:hover span,.tdb-attraction-marker:focus-visible span{color:#101f31;text-decoration:underline;text-underline-offset:3px}
 
-/* Investment counts use pointed pins; attraction symbols remain circular. */
-.tdb-geographic-marker:not(.tdb-attraction-marker) b{width:26px;height:30px;margin:-1px 1px;padding-bottom:5px;border-radius:10px 10px 0 0;clip-path:polygon(0 0,100% 0,100% 67%,50% 100%,0 67%);background:#263b50;border:0;color:#f3d9a4;box-shadow:none;font-weight:700;font-size:12px}
-.tdb-geographic-marker:not(.tdb-attraction-marker).is-active b,.tdb-geographic-marker:not(.tdb-attraction-marker):hover b,.tdb-geographic-marker:not(.tdb-attraction-marker):focus-visible b{background:#c99b50;color:#172b3c;box-shadow:none}
+/* Raised investment pins with a lit face, shaded rim and ground shadow. */
+.tdb-geographic-marker:not(.tdb-attraction-marker){--pin-light:#71899e;--pin-face:#344f68;--pin-edge:#142737}
+.tdb-geographic-marker:not(.tdb-attraction-marker)::before{content:"";position:absolute;left:5px;top:26px;width:23px;height:7px;border-radius:50%;background:#162c4460;filter:blur(2px);transform:rotate(-12deg);pointer-events:none;z-index:-1}
+.tdb-geographic-marker:not(.tdb-attraction-marker) b{position:relative;isolation:isolate;width:26px;height:30px;margin:-1px 1px;padding-bottom:5px;border-radius:10px 10px 0 0;clip-path:polygon(0 0,100% 0,100% 67%,50% 100%,0 67%);background:linear-gradient(120deg,var(--pin-light) 0%,var(--pin-face) 40%,var(--pin-face) 60%,var(--pin-edge) 100%);border:0;color:#ffe4ae;box-shadow:inset 1px 1px 1px #d4e8f580,inset -3px -2px 2px #071a2d66;font-weight:700;font-size:12px;text-shadow:0 1px 1px #081b2d}
+.tdb-geographic-marker:not(.tdb-attraction-marker) b::before{content:"";position:absolute;left:4px;right:5px;top:2px;height:5px;border-radius:50%;background:linear-gradient(180deg,#e1effa65,transparent);pointer-events:none;z-index:-1}
+.tdb-geographic-marker:not(.tdb-attraction-marker).is-active,.tdb-geographic-marker:not(.tdb-attraction-marker):hover,.tdb-geographic-marker:not(.tdb-attraction-marker):focus-visible{--pin-light:#f3d692;--pin-face:#c69a50;--pin-edge:#785222}
+.tdb-geographic-marker:not(.tdb-attraction-marker).is-active b,.tdb-geographic-marker:not(.tdb-attraction-marker):hover b,.tdb-geographic-marker:not(.tdb-attraction-marker):focus-visible b{color:#182b3b;text-shadow:0 1px 0 #ffe4aa70;box-shadow:inset 1px 1px 1px #fff0be99,inset -3px -2px 2px #56391855}
